@@ -1,0 +1,9 @@
+[project]
+name = "phonic-python"
+version = "0.1.0"
+description = "The official Python library for the Phonic API"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "python-dotenv>=1.0.1",
+]
