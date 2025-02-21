@@ -11,7 +11,7 @@ from phonic.audio_interface import ContinuousAudioInterface
 
 async def main():
     STS_URI = "wss://api.test.phonic.co/v1/sts/ws"
-    API_KEY = "FILL THIS IN"
+    API_KEY = "ph_kKfAYjgjlDVnHDumeLolNyyzTgaVJkN1V4i6iTTj0mijEuUClRoZO5Z6aI2CeHVT"
     SAMPLE_RATE = 44100
 
     try:

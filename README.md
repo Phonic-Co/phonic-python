@@ -1,4 +1,15 @@
-### Get started
+## Get started
+
+### STS
+
+Get an API key at `phonic.co`. Fill in the `API_KEY` field in `sts.py`.
+
+```
+uv sync --extra dev
+uv run python sts.py
+```
+
+### TTS
 
 ```
 from phonic.client import PhonicSyncWebSocketClient
