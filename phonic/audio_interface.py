@@ -15,7 +15,6 @@ class ContinuousAudioInterface:
         self,
         client: PhonicAsyncWebsocketClient,
         sample_rate: int = 44100,
-        chunk_duration_ms: float = 200,
     ):
         try:
             import sounddevice as sd
@@ -27,7 +26,6 @@ class ContinuousAudioInterface:
 
         self.client = client
         self.sample_rate = sample_rate
-        self._chunk_size = int(sample_rate * chunk_duration_ms / 1000)
         self.channels = 1
         self.dtype = np.int16
 
@@ -86,7 +84,6 @@ class ContinuousAudioInterface:
             samplerate=self.sample_rate,
             channels=self.channels,
             callback=input_callback,
-            blocksize=self._chunk_size,
             dtype=self.dtype,
         )
         self.input_stream.start()
@@ -158,14 +155,10 @@ class ContinuousAudioInterface:
             samplerate=self.sample_rate,
             channels=self.channels,
             callback=output_callback,
-            blocksize=self._chunk_size,
             dtype=self.dtype,
         )
         self.output_stream.start()
 
     def add_audio_to_playback(self, audio_data: np.ndarray):
         """Add audio data to the playback queue"""
-        # Process audio in chunks
-        for i in range(0, len(audio_data), self._chunk_size):
-            end = min(i + self._chunk_size, len(audio_data))
-            self.playback_queue.put(audio_data[i:end])
+        self.playback_queue.put(audio_data)

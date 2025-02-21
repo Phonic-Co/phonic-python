@@ -23,6 +23,7 @@ async def main():
                 output_format="pcm_44100",
                 system_prompt="You are a helpful voice assistant. Respond conversationally.",
                 # welcome_message="Hello! I'm your voice assistant. How can I help you today?",
+                voice_id="katherine",
             )
 
             await audio_streamer.start()
