@@ -2,16 +2,12 @@ import asyncio
 import base64
 import json
 from typing_extensions import Literal
-import zlib
 from typing import Any, AsyncIterator, Generator
 
-import msgpack
 import numpy as np
 import websockets
 from loguru import logger
 from websockets.sync.client import connect
-
-from phonic.types import PhonicSTSInput
 
 
 class PhonicSyncWebsocketClient:

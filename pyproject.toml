@@ -5,8 +5,10 @@ description = "The official Python library for the Phonic API"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
+    "loguru>=0.7.3",
     "numpy>=2.2.2",
     "python-dotenv>=1.0.1",
     "scipy>=1.15.1",
+    "sounddevice>=0.5.1",
     "websockets>=14.2",
 ]
