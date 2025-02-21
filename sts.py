@@ -53,6 +53,7 @@ async def main():
         logger.error(f"Error in conversation: {e}")
         if "audio_streamer" in locals():
             audio_streamer.stop()
+        raise e
 
 
 if __name__ == "__main__":
