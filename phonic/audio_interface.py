@@ -94,6 +94,9 @@ class ContinuousAudioInterface:
     def _start_output_stream(self):
         """Start audio output stream in a separate thread"""
 
+        # Create a persistent buffer to hold leftover audio between callbacks
+        self.overflow_buffer = np.array([], dtype=self.dtype)
+
         def output_callback(outdata, frames, time, status):
             if status:
                 logger.warning(f"Output stream status: {status}")
@@ -103,16 +106,50 @@ class ContinuousAudioInterface:
                 return
 
             try:
-                # Get audio data from queue or fill with zeros if empty
-                if not self.playback_queue.empty():
-                    audio_chunk = self.playback_queue.get_nowait()
-                    if len(audio_chunk) < len(outdata):
-                        outdata[: len(audio_chunk)] = audio_chunk.reshape(-1, 1)
-                        outdata[len(audio_chunk) :] = 0
-                    else:
-                        outdata[:] = audio_chunk[: len(outdata)].reshape(-1, 1)
-                else:
+                # Check if we have enough audio data (either in overflow or queue)
+                total_available = len(self.overflow_buffer)
+                queue_chunks = []
+
+                # Peek at queue contents without removing them yet
+                while not self.playback_queue.empty() and total_available < frames:
+                    chunk = self.playback_queue.get_nowait()
+                    queue_chunks.append(chunk)
+                    total_available += len(chunk)
+
+                # If we don't have enough data, put chunks back and return silence
+                # This will cause the audio system to wait for more data
+                if total_available < frames and self.is_running:
+                    for chunk in reversed(queue_chunks):
+                        self.playback_queue.put(chunk, block=False)
                     outdata.fill(0)
+                    return
+
+                # We have enough data, so fill the output buffer
+                filled = 0
+
+                # First use overflow buffer
+                if len(self.overflow_buffer) > 0:
+                    use_frames = min(len(self.overflow_buffer), frames)
+                    outdata[:use_frames, 0] = self.overflow_buffer[:use_frames]
+                    self.overflow_buffer = self.overflow_buffer[use_frames:]
+                    filled += use_frames
+
+                # Then use queued chunks
+                for chunk in queue_chunks:
+                    if filled >= frames:
+                        # We've filled the output buffer, store remainder in overflow
+                        self.overflow_buffer = np.append(self.overflow_buffer, chunk)
+                    else:
+                        use_frames = min(len(chunk), frames - filled)
+                        outdata[filled : filled + use_frames, 0] = chunk[:use_frames]
+
+                        if use_frames < len(chunk):
+                            # Store remainder in overflow buffer
+                            self.overflow_buffer = np.append(
+                                self.overflow_buffer, chunk[use_frames:]
+                            )
+                        filled += use_frames
+
             except Exception as e:
                 logger.error(f"Error in output callback: {e}")
                 outdata.fill(0)
