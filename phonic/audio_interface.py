@@ -14,7 +14,6 @@ class ContinuousAudioInterface:
     def __init__(
         self,
         client: PhonicAsyncWebsocketClient,
-        input_device: int | str | tuple[int, str] | None = None,
         sample_rate: int = 44100,
         chunk_duration_ms: float = 200,
     ):
@@ -27,7 +26,6 @@ class ContinuousAudioInterface:
         self.sd = sd
 
         self.client = client
-        self.input_device = input_device
         self.sample_rate = sample_rate
         self._chunk_size = int(sample_rate * chunk_duration_ms / 1000)
         self.channels = 1
@@ -39,8 +37,8 @@ class ContinuousAudioInterface:
         self.input_stream = None
         self.output_stream = None
 
-        # Event for synchronization
         self.ready_event = asyncio.Event()
+        self.main_loop = asyncio.get_event_loop()
 
     async def start(self):
         """Start continuous audio streaming"""
@@ -81,7 +79,7 @@ class ContinuousAudioInterface:
 
             audio_data = indata.copy().flatten()
             asyncio.run_coroutine_threadsafe(
-                self.client.send_audio(audio_data), asyncio.get_event_loop()
+                self.client.send_audio(audio_data), self.main_loop
             )
 
         self.input_stream = self.sd.InputStream(
@@ -90,7 +88,6 @@ class ContinuousAudioInterface:
             callback=input_callback,
             blocksize=self._chunk_size,
             dtype=self.dtype,
-            input_device=self.input_device,
         )
         self.input_stream.start()
 

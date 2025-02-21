@@ -25,6 +25,8 @@ async def main():
                 # welcome_message="Hello! I'm your voice assistant. How can I help you today?",
             )
 
+            await audio_streamer.start()
+
             logger.info("Starting STS conversation...")
             print("Starting conversation... (Ctrl+C to exit)")
             print("Streaming all audio continuously to the server")
@@ -41,9 +43,6 @@ async def main():
 
                 elif message_type == "input_text":
                     logger.info(f"You said: {message['text']}")
-
-                # Continue running until manually stopped
-                await asyncio.sleep(0.01)
 
     except KeyboardInterrupt:
         logger.info("Conversation stopped by user")
