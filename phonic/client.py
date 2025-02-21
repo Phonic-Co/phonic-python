@@ -127,7 +127,7 @@ class PhonicAsyncWebsocketClient:
                 type = message.get("type")
 
                 if type == "error":
-                    raise RuntimeError(message.get("error"))
+                    raise RuntimeError(message)
                 else:
                     yield message
         except asyncio.CancelledError:
@@ -194,7 +194,7 @@ class PhonicSTSClient(PhonicAsyncWebsocketClient):
         system_prompt: (
             str | None
         ) = "You are a helpful assistant. Respond in 2-3 sentences.",
-        output_audio_speed: float | None = None,
+        output_audio_speed: float = 1.0,
         welcome_message: str | None = None,
         voice_id: str | None = None,
     ) -> AsyncIterator[dict[str, Any]]:
@@ -203,7 +203,7 @@ class PhonicSTSClient(PhonicAsyncWebsocketClient):
             input_format: input audio format
             output_format: output audio format
             system_prompt: system prompt for assistant
-            output_audio_speed: output audio speed, default is 1.0 if not set
+            output_audio_speed: output audio speed
             welcome_message: welcome message for assistant
             voice_id: voice id
         """
