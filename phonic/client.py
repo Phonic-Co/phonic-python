@@ -196,7 +196,7 @@ class PhonicSTSClient(PhonicAsyncWebsocketClient):
         ) = "You are a helpful assistant. Respond in 2-3 sentences.",
         output_audio_speed: float = 1.0,
         welcome_message: str | None = None,
-        voice_id: str | None = None,
+        voice_id: str | None = "meredith",
     ) -> AsyncIterator[dict[str, Any]]:
         """
         Args:
