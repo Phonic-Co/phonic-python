@@ -1,4 +1,5 @@
 import asyncio
+import base64
 import queue
 import threading
 
@@ -159,6 +160,8 @@ class ContinuousAudioInterface:
         )
         self.output_stream.start()
 
-    def add_audio_to_playback(self, audio_data: np.ndarray):
+    def add_audio_to_playback(self, audio_encoded: str):
         """Add audio data to the playback queue"""
+        audio_bytes = base64.b64decode(audio_encoded)
+        audio_data = np.frombuffer(audio_bytes, dtype=np.int16)
         self.playback_queue.put(audio_data)

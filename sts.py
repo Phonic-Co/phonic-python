@@ -1,10 +1,7 @@
 import asyncio
-import base64
 import os
 
-
 from loguru import logger
-import numpy as np
 
 from phonic.client import PhonicSTSClient
 from phonic.audio_interface import ContinuousAudioInterface
@@ -31,18 +28,13 @@ async def main():
 
             logger.info("Starting STS conversation...")
             print("Starting conversation... (Ctrl+C to exit)")
-            print("Streaming all audio continuously to the server")
+            print("Streaming all audio continuously to the server. Start talking!")
 
             # Process messages from STS
             async for message in sts_stream:
                 message_type = message.get("type")
-
                 if message_type == "audio_chunk":
-                    # Decode and queue audio for playback
-                    audio_bytes = base64.b64decode(message["audio"])
-                    audio_data = np.frombuffer(audio_bytes, dtype=np.int16)
-                    audio_streamer.add_audio_to_playback(audio_data)
-
+                    audio_streamer.add_audio_to_playback(message["audio"])
                 elif message_type == "input_text":
                     logger.info(f"You said: {message['text']}")
 
