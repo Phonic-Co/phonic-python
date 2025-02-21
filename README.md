@@ -1,11 +1,22 @@
-### Get started
+## Get started
+
+### STS
+
+Get an API key at `phonic.co`, and set it to the environment variable `PHONIC_API_KEY`.
+
+```
+uv sync --extra dev
+uv run python sts.py
+```
+
+### TTS
 
 ```
 from phonic.client import PhonicSyncWebSocketClient
 from scipy.io.wavfile import write
 import numpy as np
 
-url = "wss://api.test.phonic.co/v1/tts/ws"
+url = "wss://api.phonic.co/v1/tts/ws"
 api_key = "PHONIC_API_KEY"
 query_params = {
     "voice_id": "meredith",
