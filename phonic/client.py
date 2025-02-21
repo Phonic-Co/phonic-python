@@ -70,7 +70,7 @@ class PhonicAsyncWebsocketClient:
     async def __aenter__(self) -> "PhonicAsyncWebsocketClient":
         self._websocket = await websockets.connect(
             self.uri,
-            extra_headers={"Authorization": f"Key {self.api_key}"},
+            additional_headers={"Authorization": f"Key {self.api_key}"},
             max_size=5 * 1024 * 1024,
         )
         self._is_running = True
