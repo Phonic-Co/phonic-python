@@ -2,7 +2,7 @@
 
 ### STS
 
-Get an API key at `phonic.co`. Fill in the `API_KEY` field in `sts.py`.
+Get an API key at `phonic.co`, and set it to the environment variable `PHONIC_API_KEY`.
 
 ```
 uv sync --extra dev
@@ -16,7 +16,7 @@ from phonic.client import PhonicSyncWebSocketClient
 from scipy.io.wavfile import write
 import numpy as np
 
-url = "wss://api.test.phonic.co/v1/tts/ws"
+url = "wss://api.phonic.co/v1/tts/ws"
 api_key = "PHONIC_API_KEY"
 query_params = {
     "voice_id": "meredith",
