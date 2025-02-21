@@ -1,12 +1,13 @@
 import asyncio
 import base64
 import json
-from typing_extensions import Literal
 from typing import Any, AsyncIterator, Generator
 
 import numpy as np
+import requests
 import websockets
 from loguru import logger
+from typing_extensions import Literal
 from websockets.sync.client import connect
 
 
@@ -223,3 +224,27 @@ class PhonicSTSClient(PhonicAsyncWebsocketClient):
 
         async for message in self.start_bidirectional_stream():
             yield message
+
+
+# Utilities
+
+
+def get_voices(
+    api_key: str,
+    url: str = "https://api.phonic.co/v1/voices",
+    model: str = "tahoe",
+) -> list[dict[str, str]]:
+    """
+    Returns a list of available voices from the Phonic API.
+    """
+    headers = {"Authorization": f"Bearer {api_key}"}
+    params = {"model": model}
+
+    response = requests.get(url, headers=headers, params=params)
+
+    if response.status_code == 200:
+        data = response.json()
+        return data["voices"]
+    else:
+        logger.error(f"Error: {response.status_code}")
+        logger.error(response.text)

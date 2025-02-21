@@ -3,14 +3,19 @@ import os
 
 from loguru import logger
 
-from phonic.client import PhonicSTSClient
 from phonic.audio_interface import ContinuousAudioInterface
+from phonic.client import PhonicSTSClient, get_voices
 
 
 async def main():
     STS_URI = "wss://api.phonic.co/v1/sts/ws"
     API_KEY = os.environ["PHONIC_API_KEY"]
     SAMPLE_RATE = 44100
+
+    voices = get_voices(API_KEY)
+    voice_ids = [voice["id"] for voice in voices]
+    logger.info(f"Available voices: {voice_ids}")
+    voice_selected = "katherine"
 
     try:
         async with PhonicSTSClient(STS_URI, API_KEY) as client:
@@ -21,12 +26,12 @@ async def main():
                 output_format="pcm_44100",
                 system_prompt="You are a helpful voice assistant. Respond conversationally.",
                 # welcome_message="Hello! I'm your voice assistant. How can I help you today?",
-                voice_id="katherine",
+                voice_id=voice_selected,
             )
 
             await audio_streamer.start()
 
-            logger.info("Starting STS conversation...")
+            logger.info(f"Starting STS conversation with voice {voice_selected}...")
             print("Starting conversation... (Ctrl+C to exit)")
             print("Streaming all audio continuously to the server. Start talking!")
 

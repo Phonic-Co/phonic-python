@@ -3,8 +3,8 @@ import base64
 import queue
 import threading
 
-from loguru import logger
 import numpy as np
+from loguru import logger
 
 from phonic.client import PhonicAsyncWebsocketClient
 
