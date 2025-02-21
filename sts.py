@@ -1,5 +1,6 @@
 import asyncio
 import base64
+import os
 
 
 from loguru import logger
@@ -10,8 +11,8 @@ from phonic.audio_interface import ContinuousAudioInterface
 
 
 async def main():
-    STS_URI = "wss://api.test.phonic.co/v1/sts/ws"
-    API_KEY = "ph_kKfAYjgjlDVnHDumeLolNyyzTgaVJkN1V4i6iTTj0mijEuUClRoZO5Z6aI2CeHVT"
+    STS_URI = "wss://api.phonic.co/v1/sts/ws"
+    API_KEY = os.environ["PHONIC_API_KEY"]
     SAMPLE_RATE = 44100
 
     try:
