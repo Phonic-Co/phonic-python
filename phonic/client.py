@@ -172,7 +172,7 @@ class PhonicTTSClient(PhonicSyncWebsocketClient):
                 raise ValueError(f"Unknown message type: {type}")
 
 
-class PhonicSTSClient(PhonicSyncWebsocketClient):
+class PhonicSTSClient(PhonicAsyncWebsocketClient):
     async def send_audio(self, audio: np.ndarray) -> None:
         if not self._is_running:
             raise RuntimeError("WebSocket connection not established")
