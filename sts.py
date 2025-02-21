@@ -22,7 +22,7 @@ async def main():
                 input_format="pcm_44100",
                 output_format="pcm_44100",
                 system_prompt="You are a helpful voice assistant. Respond conversationally.",
-                welcome_message="Hello! I'm your voice assistant. How can I help you today?",
+                # welcome_message="Hello! I'm your voice assistant. How can I help you today?",
             )
 
             logger.info("Starting STS conversation...")
