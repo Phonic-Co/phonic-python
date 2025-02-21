@@ -35,8 +35,10 @@ async def main():
                 message_type = message.get("type")
                 if message_type == "audio_chunk":
                     audio_streamer.add_audio_to_playback(message["audio"])
+                    if text := message.get("text"):
+                        logger.info(f"Assistant: {text}")
                 elif message_type == "input_text":
-                    logger.info(f"You said: {message['text']}")
+                    logger.info(f"You: {message['text']}")
 
     except KeyboardInterrupt:
         logger.info("Conversation stopped by user")
