@@ -8,11 +8,6 @@ After you have been invited, you can generate an API key by visiting the [Phonic
 
 Please set it to the environment variable `PHONIC_API_KEY`.
 
-```
-uv sync --extra dev
-uv run python sts.py
-```
-
 ## Installation
 ```
 pip install phonic-python
