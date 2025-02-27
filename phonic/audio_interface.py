@@ -10,7 +10,10 @@ from phonic.client import PhonicAsyncWebsocketClient
 
 
 class ContinuousAudioInterface:
-    """Handles continuous audio streaming with simultaneous recording and playback"""
+    """
+    Handles continuous audio streaming
+    with simultaneous recording and playback
+    """
 
     def __init__(
         self,
@@ -21,7 +24,8 @@ class ContinuousAudioInterface:
             import sounddevice as sd
         except ImportError:
             raise ImportError(
-                "The 'sounddevice' library is required to be installed for audio streaming."
+                "The 'sounddevice' library must be installed "
+                "for audio streaming to work."
             )
         self.sd = sd
 
@@ -31,7 +35,7 @@ class ContinuousAudioInterface:
         self.dtype = np.int16
 
         self.is_running = False
-        self.playback_queue = queue.Queue()
+        self.playback_queue: queue.Queue = queue.Queue()
 
         self.input_stream = None
         self.output_stream = None
@@ -104,7 +108,8 @@ class ContinuousAudioInterface:
                 return
 
             try:
-                # Check if we have enough audio data (either in overflow or queue)
+                # Check if we have enough audio data
+                # (either in overflow or queue)
                 total_available = len(self.overflow_buffer)
                 queue_chunks = []
 
@@ -114,7 +119,8 @@ class ContinuousAudioInterface:
                     queue_chunks.append(chunk)
                     total_available += len(chunk)
 
-                # If we don't have enough data, put chunks back and return silence
+                # If we don't have enough data,
+                # put chunks back and return silence
                 # This will cause the audio system to wait for more data
                 if total_available < frames and self.is_running:
                     for chunk in reversed(queue_chunks):
@@ -135,11 +141,16 @@ class ContinuousAudioInterface:
                 # Then use queued chunks
                 for chunk in queue_chunks:
                     if filled >= frames:
-                        # We've filled the output buffer, store remainder in overflow
-                        self.overflow_buffer = np.append(self.overflow_buffer, chunk)
+                        # We've filled the output buffer,
+                        # store remainder in overflow
+                        self.overflow_buffer = np.append(
+                            self.overflow_buffer,
+                            chunk,
+                        )
                     else:
                         use_frames = min(len(chunk), frames - filled)
-                        outdata[filled : filled + use_frames, 0] = chunk[:use_frames]
+                        cut_chunk = chunk[:use_frames]
+                        outdata[filled : filled + use_frames, 0] = cut_chunk
 
                         if use_frames < len(chunk):
                             # Store remainder in overflow buffer
