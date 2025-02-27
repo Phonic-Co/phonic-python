@@ -20,19 +20,35 @@ class ContinuousAudioInterface:
         pass
 
     @abstractmethod
+    async def _start_input_stream(self):
+        pass
+
+    @abstractmethod
+    async def _start_output_stream(self):
+        pass
+
+    @abstractmethod
+    def _input_callback(self, indata, frames, time, status):
+        pass
+
+    @abstractmethod
+    def _output_callback(self, indata, frames, time, status):
+        pass
+
+    @abstractmethod
     async def start(self):
         pass
 
     @abstractmethod
-    async def stop(self):
+    def stop(self):
         pass
 
     @abstractmethod
-    async def add_audio_to_playback(self, audio_encoded: str):
+    def add_audio_to_playback(self, audio_encoded: str):
         pass
 
 
-class SounddeviceContinuousAudioInterface(ContinuousAudioInterface):
+class BaseContinuousAudioInterface(ContinuousAudioInterface):
     """
     Handles continuous audio streaming
     with simultaneous recording and playback
@@ -41,17 +57,8 @@ class SounddeviceContinuousAudioInterface(ContinuousAudioInterface):
     def __init__(
         self,
         client: PhonicAsyncWebsocketClient,
-        sample_rate: int = 44100,
+        sample_rate=44100,
     ):
-        try:
-            import sounddevice as sd
-        except ImportError:
-            raise ImportError(
-                "The 'sounddevice' library must be installed "
-                "for audio streaming to work."
-            )
-        self.sd = sd
-
         self.client = client
         self.sample_rate = sample_rate
         self.channels = 1
@@ -93,25 +100,162 @@ class SounddeviceContinuousAudioInterface(ContinuousAudioInterface):
             self.output_stream.stop()
             self.output_stream.close()
 
+    def _input_callback(self, indata, frames, time, status):
+        if status:
+            logger.warning(f"Input stream status: {status}")
+
+        if not self.is_running:
+            return
+
+        audio_data = indata.copy().flatten()
+        asyncio.run_coroutine_threadsafe(
+            self.client.send_audio(audio_data), self.main_loop
+        )
+
+    def _output_callback(self, outdata, frames, time, status):
+        if status:
+            logger.warning(f"Output stream status: {status}")
+
+        if not self.is_running:
+            outdata.fill(0)
+            return
+
+        try:
+            # Check if we have enough audio data
+            # (either in overflow or queue)
+            total_available = len(self.overflow_buffer)
+            queue_chunks = []
+
+            # Peek at queue contents without removing them yet
+            while not self.playback_queue.empty() and total_available < frames:
+                chunk = self.playback_queue.get_nowait()
+                queue_chunks.append(chunk)
+                total_available += len(chunk)
+
+            # If we don't have enough data,
+            # put chunks back and return silence
+            # This will cause the audio system to wait for more data
+            if total_available < frames and self.is_running:
+                for chunk in reversed(queue_chunks):
+                    self.playback_queue.put(chunk, block=False)
+                outdata.fill(0)
+                return
+
+            # We have enough data, so fill the output buffer
+            filled = 0
+
+            # First use overflow buffer
+            if len(self.overflow_buffer) > 0:
+                use_frames = min(len(self.overflow_buffer), frames)
+                outdata[:use_frames, 0] = self.overflow_buffer[:use_frames]
+                self.overflow_buffer = self.overflow_buffer[use_frames:]
+                filled += use_frames
+
+            # Then use queued chunks
+            for chunk in queue_chunks:
+                if filled >= frames:
+                    # We've filled the output buffer,
+                    # store remainder in overflow
+                    self.overflow_buffer = np.append(
+                        self.overflow_buffer,
+                        chunk,
+                    )
+                else:
+                    use_frames = min(len(chunk), frames - filled)
+                    cut_chunk = chunk[:use_frames]
+                    outdata[filled : filled + use_frames, 0] = cut_chunk
+
+                    if use_frames < len(chunk):
+                        # Store remainder in overflow buffer
+                        self.overflow_buffer = np.append(
+                            self.overflow_buffer, chunk[use_frames:]
+                        )
+                    filled += use_frames
+
+        except Exception as e:
+            logger.error(f"Error in output callback: {e}")
+            outdata.fill(0)
+
+    def add_audio_to_playback(self, audio_encoded: str):
+        """Add audio data to the playback queue"""
+        audio_bytes = base64.b64decode(audio_encoded)
+        audio_data = np.frombuffer(audio_bytes, dtype=np.int16)
+        self.playback_queue.put(audio_data)
+
+
+class PyaudioContinuousAudioInterface(BaseContinuousAudioInterface):
+    """
+    Handles continuous audio streaming
+    with simultaneous recording and playback using pyaudio
+    """
+
+    def __init__(
+        self,
+        client: PhonicAsyncWebsocketClient,
+        sample_rate: int = 44100,
+    ):
+        super().__init__(client, sample_rate)
+        try:
+            import pyaudio
+        except ImportError:
+            raise ImportError(
+                "The 'pyaudio' library must be installed "
+                "for audio streaming to work."
+            )
+        self.p = pyaudio.PyAudio()
+        self.p_format = pyaudio.paInt16
+
     def _start_input_stream(self):
         """Start audio input stream in a separate thread"""
 
-        def input_callback(indata, frames, time, status):
-            if status:
-                logger.warning(f"Input stream status: {status}")
+        self.input_stream = self.p.open(
+            format=self.p_format,
+            channels=self.channels,
+            rate=self.sample_rate,
+            output=False,
+            stream_callback=self._input_callback,
+        )
 
-            if not self.is_running:
-                return
+    def _start_output_stream(self):
+        """Start audio output stream in a separate thread"""
 
-            audio_data = indata.copy().flatten()
-            asyncio.run_coroutine_threadsafe(
-                self.client.send_audio(audio_data), self.main_loop
+        self.output_stream = self.p.open(
+            format=self.p_format,
+            channels=self.channels,
+            rate=self.sample_rate,
+            output=True,
+            stream_callback=self._input_callback,
+        )
+
+
+class SounddeviceContinuousAudioInterface(BaseContinuousAudioInterface):
+    """
+    Handles continuous audio streaming
+    with simultaneous recording and playback using sounddevice
+    """
+
+    def __init__(
+        self,
+        client: PhonicAsyncWebsocketClient,
+        sample_rate: int = 44100,
+    ):
+        super().__init__(client, sample_rate)
+        try:
+            import sounddevice as sd
+        except ImportError:
+            raise ImportError(
+                "The 'sounddevice' library must be installed "
+                "for audio streaming to work."
             )
+        self.sd = sd
+
+    def _start_input_stream(self):
+        """Start audio input stream in a separate thread"""
 
         self.input_stream = self.sd.InputStream(
             samplerate=self.sample_rate,
             channels=self.channels,
-            callback=input_callback,
+            callback=self._input_callback,
             dtype=self.dtype,
         )
         self.input_stream.start()
@@ -122,80 +266,10 @@ class SounddeviceContinuousAudioInterface(ContinuousAudioInterface):
         # Create a persistent buffer to hold leftover audio between callbacks
         self.overflow_buffer = np.array([], dtype=self.dtype)
 
-        def output_callback(outdata, frames, time, status):
-            if status:
-                logger.warning(f"Output stream status: {status}")
-
-            if not self.is_running:
-                outdata.fill(0)
-                return
-
-            try:
-                # Check if we have enough audio data
-                # (either in overflow or queue)
-                total_available = len(self.overflow_buffer)
-                queue_chunks = []
-
-                # Peek at queue contents without removing them yet
-                while not self.playback_queue.empty() and total_available < frames:
-                    chunk = self.playback_queue.get_nowait()
-                    queue_chunks.append(chunk)
-                    total_available += len(chunk)
-
-                # If we don't have enough data,
-                # put chunks back and return silence
-                # This will cause the audio system to wait for more data
-                if total_available < frames and self.is_running:
-                    for chunk in reversed(queue_chunks):
-                        self.playback_queue.put(chunk, block=False)
-                    outdata.fill(0)
-                    return
-
-                # We have enough data, so fill the output buffer
-                filled = 0
-
-                # First use overflow buffer
-                if len(self.overflow_buffer) > 0:
-                    use_frames = min(len(self.overflow_buffer), frames)
-                    outdata[:use_frames, 0] = self.overflow_buffer[:use_frames]
-                    self.overflow_buffer = self.overflow_buffer[use_frames:]
-                    filled += use_frames
-
-                # Then use queued chunks
-                for chunk in queue_chunks:
-                    if filled >= frames:
-                        # We've filled the output buffer,
-                        # store remainder in overflow
-                        self.overflow_buffer = np.append(
-                            self.overflow_buffer,
-                            chunk,
-                        )
-                    else:
-                        use_frames = min(len(chunk), frames - filled)
-                        cut_chunk = chunk[:use_frames]
-                        outdata[filled : filled + use_frames, 0] = cut_chunk
-
-                        if use_frames < len(chunk):
-                            # Store remainder in overflow buffer
-                            self.overflow_buffer = np.append(
-                                self.overflow_buffer, chunk[use_frames:]
-                            )
-                        filled += use_frames
-
-            except Exception as e:
-                logger.error(f"Error in output callback: {e}")
-                outdata.fill(0)
-
         self.output_stream = self.sd.OutputStream(
             samplerate=self.sample_rate,
             channels=self.channels,
-            callback=output_callback,
+            callback=self._output_callback,
             dtype=self.dtype,
         )
         self.output_stream.start()
-
-    def add_audio_to_playback(self, audio_encoded: str):
-        """Add audio data to the playback queue"""
-        audio_bytes = base64.b64decode(audio_encoded)
-        audio_data = np.frombuffer(audio_bytes, dtype=np.int16)
-        self.playback_queue.put(audio_data)
