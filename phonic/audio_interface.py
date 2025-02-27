@@ -1,3 +1,4 @@
+from abc import abstractmethod
 import asyncio
 import base64
 import queue
@@ -10,6 +11,28 @@ from phonic.client import PhonicAsyncWebsocketClient
 
 
 class ContinuousAudioInterface:
+    @abstractmethod
+    def __init__(
+        self,
+        client: PhonicAsyncWebsocketClient,
+        sample_rate: int = 44100,
+    ):
+        pass
+
+    @abstractmethod
+    async def start(self):
+        pass
+
+    @abstractmethod
+    async def stop(self):
+        pass
+
+    @abstractmethod
+    async def add_audio_to_playback(self, audio_encoded: str):
+        pass
+
+
+class SounddeviceContinuousAudioInterface(ContinuousAudioInterface):
     """
     Handles continuous audio streaming
     with simultaneous recording and playback
