@@ -141,7 +141,6 @@ class PyaudioContinuousAudioInterface(BaseContinuousAudioInterface):
             return (None, self.p_flag_abort)
 
         audio_data = np.frombuffer(indata, dtype=np.int16)
-        logger.debug(audio_data)
         asyncio.run_coroutine_threadsafe(
             self.client.send_audio(audio_data), self.main_loop
         )
