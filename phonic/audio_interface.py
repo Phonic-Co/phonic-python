@@ -107,7 +107,6 @@ class BaseContinuousAudioInterface(ContinuousAudioInterface):
         audio_bytes = base64.b64decode(audio_encoded)
         audio_data = np.frombuffer(audio_bytes, dtype=np.int16)
         self.playback_queue.put(audio_data)
-        logger.debug("self.playback_queue.put(audio_data)")
 
 
 class PyaudioContinuousAudioInterface(BaseContinuousAudioInterface):
@@ -172,9 +171,10 @@ class PyaudioContinuousAudioInterface(BaseContinuousAudioInterface):
             start=True,
         )
 
-        while True:
+        while self.is_running:
             audio_data = self.playback_queue.get()
             self.output_stream.write(audio_data.to_bytes())
+            self.playback_queue.task_done()
 
     def stop(self):
         """Stop continuous audio streaming"""
