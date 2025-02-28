@@ -173,9 +173,9 @@ class PyaudioContinuousAudioInterface(BaseContinuousAudioInterface):
 
         while self.is_running:
             try:
+                logger.debug("waiting to get")
                 audio_data = self.playback_queue.get(timeout=0.25)
                 self.output_stream.write(audio_data.to_bytes())
-                self.playback_queue.task_done()
             except queue.Empty:
                 pass
 
