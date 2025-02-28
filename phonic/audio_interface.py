@@ -155,7 +155,7 @@ class PyaudioContinuousAudioInterface(BaseContinuousAudioInterface):
             rate=self.sample_rate,
             input=True,
             stream_callback=self._input_callback,
-            frames_per_buffer=self.sample_rate,
+            frames_per_buffer=self.sample_rate * 0.250,  # elevenlab numbers
             start=True,
         )
 
@@ -169,14 +169,15 @@ class PyaudioContinuousAudioInterface(BaseContinuousAudioInterface):
             channels=self.channels,
             rate=self.sample_rate,
             output=True,
-            frames_per_buffer=self.sample_rate,
+            frames_per_buffer=self.sample_rat * 0.0625,  # elevenlab numbers
             start=True,
         )
 
         while self.is_running:
             try:
-                logger.debug("waiting to get")
-                audio_data = self.playback_queue.get(timeout=1)
+                audio_data = self.playback_queue.get(
+                    timeout=0.25
+                )  # note: elevenlab numbers
                 self.output_stream.write(audio_data.tobytes())
             except queue.Empty:
                 pass
