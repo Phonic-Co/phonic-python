@@ -155,7 +155,7 @@ class PyaudioContinuousAudioInterface(BaseContinuousAudioInterface):
             rate=self.sample_rate,
             input=True,
             stream_callback=self._input_callback,
-            frames_per_buffer=self.sample_rate * 0.250,  # elevenlab numbers
+            frames_per_buffer=int(self.sample_rate * 0.250),  # elevenlab
             start=True,
         )
 
@@ -169,7 +169,7 @@ class PyaudioContinuousAudioInterface(BaseContinuousAudioInterface):
             channels=self.channels,
             rate=self.sample_rate,
             output=True,
-            frames_per_buffer=self.sample_rat * 0.0625,  # elevenlab numbers
+            frames_per_buffer=int(self.sample_rat * 0.0625),  # elevenlab
             start=True,
         )
 
