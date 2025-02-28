@@ -77,18 +77,6 @@ class BaseContinuousAudioInterface(ContinuousAudioInterface):
         # Create a persistent buffer to hold leftover audio between callbacks
         self.overflow_buffer = np.array([], dtype=self.dtype)
 
-    def _input_callback(self, indata, frames, time, status):
-        if status:
-            logger.warning(f"Input stream status: {status}")
-
-        if not self.is_running:
-            return
-
-        audio_data = indata.copy().flatten()
-        asyncio.run_coroutine_threadsafe(
-            self.client.send_audio(audio_data), self.main_loop
-        )
-
     async def start(self):
         """Start continuous audio streaming"""
         self.is_running = True
@@ -149,6 +137,18 @@ class PyaudioContinuousAudioInterface(BaseContinuousAudioInterface):
             "complete": pyaudio.paComplete,
             "abort": pyaudio.paAbort,
         }
+
+    def _input_callback(self, indata, frames, time, status):
+        if status:
+            logger.warning(f"Input stream status: {status}")
+
+        if not self.is_running:
+            return
+
+        audio_data = np.array(list(indata))
+        asyncio.run_coroutine_threadsafe(
+            self.client.send_audio(audio_data), self.main_loop
+        )
 
     def _start_input_stream(self):
         """Start audio input stream in a separate thread"""
@@ -264,6 +264,18 @@ class SounddeviceContinuousAudioInterface(BaseContinuousAudioInterface):
                 "for audio streaming to work."
             )
         self.sd = sd
+
+    def _input_callback(self, indata, frames, time, status):
+        if status:
+            logger.warning(f"Input stream status: {status}")
+
+        if not self.is_running:
+            return
+
+        audio_data = indata.copy().flatten()
+        asyncio.run_coroutine_threadsafe(
+            self.client.send_audio(audio_data), self.main_loop
+        )
 
     def _start_input_stream(self):
         """Start audio input stream in a separate thread"""
