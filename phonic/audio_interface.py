@@ -172,12 +172,12 @@ class PyaudioContinuousAudioInterface(BaseContinuousAudioInterface):
         )
 
         while self.is_running:
-            logger.debug("calling self.playback_queue.get()")
-            if not self.playback_queue.empty():
-                audio_data = self.playback_queue.get()
-                logger.debug("calling self.output_stream.write(audio_data.to_bytes())")
+            try:
+                audio_data = self.playback_queue.get(timeout=0.25)
                 self.output_stream.write(audio_data.to_bytes())
                 self.playback_queue.task_done()
+            except queue.Empty:
+                pass
 
     def stop(self):
         """Stop continuous audio streaming"""
