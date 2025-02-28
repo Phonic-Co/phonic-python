@@ -167,13 +167,13 @@ class PyaudioContinuousAudioInterface(BaseContinuousAudioInterface):
         frames,
         time,
         status,
-    ) -> tuple[bytearray, int]:
+    ) -> tuple[bytes, int]:
         outdata = bytearray(frames)
         if status:
             logger.warning(f"Output stream status: {status}")
 
         if not self.is_running:
-            return (outdata, self.p_flags["abort"])
+            return (bytes(outdata), self.p_flags["abort"])
 
         try:
             # Check if we have enough audio data
@@ -193,7 +193,7 @@ class PyaudioContinuousAudioInterface(BaseContinuousAudioInterface):
             if total_available < frames and self.is_running:
                 for chunk in reversed(queue_chunks):
                     self.playback_queue.put(chunk, block=False)
-                return (outdata, self.p_flags["continue"])
+                return (bytes(outdata), self.p_flags["continue"])
 
             # We have enough data, so fill the output buffer
             filled = 0
@@ -225,10 +225,10 @@ class PyaudioContinuousAudioInterface(BaseContinuousAudioInterface):
                             self.overflow_buffer, chunk[use_frames:]
                         )
                     filled += use_frames
-            return (outdata, self.p_flags["continue"])
+            return (bytes(outdata), self.p_flags["continue"])
         except Exception as e:
             logger.error(f"Error in output callback: {e}")
-            return (outdata, self.p_flags["abort"])
+            return (bytes(outdata), self.p_flags["abort"])
 
     def _start_output_stream(self):
         """Start audio output stream in a separate thread"""
