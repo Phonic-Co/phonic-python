@@ -20,11 +20,11 @@ class ContinuousAudioInterface:
         pass
 
     @abstractmethod
-    async def _start_input_stream(self):
+    def _start_input_stream(self):
         pass
 
     @abstractmethod
-    async def _start_output_stream(self):
+    def _start_output_stream(self):
         pass
 
     @abstractmethod
@@ -73,7 +73,7 @@ class BaseContinuousAudioInterface(ContinuousAudioInterface):
         self.ready_event = asyncio.Event()
         self.main_loop = asyncio.get_event_loop()
 
-    async def _start_output_stream(self):
+    def _start_output_stream(self):
         # Create a persistent buffer to hold leftover audio between callbacks
         self.overflow_buffer = np.array([], dtype=self.dtype)
 
