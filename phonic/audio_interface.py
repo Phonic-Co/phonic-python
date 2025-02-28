@@ -132,11 +132,6 @@ class PyaudioContinuousAudioInterface(BaseContinuousAudioInterface):
             )
         self.p = pyaudio.PyAudio()
         self.p_format = pyaudio.paInt16
-        self.p_flags = {
-            "continue": pyaudio.paContinue,
-            "complete": pyaudio.paComplete,
-            "abort": pyaudio.paAbort,
-        }
 
     def _input_callback(self, indata, frames, time, status):
         if status:
@@ -159,76 +154,8 @@ class PyaudioContinuousAudioInterface(BaseContinuousAudioInterface):
             rate=self.sample_rate,
             input=True,
             stream_callback=self._input_callback,
+            start=True,
         )
-
-    def _output_callback(
-        self,
-        indata,
-        frames,
-        time,
-        status,
-    ) -> tuple[bytes, int]:
-        outdata = bytearray(frames)
-        if status:
-            logger.warning(f"Output stream status: {status}")
-
-        if not self.is_running:
-            return (bytes(outdata), self.p_flags["abort"])
-
-        try:
-            # Check if we have enough audio data
-            # (either in overflow or queue)
-            total_available = len(self.overflow_buffer)
-            queue_chunks = []
-
-            # Peek at queue contents without removing them yet
-            while not self.playback_queue.empty() and total_available < frames:
-                chunk = self.playback_queue.get_nowait()
-                queue_chunks.append(chunk)
-                total_available += len(chunk)
-
-            # If we don't have enough data,
-            # put chunks back and return silence
-            # This will cause the audio system to wait for more data
-            if total_available < frames and self.is_running:
-                for chunk in reversed(queue_chunks):
-                    self.playback_queue.put(chunk, block=False)
-                return (bytes(outdata), self.p_flags["continue"])
-
-            # We have enough data, so fill the output buffer
-            filled = 0
-
-            # First use overflow buffer
-            if len(self.overflow_buffer) > 0:
-                use_frames = min(len(self.overflow_buffer), frames)
-                outdata[:use_frames] = self.overflow_buffer[:use_frames]
-                self.overflow_buffer = self.overflow_buffer[use_frames:]
-                filled += use_frames
-
-            # Then use queued chunks
-            for chunk in queue_chunks:
-                if filled >= frames:
-                    # We've filled the output buffer,
-                    # store remainder in overflow
-                    self.overflow_buffer = np.append(
-                        self.overflow_buffer,
-                        chunk,
-                    )
-                else:
-                    use_frames = min(len(chunk), frames - filled)
-                    cut_chunk = chunk[:use_frames]
-                    outdata[filled : filled + use_frames] = cut_chunk
-
-                    if use_frames < len(chunk):
-                        # Store remainder in overflow buffer
-                        self.overflow_buffer = np.append(
-                            self.overflow_buffer, chunk[use_frames:]
-                        )
-                    filled += use_frames
-            return (bytes(outdata), self.p_flags["continue"])
-        except Exception as e:
-            logger.error(f"Error in output callback: {e}")
-            return (bytes(outdata), self.p_flags["abort"])
 
     def _start_output_stream(self):
         """Start audio output stream in a separate thread"""
@@ -240,8 +167,12 @@ class PyaudioContinuousAudioInterface(BaseContinuousAudioInterface):
             channels=self.channels,
             rate=self.sample_rate,
             output=True,
-            stream_callback=self._output_callback,
+            start=True,
         )
+
+        while True:
+            audio_data = self.playback_queue.get()
+            self.output_stream.write(audio_data.to_bytes())
 
 
 class SounddeviceContinuousAudioInterface(BaseContinuousAudioInterface):
