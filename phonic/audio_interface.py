@@ -73,32 +73,9 @@ class BaseContinuousAudioInterface(ContinuousAudioInterface):
         self.ready_event = asyncio.Event()
         self.main_loop = asyncio.get_event_loop()
 
-    async def start(self):
-        """Start continuous audio streaming"""
-        self.is_running = True
-        self.ready_event.set()
-
-        # Start audio streams in separate threads
-        input_thread = threading.Thread(target=self._start_input_stream)
-        output_thread = threading.Thread(target=self._start_output_stream)
-
-        input_thread.daemon = True
-        output_thread.daemon = True
-
-        input_thread.start()
-        output_thread.start()
-
-    def stop(self):
-        """Stop continuous audio streaming"""
-        self.is_running = False
-
-        if self.input_stream:
-            self.input_stream.stop()
-            self.input_stream.close()
-
-        if self.output_stream:
-            self.output_stream.stop()
-            self.output_stream.close()
+    async def _start_output_stream(self):
+        # Create a persistent buffer to hold leftover audio between callbacks
+        self.overflow_buffer = np.array([], dtype=self.dtype)
 
     def _input_callback(self, indata, frames, time, status):
         if status:
@@ -176,6 +153,33 @@ class BaseContinuousAudioInterface(ContinuousAudioInterface):
             logger.error(f"Error in output callback: {e}")
             outdata.fill(0)
 
+    async def start(self):
+        """Start continuous audio streaming"""
+        self.is_running = True
+        self.ready_event.set()
+
+        # Start audio streams in separate threads
+        input_thread = threading.Thread(target=self._start_input_stream)
+        output_thread = threading.Thread(target=self._start_output_stream)
+
+        input_thread.daemon = True
+        output_thread.daemon = True
+
+        input_thread.start()
+        output_thread.start()
+
+    def stop(self):
+        """Stop continuous audio streaming"""
+        self.is_running = False
+
+        if self.input_stream:
+            self.input_stream.stop()
+            self.input_stream.close()
+
+        if self.output_stream:
+            self.output_stream.stop()
+            self.output_stream.close()
+
     def add_audio_to_playback(self, audio_encoded: str):
         """Add audio data to the playback queue"""
         audio_bytes = base64.b64decode(audio_encoded)
@@ -218,6 +222,8 @@ class PyaudioContinuousAudioInterface(BaseContinuousAudioInterface):
 
     def _start_output_stream(self):
         """Start audio output stream in a separate thread"""
+
+        super()._start_output_stream()
 
         self.output_stream = self.p.open(
             format=self.p_format,
@@ -263,8 +269,7 @@ class SounddeviceContinuousAudioInterface(BaseContinuousAudioInterface):
     def _start_output_stream(self):
         """Start audio output stream in a separate thread"""
 
-        # Create a persistent buffer to hold leftover audio between callbacks
-        self.overflow_buffer = np.array([], dtype=self.dtype)
+        super()._start_output_stream()
 
         self.output_stream = self.sd.OutputStream(
             samplerate=self.sample_rate,
