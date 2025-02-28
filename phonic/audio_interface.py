@@ -172,7 +172,9 @@ class PyaudioContinuousAudioInterface(BaseContinuousAudioInterface):
         )
 
         while self.is_running:
+            logger.debug("calling self.playback_queue.get()")
             audio_data = self.playback_queue.get()
+            logger.debug("calling self.output_stream.write(audio_data.to_bytes())")
             self.output_stream.write(audio_data.to_bytes())
             self.playback_queue.task_done()
 
