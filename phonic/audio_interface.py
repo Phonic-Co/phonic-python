@@ -97,11 +97,9 @@ class BaseContinuousAudioInterface(ContinuousAudioInterface):
         self.is_running = False
 
         if self.input_stream:
-            self.input_stream.stop()
             self.input_stream.close()
 
         if self.output_stream:
-            self.output_stream.stop()
             self.output_stream.close()
 
     def add_audio_to_playback(self, audio_encoded: str):
@@ -109,6 +107,7 @@ class BaseContinuousAudioInterface(ContinuousAudioInterface):
         audio_bytes = base64.b64decode(audio_encoded)
         audio_data = np.frombuffer(audio_bytes, dtype=np.int16)
         self.playback_queue.put(audio_data)
+        logger.debug("self.playback_queue.put(audio_data)")
 
 
 class PyaudioContinuousAudioInterface(BaseContinuousAudioInterface):
@@ -176,6 +175,12 @@ class PyaudioContinuousAudioInterface(BaseContinuousAudioInterface):
         while True:
             audio_data = self.playback_queue.get()
             self.output_stream.write(audio_data.to_bytes())
+
+    def stop(self):
+        """Stop continuous audio streaming"""
+        super().stop()
+
+        self.p.terminate()
 
 
 class SounddeviceContinuousAudioInterface(BaseContinuousAudioInterface):
@@ -298,3 +303,13 @@ class SounddeviceContinuousAudioInterface(BaseContinuousAudioInterface):
             dtype=self.dtype,
         )
         self.output_stream.start()
+
+    def stop(self):
+        """Stop continuous audio streaming"""
+        if self.input_stream:
+            self.input_stream.stop()
+
+        if self.output_stream:
+            self.output_stream.stop()
+
+        super().stop()
