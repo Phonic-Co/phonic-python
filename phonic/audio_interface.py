@@ -132,18 +132,21 @@ class PyaudioContinuousAudioInterface(BaseContinuousAudioInterface):
             )
         self.p = pyaudio.PyAudio()
         self.p_format = pyaudio.paInt16
+        self.p_flag_continue = pyaudio.paContinue
+        self.p_flag_abort = pyaudio.paAbort
 
     def _input_callback(self, indata, frames, time, status):
         if status:
             logger.warning(f"Input stream status: {status}")
 
         if not self.is_running:
-            return
+            return (None, self.p_flag_abort)
 
         audio_data = np.array(list(indata))
         asyncio.run_coroutine_threadsafe(
             self.client.send_audio(audio_data), self.main_loop
         )
+        return (None, self.p_flag_continue)
 
     def _start_input_stream(self):
         """Start audio input stream in a separate thread"""
