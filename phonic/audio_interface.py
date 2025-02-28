@@ -212,7 +212,7 @@ class PyaudioContinuousAudioInterface(BaseContinuousAudioInterface):
             format=self.p_format,
             channels=self.channels,
             rate=self.sample_rate,
-            output=False,
+            input=True,
             stream_callback=self._input_callback,
         )
 
@@ -224,7 +224,7 @@ class PyaudioContinuousAudioInterface(BaseContinuousAudioInterface):
             channels=self.channels,
             rate=self.sample_rate,
             output=True,
-            stream_callback=self._input_callback,
+            stream_callback=self._output_callback,
         )
 
 
