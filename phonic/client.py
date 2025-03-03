@@ -80,7 +80,7 @@ class PhonicAsyncWebsocketClient:
         self._is_running = True
         return self
 
-    async def __aexit__(self, **_) -> None:
+    async def __aexit__(self, exc_type, exc_value, traceback) -> None:  # type: ignore[no-untyped-def]
         self._is_running = False
         for task in self._tasks:
             if not task.done():
