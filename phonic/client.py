@@ -9,6 +9,8 @@ import websockets
 from loguru import logger
 from typing_extensions import Literal
 from websockets.sync.client import connect
+from websockets.asyncio.client import process_exception
+from websockets.exceptions import InvalidStatus
 
 
 class PhonicSyncWebsocketClient:
@@ -60,19 +62,44 @@ class PhonicSyncWebsocketClient:
 
 
 class PhonicAsyncWebsocketClient:
-    def __init__(self, uri: str, api_key: str) -> None:
+    def __init__(self, uri: str, api_key: str, max_retries: int = 14) -> None:
         self.uri = uri
         self.api_key = api_key
         self._websocket: websockets.WebSocketClientProtocol | None = None
+        self._retry_number = 0
+        self._max_retries = max_retries
         self._send_queue = asyncio.Queue()
         self._is_running = False
         self._tasks = []
+
+    def _process_exception(self, exception: Exception) -> Exception | None:
+        # note: websockets use backoff to determine retry delay;
+        # retry delay is not customizable
+        if (
+            isinstance(exception, InvalidStatus)
+            and exception.response.status_code == 4004
+        ):
+            if self._retry_number >= self._max_retries:
+                return exception
+            self._retry_number += 1
+            exception_body = (
+                exception.response.body.decode()
+                if exception.response.body is not None
+                else ""
+            )
+            logger.info(
+                f"{exception_body}, will retry "
+                f"({self._retry_number}/{self._max_retries})"
+            )
+            return None
+        return process_exception(exception)
 
     async def __aenter__(self) -> "PhonicAsyncWebsocketClient":
         self._websocket = await websockets.connect(
             self.uri,
             additional_headers={"Authorization": f"Bearer {self.api_key}"},
             max_size=5 * 1024 * 1024,
+            process_exception=self._process_exception,
         )
         self._is_running = True
         return self
