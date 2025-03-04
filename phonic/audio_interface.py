@@ -76,7 +76,7 @@ class BaseContinuousAudioInterface(ContinuousAudioInterface):
 
     def _start_output_stream(self):
         # Create a persistent buffer to hold leftover audio between callbacks
-        self.overflow_buffer = np.array([], dtype=self.dtype)
+        self.overflow_buffer = np.array([], dtype=self.output_dtype)
 
     async def start(self):
         """Start continuous audio streaming"""
@@ -106,7 +106,7 @@ class BaseContinuousAudioInterface(ContinuousAudioInterface):
     def add_audio_to_playback(self, audio_encoded: str):
         """Add audio data to the playback queue"""
         audio_bytes = base64.b64decode(audio_encoded)
-        audio_data = np.frombuffer(audio_bytes, dtype=np.int16)
+        audio_data = np.frombuffer(audio_bytes, dtype=self.output_dtype)
         self.playback_queue.put(audio_data)
 
 
@@ -142,7 +142,7 @@ class PyaudioContinuousAudioInterface(BaseContinuousAudioInterface):
         if not self.is_running:
             return (None, self.p_flag_abort)
 
-        audio_data = np.frombuffer(indata, dtype=np.float32)
+        audio_data = np.frombuffer(indata, dtype=self.input_dtype)
         asyncio.run_coroutine_threadsafe(
             self.client.send_audio(audio_data), self.main_loop
         )
