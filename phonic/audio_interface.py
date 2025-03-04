@@ -1,4 +1,4 @@
-from abc import abstractmethod
+from abc import ABC, abstractmethod
 import asyncio
 import base64
 import queue
@@ -10,7 +10,7 @@ from loguru import logger
 from phonic.client import PhonicAsyncWebsocketClient
 
 
-class ContinuousAudioInterface:
+class ContinuousAudioInterface(ABC):
     @abstractmethod
     def __init__(
         self,
@@ -155,7 +155,7 @@ class PyaudioContinuousAudioInterface(BaseContinuousAudioInterface):
             rate=self.sample_rate,
             input=True,
             stream_callback=self._input_callback,
-            frames_per_buffer=int(self.sample_rate * 0.250),  # elevenlab
+            frames_per_buffer=int(self.sample_rate * 0.250),
             start=True,
         )
 
@@ -169,15 +169,13 @@ class PyaudioContinuousAudioInterface(BaseContinuousAudioInterface):
             channels=self.channels,
             rate=self.sample_rate,
             output=True,
-            frames_per_buffer=int(self.sample_rate * 0.0625),  # elevenlab
+            frames_per_buffer=int(self.sample_rate * 0.0625),
             start=True,
         )
 
         while self.is_running:
             try:
-                audio_data = self.playback_queue.get(
-                    timeout=0.25
-                )  # note: elevenlab numbers
+                audio_data = self.playback_queue.get(timeout=0.25)
                 self.output_stream.write(audio_data.tobytes())
             except queue.Empty:
                 pass
