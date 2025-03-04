@@ -159,6 +159,10 @@ class PyaudioContinuousAudioInterface(BaseContinuousAudioInterface):
             start=True,
         )
 
+    def _output_callback(self, indata, frames, time, status):
+        # pyaudio doesn't use an output callback
+        return
+
     def _start_output_stream(self):
         """Start audio output stream in a separate thread"""
 
