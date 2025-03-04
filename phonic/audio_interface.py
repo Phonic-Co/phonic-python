@@ -62,7 +62,7 @@ class BaseContinuousAudioInterface(ContinuousAudioInterface):
         self.client = client
         self.sample_rate = sample_rate
         self.channels = 1
-        self.dtype = np.int16
+        self.dtype = np.float32
 
         self.is_running = False
         self.playback_queue: queue.Queue = queue.Queue()
@@ -129,7 +129,7 @@ class PyaudioContinuousAudioInterface(BaseContinuousAudioInterface):
                 "for audio streaming to work."
             )
         self.p = pyaudio.PyAudio()
-        self.p_format = pyaudio.paInt16
+        self.p_format = pyaudio.paFloat32
         self.p_flag_continue = pyaudio.paContinue
         self.p_flag_abort = pyaudio.paAbort
 
@@ -140,7 +140,7 @@ class PyaudioContinuousAudioInterface(BaseContinuousAudioInterface):
         if not self.is_running:
             return (None, self.p_flag_abort)
 
-        audio_data = np.frombuffer(indata, dtype=np.int16)
+        audio_data = np.frombuffer(indata, dtype=np.float32)
         asyncio.run_coroutine_threadsafe(
             self.client.send_audio(audio_data), self.main_loop
         )
