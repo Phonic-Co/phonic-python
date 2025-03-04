@@ -62,7 +62,8 @@ class BaseContinuousAudioInterface(ContinuousAudioInterface):
         self.client = client
         self.sample_rate = sample_rate
         self.channels = 1
-        self.dtype = np.float32
+        self.input_dtype = np.float32
+        self.output_dtype = np.int16
 
         self.is_running = False
         self.playback_queue: queue.Queue = queue.Queue()
@@ -129,7 +130,8 @@ class PyaudioContinuousAudioInterface(BaseContinuousAudioInterface):
                 "for audio streaming to work."
             )
         self.p = pyaudio.PyAudio()
-        self.p_format = pyaudio.paFloat32
+        self.p_input_format = pyaudio.paFloat32
+        self.p_output_format = pyaudio.paInt16
         self.p_flag_continue = pyaudio.paContinue
         self.p_flag_abort = pyaudio.paAbort
 
@@ -150,7 +152,7 @@ class PyaudioContinuousAudioInterface(BaseContinuousAudioInterface):
         """Start audio input stream in a separate thread"""
 
         self.input_stream = self.p.open(
-            format=self.p_format,
+            format=self.p_input_format,
             channels=self.channels,
             rate=self.sample_rate,
             input=True,
@@ -169,7 +171,7 @@ class PyaudioContinuousAudioInterface(BaseContinuousAudioInterface):
         super()._start_output_stream()
 
         self.output_stream = self.p.open(
-            format=self.p_format,
+            format=self.p_output_format,
             channels=self.channels,
             rate=self.sample_rate,
             output=True,
@@ -231,7 +233,7 @@ class SounddeviceContinuousAudioInterface(BaseContinuousAudioInterface):
             samplerate=self.sample_rate,
             channels=self.channels,
             callback=self._input_callback,
-            dtype=self.dtype,
+            dtype=self.input_dtype,
         )
         self.input_stream.start()
 
@@ -308,7 +310,7 @@ class SounddeviceContinuousAudioInterface(BaseContinuousAudioInterface):
             samplerate=self.sample_rate,
             channels=self.channels,
             callback=self._output_callback,
-            dtype=self.dtype,
+            dtype=self.output_dtype,
         )
         self.output_stream.start()
 
