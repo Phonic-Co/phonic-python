@@ -72,7 +72,17 @@ class PhonicAsyncWebsocketClient:
         self._is_running = False
         self._tasks = []
 
-    def _handle_4004(self, exception: Exception) -> None:
+    def _is_4004(self, exception: Exception) -> bool:
+        logger.debug(f"{exception=}")
+        if (
+            isinstance(exception, InvalidStatus)
+            and exception.response.status_code == 4004
+        ):
+            return True
+        else:
+            return False
+
+    def _handle_4004(self, exception: Exception) -> Exception | None:
         assert (
             isinstance(exception, InvalidStatus)
             and exception.response.status_code == 4004
@@ -89,6 +99,7 @@ class PhonicAsyncWebsocketClient:
             f"{exception_body}, will retry "
             f"({self._retry_number}/{self._max_retries})"
         )
+        return None
 
     def _process_exception(self, exception: Exception) -> Exception | None:
         # note: websockets use backoff to determine retry delay;
@@ -138,12 +149,12 @@ class PhonicAsyncWebsocketClient:
         """Task that continuously sends queued messages"""
         assert self._websocket is not None
 
-        while True:
+        while self._is_running:
             try:
-                while self._is_running:
-                    message = await self._send_queue.get()
-                    await self._websocket.send(json.dumps(message))
-                    self._send_queue.task_done()
+                message = await self._send_queue.get()
+                await self._websocket.send(json.dumps(message))
+                self._send_queue.task_done()
+                self._retry_number = 0
             except asyncio.CancelledError:
                 logger.info("Sender task cancelled")
                 break
@@ -161,7 +172,7 @@ class PhonicAsyncWebsocketClient:
         """Generator that continuously receives and yields messages"""
         assert self._websocket is not None
 
-        while True:
+        while self._is_running:
             try:
                 async for raw_message in self._websocket:
                     if not self._is_running:
@@ -174,6 +185,7 @@ class PhonicAsyncWebsocketClient:
                         raise RuntimeError(message)
                     else:
                         yield message
+                    self._retry_number = 0
             except asyncio.CancelledError:
                 logger.info("Receiver task cancelled")
                 break
