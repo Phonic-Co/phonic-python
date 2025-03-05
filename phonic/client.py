@@ -99,6 +99,7 @@ class PhonicAsyncWebsocketClient:
             self.uri,
             additional_headers={"Authorization": f"Bearer {self.api_key}"},
             max_size=5 * 1024 * 1024,
+            open_timeout=None,  # 4004 takes up to 15 seconds
             process_exception=self._process_exception,
         )
         self._is_running = True
