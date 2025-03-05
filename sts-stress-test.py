@@ -56,9 +56,16 @@ async def main():
         raise e
 
 
-if __name__ == "__main__":
+async def stress():
     print("Starting continuous Speech-to-Speech conversation...")
     print("Audio streaming will begin automatically when connected.")
     print("Press Ctrl+C to exit")
+    tasks = []
     for i in range(10):
-        asyncio.create_task(main())
+        tasks.append(asyncio.create_task(main()))
+    for i in range(10):
+        await tasks[i]
+
+
+if __name__ == "__main__":
+    asyncio.run(stress())
