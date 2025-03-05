@@ -86,10 +86,7 @@ class PhonicAsyncWebsocketClient:
             return False
 
     def _handle_4004(self, exception: Exception) -> Exception | None:
-        assert (
-            isinstance(exception, InvalidStatus)
-            and exception.response.status_code == 4004
-        )
+        assert self._is_4004(exception)
         if self._retry_number >= self._max_retries:
             return exception
         self._retry_number += 1
@@ -107,10 +104,7 @@ class PhonicAsyncWebsocketClient:
     def _process_exception(self, exception: Exception) -> Exception | None:
         # note: websockets use backoff to determine retry delay;
         # retry delay is not customizable
-        if (
-            isinstance(exception, InvalidStatus)
-            and exception.response.status_code == 4004
-        ):
+        if self._is_4004(exception):
             self._handle_4004(exception)
             return None
         return process_exception(exception)
@@ -164,7 +158,7 @@ class PhonicAsyncWebsocketClient:
                 logger.info("Sender task cancelled")
                 break
             except Exception as e:
-                if isinstance(e, InvalidStatus) and e.response.status_code == 4004:
+                if self._is_4004(e):
                     self._handle_4004(e)
                     await asyncio.sleep(15)
                     continue
@@ -195,7 +189,7 @@ class PhonicAsyncWebsocketClient:
                 logger.info("Receiver task cancelled")
                 break
             except Exception as e:
-                if isinstance(e, InvalidStatus) and e.response.status_code == 4004:
+                if self._is_4004(e):
                     self._handle_4004(e)
                     await asyncio.sleep(15)
                     continue
