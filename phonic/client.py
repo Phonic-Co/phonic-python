@@ -8,7 +8,7 @@ import requests
 import websockets
 from loguru import logger
 from typing_extensions import Literal
-from websockets.sync.client import connect
+from websockets.sync.client import ClientConnection, connect
 from websockets.asyncio.client import process_exception
 from websockets.exceptions import InvalidStatus
 
@@ -27,14 +27,17 @@ class PhonicSyncWebsocketClient:
         Args:
             url (str): The URL to connect to.
             api_key (str): The API key to use for authentication.
-            query_params (dict, optional): Additional query parameters to include in the URL. Defaults to None.
-            additional_headers (dict, optional): Additional headers to include in the request. Defaults to None.
+            query_params (dict, optional): Additional query parameters to
+                include in the URL. Defaults to None.
+            additional_headers (dict, optional): Additional headers to include
+                in the request. Defaults to None.
         """
         self.api_key = api_key
-        self._websocket = None
+        self._websocket: ClientConnection | None = None
 
         if query_params is not None:
-            query_string = "&".join(f"{k}={v}" for k, v in query_params.items())
+            query_params_list = [f"{k}={v}" for k, v in query_params.items()]
+            query_string = "&".join(query_params_list)
             self.url = f"{url}?{query_string}"
         else:
             self.url = url
@@ -68,9 +71,9 @@ class PhonicAsyncWebsocketClient:
         self._websocket: websockets.WebSocketClientProtocol | None = None
         self._retry_number = 0
         self._max_retries = max_retries
-        self._send_queue = asyncio.Queue()
+        self._send_queue: asyncio.Queue = asyncio.Queue()
         self._is_running = False
-        self._tasks = []
+        self._tasks: list[asyncio.Task] = []
 
     def _is_4004(self, exception: Exception) -> bool:
         logger.debug(f"{exception=}")
@@ -133,7 +136,9 @@ class PhonicAsyncWebsocketClient:
         await self._websocket.close()
         self._websocket = None
 
-    async def start_bidirectional_stream(self) -> AsyncIterator[dict[str, Any]]:
+    async def start_bidirectional_stream(
+        self,
+    ) -> AsyncIterator[dict[str, Any]]:
         if not self._is_running or self._websocket is None:
             raise RuntimeError("WebSocket connection not established")
 
@@ -204,6 +209,8 @@ class PhonicTTSClient(PhonicSyncWebsocketClient):
     def generate_audio(
         self, text: str, speed: float = 1.0
     ) -> Generator[np.ndarray, None, None]:
+        assert self._websocket is not None
+
         self._websocket.send(
             json.dumps(
                 {
@@ -269,6 +276,8 @@ class PhonicSTSClient(PhonicAsyncWebsocketClient):
             welcome_message: welcome message for assistant
             voice_id: voice id
         """
+        assert self._websocket is not None
+
         if not self._is_running:
             raise RuntimeError("WebSocket connection not established")
 
@@ -309,3 +318,6 @@ def get_voices(
     else:
         logger.error(f"Error: {response.status_code}")
         logger.error(response.text)
+        raise ValueError(
+            f"Error in get_voice: {response.status_code} " f"{response.text}"
+        )

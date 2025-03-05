@@ -1,0 +1,8 @@
+[flake8]
+extend-ignore = E203,W503,E731
+banned-modules =
+    typing.Union = Use the pipe character (|) instead of Union
+    typing.Optional = Create a union with None (| None) instead of Optional
+    typing.List = Use list instead of List
+    typing.Dict = Use dict instead of Dict
+    typing.Tuple = Use tuple instead of Tuple
