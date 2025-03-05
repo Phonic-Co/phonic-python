@@ -61,4 +61,4 @@ if __name__ == "__main__":
     print("Audio streaming will begin automatically when connected.")
     print("Press Ctrl+C to exit")
     for i in range(10):
-        asyncio.run(main())
+        asyncio.create_task(main())
