@@ -2,13 +2,11 @@ import asyncio
 import base64
 import json
 import numpy as np
-import os
 import threading
-import traceback
 from fastapi import WebSocket
 from loguru import logger
 
-from phonic.client import PhonicAsyncWebsocketClient, PhonicSTSClient, get_voices
+from phonic.client import PhonicSTSClient
 
 
 class TwilioInterface:
@@ -16,19 +14,36 @@ class TwilioInterface:
 
     def __init__(
         self,
-        client: PhonicAsyncWebsocketClient,
+        client: PhonicSTSClient,
+        system_prompt: str,
+        welcome_message: str,
         output_voice: str,
-        sample_rate: int = 44100,
     ):
         self.client = client
-        self.output_voice = output_voice
-        self.sample_rate = sample_rate
-        self.channels = 1
-        self.dtype = np.int16
+        self.sts_stream = self.client.sts(
+            input_format="mulaw_8000",
+            output_format="mulaw_8000",
+            system_prompt=system_prompt,
+            welcome_message=welcome_message,
+            voice_id=output_voice,
+        )
 
+        logger.info(f"Starting STS conversation with {output_voice}...")
+
+        # Input / Output constants and buffer
+        self.sample_rate = 8000
+        self.input_dtype = np.uint8
+        self.input_buffer: list[np.ndarray] = []
+        self.input_buffer_len = 0.0
+
+        # Input / Output threads and loops
+        self.main_loop = asyncio.get_event_loop()
         self.twilio_websocket: WebSocket | None = None
         self.twilio_stream_sid = None
-        self.output_thread = threading.Thread(target=self._start_output_stream)
+        self.output_thread = threading.Thread(
+            target=asyncio.run_coroutine_threadsafe,
+            args=(self._start_output_stream(), self.main_loop),
+        )
         self.output_thread.start()
 
     async def input_callback(self, message: str):
@@ -52,37 +67,37 @@ class TwilioInterface:
 
             if data.get("media", {}).get("track") == "inbound":
                 audio_bytes = base64.b64decode(data["media"]["payload"])
-                audio_np = np.frombuffer(audio_bytes, dtype=self.dtype)
+                audio_np = np.frombuffer(audio_bytes, dtype=self.input_dtype)
 
-                # Send to PhonicAsyncWebsocketClient
-                self.client.send_audio(audio_np)
+                # Twilio chunks are too short (20ms);
+                # accumulate to >=250ms then send to Phonic API
+                self.input_buffer.append(audio_np)
+                self.input_buffer_len += len(audio_np) / self.sample_rate
+
+        if self.input_buffer_len >= 0.250:
+            concat_audio_np = np.concatenate(self.input_buffer)
+            self.input_buffer = []
+            self.input_buffer_len = 0.0
+
+            # Send to PhonicAsyncWebsocketClient
+            asyncio.run_coroutine_threadsafe(
+                self.client.send_audio(concat_audio_np), self.main_loop
+            )
 
     async def _start_output_stream(self):
         """
         Receive messages from Phonic websocket, sends them to Twilio websocket
         """
-        sts_stream = self.client.sts(
-            input_format="pcm_44100",
-            output_format="pcm_44100",
-            system_prompt="You are a helpful voice assistant. Respond conversationally.",
-            welcome_message="Hello! I'm your voice assistant. How can I help you today?",
-            voice_id=self.output_voice,
-        )
-
-        logger.info(f"Starting STS conversation with voice {self.output_voice}...")
-
-        # Process messages from STS
-        async for message in sts_stream:
+        async for message in self.sts_stream:
             message_type = message.get("type")
             if message_type == "audio_chunk":
-                logger.info(f"Received audio chunk: {message['text']}")
                 audio = message["audio"]
                 if text := message.get("text"):
                     logger.info(f"Assistant: {text}")
 
                 twilio_message = {
                     "event": "media",
-                    "streamSid": self.stream_sid,
+                    "streamSid": self.twilio_stream_sid,
                     "media": {"payload": audio},
                 }
                 await self.twilio_websocket.send_json(twilio_message)
@@ -90,50 +105,3 @@ class TwilioInterface:
                 logger.info(f"You: {message['text']}")
             else:
                 logger.info(f"Received unknown message: {message}")
-
-
-# Modal app
-# TODO: create modal app here
-
-
-@app.websocket("/streams")
-async def websocket_endpoint(websocket: WebSocket):
-    """WebSocket endpoint for media streaming"""
-    STS_URI = "wss://api.phonic.co/v1/sts/ws"
-    API_KEY = os.environ["PHONIC_API_KEY"]
-    SAMPLE_RATE = 44100
-
-    voices = get_voices(API_KEY)
-    voice_ids = [voice["id"] for voice in voices]
-    logger.info(f"Available voices: {voice_ids}")
-    voice_selected = "katherine"
-
-    try:
-        async with PhonicSTSClient(STS_URI, API_KEY) as client:
-            await websocket.accept()
-            twilio_interface = TwilioInterface(
-                client=client,
-                output_voice=voice_selected,
-                sample_rate=SAMPLE_RATE,
-            )
-            twilio_interface.twilio_websocket = websocket
-
-            while True:
-                message = await websocket.receive_text()
-                await twilio_interface.input_callback(message)
-    except Exception as e:
-        logger.info(f"WebSocket error: {e}")
-        logger.info(traceback.format_exc())
-
-
-# TODO: continue here
-
-
-# Route for Twilio to handle incoming calls
-@app.post("/twiml")
-async def serve_twiml():
-    # Construct the file path to the TwiML template
-    file_path = Path(os.path.dirname(__file__)) / "templates" / "streams.xml"
-
-    # Return a FileResponse, which handles setting content type and length automatically
-    return FileResponse(path=file_path, media_type="text/xml")
