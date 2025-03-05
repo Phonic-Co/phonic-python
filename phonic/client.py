@@ -10,7 +10,7 @@ from loguru import logger
 from typing_extensions import Literal
 from websockets.sync.client import ClientConnection, connect
 from websockets.asyncio.client import process_exception
-from websockets.exceptions import InvalidStatus
+from websockets.exceptions import ConnectionClosedError
 
 
 class PhonicSyncWebsocketClient:
@@ -77,26 +77,18 @@ class PhonicAsyncWebsocketClient:
 
     def _is_4004(self, exception: Exception) -> bool:
         logger.debug(f"{exception=}")
-        if (
-            isinstance(exception, InvalidStatus)
-            and exception.response.status_code == 4004
-        ):
+        if isinstance(exception, ConnectionClosedError) and exception.code == 4004:
             return True
         else:
             return False
 
     def _handle_4004(self, exception: Exception) -> Exception | None:
-        assert self._is_4004(exception)
+        assert isinstance(exception, ConnectionClosedError)
         if self._retry_number >= self._max_retries:
             return exception
         self._retry_number += 1
-        exception_body = (
-            exception.response.body.decode()
-            if exception.response.body is not None
-            else ""
-        )
         logger.info(
-            f"{exception_body}, will retry "
+            f"{exception.code} {exception.reason}, will retry "
             f"({self._retry_number}/{self._max_retries})"
         )
         return None
@@ -109,15 +101,18 @@ class PhonicAsyncWebsocketClient:
             return None
         return process_exception(exception)
 
-    async def __aenter__(self) -> "PhonicAsyncWebsocketClient":
+    async def _connect(self) -> None:
         self._websocket = await websockets.connect(
             self.uri,
             additional_headers={"Authorization": f"Bearer {self.api_key}"},
             max_size=5 * 1024 * 1024,
-            open_timeout=None,  # 4004 takes up to 15 seconds
+            open_timeout=15,  # 4004 takes up to 15 seconds
             process_exception=self._process_exception,
         )
         self._is_running = True
+
+    async def __aenter__(self) -> "PhonicAsyncWebsocketClient":
+        await self._connect()
         return self
 
     async def __aexit__(self, exc_type, exc_value, traceback) -> None:  # type: ignore[no-untyped-def]
@@ -161,6 +156,7 @@ class PhonicAsyncWebsocketClient:
                 if self._is_4004(e):
                     self._handle_4004(e)
                     await asyncio.sleep(15)
+                    await self._connect()
                     continue
                 else:
                     logger.error(f"Error in sender loop: {e}")
@@ -192,6 +188,7 @@ class PhonicAsyncWebsocketClient:
                 if self._is_4004(e):
                     self._handle_4004(e)
                     await asyncio.sleep(15)
+                    await self._connect()
                     continue
                 else:
                     logger.error(f"Error in receiver loop: {e}")
