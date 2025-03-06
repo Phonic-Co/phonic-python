@@ -12,6 +12,8 @@ from websockets.sync.client import ClientConnection, connect
 from websockets.asyncio.client import process_exception
 from websockets.exceptions import ConnectionClosedError
 
+INSUFFICIENT_CAPACITY_AVAILABLE_ERROR_CODE = 4004
+
 
 class PhonicSyncWebsocketClient:
     def __init__(
@@ -65,11 +67,19 @@ class PhonicSyncWebsocketClient:
 
 
 class PhonicAsyncWebsocketClient:
-    def __init__(self, uri: str, api_key: str, max_retries: int = 14) -> None:
+    def __init__(
+        self,
+        uri: str,
+        api_key: str,
+        retry_delay: float = 15.0,
+        max_retries: int = 14,
+    ) -> None:
         self.uri = uri
         self.api_key = api_key
         self._websocket: websockets.WebSocketClientProtocol | None = None
         self._retry_number = 0
+        self._retry_delay = retry_delay
+        self._retry_check = 1  # websocket checking interval for receiver loop
         self._max_retries = max_retries
         self._send_queue: asyncio.Queue = asyncio.Queue()
         self._is_running = False
@@ -77,7 +87,10 @@ class PhonicAsyncWebsocketClient:
         self._tasks: list[asyncio.Task] = []
 
     def _is_4004(self, exception: Exception) -> bool:
-        if isinstance(exception, ConnectionClosedError) and exception.code == 4004:
+        if (
+            isinstance(exception, ConnectionClosedError)
+            and exception.code == INSUFFICIENT_CAPACITY_AVAILABLE_ERROR_CODE
+        ):
             return True
         else:
             return False
@@ -155,7 +168,7 @@ class PhonicAsyncWebsocketClient:
                 if self._is_4004(e):
                     await self._send_queue.put(message)  # put message back
                     self._is_reconnecting = True
-                    await asyncio.sleep(15)
+                    await asyncio.sleep(self._retry_delay)
                     await self._connect()
                     if hasattr(self, "config_message"):
                         await self._websocket.send(
@@ -192,11 +205,11 @@ class PhonicAsyncWebsocketClient:
             except Exception as e:
                 if self._is_4004(e):
                     self._handle_4004(e)
-                    await asyncio.sleep(15)
+                    await asyncio.sleep(self._retry_delay)
                     while self._is_reconnecting:
                         # _connect is sender loop's responsibility
                         # receiver loop can only wait for websocket to be up
-                        await asyncio.sleep(1)
+                        await asyncio.sleep(self._retry_check)
                     if not self._is_reconnecting and not self._is_running:
                         raise
                     continue
