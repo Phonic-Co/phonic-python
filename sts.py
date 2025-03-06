@@ -46,6 +46,7 @@ async def main():
                         if text_buffer.strip().endswith(".!?"):
                             logger.info(f"Assistant: {text_buffer}")
                             text_buffer = ""
+                        # TODO (arun): should be careful about any leftovers
                 elif message_type == "input_text":
                     logger.info(f"You: {message['text']}")
 

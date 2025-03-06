@@ -98,6 +98,7 @@ class TwilioInterface:
                     if text_buffer.strip().endswith(".!?"):
                         logger.info(f"Assistant: {text_buffer}")
                         text_buffer = ""
+                    # TODO (arun): should be careful about any leftovers
 
                 twilio_message = {
                     "event": "media",
