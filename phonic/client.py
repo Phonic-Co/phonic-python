@@ -76,7 +76,6 @@ class PhonicAsyncWebsocketClient:
         self._tasks: list[asyncio.Task] = []
 
     def _is_4004(self, exception: Exception) -> bool:
-        logger.debug(f"{exception=}")
         if isinstance(exception, ConnectionClosedError) and exception.code == 4004:
             return True
         else:
@@ -106,7 +105,7 @@ class PhonicAsyncWebsocketClient:
             self.uri,
             additional_headers={"Authorization": f"Bearer {self.api_key}"},
             max_size=5 * 1024 * 1024,
-            open_timeout=15,  # 4004 takes up to 15 seconds
+            open_timeout=20,  # 4004 takes up to 15 seconds
             process_exception=self._process_exception,
         )
         self._is_running = True
