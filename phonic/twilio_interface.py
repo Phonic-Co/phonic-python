@@ -98,7 +98,6 @@ class TwilioInterface:
                     if any(punc in text_buffer for punc in ".!?"):
                         logger.info(f"Assistant: {text_buffer}")
                         text_buffer = ""
-                    # TODO (arun): should be careful about any leftovers
 
                 twilio_message = {
                     "event": "media",
@@ -106,6 +105,9 @@ class TwilioInterface:
                     "media": {"payload": audio},
                 }
                 await self.twilio_websocket.send_json(twilio_message)
+            elif message_type == "audio_finished":
+                logger.info(f"Assistant: {text_buffer}")
+                text_buffer = ""
             elif message_type == "input_text":
                 logger.info(f"You: {message['text']}")
             else:

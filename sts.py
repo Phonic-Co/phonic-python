@@ -46,7 +46,9 @@ async def main():
                         if any(punc in text_buffer for punc in ".!?"):
                             logger.info(f"Assistant: {text_buffer}")
                             text_buffer = ""
-                        # TODO (arun): should be careful about any leftovers
+                elif message_type == "audio_finished":
+                    logger.info(f"Assistant: {text_buffer}")
+                    text_buffer = ""
                 elif message_type == "input_text":
                     logger.info(f"You: {message['text']}")
 
