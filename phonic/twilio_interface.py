@@ -95,7 +95,7 @@ class TwilioInterface:
                 audio = message["audio"]
                 if text := message.get("text"):
                     text_buffer += text
-                    if text_buffer.strip().endswith(".!?"):
+                    if any(text_buffer.contains(punc) for punc in ".!?"):
                         logger.info(f"Assistant: {text_buffer}")
                         text_buffer = ""
                     # TODO (arun): should be careful about any leftovers
