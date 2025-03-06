@@ -153,6 +153,7 @@ class PhonicAsyncWebsocketClient:
                 break
             except Exception as e:
                 if self._is_4004(e):
+                    await self._send_queue.put(message)  # put message back
                     self._handle_4004(e)
                     await asyncio.sleep(15)
                     await self._connect()
@@ -185,9 +186,10 @@ class PhonicAsyncWebsocketClient:
                 break
             except Exception as e:
                 if self._is_4004(e):
-                    self._handle_4004(e)
-                    await asyncio.sleep(15)
-                    await self._connect()
+                    while not self._is_running:
+                        # _connect is sender loop's responsibility
+                        # receiver loop can only wait for websocket to be up
+                        await asyncio.sleep(1)
                     continue
                 else:
                     logger.error(f"Error in receiver loop: {e}")
