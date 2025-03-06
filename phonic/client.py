@@ -93,6 +93,7 @@ class PhonicAsyncWebsocketClient:
         return None
 
     def _process_exception(self, exception: Exception) -> Exception | None:
+        logger.debug("_process_exception called")
         # note: websockets use backoff to determine retry delay;
         # retry delay is not customizable
         if self._is_4004(exception):
@@ -101,6 +102,7 @@ class PhonicAsyncWebsocketClient:
         return process_exception(exception)
 
     async def _connect(self) -> None:
+        logger.debug("_connect called")
         self._websocket = await websockets.connect(
             self.uri,
             additional_headers={"Authorization": f"Bearer {self.api_key}"},
@@ -153,9 +155,12 @@ class PhonicAsyncWebsocketClient:
                 break
             except Exception as e:
                 if self._is_4004(e):
+                    logger.debug("putting message back in send queue")
                     await self._send_queue.put(message)  # put message back
                     self._handle_4004(e)
+                    logger.debug("sender loop sleeps for 15")
                     await asyncio.sleep(15)
+                    logger.debug("sender loop attempting reconnect")
                     await self._connect()
                     continue
                 else:
@@ -186,10 +191,23 @@ class PhonicAsyncWebsocketClient:
                 break
             except Exception as e:
                 if self._is_4004(e):
+                    logger.debug(
+                        f"receiver loop hits 4004: {self._is_running=} before sleep"
+                    )
+                    await asyncio.sleep(15)
+                    logger.debug(
+                        f"receiver loop hits 4004: {self._is_running=} after sleep"
+                    )
                     while not self._is_running:
                         # _connect is sender loop's responsibility
                         # receiver loop can only wait for websocket to be up
+                        logger.debug(
+                            f"receiver loop waiting... {self._is_running=} before sleep"
+                        )
                         await asyncio.sleep(1)
+                        logger.debug(
+                            f"receiver loop waiting... {self._is_running=} after sleep"
+                        )
                     continue
                 else:
                     logger.error(f"Error in receiver loop: {e}")
