@@ -41,6 +41,7 @@ class TwilioInterface:
         self.main_loop = asyncio.get_event_loop()
         self.twilio_websocket: WebSocket | None = None
         self.twilio_stream_sid = None
+        self.playback_queue: queue.Queue = queue.Queue()
         self.output_msg_thread = threading.Thread(
             target=asyncio.run_coroutine_threadsafe,
             args=(self._start_output_stream(), self.main_loop),
@@ -51,7 +52,6 @@ class TwilioInterface:
             args=(self._start_audio_stream(), self.main_loop),
         )
         self.output_audio_thread.start()
-        self.playback_queue: queue.Queue = queue.Queue()
 
     async def input_callback(self, message: str):
         """Process incoming WebSocket messages"""
