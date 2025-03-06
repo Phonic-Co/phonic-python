@@ -73,6 +73,7 @@ class PhonicAsyncWebsocketClient:
         self._max_retries = max_retries
         self._send_queue: asyncio.Queue = asyncio.Queue()
         self._is_running = False
+        self._is_reconnecting = False
         self._tasks: list[asyncio.Task] = []
 
     def _is_4004(self, exception: Exception) -> bool:
@@ -93,7 +94,6 @@ class PhonicAsyncWebsocketClient:
         return None
 
     def _process_exception(self, exception: Exception) -> Exception | None:
-        logger.debug("_process_exception called")
         # note: websockets use backoff to determine retry delay;
         # retry delay is not customizable
         if self._is_4004(exception):
@@ -102,7 +102,6 @@ class PhonicAsyncWebsocketClient:
         return process_exception(exception)
 
     async def _connect(self) -> None:
-        logger.debug("_connect called")
         self._websocket = await websockets.connect(
             self.uri,
             additional_headers={"Authorization": f"Bearer {self.api_key}"},
@@ -149,23 +148,20 @@ class PhonicAsyncWebsocketClient:
                 message = await self._send_queue.get()
                 await self._websocket.send(json.dumps(message))
                 self._send_queue.task_done()
-                self._retry_number = 0
             except asyncio.CancelledError:
                 logger.info("Sender task cancelled")
                 break
             except Exception as e:
                 if self._is_4004(e):
-                    logger.debug("putting message back in send queue")
                     await self._send_queue.put(message)  # put message back
-                    self._handle_4004(e)
-                    logger.debug("sender loop sleeps for 15")
+                    self._is_reconnecting = True
                     await asyncio.sleep(15)
-                    logger.debug("sender loop attempting reconnect")
                     await self._connect()
                     if hasattr(self, "config_message"):
                         await self._websocket.send(
                             json.dumps(self.config_message)
                         )  # resend config message
+                    self._is_reconnecting = False
                     continue
                 else:
                     logger.error(f"Error in sender loop: {e}")
@@ -195,23 +191,14 @@ class PhonicAsyncWebsocketClient:
                 break
             except Exception as e:
                 if self._is_4004(e):
-                    logger.debug(
-                        f"receiver loop hits 4004: {self._is_running=} before sleep"
-                    )
+                    self._handle_4004(e)
                     await asyncio.sleep(15)
-                    logger.debug(
-                        f"receiver loop hits 4004: {self._is_running=} after sleep"
-                    )
-                    while not self._is_running:
+                    while self._is_reconnecting:
                         # _connect is sender loop's responsibility
                         # receiver loop can only wait for websocket to be up
-                        logger.debug(
-                            f"receiver loop waiting... {self._is_running=} before sleep"
-                        )
                         await asyncio.sleep(1)
-                        logger.debug(
-                            f"receiver loop waiting... {self._is_running=} after sleep"
-                        )
+                    if not self._is_reconnecting and not self._is_running:
+                        raise
                     continue
                 else:
                     logger.error(f"Error in receiver loop: {e}")
