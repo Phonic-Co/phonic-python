@@ -53,6 +53,9 @@ async def main():
                     text_buffer = ""
                 elif message_type == "input_text":
                     logger.info(f"You: {message['text']}")
+                elif message_type == "interrupted_response":
+                    audio_streamer.interrupt_playback()
+                    logger.info("Response interrupted")
 
     except KeyboardInterrupt:
         logger.info("Conversation stopped by user")

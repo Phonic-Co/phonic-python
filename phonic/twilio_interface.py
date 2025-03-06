@@ -2,6 +2,7 @@ import asyncio
 import base64
 import json
 import numpy as np
+import queue
 import threading
 from fastapi import WebSocket
 from loguru import logger
@@ -40,11 +41,17 @@ class TwilioInterface:
         self.main_loop = asyncio.get_event_loop()
         self.twilio_websocket: WebSocket | None = None
         self.twilio_stream_sid = None
-        self.output_thread = threading.Thread(
+        self.output_msg_thread = threading.Thread(
             target=asyncio.run_coroutine_threadsafe,
             args=(self._start_output_stream(), self.main_loop),
         )
-        self.output_thread.start()
+        self.output_msg_thread.start()
+        self.output_audio_thread = threading.Thread(
+            target=asyncio.run_coroutine_threadsafe,
+            args=(self._start_audio_stream(), self.main_loop),
+        )
+        self.output_audio_thread.start()
+        self.playback_queue: queue.Queue = queue.Queue()
 
     async def input_callback(self, message: str):
         """Process incoming WebSocket messages"""
@@ -86,7 +93,7 @@ class TwilioInterface:
 
     async def _start_output_stream(self):
         """
-        Receive messages from Phonic websocket, sends them to Twilio websocket
+        Receive messages from Phonic websocket, adds them to a playback queue
         """
         text_buffer = ""
         async for message in self.sts_stream:
@@ -104,11 +111,27 @@ class TwilioInterface:
                     "streamSid": self.twilio_stream_sid,
                     "media": {"payload": audio},
                 }
-                await self.twilio_websocket.send_json(twilio_message)
+                await self.playback_queue.put(twilio_message)
             elif message_type == "audio_finished":
                 logger.info(f"Assistant: {text_buffer}")
                 text_buffer = ""
             elif message_type == "input_text":
                 logger.info(f"You: {message['text']}")
+            elif message_type == "interrupted_response":
+                # TODO: also stop the chunk that it's playing as well?
+                with self.playback_queue.mutex:
+                    self.playback_queue.queue.clear()
+                logger.info("Response interrupted")
             else:
                 logger.info(f"Received unknown message: {message}")
+
+    async def _start_audio_stream(self):
+        """
+        Takes from the playback queue and sends them to Twilio websocket
+        """
+        while True:
+            try:
+                twilio_message = self.playback_queue.get(timeout=0.25)
+                await self.twilio_websocket.send_json(twilio_message)
+            except queue.Empty:
+                pass

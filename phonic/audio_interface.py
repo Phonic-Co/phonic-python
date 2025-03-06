@@ -47,6 +47,10 @@ class ContinuousAudioInterface(ABC):
     def add_audio_to_playback(self, audio_encoded: str):
         pass
 
+    @abstractmethod
+    def interrupt_playback(self):
+        pass
+
 
 class BaseContinuousAudioInterface(ContinuousAudioInterface):
     """
@@ -108,6 +112,11 @@ class BaseContinuousAudioInterface(ContinuousAudioInterface):
         audio_bytes = base64.b64decode(audio_encoded)
         audio_data = np.frombuffer(audio_bytes, dtype=self.output_dtype)
         self.playback_queue.put(audio_data)
+
+    def interrupt_playback(self):
+        # TODO: also stop the chunk that it's playing as well?
+        with self.playback_queue.mutex:
+            self.playback_queue.queue.clear()
 
 
 class PyaudioContinuousAudioInterface(BaseContinuousAudioInterface):
