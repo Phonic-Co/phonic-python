@@ -162,6 +162,10 @@ class PhonicAsyncWebsocketClient:
                     await asyncio.sleep(15)
                     logger.debug("sender loop attempting reconnect")
                     await self._connect()
+                    if hasattr(self, "config_message"):
+                        await self._websocket.send(
+                            json.dumps(self.config_message)
+                        )  # resend config message
                     continue
                 else:
                     logger.error(f"Error in sender loop: {e}")
@@ -291,7 +295,7 @@ class PhonicSTSClient(PhonicAsyncWebsocketClient):
         if not self._is_running:
             raise RuntimeError("WebSocket connection not established")
 
-        config_message = {
+        self.config_message = {
             "type": "config",
             "input_format": input_format,
             "output_format": output_format,
@@ -300,7 +304,7 @@ class PhonicSTSClient(PhonicAsyncWebsocketClient):
             "welcome_message": welcome_message,
             "voice_id": voice_id,
         }
-        await self._websocket.send(json.dumps(config_message))
+        await self._websocket.send(json.dumps(self.config_message))
 
         async for message in self.start_bidirectional_stream():
             yield message
