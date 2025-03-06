@@ -62,7 +62,7 @@ class BaseContinuousAudioInterface(ContinuousAudioInterface):
         self.client = client
         self.sample_rate = sample_rate
         self.channels = 1
-        self.input_dtype = np.float32
+        self.input_dtype = np.int16
         self.output_dtype = np.int16
 
         self.is_running = False
@@ -130,7 +130,7 @@ class PyaudioContinuousAudioInterface(BaseContinuousAudioInterface):
                 "for audio streaming to work."
             )
         self.p = pyaudio.PyAudio()
-        self.p_input_format = pyaudio.paFloat32
+        self.p_input_format = pyaudio.paInt16
         self.p_output_format = pyaudio.paInt16
         self.p_flag_continue = pyaudio.paContinue
         self.p_flag_abort = pyaudio.paAbort
