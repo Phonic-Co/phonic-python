@@ -88,12 +88,16 @@ class TwilioInterface:
         """
         Receive messages from Phonic websocket, sends them to Twilio websocket
         """
+        text_buffer = ""
         async for message in self.sts_stream:
             message_type = message.get("type")
             if message_type == "audio_chunk":
                 audio = message["audio"]
                 if text := message.get("text"):
-                    logger.info(f"Assistant: {text}")
+                    text_buffer += text
+                    if text_buffer.strip().endswith(".!?"):
+                        logger.info(f"Assistant: {text_buffer}")
+                        text_buffer = ""
 
                 twilio_message = {
                     "event": "media",

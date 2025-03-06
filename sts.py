@@ -36,12 +36,16 @@ async def main():
             print("Streaming all audio continuously to the server. Start talking!")
 
             # Process messages from STS
+            text_buffer = ""
             async for message in sts_stream:
                 message_type = message.get("type")
                 if message_type == "audio_chunk":
                     audio_streamer.add_audio_to_playback(message["audio"])
                     if text := message.get("text"):
-                        logger.info(f"Assistant: {text}")
+                        text_buffer += text
+                        if text_buffer.strip().endswith(".!?"):
+                            logger.info(f"Assistant: {text_buffer}")
+                            text_buffer = ""
                 elif message_type == "input_text":
                     logger.info(f"You: {message['text']}")
 
