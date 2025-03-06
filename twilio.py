@@ -40,7 +40,7 @@ def twilio_app():
     @fastapi_app.websocket("/sts")
     async def websocket_endpoint(websocket: WebSocket):
         """WebSocket endpoint for media streaming"""
-        STS_URI = "wss://api.phonic.co/v1/sts/ws"
+        STS_URI = "wss://api.test.phonic.co/v1/sts/ws"
         API_KEY = os.environ["PHONIC_API_KEY"]
 
         voices = get_voices(API_KEY)
