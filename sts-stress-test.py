@@ -8,7 +8,7 @@ from phonic.client import PhonicSTSClient, get_voices
 
 
 async def main():
-    STS_URI = "wss://api.phonic.co/v1/sts/ws"
+    STS_URI = "wss://api.test.phonic.co/v1/sts/ws"
     API_KEY = os.environ["PHONIC_API_KEY"]
     SAMPLE_RATE = 44100
 
