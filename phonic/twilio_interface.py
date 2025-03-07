@@ -100,28 +100,36 @@ class TwilioInterface(ContinuousAudioInterface):
         text_buffer = ""
         async for message in self.sts_stream:
             message_type = message.get("type")
-            if message_type == "audio_chunk":
-                audio = message["audio"]
-                if text := message.get("text"):
-                    text_buffer += text
-                    if any(punc in text_buffer for punc in ".!?"):
+            match message_type:
+                case "audio_chunk":
+                    audio = message["audio"]
+                    if text := message.get("text"):
+                        text_buffer += text
+                        if any(punc in text_buffer for punc in ".!?"):
+                            logger.info(f"Assistant: {text_buffer}")
+                            text_buffer = ""
+
+                    twilio_message = {
+                        "event": "media",
+                        "streamSid": self.twilio_stream_sid,
+                        "media": {"payload": audio},
+                    }
+                    await self.twilio_websocket.send_json(twilio_message)
+                case "audio_finished":
+                    if len(text_buffer) > 0:
                         logger.info(f"Assistant: {text_buffer}")
                         text_buffer = ""
-
-                twilio_message = {
-                    "event": "media",
-                    "streamSid": self.twilio_stream_sid,
-                    "media": {"payload": audio},
-                }
-                await self.twilio_websocket.send_json(twilio_message)
-            elif message_type == "audio_finished":
-                if len(text_buffer) > 0:
-                    logger.info(f"Assistant: {text_buffer}")
-                    text_buffer = ""
-            elif message_type == "input_text":
-                logger.info(f"You: {message['text']}")
-            else:
-                logger.info(f"Received unknown message: {message}")
+                case "input_text":
+                    logger.info(f"You: {message['text']}")
+                case "interrupted_response":
+                    twilio_message = {
+                        "event": "clear",
+                        "streamSid": self.twilio_stream_sid,
+                    }
+                    await self.twilio_websocket.send_json(twilio_message)
+                    logger.info("Response interrupted")
+                case _:
+                    logger.info(f"Received unknown message: {message}")
 
     async def start(self):
         self.output_thread = threading.Thread(
