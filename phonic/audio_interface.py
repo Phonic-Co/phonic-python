@@ -115,7 +115,6 @@ class BaseContinuousAudioInterface(ContinuousAudioInterface):
         self.playback_queue.put(audio_data)
 
     def interrupt_playback(self):
-        # TODO: also stop the chunk that it's playing as well?
         with self.playback_queue.mutex:
             self.playback_queue.queue.clear()
 
@@ -193,7 +192,9 @@ class PyaudioContinuousAudioInterface(BaseContinuousAudioInterface):
             try:
                 audio_data = self.playback_queue.get(timeout=0.25)
                 self.output_stream.write(audio_data.tobytes())
-                time.sleep(len(audio_data) / self.sample_rate)
+                time.sleep(
+                    len(audio_data) / self.sample_rate
+                )  # only write in real-time and not in advance
             except queue.Empty:
                 pass
 

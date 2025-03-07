@@ -41,11 +41,11 @@ class TwilioInterface:
         self.main_loop = asyncio.get_event_loop()
         self.twilio_websocket: WebSocket | None = None
         self.twilio_stream_sid = None
-        self.output_msg_thread = threading.Thread(
+        self.output_thread = threading.Thread(
             target=asyncio.run_coroutine_threadsafe,
             args=(self._start_output_stream(), self.main_loop),
         )
-        self.output_msg_thread.start()
+        self.output_thread.start()
 
     async def input_callback(self, message: str):
         """Process incoming WebSocket messages"""
@@ -87,18 +87,14 @@ class TwilioInterface:
 
     async def _start_output_stream(self):
         """
-        Receive messages from Phonic websocket, adds them to a playback queue
+        Receive messages from Phonic websocket, sends them to Twilio websocket
         """
-        text_buffer = ""
         async for message in self.sts_stream:
             message_type = message.get("type")
             if message_type == "audio_chunk":
                 audio = message["audio"]
                 if text := message.get("text"):
-                    text_buffer += text
-                    if any(punc in text_buffer for punc in ".!?"):
-                        logger.info(f"Assistant: {text_buffer}")
-                        text_buffer = ""
+                    logger.info(f"Assistant: {text}")
 
                 twilio_message = {
                     "event": "media",
@@ -106,9 +102,6 @@ class TwilioInterface:
                     "media": {"payload": audio},
                 }
                 await self.twilio_websocket.send_json(twilio_message)
-            elif message_type == "audio_finished":
-                logger.info(f"Assistant: {text_buffer}")
-                text_buffer = ""
             elif message_type == "input_text":
                 logger.info(f"You: {message['text']}")
             elif message_type == "interrupted_response":
