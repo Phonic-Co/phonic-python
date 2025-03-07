@@ -1,5 +1,6 @@
 import asyncio
 import os
+import sys
 
 from phonic.audio_interface import PyaudioContinuousAudioInterface
 from phonic.client import PhonicSTSClient, get_voices
