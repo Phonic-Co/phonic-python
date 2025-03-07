@@ -64,11 +64,12 @@ def twilio_app():
                     ),
                     output_voice=voice_selected,
                 )
+                await twilio_interface.start()
                 twilio_interface.twilio_websocket = websocket
 
                 while True:
                     message = await websocket.receive_text()
-                    await twilio_interface.input_callback(message)
+                    await twilio_interface._twilio_input_callback(message)
         except Exception as e:
             logger.info(f"WebSocket error: {e}")
             logger.info(traceback.format_exc())
