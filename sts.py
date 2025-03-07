@@ -1,6 +1,5 @@
 import asyncio
 import os
-from sys.stdout import write, flush
 
 from phonic.audio_interface import PyaudioContinuousAudioInterface
 from phonic.client import PhonicSTSClient, get_voices
@@ -44,11 +43,11 @@ async def main():
                     audio_streamer.add_audio_to_playback(message["audio"])
                     if text := message.get("text"):
                         if add_assistant_speaker:
-                            write(f"Assistant: ")
-                        write(f"{text}")
+                            sys.stdout.write(f"Assistant: ")
+                        sys.stdout.write(f"{text}")
                         add_assistant_speaker = False
                 elif message_type == "audio_finished":
-                    flush()
+                    sys.stdout.flush()
                     add_assistant_speaker = True
                 elif message_type == "input_text":
                     print(f"You: {message['text']}")
