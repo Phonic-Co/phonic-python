@@ -41,9 +41,9 @@ def twilio_app():
     async def websocket_endpoint(websocket: WebSocket):
         """WebSocket endpoint for media streaming"""
         STS_URI = "wss://api.test.phonic.co/v1/sts/ws"
-        API_KEY = os.environ["PHONIC_API_KEY"]
+        API_KEY = os.environ["TEST_PHONIC_API_KEY"]
 
-        voices = get_voices(API_KEY)
+        voices = get_voices(API_KEY, "https://api.test.phonic.co/v1/voices")
         voice_ids = [voice["id"] for voice in voices]
         logger.info(f"Available voices: {voice_ids}")
         voice_selected = "katherine"
