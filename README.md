@@ -21,7 +21,7 @@ import os
 
 from loguru import logger
 
-from phonic.audio_interface import ContinuousAudioInterface
+from phonic.audio_interface import PyaudioContinuousAudioInterface
 from phonic.client import PhonicSTSClient, get_voices
 
 
@@ -37,7 +37,9 @@ async def main():
 
     try:
         async with PhonicSTSClient(STS_URI, API_KEY) as client:
-            audio_streamer = ContinuousAudioInterface(client, sample_rate=SAMPLE_RATE)
+            audio_streamer = PyaudioContinuousAudioInterface(
+                client, sample_rate=SAMPLE_RATE
+            )
 
             sts_stream = client.sts(
                 input_format="pcm_44100",

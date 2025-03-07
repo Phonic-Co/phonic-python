@@ -6,10 +6,11 @@ import threading
 from fastapi import WebSocket
 from loguru import logger
 
+from phonic.audio_interface import ContinuousAudioInterface
 from phonic.client import PhonicSTSClient
 
 
-class TwilioInterface:
+class TwilioInterface(ContinuousAudioInterface):
     """Links between Phonic and Twilio"""
 
     def __init__(
@@ -31,6 +32,7 @@ class TwilioInterface:
         logger.info(f"Starting STS conversation with {output_voice}...")
 
         # Input / Output constants and buffer
+        # Twilio always uses mulaw, 8000 Hz 8-bit PCM
         self.sample_rate = 8000
         self.input_dtype = np.uint8
         self.input_buffer: list[np.ndarray] = []
@@ -40,13 +42,12 @@ class TwilioInterface:
         self.main_loop = asyncio.get_event_loop()
         self.twilio_websocket: WebSocket | None = None
         self.twilio_stream_sid = None
-        self.output_thread = threading.Thread(
-            target=asyncio.run_coroutine_threadsafe,
-            args=(self._start_output_stream(), self.main_loop),
-        )
-        self.output_thread.start()
 
-    async def input_callback(self, message: str):
+    def _input_callback(self, indata, frames, time, status):
+        # unused, use _twilio_input_callback instead
+        return
+
+    async def _twilio_input_callback(self, message: str):
         """Process incoming WebSocket messages"""
         try:
             data = json.loads(message)
@@ -84,6 +85,14 @@ class TwilioInterface:
                 self.client.send_audio(concat_audio_np), self.main_loop
             )
 
+    def _start_input_stream(self):
+        # unused, handled by Twilio
+        return
+
+    def _output_callback(self, indata, frames, time, status):
+        # unused, see _start_output_stream
+        return
+
     async def _start_output_stream(self):
         """
         Receive messages from Phonic websocket, sends them to Twilio websocket
@@ -113,3 +122,18 @@ class TwilioInterface:
                 logger.info(f"You: {message['text']}")
             else:
                 logger.info(f"Received unknown message: {message}")
+
+    async def start(self):
+        self.output_thread = threading.Thread(
+            target=asyncio.run_coroutine_threadsafe,
+            args=(self._start_output_stream(), self.main_loop),
+        )
+        self.output_thread.start()
+
+    async def stop(self):
+        # unused, hanging up stops
+        return
+
+    async def add_audio_to_playback(self, audio_encoded):
+        # unused, sends audio through Twilio websocket
+        return
