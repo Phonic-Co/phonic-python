@@ -106,8 +106,9 @@ class TwilioInterface:
                 }
                 await self.twilio_websocket.send_json(twilio_message)
             elif message_type == "audio_finished":
-                logger.info(f"Assistant: {text_buffer}")
-                text_buffer = ""
+                if len(text_buffer) > 0:
+                    logger.info(f"Assistant: {text_buffer}")
+                    text_buffer = ""
             elif message_type == "input_text":
                 logger.info(f"You: {message['text']}")
             else:
