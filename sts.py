@@ -1,7 +1,6 @@
 import asyncio
 import os
-
-from loguru import logger
+from sys.stdout import write, flush
 
 from phonic.audio_interface import PyaudioContinuousAudioInterface
 from phonic.client import PhonicSTSClient, get_voices
@@ -14,7 +13,7 @@ async def main():
 
     voices = get_voices(API_KEY)
     voice_ids = [voice["id"] for voice in voices]
-    logger.info(f"Available voices: {voice_ids}")
+    print(f"Available voices: {voice_ids}")
     voice_selected = "katherine"
 
     try:
@@ -33,34 +32,33 @@ async def main():
 
             await audio_streamer.start()
 
-            logger.info(f"Starting STS conversation with voice {voice_selected}...")
+            print(f"Starting STS conversation with voice {voice_selected}...")
             print("Starting conversation... (Ctrl+C to exit)")
             print("Streaming all audio continuously to the server. Start talking!")
 
             # Process messages from STS
-            text_buffer = ""
+            add_assistant_speaker = True
             async for message in sts_stream:
                 message_type = message.get("type")
                 if message_type == "audio_chunk":
                     audio_streamer.add_audio_to_playback(message["audio"])
                     if text := message.get("text"):
-                        text_buffer += text
-                        if any(punc in text_buffer for punc in ".!?"):
-                            logger.info(f"Assistant: {text_buffer}")
-                            text_buffer = ""
+                        if add_assistant_speaker:
+                            write(f"Assistant: ")
+                        write(f"{text}")
+                        add_assistant_speaker = False
                 elif message_type == "audio_finished":
-                    if len(text_buffer) > 0:
-                        logger.info(f"Assistant: {text_buffer}")
-                        text_buffer = ""
+                    flush()
+                    add_assistant_speaker = True
                 elif message_type == "input_text":
-                    logger.info(f"You: {message['text']}")
+                    print(f"You: {message['text']}")
 
     except KeyboardInterrupt:
-        logger.info("Conversation stopped by user")
+        print("Conversation stopped by user")
         if "audio_streamer" in locals():
             audio_streamer.stop()
     except Exception as e:
-        logger.error(f"Error in conversation: {e}")
+        print(f"Error in conversation: {e}")
         if "audio_streamer" in locals():
             audio_streamer.stop()
         raise e
