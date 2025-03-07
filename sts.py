@@ -48,6 +48,7 @@ async def main():
                         sys.stdout.write(f"{text}")
                         add_assistant_speaker = False
                 elif message_type == "audio_finished":
+                    sys.stdout.write("\n")
                     sys.stdout.flush()
                     add_assistant_speaker = True
                 elif message_type == "input_text":
