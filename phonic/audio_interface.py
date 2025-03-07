@@ -2,7 +2,6 @@ from abc import ABC, abstractmethod
 import asyncio
 import base64
 import queue
-import time
 import threading
 
 import numpy as np
@@ -192,9 +191,6 @@ class PyaudioContinuousAudioInterface(BaseContinuousAudioInterface):
             try:
                 audio_data = self.playback_queue.get(timeout=0.25)
                 self.output_stream.write(audio_data.tobytes())
-                time.sleep(
-                    len(audio_data) / self.sample_rate
-                )  # only write in real-time and not in advance
             except queue.Empty:
                 pass
 
