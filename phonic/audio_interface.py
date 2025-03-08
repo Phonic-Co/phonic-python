@@ -47,6 +47,10 @@ class ContinuousAudioInterface(ABC):
     def add_audio_to_playback(self, audio_encoded: str):
         pass
 
+    @abstractmethod
+    def interrupt_playback(self):
+        pass
+
 
 class BaseContinuousAudioInterface(ContinuousAudioInterface):
     """
@@ -62,7 +66,8 @@ class BaseContinuousAudioInterface(ContinuousAudioInterface):
         self.client = client
         self.sample_rate = sample_rate
         self.channels = 1
-        self.dtype = np.int16
+        self.input_dtype = np.int16
+        self.output_dtype = np.int16
 
         self.is_running = False
         self.playback_queue: queue.Queue = queue.Queue()
@@ -75,7 +80,7 @@ class BaseContinuousAudioInterface(ContinuousAudioInterface):
 
     def _start_output_stream(self):
         # Create a persistent buffer to hold leftover audio between callbacks
-        self.overflow_buffer = np.array([], dtype=self.dtype)
+        self.overflow_buffer = np.array([], dtype=self.output_dtype)
 
     async def start(self):
         """Start continuous audio streaming"""
@@ -105,8 +110,12 @@ class BaseContinuousAudioInterface(ContinuousAudioInterface):
     def add_audio_to_playback(self, audio_encoded: str):
         """Add audio data to the playback queue"""
         audio_bytes = base64.b64decode(audio_encoded)
-        audio_data = np.frombuffer(audio_bytes, dtype=np.int16)
+        audio_data = np.frombuffer(audio_bytes, dtype=self.output_dtype)
         self.playback_queue.put(audio_data)
+
+    def interrupt_playback(self):
+        with self.playback_queue.mutex:
+            self.playback_queue.queue.clear()
 
 
 class PyaudioContinuousAudioInterface(BaseContinuousAudioInterface):
@@ -129,7 +138,8 @@ class PyaudioContinuousAudioInterface(BaseContinuousAudioInterface):
                 "for audio streaming to work."
             )
         self.p = pyaudio.PyAudio()
-        self.p_format = pyaudio.paInt16
+        self.p_input_format = pyaudio.paInt16
+        self.p_output_format = pyaudio.paInt16
         self.p_flag_continue = pyaudio.paContinue
         self.p_flag_abort = pyaudio.paAbort
 
@@ -140,7 +150,7 @@ class PyaudioContinuousAudioInterface(BaseContinuousAudioInterface):
         if not self.is_running:
             return (None, self.p_flag_abort)
 
-        audio_data = np.frombuffer(indata, dtype=np.int16)
+        audio_data = np.frombuffer(indata, dtype=self.input_dtype)
         asyncio.run_coroutine_threadsafe(
             self.client.send_audio(audio_data), self.main_loop
         )
@@ -150,7 +160,7 @@ class PyaudioContinuousAudioInterface(BaseContinuousAudioInterface):
         """Start audio input stream in a separate thread"""
 
         self.input_stream = self.p.open(
-            format=self.p_format,
+            format=self.p_input_format,
             channels=self.channels,
             rate=self.sample_rate,
             input=True,
@@ -169,7 +179,7 @@ class PyaudioContinuousAudioInterface(BaseContinuousAudioInterface):
         super()._start_output_stream()
 
         self.output_stream = self.p.open(
-            format=self.p_format,
+            format=self.p_output_format,
             channels=self.channels,
             rate=self.sample_rate,
             output=True,
@@ -231,7 +241,7 @@ class SounddeviceContinuousAudioInterface(BaseContinuousAudioInterface):
             samplerate=self.sample_rate,
             channels=self.channels,
             callback=self._input_callback,
-            dtype=self.dtype,
+            dtype=self.input_dtype,
         )
         self.input_stream.start()
 
@@ -308,7 +318,7 @@ class SounddeviceContinuousAudioInterface(BaseContinuousAudioInterface):
             samplerate=self.sample_rate,
             channels=self.channels,
             callback=self._output_callback,
-            dtype=self.dtype,
+            dtype=self.output_dtype,
         )
         self.output_stream.start()
 

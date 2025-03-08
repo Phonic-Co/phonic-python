@@ -38,14 +38,26 @@ async def main():
             print("Streaming all audio continuously to the server. Start talking!")
 
             # Process messages from STS
+            text_buffer = ""
             async for message in sts_stream:
                 message_type = message.get("type")
-                if message_type == "audio_chunk":
-                    audio_streamer.add_audio_to_playback(message["audio"])
-                    if text := message.get("text"):
-                        logger.info(f"Assistant: {text}")
-                elif message_type == "input_text":
-                    logger.info(f"You: {message['text']}")
+                match message_type:
+                    case "audio_chunk":
+                        audio_streamer.add_audio_to_playback(message["audio"])
+                        if text := message.get("text"):
+                            text_buffer += text
+                            if any(punc in text_buffer for punc in ".!?"):
+                                logger.info(f"Assistant: {text_buffer}")
+                                text_buffer = ""
+                    case "audio_finished":
+                        if len(text_buffer) > 0:
+                            logger.info(f"Assistant: {text_buffer}")
+                            text_buffer = ""
+                    case "input_text":
+                        logger.info(f"You: {message['text']}")
+                    case "interrupted_response":
+                        audio_streamer.interrupt_playback()
+                        logger.info("Response interrupted")
 
     except KeyboardInterrupt:
         logger.info("Conversation stopped by user")

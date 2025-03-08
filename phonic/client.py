@@ -260,7 +260,10 @@ class PhonicSTSClient(PhonicAsyncWebsocketClient):
         if not self._is_running:
             raise RuntimeError("WebSocket connection not established")
 
-        buffer = audio.astype(np.float32).tobytes()
+        if self.input_format == "pcm_44100":
+            buffer = audio.astype(np.int16).tobytes()
+        else:
+            buffer = audio.astype(np.uint8).tobytes()
         audio_base64 = base64.b64encode(buffer).decode("utf-8")
 
         message = {
@@ -294,6 +297,8 @@ class PhonicSTSClient(PhonicAsyncWebsocketClient):
 
         if not self._is_running:
             raise RuntimeError("WebSocket connection not established")
+
+        self.input_format = input_format
 
         self.config_message = {
             "type": "config",
