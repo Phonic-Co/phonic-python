@@ -122,11 +122,7 @@ class TwilioInterface(ContinuousAudioInterface):
                 case "input_text":
                     logger.info(f"You: {message['text']}")
                 case "interrupted_response":
-                    twilio_message = {
-                        "event": "clear",
-                        "streamSid": self.twilio_stream_sid,
-                    }
-                    await self.twilio_websocket.send_json(twilio_message)
+                    self.interrupt_playback()
                     logger.info("Response interrupted")
                 case _:
                     logger.info(f"Received unknown message: {message}")
@@ -145,3 +141,10 @@ class TwilioInterface(ContinuousAudioInterface):
     async def add_audio_to_playback(self, audio_encoded):
         # unused, sends audio through Twilio websocket
         return
+
+    async def interrupt_playback(self):
+        twilio_message = {
+            "event": "clear",
+            "streamSid": self.twilio_stream_sid,
+        }
+        await self.twilio_websocket.send_json(twilio_message)
