@@ -198,12 +198,12 @@ class PhonicSTSClient(PhonicAsyncWebsocketClient):
 
         await self._send_queue.put(message)
 
-    async def change_system_prompt(self, system_prompt: str) -> None:
+    async def update_system_prompt(self, system_prompt: str) -> None:
         if not self._is_running:
             raise RuntimeError("WebSocket connection not established")
 
         message = {
-            "type": "change_system_prompt",
+            "type": "update_system_prompt",
             "system_prompt": system_prompt,
         }
 
