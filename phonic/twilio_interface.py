@@ -122,7 +122,7 @@ class TwilioInterface(ContinuousAudioInterface):
                 case "input_text":
                     logger.info(f"You: {message['text']}")
                 case "interrupted_response":
-                    self.interrupt_playback()
+                    await self.interrupt_playback()
                     logger.info("Response interrupted")
                 case _:
                     logger.info(f"Received unknown message: {message}")
