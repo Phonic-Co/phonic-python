@@ -251,6 +251,137 @@ class PhonicSTSClient(PhonicAsyncWebsocketClient):
             yield message
 
 
+class PhonicHTTPClient:
+    """Base HTTP client for Phonic API requests."""
+
+    def __init__(
+        self,
+        base_url: str = "https://api.phonic.co/v1",
+        api_key: str = None,
+        additional_headers: dict | None = None,
+    ):
+        self.base_url = base_url
+        self.api_key = api_key
+        self.additional_headers = additional_headers or {}
+
+    def get(self, path: str, params: dict | None = None) -> dict:
+        """Make a GET request to the Phonic API."""
+        headers = {"Authorization": f"Bearer {self.api_key}", **self.additional_headers}
+
+        response = requests.get(
+            f"{self.base_url}{path}",
+            headers=headers,
+            params=params,
+        )
+
+        if response.status_code == 200:
+            return response.json()
+        else:
+            logger.error(f"Error: {response.status_code}")
+            logger.error(response.text)
+            raise ValueError(
+                f"Error in GET request: {response.status_code} {response.text}"
+            )
+
+    def post(self, path: str, data: dict) -> dict:
+        """Make a POST request to the Phonic API."""
+        headers = {"Authorization": f"Bearer {self.api_key}", **self.additional_headers}
+
+        response = requests.post(
+            f"{self.base_url}{path}",
+            headers=headers,
+            json=data,
+        )
+
+        if response.status_code in (200, 201):
+            return response.json()
+        else:
+            logger.error(f"Error: {response.status_code}")
+            logger.error(response.text)
+            raise ValueError(
+                f"Error in POST request: {response.status_code} {response.text}"
+            )
+
+
+class Conversations(PhonicHTTPClient):
+    """Client for interacting with Phonic conversation endpoints."""
+
+    def __init__(
+        self,
+        base_url: str = "https://api.phonic.co/v1",
+        api_key: str = None,
+        additional_headers: dict | None = None,
+    ):
+        super().__init__(base_url, api_key, additional_headers)
+
+    def get_conversation(self, id: str) -> dict:
+        """Get a conversation by ID."""
+        return self.get(f"/conversations/{id}")
+
+    def get_by_external_id(self, external_id: str) -> dict:
+        """Get a conversation by external ID."""
+        params = {"external_id": external_id}
+        return self.get("/conversations", params)
+
+    def list(
+        self,
+        duration_min: int | None = None,
+        duration_max: int | None = None,
+        started_at_min: str | None = None,
+        started_at_max: str | None = None,
+    ) -> dict:
+        """
+        List conversations with optional filters.
+
+        Args:
+            duration_min: Minimum duration in seconds
+            duration_max: Maximum duration in seconds
+            started_at_min: Minimum start time (ISO format: YYYY-MM-DD or YYYY-MM-DDThh:mm:ss.sssZ)
+            started_at_max: Maximum start time (ISO format: YYYY-MM-DD or YYYY-MM-DDThh:mm:ss.sssZ)
+        """
+        params = {}
+        if duration_min is not None:
+            params["duration_min"] = duration_min
+        if duration_max is not None:
+            params["duration_max"] = duration_max
+        if started_at_min is not None:
+            params["started_at_min"] = started_at_min
+        if started_at_max is not None:
+            params["started_at_max"] = started_at_max
+
+        return self.get("/conversations", params)
+
+    def execute_evaluation(self, conversation_id: str, prompt_id: str) -> dict:
+        """Execute an evaluation on a conversation."""
+        return self.post(
+            f"/conversations/{conversation_id}/evals", {"prompt_id": prompt_id}
+        )
+
+    def list_evaluation_prompts(self, project_id: str) -> dict:
+        """List evaluation prompts for a project."""
+        return self.get(f"/projects/{project_id}/conversation_eval_prompts")
+
+    def create_evaluation_prompt(self, project_id: str, name: str, prompt: str) -> dict:
+        """Create a new evaluation prompt."""
+        return self.post(
+            f"/projects/{project_id}/conversation_eval_prompts",
+            {"name": name, "prompt": prompt},
+        )
+
+    def summarize_conversation(self, conversation_id: str) -> dict:
+        """Summarize a conversation."""
+        return self.post(f"/conversations/{conversation_id}/summarize")
+
+    def extract_data(
+        self, conversation_id: str, instructions: str, fields: dict
+    ) -> dict:
+        """Extract structured data from a conversation."""
+        return self.post(
+            f"/conversations/{conversation_id}/extract",
+            {"instructions": instructions, "fields": fields},
+        )
+
+
 # Utilities
 
 
