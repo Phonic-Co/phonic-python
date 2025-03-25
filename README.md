@@ -13,7 +13,7 @@ Please set it to the environment variable `PHONIC_API_KEY`.
 pip install phonic-python
 ```
 
-## Usage
+## Speech-to-Speech Usage
 
 ```python
 import asyncio
@@ -81,4 +81,40 @@ if __name__ == "__main__":
     print("Audio streaming will begin automatically when connected.")
     print("Press Ctrl+C to exit")
     asyncio.run(main())
+```
+
+### Managing Conversations
+
+```python
+from phonic.client import Conversations
+
+conversations = Conversations(api_key=API_KEY)
+
+conversation = conversations.get_conversation("conv_12cf6e88-c254-4d3e-a149-ddf1bdd2254c")
+print(conversation)
+
+# List conversations
+results = conversations.list(
+    duration_min=10,
+    started_at_min="2023-01-01"
+)
+
+# Run an evaluation on a conversation
+evaluation = conversations.execute_evaluation(
+    conversation_id="conv_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
+    prompt_id="conv_eval_prompt_d7cfe45d-35db-4ef6-a254-81ab1da76ce0"
+)
+
+# Generate a summary of the conversation
+summary = conversations.summarize_conversation("conv_12cf6e88-c254-4d3e-a149-ddf1bdd2254c")
+
+# Extract structured data from a conversation
+data = conversations.extract_data(
+    "conv_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
+    instructions="Extract booking details from this conversation",
+    fields={
+        "customer_name": {"type": "string", "description": "Customer's full name"},
+        "appointment_date": {"type": "string", "description": "Requested appointment date"}
+    }
+)
 ```
