@@ -256,9 +256,9 @@ class PhonicHTTPClient:
 
     def __init__(
         self,
-        base_url: str = "https://api.phonic.co/v1",
-        api_key: str = None,
+        api_key: str,
         additional_headers: dict | None = None,
+        base_url: str = "https://api.phonic.co/v1",
     ):
         self.base_url = base_url
         self.api_key = api_key
@@ -308,11 +308,11 @@ class Conversations(PhonicHTTPClient):
 
     def __init__(
         self,
+        api_key: str,
         base_url: str = "https://api.phonic.co/v1",
-        api_key: str = None,
         additional_headers: dict | None = None,
     ):
-        super().__init__(base_url, api_key, additional_headers)
+        super().__init__(api_key, additional_headers, base_url)
 
     def get_conversation(self, id: str) -> dict:
         """Get a conversation by ID."""
@@ -375,7 +375,21 @@ class Conversations(PhonicHTTPClient):
     def extract_data(
         self, conversation_id: str, instructions: str, fields: dict
     ) -> dict:
-        """Extract structured data from a conversation."""
+        """Extract structured data from a conversation.
+
+        Args:
+            conversation_id: ID of the conversation to extract data from
+            instructions: Instructions for the extraction process
+            fields: Dictionary of fields to extract, where each field should have:
+                - type: One of "string", "int", "float", "bool", "string[]", "int[]", "float[]", "bool[]"
+                - description: Optional description of the field
+
+        Example fields format:
+            {
+                "customer_name": {"type": "string", "description": "Full name of the customer"},
+                "order_items": {"type": "string[]", "description": "List of items ordered"}
+            }
+        """
         return self.post(
             f"/conversations/{conversation_id}/extract",
             {"instructions": instructions, "fields": fields},
