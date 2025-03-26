@@ -254,18 +254,29 @@ class PhonicSTSClient(PhonicAsyncWebsocketClient):
 # Utilities
 
 
+def phonic_get(api_key: str, url: str, params: dict | None = None) -> requests.Response:
+    return requests.get(
+        url, headers={"Authorization": f"Bearer {api_key}"}, params=params
+    )
+
+
+def phonic_post(
+    api_key: str, url: str, params: dict | None = None, data: dict | None = None
+) -> requests.Response:
+    return requests.post(
+        url, headers={"Authorization": f"Bearer {api_key}"}, params=params, json=data
+    )
+
+
 def get_voices(
     api_key: str,
-    url: str = "https://api.phonic.co/v1/voices",
     model: str = "tahoe",
 ) -> list[dict[str, str]]:
     """
     Returns a list of available voices from the Phonic API.
     """
-    headers = {"Authorization": f"Bearer {api_key}"}
-    params = {"model": model}
-
-    response = requests.get(url, headers=headers, params=params)
+    url = "https://api.phonic.co/v1/voices"
+    response = phonic_get(api_key, url, params={"model": model})
 
     if response.status_code == 200:
         data = response.json()
@@ -274,5 +285,5 @@ def get_voices(
         logger.error(f"Error: {response.status_code}")
         logger.error(response.text)
         raise ValueError(
-            f"Error in get_voice: {response.status_code} " f"{response.text}"
+            f"Error in get_voices: {response.status_code} " f"{response.text}"
         )
