@@ -254,6 +254,7 @@ class PhonicSTSClient(PhonicAsyncWebsocketClient):
 # Utilities
 
 
+# Is there a way to hide these functions from the phonic-python users? I don't really want people to use these directly
 def phonic_get(api_key: str, url: str, params: dict | None = None) -> requests.Response:
     return requests.get(
         url, headers={"Authorization": f"Bearer {api_key}"}, params=params
