@@ -88,33 +88,62 @@ if __name__ == "__main__":
 ```python
 from phonic.client import Conversations
 
+conversation_id = "conv_12cf6e88-c254-4d3e-a149-ddf1bdd2254c"
 conversations = Conversations(api_key=API_KEY)
 
-conversation = conversations.get_conversation("conv_12cf6e88-c254-4d3e-a149-ddf1bdd2254c")
-print(conversation)
+# Get conversation
+result = conversations.get_conversation(conversation_id)
+
+# Get conversation by external ID
+result = conversations.get_by_external_id(external_id)
 
 # List conversations
 results = conversations.list(
-    duration_min=10,
-    started_at_min="2023-01-01"
+    started_at_min="2025-01-01",
+    started_at_max="2025-03-01",
+    duration_min=0,
+    duration_max=120
 )
 
-# Run an evaluation on a conversation
+# List evaluation prompts for a project
+prompts = conversations.list_evaluation_prompts(project_id)
+
+# Create a new evaluation prompt
+new_prompt = conversations.create_evaluation_prompt(
+    project_id=project_id,
+    name="customer_issue_resolved",
+    prompt="Did the agent resolve the customer's issue?"
+)
+
+# Execute an evaluation on a conversation
 evaluation = conversations.execute_evaluation(
-    conversation_id="conv_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
-    prompt_id="conv_eval_prompt_d7cfe45d-35db-4ef6-a254-81ab1da76ce0"
+    conversation_id=conversation_id,
+    prompt_id=prompt_id
 )
 
 # Generate a summary of the conversation
-summary = conversations.summarize_conversation("conv_12cf6e88-c254-4d3e-a149-ddf1bdd2254c")
+summary = conversations.summarize_conversation(conversation_id)
 
-# Extract structured data from a conversation
-data = conversations.extract_data(
-    "conv_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
-    instructions="Extract booking details from this conversation",
-    fields={
+# List extraction schemas for a project
+schemas = conversations.list_extraction_schemas(project_id)
+
+# Create a new extraction schema
+new_schema = conversations.create_extraction_schema(
+    project_id=project_id,
+    name="booking_details",
+    prompt="Extract booking details from this conversation",
+    schema={
         "customer_name": {"type": "string", "description": "Customer's full name"},
         "appointment_date": {"type": "string", "description": "Requested appointment date"}
     }
 )
+
+# Create an extraction using a schema
+extraction = conversations.create_extraction(
+    conversation_id=conversation_id,
+    schema_id=new_schema["id"]
+)
+
+# List all extractions for a conversation
+extractions = conversations.list_extractions(conversation_id)
 ```
