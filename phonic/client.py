@@ -251,6 +251,257 @@ class PhonicSTSClient(PhonicAsyncWebsocketClient):
             yield message
 
 
+class PhonicHTTPClient:
+    """Base HTTP client for Phonic API requests."""
+
+    def __init__(
+        self,
+        api_key: str,
+        additional_headers: dict | None = None,
+        base_url: str = "https://api.phonic.co/v1",
+    ):
+        self.base_url = base_url
+        self.api_key = api_key
+        self.additional_headers = additional_headers or {}
+
+    def get(self, path: str, params: dict | None = None) -> dict:
+        """Make a GET request to the Phonic API."""
+        headers = {"Authorization": f"Bearer {self.api_key}", **self.additional_headers}
+
+        response = requests.get(
+            f"{self.base_url}{path}",
+            headers=headers,
+            params=params,
+        )
+
+        if response.status_code == 200:
+            return response.json()
+        else:
+            logger.error(f"Error: {response.status_code}")
+            logger.error(response.text)
+            raise ValueError(
+                f"Error in GET request: {response.status_code} {response.text}"
+            )
+
+    def post(self, path: str, data: dict) -> dict:
+        """Make a POST request to the Phonic API."""
+        headers = {"Authorization": f"Bearer {self.api_key}", **self.additional_headers}
+
+        response = requests.post(
+            f"{self.base_url}{path}",
+            headers=headers,
+            json=data,
+        )
+
+        if response.status_code in (200, 201):
+            return response.json()
+        else:
+            logger.error(f"Error: {response.status_code}")
+            logger.error(response.text)
+            raise ValueError(
+                f"Error in POST request: {response.status_code} {response.text}"
+            )
+
+
+class Conversations(PhonicHTTPClient):
+    """Client for interacting with Phonic conversation endpoints."""
+
+    def __init__(
+        self,
+        api_key: str,
+        base_url: str = "https://api.phonic.co/v1",
+        additional_headers: dict | None = None,
+    ):
+        super().__init__(api_key, additional_headers, base_url)
+
+    def get_conversation(self, id: str) -> dict:
+        """Get a conversation by ID.
+
+        Args:
+            id: ID of the conversation to retrieve
+
+        Returns:
+            Dictionary containing the conversation details
+        """
+        return self.get(f"/conversations/{id}")
+
+    def get_by_external_id(self, external_id: str) -> dict:
+        """Get a conversation by external ID.
+
+        Args:
+            external_id: External ID of the conversation to retrieve
+
+        Returns:
+            Dictionary containing the conversation details
+        """
+        params = {"external_id": external_id}
+        return self.get("/conversations", params)
+
+    def list(
+        self,
+        duration_min: int | None = None,
+        duration_max: int | None = None,
+        started_at_min: str | None = None,
+        started_at_max: str | None = None,
+    ) -> dict:
+        """
+        List conversations with optional filters.
+
+        Args:
+            duration_min: Minimum duration in seconds
+            duration_max: Maximum duration in seconds
+            started_at_min: Minimum start time (ISO format: YYYY-MM-DD or YYYY-MM-DDThh:mm:ss.sssZ)
+            started_at_max: Maximum start time (ISO format: YYYY-MM-DD or YYYY-MM-DDThh:mm:ss.sssZ)
+        """
+        params = {}
+        if duration_min is not None:
+            params["duration_min"] = duration_min
+        if duration_max is not None:
+            params["duration_max"] = duration_max
+        if started_at_min is not None:
+            params["started_at_min"] = started_at_min
+        if started_at_max is not None:
+            params["started_at_max"] = started_at_max
+
+        return self.get("/conversations", params)
+
+    def execute_evaluation(self, conversation_id: str, prompt_id: str) -> dict:
+        """Execute an evaluation on a conversation.
+
+        Args:
+            conversation_id: ID of the conversation to evaluate
+            prompt_id: ID of the evaluation prompt to use
+
+        Returns:
+            Dictionary containing the evaluation result with a "result" key
+            that's one of "successful", "unsuccessful", or "undecided"
+        """
+        return self.post(
+            f"/conversations/{conversation_id}/evals", {"prompt_id": prompt_id}
+        )
+
+    def list_evaluation_prompts(self, project_id: str) -> dict:
+        """List evaluation prompts for a project.
+
+        Args:
+            project_id: ID of the project
+
+        Returns:
+            Dictionary containing a list of evaluation prompts under the
+            "conversation_eval_prompts" key
+        """
+        return self.get(f"/projects/{project_id}/conversation_eval_prompts")
+
+    def create_evaluation_prompt(self, project_id: str, name: str, prompt: str) -> dict:
+        """Create a new evaluation prompt."""
+        return self.post(
+            f"/projects/{project_id}/conversation_eval_prompts",
+            {"name": name, "prompt": prompt},
+        )
+
+    def summarize_conversation(self, conversation_id: str) -> dict:
+        """Generate a summary of a conversation.
+
+        Args:
+            conversation_id: ID of the conversation to summarize
+
+        Returns:
+            Dictionary containing the summary text under the "summary" key
+        """
+        return self.post(f"/conversations/{conversation_id}/summarize")
+
+    def extract_data(
+        self, conversation_id: str, instructions: str, fields: dict
+    ) -> dict:
+        """Extract structured data from a conversation.
+
+        Args:
+            conversation_id: ID of the conversation to extract data from
+            instructions: Instructions for the extraction process
+            fields: Dictionary of fields to extract, where each field should have:
+                - type: One of "string", "int", "float", "bool", "string[]", "int[]", "float[]", "bool[]"
+                - description: Optional description of the field
+
+        Example fields format:
+            {
+                "customer_name": {"type": "string", "description": "Full name of the customer"},
+                "order_items": {"type": "string[]", "description": "List of items ordered"}
+            }
+        """
+        return self.post(
+            f"/conversations/{conversation_id}/extract",
+            {"instructions": instructions, "fields": fields},
+        )
+
+    def create_extraction(self, conversation_id: str, schema_id: str) -> dict:
+        """Create a new extraction for a conversation using a schema.
+
+        Args:
+            conversation_id: ID of the conversation to extract data from
+            schema_id: ID of the extraction schema to use
+
+        Returns:
+            Dictionary containing the extraction result or error
+        """
+        return self.post(
+            f"/conversations/{conversation_id}/extractions",
+            {"schema_id": schema_id},
+        )
+
+    def list_extractions(self, conversation_id: str) -> dict:
+        """List all extractions for a conversation.
+
+        Args:
+            conversation_id: ID of the conversation
+
+        Returns:
+            Dictionary containing the list of extractions under the "extractions" key,
+            where each extraction includes id, conversation_id, schema information,
+            result, error, and created_at timestamp
+        """
+        return self.get(f"/conversations/{conversation_id}/extractions")
+
+    def list_extraction_schemas(self, project_id: str) -> dict:
+        """List all extraction schemas for a project.
+
+        Args:
+            project_id: ID of the project
+
+        Returns:
+            Dictionary containing the list of extraction schemas under the
+            "conversation_extraction_schemas" key, where each schema includes
+            id, name, prompt, schema definition, and created_at timestamp
+        """
+        return self.get(f"/projects/{project_id}/conversation_extraction_schemas")
+
+    def create_extraction_schema(
+        self, project_id: str, name: str, prompt: str, schema: dict
+    ) -> dict:
+        """Create a new extraction schema.
+
+        Args:
+            project_id: ID of the project
+            name: Name of the schema
+            prompt: Prompt for the extraction
+            schema: Schema definition object with field names as keys and field definitions as values.
+                    Each field definition should be a dictionary with a "type" key (one of: "string",
+                    "int", "float", "bool", "string[]", "int[]", "float[]", "bool[]") and an optional
+                    "description" key providing details about the field. For example:
+                    {
+                        "customer_name": {"type": "string", "description": "Full name of the customer"},
+                        "age": {"type": "int", "description": "Customer's age"},
+                        "purchase_items": {"type": "string[]", "description": "List of items purchased"}
+                    }
+
+        Returns:
+            Dictionary containing the ID of the created schema
+        """
+        return self.post(
+            f"/projects/{project_id}/conversation_extraction_schemas",
+            {"name": name, "prompt": prompt, "schema": schema},
+        )
+
+
 # Utilities
 
 

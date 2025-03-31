@@ -13,7 +13,7 @@ Please set it to the environment variable `PHONIC_API_KEY`.
 pip install phonic-python
 ```
 
-## Usage
+## Speech-to-Speech Usage
 
 ```python
 import asyncio
@@ -81,4 +81,69 @@ if __name__ == "__main__":
     print("Audio streaming will begin automatically when connected.")
     print("Press Ctrl+C to exit")
     asyncio.run(main())
+```
+
+### Managing Conversations
+
+```python
+from phonic.client import Conversations
+
+conversation_id = "conv_12cf6e88-c254-4d3e-a149-ddf1bdd2254c"
+conversations = Conversations(api_key=API_KEY)
+
+# Get conversation
+result = conversations.get_conversation(conversation_id)
+
+# Get conversation by external ID
+result = conversations.get_by_external_id(external_id)
+
+# List conversations
+results = conversations.list(
+    started_at_min="2025-01-01",
+    started_at_max="2025-03-01",
+    duration_min=0,
+    duration_max=120
+)
+
+# List evaluation prompts for a project
+prompts = conversations.list_evaluation_prompts(project_id)
+
+# Create a new evaluation prompt
+new_prompt = conversations.create_evaluation_prompt(
+    project_id=project_id,
+    name="customer_issue_resolved",
+    prompt="Did the agent resolve the customer's issue?"
+)
+
+# Execute an evaluation on a conversation
+evaluation = conversations.execute_evaluation(
+    conversation_id=conversation_id,
+    prompt_id=prompt_id
+)
+
+# Generate a summary of the conversation
+summary = conversations.summarize_conversation(conversation_id)
+
+# List extraction schemas for a project
+schemas = conversations.list_extraction_schemas(project_id)
+
+# Create a new extraction schema
+new_schema = conversations.create_extraction_schema(
+    project_id=project_id,
+    name="booking_details",
+    prompt="Extract booking details from this conversation",
+    schema={
+        "customer_name": {"type": "string", "description": "Customer's full name"},
+        "appointment_date": {"type": "string", "description": "Requested appointment date"}
+    }
+)
+
+# Create an extraction using a schema
+extraction = conversations.create_extraction(
+    conversation_id=conversation_id,
+    schema_id=new_schema["id"]
+)
+
+# List all extractions for a conversation
+extractions = conversations.list_extractions(conversation_id)
 ```
