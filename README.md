@@ -42,6 +42,7 @@ async def main():
             )
 
             sts_stream = client.sts(
+                project_id="<YOUR_PROJECT_ID>",
                 input_format="pcm_44100",
                 output_format="pcm_44100",
                 system_prompt="You are a helpful voice assistant. Respond conversationally.",
