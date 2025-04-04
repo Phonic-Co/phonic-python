@@ -211,6 +211,7 @@ class PhonicSTSClient(PhonicAsyncWebsocketClient):
 
     async def sts(
         self,
+        project_id: str,
         input_format: Literal["pcm_44100", "mulaw_8000"] = "pcm_44100",
         output_format: Literal["pcm_44100", "mulaw_8000"] = "pcm_44100",
         system_prompt: (
@@ -222,6 +223,7 @@ class PhonicSTSClient(PhonicAsyncWebsocketClient):
     ) -> AsyncIterator[dict[str, Any]]:
         """
         Args:
+            project_id: project id
             input_format: input audio format
             output_format: output audio format
             system_prompt: system prompt for assistant
@@ -238,6 +240,7 @@ class PhonicSTSClient(PhonicAsyncWebsocketClient):
 
         config_message = {
             "type": "config",
+            "project_id": project_id,
             "input_format": input_format,
             "output_format": output_format,
             "system_prompt": system_prompt,
