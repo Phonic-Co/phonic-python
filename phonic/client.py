@@ -211,7 +211,7 @@ class PhonicSTSClient(PhonicAsyncWebsocketClient):
 
     async def sts(
         self,
-        project: str | None = None,
+        project: str = "main",
         input_format: Literal["pcm_44100", "mulaw_8000"] = "pcm_44100",
         output_format: Literal["pcm_44100", "mulaw_8000"] = "pcm_44100",
         system_prompt: (
@@ -342,7 +342,7 @@ class Conversations(PhonicHTTPClient):
 
     def list(
         self,
-        project: str | None = None,
+        project: str = "main",
         duration_min: int | None = None,
         duration_max: int | None = None,
         started_at_min: str | None = None,
