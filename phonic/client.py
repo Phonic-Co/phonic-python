@@ -211,7 +211,7 @@ class PhonicSTSClient(PhonicAsyncWebsocketClient):
 
     async def sts(
         self,
-        project_id: str,
+        project: str | None = None,
         input_format: Literal["pcm_44100", "mulaw_8000"] = "pcm_44100",
         output_format: Literal["pcm_44100", "mulaw_8000"] = "pcm_44100",
         system_prompt: (
@@ -223,13 +223,13 @@ class PhonicSTSClient(PhonicAsyncWebsocketClient):
     ) -> AsyncIterator[dict[str, Any]]:
         """
         Args:
-            project_id: project id
-            input_format: input audio format
-            output_format: output audio format
-            system_prompt: system prompt for assistant
-            output_audio_speed: output audio speed
-            welcome_message: welcome message for assistant
-            voice_id: voice id
+            project: project name (optional, defaults to "main")
+            input_format: input audio format (defaults to "pcm_44100")
+            output_format: output audio format (defaults to "pcm_44100")
+            system_prompt: system prompt for assistant (defaults to "You are a helpful assistant. Respond in 2-3 sentences.")
+            output_audio_speed: output audio speed (defaults to 1.0)
+            welcome_message: welcome message for assistant (defaults to "")
+            voice_id: voice id (defaults to "meredith")
         """
         assert self._websocket is not None
 
@@ -240,7 +240,7 @@ class PhonicSTSClient(PhonicAsyncWebsocketClient):
 
         config_message = {
             "type": "config",
-            "project_id": project_id,
+            "project": project,
             "input_format": input_format,
             "output_format": output_format,
             "system_prompt": system_prompt,
@@ -342,6 +342,7 @@ class Conversations(PhonicHTTPClient):
 
     def list(
         self,
+        project: str | None = None,
         duration_min: int | None = None,
         duration_max: int | None = None,
         started_at_min: str | None = None,
@@ -351,10 +352,11 @@ class Conversations(PhonicHTTPClient):
         List conversations with optional filters.
 
         Args:
-            duration_min: Minimum duration in seconds
-            duration_max: Maximum duration in seconds
-            started_at_min: Minimum start time (ISO format: YYYY-MM-DD or YYYY-MM-DDThh:mm:ss.sssZ)
-            started_at_max: Maximum start time (ISO format: YYYY-MM-DD or YYYY-MM-DDThh:mm:ss.sssZ)
+            project: Project name (optional, defaults to "main")
+            duration_min: Minimum duration in seconds (optional)
+            duration_max: Maximum duration in seconds (optional)
+            started_at_min: Minimum start time (ISO format: YYYY-MM-DD or YYYY-MM-DDThh:mm:ss.sssZ) (optional)
+            started_at_max: Maximum start time (ISO format: YYYY-MM-DD or YYYY-MM-DDThh:mm:ss.sssZ) (optional)
         """
         params = {}
         if duration_min is not None:
@@ -365,6 +367,8 @@ class Conversations(PhonicHTTPClient):
             params["started_at_min"] = started_at_min
         if started_at_max is not None:
             params["started_at_max"] = started_at_max
+        if project is not None:
+            params["project"] = project
 
         return self.get("/conversations", params)
 
