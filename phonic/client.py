@@ -5,10 +5,13 @@ from typing import Any, AsyncIterator, Generator
 
 import numpy as np
 import requests
-import websockets
 from loguru import logger
 from typing_extensions import Literal
 from websockets.sync.client import ClientConnection, connect
+from websockets.asyncio.client import (
+    ClientConnection as AsyncClientConnection,
+    connect as async_connect,
+)
 
 
 class PhonicSyncWebsocketClient:
@@ -66,13 +69,13 @@ class PhonicAsyncWebsocketClient:
     def __init__(self, uri: str, api_key: str) -> None:
         self.uri = uri
         self.api_key = api_key
-        self._websocket: websockets.WebSocketClientProtocol | None = None
+        self._websocket: AsyncClientConnection | None = None
         self._send_queue: asyncio.Queue = asyncio.Queue()
         self._is_running = False
         self._tasks: list[asyncio.Task] = []
 
     async def __aenter__(self) -> "PhonicAsyncWebsocketClient":
-        self._websocket = await websockets.connect(
+        self._websocket = await async_connect(
             self.uri,
             additional_headers={"Authorization": f"Bearer {self.api_key}"},
             max_size=5 * 1024 * 1024,
@@ -130,9 +133,9 @@ class PhonicAsyncWebsocketClient:
                     break
 
                 message = json.loads(raw_message)
-                type = message.get("type")
+                message_type = message.get("type")
 
-                if type == "error":
+                if message_type == "error":
                     raise RuntimeError(message)
                 else:
                     yield message
@@ -163,24 +166,28 @@ class PhonicTTSClient(PhonicSyncWebsocketClient):
 
         for message in self._websocket:
             json_message = json.loads(message)
-            type = json_message.get("type")
+            message_type = json_message.get("type")
 
-            if type == "config":
+            if message_type == "config":
                 pass
-            elif type == "audio_chunk":
+            elif message_type == "audio_chunk":
                 audio_base64 = json_message["audio"]
                 buffer = base64.b64decode(audio_base64)
                 audio = np.frombuffer(buffer, dtype=np.int16)
                 yield audio
-            elif type == "flush_confirm":
+            elif message_type == "flush_confirm":
                 return
-            elif type == "stop_confirm":
+            elif message_type == "stop_confirm":
                 return
             else:
-                raise ValueError(f"Unknown message type: {type}")
+                raise ValueError(f"Unknown message type: {message_type}")
 
 
 class PhonicSTSClient(PhonicAsyncWebsocketClient):
+    def __init__(self, uri: str, api_key: str) -> None:
+        super().__init__(uri, api_key)
+        self.input_format = None
+
     async def send_audio(self, audio: np.ndarray) -> None:
         if not self._is_running:
             raise RuntimeError("WebSocket connection not established")
@@ -275,6 +282,7 @@ class PhonicHTTPClient:
             f"{self.base_url}{path}",
             headers=headers,
             params=params,
+            timeout=30,
         )
 
         if response.status_code == 200:
@@ -286,14 +294,14 @@ class PhonicHTTPClient:
                 f"Error in GET request: {response.status_code} {response.text}"
             )
 
-    def post(self, path: str, data: dict) -> dict:
+    def post(self, path: str, data: dict | None = None) -> dict:
         """Make a POST request to the Phonic API."""
         headers = {"Authorization": f"Bearer {self.api_key}", **self.additional_headers}
 
+        data = data or {}
+
         response = requests.post(
-            f"{self.base_url}{path}",
-            headers=headers,
-            json=data,
+            f"{self.base_url}{path}", headers=headers, json=data, timeout=30
         )
 
         if response.status_code in (200, 201):
@@ -317,16 +325,16 @@ class Conversations(PhonicHTTPClient):
     ):
         super().__init__(api_key, additional_headers, base_url)
 
-    def get_conversation(self, id: str) -> dict:
+    def get_conversation(self, conversation_id: str) -> dict:
         """Get a conversation by ID.
 
         Args:
-            id: ID of the conversation to retrieve
+            conversation_id: ID of the conversation to retrieve
 
         Returns:
             Dictionary containing the conversation details
         """
-        return self.get(f"/conversations/{id}")
+        return self.get(f"/conversations/{conversation_id}")
 
     def get_by_external_id(self, external_id: str) -> dict:
         """Get a conversation by external ID.
@@ -523,7 +531,7 @@ def get_voices(
     headers = {"Authorization": f"Bearer {api_key}"}
     params = {"model": model}
 
-    response = requests.get(url, headers=headers, params=params)
+    response = requests.get(url, headers=headers, params=params, timeout=30)
 
     if response.status_code == 200:
         data = response.json()
