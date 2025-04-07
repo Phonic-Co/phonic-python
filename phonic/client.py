@@ -9,6 +9,10 @@ import websockets
 from loguru import logger
 from typing_extensions import Literal
 from websockets.sync.client import ClientConnection, connect
+from websockets.asyncio.client import process_exception
+from websockets.exceptions import ConnectionClosedError
+
+INSUFFICIENT_CAPACITY_AVAILABLE_ERROR_CODE = 4004
 
 
 class PhonicSyncWebsocketClient:
@@ -63,21 +67,65 @@ class PhonicSyncWebsocketClient:
 
 
 class PhonicAsyncWebsocketClient:
-    def __init__(self, uri: str, api_key: str) -> None:
+    def __init__(
+        self,
+        uri: str,
+        api_key: str,
+        retry_delay: float = 15.0,
+        max_retries: int = 14,
+    ) -> None:
         self.uri = uri
         self.api_key = api_key
         self._websocket: websockets.WebSocketClientProtocol | None = None
+        self._retry_number = 0
+        self._retry_delay = retry_delay
+        self._retry_check = 1  # websocket checking interval for receiver loop
+        self._max_retries = max_retries
         self._send_queue: asyncio.Queue = asyncio.Queue()
         self._is_running = False
+        self._is_reconnecting = False
         self._tasks: list[asyncio.Task] = []
 
-    async def __aenter__(self) -> "PhonicAsyncWebsocketClient":
+    def _is_4004(self, exception: Exception) -> bool:
+        if (
+            isinstance(exception, ConnectionClosedError)
+            and exception.code == INSUFFICIENT_CAPACITY_AVAILABLE_ERROR_CODE
+        ):
+            return True
+        else:
+            return False
+
+    def _handle_4004(self, exception: Exception) -> Exception | None:
+        assert isinstance(exception, ConnectionClosedError)
+        if self._retry_number >= self._max_retries:
+            return exception
+        self._retry_number += 1
+        logger.info(
+            f"{exception.code} {exception.reason}, will retry "
+            f"({self._retry_number}/{self._max_retries})"
+        )
+        return None
+
+    def _process_exception(self, exception: Exception) -> Exception | None:
+        # note: websockets use backoff to determine retry delay;
+        # retry delay is not customizable
+        if self._is_4004(exception):
+            self._handle_4004(exception)
+            return None
+        return process_exception(exception)
+
+    async def _connect(self) -> None:
         self._websocket = await websockets.connect(
             self.uri,
             additional_headers={"Authorization": f"Bearer {self.api_key}"},
             max_size=5 * 1024 * 1024,
+            open_timeout=20,  # 4004 takes up to 15 seconds
+            process_exception=self._process_exception,
         )
         self._is_running = True
+
+    async def __aenter__(self) -> "PhonicAsyncWebsocketClient":
+        await self._connect()
         return self
 
     async def __aexit__(self, exc_type, exc_value, traceback) -> None:  # type: ignore[no-untyped-def]
@@ -108,40 +156,67 @@ class PhonicAsyncWebsocketClient:
         """Task that continuously sends queued messages"""
         assert self._websocket is not None
 
-        try:
-            while self._is_running:
+        while self._is_running:
+            try:
                 message = await self._send_queue.get()
                 await self._websocket.send(json.dumps(message))
                 self._send_queue.task_done()
-        except asyncio.CancelledError:
-            logger.info("Sender task cancelled")
-        except Exception as e:
-            logger.error(f"Error in sender loop: {e}")
-            self._is_running = False
-            raise
+            except asyncio.CancelledError:
+                logger.info("Sender task cancelled")
+                break
+            except Exception as e:
+                if self._is_4004(e):
+                    await self._send_queue.put(message)  # put message back
+                    self._is_reconnecting = True
+                    await asyncio.sleep(self._retry_delay)
+                    await self._connect()
+                    if hasattr(self, "config_message"):
+                        await self._websocket.send(
+                            json.dumps(self.config_message)
+                        )  # resend config message
+                    self._is_reconnecting = False
+                    continue
+                else:
+                    logger.error(f"Error in sender loop: {e}")
+                    self._is_running = False
+                    raise
 
     async def _receiver_loop(self) -> AsyncIterator[dict[str, Any]]:
         """Generator that continuously receives and yields messages"""
         assert self._websocket is not None
 
-        try:
-            async for raw_message in self._websocket:
-                if not self._is_running:
-                    break
+        while self._is_running:
+            try:
+                async for raw_message in self._websocket:
+                    if not self._is_running:
+                        break
 
-                message = json.loads(raw_message)
-                type = message.get("type")
+                    message = json.loads(raw_message)
+                    type = message.get("type")
 
-                if type == "error":
-                    raise RuntimeError(message)
+                    if type == "error":
+                        raise RuntimeError(message)
+                    else:
+                        yield message
+                    self._retry_number = 0
+            except asyncio.CancelledError:
+                logger.info("Receiver task cancelled")
+                break
+            except Exception as e:
+                if self._is_4004(e):
+                    self._handle_4004(e)
+                    await asyncio.sleep(self._retry_delay)
+                    while self._is_reconnecting:
+                        # _connect is sender loop's responsibility
+                        # receiver loop can only wait for websocket to be up
+                        await asyncio.sleep(self._retry_check)
+                    if not self._is_reconnecting and not self._is_running:
+                        raise
+                    continue
                 else:
-                    yield message
-        except asyncio.CancelledError:
-            logger.info("Receiver task cancelled")
-        except Exception as e:
-            logger.error(f"Error in receiver loop: {e}")
-            self._is_running = False
-            raise
+                    logger.error(f"Error in receiver loop: {e}")
+                    self._is_running = False
+                    raise
 
 
 class PhonicTTSClient(PhonicSyncWebsocketClient):
@@ -238,7 +313,7 @@ class PhonicSTSClient(PhonicAsyncWebsocketClient):
 
         self.input_format = input_format
 
-        config_message = {
+        self.config_message = {
             "type": "config",
             "project": project,
             "input_format": input_format,
@@ -248,7 +323,7 @@ class PhonicSTSClient(PhonicAsyncWebsocketClient):
             "welcome_message": welcome_message,
             "voice_id": voice_id,
         }
-        await self._websocket.send(json.dumps(config_message))
+        await self._websocket.send(json.dumps(self.config_message))
 
         async for message in self.start_bidirectional_stream():
             yield message
