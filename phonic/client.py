@@ -355,9 +355,12 @@ class Conversations(PhonicHTTPClient):
         duration_max: int | None = None,
         started_at_min: str | None = None,
         started_at_max: str | None = None,
+        before: str | None = None,
+        after: str | None = None,
+        limit: int = 100,
     ) -> dict:
         """
-        List conversations with optional filters.
+        List conversations with optional filters and pagination.
 
         Args:
             project: Project name (optional, defaults to "main")
@@ -365,6 +368,14 @@ class Conversations(PhonicHTTPClient):
             duration_max: Maximum duration in seconds (optional)
             started_at_min: Minimum start time (ISO format: YYYY-MM-DD or YYYY-MM-DDThh:mm:ss.sssZ) (optional)
             started_at_max: Maximum start time (ISO format: YYYY-MM-DD or YYYY-MM-DDThh:mm:ss.sssZ) (optional)
+            before: Cursor for backward pagination - get items before this conversation ID (optional)
+            after: Cursor for forward pagination - get items after this conversation ID (optional)
+            limit: Maximum number of items to return (optional, defaults to 100)
+
+        Returns:
+            Dictionary containing the paginated conversations under the "conversations" key
+            and pagination information under the "pagination" key with "previousPageCursor"
+            and "nextPageCursor" values.
         """
         params = {}
         if duration_min is not None:
@@ -377,8 +388,78 @@ class Conversations(PhonicHTTPClient):
             params["started_at_max"] = started_at_max
         if project is not None:
             params["project"] = project
+        if before is not None:
+            params["before"] = before
+        if after is not None:
+            params["after"] = after
+        if limit is not None:
+            params["limit"] = limit
 
         return self.get("/conversations", params)
+
+    def scroll(
+        self,
+        max_items: int | None = None,
+        project: str = "main",
+        duration_min: int | None = None,
+        duration_max: int | None = None,
+        started_at_min: str | None = None,
+        started_at_max: str | None = None,
+        batch_size: int = 100,
+    ) -> Generator[dict, None, None]:
+        """
+        Iterate through all conversations with automatic pagination.
+
+        Args:
+            max_items: Maximum total number of conversations to return (optional, no limit if None)
+            project: Project name (optional, defaults to "main")
+            duration_min: Minimum duration in seconds (optional)
+            duration_max: Maximum duration in seconds (optional)
+            started_at_min: Minimum start time (ISO format: YYYY-MM-DD or YYYY-MM-DDThh:mm:ss.sssZ) (optional)
+            started_at_max: Maximum start time (ISO format: YYYY-MM-DD or YYYY-MM-DDThh:mm:ss.sssZ) (optional)
+            batch_size: Number of items to fetch per API request (optional, defaults to 100)
+
+        Yields:
+            Each conversation object individually
+        """
+        items_returned = 0
+        next_cursor = None
+
+        while True:
+            current_page_limit = batch_size
+            if max_items is not None:
+                remaining = max_items - items_returned
+                if remaining <= 0:
+                    return
+                current_page_limit = min(batch_size, remaining)
+
+            response = self.list(
+                project=project,
+                duration_min=duration_min,
+                duration_max=duration_max,
+                started_at_min=started_at_min,
+                started_at_max=started_at_max,
+                after=next_cursor,
+                limit=current_page_limit,
+            )
+
+            conversations = response.get("conversations", [])
+
+            if not conversations:
+                break
+
+            for conversation in conversations:
+                yield conversation
+                items_returned += 1
+
+                if max_items is not None and items_returned >= max_items:
+                    return
+
+            pagination = response.get("pagination", {})
+            next_cursor = pagination.get("nextPageCursor")
+
+            if not next_cursor:
+                break
 
     def execute_evaluation(self, conversation_id: str, prompt_id: str) -> dict:
         """Execute an evaluation on a conversation.
