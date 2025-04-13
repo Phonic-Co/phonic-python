@@ -13,6 +13,8 @@ from websockets.asyncio.client import (
     connect as async_connect,
 )
 
+DEFAULT_HTTP_TIMEOUT = 30
+
 
 class PhonicSyncWebsocketClient:
     def __init__(
@@ -282,7 +284,7 @@ class PhonicHTTPClient:
             f"{self.base_url}{path}",
             headers=headers,
             params=params,
-            timeout=30,
+            timeout=DEFAULT_HTTP_TIMEOUT,
         )
 
         if response.status_code == 200:
@@ -301,7 +303,10 @@ class PhonicHTTPClient:
         data = data or {}
 
         response = requests.post(
-            f"{self.base_url}{path}", headers=headers, json=data, timeout=30
+            f"{self.base_url}{path}",
+            headers=headers,
+            json=data,
+            timeout=DEFAULT_HTTP_TIMEOUT,
         )
 
         if response.status_code in (200, 201):
@@ -612,7 +617,9 @@ def get_voices(
     headers = {"Authorization": f"Bearer {api_key}"}
     params = {"model": model}
 
-    response = requests.get(url, headers=headers, params=params, timeout=30)
+    response = requests.get(
+        url, headers=headers, params=params, timeout=DEFAULT_HTTP_TIMEOUT
+    )
 
     if response.status_code == 200:
         data = response.json()
