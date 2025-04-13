@@ -98,13 +98,46 @@ result = conversations.get_conversation(conversation_id)
 # Get conversation by external ID
 result = conversations.get_by_external_id(external_id)
 
-# List conversations
+# List conversations with pagination
 results = conversations.list(
     started_at_min="2025-01-01",
     started_at_max="2025-03-01",
     duration_min=0,
-    duration_max=120
+    duration_max=120,
+    limit=50  # Get up to 50 conversations per request
 )
+
+# Pagination - get the next page
+next_cursor = results["pagination"]["nextPageCursor"]
+if next_cursor:
+    next_page = conversations.list(
+        started_at_min="2025-01-01",
+        started_at_max="2025-03-01",
+        after=next_cursor,
+        limit=50
+    )
+
+# Pagination - get the previous page
+prev_cursor = results["pagination"]["previousPageCursor"]
+if prev_cursor:
+    prev_page = conversations.list(
+        started_at_min="2025-01-01",
+        started_at_max="2025-03-01",
+        before=prev_cursor,
+        limit=50
+    )
+
+# Scroll through all conversations automatically
+# This handles pagination for you
+for conversation in conversations.scroll(
+    max_items=250,  # Total conversations to retrieve
+    started_at_min="2025-01-01",
+    started_at_max="2025-03-01",
+    duration_min=0,
+    duration_max=120,
+):
+    print(conversation["id"])
+    # Process each conversation
 
 # List evaluation prompts for a project
 prompts = conversations.list_evaluation_prompts(project_id)
