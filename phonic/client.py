@@ -374,8 +374,8 @@ class Conversations(PhonicHTTPClient):
 
         Returns:
             Dictionary containing the paginated conversations under the "conversations" key
-            and pagination information under the "pagination" key with "previousPageCursor"
-            and "nextPageCursor" values.
+            and pagination information under the "pagination" key with "prev_cursor"
+            and "next_cursor" values.
         """
         params = {}
         if duration_min is not None:
@@ -405,7 +405,7 @@ class Conversations(PhonicHTTPClient):
         duration_max: int | None = None,
         started_at_min: str | None = None,
         started_at_max: str | None = None,
-        batch_size: int = 100,
+        batch_size: int = 20,
     ) -> Generator[dict, None, None]:
         """
         Iterate through all conversations with automatic pagination.
@@ -417,7 +417,7 @@ class Conversations(PhonicHTTPClient):
             duration_max: Maximum duration in seconds (optional)
             started_at_min: Minimum start time (ISO format: YYYY-MM-DD or YYYY-MM-DDThh:mm:ss.sssZ) (optional)
             started_at_max: Maximum start time (ISO format: YYYY-MM-DD or YYYY-MM-DDThh:mm:ss.sssZ) (optional)
-            batch_size: Number of items to fetch per API request (optional, defaults to 100)
+            batch_size: Number of items to fetch per API request (optional, defaults to 20)
 
         Yields:
             Each conversation object individually
@@ -456,7 +456,7 @@ class Conversations(PhonicHTTPClient):
                     return
 
             pagination = response.get("pagination", {})
-            next_cursor = pagination.get("nextPageCursor")
+            next_cursor = pagination.get("next_cursor")
 
             if not next_cursor:
                 break
