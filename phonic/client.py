@@ -209,6 +209,16 @@ class PhonicSTSClient(PhonicAsyncWebsocketClient):
 
         await self._send_queue.put(message)
 
+    async def set_external_id(self, external_id: str) -> None:
+        if not self._is_running:
+            raise RuntimeError("WebSocket connection not established")
+
+        message = {
+            "type": "set_external_id",
+            "external_id": external_id,
+        }
+        await self._send_queue.put(message)
+
     async def sts(
         self,
         project: str = "main",
