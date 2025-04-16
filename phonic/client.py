@@ -5,10 +5,15 @@ from typing import Any, AsyncIterator, Generator
 
 import numpy as np
 import requests
-import websockets
 from loguru import logger
 from typing_extensions import Literal
 from websockets.sync.client import ClientConnection, connect
+from websockets.asyncio.client import (
+    ClientConnection as AsyncClientConnection,
+    connect as async_connect,
+)
+
+DEFAULT_HTTP_TIMEOUT = 30
 
 
 class PhonicSyncWebsocketClient:
@@ -66,13 +71,13 @@ class PhonicAsyncWebsocketClient:
     def __init__(self, uri: str, api_key: str) -> None:
         self.uri = uri
         self.api_key = api_key
-        self._websocket: websockets.WebSocketClientProtocol | None = None
+        self._websocket: AsyncClientConnection | None = None
         self._send_queue: asyncio.Queue = asyncio.Queue()
         self._is_running = False
         self._tasks: list[asyncio.Task] = []
 
     async def __aenter__(self) -> "PhonicAsyncWebsocketClient":
-        self._websocket = await websockets.connect(
+        self._websocket = await async_connect(
             self.uri,
             additional_headers={"Authorization": f"Bearer {self.api_key}"},
             max_size=5 * 1024 * 1024,
@@ -130,9 +135,9 @@ class PhonicAsyncWebsocketClient:
                     break
 
                 message = json.loads(raw_message)
-                type = message.get("type")
+                message_type = message.get("type")
 
-                if type == "error":
+                if message_type == "error":
                     raise RuntimeError(message)
                 else:
                     yield message
@@ -163,24 +168,28 @@ class PhonicTTSClient(PhonicSyncWebsocketClient):
 
         for message in self._websocket:
             json_message = json.loads(message)
-            type = json_message.get("type")
+            message_type = json_message.get("type")
 
-            if type == "config":
+            if message_type == "config":
                 pass
-            elif type == "audio_chunk":
+            elif message_type == "audio_chunk":
                 audio_base64 = json_message["audio"]
                 buffer = base64.b64decode(audio_base64)
                 audio = np.frombuffer(buffer, dtype=np.int16)
                 yield audio
-            elif type == "flush_confirm":
+            elif message_type == "flush_confirm":
                 return
-            elif type == "stop_confirm":
+            elif message_type == "stop_confirm":
                 return
             else:
-                raise ValueError(f"Unknown message type: {type}")
+                raise ValueError(f"Unknown message type: {message_type}")
 
 
 class PhonicSTSClient(PhonicAsyncWebsocketClient):
+    def __init__(self, uri: str, api_key: str) -> None:
+        super().__init__(uri, api_key)
+        self.input_format = None
+
     async def send_audio(self, audio: np.ndarray) -> None:
         if not self._is_running:
             raise RuntimeError("WebSocket connection not established")
@@ -285,6 +294,7 @@ class PhonicHTTPClient:
             f"{self.base_url}{path}",
             headers=headers,
             params=params,
+            timeout=DEFAULT_HTTP_TIMEOUT,
         )
 
         if response.status_code == 200:
@@ -296,14 +306,17 @@ class PhonicHTTPClient:
                 f"Error in GET request: {response.status_code} {response.text}"
             )
 
-    def post(self, path: str, data: dict) -> dict:
+    def post(self, path: str, data: dict | None = None) -> dict:
         """Make a POST request to the Phonic API."""
         headers = {"Authorization": f"Bearer {self.api_key}", **self.additional_headers}
+
+        data = data or {}
 
         response = requests.post(
             f"{self.base_url}{path}",
             headers=headers,
             json=data,
+            timeout=DEFAULT_HTTP_TIMEOUT,
         )
 
         if response.status_code in (200, 201):
@@ -327,16 +340,16 @@ class Conversations(PhonicHTTPClient):
     ):
         super().__init__(api_key, additional_headers, base_url)
 
-    def get_conversation(self, id: str) -> dict:
+    def get_conversation(self, conversation_id: str) -> dict:
         """Get a conversation by ID.
 
         Args:
-            id: ID of the conversation to retrieve
+            conversation_id: ID of the conversation to retrieve
 
         Returns:
             Dictionary containing the conversation details
         """
-        return self.get(f"/conversations/{id}")
+        return self.get(f"/conversations/{conversation_id}")
 
     def get_by_external_id(self, external_id: str) -> dict:
         """Get a conversation by external ID.
@@ -357,9 +370,12 @@ class Conversations(PhonicHTTPClient):
         duration_max: int | None = None,
         started_at_min: str | None = None,
         started_at_max: str | None = None,
+        before: str | None = None,
+        after: str | None = None,
+        limit: int = 100,
     ) -> dict:
         """
-        List conversations with optional filters.
+        List conversations with optional filters and pagination.
 
         Args:
             project: Project name (optional, defaults to "main")
@@ -367,6 +383,14 @@ class Conversations(PhonicHTTPClient):
             duration_max: Maximum duration in seconds (optional)
             started_at_min: Minimum start time (ISO format: YYYY-MM-DD or YYYY-MM-DDThh:mm:ss.sssZ) (optional)
             started_at_max: Maximum start time (ISO format: YYYY-MM-DD or YYYY-MM-DDThh:mm:ss.sssZ) (optional)
+            before: Cursor for backward pagination - get items before this conversation ID (optional)
+            after: Cursor for forward pagination - get items after this conversation ID (optional)
+            limit: Maximum number of items to return (optional, defaults to 100)
+
+        Returns:
+            Dictionary containing the paginated conversations under the "conversations" key
+            and pagination information under the "pagination" key with "prev_cursor"
+            and "next_cursor" values.
         """
         params = {}
         if duration_min is not None:
@@ -379,8 +403,78 @@ class Conversations(PhonicHTTPClient):
             params["started_at_max"] = started_at_max
         if project is not None:
             params["project"] = project
+        if before is not None:
+            params["before"] = before
+        if after is not None:
+            params["after"] = after
+        if limit is not None:
+            params["limit"] = limit
 
         return self.get("/conversations", params)
+
+    def scroll(
+        self,
+        max_items: int | None = None,
+        project: str = "main",
+        duration_min: int | None = None,
+        duration_max: int | None = None,
+        started_at_min: str | None = None,
+        started_at_max: str | None = None,
+        batch_size: int = 20,
+    ) -> Generator[dict, None, None]:
+        """
+        Iterate through all conversations with automatic pagination.
+
+        Args:
+            max_items: Maximum total number of conversations to return (optional, no limit if None)
+            project: Project name (optional, defaults to "main")
+            duration_min: Minimum duration in seconds (optional)
+            duration_max: Maximum duration in seconds (optional)
+            started_at_min: Minimum start time (ISO format: YYYY-MM-DD or YYYY-MM-DDThh:mm:ss.sssZ) (optional)
+            started_at_max: Maximum start time (ISO format: YYYY-MM-DD or YYYY-MM-DDThh:mm:ss.sssZ) (optional)
+            batch_size: Number of items to fetch per API request (optional, defaults to 20)
+
+        Yields:
+            Each conversation object individually
+        """
+        items_returned = 0
+        next_cursor = None
+
+        while True:
+            current_page_limit = batch_size
+            if max_items is not None:
+                remaining = max_items - items_returned
+                if remaining <= 0:
+                    return
+                current_page_limit = min(batch_size, remaining)
+
+            response = self.list(
+                project=project,
+                duration_min=duration_min,
+                duration_max=duration_max,
+                started_at_min=started_at_min,
+                started_at_max=started_at_max,
+                after=next_cursor,
+                limit=current_page_limit,
+            )
+
+            conversations = response.get("conversations", [])
+
+            if not conversations:
+                break
+
+            for conversation in conversations:
+                yield conversation
+                items_returned += 1
+
+                if max_items is not None and items_returned >= max_items:
+                    return
+
+            pagination = response.get("pagination", {})
+            next_cursor = pagination.get("next_cursor")
+
+            if not next_cursor:
+                break
 
     def execute_evaluation(self, conversation_id: str, prompt_id: str) -> dict:
         """Execute an evaluation on a conversation.
@@ -533,7 +627,9 @@ def get_voices(
     headers = {"Authorization": f"Bearer {api_key}"}
     params = {"model": model}
 
-    response = requests.get(url, headers=headers, params=params)
+    response = requests.get(
+        url, headers=headers, params=params, timeout=DEFAULT_HTTP_TIMEOUT
+    )
 
     if response.status_code == 200:
         data = response.json()
