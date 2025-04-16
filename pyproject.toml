@@ -18,7 +18,7 @@ dependencies = [
     "scipy>=1.15.1",
     "sounddevice>=0.5.1",
     "typing-extensions>=4.12.2",
-    "websockets==15.0.0",
+    "websockets>=12,<13",
 ]
 
 [tool.setuptools]
