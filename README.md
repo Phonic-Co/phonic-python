@@ -1,10 +1,10 @@
-# Phonic Python Client 
+# Phonic Python Client
 
 ## Get an API Key
 
 To obtain an API key, you must be invited to the Phonic platform.
 
-After you have been invited, you can generate an API key by visiting the [Phonic API Key page](https://phonic.co/api-keys). 
+After you have been invited, you can generate an API key by visiting the [Phonic API Key page](https://phonic.co/api-keys).
 
 Please set it to the environment variable `PHONIC_API_KEY`.
 
@@ -28,12 +28,12 @@ from phonic.client import PhonicSTSClient, get_voices
 async def main():
     STS_URI = "wss://api.phonic.co/v1/sts/ws"
     API_KEY = os.environ["PHONIC_API_KEY"]
-    SAMPLE_RATE = 44_100
+    SAMPLE_RATE = 44100
 
     voices = get_voices(API_KEY)
     voice_ids = [voice["id"] for voice in voices]
     logger.info(f"Available voices: {voice_ids}")
-    voice_selected = "katherine"
+    voice_selected = "greta"
 
     try:
         async with PhonicSTSClient(STS_URI, API_KEY) as client:
@@ -42,7 +42,6 @@ async def main():
             )
 
             sts_stream = client.sts(
-                project_id="<YOUR_PROJECT_ID>",
                 input_format="pcm_44100",
                 output_format="pcm_44100",
                 system_prompt="You are a helpful voice assistant. Respond conversationally.",
@@ -57,14 +56,26 @@ async def main():
             print("Streaming all audio continuously to the server. Start talking!")
 
             # Process messages from STS
+            text_buffer = ""
             async for message in sts_stream:
                 message_type = message.get("type")
-                if message_type == "audio_chunk":
-                    audio_streamer.add_audio_to_playback(message["audio"])
-                    if text := message.get("text"):
-                        logger.info(f"Assistant: {text}")
-                elif message_type == "input_text":
-                    logger.info(f"You: {message['text']}")
+                match message_type:
+                    case "audio_chunk":
+                        audio_streamer.add_audio_to_playback(message["audio"])
+                        if text := message.get("text"):
+                            text_buffer += text
+                            if any(punc in text_buffer for punc in ".!?"):
+                                logger.info(f"Assistant: {text_buffer}")
+                                text_buffer = ""
+                    case "audio_finished":
+                        if len(text_buffer) > 0:
+                            logger.info(f"Assistant: {text_buffer}")
+                            text_buffer = ""
+                    case "input_text":
+                        logger.info(f"You: {message['text']}")
+                    case "interrupted_response":
+                        audio_streamer.interrupt_playback()
+                        logger.info("Response interrupted")
 
     except KeyboardInterrupt:
         logger.info("Conversation stopped by user")
@@ -181,3 +192,8 @@ extraction = conversations.create_extraction(
 # List all extractions for a conversation
 extractions = conversations.list_extractions(conversation_id)
 ```
+
+## Troubleshooting
+
+- `pyaudio` installation has a known issue where the `portaudio.h` file cannot be found. See [Stack Overflow](https://stackoverflow.com/questions/33513522/when-installing-pyaudio-pip-cannot-find-portaudio-h-in-usr-local-include) for OS-specific advice.
+- Sometimes, when running the example speech-to-speech code for the first time, you may see a certificate verification failure. A solution for this is also documented in [Stack Overflow](https://stackoverflow.com/questions/52805115/certificate-verify-failed-unable-to-get-local-issuer-certificate).

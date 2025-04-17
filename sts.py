@@ -15,7 +15,7 @@ async def main():
     voices = get_voices(API_KEY)
     voice_ids = [voice["id"] for voice in voices]
     logger.info(f"Available voices: {voice_ids}")
-    voice_selected = "katherine"
+    voice_selected = "greta"
 
     try:
         async with PhonicSTSClient(STS_URI, API_KEY) as client:
