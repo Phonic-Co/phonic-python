@@ -35,8 +35,6 @@ class TwilioInterface(ContinuousAudioInterface):
         # Twilio always uses mulaw, 8000 Hz 8-bit PCM
         self.sample_rate = 8000
         self.input_dtype = np.uint8
-        self.input_buffer: list[np.ndarray] = []
-        self.input_buffer_len = 0.0
 
         # Input / Output threads and loops
         self.main_loop = asyncio.get_event_loop()
@@ -70,20 +68,9 @@ class TwilioInterface(ContinuousAudioInterface):
                 audio_bytes = base64.b64decode(data["media"]["payload"])
                 audio_np = np.frombuffer(audio_bytes, dtype=self.input_dtype)
 
-                # Twilio chunks are too short (20ms);
-                # accumulate to >=250ms then send to Phonic API
-                self.input_buffer.append(audio_np)
-                self.input_buffer_len += len(audio_np) / self.sample_rate
-
-        if self.input_buffer_len >= 0.250:
-            concat_audio_np = np.concatenate(self.input_buffer)
-            self.input_buffer = []
-            self.input_buffer_len = 0.0
-
-            # Send to PhonicAsyncWebsocketClient
-            asyncio.run_coroutine_threadsafe(
-                self.client.send_audio(concat_audio_np), self.main_loop
-            )
+                asyncio.run_coroutine_threadsafe(
+                    self.client.send_audio(audio_np), self.main_loop
+                )
 
     def _start_input_stream(self):
         # unused, handled by Twilio
@@ -122,11 +109,7 @@ class TwilioInterface(ContinuousAudioInterface):
                 case "input_text":
                     logger.info(f"You: {message['text']}")
                 case "interrupted_response":
-                    twilio_message = {
-                        "event": "clear",
-                        "streamSid": self.twilio_stream_sid,
-                    }
-                    await self.twilio_websocket.send_json(twilio_message)
+                    await self.interrupt_playback()
                     logger.info("Response interrupted")
                 case _:
                     logger.info(f"Received unknown message: {message}")
@@ -145,3 +128,10 @@ class TwilioInterface(ContinuousAudioInterface):
     async def add_audio_to_playback(self, audio_encoded):
         # unused, sends audio through Twilio websocket
         return
+
+    async def interrupt_playback(self):
+        twilio_message = {
+            "event": "clear",
+            "streamSid": self.twilio_stream_sid,
+        }
+        await self.twilio_websocket.send_json(twilio_message)
