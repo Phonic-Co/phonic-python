@@ -87,7 +87,7 @@ class PhonicAsyncWebsocketClient:
             self.uri,
             additional_headers={
                 "Authorization": f"Bearer {self.api_key}",
-                **self.additional_headers_headers,
+                **self.additional_headers,
             },
             max_size=5 * 1024 * 1024,
         )
