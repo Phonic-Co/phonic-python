@@ -12,6 +12,7 @@ from websockets.asyncio.client import (
     ClientConnection as AsyncClientConnection,
     connect as async_connect,
 )
+from urllib.parse import urlencode
 
 DEFAULT_HTTP_TIMEOUT = 30
 
@@ -68,18 +69,26 @@ class PhonicSyncWebsocketClient:
 
 
 class PhonicAsyncWebsocketClient:
-    def __init__(self, uri: str, api_key: str) -> None:
+    def __init__(
+        self, uri: str, api_key: str, additional_headers: dict | None = None
+    ) -> None:
         self.uri = uri
         self.api_key = api_key
         self._websocket: AsyncClientConnection | None = None
         self._send_queue: asyncio.Queue = asyncio.Queue()
         self._is_running = False
         self._tasks: list[asyncio.Task] = []
+        self.additional_headers = (
+            additional_headers if additional_headers is not None else {}
+        )
 
     async def __aenter__(self) -> "PhonicAsyncWebsocketClient":
         self._websocket = await async_connect(
             self.uri,
-            additional_headers={"Authorization": f"Bearer {self.api_key}"},
+            additional_headers={
+                "Authorization": f"Bearer {self.api_key}",
+                **self.additional_headers,
+            },
             max_size=5 * 1024 * 1024,
         )
         self._is_running = True
@@ -186,8 +195,18 @@ class PhonicTTSClient(PhonicSyncWebsocketClient):
 
 
 class PhonicSTSClient(PhonicAsyncWebsocketClient):
-    def __init__(self, uri: str, api_key: str) -> None:
-        super().__init__(uri, api_key)
+    def __init__(
+        self,
+        uri: str,
+        api_key: str,
+        additional_headers: dict | None = None,
+        downstreamWebSocketUrl: str | None = None,
+    ) -> None:
+        if downstreamWebSocketUrl is not None:
+            query_params = {"downstream_websocket_url": downstreamWebSocketUrl}
+            query_string = urlencode(query_params)
+            uri = f"{uri}?{query_string}"
+        super().__init__(uri, api_key, additional_headers)
         self.input_format = None
 
     async def send_audio(self, audio: np.ndarray) -> None:
