@@ -258,6 +258,7 @@ class PhonicSTSClient(PhonicAsyncWebsocketClient):
         output_audio_speed: float = 1.0,
         welcome_message: str = "",
         voice_id: str | None = "meredith",
+        enable_silent_audio_fallback: bool = True,
     ) -> AsyncIterator[dict[str, Any]]:
         """
         Args:
@@ -268,6 +269,7 @@ class PhonicSTSClient(PhonicAsyncWebsocketClient):
             output_audio_speed: output audio speed (defaults to 1.0)
             welcome_message: welcome message for assistant (defaults to "")
             voice_id: voice id (defaults to "meredith")
+            enable_silent_audio_fallback: enable silent audio fallback (defaults to True)
         """
         assert self._websocket is not None
 
@@ -285,6 +287,7 @@ class PhonicSTSClient(PhonicAsyncWebsocketClient):
             "output_audio_speed": output_audio_speed,
             "welcome_message": welcome_message,
             "voice_id": voice_id,
+            "enable_silent_audio_fallback": enable_silent_audio_fallback,
         }
         await self._websocket.send(json.dumps(config_message))
 
@@ -370,7 +373,7 @@ class Conversations(PhonicHTTPClient):
         """
         return self.get(f"/conversations/{conversation_id}")
 
-    def get_by_external_id(self, external_id: str) -> dict:
+    def get_by_external_id(self, external_id: str, project: str = "main") -> dict:
         """Get a conversation by external ID.
 
         Args:
@@ -379,7 +382,7 @@ class Conversations(PhonicHTTPClient):
         Returns:
             Dictionary containing the conversation details
         """
-        params = {"external_id": external_id}
+        params = {"external_id": external_id, "project": project}
         return self.get("/conversations", params)
 
     def list(
