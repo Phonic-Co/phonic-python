@@ -258,7 +258,7 @@ class PhonicSTSClient(PhonicAsyncWebsocketClient):
         output_audio_speed: float = 1.0,
         welcome_message: str = "",
         voice_id: str | None = "meredith",
-        enable_silent_audio_fallback: bool = True,
+        enable_silent_audio_fallback: bool = False,
     ) -> AsyncIterator[dict[str, Any]]:
         """
         Args:
