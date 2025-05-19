@@ -133,9 +133,15 @@ class PyaudioContinuousAudioInterface(BaseContinuousAudioInterface):
         try:
             import pyaudio
         except ImportError:
+            logger.error(
+                "The 'pyaudio' library is not installed. "
+                "Please install it using 'pip install phonic-python[pyaudio]' "
+                "to use PyaudioContinuousAudioInterface."
+            )
             raise ImportError(
                 "The 'pyaudio' library must be installed "
-                "for audio streaming to work."
+                "for PyaudioContinuousAudioInterface to work. "
+                "Install it with: pip install phonic-python[pyaudio]"
             )
         self.p = pyaudio.PyAudio()
         self.p_input_format = pyaudio.paInt16
