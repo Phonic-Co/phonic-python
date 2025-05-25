@@ -8,6 +8,7 @@ import requests
 from loguru import logger
 from typing_extensions import Literal
 from websockets.sync.client import ClientConnection, connect
+from websockets.exceptions import ConnectionClosedError
 from websockets.asyncio.client import (
     ClientConnection as AsyncClientConnection,
     connect as async_connect,
@@ -15,6 +16,13 @@ from websockets.asyncio.client import (
 from urllib.parse import urlencode
 
 DEFAULT_HTTP_TIMEOUT = 30
+INSUFFICIENT_CAPACITY_AVAILABLE_ERROR_CODE = 4004
+
+
+class InsufficientCapacityError(Exception):
+    def __init__(self, message="Insufficient capacity available.", code=INSUFFICIENT_CAPACITY_AVAILABLE_ERROR_CODE):
+        super().__init__(message)
+        self.code = code
 
 
 class PhonicSyncWebsocketClient:
@@ -82,6 +90,15 @@ class PhonicAsyncWebsocketClient:
             additional_headers if additional_headers is not None else {}
         )
 
+    def _is_4004(self, exception: Exception) -> bool:
+        if (
+            isinstance(exception, ConnectionClosedError)
+            and exception.code == INSUFFICIENT_CAPACITY_AVAILABLE_ERROR_CODE
+        ):
+            return True
+        else:
+            return False
+
     async def __aenter__(self) -> "PhonicAsyncWebsocketClient":
         self._websocket = await async_connect(
             self.uri,
@@ -90,6 +107,7 @@ class PhonicAsyncWebsocketClient:
                 **self.additional_headers,
             },
             max_size=5 * 1024 * 1024,
+            open_timeout=20,  # 4004 takes up to 15 seconds
         )
         self._is_running = True
         return self
@@ -153,8 +171,10 @@ class PhonicAsyncWebsocketClient:
         except asyncio.CancelledError:
             logger.info("Receiver task cancelled")
         except Exception as e:
+            if self._is_4004(e):
+                logger.error("Insufficient capacity available")
+                raise InsufficientCapacityError()
             logger.error(f"Error in receiver loop: {e}")
-            self._is_running = False
             raise
 
 
@@ -207,7 +227,7 @@ class PhonicSTSClient(PhonicAsyncWebsocketClient):
             query_string = urlencode(query_params)
             uri = f"{uri}?{query_string}"
         super().__init__(uri, api_key, additional_headers)
-        self.input_format = None
+        self.input_format: Literal["pcm_44100", "mulaw_8000"] | None = None
 
     async def send_audio(self, audio: np.ndarray) -> None:
         if not self._is_running:
@@ -265,7 +285,8 @@ class PhonicSTSClient(PhonicAsyncWebsocketClient):
             project: project name (optional, defaults to "main")
             input_format: input audio format (defaults to "pcm_44100")
             output_format: output audio format (defaults to "pcm_44100")
-            system_prompt: system prompt for assistant (defaults to "You are a helpful assistant. Respond in 2-3 sentences.")
+            system_prompt: system prompt for assistant
+                (defaults to "You are a helpful assistant. Respond in 2-3 sentences.")
             output_audio_speed: output audio speed (defaults to 1.0)
             welcome_message: welcome message for assistant (defaults to "")
             voice_id: voice id (defaults to "meredith")
@@ -414,7 +435,7 @@ class Conversations(PhonicHTTPClient):
             and pagination information under the "pagination" key with "prev_cursor"
             and "next_cursor" values.
         """
-        params = {}
+        params: dict[str, Any] = {}
         if duration_min is not None:
             params["duration_min"] = duration_min
         if duration_max is not None:
