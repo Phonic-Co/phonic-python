@@ -20,7 +20,11 @@ INSUFFICIENT_CAPACITY_AVAILABLE_ERROR_CODE = 4004
 
 
 class InsufficientCapacityError(Exception):
-    def __init__(self, message="Insufficient capacity available.", code=INSUFFICIENT_CAPACITY_AVAILABLE_ERROR_CODE):
+    def __init__(
+        self,
+        message="Insufficient capacity available.",
+        code=INSUFFICIENT_CAPACITY_AVAILABLE_ERROR_CODE,
+    ):
         super().__init__(message)
         self.code = code
 
@@ -269,20 +273,36 @@ class PhonicSTSClient(PhonicAsyncWebsocketClient):
 
     async def sts(
         self,
+        agent: str | None = None,
         project: str = "main",
+        model: str | None = None,
         input_format: Literal["pcm_44100", "mulaw_8000"] = "pcm_44100",
         output_format: Literal["pcm_44100", "mulaw_8000"] = "pcm_44100",
         system_prompt: (
             str | None
         ) = "You are a helpful assistant. Respond in 2-3 sentences.",
         output_audio_speed: float = 1.0,
-        welcome_message: str = "",
+        welcome_message: str | None = "",
         voice_id: str | None = "meredith",
         enable_silent_audio_fallback: bool = False,
+        vad_prebuffer_duration_ms: int | None = None,
+        vad_min_speech_duration_ms: int | None = None,
+        vad_min_silence_duration_ms: int | None = None,
+        vad_threshold: float | None = None,
+        enable_documents_rag: bool | None = None,
+        enable_transcripts_rag: bool | None = None,
+        no_input_poke_sec: int | None = None,
+        no_input_poke_text: str | None = None,
+        no_input_end_conversation_sec: int | None = None,
+        boosted_keywords: list[str] | None = None,
+        tools: list[str] | None = None,
+        experimental_params: dict[str, Any] | None = None,
     ) -> AsyncIterator[dict[str, Any]]:
         """
         Args:
+            agent: agent identifier (optional)
             project: project name (optional, defaults to "main")
+            model: STS model to use (optional)
             input_format: input audio format (defaults to "pcm_44100")
             output_format: output audio format (defaults to "pcm_44100")
             system_prompt: system prompt for assistant
@@ -290,7 +310,19 @@ class PhonicSTSClient(PhonicAsyncWebsocketClient):
             output_audio_speed: output audio speed (defaults to 1.0)
             welcome_message: welcome message for assistant (defaults to "")
             voice_id: voice id (defaults to "meredith")
-            enable_silent_audio_fallback: enable silent audio fallback (defaults to True)
+            enable_silent_audio_fallback: enable silent audio fallback (defaults to False)
+            vad_prebuffer_duration_ms: VAD prebuffer duration in milliseconds (optional)
+            vad_min_speech_duration_ms: VAD minimum speech duration in milliseconds (optional)
+            vad_min_silence_duration_ms: VAD minimum silence duration in milliseconds (optional)
+            vad_threshold: VAD threshold (optional)
+            enable_documents_rag: enable documents RAG (optional)
+            enable_transcripts_rag: enable transcripts RAG (optional)
+            no_input_poke_sec: seconds before no input poke (optional)
+            no_input_poke_text: text for no input poke (optional)
+            no_input_end_conversation_sec: seconds before ending conversation on no input (optional)
+            boosted_keywords: list of keywords to boost in speech recognition (optional)
+            tools: list of tools to enable (optional)
+            experimental_params: experimental parameters (optional)
         """
         assert self._websocket is not None
 
@@ -299,6 +331,7 @@ class PhonicSTSClient(PhonicAsyncWebsocketClient):
 
         self.input_format = input_format
 
+        # Build config message with all parameters, then filter out None values
         config_message = {
             "type": "config",
             "project": project,
@@ -309,7 +342,23 @@ class PhonicSTSClient(PhonicAsyncWebsocketClient):
             "welcome_message": welcome_message,
             "voice_id": voice_id,
             "enable_silent_audio_fallback": enable_silent_audio_fallback,
+            "agent": agent,
+            "model": model,
+            "vad_prebuffer_duration_ms": vad_prebuffer_duration_ms,
+            "vad_min_speech_duration_ms": vad_min_speech_duration_ms,
+            "vad_min_silence_duration_ms": vad_min_silence_duration_ms,
+            "vad_threshold": vad_threshold,
+            "enable_documents_rag": enable_documents_rag,
+            "enable_transcripts_rag": enable_transcripts_rag,
+            "no_input_poke_sec": no_input_poke_sec,
+            "no_input_poke_text": no_input_poke_text,
+            "no_input_end_conversation_sec": no_input_end_conversation_sec,
+            "boosted_keywords": boosted_keywords,
+            "tools": tools,
+            "experimental_params": experimental_params,
         }
+
+        config_message = {k: v for k, v in config_message.items() if v is not None}
         await self._websocket.send(json.dumps(config_message))
 
         async for message in self.start_bidirectional_stream():
