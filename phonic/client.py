@@ -18,6 +18,8 @@ from urllib.parse import urlencode
 DEFAULT_HTTP_TIMEOUT = 30
 INSUFFICIENT_CAPACITY_AVAILABLE_ERROR_CODE = 4004
 
+PhonicSTSTool = Literal["send_dtmf_tone", "end_conversation"]
+
 
 class InsufficientCapacityError(Exception):
     def __init__(
@@ -295,7 +297,7 @@ class PhonicSTSClient(PhonicAsyncWebsocketClient):
         no_input_poke_text: str | None = None,
         no_input_end_conversation_sec: int | None = None,
         boosted_keywords: list[str] | None = None,
-        tools: list[str] | None = None,
+        tools: list[PhonicSTSTool] | None = None,
         experimental_params: dict[str, Any] | None = None,
     ) -> AsyncIterator[dict[str, Any]]:
         """
