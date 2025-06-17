@@ -7,11 +7,10 @@ import numpy as np
 import requests
 from loguru import logger
 from typing_extensions import Literal
-from websockets.sync.client import ClientConnection, connect
 from websockets.exceptions import ConnectionClosedError
 from websockets.asyncio.client import (
-    ClientConnection as AsyncClientConnection,
-    connect as async_connect,
+    ClientConnection,
+    connect,
 )
 from urllib.parse import urlencode
 
@@ -29,64 +28,13 @@ class InsufficientCapacityError(Exception):
         self.code = code
 
 
-class PhonicSyncWebsocketClient:
-    def __init__(
-        self,
-        url: str,
-        api_key: str,
-        query_params: dict | None = None,
-        additional_headers: dict | None = None,
-    ):
-        """
-        Initialize a synchronous WebSocket client for the Phonic TTS API.
-
-        Args:
-            url (str): The URL to connect to.
-            api_key (str): The API key to use for authentication.
-            query_params (dict, optional): Additional query parameters to
-                include in the URL. Defaults to None.
-            additional_headers (dict, optional): Additional headers to include
-                in the request. Defaults to None.
-        """
-        self.api_key = api_key
-        self._websocket: ClientConnection | None = None
-
-        if query_params is not None:
-            query_params_list = [f"{k}={v}" for k, v in query_params.items()]
-            query_string = "&".join(query_params_list)
-            self.url = f"{url}?{query_string}"
-        else:
-            self.url = url
-
-        self.additional_headers = additional_headers
-
-    def connect(self):
-        self._websocket = connect(
-            self.url,
-            additional_headers={
-                "Authorization": f"Bearer {self.api_key}",
-                **self.additional_headers,
-            },
-        )
-        return self
-
-    def close(self):
-        self._websocket.close()
-
-    def __enter__(self):
-        return self.connect()
-
-    def __exit__(self, exc_type, exc_value, traceback):
-        self.close()
-
-
 class PhonicAsyncWebsocketClient:
     def __init__(
         self, uri: str, api_key: str, additional_headers: dict | None = None
     ) -> None:
         self.uri = uri
         self.api_key = api_key
-        self._websocket: AsyncClientConnection | None = None
+        self._websocket: ClientConnection | None = None
         self._send_queue: asyncio.Queue = asyncio.Queue()
         self._is_running = False
         self._tasks: list[asyncio.Task] = []
@@ -104,7 +52,7 @@ class PhonicAsyncWebsocketClient:
             return False
 
     async def __aenter__(self) -> "PhonicAsyncWebsocketClient":
-        self._websocket = await async_connect(
+        self._websocket = await connect(
             self.uri,
             additional_headers={
                 "Authorization": f"Bearer {self.api_key}",
@@ -180,42 +128,6 @@ class PhonicAsyncWebsocketClient:
                 raise InsufficientCapacityError()
             logger.error(f"Error in receiver loop: {e}")
             raise
-
-
-class PhonicTTSClient(PhonicSyncWebsocketClient):
-    def generate_audio(
-        self, text: str, speed: float = 1.0
-    ) -> Generator[np.ndarray, None, None]:
-        assert self._websocket is not None
-
-        self._websocket.send(
-            json.dumps(
-                {
-                    "type": "generate",
-                    "text": text,
-                    "speed": speed,
-                }
-            )
-        )
-        self._websocket.send(json.dumps({"type": "flush"}))
-
-        for message in self._websocket:
-            json_message = json.loads(message)
-            message_type = json_message.get("type")
-
-            if message_type == "config":
-                pass
-            elif message_type == "audio_chunk":
-                audio_base64 = json_message["audio"]
-                buffer = base64.b64decode(audio_base64)
-                audio = np.frombuffer(buffer, dtype=np.int16)
-                yield audio
-            elif message_type == "flush_confirm":
-                return
-            elif message_type == "stop_confirm":
-                return
-            else:
-                raise ValueError(f"Unknown message type: {message_type}")
 
 
 class PhonicSTSClient(PhonicAsyncWebsocketClient):
