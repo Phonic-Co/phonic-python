@@ -532,6 +532,128 @@ class Conversations(PhonicHTTPClient):
         )
 
 
+class Tools(PhonicHTTPClient):
+    """Client for interacting with Phonic tool endpoints."""
+
+    def __init__(
+        self,
+        api_key: str,
+        base_url: str = "https://api.phonic.co/v1",
+        additional_headers: dict | None = None,
+    ):
+        super().__init__(api_key, additional_headers, base_url)
+
+    def create(
+        self,
+        name: str,
+        description: str,
+        endpoint_url: str,
+        endpoint_timeout_ms: int,
+        parameters: list[dict[str, Any]],
+        *,
+        endpoint_headers: list[dict[str, str]] | None = None,
+    ) -> dict:
+        """Create a new tool.
+
+        Args:
+            name: Required. The name of the tool. Must be snake_case (lowercase letters,
+                  numbers, and underscores only). Must be unique within the organization.
+            description: Required. A description of what the tool does.
+            endpoint_url: Required. The URL that will be called when the tool is invoked.
+            endpoint_timeout_ms: Required. Timeout in milliseconds for the endpoint call.
+            parameters: Required. Array of parameter definitions for the tool.
+            endpoint_headers: Optional. Array of header objects with 'name' and 'value'
+                            properties. Defaults to empty array.
+
+        Parameter definition format:
+            Each parameter should have:
+            - type: One of "string", "integer", "number", "boolean", "array"
+            - item_type: Required only when type is "array". The type of items in the array.
+            - name: The parameter name.
+            - description: Description of the parameter.
+            - is_required: Boolean indicating if the parameter is required.
+
+        Returns:
+            Dictionary containing the tool ID and name: {"id": "tool_...", "name": "..."}
+        """
+        data = {
+            "name": name,
+            "description": description,
+            "endpoint_url": endpoint_url,
+            "endpoint_timeout_ms": endpoint_timeout_ms,
+            "parameters": parameters,
+            "endpoint_headers": endpoint_headers or [],
+        }
+
+        return self.post("/tools", data)
+
+    def get_tool(self, identifier: str) -> dict:
+        """Get a tool by ID or name.
+
+        Args:
+            identifier: Tool ID (starting with "tool_" followed by UUID) or tool name
+
+        Returns:
+            Dictionary containing the tool details under the "tool" key
+        """
+        return self.get(f"/tools/{identifier}")
+
+    def delete_tool(self, identifier: str) -> dict:
+        """Delete a tool by ID or name.
+
+        Args:
+            identifier: Tool ID (starting with "tool_" followed by UUID) or tool name
+
+        Returns:
+            Dictionary containing success status: {"success": true}
+        """
+        return self.delete(f"/tools/{identifier}")
+
+    def update(
+        self,
+        identifier: str,
+        *,
+        name: str | NotGiven = NOT_GIVEN,
+        description: str | NotGiven = NOT_GIVEN,
+        endpoint_url: str | NotGiven = NOT_GIVEN,
+        endpoint_timeout_ms: int | NotGiven = NOT_GIVEN,
+        parameters: list[dict[str, Any]] | NotGiven = NOT_GIVEN,
+        endpoint_headers: list[dict[str, str]] | NotGiven = NOT_GIVEN,
+    ) -> dict:
+        """Update a tool by ID or name.
+
+        Args:
+            identifier: Tool ID (starting with "tool_") or tool name
+            name: Tool name. Must be snake_case and unique within the organization.
+            description: Description of what the tool does.
+            endpoint_url: The URL that will be called when the tool is invoked.
+            endpoint_timeout_ms: Timeout in milliseconds for the endpoint call.
+            parameters: Array of parameter definitions (same format as create).
+            endpoint_headers: Array of header objects with 'name' and 'value' properties.
+
+        Returns:
+            Dictionary containing success status: {"success": true}
+        """
+        excluded = {"self", "identifier", "excluded"}
+        data = {
+            k: v
+            for k, v in locals().items()
+            if k not in excluded and v is not NOT_GIVEN
+        }
+
+        # API already expects snake_case, no conversion needed
+
+        return self.patch(f"/tools/{identifier}", data)
+
+    def list(self) -> dict:
+        """List all tools for the organization.
+
+        Returns:
+            Dictionary containing a list of tools with full details under the "tools" key
+        """
+        return self.get("/tools")
+
+
 class Agents(PhonicHTTPClient):
     """Client for interacting with Phonic agent endpoints."""
 
@@ -765,6 +887,7 @@ __all__ = [
     "PhonicHTTPClient",
     "Conversations",
     "Agents",
+    "Tools",
     "get_voices",
     "NOT_GIVEN",
     "NotGiven",

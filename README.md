@@ -262,6 +262,73 @@ agents.delete_agent("agent_12cf6e88-c254-4d3e-a149-ddf1bdd2254c")
 agents.delete_agent("booking-support-agent", project="customer-support")  # by name
 ```
 
+### Managing Tools
+
+```python
+from phonic.client import Tools
+
+tools = Tools(api_key=API_KEY)
+
+# Create a new tool
+tool = tools.create(
+    name="book_appointment",
+    description="Books an appointment in the calendar system",
+    endpoint_url="https://api.example.com/book-appointment",
+    endpoint_timeout_ms=5000,
+    parameters=[
+        {
+            "type": "string",
+            "name": "date",
+            "description": "The date for the appointment in YYYY-MM-DD format",
+            "is_required": True
+        },
+        {
+            "type": "string",
+            "name": "time", 
+            "description": "The time for the appointment in HH:MM format",
+            "is_required": True
+        },
+        {
+            "type": "array",
+            "item_type": "string",
+            "name": "service_types",
+            "description": "List of services requested",
+            "is_required": False
+        }
+    ],
+    endpoint_headers=[
+        {"name": "Authorization", "value": "Bearer token123"},
+        {"name": "Content-Type", "value": "application/json"}
+    ]
+)
+
+# List all tools for the organization
+tools_list = tools.list()
+
+# Get a tool by ID or name
+tool = tools.get_tool("tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c")
+tool = tools.get_tool("book_appointment")  # by name
+
+# Update a tool
+tools.update(
+    "book_appointment",
+    description="Updated booking tool with enhanced features",
+    endpoint_timeout_ms=7000,
+    parameters=[
+        {
+            "type": "string",
+            "name": "customer_name",
+            "description": "Name of the customer",
+            "is_required": True
+        }
+    ]
+)
+
+# Delete a tool
+tools.delete_tool("tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c")
+tools.delete_tool("book_appointment")  # by name
+```
+
 ## Response Formats
 
 ### Agent Creation Response
@@ -301,6 +368,49 @@ When you get or list agents, each agent object contains:
     "timeout_ms": 2000
   },
   "phone_number": "+1234567890"
+}
+```
+
+### Tool Creation Response
+When you create a tool, the response contains:
+```json
+{
+  "id": "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
+  "name": "book_appointment"
+}
+```
+
+### Tool Details Response
+When you get or list tools, each tool object contains:
+```json
+{
+  "id": "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
+  "org_id": "org_98765432-1234-5678-9abc-def012345678",
+  "name": "book_appointment",
+  "description": "Books an appointment in the calendar system",
+  "endpoint_url": "https://api.example.com/book-appointment",
+  "endpoint_headers": [
+    {
+      "name": "Authorization",
+      "value": "Bearer token123"
+    }
+  ],
+  "endpoint_timeout_ms": 5000,
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "date": {
+        "type": "string",
+        "description": "The date for the appointment in YYYY-MM-DD format"
+      },
+      "customer_name": {
+        "type": "string",
+        "description": "The name of the customer booking the appointment"
+      }
+    },
+    "required": ["date", "customer_name"],
+    "additionalProperties": false
+  }
 }
 ```
 
