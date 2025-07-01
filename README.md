@@ -1,6 +1,10 @@
 # Phonic Python Client
 
-## Get an API Key
+The official Python client for [Phonic](https://phonic.co) - build voice AI applications with real-time speech-to-speech capabilities.
+
+## Quick Start
+
+### Get an API Key
 
 To obtain an API key, you must be invited to the Phonic platform.
 
@@ -8,7 +12,7 @@ After you have been invited, you can generate an API key by visiting the [Phonic
 
 Please set it to the environment variable `PHONIC_API_KEY`.
 
-## Installation
+### Installation
 ```
 pip install phonic-python
 ```
@@ -95,6 +99,16 @@ if __name__ == "__main__":
     asyncio.run(main())
 ```
 
+### Getting Available Voices
+
+```python
+from phonic.client import get_voices
+
+voices = get_voices(api_key=API_KEY)
+voice_ids = [voice["id"] for voice in voices]
+print(f"Available voices: {voice_ids}")
+```
+
 ### Managing Conversations
 
 ```python
@@ -103,23 +117,23 @@ from phonic.client import Conversations
 conversation_id = "conv_12cf6e88-c254-4d3e-a149-ddf1bdd2254c"
 conversations = Conversations(api_key=API_KEY)
 
-# Get conversation
+# Get conversation by ID
 result = conversations.get_conversation(conversation_id)
 
 # Get conversation by external ID
-result = conversations.get_by_external_id(external_id)
+conversation = conversations.get_by_external_id("external-123", project="main")
 
-# List conversations with pagination
+# List conversations with filters and pagination
 results = conversations.list(
+    project="main",
     started_at_min="2025-01-01",
     started_at_max="2025-03-01",
     duration_min=0,
     duration_max=120,
-    limit=50  # Get up to 50 conversations per request
-)
+    limit=50
 
-# Pagination - get the next page
-next_cursor = results["pagination"]["nextPageCursor"]
+# Handle pagination manually
+next_cursor = results.get['pagination']['next_cursor']
 if next_cursor:
     next_page = conversations.list(
         started_at_min="2025-01-01",
@@ -129,7 +143,7 @@ if next_cursor:
     )
 
 # Pagination - get the previous page
-prev_cursor = results["pagination"]["previousPageCursor"]
+prev_cursor = results["pagination"]["prev_cursor"]
 if prev_cursor:
     prev_page = conversations.list(
         started_at_min="2025-01-01",
@@ -141,14 +155,14 @@ if prev_cursor:
 # Scroll through all conversations automatically
 # This handles pagination for you
 for conversation in conversations.scroll(
-    max_items=250,  # Total conversations to retrieve
+    project="main",
+    max_items=250,
     started_at_min="2025-01-01",
     started_at_max="2025-03-01",
     duration_min=0,
     duration_max=120,
 ):
     print(conversation["id"])
-    # Process each conversation
 
 # List evaluation prompts for a project
 prompts = conversations.list_evaluation_prompts(project_id)
@@ -201,9 +215,9 @@ from phonic.client import Agents
 agents = Agents(api_key=API_KEY)
 
 # Create a new agent
-new_agent = agents.create(
+agent = agents.create(
+    "booking-support-agent",
     project="customer-support",
-    name="booking-support-agent",
     phone_number="assign-automatically",
     voice_id="meredith",
     welcome_message="Hello! How can I help you today?",
@@ -222,29 +236,27 @@ new_agent = agents.create(
 # List all agents in a project
 agents_list = agents.list(project="customer-support")
 
-# Get an agent by ID
+# Get an agent
 agent = agents.get_agent("agent_12cf6e88-c254-4d3e-a149-ddf1bdd2254c")
+agent = agents.get_agent("booking-support-agent", project="customer-support")  # by name
 
-# Get an agent by name (note: if looking up by name, you need to include project parameter)
-agent = agents.get_agent("booking-support-agent")
-
-# Update an agent by ID or name
-result = agents.update(
+# Update an agent
+agents.update(
     "booking-support-agent",
+    project="customer-support",
     system_prompt="You are a helpful support agent. Be concise.",
     voice_id="maya",
     tools=["keypad_input", "end_conversation"]
 )
 
-# Delete an agent by ID
-result = agents.delete_agent("agent_12cf6e88-c254-4d3e-a149-ddf1bdd2254c")
-
-# Delete an agent by name
-result = agents.delete_agent("booking-support-agent")
+# Delete an agent
+agents.delete_agent("agent_12cf6e88-c254-4d3e-a149-ddf1bdd2254c")
+agents.delete_agent("booking-support-agent", project="customer-support")  # by name
 ```
 
-#### Agent Response Format
+## Response Formats
 
+### Agent Creation Response
 When you create an agent, the response contains:
 ```json
 {
@@ -253,6 +265,7 @@ When you create an agent, the response contains:
 }
 ```
 
+### Agent Details Response
 When you get or list agents, each agent object contains:
 ```json
 {
@@ -282,7 +295,6 @@ When you get or list agents, each agent object contains:
   "phone_number": "+1234567890"
 }
 ```
-
 
 ## Troubleshooting
 
