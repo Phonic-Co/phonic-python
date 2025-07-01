@@ -193,6 +193,97 @@ extraction = conversations.create_extraction(
 extractions = conversations.list_extractions(conversation_id)
 ```
 
+### Managing Agents
+
+```python
+from phonic.client import Agents
+
+agents = Agents(api_key=API_KEY)
+
+# Create a new agent
+new_agent = agents.create(
+    project="customer-support",
+    name="booking-support-agent",
+    phone_number="assign-automatically",
+    voice_id="meredith",
+    welcome_message="Hello! How can I help you today?",
+    system_prompt="You are a helpful customer support agent. Be friendly and concise.",
+    tools=["keypad_input"],
+    boosted_keywords=["appointment", "booking", "cancel"],
+    no_input_poke_sec=30,
+    no_input_poke_text="Are you still there?",
+    configuration_endpoint={
+        "url": "https://api.example.com/config",
+        "headers": {"Authorization": "Bearer token123"},
+        "timeout_ms": 2000
+    }
+)
+
+# List all agents in a project
+agents_list = agents.list(project="customer-support")
+
+# Get an agent by ID
+agent = agents.get_agent("agent_12cf6e88-c254-4d3e-a149-ddf1bdd2254c")
+
+# Get an agent by name (note: if looking up by name, you need to include project parameter)
+agent = agents.get_agent("booking-support-agent")
+
+# Update an agent by ID or name
+result = agents.update(
+    "booking-support-agent",
+    system_prompt="You are a helpful support agent. Be concise.",
+    voice_id="maya",
+    tools=["keypad_input", "end_conversation"]
+)
+
+# Delete an agent by ID
+result = agents.delete_agent("agent_12cf6e88-c254-4d3e-a149-ddf1bdd2254c")
+
+# Delete an agent by name
+result = agents.delete_agent("booking-support-agent")
+```
+
+#### Agent Response Format
+
+When you create an agent, the response contains:
+```json
+{
+  "id": "agent_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
+  "name": "booking-support-agent"
+}
+```
+
+When you get or list agents, each agent object contains:
+```json
+{
+  "id": "agent_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
+  "name": "booking-support-agent",
+  "org_id": "org_98765432-1234-5678-9abc-def012345678",
+  "project": {
+    "id": "proj_ad0334f1-2404-4155-9df3-bfd8129b29ad",
+    "name": "customer-support"
+  },
+  "voice_id": "meredith",
+  "audio_format": "pcm_44100",
+  "welcome_message": "Hello! How can I help you today?",
+  "system_prompt": "You are a helpful customer support agent. Be friendly and concise.",
+  "tool_ids": ["keypad_input"],
+  "no_input_poke_sec": 30,
+  "no_input_poke_text": "Are you still there?", 
+  "no_input_end_conversation_sec": 180,
+  "boosted_keywords": ["appointment", "booking", "cancel"],
+  "configuration_endpoint": {
+    "url": "https://api.example.com/config",
+    "headers": {
+      "Authorization": "Bearer token123"
+    },
+    "timeout_ms": 2000
+  },
+  "phone_number": "+1234567890"
+}
+```
+
+
 ## Troubleshooting
 
 - `pyaudio` installation has a known issue where the `portaudio.h` file cannot be found. See [Stack Overflow](https://stackoverflow.com/questions/33513522/when-installing-pyaudio-pip-cannot-find-portaudio-h-in-usr-local-include) for OS-specific advice.

@@ -334,6 +334,49 @@ class PhonicHTTPClient:
                 f"Error in POST request: {response.status_code} {response.text}"
             )
 
+    def delete(self, path: str, params: dict | None = None) -> dict:
+        """Make a DELETE request to the Phonic API."""
+        headers = {"Authorization": f"Bearer {self.api_key}", **self.additional_headers}
+
+        response = requests.delete(
+            f"{self.base_url}{path}",
+            headers=headers,
+            params=params,
+            timeout=DEFAULT_HTTP_TIMEOUT,
+        )
+
+        if response.status_code == 200:
+            return response.json()
+        else:
+            logger.error(f"Error: {response.status_code}")
+            logger.error(response.text)
+            raise ValueError(
+                f"Error in DELETE request: {response.status_code} {response.text}"
+            )
+
+    def patch(
+        self, path: str, data: dict | None = None, params: dict | None = None
+    ) -> dict:
+        """Make a PATCH request to the Phonic API."""
+        headers = {"Authorization": f"Bearer {self.api_key}", **self.additional_headers}
+
+        response = requests.patch(
+            f"{self.base_url}{path}",
+            headers=headers,
+            json=data,
+            params=params,
+            timeout=DEFAULT_HTTP_TIMEOUT,
+        )
+
+        if response.status_code == 200:
+            return response.json()
+        else:
+            logger.error(f"Error: {response.status_code}")
+            logger.error(response.text)
+            raise ValueError(
+                f"Error in PATCH request: {response.status_code} {response.text}"
+            )
+
 
 class Conversations(PhonicHTTPClient):
     """Client for interacting with Phonic conversation endpoints."""
@@ -617,6 +660,237 @@ class Conversations(PhonicHTTPClient):
             f"/projects/{project_id}/conversation_extraction_schemas",
             {"name": name, "prompt": prompt, "schema": schema},
         )
+
+
+class Agents(PhonicHTTPClient):
+    """Client for interacting with Phonic agent endpoints."""
+
+    def __init__(
+        self,
+        api_key: str,
+        base_url: str = "https://api.phonic.co/v1",
+        additional_headers: dict | None = None,
+    ):
+        super().__init__(api_key, additional_headers, base_url)
+
+    def create(
+        self,
+        name: str,
+        project: str = "main",
+        phone_number: Literal["assign-automatically"] | None = None,
+        voice_id: str = "grant",
+        audio_format: Literal["pcm_44100", "mulaw_8000"] = "pcm_44100",
+        welcome_message: str = "",
+        system_prompt: str = "Respond in 1-2 sentences.",
+        tools: list[str] | None = None,
+        no_input_poke_sec: int | None = None,
+        no_input_poke_text: str | None = None,
+        no_input_end_conversation_sec: int = 180,
+        boosted_keywords: list[str] | None = None,
+        configuration_endpoint: dict[str, Any] | None = None,
+        supervisor_system_prompt: str | None = None,
+        model_settings: dict[str, str] | None = None,
+        vad_prebuffer_duration_ms: int | None = None,
+        vad_min_speech_duration_ms: int | None = None,
+        vad_min_silence_duration_ms: int | None = None,
+        vad_threshold: float | None = None,
+        downstream_websocket_url: str | None = None,
+        experimental_params: str | None = None,
+    ) -> dict:
+        """Create a new agent.
+
+        Args:
+            project: Required. The name of the project to create the agent in.
+            name: Required. The name of the agent. Can only contain lowercase letters,
+                  numbers and hyphens. Must be unique within the project.
+            phone_number: Optional. Either None (no phone number) or "assign-automatically"
+                         to auto-assign a phone number. Defaults to None.
+            voice_id: Optional. The voice ID to use. Defaults to "grant".
+            audio_format: Optional. Audio format, either "pcm_44100" or "mulaw_8000".
+                         Defaults to "pcm_44100".
+            welcome_message: Optional. Message to play when the conversation starts.
+                           Defaults to empty string.
+            system_prompt: Optional. System prompt for the AI assistant.
+                          Defaults to "Respond in 1-2 sentences.".
+            tools: Optional. Array of tool names (built-in or custom). Defaults to None.
+            no_input_poke: Optional. Dictionary with 'sec' (seconds of silence) and 'text'
+                          (message to send). Both fields required if provided. Defaults to None.
+            no_input_end_conversation_sec: Optional. Seconds of silence before ending
+                                         conversation. Defaults to 180.
+            boosted_keywords: Optional. Array of keywords to boost in speech recognition.
+                            Defaults to None.
+            configuration_endpoint: Optional. Dictionary with 'url' (required), 'headers'
+                                   (optional), and 'timeout_ms' (optional, defaults to 5000).
+                                   Defaults to None.
+
+        Returns:
+            Dictionary containing the agent ID and name: {"id": "agent_...", "name": "..."}
+        """
+        data: dict[str, Any] = {
+            "project": project,
+            "name": name,
+            "voice_id": voice_id,
+            "audio_format": audio_format,
+            "welcome_message": welcome_message,
+            "system_prompt": system_prompt,
+            "no_input_end_conversation_sec": no_input_end_conversation_sec,
+        }
+
+        # Add optional parameters only if they're provided
+        if phone_number is not None:
+            data["phone_number"] = phone_number
+        if tools is not None:
+            data["tools"] = tools
+        if no_input_poke_sec is not None:
+            data["no_input_poke_sec"] = no_input_poke_sec
+        if no_input_poke_text is not None:
+            data["no_input_poke_text"] = no_input_poke_text
+        if boosted_keywords is not None:
+            data["boosted_keywords"] = boosted_keywords
+        if configuration_endpoint is not None:
+            data["configuration_endpoint"] = configuration_endpoint
+        if supervisor_system_prompt is not None:
+            data["supervisor_system_prompt"] = supervisor_system_prompt
+        if model_settings is not None:
+            data["model_settings"] = model_settings
+        if vad_prebuffer_duration_ms is not None:
+            data["vad_prebuffer_duration_ms"] = vad_prebuffer_duration_ms
+        if vad_min_speech_duration_ms is not None:
+            data["vad_min_speech_duration_ms"] = vad_min_speech_duration_ms
+        if vad_min_silence_duration_ms is not None:
+            data["vad_min_silence_duration_ms"] = vad_min_silence_duration_ms
+        if vad_threshold is not None:
+            data["vad_threshold"] = vad_threshold
+        if downstream_websocket_url is not None:
+            data["downstream_websocket_url"] = downstream_websocket_url
+        if experimental_params is not None:
+            data["experimental_params"] = experimental_params
+
+        return self.post("/agents", data)
+
+    def get_agent(self, identifier: str) -> dict:
+        """Get an agent by ID or name.
+
+        Args:
+            identifier: Agent ID (starting with "agent_") or agent name
+
+        Returns:
+            Dictionary containing the agent details under the "agent" key
+        """
+        return super().get(f"/agents/{identifier}")
+
+    def delete_agent(self, identifier: str) -> dict:
+        """Delete an agent by ID or name.
+
+        Args:
+            identifier: Agent ID (starting with "agent_") or agent name
+
+        Returns:
+            Dictionary containing success status: {"success": true}
+        """
+        return super().delete(f"/agents/{identifier}")
+
+    def update(
+        self,
+        identifier: str,
+        name: str | None = None,
+        phone_number: (
+            Literal["none", "assign-automatically", "dont-update"] | None
+        ) = None,
+        voice_id: str | None = None,
+        audio_format: Literal["pcm_44100", "mulaw_8000"] | None = None,
+        welcome_message: str | None = None,
+        system_prompt: str | None = None,
+        tools: list[str] | None = None,
+        no_input_poke: dict[str, Any] | None = None,
+        no_input_end_conversation_sec: int | None = None,
+        boosted_keywords: list[str] | None = None,
+        configuration_endpoint: dict[str, Any] | None = None,
+        supervisor_system_prompt: str | None = None,
+        model_settings: dict[str, str] | None = None,
+        vad_prebuffer_duration_ms: int | None = None,
+        vad_min_speech_duration_ms: int | None = None,
+        vad_min_silence_duration_ms: int | None = None,
+        vad_threshold: float | None = None,
+        downstream_websocket_url: str | None = None,
+        experimental_params: str | None = None,
+    ) -> dict:
+        """Update an agent by ID or name.
+
+        Args:
+            identifier: Agent ID (starting with "agent_") or agent name
+            name: New agent name
+            phone_number: "none", "assign-automatically", or "dont-update"
+            voice_id: Voice ID
+            audio_format: "pcm_44100" or "mulaw_8000"
+            welcome_message: Welcome message text
+            system_prompt: System prompt text
+            tools: Array of tool names
+            no_input_poke: Dict with 'sec' and 'text' fields
+            no_input_end_conversation_sec: Seconds before ending on no input
+            boosted_keywords: Array of keywords to boost
+            configuration_endpoint: Dict with 'url', 'headers', 'timeout_ms'
+        Returns:
+            Dictionary containing success status: {"success": true}
+        """
+        data: dict[str, Any] = {}
+
+        # Add parameters only if they're provided
+        if name is not None:
+            data["name"] = name
+        if phone_number is not None:
+            data["phone_number"] = phone_number
+        if voice_id is not None:
+            data["voice_id"] = voice_id
+        if audio_format is not None:
+            data["audio_format"] = audio_format
+        if welcome_message is not None:
+            data["welcome_message"] = welcome_message
+        if system_prompt is not None:
+            data["system_prompt"] = system_prompt
+        if tools is not None:
+            data["tools"] = tools
+        if no_input_poke is not None:
+            data["no_input_poke"] = no_input_poke
+        if no_input_end_conversation_sec is not None:
+            data["no_input_end_conversation_sec"] = no_input_end_conversation_sec
+        if boosted_keywords is not None:
+            data["boosted_keywords"] = boosted_keywords
+        if configuration_endpoint is not None:
+            data["configuration_endpoint"] = configuration_endpoint
+        if supervisor_system_prompt is not None:
+            data["supervisor_system_prompt"] = supervisor_system_prompt
+        if model_settings is not None:
+            data["model_settings"] = model_settings
+        if vad_prebuffer_duration_ms is not None:
+            data["vad_prebuffer_duration_ms"] = vad_prebuffer_duration_ms
+        if vad_min_speech_duration_ms is not None:
+            data["vad_min_speech_duration_ms"] = vad_min_speech_duration_ms
+        if vad_min_silence_duration_ms is not None:
+            data["vad_min_silence_duration_ms"] = vad_min_silence_duration_ms
+        if vad_threshold is not None:
+            data["vad_threshold"] = vad_threshold
+        if downstream_websocket_url is not None:
+            data["downstream_websocket_url"] = downstream_websocket_url
+        if experimental_params is not None:
+            data["experimental_params"] = experimental_params
+
+        return self.patch(f"/agents/{identifier}", data)
+
+    def list(self, project: str | None = None) -> dict:
+        """List all agents, optionally filtered by project.
+
+        Args:
+            project: Optional. The name of the project to list agents from.
+                    If not provided, lists all agents across all projects.
+
+        Returns:
+            Dictionary containing a list of agents under the "agents" key
+        """
+        params = {}
+        if project is not None:
+            params["project"] = project
+        return self.get("/agents", params)
 
 
 # Utilities
