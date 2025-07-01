@@ -695,7 +695,7 @@ class Agents(PhonicHTTPClient):
         vad_min_silence_duration_ms: int | None = None,
         vad_threshold: float | None = None,
         downstream_websocket_url: str | None = None,
-        experimental_params: str | None = None,
+        experimental_params: dict[str, Any] | None = None,
     ) -> dict:
         """Create a new agent.
 
@@ -713,8 +713,10 @@ class Agents(PhonicHTTPClient):
             system_prompt: Optional. System prompt for the AI assistant.
                           Defaults to "Respond in 1-2 sentences.".
             tools: Optional. Array of tool names (built-in or custom). Defaults to None.
-            no_input_poke: Optional. Dictionary with 'sec' (seconds of silence) and 'text'
-                          (message to send). Both fields required if provided. Defaults to None.
+            no_input_poke_sec: Optional. Seconds of silence before sending poke message.
+                              Defaults to None.
+            no_input_poke_text: Optional. Text message to send after silence period.
+                               Defaults to None.
             no_input_end_conversation_sec: Optional. Seconds of silence before ending
                                          conversation. Defaults to 180.
             boosted_keywords: Optional. Array of keywords to boost in speech recognition.
@@ -802,7 +804,8 @@ class Agents(PhonicHTTPClient):
         welcome_message: str | None = None,
         system_prompt: str | None = None,
         tools: list[str] | None = None,
-        no_input_poke: dict[str, Any] | None = None,
+        no_input_poke_sec: int | None = None,
+        no_input_poke_text: str | None = None,
         no_input_end_conversation_sec: int | None = None,
         boosted_keywords: list[str] | None = None,
         configuration_endpoint: dict[str, Any] | None = None,
@@ -813,7 +816,7 @@ class Agents(PhonicHTTPClient):
         vad_min_silence_duration_ms: int | None = None,
         vad_threshold: float | None = None,
         downstream_websocket_url: str | None = None,
-        experimental_params: str | None = None,
+        experimental_params: dict[str, Any] | None = None,
     ) -> dict:
         """Update an agent by ID or name.
 
@@ -826,7 +829,8 @@ class Agents(PhonicHTTPClient):
             welcome_message: Welcome message text
             system_prompt: System prompt text
             tools: Array of tool names
-            no_input_poke: Dict with 'sec' and 'text' fields
+            no_input_poke_sec: Seconds of silence before sending poke message
+            no_input_poke_text: Text message to send after silence period
             no_input_end_conversation_sec: Seconds before ending on no input
             boosted_keywords: Array of keywords to boost
             configuration_endpoint: Dict with 'url', 'headers', 'timeout_ms'
@@ -850,8 +854,10 @@ class Agents(PhonicHTTPClient):
             data["system_prompt"] = system_prompt
         if tools is not None:
             data["tools"] = tools
-        if no_input_poke is not None:
-            data["no_input_poke"] = no_input_poke
+        if no_input_poke_sec is not None:
+            data["no_input_poke_sec"] = no_input_poke_sec
+        if no_input_poke_text is not None:
+            data["no_input_poke_text"] = no_input_poke_text
         if no_input_end_conversation_sec is not None:
             data["no_input_end_conversation_sec"] = no_input_end_conversation_sec
         if boosted_keywords is not None:
