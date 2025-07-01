@@ -2,30 +2,19 @@ import asyncio
 import base64
 import json
 from typing import Any, AsyncIterator, Generator
+from urllib.parse import urlencode
 
 import numpy as np
 import requests
 from loguru import logger
-from websockets.exceptions import ConnectionClosedError
-from websockets.asyncio.client import (
-    ClientConnection,
-    connect,
-)
-from urllib.parse import urlencode
-
-from ._base import (
-    PhonicHTTPClient,
-    InsufficientCapacityError,
-    is_agent_id,
-    DEFAULT_HTTP_TIMEOUT,
-    INSUFFICIENT_CAPACITY_AVAILABLE_ERROR_CODE,
-)
-from ._types import (
-    NOT_GIVEN,
-    NotGiven,
-    PhonicSTSTool,
-)
 from typing_extensions import Literal
+from websockets.asyncio.client import ClientConnection, connect
+from websockets.exceptions import ConnectionClosedError
+
+from ._base import (DEFAULT_HTTP_TIMEOUT,
+                    INSUFFICIENT_CAPACITY_AVAILABLE_ERROR_CODE,
+                    InsufficientCapacityError, PhonicHTTPClient, is_agent_id)
+from ._types import NOT_GIVEN, NotGiven, PhonicSTSTool
 
 
 class PhonicAsyncWebsocketClient:

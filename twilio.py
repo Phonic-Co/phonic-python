@@ -1,10 +1,11 @@
-import modal
 import os
 import traceback
+from pathlib import Path
+
+import modal
 from fastapi import FastAPI, WebSocket
 from fastapi.responses import FileResponse
 from loguru import logger
-from pathlib import Path
 
 from phonic.client import PhonicSTSClient, get_voices
 from phonic.twilio_interface import TwilioInterface
