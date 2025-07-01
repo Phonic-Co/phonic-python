@@ -191,10 +191,18 @@ new_schema = conversations.create_extraction_schema(
     project_id=project_id,
     name="booking_details",
     prompt="Extract booking details from this conversation",
-    schema={
-        "customer_name": {"type": "string", "description": "Customer's full name"},
-        "appointment_date": {"type": "string", "description": "Requested appointment date"}
-    }
+    fields=[
+        {
+            "name": "Date",
+            "type": "string",
+            "description": "The date of the appointment",
+        },
+        {
+            "name": "Copay",
+            "type": "string",
+            "description": "Amount of money the patient pays for the appointment",
+        },
+    ]
 )
 
 # Create an extraction using a schema
@@ -222,7 +230,7 @@ agent = agents.create(
     voice_id="meredith",
     welcome_message="Hello! How can I help you today?",
     system_prompt="You are a helpful customer support agent. Be friendly and concise.",
-    tools=["keypad_input"],
+    tools=["keypad_input","natural_conversation_ending"],
     boosted_keywords=["appointment", "booking", "cancel"],
     no_input_poke_sec=30,
     no_input_poke_text="Are you still there?",
@@ -246,7 +254,7 @@ agents.update(
     project="customer-support",
     system_prompt="You are a helpful support agent. Be concise.",
     voice_id="maya",
-    tools=["keypad_input", "end_conversation"]
+    tools=["keypad_input","natural_conversation_ending"]
 )
 
 # Delete an agent

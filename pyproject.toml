@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "phonic-python"
-version = "0.1.10"
+version = "0.1.11"
 description = "The official Python library for the Phonic API"
 readme = "README.md"
 requires-python = ">=3.11"

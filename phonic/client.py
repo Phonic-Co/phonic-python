@@ -469,29 +469,6 @@ class Conversations(PhonicHTTPClient):
         """
         return self.post(f"/conversations/{conversation_id}/summarize")
 
-    def extract_data(
-        self, conversation_id: str, instructions: str, fields: dict
-    ) -> dict:
-        """Extract structured data from a conversation.
-
-        Args:
-            conversation_id: ID of the conversation to extract data from
-            instructions: Instructions for the extraction process
-            fields: Dictionary of fields to extract, where each field should have:
-                - type: One of "string", "int", "float", "bool", "string[]", "int[]", "float[]", "bool[]"
-                - description: Optional description of the field
-
-        Example fields format:
-            {
-                "customer_name": {"type": "string", "description": "Full name of the customer"},
-                "order_items": {"type": "string[]", "description": "List of items ordered"}
-            }
-        """
-        return self.post(
-            f"/conversations/{conversation_id}/extract",
-            {"instructions": instructions, "fields": fields},
-        )
-
     def create_extraction(self, conversation_id: str, schema_id: str) -> dict:
         """Create a new extraction for a conversation using a schema.
 
@@ -534,30 +511,35 @@ class Conversations(PhonicHTTPClient):
         return self.get(f"/projects/{project_id}/conversation_extraction_schemas")
 
     def create_extraction_schema(
-        self, project_id: str, name: str, prompt: str, schema: dict
+        self, project_id: str, name: str, prompt: str, fields: dict
     ) -> dict:
-        """Create a new extraction schema.
+        """Create a new extraction fields.
 
         Args:
             project_id: ID of the project
-            name: Name of the schema
+            name: Name of the fields
             prompt: Prompt for the extraction
-            schema: Schema definition object with field names as keys and field definitions as values.
-                    Each field definition should be a dictionary with a "type" key (one of: "string",
-                    "int", "float", "bool", "string[]", "int[]", "float[]", "bool[]") and an optional
-                    "description" key providing details about the field. For example:
+            fields: list of field definition objects, where each object contains "name", "type",
+                    and an optional "description" key. For example:
+                [
                     {
-                        "customer_name": {"type": "string", "description": "Full name of the customer"},
-                        "age": {"type": "int", "description": "Customer's age"},
-                        "purchase_items": {"type": "string[]", "description": "List of items purchased"}
-                    }
+                        "name": "Date",
+                        "type": "string",
+                        "description": "The date of the appointment",
+                    },
+                    {
+                        "name": "Copay",
+                        "type": "string",
+                        "description": "Amount of money the patient pays for the appointment",
+                    },
+                ]
 
         Returns:
-            Dictionary containing the ID of the created schema
+            Dictionary containing the ID of the created fields
         """
         return self.post(
             f"/projects/{project_id}/conversation_extraction_schemas",
-            {"name": name, "prompt": prompt, "schema": schema},
+            {"name": name, "prompt": prompt, "fields": fields},
         )
 
 
@@ -634,8 +616,6 @@ class Agents(PhonicHTTPClient):
         }
 
         data["name"] = name
-
-        print(data)
 
         params = {"project": project}
 
@@ -768,7 +748,7 @@ class Agents(PhonicHTTPClient):
 def get_voices(
     api_key: str,
     url: str = "https://api.phonic.co/v1/voices",
-    model: str = "tahoe",
+    model: str = "merritt",
 ) -> list[dict[str, str]]:
     """
     Returns a list of available voices from the Phonic API.
