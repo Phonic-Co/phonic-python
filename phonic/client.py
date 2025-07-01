@@ -2,32 +2,19 @@ import asyncio
 import base64
 import json
 from typing import Any, AsyncIterator, Generator
+from urllib.parse import urlencode
 
 import numpy as np
 import requests
 from loguru import logger
 from typing_extensions import Literal
+from websockets.asyncio.client import ClientConnection, connect
 from websockets.exceptions import ConnectionClosedError
-from websockets.asyncio.client import (
-    ClientConnection,
-    connect,
-)
-from urllib.parse import urlencode
 
-DEFAULT_HTTP_TIMEOUT = 30
-INSUFFICIENT_CAPACITY_AVAILABLE_ERROR_CODE = 4004
-
-PhonicSTSTool = Literal["send_dtmf_tone", "end_conversation"]
-
-
-class InsufficientCapacityError(Exception):
-    def __init__(
-        self,
-        message="Insufficient capacity available.",
-        code=INSUFFICIENT_CAPACITY_AVAILABLE_ERROR_CODE,
-    ):
-        super().__init__(message)
-        self.code = code
+from ._base import (DEFAULT_HTTP_TIMEOUT,
+                    INSUFFICIENT_CAPACITY_AVAILABLE_ERROR_CODE,
+                    InsufficientCapacityError, PhonicHTTPClient, is_agent_id)
+from ._types import NOT_GIVEN, NotGiven, PhonicSTSTool
 
 
 class PhonicAsyncWebsocketClient:
@@ -279,62 +266,6 @@ class PhonicSTSClient(PhonicAsyncWebsocketClient):
             yield message
 
 
-class PhonicHTTPClient:
-    """Base HTTP client for Phonic API requests."""
-
-    def __init__(
-        self,
-        api_key: str,
-        additional_headers: dict | None = None,
-        base_url: str = "https://api.phonic.co/v1",
-    ):
-        self.base_url = base_url
-        self.api_key = api_key
-        self.additional_headers = additional_headers or {}
-
-    def get(self, path: str, params: dict | None = None) -> dict:
-        """Make a GET request to the Phonic API."""
-        headers = {"Authorization": f"Bearer {self.api_key}", **self.additional_headers}
-
-        response = requests.get(
-            f"{self.base_url}{path}",
-            headers=headers,
-            params=params,
-            timeout=DEFAULT_HTTP_TIMEOUT,
-        )
-
-        if response.status_code == 200:
-            return response.json()
-        else:
-            logger.error(f"Error: {response.status_code}")
-            logger.error(response.text)
-            raise ValueError(
-                f"Error in GET request: {response.status_code} {response.text}"
-            )
-
-    def post(self, path: str, data: dict | None = None) -> dict:
-        """Make a POST request to the Phonic API."""
-        headers = {"Authorization": f"Bearer {self.api_key}", **self.additional_headers}
-
-        data = data or {}
-
-        response = requests.post(
-            f"{self.base_url}{path}",
-            headers=headers,
-            json=data,
-            timeout=DEFAULT_HTTP_TIMEOUT,
-        )
-
-        if response.status_code in (200, 201):
-            return response.json()
-        else:
-            logger.error(f"Error: {response.status_code}")
-            logger.error(response.text)
-            raise ValueError(
-                f"Error in POST request: {response.status_code} {response.text}"
-            )
-
-
 class Conversations(PhonicHTTPClient):
     """Client for interacting with Phonic conversation endpoints."""
 
@@ -527,29 +458,6 @@ class Conversations(PhonicHTTPClient):
         """
         return self.post(f"/conversations/{conversation_id}/summarize")
 
-    def extract_data(
-        self, conversation_id: str, instructions: str, fields: dict
-    ) -> dict:
-        """Extract structured data from a conversation.
-
-        Args:
-            conversation_id: ID of the conversation to extract data from
-            instructions: Instructions for the extraction process
-            fields: Dictionary of fields to extract, where each field should have:
-                - type: One of "string", "int", "float", "bool", "string[]", "int[]", "float[]", "bool[]"
-                - description: Optional description of the field
-
-        Example fields format:
-            {
-                "customer_name": {"type": "string", "description": "Full name of the customer"},
-                "order_items": {"type": "string[]", "description": "List of items ordered"}
-            }
-        """
-        return self.post(
-            f"/conversations/{conversation_id}/extract",
-            {"instructions": instructions, "fields": fields},
-        )
-
     def create_extraction(self, conversation_id: str, schema_id: str) -> dict:
         """Create a new extraction for a conversation using a schema.
 
@@ -592,31 +500,235 @@ class Conversations(PhonicHTTPClient):
         return self.get(f"/projects/{project_id}/conversation_extraction_schemas")
 
     def create_extraction_schema(
-        self, project_id: str, name: str, prompt: str, schema: dict
+        self, project_id: str, name: str, prompt: str, fields: dict
     ) -> dict:
-        """Create a new extraction schema.
+        """Create a new extraction fields.
 
         Args:
             project_id: ID of the project
-            name: Name of the schema
+            name: Name of the fields
             prompt: Prompt for the extraction
-            schema: Schema definition object with field names as keys and field definitions as values.
-                    Each field definition should be a dictionary with a "type" key (one of: "string",
-                    "int", "float", "bool", "string[]", "int[]", "float[]", "bool[]") and an optional
-                    "description" key providing details about the field. For example:
+            fields: list of field definition objects, where each object contains "name", "type",
+                    and an optional "description" key. For example:
+                [
                     {
-                        "customer_name": {"type": "string", "description": "Full name of the customer"},
-                        "age": {"type": "int", "description": "Customer's age"},
-                        "purchase_items": {"type": "string[]", "description": "List of items purchased"}
-                    }
+                        "name": "Date",
+                        "type": "string",
+                        "description": "The date of the appointment",
+                    },
+                    {
+                        "name": "Copay",
+                        "type": "string",
+                        "description": "Amount of money the patient pays for the appointment",
+                    },
+                ]
 
         Returns:
-            Dictionary containing the ID of the created schema
+            Dictionary containing the ID of the created fields
         """
         return self.post(
             f"/projects/{project_id}/conversation_extraction_schemas",
-            {"name": name, "prompt": prompt, "schema": schema},
+            {"name": name, "prompt": prompt, "fields": fields},
         )
+
+
+class Agents(PhonicHTTPClient):
+    """Client for interacting with Phonic agent endpoints."""
+
+    def __init__(
+        self,
+        api_key: str,
+        base_url: str = "https://api.phonic.co/v1",
+        additional_headers: dict | None = None,
+    ):
+        super().__init__(api_key, additional_headers, base_url)
+
+    def create(
+        self,
+        name: str,
+        *,
+        project: str = "main",
+        phone_number: Literal["assign-automatically"] | None = None,
+        voice_id: str = "grant",
+        audio_format: Literal["pcm_44100", "mulaw_8000"] = "pcm_44100",
+        welcome_message: str = "",
+        system_prompt: str = "Respond in 1-2 sentences.",
+        tools: list[str] | None = None,
+        no_input_poke_sec: int | None = None,
+        no_input_poke_text: str | None = None,
+        no_input_end_conversation_sec: int = 180,
+        boosted_keywords: list[str] | None = None,
+        configuration_endpoint: dict[str, Any] | None = None,
+        supervisor_system_prompt: str | None = None,
+        model_settings: dict[str, str] | None = None,
+        vad_prebuffer_duration_ms: int | None = None,
+        vad_min_speech_duration_ms: int | None = None,
+        vad_min_silence_duration_ms: int | None = None,
+        vad_threshold: float | None = None,
+        downstream_websocket_url: str | None = None,
+        experimental_params: dict[str, Any] | None = None,
+    ) -> dict:
+        """Create a new agent.
+
+        Args:
+            name: Required. The name of the agent. Can only contain lowercase letters,
+                  numbers and hyphens. Must be unique within the project.
+            project: Required. The name of the project to create the agent in.
+            phone_number: Optional. Either None (no phone number) or "assign-automatically"
+                         to auto-assign a phone number. Defaults to None.
+            voice_id: Optional. The voice ID to use. Defaults to "grant".
+            audio_format: Optional. Audio format, either "pcm_44100" or "mulaw_8000".
+                         Defaults to "pcm_44100".
+            welcome_message: Optional. Message to play when the conversation starts.
+                           Defaults to empty string.
+            system_prompt: Optional. System prompt for the AI assistant.
+                          Defaults to "Respond in 1-2 sentences.".
+            tools: Optional. Array of tool names (built-in or custom). Defaults to None.
+            no_input_poke_sec: Optional. Seconds of silence before sending poke message.
+                              Defaults to None.
+            no_input_poke_text: Optional. Text message to send after silence period.
+                               Defaults to None.
+            no_input_end_conversation_sec: Optional. Seconds of silence before ending
+                                         conversation. Defaults to 180.
+            boosted_keywords: Optional. Array of keywords to boost in speech recognition.
+                            Defaults to None.
+            configuration_endpoint: Optional. Dictionary with 'url' (required), 'headers'
+                                   (optional), and 'timeout_ms' (optional, defaults to 3000).
+                                   Defaults to None.
+
+        Returns:
+            Dictionary containing the agent ID and name: {"id": "agent_...", "name": "..."}
+        """
+        excluded = {"self", "name", "project", "excluded"}
+        data = {
+            k: v for k, v in locals().items() if k not in excluded and v is not None
+        }
+
+        data["name"] = name
+
+        params = {"project": project}
+
+        return self.post("/agents", data, params)
+
+    def get_agent(self, identifier: str, *, project: str = "main") -> dict:
+        """Get an agent by ID or name.
+
+        Args:
+            identifier: Agent ID (starting with "agent_" followed by UUID) or agent name
+            project: Optional. The name of the project containing the agent.
+                    Defaults to "main". Only used when looking up by name.
+
+        Returns:
+            Dictionary containing the agent details under the "agent" key
+        """
+        params = {}
+        if not is_agent_id(identifier):
+            params["project"] = project
+        return super().get(f"/agents/{identifier}", params)
+
+    def delete_agent(self, identifier: str, *, project: str = "main") -> dict:
+        """Delete an agent by ID or name.
+
+        Args:
+            identifier: Agent ID (starting with "agent_" followed by UUID) or agent name
+            project: Optional. The name of the project containing the agent.
+                    Defaults to "main". Only used when deleting by name.
+
+        Returns:
+            Dictionary containing success status: {"success": true}
+        """
+        params = {}
+        if not is_agent_id(identifier):
+            params["project"] = project
+        return super().delete(f"/agents/{identifier}", params)
+
+    def update(
+        self,
+        identifier: str,
+        *,
+        project: str = "main",
+        name: str | NotGiven = NOT_GIVEN,
+        phone_number: Literal["assign-automatically"] | None | NotGiven = NOT_GIVEN,
+        voice_id: str | NotGiven = NOT_GIVEN,
+        audio_format: Literal["pcm_44100", "mulaw_8000"] | NotGiven = NOT_GIVEN,
+        welcome_message: str | NotGiven = NOT_GIVEN,
+        system_prompt: str | NotGiven = NOT_GIVEN,
+        tools: list[str] | NotGiven = NOT_GIVEN,
+        no_input_poke_sec: int | NotGiven = NOT_GIVEN,
+        no_input_poke_text: str | NotGiven = NOT_GIVEN,
+        no_input_end_conversation_sec: int | NotGiven = NOT_GIVEN,
+        boosted_keywords: list[str] | NotGiven = NOT_GIVEN,
+        configuration_endpoint: dict[str, Any] | NotGiven = NOT_GIVEN,
+        supervisor_system_prompt: str | NotGiven = NOT_GIVEN,
+        model_settings: dict[str, str] | NotGiven = NOT_GIVEN,
+        vad_prebuffer_duration_ms: int | NotGiven = NOT_GIVEN,
+        vad_min_speech_duration_ms: int | NotGiven = NOT_GIVEN,
+        vad_min_silence_duration_ms: int | NotGiven = NOT_GIVEN,
+        vad_threshold: float | NotGiven = NOT_GIVEN,
+        downstream_websocket_url: str | NotGiven = NOT_GIVEN,
+        experimental_params: dict[str, Any] | NotGiven = NOT_GIVEN,
+    ) -> dict:
+        """Update an agent by ID or name.
+
+        Args:
+            identifier: Agent ID (starting with "agent_") or agent name
+            project: Optional. The name of the project containing the agent.
+                    Defaults to "main". Only used when updating by name.
+            name: Agent name. Can only contain lowercase letters, numbers and hyphens.
+                 Use None to clear the field, or NOT_GIVEN to leave unchanged.
+            phone_number: Either "assign-automatically" or None to clear.
+                         Use NOT_GIVEN to leave unchanged.
+            voice_id: Voice ID to use. Use None to clear, NOT_GIVEN to leave unchanged.
+            audio_format: Audio format, either "pcm_44100" or "mulaw_8000".
+                         Use NOT_GIVEN to leave unchanged.
+            welcome_message: Message to play when the conversation starts.
+                           Use None to clear, NOT_GIVEN to leave unchanged.
+            system_prompt: System prompt for the AI assistant.
+                          Use None to clear, NOT_GIVEN to leave unchanged.
+            tools: Array of tool names (built-in or custom).
+                  Use None to clear, NOT_GIVEN to leave unchanged.
+            no_input_poke_sec: Seconds of silence before sending poke message.
+                              Use None to clear, NOT_GIVEN to leave unchanged.
+            no_input_poke_text: Text message to send after silence period.
+                               Use None to clear, NOT_GIVEN to leave unchanged.
+            no_input_end_conversation_sec: Seconds of silence before ending conversation.
+                                         Use None to clear, NOT_GIVEN to leave unchanged.
+            boosted_keywords: Array of keywords to boost in speech recognition.
+                            Use None to clear, NOT_GIVEN to leave unchanged.
+            configuration_endpoint: Dictionary with 'url' (required), 'headers' (optional),
+                                   and 'timeout_ms' (optional).
+                                   Use None to clear, NOT_GIVEN to leave unchanged.
+
+        Returns:
+            Dictionary containing success status: {"success": true}
+        """
+        excluded = {"self", "identifier", "project", "excluded"}
+        data = {
+            k: v
+            for k, v in locals().items()
+            if k not in excluded and v is not NOT_GIVEN
+        }
+
+        params = {}
+        if not is_agent_id(identifier):
+            params["project"] = project
+
+        return self.patch(f"/agents/{identifier}", data, params)
+
+    def list(self, *, project: str | None = None) -> dict:
+        """List all agents, optionally filtered by project.
+
+        Args:
+            project: Optional. The name of the project to list agents from.
+                    If not provided, lists all agents across all projects.
+
+        Returns:
+            Dictionary containing a list of agents under the "agents" key
+        """
+        params = {}
+        if project is not None:
+            params["project"] = project
+        return self.get("/agents", params)
 
 
 # Utilities
@@ -625,7 +737,7 @@ class Conversations(PhonicHTTPClient):
 def get_voices(
     api_key: str,
     url: str = "https://api.phonic.co/v1/voices",
-    model: str = "tahoe",
+    model: str = "merritt",
 ) -> list[dict[str, str]]:
     """
     Returns a list of available voices from the Phonic API.
@@ -646,3 +758,15 @@ def get_voices(
         raise ValueError(
             f"Error in get_voice: {response.status_code} " f"{response.text}"
         )
+
+
+__all__ = [
+    "PhonicSTSClient",
+    "PhonicHTTPClient",
+    "Conversations",
+    "Agents",
+    "get_voices",
+    "NOT_GIVEN",
+    "NotGiven",
+    "InsufficientCapacityError",
+]

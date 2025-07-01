@@ -1,8 +1,8 @@
-from abc import ABC, abstractmethod
 import asyncio
 import base64
 import queue
 import threading
+from abc import ABC, abstractmethod
 
 import numpy as np
 from loguru import logger

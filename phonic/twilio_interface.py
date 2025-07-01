@@ -1,8 +1,9 @@
 import asyncio
 import base64
 import json
-import numpy as np
 import threading
+
+import numpy as np
 from fastapi import WebSocket
 from loguru import logger
 

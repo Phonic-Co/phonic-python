@@ -1,6 +1,10 @@
 # Phonic Python Client
 
-## Get an API Key
+The official Python client for [Phonic](https://phonic.co) - build voice AI applications with real-time speech-to-speech capabilities.
+
+## Quick Start
+
+### Get an API Key
 
 To obtain an API key, you must be invited to the Phonic platform.
 
@@ -8,7 +12,7 @@ After you have been invited, you can generate an API key by visiting the [Phonic
 
 Please set it to the environment variable `PHONIC_API_KEY`.
 
-## Installation
+### Installation
 ```
 pip install phonic-python
 ```
@@ -95,6 +99,16 @@ if __name__ == "__main__":
     asyncio.run(main())
 ```
 
+### Getting Available Voices
+
+```python
+from phonic.client import get_voices
+
+voices = get_voices(api_key=API_KEY)
+voice_ids = [voice["id"] for voice in voices]
+print(f"Available voices: {voice_ids}")
+```
+
 ### Managing Conversations
 
 ```python
@@ -103,23 +117,23 @@ from phonic.client import Conversations
 conversation_id = "conv_12cf6e88-c254-4d3e-a149-ddf1bdd2254c"
 conversations = Conversations(api_key=API_KEY)
 
-# Get conversation
+# Get conversation by ID
 result = conversations.get_conversation(conversation_id)
 
 # Get conversation by external ID
-result = conversations.get_by_external_id(external_id)
+conversation = conversations.get_by_external_id("external-123", project="main")
 
-# List conversations with pagination
+# List conversations with filters and pagination
 results = conversations.list(
+    project="main",
     started_at_min="2025-01-01",
     started_at_max="2025-03-01",
     duration_min=0,
     duration_max=120,
-    limit=50  # Get up to 50 conversations per request
-)
+    limit=50
 
-# Pagination - get the next page
-next_cursor = results["pagination"]["nextPageCursor"]
+# Handle pagination manually
+next_cursor = results.get['pagination']['next_cursor']
 if next_cursor:
     next_page = conversations.list(
         started_at_min="2025-01-01",
@@ -129,7 +143,7 @@ if next_cursor:
     )
 
 # Pagination - get the previous page
-prev_cursor = results["pagination"]["previousPageCursor"]
+prev_cursor = results["pagination"]["prev_cursor"]
 if prev_cursor:
     prev_page = conversations.list(
         started_at_min="2025-01-01",
@@ -141,14 +155,14 @@ if prev_cursor:
 # Scroll through all conversations automatically
 # This handles pagination for you
 for conversation in conversations.scroll(
-    max_items=250,  # Total conversations to retrieve
+    project="main",
+    max_items=250,
     started_at_min="2025-01-01",
     started_at_max="2025-03-01",
     duration_min=0,
     duration_max=120,
 ):
     print(conversation["id"])
-    # Process each conversation
 
 # List evaluation prompts for a project
 prompts = conversations.list_evaluation_prompts(project_id)
@@ -177,10 +191,18 @@ new_schema = conversations.create_extraction_schema(
     project_id=project_id,
     name="booking_details",
     prompt="Extract booking details from this conversation",
-    schema={
-        "customer_name": {"type": "string", "description": "Customer's full name"},
-        "appointment_date": {"type": "string", "description": "Requested appointment date"}
-    }
+    fields=[
+        {
+            "name": "Date",
+            "type": "string",
+            "description": "The date of the appointment",
+        },
+        {
+            "name": "Copay",
+            "type": "string",
+            "description": "Amount of money the patient pays for the appointment",
+        },
+    ]
 )
 
 # Create an extraction using a schema
@@ -191,6 +213,95 @@ extraction = conversations.create_extraction(
 
 # List all extractions for a conversation
 extractions = conversations.list_extractions(conversation_id)
+```
+
+### Managing Agents
+
+```python
+from phonic.client import Agents
+
+agents = Agents(api_key=API_KEY)
+
+# Create a new agent
+agent = agents.create(
+    "booking-support-agent",
+    project="customer-support",
+    phone_number="assign-automatically",
+    voice_id="meredith",
+    welcome_message="Hello! How can I help you today?",
+    system_prompt="You are a helpful customer support agent. Be friendly and concise.",
+    tools=["keypad_input","natural_conversation_ending"],
+    boosted_keywords=["appointment", "booking", "cancel"],
+    no_input_poke_sec=30,
+    no_input_poke_text="Are you still there?",
+    configuration_endpoint={
+        "url": "https://api.example.com/config",
+        "headers": {"Authorization": "Bearer token123"},
+        "timeout_ms": 2000
+    }
+)
+
+# List all agents in a project
+agents_list = agents.list(project="customer-support")
+
+# Get an agent
+agent = agents.get_agent("agent_12cf6e88-c254-4d3e-a149-ddf1bdd2254c")
+agent = agents.get_agent("booking-support-agent", project="customer-support")  # by name
+
+# Update an agent
+agents.update(
+    "booking-support-agent",
+    project="customer-support",
+    system_prompt="You are a helpful support agent. Be concise.",
+    voice_id="maya",
+    tools=["keypad_input","natural_conversation_ending"]
+)
+
+# Delete an agent
+agents.delete_agent("agent_12cf6e88-c254-4d3e-a149-ddf1bdd2254c")
+agents.delete_agent("booking-support-agent", project="customer-support")  # by name
+```
+
+## Response Formats
+
+### Agent Creation Response
+When you create an agent, the response contains:
+```json
+{
+  "id": "agent_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
+  "name": "booking-support-agent"
+}
+```
+
+### Agent Details Response
+When you get or list agents, each agent object contains:
+```json
+{
+  "id": "agent_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
+  "name": "booking-support-agent",
+  "org_id": "org_98765432-1234-5678-9abc-def012345678",
+  "project": {
+    "id": "proj_ad0334f1-2404-4155-9df3-bfd8129b29ad",
+    "name": "customer-support"
+  },
+  "voice_id": "meredith",
+  "audio_format": "pcm_44100",
+  "welcome_message": "Hello! How can I help you today?",
+  "system_prompt": "You are a helpful customer support agent. Be friendly and concise.",
+  "tool_ids": ["keypad_input"],
+  "no_input_poke_sec": 30,
+  "no_input_poke_text": "Are you still there?", 
+  "no_input_end_conversation_sec": 180,
+  "boosted_keywords": ["appointment", "booking", "cancel"],
+  "configuration_endpoint": {
+    "url": "https://api.example.com/config",
+    "headers": {
+      "Authorization": "Bearer token123"
+    },
+    "timeout_ms": 2000
+  },
+  "phone_number": "+1234567890"
+}
 ```
 
 ## Troubleshooting
