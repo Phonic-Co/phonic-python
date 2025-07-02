@@ -228,8 +228,12 @@ agent = agents.create(
     project="customer-support",
     phone_number="assign-automatically",
     voice_id="meredith",
-    welcome_message="Hello! How can I help you today?",
-    system_prompt="You are a helpful customer support agent. Be friendly and concise.",
+    welcome_message="Hello! Welcome to our business. How can I help you today?",
+    system_prompt="You are a helpful customer support agent for {{business_name}}. When addressing the customer, call them {{customer_name}}. Be friendly and concise.",
+    template_variables={
+        "customer_name": {"default_value": "valued customer"},
+        "business_name": {"default_value": "our company"}
+    },
     tools=["keypad_input","natural_conversation_ending"],
     boosted_keywords=["appointment", "booking", "cancel"],
     no_input_poke_sec=30,
@@ -252,8 +256,12 @@ agent = agents.get("booking-support-agent", project="customer-support")  # by na
 agents.update(
     "booking-support-agent",
     project="customer-support",
-    system_prompt="You are a helpful support agent. Be concise.",
+    system_prompt="You are a helpful support agent. Address customers as {{customer_name}} and inform them our support hours are {{support_hours}}. Be concise.",
     voice_id="maya",
+    template_variables={
+        "customer_name": {"default_value": "dear customer"},
+        "support_hours": {"default_value": "9 AM to 5 PM"}
+    },
     tools=["keypad_input","natural_conversation_ending"]
 )
 
@@ -352,8 +360,12 @@ When you get or list agents, each agent object contains:
   },
   "voice_id": "meredith",
   "audio_format": "pcm_44100",
-  "welcome_message": "Hello! How can I help you today?",
-  "system_prompt": "You are a helpful customer support agent. Be friendly and concise.",
+  "welcome_message": "Hello! Welcome to our business. How can I help you today?",
+  "system_prompt": "You are a helpful customer support agent for {{business_name}}. When addressing the customer, call them {{customer_name}}. Be friendly and concise.",
+  "template_variables": {
+    "customer_name": {"default_value": "valued customer"},
+    "business_name": {"default_value": "our company"}
+  },
   "tool_ids": ["keypad_input"],
   "no_input_poke_sec": 30,
   "no_input_poke_text": "Are you still there?", 
