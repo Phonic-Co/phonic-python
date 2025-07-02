@@ -693,6 +693,7 @@ class Agents(PhonicHTTPClient):
         audio_format: Literal["pcm_44100", "mulaw_8000"] = "pcm_44100",
         welcome_message: str = "",
         system_prompt: str = "Respond in 1-2 sentences.",
+        template_variables: dict[str, dict[str, str | None]] | None = None,
         tools: list[str] | None = None,
         no_input_poke_sec: int | None = None,
         no_input_poke_text: str | None = None,
@@ -723,6 +724,10 @@ class Agents(PhonicHTTPClient):
                            Defaults to empty string.
             system_prompt: Optional. System prompt for the AI assistant.
                           Defaults to "Respond in 1-2 sentences.".
+            template_variables: Optional. Dictionary with snake_case keys (variables) and
+                              values of type {"default_value": str | None}. These variables
+                              replace {{variable_name}} placeholders in system_prompt.
+                              Defaults to None.
             tools: Optional. Array of tool names (built-in or custom). Defaults to None.
             no_input_poke_sec: Optional. Seconds of silence before sending poke message.
                               Defaults to None.
@@ -793,6 +798,7 @@ class Agents(PhonicHTTPClient):
         audio_format: Literal["pcm_44100", "mulaw_8000"] | NotGiven = NOT_GIVEN,
         welcome_message: str | NotGiven = NOT_GIVEN,
         system_prompt: str | NotGiven = NOT_GIVEN,
+        template_variables: dict[str, dict[str, str | None]] | NotGiven = NOT_GIVEN,
         tools: list[str] | NotGiven = NOT_GIVEN,
         no_input_poke_sec: int | NotGiven = NOT_GIVEN,
         no_input_poke_text: str | NotGiven = NOT_GIVEN,
@@ -825,6 +831,10 @@ class Agents(PhonicHTTPClient):
                            Use None to clear, NOT_GIVEN to leave unchanged.
             system_prompt: System prompt for the AI assistant.
                           Use None to clear, NOT_GIVEN to leave unchanged.
+            template_variables: Dictionary with snake_case keys (variables) and
+                              values of type {"default_value": str | None}. These variables
+                              replace {{variable_name}} placeholders in system_prompt.
+                              Use None to clear, NOT_GIVEN to leave unchanged.
             tools: Array of tool names (built-in or custom).
                   Use None to clear, NOT_GIVEN to leave unchanged.
             no_input_poke_sec: Seconds of silence before sending poke message.
