@@ -1,32 +1,32 @@
 [build-system]
-requires = ["setuptools", "wheel"]
+requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "phonic-python"
-version = "0.1.13"
-description = "The official Python library for the Phonic API"
+version = "0.0.1"
+description = "The official Python SDK for building voice AI with Phonic" 
 readme = "README.md"
 requires-python = ">=3.11"
+license = {text = "MIT"}
+authors = [{name = "Phonic", email = "support@phonic.co"}]
 dependencies = [
     "fastapi>=0.109.0",
-    "isort>=6.0.0",
     "loguru>=0.7.3",
-    "modal>=0.57.0",
-    "numpy<2",
+    "numpy>=1.24.0,<2.0.0",
     "python-dotenv>=1.0.1",
     "requests>=2.32.3",
     "scipy>=1.15.1",
     "sounddevice>=0.5.1",
     "typing-extensions>=4.12.2",
     "uvicorn>=0.27.0",
-    "websockets==15.0.0",
+    "websockets>=15.0.0",
 ]
 
-[project.optional-dependencies]
-pyaudio = [
-    "pyaudio==0.2.14",
-]
+[project.urls]
+Homepage = "https://phonic.co"
+Repository = "https://github.com/phonic-ai/phonic-python"
+"Bug Tracker" = "https://github.com/phonic-ai/phonic-python/issues"
 
-[tool.setuptools]
-packages = ["phonic"]
+[tool.setuptools.packages.find]
+where = ["src"]
