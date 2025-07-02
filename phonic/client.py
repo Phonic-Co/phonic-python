@@ -1,6 +1,7 @@
 import asyncio
 import base64
 import json
+import warnings
 from typing import Any, AsyncIterator, Generator
 from urllib.parse import urlencode
 
@@ -277,7 +278,7 @@ class Conversations(PhonicHTTPClient):
     ):
         super().__init__(api_key, additional_headers, base_url)
 
-    def get_conversation(self, conversation_id: str) -> dict:
+    def get(self, conversation_id: str) -> dict:
         """Get a conversation by ID.
 
         Args:
@@ -286,7 +287,26 @@ class Conversations(PhonicHTTPClient):
         Returns:
             Dictionary containing the conversation details
         """
-        return self.get(f"/conversations/{conversation_id}")
+        return self._get(f"/conversations/{conversation_id}")
+
+    def get_conversation(self, conversation_id: str) -> dict:
+        """Get a conversation by ID.
+
+        .. deprecated::
+            This method is deprecated. Use get() instead.
+
+        Args:
+            conversation_id: ID of the conversation to retrieve
+
+        Returns:
+            Dictionary containing the conversation details
+        """
+        warnings.warn(
+            "get_conversation() is deprecated. Use get() instead.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
+        return self.get(conversation_id)
 
     def get_by_external_id(self, external_id: str, project: str = "main") -> dict:
         """Get a conversation by external ID.
@@ -298,7 +318,7 @@ class Conversations(PhonicHTTPClient):
             Dictionary containing the conversation details
         """
         params = {"external_id": external_id, "project": project}
-        return self.get("/conversations", params)
+        return self._get("/conversations", params)
 
     def list(
         self,
@@ -347,7 +367,7 @@ class Conversations(PhonicHTTPClient):
         if limit is not None:
             params["limit"] = limit
 
-        return self.get("/conversations", params)
+        return self._get("/conversations", params)
 
     def scroll(
         self,
@@ -424,7 +444,7 @@ class Conversations(PhonicHTTPClient):
             Dictionary containing the evaluation result with a "result" key
             that's one of "successful", "unsuccessful", or "undecided"
         """
-        return self.post(
+        return self._post(
             f"/conversations/{conversation_id}/evals", {"prompt_id": prompt_id}
         )
 
@@ -438,11 +458,11 @@ class Conversations(PhonicHTTPClient):
             Dictionary containing a list of evaluation prompts under the
             "conversation_eval_prompts" key
         """
-        return self.get(f"/projects/{project_id}/conversation_eval_prompts")
+        return self._get(f"/projects/{project_id}/conversation_eval_prompts")
 
     def create_evaluation_prompt(self, project_id: str, name: str, prompt: str) -> dict:
         """Create a new evaluation prompt."""
-        return self.post(
+        return self._post(
             f"/projects/{project_id}/conversation_eval_prompts",
             {"name": name, "prompt": prompt},
         )
@@ -456,7 +476,7 @@ class Conversations(PhonicHTTPClient):
         Returns:
             Dictionary containing the summary text under the "summary" key
         """
-        return self.post(f"/conversations/{conversation_id}/summarize")
+        return self._post(f"/conversations/{conversation_id}/summarize")
 
     def create_extraction(self, conversation_id: str, schema_id: str) -> dict:
         """Create a new extraction for a conversation using a schema.
@@ -468,7 +488,7 @@ class Conversations(PhonicHTTPClient):
         Returns:
             Dictionary containing the extraction result or error
         """
-        return self.post(
+        return self._post(
             f"/conversations/{conversation_id}/extractions",
             {"schema_id": schema_id},
         )
@@ -484,7 +504,7 @@ class Conversations(PhonicHTTPClient):
             where each extraction includes id, conversation_id, schema information,
             result, error, and created_at timestamp
         """
-        return self.get(f"/conversations/{conversation_id}/extractions")
+        return self._get(f"/conversations/{conversation_id}/extractions")
 
     def list_extraction_schemas(self, project_id: str) -> dict:
         """List all extraction schemas for a project.
@@ -497,7 +517,7 @@ class Conversations(PhonicHTTPClient):
             "conversation_extraction_schemas" key, where each schema includes
             id, name, prompt, schema definition, and created_at timestamp
         """
-        return self.get(f"/projects/{project_id}/conversation_extraction_schemas")
+        return self._get(f"/projects/{project_id}/conversation_extraction_schemas")
 
     def create_extraction_schema(
         self, project_id: str, name: str, prompt: str, fields: dict
@@ -526,7 +546,7 @@ class Conversations(PhonicHTTPClient):
         Returns:
             Dictionary containing the ID of the created fields
         """
-        return self.post(
+        return self._post(
             f"/projects/{project_id}/conversation_extraction_schemas",
             {"name": name, "prompt": prompt, "fields": fields},
         )
@@ -585,9 +605,9 @@ class Tools(PhonicHTTPClient):
             "endpoint_headers": endpoint_headers or [],
         }
 
-        return self.post("/tools", data)
+        return self._post("/tools", data)
 
-    def get_tool(self, identifier: str) -> dict:
+    def get(self, identifier: str) -> dict:
         """Get a tool by ID or name.
 
         Args:
@@ -596,9 +616,9 @@ class Tools(PhonicHTTPClient):
         Returns:
             Dictionary containing the tool details under the "tool" key
         """
-        return self.get(f"/tools/{identifier}")
+        return self._get(f"/tools/{identifier}")
 
-    def delete_tool(self, identifier: str) -> dict:
+    def delete(self, identifier: str) -> dict:
         """Delete a tool by ID or name.
 
         Args:
@@ -607,7 +627,7 @@ class Tools(PhonicHTTPClient):
         Returns:
             Dictionary containing success status: {"success": true}
         """
-        return self.delete(f"/tools/{identifier}")
+        return self._delete(f"/tools/{identifier}")
 
     def update(
         self,
@@ -641,9 +661,7 @@ class Tools(PhonicHTTPClient):
             if k not in excluded and v is not NOT_GIVEN
         }
 
-        # API already expects snake_case, no conversion needed
-
-        return self.patch(f"/tools/{identifier}", data)
+        return self._patch(f"/tools/{identifier}", data)
 
     def list(self) -> dict:
         """List all tools for the organization.
@@ -651,7 +669,7 @@ class Tools(PhonicHTTPClient):
         Returns:
             Dictionary containing a list of tools with full details under the "tools" key
         """
-        return self.get("/tools")
+        return self._get("/tools")
 
 
 class Agents(PhonicHTTPClient):
@@ -730,9 +748,9 @@ class Agents(PhonicHTTPClient):
 
         params = {"project": project}
 
-        return self.post("/agents", data, params)
+        return self._post("/agents", data, params)
 
-    def get_agent(self, identifier: str, *, project: str = "main") -> dict:
+    def get(self, identifier: str, *, project: str = "main") -> dict:
         """Get an agent by ID or name.
 
         Args:
@@ -746,9 +764,9 @@ class Agents(PhonicHTTPClient):
         params = {}
         if not is_agent_id(identifier):
             params["project"] = project
-        return super().get(f"/agents/{identifier}", params)
+        return self._get(f"/agents/{identifier}", params)
 
-    def delete_agent(self, identifier: str, *, project: str = "main") -> dict:
+    def delete(self, identifier: str, *, project: str = "main") -> dict:
         """Delete an agent by ID or name.
 
         Args:
@@ -762,7 +780,7 @@ class Agents(PhonicHTTPClient):
         params = {}
         if not is_agent_id(identifier):
             params["project"] = project
-        return super().delete(f"/agents/{identifier}", params)
+        return self._delete(f"/agents/{identifier}", params)
 
     def update(
         self,
@@ -835,7 +853,7 @@ class Agents(PhonicHTTPClient):
         if not is_agent_id(identifier):
             params["project"] = project
 
-        return self.patch(f"/agents/{identifier}", data, params)
+        return self._patch(f"/agents/{identifier}", data, params)
 
     def list(self, *, project: str | None = None) -> dict:
         """List all agents, optionally filtered by project.
@@ -850,7 +868,7 @@ class Agents(PhonicHTTPClient):
         params = {}
         if project is not None:
             params["project"] = project
-        return self.get("/agents", params)
+        return self._get("/agents", params)
 
 
 # Utilities
