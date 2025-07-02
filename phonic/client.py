@@ -1,6 +1,7 @@
 import asyncio
 import base64
 import json
+import warnings
 from typing import Any, AsyncIterator, Generator
 from urllib.parse import urlencode
 
@@ -277,7 +278,7 @@ class Conversations(PhonicHTTPClient):
     ):
         super().__init__(api_key, additional_headers, base_url)
 
-    def get_conversation(self, conversation_id: str) -> dict:
+    def get(self, conversation_id: str) -> dict:
         """Get a conversation by ID.
 
         Args:
@@ -286,7 +287,26 @@ class Conversations(PhonicHTTPClient):
         Returns:
             Dictionary containing the conversation details
         """
-        return self.get(f"/conversations/{conversation_id}")
+        return self._get(f"/conversations/{conversation_id}")
+
+    def get_conversation(self, conversation_id: str) -> dict:
+        """Get a conversation by ID.
+
+        .. deprecated::
+            This method is deprecated. Use get() instead.
+
+        Args:
+            conversation_id: ID of the conversation to retrieve
+
+        Returns:
+            Dictionary containing the conversation details
+        """
+        warnings.warn(
+            "get_conversation() is deprecated. Use get() instead.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
+        return self.get(conversation_id)
 
     def get_by_external_id(self, external_id: str, project: str = "main") -> dict:
         """Get a conversation by external ID.
@@ -298,7 +318,7 @@ class Conversations(PhonicHTTPClient):
             Dictionary containing the conversation details
         """
         params = {"external_id": external_id, "project": project}
-        return self.get("/conversations", params)
+        return self._get("/conversations", params)
 
     def list(
         self,
@@ -347,7 +367,7 @@ class Conversations(PhonicHTTPClient):
         if limit is not None:
             params["limit"] = limit
 
-        return self.get("/conversations", params)
+        return self._get("/conversations", params)
 
     def scroll(
         self,
@@ -424,7 +444,7 @@ class Conversations(PhonicHTTPClient):
             Dictionary containing the evaluation result with a "result" key
             that's one of "successful", "unsuccessful", or "undecided"
         """
-        return self.post(
+        return self._post(
             f"/conversations/{conversation_id}/evals", {"prompt_id": prompt_id}
         )
 
@@ -438,11 +458,11 @@ class Conversations(PhonicHTTPClient):
             Dictionary containing a list of evaluation prompts under the
             "conversation_eval_prompts" key
         """
-        return self.get(f"/projects/{project_id}/conversation_eval_prompts")
+        return self._get(f"/projects/{project_id}/conversation_eval_prompts")
 
     def create_evaluation_prompt(self, project_id: str, name: str, prompt: str) -> dict:
         """Create a new evaluation prompt."""
-        return self.post(
+        return self._post(
             f"/projects/{project_id}/conversation_eval_prompts",
             {"name": name, "prompt": prompt},
         )
@@ -456,7 +476,7 @@ class Conversations(PhonicHTTPClient):
         Returns:
             Dictionary containing the summary text under the "summary" key
         """
-        return self.post(f"/conversations/{conversation_id}/summarize")
+        return self._post(f"/conversations/{conversation_id}/summarize")
 
     def create_extraction(self, conversation_id: str, schema_id: str) -> dict:
         """Create a new extraction for a conversation using a schema.
@@ -468,7 +488,7 @@ class Conversations(PhonicHTTPClient):
         Returns:
             Dictionary containing the extraction result or error
         """
-        return self.post(
+        return self._post(
             f"/conversations/{conversation_id}/extractions",
             {"schema_id": schema_id},
         )
@@ -484,7 +504,7 @@ class Conversations(PhonicHTTPClient):
             where each extraction includes id, conversation_id, schema information,
             result, error, and created_at timestamp
         """
-        return self.get(f"/conversations/{conversation_id}/extractions")
+        return self._get(f"/conversations/{conversation_id}/extractions")
 
     def list_extraction_schemas(self, project_id: str) -> dict:
         """List all extraction schemas for a project.
@@ -497,7 +517,7 @@ class Conversations(PhonicHTTPClient):
             "conversation_extraction_schemas" key, where each schema includes
             id, name, prompt, schema definition, and created_at timestamp
         """
-        return self.get(f"/projects/{project_id}/conversation_extraction_schemas")
+        return self._get(f"/projects/{project_id}/conversation_extraction_schemas")
 
     def create_extraction_schema(
         self, project_id: str, name: str, prompt: str, fields: dict
@@ -526,10 +546,130 @@ class Conversations(PhonicHTTPClient):
         Returns:
             Dictionary containing the ID of the created fields
         """
-        return self.post(
+        return self._post(
             f"/projects/{project_id}/conversation_extraction_schemas",
             {"name": name, "prompt": prompt, "fields": fields},
         )
+
+
+class Tools(PhonicHTTPClient):
+    """Client for interacting with Phonic tool endpoints."""
+
+    def __init__(
+        self,
+        api_key: str,
+        base_url: str = "https://api.phonic.co/v1",
+        additional_headers: dict | None = None,
+    ):
+        super().__init__(api_key, additional_headers, base_url)
+
+    def create(
+        self,
+        name: str,
+        description: str,
+        endpoint_url: str,
+        endpoint_timeout_ms: int,
+        parameters: list[dict[str, Any]],
+        *,
+        endpoint_headers: list[dict[str, str]] | None = None,
+    ) -> dict:
+        """Create a new tool.
+
+        Args:
+            name: Required. The name of the tool. Must be snake_case (lowercase letters,
+                  numbers, and underscores only). Must be unique within the organization.
+            description: Required. A description of what the tool does.
+            endpoint_url: Required. The URL that will be called when the tool is invoked.
+            endpoint_timeout_ms: Required. Timeout in milliseconds for the endpoint call.
+            parameters: Required. Array of parameter definitions for the tool.
+            endpoint_headers: Optional. Array of header objects with 'name' and 'value'
+                            properties. Defaults to empty array.
+
+        Parameter definition format:
+            Each parameter should have:
+            - type: One of "string", "integer", "number", "boolean", "array"
+            - item_type: Required only when type is "array". The type of items in the array.
+            - name: The parameter name.
+            - description: Description of the parameter.
+            - is_required: Boolean indicating if the parameter is required.
+
+        Returns:
+            Dictionary containing the tool ID and name: {"id": "tool_...", "name": "..."}
+        """
+        data = {
+            "name": name,
+            "description": description,
+            "endpoint_url": endpoint_url,
+            "endpoint_timeout_ms": endpoint_timeout_ms,
+            "parameters": parameters,
+            "endpoint_headers": endpoint_headers or [],
+        }
+
+        return self._post("/tools", data)
+
+    def get(self, identifier: str) -> dict:
+        """Get a tool by ID or name.
+
+        Args:
+            identifier: Tool ID (starting with "tool_" followed by UUID) or tool name
+
+        Returns:
+            Dictionary containing the tool details under the "tool" key
+        """
+        return self._get(f"/tools/{identifier}")
+
+    def delete(self, identifier: str) -> dict:
+        """Delete a tool by ID or name.
+
+        Args:
+            identifier: Tool ID (starting with "tool_" followed by UUID) or tool name
+
+        Returns:
+            Dictionary containing success status: {"success": true}
+        """
+        return self._delete(f"/tools/{identifier}")
+
+    def update(
+        self,
+        identifier: str,
+        *,
+        name: str | NotGiven = NOT_GIVEN,
+        description: str | NotGiven = NOT_GIVEN,
+        endpoint_url: str | NotGiven = NOT_GIVEN,
+        endpoint_timeout_ms: int | NotGiven = NOT_GIVEN,
+        parameters: list[dict[str, Any]] | NotGiven = NOT_GIVEN,
+        endpoint_headers: list[dict[str, str]] | NotGiven = NOT_GIVEN,
+    ) -> dict:
+        """Update a tool by ID or name.
+
+        Args:
+            identifier: Tool ID (starting with "tool_") or tool name
+            name: Tool name. Must be snake_case and unique within the organization.
+            description: Description of what the tool does.
+            endpoint_url: The URL that will be called when the tool is invoked.
+            endpoint_timeout_ms: Timeout in milliseconds for the endpoint call.
+            parameters: Array of parameter definitions (same format as create).
+            endpoint_headers: Array of header objects with 'name' and 'value' properties.
+
+        Returns:
+            Dictionary containing success status: {"success": true}
+        """
+        excluded = {"self", "identifier", "excluded"}
+        data = {
+            k: v
+            for k, v in locals().items()
+            if k not in excluded and v is not NOT_GIVEN
+        }
+
+        return self._patch(f"/tools/{identifier}", data)
+
+    def list(self) -> dict:
+        """List all tools for the organization.
+
+        Returns:
+            Dictionary containing a list of tools with full details under the "tools" key
+        """
+        return self._get("/tools")
 
 
 class Agents(PhonicHTTPClient):
@@ -608,9 +748,9 @@ class Agents(PhonicHTTPClient):
 
         params = {"project": project}
 
-        return self.post("/agents", data, params)
+        return self._post("/agents", data, params)
 
-    def get_agent(self, identifier: str, *, project: str = "main") -> dict:
+    def get(self, identifier: str, *, project: str = "main") -> dict:
         """Get an agent by ID or name.
 
         Args:
@@ -624,9 +764,9 @@ class Agents(PhonicHTTPClient):
         params = {}
         if not is_agent_id(identifier):
             params["project"] = project
-        return super().get(f"/agents/{identifier}", params)
+        return self._get(f"/agents/{identifier}", params)
 
-    def delete_agent(self, identifier: str, *, project: str = "main") -> dict:
+    def delete(self, identifier: str, *, project: str = "main") -> dict:
         """Delete an agent by ID or name.
 
         Args:
@@ -640,7 +780,7 @@ class Agents(PhonicHTTPClient):
         params = {}
         if not is_agent_id(identifier):
             params["project"] = project
-        return super().delete(f"/agents/{identifier}", params)
+        return self._delete(f"/agents/{identifier}", params)
 
     def update(
         self,
@@ -713,7 +853,7 @@ class Agents(PhonicHTTPClient):
         if not is_agent_id(identifier):
             params["project"] = project
 
-        return self.patch(f"/agents/{identifier}", data, params)
+        return self._patch(f"/agents/{identifier}", data, params)
 
     def list(self, *, project: str | None = None) -> dict:
         """List all agents, optionally filtered by project.
@@ -728,7 +868,7 @@ class Agents(PhonicHTTPClient):
         params = {}
         if project is not None:
             params["project"] = project
-        return self.get("/agents", params)
+        return self._get("/agents", params)
 
 
 # Utilities
@@ -765,6 +905,7 @@ __all__ = [
     "PhonicHTTPClient",
     "Conversations",
     "Agents",
+    "Tools",
     "get_voices",
     "NOT_GIVEN",
     "NotGiven",

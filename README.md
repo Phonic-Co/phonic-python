@@ -118,7 +118,7 @@ conversation_id = "conv_12cf6e88-c254-4d3e-a149-ddf1bdd2254c"
 conversations = Conversations(api_key=API_KEY)
 
 # Get conversation by ID
-result = conversations.get_conversation(conversation_id)
+result = conversations.get(conversation_id)
 
 # Get conversation by external ID
 conversation = conversations.get_by_external_id("external-123", project="main")
@@ -245,8 +245,8 @@ agent = agents.create(
 agents_list = agents.list(project="customer-support")
 
 # Get an agent
-agent = agents.get_agent("agent_12cf6e88-c254-4d3e-a149-ddf1bdd2254c")
-agent = agents.get_agent("booking-support-agent", project="customer-support")  # by name
+agent = agents.get("agent_12cf6e88-c254-4d3e-a149-ddf1bdd2254c")
+agent = agents.get("booking-support-agent", project="customer-support")  # by name
 
 # Update an agent
 agents.update(
@@ -258,8 +258,75 @@ agents.update(
 )
 
 # Delete an agent
-agents.delete_agent("agent_12cf6e88-c254-4d3e-a149-ddf1bdd2254c")
-agents.delete_agent("booking-support-agent", project="customer-support")  # by name
+agents.delete("agent_12cf6e88-c254-4d3e-a149-ddf1bdd2254c")
+agents.delete("booking-support-agent", project="customer-support")  # by name
+```
+
+### Managing Tools
+
+```python
+from phonic.client import Tools
+
+tools = Tools(api_key=API_KEY)
+
+# Create a new tool
+tool = tools.create(
+    name="book_appointment",
+    description="Books an appointment in the calendar system",
+    endpoint_url="https://api.example.com/book-appointment",
+    endpoint_timeout_ms=5000,
+    parameters=[
+        {
+            "type": "string",
+            "name": "date",
+            "description": "The date for the appointment in YYYY-MM-DD format",
+            "is_required": True
+        },
+        {
+            "type": "string",
+            "name": "time", 
+            "description": "The time for the appointment in HH:MM format",
+            "is_required": True
+        },
+        {
+            "type": "array",
+            "item_type": "string",
+            "name": "service_types",
+            "description": "List of services requested",
+            "is_required": False
+        }
+    ],
+    endpoint_headers=[
+        {"name": "Authorization", "value": "Bearer token123"},
+        {"name": "Content-Type", "value": "application/json"}
+    ]
+)
+
+# List all tools for the organization
+tools_list = tools.list()
+
+# Get a tool by ID or name
+tool = tools.get("tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c")
+tool = tools.get("book_appointment")  # by name
+
+# Update a tool
+tools.update(
+    "book_appointment",
+    description="Updated booking tool with enhanced features",
+    endpoint_timeout_ms=7000,
+    parameters=[
+        {
+            "type": "string",
+            "name": "customer_name",
+            "description": "Name of the customer",
+            "is_required": True
+        }
+    ]
+)
+
+# Delete a tool
+tools.delete("tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c")
+tools.delete("book_appointment")  # by name
 ```
 
 ## Response Formats
@@ -279,7 +346,6 @@ When you get or list agents, each agent object contains:
 {
   "id": "agent_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
   "name": "booking-support-agent",
-  "org_id": "org_98765432-1234-5678-9abc-def012345678",
   "project": {
     "id": "proj_ad0334f1-2404-4155-9df3-bfd8129b29ad",
     "name": "customer-support"
@@ -301,6 +367,47 @@ When you get or list agents, each agent object contains:
     "timeout_ms": 2000
   },
   "phone_number": "+1234567890"
+}
+```
+
+### Tool Creation Response
+When you create a tool, the response contains:
+```json
+{
+  "id": "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
+  "name": "book_appointment"
+}
+```
+
+### Tool Details Response
+When you get or list tools, each tool object contains:
+```json
+{
+  "id": "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
+  "name": "book_appointment",
+  "description": "Books an appointment in the calendar system",
+  "endpoint_url": "https://api.example.com/book-appointment",
+  "endpoint_headers": [
+    {
+      "name": "Authorization",
+      "value": "Bearer token123"
+    }
+  ],
+  "endpoint_timeout_ms": 5000,
+  "parameters": [
+    {
+      "type": "string",
+      "name": "date",
+      "description": "The date for the appointment in YYYY-MM-DD format",
+      "is_required": true
+    },
+    {
+      "type": "string",
+      "name": "customer_name",
+      "description": "The name of the customer booking the appointment",
+      "is_required": true
+    }
+  ]
 }
 ```
 

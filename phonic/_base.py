@@ -25,19 +25,20 @@ def ends_with_uuid(string: str) -> bool:
     return is_uuid(string[-36:])
 
 
-def is_agent_id(string: str) -> bool:
-    """Check if a string is a valid agent ID (starts with 'agent_' and ends with UUID)."""
-    return string.startswith("agent_") and ends_with_uuid(string)
+def is_agent_id(identifier: str) -> bool:
+    """Check if an identifier is an agent ID (starts with 'agent_' followed by UUID)."""
+    return (
+        identifier.startswith("agent_")
+        and ends_with_uuid(identifier)
+        and len(identifier) == 42
+    )
 
 
 class InsufficientCapacityError(Exception):
-    def __init__(
-        self,
-        message="Insufficient capacity available.",
-        code=INSUFFICIENT_CAPACITY_AVAILABLE_ERROR_CODE,
-    ):
-        super().__init__(message)
-        self.code = code
+    """Raised when the server returns a 4004 error code, indicating insufficient capacity."""
+
+    def __init__(self):
+        super().__init__("Insufficient capacity available. Please try again later.")
 
 
 class PhonicHTTPClient:
@@ -53,7 +54,7 @@ class PhonicHTTPClient:
         self.api_key = api_key
         self.additional_headers = additional_headers or {}
 
-    def get(self, path: str, params: dict | None = None) -> dict:
+    def _get(self, path: str, params: dict | None = None) -> dict:
         """Make a GET request to the Phonic API."""
         headers = {"Authorization": f"Bearer {self.api_key}", **self.additional_headers}
 
@@ -73,7 +74,7 @@ class PhonicHTTPClient:
                 f"Error in GET request: {response.status_code} {response.text}"
             )
 
-    def post(
+    def _post(
         self, path: str, data: dict | None = None, params: dict | None = None
     ) -> dict:
         """Make a POST request to the Phonic API."""
@@ -98,7 +99,7 @@ class PhonicHTTPClient:
                 f"Error in POST request: {response.status_code} {response.text}"
             )
 
-    def delete(self, path: str, params: dict | None = None) -> dict:
+    def _delete(self, path: str, params: dict | None = None) -> dict:
         """Make a DELETE request to the Phonic API."""
         headers = {"Authorization": f"Bearer {self.api_key}", **self.additional_headers}
 
@@ -118,7 +119,7 @@ class PhonicHTTPClient:
                 f"Error in DELETE request: {response.status_code} {response.text}"
             )
 
-    def patch(
+    def _patch(
         self, path: str, data: dict | None = None, params: dict | None = None
     ) -> dict:
         """Make a PATCH request to the Phonic API."""
