@@ -23,6 +23,14 @@ dependencies = [
     "websockets>=15.0.0",
 ]
 
+[project.optional-dependencies]
+dev = [
+    "ruff>=0.8.0",
+    "mypy>=1.13.0",
+    "pre-commit>=4.0.0",
+    "types-requests>=2.32.0",
+]
+
 [project.urls]
 Homepage = "https://phonic.co"
 Repository = "https://github.com/phonic-ai/phonic-python"
@@ -30,3 +38,19 @@ Repository = "https://github.com/phonic-ai/phonic-python"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.ruff]
+target-version = "py311"
+src = ["src"]
+
+[tool.mypy]
+python_version = "3.11"
+files = ["src"]
+
+[dependency-groups]
+dev = [
+    "mypy>=1.16.1",
+    "pre-commit>=4.2.0",
+    "ruff>=0.12.1",
+    "types-requests>=2.32.4.20250611",
+]
