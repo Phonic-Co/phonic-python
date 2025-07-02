@@ -12,9 +12,13 @@ from typing_extensions import Literal
 from websockets.asyncio.client import ClientConnection, connect
 from websockets.exceptions import ConnectionClosedError
 
-from ._base import (DEFAULT_HTTP_TIMEOUT,
-                    INSUFFICIENT_CAPACITY_AVAILABLE_ERROR_CODE,
-                    InsufficientCapacityError, PhonicHTTPClient, is_agent_id)
+from ._base import (
+    DEFAULT_HTTP_TIMEOUT,
+    INSUFFICIENT_CAPACITY_AVAILABLE_ERROR_CODE,
+    InsufficientCapacityError,
+    PhonicHTTPClient,
+    is_agent_id,
+)
 from ._types import NOT_GIVEN, NotGiven, PhonicSTSTool
 
 
@@ -905,9 +909,7 @@ def get_voices(
     else:
         logger.error(f"Error: {response.status_code}")
         logger.error(response.text)
-        raise ValueError(
-            f"Error in get_voice: {response.status_code} " f"{response.text}"
-        )
+        raise ValueError(f"Error in get_voice: {response.status_code} {response.text}")
 
 
 __all__ = [
