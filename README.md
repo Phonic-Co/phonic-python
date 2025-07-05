@@ -22,7 +22,6 @@ pip install phonic-python
 TODO: give an example of creating an agent and running an inbound or outbound call
 
 ### Getting Available Voices
-
 ```python
 from phonic.client import get_voices
 
@@ -32,7 +31,6 @@ print(f"Available voices: {voice_ids}")
 ```
 
 ### Managing Conversations
-
 ```python
 from phonic.client import Conversations
 
@@ -149,7 +147,7 @@ agent = agents.create(
     "booking-support-agent",
     project="customer-support",
     phone_number="assign-automatically",
-    voice_id="meredith",
+    voice_id="grant",
     welcome_message="Hello! Welcome to our business. How can I help you today?",
     system_prompt="You are a helpful customer support agent for {{business_name}}. When addressing the customer, call them {{customer_name}}. Be friendly and concise.",
     template_variables={
@@ -280,7 +278,7 @@ When you get or list agents, each agent object contains:
     "id": "proj_ad0334f1-2404-4155-9df3-bfd8129b29ad",
     "name": "customer-support"
   },
-  "voice_id": "meredith",
+  "voice_id": "grant",
   "audio_format": "pcm_44100",
   "welcome_message": "Hello! Welcome to our business. How can I help you today?",
   "system_prompt": "You are a helpful customer support agent for {{business_name}}. When addressing the customer, call them {{customer_name}}. Be friendly and concise.",
