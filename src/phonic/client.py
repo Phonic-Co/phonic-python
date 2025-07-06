@@ -693,6 +693,7 @@ class Agents(PhonicHTTPClient):
         *,
         project: str = "main",
         phone_number: Literal["assign-automatically"] | None = None,
+        timezone: str | None = None,
         voice_id: str = "grant",
         audio_format: Literal["pcm_44100", "mulaw_8000"] = "pcm_44100",
         welcome_message: str = "",
@@ -721,6 +722,8 @@ class Agents(PhonicHTTPClient):
             project: Required. The name of the project to create the agent in.
             phone_number: Optional. Either None (no phone number) or "assign-automatically"
                          to auto-assign a phone number. Defaults to None.
+            timezone: Optional. Timezone like "America/Los_Angeles". Used to format system
+                     variables e.g. {{current_time}}. Defaults to None.
             voice_id: Optional. The voice ID to use. Defaults to "grant".
             audio_format: Optional. Audio format, either "pcm_44100" or "mulaw_8000".
                          Defaults to "pcm_44100".
@@ -798,6 +801,7 @@ class Agents(PhonicHTTPClient):
         project: str = "main",
         name: str | NotGiven = NOT_GIVEN,
         phone_number: Literal["assign-automatically"] | None | NotGiven = NOT_GIVEN,
+        timezone: str | NotGiven = NOT_GIVEN,
         voice_id: str | NotGiven = NOT_GIVEN,
         audio_format: Literal["pcm_44100", "mulaw_8000"] | NotGiven = NOT_GIVEN,
         welcome_message: str | NotGiven = NOT_GIVEN,
@@ -828,6 +832,8 @@ class Agents(PhonicHTTPClient):
                  Use None to clear the field, or NOT_GIVEN to leave unchanged.
             phone_number: Either "assign-automatically" or None to clear.
                          Use NOT_GIVEN to leave unchanged.
+            timezone: Timezone like "America/Los_Angeles". Used to format system
+                     variables e.g. {{current_time}}. Use None to clear, NOT_GIVEN to leave unchanged.
             voice_id: Voice ID to use. Use None to clear, NOT_GIVEN to leave unchanged.
             audio_format: Audio format, either "pcm_44100" or "mulaw_8000".
                          Use NOT_GIVEN to leave unchanged.
