@@ -148,6 +148,7 @@ agent = agents.create(
     project="customer-support",
     phone_number="assign-automatically",
     voice_id="grant",
+    timezone="America/Los_Angeles",
     welcome_message="Hello! Welcome to our business. How can I help you today?",
     system_prompt="You are a helpful customer support agent for {{business_name}}. When addressing the customer, call them {{customer_name}}. Be friendly and concise.",
     template_variables={
@@ -176,6 +177,7 @@ agent = agents.get("booking-support-agent", project="customer-support")  # by na
 agents.update(
     "booking-support-agent",
     project="customer-support",
+    timezone="America/New_York",
     system_prompt="You are a helpful support agent. Address customers as {{customer_name}} and inform them our support hours are {{support_hours}}. Be concise.",
     voice_id="maya",
     template_variables={
@@ -279,6 +281,7 @@ When you get or list agents, each agent object contains:
     "name": "customer-support"
   },
   "voice_id": "grant",
+  "timezone": "America/Los_Angeles",
   "audio_format": "pcm_44100",
   "welcome_message": "Hello! Welcome to our business. How can I help you today?",
   "system_prompt": "You are a helpful customer support agent for {{business_name}}. When addressing the customer, call them {{customer_name}}. Be friendly and concise.",
