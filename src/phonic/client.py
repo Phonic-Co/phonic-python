@@ -585,8 +585,11 @@ class Tools(PhonicHTTPClient):
             description: Required. A description of what the tool does.
             endpoint_url: Required. The URL that will be called when the tool is invoked.
             endpoint_timeout_ms: Optional. Timeout in milliseconds for the endpoint call.
+                                Defaults to 15000 ms if not provided.
             parameters: Optional. Array of parameter definitions for the tool.
+                       Defaults to empty array [] if not provided.
             endpoint_headers: Optional. Dictionary of header key-value pairs.
+                            Defaults to empty dictionary {} if not provided.
 
         Parameter definition format:
             Each parameter should have:
