@@ -161,7 +161,10 @@ agent = agents.create(
     no_input_poke_text="Are you still there?",
     configuration_endpoint={
         "url": "https://api.example.com/config",
-        "headers": {"Authorization": "Bearer token123"},
+        "headers": {
+            "Authorization": "Bearer token123",
+            "Content-Type": "application/json"
+        },
         "timeout_ms": 2000
     }
 )
@@ -226,10 +229,10 @@ tool = tools.create(
             "is_required": False
         }
     ],
-    endpoint_headers=[
-        {"name": "Authorization", "value": "Bearer token123"},
-        {"name": "Content-Type", "value": "application/json"}
-    ]
+    endpoint_headers={
+        "Authorization": "Bearer token123",
+        "Content-Type": "application/json"
+    }
 )
 
 # List all tools for the organization
@@ -297,7 +300,8 @@ When you get or list agents, each agent object contains:
   "configuration_endpoint": {
     "url": "https://api.example.com/config",
     "headers": {
-      "Authorization": "Bearer token123"
+      "Authorization": "Bearer token123",
+      "Content-Type": "application/json"
     },
     "timeout_ms": 2000
   },
@@ -322,12 +326,10 @@ When you get or list tools, each tool object contains:
   "name": "book_appointment",
   "description": "Books an appointment in the calendar system",
   "endpoint_url": "https://api.example.com/book-appointment",
-  "endpoint_headers": [
-    {
-      "name": "Authorization",
-      "value": "Bearer token123"
-    }
-  ],
+  "endpoint_headers": {
+    "Authorization": "Bearer token123",
+    "Content-Type": "application/json"
+  },
   "endpoint_timeout_ms": 5000,
   "parameters": [
     {
