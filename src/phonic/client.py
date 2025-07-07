@@ -572,10 +572,10 @@ class Tools(PhonicHTTPClient):
         name: str,
         description: str,
         endpoint_url: str,
-        endpoint_timeout_ms: int,
-        parameters: list[dict[str, Any]],
         *,
-        endpoint_headers: list[dict[str, str]] | None = None,
+        endpoint_timeout_ms: int | NotGiven = NOT_GIVEN,
+        parameters: list[dict[str, Any]] | NotGiven = NOT_GIVEN,
+        endpoint_headers: dict[str, str] | NotGiven = NOT_GIVEN,
     ) -> dict:
         """Create a new tool.
 
@@ -584,10 +584,12 @@ class Tools(PhonicHTTPClient):
                   numbers, and underscores only). Must be unique within the organization.
             description: Required. A description of what the tool does.
             endpoint_url: Required. The URL that will be called when the tool is invoked.
-            endpoint_timeout_ms: Required. Timeout in milliseconds for the endpoint call.
-            parameters: Required. Array of parameter definitions for the tool.
-            endpoint_headers: Optional. Array of header objects with 'name' and 'value'
-                            properties. Defaults to empty array.
+            endpoint_timeout_ms: Optional. Timeout in milliseconds for the endpoint call.
+                                Defaults to 15000 ms if not provided.
+            parameters: Optional. Array of parameter definitions for the tool.
+                       Defaults to empty array [] if not provided.
+            endpoint_headers: Optional. Dictionary of header key-value pairs.
+                            Defaults to empty dictionary {} if not provided.
 
         Parameter definition format:
             Each parameter should have:
@@ -600,13 +602,11 @@ class Tools(PhonicHTTPClient):
         Returns:
             Dictionary containing the tool ID and name: {"id": "tool_...", "name": "..."}
         """
+        excluded = {"self", "excluded"}
         data = {
-            "name": name,
-            "description": description,
-            "endpoint_url": endpoint_url,
-            "endpoint_timeout_ms": endpoint_timeout_ms,
-            "parameters": parameters,
-            "endpoint_headers": endpoint_headers or [],
+            k: v
+            for k, v in locals().items()
+            if k not in excluded and v is not NOT_GIVEN
         }
 
         return self._post("/tools", data)
@@ -642,7 +642,7 @@ class Tools(PhonicHTTPClient):
         endpoint_url: str | NotGiven = NOT_GIVEN,
         endpoint_timeout_ms: int | NotGiven = NOT_GIVEN,
         parameters: list[dict[str, Any]] | NotGiven = NOT_GIVEN,
-        endpoint_headers: list[dict[str, str]] | NotGiven = NOT_GIVEN,
+        endpoint_headers: dict[str, str] | NotGiven = NOT_GIVEN,
     ) -> dict:
         """Update a tool by ID or name.
 
@@ -653,7 +653,7 @@ class Tools(PhonicHTTPClient):
             endpoint_url: The URL that will be called when the tool is invoked.
             endpoint_timeout_ms: Timeout in milliseconds for the endpoint call.
             parameters: Array of parameter definitions (same format as create).
-            endpoint_headers: Array of header objects with 'name' and 'value' properties.
+            endpoint_headers: Dictionary of header key-value pairs.
 
         Returns:
             Dictionary containing success status: {"success": true}
