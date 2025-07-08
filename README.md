@@ -133,6 +133,11 @@ extraction = conversations.create_extraction(
 
 # List all extractions for a conversation
 extractions = conversations.list_extractions(conversation_id)
+
+# Cancel an active conversation
+result = conversations.cancel(conversation_id)
+# Returns: {"success": true} on success
+# Returns: {"error": {"message": <error message>}} on error
 ```
 
 ### Managing Agents

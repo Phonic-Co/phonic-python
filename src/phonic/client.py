@@ -555,6 +555,18 @@ class Conversations(PhonicHTTPClient):
             {"name": name, "prompt": prompt, "fields": fields},
         )
 
+    def cancel(self, conversation_id: str) -> dict:
+        """Cancel an active conversation.
+
+        Args:
+            conversation_id: ID of the conversation to cancel
+
+        Returns:
+            Dictionary containing success status: {"success": true} on success
+            Dictionary containing error status: {"error": {"message": <error message>}} on error
+        """
+        return self._post(f"/conversations/{conversation_id}/cancel")
+
 
 class Tools(PhonicHTTPClient):
     """Client for interacting with Phonic tool endpoints."""
