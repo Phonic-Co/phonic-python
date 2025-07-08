@@ -562,7 +562,8 @@ class Conversations(PhonicHTTPClient):
             conversation_id: ID of the conversation to cancel
 
         Returns:
-            Dictionary containing success status: {"success": true}
+            Dictionary containing success status: {"success": true} on success
+            Dictionary containing error status: {"error": {"message": <error message>}} on error
         """
         return self._post(f"/conversations/{conversation_id}/cancel")
 
