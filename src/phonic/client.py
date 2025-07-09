@@ -179,30 +179,30 @@ class PhonicSTSClient(PhonicAsyncWebsocketClient):
 
     async def sts(
         self,
-        agent: str | None = None,
-        project: str = "main",
-        model: str | None = None,
+        agent: str | NotGiven = NOT_GIVEN,
+        project: str | NotGiven = NOT_GIVEN,
+        model: str | NotGiven = NOT_GIVEN,
         input_format: Literal["pcm_44100", "mulaw_8000"] = "pcm_44100",
         output_format: Literal["pcm_44100", "mulaw_8000"] = "pcm_44100",
         system_prompt: (
-            str | None
-        ) = "You are a helpful assistant. Respond in 2-3 sentences.",
-        output_audio_speed: float = 1.0,
-        welcome_message: str | None = "",
-        voice_id: str | None = "meredith",
-        enable_silent_audio_fallback: bool = False,
-        vad_prebuffer_duration_ms: int | None = None,
-        vad_min_speech_duration_ms: int | None = None,
-        vad_min_silence_duration_ms: int | None = None,
-        vad_threshold: float | None = None,
-        enable_documents_rag: bool | None = None,
-        enable_transcripts_rag: bool | None = None,
-        no_input_poke_sec: int | None = None,
-        no_input_poke_text: str | None = None,
-        no_input_end_conversation_sec: int | None = None,
-        boosted_keywords: list[str] | None = None,
-        tools: list[PhonicSTSTool] | None = None,
-        experimental_params: dict[str, Any] | None = None,
+            str | NotGiven
+        ) = "You are a helpful assistant. Respond in 1-2 sentences.",
+        output_audio_speed: float | NotGiven = NOT_GIVEN,
+        welcome_message: str | None | NotGiven = NOT_GIVEN,
+        voice_id: str | NotGiven = NOT_GIVEN,
+        enable_silent_audio_fallback: bool | NotGiven = NOT_GIVEN,
+        vad_prebuffer_duration_ms: int | NotGiven = NOT_GIVEN,
+        vad_min_speech_duration_ms: int | NotGiven = NOT_GIVEN,
+        vad_min_silence_duration_ms: int | NotGiven = NOT_GIVEN,
+        vad_threshold: float | NotGiven = NOT_GIVEN,
+        enable_documents_rag: bool | NotGiven = NOT_GIVEN,
+        enable_transcripts_rag: bool | NotGiven = NOT_GIVEN,
+        no_input_poke_sec: int | None | NotGiven = NOT_GIVEN,
+        no_input_poke_text: str | NotGiven = NOT_GIVEN,
+        no_input_end_conversation_sec: int | NotGiven = NOT_GIVEN,
+        boosted_keywords: list[str] | NotGiven = NOT_GIVEN,
+        tools: list[PhonicSTSTool] | NotGiven = NOT_GIVEN,
+        experimental_params: dict[str, Any] | NotGiven = NOT_GIVEN,
     ) -> AsyncIterator[dict[str, Any]]:
         """
         Args:
@@ -211,11 +211,9 @@ class PhonicSTSClient(PhonicAsyncWebsocketClient):
             model: STS model to use (optional)
             input_format: input audio format (defaults to "pcm_44100")
             output_format: output audio format (defaults to "pcm_44100")
-            system_prompt: system prompt for assistant
-                (defaults to "You are a helpful assistant. Respond in 2-3 sentences.")
-            output_audio_speed: output audio speed (defaults to 1.0)
-            welcome_message: welcome message for assistant (defaults to "")
-            voice_id: voice id (defaults to "meredith")
+            system_prompt: system prompt for assistant (optional)
+            welcome_message: welcome message for assistant (optional)
+            voice_id: voice id (optional)
             enable_silent_audio_fallback: enable silent audio fallback (defaults to False)
             vad_prebuffer_duration_ms: VAD prebuffer duration in milliseconds (optional)
             vad_min_speech_duration_ms: VAD minimum speech duration in milliseconds (optional)
@@ -223,7 +221,7 @@ class PhonicSTSClient(PhonicAsyncWebsocketClient):
             vad_threshold: VAD threshold (optional)
             enable_documents_rag: enable documents RAG (optional)
             enable_transcripts_rag: enable transcripts RAG (optional)
-            no_input_poke_sec: seconds before no input poke (optional)
+            no_input_poke_sec: seconds before no input poke (optional, None to disable)
             no_input_poke_text: text for no input poke (optional)
             no_input_end_conversation_sec: seconds before ending conversation on no input (optional)
             boosted_keywords: list of keywords to boost in speech recognition (optional)
@@ -235,16 +233,21 @@ class PhonicSTSClient(PhonicAsyncWebsocketClient):
         if not self._is_running:
             raise RuntimeError("WebSocket connection not established")
 
+        if output_audio_speed is not NOT_GIVEN:
+            warnings.warn(
+                "output_audio_speed is not supported at this time.",
+                DeprecationWarning,
+                stacklevel=2,
+            )
+
         self.input_format = input_format
 
-        # Build config message with all parameters, then filter out None values
         config_message = {
             "type": "config",
             "project": project,
             "input_format": input_format,
             "output_format": output_format,
             "system_prompt": system_prompt,
-            "output_audio_speed": output_audio_speed,
             "welcome_message": welcome_message,
             "voice_id": voice_id,
             "enable_silent_audio_fallback": enable_silent_audio_fallback,
@@ -264,7 +267,7 @@ class PhonicSTSClient(PhonicAsyncWebsocketClient):
             "experimental_params": experimental_params,
         }
 
-        config_message = {k: v for k, v in config_message.items() if v is not None}
+        config_message = {k: v for k, v in config_message.items() if v is not NOT_GIVEN}
         await self._websocket.send(json.dumps(config_message))
 
         async for message in self.start_bidirectional_stream():
@@ -323,6 +326,89 @@ class Conversations(PhonicHTTPClient):
         """
         params = {"external_id": external_id, "project": project}
         return self._get("/conversations", params)
+
+    def outbound_call(
+        self,
+        to_phone_number: str,
+        *,
+        agent: str | NotGiven = NOT_GIVEN,
+        project: str | NotGiven = NOT_GIVEN,
+        model: str | NotGiven = NOT_GIVEN,
+        system_prompt: str | NotGiven = NOT_GIVEN,
+        template_variables: dict[str, str] | NotGiven = NOT_GIVEN,
+        output_audio_speed: float | NotGiven = NOT_GIVEN,
+        welcome_message: str | None | NotGiven = NOT_GIVEN,
+        voice_id: str | NotGiven = NOT_GIVEN,
+        enable_silent_audio_fallback: bool | NotGiven = NOT_GIVEN,
+        vad_prebuffer_duration_ms: int | NotGiven = NOT_GIVEN,
+        vad_min_speech_duration_ms: int | NotGiven = NOT_GIVEN,
+        vad_min_silence_duration_ms: int | NotGiven = NOT_GIVEN,
+        vad_threshold: float | NotGiven = NOT_GIVEN,
+        enable_documents_rag: bool | NotGiven = NOT_GIVEN,
+        enable_transcripts_rag: bool | NotGiven = NOT_GIVEN,
+        no_input_poke_sec: int | None | NotGiven = NOT_GIVEN,
+        no_input_poke_text: str | NotGiven = NOT_GIVEN,
+        no_input_end_conversation_sec: int | NotGiven = NOT_GIVEN,
+        boosted_keywords: list[str] | NotGiven = NOT_GIVEN,
+        tools: list[str] | NotGiven = NOT_GIVEN,
+        experimental_params: dict[str, Any] | NotGiven = NOT_GIVEN,
+        downstream_websocket_url: str | NotGiven = NOT_GIVEN,
+    ) -> dict:
+        """Make an outbound SIP call to a phone number.
+
+        Args:
+            to_phone_number: Required. Phone number to call in E.164 format (e.g., "+15551234567")
+            agent: Optional. Agent identifier to use for the call
+            project: Optional. Project name (defaults to "main" if not provided)
+            model: Optional. STS model to use for the call
+            system_prompt: Optional. System prompt for the AI assistant
+            template_variables: Optional. Template variables for prompt substitution
+            output_audio_speed: Optional. Audio playback speed (0.5-2.0)
+            welcome_message: Optional. Message to play when call connects (None for no message)
+            voice_id: Optional. Voice ID to use for speech synthesis
+            enable_silent_audio_fallback: Optional. Enable fallback for silent audio
+            vad_prebuffer_duration_ms: Optional. VAD prebuffer duration in milliseconds
+            vad_min_speech_duration_ms: Optional. VAD minimum speech duration in milliseconds
+            vad_min_silence_duration_ms: Optional. VAD minimum silence duration in milliseconds
+            vad_threshold: Optional. VAD threshold value
+            enable_documents_rag: Optional. Enable document retrieval augmented generation
+            enable_transcripts_rag: Optional. Enable transcript retrieval augmented generation
+            no_input_poke_sec: Optional. Seconds before sending poke message (None to disable)
+            no_input_poke_text: Optional. Text for poke message
+            no_input_end_conversation_sec: Optional. Seconds before ending conversation on no input
+            boosted_keywords: Optional. Keywords to boost in speech recognition
+            tools: Optional. List of tool names to enable
+            experimental_params: Optional. Experimental parameters
+            token: Optional. Authentication token for downstream services
+            downstream_websocket_url: Optional. URL for downstream WebSocket connection
+
+        Returns:
+            Dictionary containing call initiation result:
+            - On success: {"success": true, "conversation_id": "conv_..."}
+            - On error: {"error": {"message": "..."}}
+        """
+        excluded = {
+            "self",
+            "to_phone_number",
+            "token",
+            "downstream_websocket_url",
+            "excluded",
+        }
+        config = {
+            k: v
+            for k, v in locals().items()
+            if k not in excluded and v is not NOT_GIVEN
+        }
+
+        params: dict = {}
+        if downstream_websocket_url is not NOT_GIVEN:
+            params["downstream_websocket_url"] = downstream_websocket_url
+
+        return self._post(
+            "/sts/outbound_call_sip",
+            {"to_phone_number": to_phone_number, "config": config},
+            params,
+        )
 
     def list(
         self,
