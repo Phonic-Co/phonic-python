@@ -327,6 +327,89 @@ class Conversations(PhonicHTTPClient):
         params = {"external_id": external_id, "project": project}
         return self._get("/conversations", params)
 
+    def outbound_call(
+        self,
+        to_phone_number: str,
+        *,
+        agent: str | NotGiven = NOT_GIVEN,
+        project: str | NotGiven = NOT_GIVEN,
+        model: str | NotGiven = NOT_GIVEN,
+        system_prompt: str | NotGiven = NOT_GIVEN,
+        template_variables: dict[str, str] | NotGiven = NOT_GIVEN,
+        output_audio_speed: float | NotGiven = NOT_GIVEN,
+        welcome_message: str | None | NotGiven = NOT_GIVEN,
+        voice_id: str | NotGiven = NOT_GIVEN,
+        enable_silent_audio_fallback: bool | NotGiven = NOT_GIVEN,
+        vad_prebuffer_duration_ms: int | NotGiven = NOT_GIVEN,
+        vad_min_speech_duration_ms: int | NotGiven = NOT_GIVEN,
+        vad_min_silence_duration_ms: int | NotGiven = NOT_GIVEN,
+        vad_threshold: float | NotGiven = NOT_GIVEN,
+        enable_documents_rag: bool | NotGiven = NOT_GIVEN,
+        enable_transcripts_rag: bool | NotGiven = NOT_GIVEN,
+        no_input_poke_sec: int | None | NotGiven = NOT_GIVEN,
+        no_input_poke_text: str | NotGiven = NOT_GIVEN,
+        no_input_end_conversation_sec: int | NotGiven = NOT_GIVEN,
+        boosted_keywords: list[str] | NotGiven = NOT_GIVEN,
+        tools: list[str] | NotGiven = NOT_GIVEN,
+        experimental_params: dict[str, Any] | NotGiven = NOT_GIVEN,
+        downstream_websocket_url: str | NotGiven = NOT_GIVEN,
+    ) -> dict:
+        """Make an outbound SIP call to a phone number.
+
+        Args:
+            to_phone_number: Required. Phone number to call in E.164 format (e.g., "+15551234567")
+            agent: Optional. Agent identifier to use for the call
+            project: Optional. Project name (defaults to "main" if not provided)
+            model: Optional. STS model to use for the call
+            system_prompt: Optional. System prompt for the AI assistant
+            template_variables: Optional. Template variables for prompt substitution
+            output_audio_speed: Optional. Audio playback speed (0.5-2.0)
+            welcome_message: Optional. Message to play when call connects (None for no message)
+            voice_id: Optional. Voice ID to use for speech synthesis
+            enable_silent_audio_fallback: Optional. Enable fallback for silent audio
+            vad_prebuffer_duration_ms: Optional. VAD prebuffer duration in milliseconds
+            vad_min_speech_duration_ms: Optional. VAD minimum speech duration in milliseconds
+            vad_min_silence_duration_ms: Optional. VAD minimum silence duration in milliseconds
+            vad_threshold: Optional. VAD threshold value
+            enable_documents_rag: Optional. Enable document retrieval augmented generation
+            enable_transcripts_rag: Optional. Enable transcript retrieval augmented generation
+            no_input_poke_sec: Optional. Seconds before sending poke message (None to disable)
+            no_input_poke_text: Optional. Text for poke message
+            no_input_end_conversation_sec: Optional. Seconds before ending conversation on no input
+            boosted_keywords: Optional. Keywords to boost in speech recognition
+            tools: Optional. List of tool names to enable
+            experimental_params: Optional. Experimental parameters
+            token: Optional. Authentication token for downstream services
+            downstream_websocket_url: Optional. URL for downstream WebSocket connection
+
+        Returns:
+            Dictionary containing call initiation result:
+            - On success: {"success": true, "conversation_id": "conv_..."}
+            - On error: {"error": {"message": "..."}}
+        """
+        excluded = {
+            "self",
+            "to_phone_number",
+            "token",
+            "downstream_websocket_url",
+            "excluded",
+        }
+        config = {
+            k: v
+            for k, v in locals().items()
+            if k not in excluded and v is not NOT_GIVEN
+        }
+
+        params: dict = {}
+        if downstream_websocket_url is not NOT_GIVEN:
+            params["downstream_websocket_url"] = downstream_websocket_url
+
+        return self._post(
+            "/sts/outbound_call_sip",
+            {"to_phone_number": to_phone_number, "config": config},
+            params,
+        )
+
     def list(
         self,
         project: str = "main",
@@ -691,101 +774,6 @@ class Tools(PhonicHTTPClient):
         return self._get("/tools")
 
 
-class Calls(PhonicHTTPClient):
-    """Client for interacting with Phonic call endpoints."""
-
-    def __init__(
-        self,
-        api_key: str,
-        base_url: str = "https://api.phonic.co/v1",
-        additional_headers: dict | None = None,
-    ):
-        super().__init__(api_key, additional_headers, base_url)
-
-    def outbound(
-        self,
-        to_phone_number: str,
-        *,
-        agent: str | NotGiven = NOT_GIVEN,
-        project: str | NotGiven = NOT_GIVEN,
-        model: str | NotGiven = NOT_GIVEN,
-        system_prompt: str | NotGiven = NOT_GIVEN,
-        template_variables: dict[str, str] | NotGiven = NOT_GIVEN,
-        output_audio_speed: float | NotGiven = NOT_GIVEN,
-        welcome_message: str | None | NotGiven = NOT_GIVEN,
-        voice_id: str | NotGiven = NOT_GIVEN,
-        enable_silent_audio_fallback: bool | NotGiven = NOT_GIVEN,
-        vad_prebuffer_duration_ms: int | NotGiven = NOT_GIVEN,
-        vad_min_speech_duration_ms: int | NotGiven = NOT_GIVEN,
-        vad_min_silence_duration_ms: int | NotGiven = NOT_GIVEN,
-        vad_threshold: float | NotGiven = NOT_GIVEN,
-        enable_documents_rag: bool | NotGiven = NOT_GIVEN,
-        enable_transcripts_rag: bool | NotGiven = NOT_GIVEN,
-        no_input_poke_sec: int | None | NotGiven = NOT_GIVEN,
-        no_input_poke_text: str | NotGiven = NOT_GIVEN,
-        no_input_end_conversation_sec: int | NotGiven = NOT_GIVEN,
-        boosted_keywords: list[str] | NotGiven = NOT_GIVEN,
-        tools: list[str] | NotGiven = NOT_GIVEN,
-        experimental_params: dict[str, Any] | NotGiven = NOT_GIVEN,
-        downstream_websocket_url: str | NotGiven = NOT_GIVEN,
-    ) -> dict:
-        """Make an outbound SIP call to a phone number.
-
-        Args:
-            to_phone_number: Required. Phone number to call in E.164 format (e.g., "+15551234567")
-            agent: Optional. Agent identifier to use for the call
-            project: Optional. Project name (defaults to "main" if not provided)
-            model: Optional. STS model to use for the call
-            system_prompt: Optional. System prompt for the AI assistant
-            template_variables: Optional. Template variables for prompt substitution
-            output_audio_speed: Optional. Audio playback speed (0.5-2.0)
-            welcome_message: Optional. Message to play when call connects (None for no message)
-            voice_id: Optional. Voice ID to use for speech synthesis
-            enable_silent_audio_fallback: Optional. Enable fallback for silent audio
-            vad_prebuffer_duration_ms: Optional. VAD prebuffer duration in milliseconds
-            vad_min_speech_duration_ms: Optional. VAD minimum speech duration in milliseconds
-            vad_min_silence_duration_ms: Optional. VAD minimum silence duration in milliseconds
-            vad_threshold: Optional. VAD threshold value
-            enable_documents_rag: Optional. Enable document retrieval augmented generation
-            enable_transcripts_rag: Optional. Enable transcript retrieval augmented generation
-            no_input_poke_sec: Optional. Seconds before sending poke message (None to disable)
-            no_input_poke_text: Optional. Text for poke message
-            no_input_end_conversation_sec: Optional. Seconds before ending conversation on no input
-            boosted_keywords: Optional. Keywords to boost in speech recognition
-            tools: Optional. List of tool names to enable
-            experimental_params: Optional. Experimental parameters
-            token: Optional. Authentication token for downstream services
-            downstream_websocket_url: Optional. URL for downstream WebSocket connection
-
-        Returns:
-            Dictionary containing call initiation result:
-            - On success: {"success": true, "conversation_id": "conv_..."}
-            - On error: {"error": {"message": "..."}}
-        """
-        excluded = {
-            "self",
-            "to_phone_number",
-            "token",
-            "downstream_websocket_url",
-            "excluded",
-        }
-        config = {
-            k: v
-            for k, v in locals().items()
-            if k not in excluded and v is not NOT_GIVEN
-        }
-
-        params: dict = {}
-        if downstream_websocket_url is not NOT_GIVEN:
-            params["downstream_websocket_url"] = downstream_websocket_url
-
-        return self._post(
-            "/sts/outbound_call_sip",
-            {"to_phone_number": to_phone_number, "config": config},
-            params,
-        )
-
-
 class Agents(PhonicHTTPClient):
     """Client for interacting with Phonic agent endpoints."""
 
@@ -1034,7 +1022,6 @@ __all__ = [
     "Conversations",
     "Agents",
     "Tools",
-    "Calls",
     "get_voices",
     "NOT_GIVEN",
     "NotGiven",
