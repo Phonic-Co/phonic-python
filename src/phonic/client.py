@@ -405,7 +405,7 @@ class Conversations(PhonicHTTPClient):
             params["downstream_websocket_url"] = downstream_websocket_url
 
         return self._post(
-            "/sts/outbound_call_sip",
+            "/conversations/outbound_call",
             {"to_phone_number": to_phone_number, "config": config},
             params,
         )
