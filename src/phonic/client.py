@@ -187,7 +187,7 @@ class PhonicSTSClient(PhonicAsyncWebsocketClient):
         system_prompt: (
             str | NotGiven
         ) = "You are a helpful assistant. Respond in 1-2 sentences.",
-        output_audio_speed: float | NotGiven = NOT_GIVEN,
+        audio_speed: float | NotGiven = NOT_GIVEN,
         welcome_message: str | None | NotGiven = NOT_GIVEN,
         voice_id: str | NotGiven = NOT_GIVEN,
         enable_silent_audio_fallback: bool | NotGiven = NOT_GIVEN,
@@ -233,9 +233,9 @@ class PhonicSTSClient(PhonicAsyncWebsocketClient):
         if not self._is_running:
             raise RuntimeError("WebSocket connection not established")
 
-        if output_audio_speed is not NOT_GIVEN:
+        if audio_speed is not NOT_GIVEN:
             warnings.warn(
-                "output_audio_speed is not supported at this time.",
+                "audio_speed is not supported at this time.",
                 DeprecationWarning,
                 stacklevel=2,
             )
@@ -336,7 +336,7 @@ class Conversations(PhonicHTTPClient):
         model: str | NotGiven = NOT_GIVEN,
         system_prompt: str | NotGiven = NOT_GIVEN,
         template_variables: dict[str, str] | NotGiven = NOT_GIVEN,
-        output_audio_speed: float | NotGiven = NOT_GIVEN,
+        audio_speed: float | NotGiven = NOT_GIVEN,
         welcome_message: str | None | NotGiven = NOT_GIVEN,
         voice_id: str | NotGiven = NOT_GIVEN,
         enable_silent_audio_fallback: bool | NotGiven = NOT_GIVEN,
@@ -363,7 +363,7 @@ class Conversations(PhonicHTTPClient):
             model: Optional. STS model to use for the call
             system_prompt: Optional. System prompt for the AI assistant
             template_variables: Optional. Template variables for prompt substitution
-            output_audio_speed: Optional. Audio playback speed (0.5-2.0)
+            audio_speed: Optional. Audio playback speed (0.5-2.0)
             welcome_message: Optional. Message to play when call connects (None for no message)
             voice_id: Optional. Voice ID to use for speech synthesis
             enable_silent_audio_fallback: Optional. Enable fallback for silent audio
