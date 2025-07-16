@@ -19,8 +19,6 @@ pip install phonic-python
 
 ## Speech-to-Speech Usage
 
-TODO: give an example of creating an agent and running an inbound or outbound call
-
 ### Getting Available Voices
 ```python
 from phonic.client import get_voices
