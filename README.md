@@ -82,6 +82,28 @@ for conversation in conversations.scroll(
 ):
     print(conversation["id"])
 
+# Make an outbound call to a phone number
+call_result = conversations.outbound_call(
+    to_phone_number="+15551234567",
+    agent="booking-support-agent",
+    project="customer-support",
+    system_prompt="You are calling to confirm an appointment. Be polite and brief.",
+    welcome_message="Hello, this is a call from our booking system to confirm your appointment.",
+    voice_id="grant",
+    tools=["keypad_input", "natural_conversation_ending"],
+    boosted_keywords=["yes", "no", "confirm", "cancel"],
+    no_input_poke_sec=15,
+    no_input_poke_text="Are you still there?",
+    no_input_end_conversation_sec=60,
+    downstream_websocket_url="wss://example.com/websocket"
+)
+
+# The response contains either success or error information
+if call_result.get("success"):
+    print(f"Call initiated successfully. Conversation ID: {call_result['conversation_id']}")
+else:
+    print(f"Call failed: {call_result['error']['message']}")
+
 # List evaluation prompts for a project
 prompts = conversations.list_evaluation_prompts(project_id)
 
@@ -136,6 +158,85 @@ extractions = conversations.list_extractions(conversation_id)
 result = conversations.cancel(conversation_id)
 # Returns: {"success": true} on success
 # Returns: {"error": {"message": <error message>}} on error
+```
+
+### Outbound Calls
+
+The `outbound_call` method allows you to initiate phone calls programmatically.
+
+```python
+from phonic.client import Conversations
+
+conversations = Conversations(api_key=API_KEY)
+
+# Basic outbound call
+result = conversations.outbound_call(
+    to_phone_number="+15551234567",
+    system_prompt="You are calling to confirm an appointment scheduled for tomorrow at 2 PM.",
+    welcome_message="Hello, this is a confirmation call from ABC Medical Center."
+)
+
+# Advanced outbound call with full configuration
+result = conversations.outbound_call(
+    to_phone_number="+15551234567",
+    agent="appointment-confirmation-agent",
+    project="healthcare",
+    model="merritt",
+    system_prompt="You are calling to confirm an appointment for {{patient_name}} on {{appointment_date}}. Be professional and concise.",
+    template_variables={
+        "patient_name": "John Smith",
+        "appointment_date": "tomorrow at 2 PM"
+    },
+    welcome_message="Hello, this is ABC Medical Center calling to confirm your appointment.",
+    voice_id="maya",
+    enable_silent_audio_fallback=True,
+    vad_prebuffer_duration_ms=500,
+    vad_min_speech_duration_ms=300,
+    vad_min_silence_duration_ms=800,
+    vad_threshold=0.5,
+    enable_documents_rag=True,
+    enable_transcripts_rag=False,
+    no_input_poke_sec=10,
+    no_input_poke_text="Hello, are you there?",
+    no_input_end_conversation_sec=30,
+    boosted_keywords=["confirm", "cancel", "reschedule", "yes", "no"],
+    tools=["keypad_input", "natural_conversation_ending"],
+    experimental_params={"custom_feature": "enabled"},
+    downstream_websocket_url="wss://your-backend.com/call-webhook"
+)
+
+# Check the result
+if result.get("success"):
+    conversation_id = result["conversation_id"]
+    print(f"Call initiated successfully! Conversation ID: {conversation_id}")
+
+    # You can now monitor the conversation using the conversation_id
+    conversation_details = conversations.get(conversation_id)
+    print(f"Call status: {conversation_details.get('status')}")
+else:
+    error_message = result["error"]["message"]
+    print(f"Call failed: {error_message}")
+```
+
+#### Outbound Call Response
+
+The method returns a dictionary with either success or error information:
+
+**Success Response:**
+```json
+{
+  "success": true,
+  "conversation_id": "conv_12cf6e88-c254-4d3e-a149-ddf1bdd2254c"
+}
+```
+
+**Error Response:**
+```json
+{
+  "error": {
+    "message": "Invalid phone number format"
+  }
+}
 ```
 
 ### Managing Agents
