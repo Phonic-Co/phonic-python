@@ -179,7 +179,7 @@ result = conversations.outbound_call(
 result = conversations.outbound_call(
     to_phone_number="+12345678901",
     agent="appointment-confirmation-agent",
-    project="healthcare",
+    project="main",
     system_prompt="You are calling to confirm an appointment for {{patient_name}} on {{appointment_date}}. Be professional and concise.",
     template_variables={
         "patient_name": "John Smith",
