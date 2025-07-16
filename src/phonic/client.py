@@ -383,9 +383,7 @@ class Conversations(PhonicHTTPClient):
             downstream_websocket_url: Optional. URL for downstream WebSocket connection
 
         Returns:
-            Dictionary containing call initiation result:
-            - On success: {"success": true, "conversation_id": "conv_..."}
-            - On error: {"error": {"message": "..."}}
+            Dictionary containing call initiation result: {"conversation_id": "conv_..."}
         """
         excluded = {
             "self",
