@@ -668,6 +668,7 @@ class Tools(PhonicHTTPClient):
         name: str,
         description: str,
         endpoint_url: str,
+        endpoint_method: str,
         *,
         endpoint_timeout_ms: int | NotGiven = NOT_GIVEN,
         parameters: list[dict[str, Any]] | NotGiven = NOT_GIVEN,
@@ -680,6 +681,7 @@ class Tools(PhonicHTTPClient):
                   numbers, and underscores only). Must be unique within the organization.
             description: Required. A description of what the tool does.
             endpoint_url: Required. The URL that will be called when the tool is invoked.
+            endpoint_method: Required. The HTTP method for the endpoint. Only "POST" is supported.
             endpoint_timeout_ms: Optional. Timeout in milliseconds for the endpoint call.
                                 Defaults to 15000 ms if not provided.
             parameters: Optional. Array of parameter definitions for the tool.
@@ -736,6 +738,7 @@ class Tools(PhonicHTTPClient):
         name: str | NotGiven = NOT_GIVEN,
         description: str | NotGiven = NOT_GIVEN,
         endpoint_url: str | NotGiven = NOT_GIVEN,
+        endpoint_method: str | NotGiven = NOT_GIVEN,
         endpoint_timeout_ms: int | NotGiven = NOT_GIVEN,
         parameters: list[dict[str, Any]] | NotGiven = NOT_GIVEN,
         endpoint_headers: dict[str, str] | NotGiven = NOT_GIVEN,
@@ -747,6 +750,7 @@ class Tools(PhonicHTTPClient):
             name: Tool name. Must be snake_case and unique within the organization.
             description: Description of what the tool does.
             endpoint_url: The URL that will be called when the tool is invoked.
+            endpoint_method: The HTTP method for the endpoint. Only "POST" is supported.
             endpoint_timeout_ms: Timeout in milliseconds for the endpoint call.
             parameters: Array of parameter definitions (same format as create).
             endpoint_headers: Dictionary of header key-value pairs.
