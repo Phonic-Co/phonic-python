@@ -235,6 +235,8 @@ agents.delete("booking-support-agent", project="main")
 
 ## Tools
 
+All tools require an `endpoint_method` parameter that specifies the HTTP method to use when calling the tool endpoint. Currently, only "POST" is supported.
+
 ### Create Tool
 
 ```python
@@ -247,6 +249,7 @@ tool = tools.create(
     name="next_invoice",
     description="Returns the next invoice of the given user",
     endpoint_url="https://myapp.com/webhooks/next-invoice",
+    endpoint_method="POST",
     endpoint_timeout_ms=20000,
     parameters=[
         {
@@ -306,6 +309,7 @@ tools_list = tools.list()
       "name": "next_invoice",
       "description": "Returns the next invoice of the given user",
       "endpoint_url": "https://myapp.com/webhooks/next-invoice",
+      "endpoint_method": "POST",
       "endpoint_headers": {
         "Authorization": "Bearer 123",
         "Content-Type": "application/json"
@@ -360,6 +364,7 @@ tool = tools.get("next_invoice")
     "name": "next_invoice",
     "description": "Returns the next invoice of the given user",
     "endpoint_url": "https://myapp.com/webhooks/next-invoice",
+    "endpoint_method": "POST",
     "endpoint_headers": {
       "Authorization": "Bearer 123",
       "Content-Type": "application/json"
@@ -401,6 +406,7 @@ tools = Tools(api_key=API_KEY)
 tools.update(
     "next_invoice",
     description="Returns the next invoice with updated processing",
+    endpoint_method="POST",
     endpoint_timeout_ms=30000,
     parameters=[
         {
@@ -699,11 +705,11 @@ from phonic.client import Conversations
 conversations = Conversations(api_key=API_KEY)
 
 # List evaluation prompts for a project
-prompts = conversations.list_evaluation_prompts(project_id)
+prompts = conversations.list_evaluation_prompts(project="main")
 
 # Create a new evaluation prompt
 new_prompt = conversations.create_evaluation_prompt(
-    project_id=project_id,
+    project="main",
     name="customer_issue_resolved",
     prompt="Did the agent resolve the customer's issue?"
 )
@@ -734,11 +740,11 @@ from phonic.client import Conversations
 conversations = Conversations(api_key=API_KEY)
 
 # List extraction schemas for a project
-schemas = conversations.list_extraction_schemas(project_id)
+schemas = conversations.list_extraction_schemas(project="main")
 
 # Create a new extraction schema
 new_schema = conversations.create_extraction_schema(
-    project_id=project_id,
+    project="main",
     name="booking_details",
     prompt="Extract booking details from this conversation",
     fields=[
