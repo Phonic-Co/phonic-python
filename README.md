@@ -1,8 +1,6 @@
 # Phonic Python Client
 
-The official Python client for [Phonic](https://phonic.co) - build voice AI applications with real-time speech-to-speech capabilities.
-
-## Table of Contents
+The official Python library for the Phonic API.
 
 - [Installation](#installation)
 - [Setup](#setup)
