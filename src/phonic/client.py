@@ -383,9 +383,7 @@ class Conversations(PhonicHTTPClient):
             downstream_websocket_url: Optional. URL for downstream WebSocket connection
 
         Returns:
-            Dictionary containing call initiation result:
-            - On success: {"success": true, "conversation_id": "conv_..."}
-            - On error: {"error": {"message": "..."}}
+            Dictionary containing call initiation result: {"conversation_id": "conv_..."}
         """
         excluded = {
             "self",
@@ -538,22 +536,22 @@ class Conversations(PhonicHTTPClient):
             f"/conversations/{conversation_id}/evals", {"prompt_id": prompt_id}
         )
 
-    def list_evaluation_prompts(self, project_id: str) -> dict:
+    def list_evaluation_prompts(self, project: str = "main") -> dict:
         """List evaluation prompts for a project.
 
         Args:
-            project_id: ID of the project
+            project: Name of the project (defaults to "main")
 
         Returns:
             Dictionary containing a list of evaluation prompts under the
             "conversation_eval_prompts" key
         """
-        return self._get(f"/projects/{project_id}/conversation_eval_prompts")
+        return self._get(f"/projects/{project}/conversation_eval_prompts")
 
-    def create_evaluation_prompt(self, project_id: str, name: str, prompt: str) -> dict:
+    def create_evaluation_prompt(self, project: str, name: str, prompt: str) -> dict:
         """Create a new evaluation prompt."""
         return self._post(
-            f"/projects/{project_id}/conversation_eval_prompts",
+            f"/projects/{project}/conversation_eval_prompts",
             {"name": name, "prompt": prompt},
         )
 
@@ -596,26 +594,26 @@ class Conversations(PhonicHTTPClient):
         """
         return self._get(f"/conversations/{conversation_id}/extractions")
 
-    def list_extraction_schemas(self, project_id: str) -> dict:
+    def list_extraction_schemas(self, project: str = "main") -> dict:
         """List all extraction schemas for a project.
 
         Args:
-            project_id: ID of the project
+            project: Name of the project (defaults to "main")
 
         Returns:
             Dictionary containing the list of extraction schemas under the
             "conversation_extraction_schemas" key, where each schema includes
             id, name, prompt, schema definition, and created_at timestamp
         """
-        return self._get(f"/projects/{project_id}/conversation_extraction_schemas")
+        return self._get(f"/projects/{project}/conversation_extraction_schemas")
 
     def create_extraction_schema(
-        self, project_id: str, name: str, prompt: str, fields: dict
+        self, project: str, name: str, prompt: str, fields: dict
     ) -> dict:
         """Create a new extraction fields.
 
         Args:
-            project_id: ID of the project
+            project: Name of the project
             name: Name of the fields
             prompt: Prompt for the extraction
             fields: list of field definition objects, where each object contains "name", "type",
@@ -637,7 +635,7 @@ class Conversations(PhonicHTTPClient):
             Dictionary containing the ID of the created fields
         """
         return self._post(
-            f"/projects/{project_id}/conversation_extraction_schemas",
+            f"/projects/{project}/conversation_extraction_schemas",
             {"name": name, "prompt": prompt, "fields": fields},
         )
 
@@ -670,6 +668,7 @@ class Tools(PhonicHTTPClient):
         name: str,
         description: str,
         endpoint_url: str,
+        endpoint_method: str,
         *,
         endpoint_timeout_ms: int | NotGiven = NOT_GIVEN,
         parameters: list[dict[str, Any]] | NotGiven = NOT_GIVEN,
@@ -682,6 +681,7 @@ class Tools(PhonicHTTPClient):
                   numbers, and underscores only). Must be unique within the organization.
             description: Required. A description of what the tool does.
             endpoint_url: Required. The URL that will be called when the tool is invoked.
+            endpoint_method: Required. The HTTP method for the endpoint. Only "POST" is supported.
             endpoint_timeout_ms: Optional. Timeout in milliseconds for the endpoint call.
                                 Defaults to 15000 ms if not provided.
             parameters: Optional. Array of parameter definitions for the tool.
@@ -738,6 +738,7 @@ class Tools(PhonicHTTPClient):
         name: str | NotGiven = NOT_GIVEN,
         description: str | NotGiven = NOT_GIVEN,
         endpoint_url: str | NotGiven = NOT_GIVEN,
+        endpoint_method: str | NotGiven = NOT_GIVEN,
         endpoint_timeout_ms: int | NotGiven = NOT_GIVEN,
         parameters: list[dict[str, Any]] | NotGiven = NOT_GIVEN,
         endpoint_headers: dict[str, str] | NotGiven = NOT_GIVEN,
@@ -749,6 +750,7 @@ class Tools(PhonicHTTPClient):
             name: Tool name. Must be snake_case and unique within the organization.
             description: Description of what the tool does.
             endpoint_url: The URL that will be called when the tool is invoked.
+            endpoint_method: The HTTP method for the endpoint. Only "POST" is supported.
             endpoint_timeout_ms: Timeout in milliseconds for the endpoint call.
             parameters: Array of parameter definitions (same format as create).
             endpoint_headers: Dictionary of header key-value pairs.
