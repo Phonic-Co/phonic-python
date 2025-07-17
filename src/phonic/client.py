@@ -669,11 +669,15 @@ class Tools(PhonicHTTPClient):
         self,
         name: str,
         description: str,
-        endpoint_url: str,
+        type: Literal["custom_webhook", "custom_websocket"],
         *,
+        endpoint_url: str | NotGiven = NOT_GIVEN,
+        endpoint_method: Literal["POST"] | NotGiven = NOT_GIVEN,
         endpoint_timeout_ms: int | NotGiven = NOT_GIVEN,
-        parameters: list[dict[str, Any]] | NotGiven = NOT_GIVEN,
         endpoint_headers: dict[str, str] | NotGiven = NOT_GIVEN,
+        execution_mode: Literal["sync", "async"] | NotGiven = NOT_GIVEN,
+        tool_call_output_timeout_ms: int | NotGiven = NOT_GIVEN,
+        parameters: list[dict[str, Any]] | NotGiven = NOT_GIVEN,
     ) -> dict:
         """Create a new tool.
 
@@ -681,13 +685,21 @@ class Tools(PhonicHTTPClient):
             name: Required. The name of the tool. Must be snake_case (lowercase letters,
                   numbers, and underscores only). Must be unique within the organization.
             description: Required. A description of what the tool does.
-            endpoint_url: Required. The URL that will be called when the tool is invoked.
-            endpoint_timeout_ms: Optional. Timeout in milliseconds for the endpoint call.
+            type: Required. The type of tool. Must be either "custom_webhook" (HTTP endpoint) 
+                  or "custom_websocket".
+            endpoint_url: Required for custom_webhook tools. The URL that will be called when the tool is invoked.
+            endpoint_method: Required for custom_webhook tools. Only "POST" is supported for now.
+            endpoint_timeout_ms: Optional for custom_webhook tools. Timeout in milliseconds for the endpoint call.
                                 Defaults to 15000 ms if not provided.
+            endpoint_headers: Optional for custom_webhook tools. Dictionary of header key-value pairs.
+                            Defaults to empty dictionary {} if not provided.
+            execution_mode: Required for custom_websocket tools. Mode of operation:
+                          - "sync" - The voice agent waits for the tool response before continuing
+                          - "async" - The voice agent continues the conversation without waiting for the tool response
+            tool_call_output_timeout_ms: Optional for custom_websocket tools. Timeout in milliseconds 
+                                       for the tool call response. Defaults to 15000 ms if not provided.
             parameters: Optional. Array of parameter definitions for the tool.
                        Defaults to empty array [] if not provided.
-            endpoint_headers: Optional. Dictionary of header key-value pairs.
-                            Defaults to empty dictionary {} if not provided.
 
         Parameter definition format:
             Each parameter should have:
@@ -737,10 +749,14 @@ class Tools(PhonicHTTPClient):
         *,
         name: str | NotGiven = NOT_GIVEN,
         description: str | NotGiven = NOT_GIVEN,
+        type: Literal["custom_webhook", "custom_websocket"] | NotGiven = NOT_GIVEN,
         endpoint_url: str | NotGiven = NOT_GIVEN,
+        endpoint_method: Literal["POST"] | NotGiven = NOT_GIVEN,
         endpoint_timeout_ms: int | NotGiven = NOT_GIVEN,
-        parameters: list[dict[str, Any]] | NotGiven = NOT_GIVEN,
         endpoint_headers: dict[str, str] | NotGiven = NOT_GIVEN,
+        execution_mode: Literal["sync", "async"] | NotGiven = NOT_GIVEN,
+        tool_call_output_timeout_ms: int | NotGiven = NOT_GIVEN,
+        parameters: list[dict[str, Any]] | NotGiven = NOT_GIVEN,
     ) -> dict:
         """Update a tool by ID or name.
 
@@ -748,10 +764,16 @@ class Tools(PhonicHTTPClient):
             identifier: Tool ID (starting with "tool_") or tool name
             name: Tool name. Must be snake_case and unique within the organization.
             description: Description of what the tool does.
-            endpoint_url: The URL that will be called when the tool is invoked.
-            endpoint_timeout_ms: Timeout in milliseconds for the endpoint call.
+            type: The type of tool. Must be either "custom_webhook" or "custom_websocket".
+            endpoint_url: The URL that will be called when the tool is invoked (custom_webhook only).
+            endpoint_method: Only "POST" is supported for now (custom_webhook only).
+            endpoint_timeout_ms: Timeout in milliseconds for the endpoint call (custom_webhook only).
+            endpoint_headers: Dictionary of header key-value pairs (custom_webhook only).
+            execution_mode: Mode of operation for custom_websocket tools:
+                          - "sync" - The voice agent waits for the tool response before continuing
+                          - "async" - The voice agent continues the conversation without waiting for the tool response
+            tool_call_output_timeout_ms: Timeout in milliseconds for the tool call response (custom_websocket only).
             parameters: Array of parameter definitions (same format as create).
-            endpoint_headers: Dictionary of header key-value pairs.
 
         Returns:
             Dictionary containing success status: {"success": true}
