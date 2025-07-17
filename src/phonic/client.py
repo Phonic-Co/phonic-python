@@ -536,22 +536,22 @@ class Conversations(PhonicHTTPClient):
             f"/conversations/{conversation_id}/evals", {"prompt_id": prompt_id}
         )
 
-    def list_evaluation_prompts(self, project_id: str) -> dict:
+    def list_evaluation_prompts(self, project: str = "main") -> dict:
         """List evaluation prompts for a project.
 
         Args:
-            project_id: ID of the project
+            project: Name of the project (defaults to "main")
 
         Returns:
             Dictionary containing a list of evaluation prompts under the
             "conversation_eval_prompts" key
         """
-        return self._get(f"/projects/{project_id}/conversation_eval_prompts")
+        return self._get(f"/projects/{project}/conversation_eval_prompts")
 
-    def create_evaluation_prompt(self, project_id: str, name: str, prompt: str) -> dict:
+    def create_evaluation_prompt(self, project: str, name: str, prompt: str) -> dict:
         """Create a new evaluation prompt."""
         return self._post(
-            f"/projects/{project_id}/conversation_eval_prompts",
+            f"/projects/{project}/conversation_eval_prompts",
             {"name": name, "prompt": prompt},
         )
 
@@ -594,26 +594,26 @@ class Conversations(PhonicHTTPClient):
         """
         return self._get(f"/conversations/{conversation_id}/extractions")
 
-    def list_extraction_schemas(self, project_id: str) -> dict:
+    def list_extraction_schemas(self, project: str = "main") -> dict:
         """List all extraction schemas for a project.
 
         Args:
-            project_id: ID of the project
+            project: Name of the project (defaults to "main")
 
         Returns:
             Dictionary containing the list of extraction schemas under the
             "conversation_extraction_schemas" key, where each schema includes
             id, name, prompt, schema definition, and created_at timestamp
         """
-        return self._get(f"/projects/{project_id}/conversation_extraction_schemas")
+        return self._get(f"/projects/{project}/conversation_extraction_schemas")
 
     def create_extraction_schema(
-        self, project_id: str, name: str, prompt: str, fields: dict
+        self, project: str, name: str, prompt: str, fields: dict
     ) -> dict:
         """Create a new extraction fields.
 
         Args:
-            project_id: ID of the project
+            project: Name of the project
             name: Name of the fields
             prompt: Prompt for the extraction
             fields: list of field definition objects, where each object contains "name", "type",
@@ -635,7 +635,7 @@ class Conversations(PhonicHTTPClient):
             Dictionary containing the ID of the created fields
         """
         return self._post(
-            f"/projects/{project_id}/conversation_extraction_schemas",
+            f"/projects/{project}/conversation_extraction_schemas",
             {"name": name, "prompt": prompt, "fields": fields},
         )
 
