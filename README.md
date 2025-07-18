@@ -1,40 +1,40 @@
-# Phonic Python Client
+# 🎧 Phonic Python Client
 
 The official Python library for the Phonic API.
 
-- [Installation](#installation)
-- [Setup](#setup)
-- [Agents](#agents)
+- [📦 Installation](#installation)
+- [⚙️ Setup](#setup)
+- [🤖 Agents](#agents)
   - [Create Agent](#create-agent)
   - [List Agents](#list-agents)
   - [Get Agent](#get-agent)
   - [Update Agent](#update-agent)
   - [Delete Agent](#delete-agent)
-- [Tools](#tools)
+- [🛠️ Tools](#tools)
   - [Create Tool](#create-tool)
   - [List Tools](#list-tools)
   - [Get Tool](#get-tool)
   - [Update Tool](#update-tool)
   - [Delete Tool](#delete-tool)
-- [Voices](#voices)
-- [Conversations](#conversations)
+- [🎤 Voices](#voices)
+- [💬 Conversations](#conversations)
   - [List Conversations](#list-conversations)
   - [Get Conversation by ID](#get-conversation-by-id)
   - [Get Conversation by External ID](#get-conversation-by-external-id)
-  - [Outbound Calls](#outbound-calls)
-  - [Pagination](#pagination)
-  - [Evaluation Prompts](#evaluation-prompts)
-  - [Summaries](#summaries)
-  - [Extractions](#extractions)
-  - [Cancel Conversations](#cancel-conversations)
-- [Troubleshooting](#troubleshooting)
+  - [📞 Outbound Calls](#outbound-calls)
+  - [📄 Pagination](#pagination)
+  - [📝 Evaluation Prompts](#evaluation-prompts)
+  - [📋 Summaries](#summaries)
+  - [📊 Extractions](#extractions)
+  - [❌ Cancel Conversations](#cancel-conversations)
+- [🐛 Troubleshooting](#troubleshooting)
 
-## Installation
+## 📦 Installation
 ```
 pip install phonic-python
 ```
 
-## Setup
+## ⚙️ Setup
 
 To obtain an API key, you must be invited to the Phonic platform.
 
@@ -42,7 +42,7 @@ After you have been invited, you can generate an API key by visiting the [Phonic
 
 Please set it to the environment variable `PHONIC_API_KEY`.
 
-## Agents
+## 🤖 Agents
 
 ### Create Agent
 
@@ -233,7 +233,7 @@ agents.delete("agent_12cf6e88-c254-4d3e-a149-ddf1bdd2254c")
 agents.delete("booking-support-agent", project="main")
 ```
 
-## Tools
+## 🛠️ Tools
 
 All tools require an `endpoint_method` parameter that specifies the HTTP method to use when calling the tool endpoint. Currently, only "POST" is supported.
 
@@ -445,7 +445,7 @@ tools.delete("tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c")
 tools.delete("next_invoice")
 ```
 
-## Voices
+## 🎤 Voices
 
 ```python
 from phonic.client import get_voices
@@ -465,7 +465,7 @@ voices = get_voices(api_key=API_KEY)
 ]
 ```
 
-## Conversations
+## 💬 Conversations
 
 ### List Conversations
 
@@ -611,7 +611,7 @@ conversation = conversations.get_by_external_id("CAdb9c032c809fec7feb932ea4c96d7
 }
 ```
 
-### Outbound Calls
+### 📞 Outbound Calls
 
 You can initiate outbound calls programmatically using the `outbound_call` method:
 
@@ -646,7 +646,7 @@ result = conversations.outbound_call(
 }
 ```
 
-### Pagination
+### 📄 Pagination
 
 Handle pagination when listing conversations:
 
@@ -697,7 +697,7 @@ for conversation in conversations.scroll(
     print(conversation["id"])
 ```
 
-### Evaluation Prompts
+### 📝 Evaluation Prompts
 
 ```python
 from phonic.client import Conversations
@@ -721,7 +721,7 @@ evaluation = conversations.execute_evaluation(
 )
 ```
 
-### Summaries
+### 📋 Summaries
 
 ```python
 from phonic.client import Conversations
@@ -732,7 +732,7 @@ conversations = Conversations(api_key=API_KEY)
 summary = conversations.summarize_conversation(conversation_id)
 ```
 
-### Extractions
+### 📊 Extractions
 
 ```python
 from phonic.client import Conversations
@@ -771,7 +771,7 @@ extraction = conversations.create_extraction(
 extractions = conversations.list_extractions(conversation_id)
 ```
 
-### Cancel Conversations
+### ❌ Cancel Conversations
 
 ```python
 from phonic.client import Conversations
@@ -784,7 +784,7 @@ result = conversations.cancel(conversation_id)
 # Returns: {"error": {"message": <error message>}} on error
 ```
 
-## Troubleshooting
+## 🐛 Troubleshooting
 
 - `pyaudio` installation has a known issue where the `portaudio.h` file cannot be found. See [Stack Overflow](https://stackoverflow.com/questions/33513522/when-installing-pyaudio-pip-cannot-find-portaudio-h-in-usr-local-include) for OS-specific advice.
 - Sometimes, when running the example speech-to-speech code for the first time, you may see a certificate verification failure. A solution for this is also documented in [Stack Overflow](https://stackoverflow.com/questions/52805115/certificate-verify-failed-unable-to-get-local-issuer-certificate).
