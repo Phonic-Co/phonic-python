@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "phonic-python"
-version = "0.1.17"
+version = "0.1.19"
 description = "The official Python SDK for building voice AI with Phonic" 
 readme = "README.md"
 requires-python = ">=3.11"

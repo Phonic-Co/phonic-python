@@ -1,10 +1,42 @@
-# Phonic Python Client
+# 🎧 Phonic Python Client
 
-The official Python client for [Phonic](https://phonic.co) - build voice AI applications with real-time speech-to-speech capabilities.
+The official Python library for the Phonic API.
 
-## Quick Start
+- [📦 Installation](#-installation)
+- [⚙️ Setup](#️-setup)
+- [🤖 Agents](#-agents)
+  - [Create Agent](#create-agent)
+  - [List Agents](#list-agents)
+  - [Get Agent](#get-agent)
+  - [Update Agent](#update-agent)
+  - [Delete Agent](#delete-agent)
+- [🛠️ Tools](#️-tools)
+  - [Create Tool](#create-tool)
+    - [Create webhook tool](#create-webhook-tool)
+    - [Create WebSocket tool](#create-websocket-tool)
+  - [List Tools](#list-tools)
+  - [Get Tool](#get-tool)
+  - [Update Tool](#update-tool)
+  - [Delete Tool](#delete-tool)
+- [🎤 Voices](#-voices)
+- [💬 Conversations](#-conversations)
+  - [List Conversations](#list-conversations)
+  - [Get Conversation by ID](#get-conversation-by-id)
+  - [Get Conversation by External ID](#get-conversation-by-external-id)
+  - [📞 Outbound Calls](#-outbound-calls)
+  - [📄 Pagination](#-pagination)
+  - [📝 Evaluation Prompts](#-evaluation-prompts)
+  - [📋 Summaries](#-summaries)
+  - [📊 Extractions](#-extractions)
+  - [❌ Cancel Conversations](#-cancel-conversations)
+- [🐛 Troubleshooting](#-troubleshooting)
 
-### Get an API Key
+## 📦 Installation
+```
+pip install phonic-python
+```
+
+## ⚙️ Setup
 
 To obtain an API key, you must be invited to the Phonic platform.
 
@@ -12,36 +44,702 @@ After you have been invited, you can generate an API key by visiting the [Phonic
 
 Please set it to the environment variable `PHONIC_API_KEY`.
 
-### Installation
-```
-pip install phonic-python
+## 🤖 Agents
+
+### Create Agent
+
+```python
+from phonic.client import Agents
+
+agents = Agents(api_key=API_KEY)
+
+# Create a new agent
+agent = agents.create(
+    "booking-support-agent",
+    project="main",
+    phone_number="assign-automatically",
+    voice_id="grant",
+    timezone="America/Los_Angeles",
+    welcome_message="Hello! Welcome to {{business_name}}. How can I help you today?",
+    system_prompt="You are a helpful customer support agent for {{business_name}}. When addressing the customer, call them {{customer_name}}. Be friendly and concise.",
+    template_variables={
+        "customer_name": {"default_value": "valued customer"},
+        "business_name": {"default_value": "Tech Support Corporation"}
+    },
+    tools=["keypad_input"],
+    boosted_keywords=["appointment", "booking", "cancel"],
+    no_input_poke_sec=30,
+    no_input_poke_text="Are you still there?",
+    configuration_endpoint={
+        "url": "https://myapp.com/webhooks/phonic-config",
+        "headers": {
+            "Authorization": "Bearer 123"
+        },
+        "timeout_ms": 10000
+    }
+)
 ```
 
-## Speech-to-Speech Usage
+#### Response Format
 
-### Getting Available Voices
+```json
+{
+  "id": "agent_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
+  "name": "booking-support-agent"
+}
+```
+
+### List Agents
+
+```python
+from phonic.client import Agents
+
+agents = Agents(api_key=API_KEY)
+
+# List all agents in the "main" project
+agents_list = agents.list(project="main")
+```
+
+#### Response Format
+
+```json
+{
+  "agents": [
+    {
+      "id": "agent_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
+      "name": "booking-support-agent",
+      "project": {
+        "id": "proj_ad0334f1-2404-4155-9df3-bfd8129b29ad",
+        "name": "main"
+      },
+      "voice_id": "grant",
+      "timezone": "America/Los_Angeles",
+      "audio_format": "mulaw_8000",
+      "welcome_message": "Hello! Welcome to {{business_name}}. How can I help you today?",
+      "system_prompt": "You are a helpful customer support agent for {{business_name}}. When addressing the customer, call them {{customer_name}}. Be friendly and concise.",
+      "template_variables": {
+        "customer_name": {"default_value": "valued customer"},
+        "business_name": {"default_value": "Tech Support Corporation"}
+      },
+      "tool_ids": ["keypad_input"],
+      "no_input_poke_sec": 30,
+      "no_input_poke_text": "Are you still there?",
+      "no_input_end_conversation_sec": 180,
+      "boosted_keywords": ["appointment", "booking", "cancel"],
+      "phone_number": "+1234567890"
+    }
+  ]
+}
+```
+
+### Get Agent
+
+```python
+from phonic.client import Agents
+
+agents = Agents(api_key=API_KEY)
+
+# Get agent by ID
+agent = agents.get("agent_12cf6e88-c254-4d3e-a149-ddf1bdd2254c")
+
+# Get agent by name
+agent = agents.get("booking-support-agent", project="main")
+```
+
+#### Response Format
+
+```json
+{
+  "agent": {
+    "id": "agent_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
+    "name": "booking-support-agent",
+    "timezone": "America/Los_Angeles",
+    "project": {
+      "id": "proj_ad0334f1-2404-4155-9df3-bfd8129b29ad",
+      "name": "main"
+    },
+    "phone_number": "+1234567890",
+    "voice_id": "grant",
+    "audio_format": "mulaw_8000",
+    "welcome_message": "Hello! Welcome to {{business_name}}. How can I help you today?",
+    "system_prompt": "You are a helpful customer support agent for {{business_name}}. When addressing the customer, call them {{customer_name}}. Be friendly and concise.",
+    "template_variables": {
+      "customer_name": {"default_value": "valued customer"},
+      "business_name": {"default_value": "Tech Support Corporation"}
+    },
+    "tools": ["keypad_input"],
+    "no_input_poke_sec": 30,
+    "no_input_poke_text": "Are you still there?",
+    "no_input_end_conversation_sec": 180,
+    "boosted_keywords": ["appointment", "booking", "cancel"],
+    "configuration_endpoint": {
+      "url": "https://myapp.com/webhooks/phonic-config",
+      "headers": {
+        "Authorization": "Bearer 123"
+      },
+      "timeout_ms": 10000
+    },
+    "supervisor": null,
+    "llm_settings": null,
+    "vad_prebuffer_duration_ms": 2000,
+    "vad_min_speech_duration_ms": 25,
+    "vad_min_silence_duration_ms": 200,
+    "vad_threshold": 0.5,
+    "downstream_websocket_url": null,
+    "experimental_params": null
+  }
+}
+```
+
+### Update Agent
+
+```python
+from phonic.client import Agents
+
+agents = Agents(api_key=API_KEY)
+
+# Update agent by name
+agents.update(
+    "booking-support-agent",
+    project="main",
+    timezone="America/New_York",
+    system_prompt="You are a helpful support agent. Address customers as {{customer_name}} and inform them our support hours are {{support_hours}}. Be concise.",
+    voice_id="sarah",
+    template_variables={
+        "customer_name": {"default_value": "dear customer"},
+        "support_hours": {"default_value": "9 AM to 5 PM"}
+    },
+    tools=["keypad_input", "natural_conversation_ending"],
+    no_input_poke_sec=45
+)
+
+# Update agent by ID
+agents.update(
+    "agent_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
+    voice_id="sarah",
+    welcome_message="Hello! How can I assist you today?"
+)
+```
+
+### Delete Agent
+
+```python
+from phonic.client import Agents
+
+agents = Agents(api_key=API_KEY)
+
+# Delete agent by ID
+agents.delete("agent_12cf6e88-c254-4d3e-a149-ddf1bdd2254c")
+
+# Delete agent by name
+agents.delete("booking-support-agent", project="main")
+```
+
+## 🛠️ Tools
+
+### Create Tool
+
+Tools can be either webhook-based (HTTP endpoints) or WebSocket-based.
+
+#### Create webhook tool
+
+```python
+from phonic.client import Tools
+
+tools = Tools(api_key=API_KEY)
+
+webhook_tool = tools.create(
+    name="next_invoice",
+    description="Returns the next invoice of the given user",
+    type="custom_webhook",
+    execution_mode="sync",  # "sync" | "async"
+    endpoint_method="POST",
+    endpoint_url="https://myapp.com/webhooks/next-invoice",
+    endpoint_headers={
+        "Authorization": "Bearer 123",
+        "Content-Type": "application/json"
+    },
+    endpoint_timeout_ms=20000,  # Optional, defaults to 15000
+    parameters=[
+        {
+            "type": "string",
+            "name": "user",
+            "description": "Full name of the user to get the invoice for",
+            "is_required": True
+        },
+        {
+            "type": "array",
+            "item_type": "string",
+            "name": "invoice_items",
+            "description": "List of invoice items",
+            "is_required": False
+        },
+        {
+            "type": "number",
+            "name": "invoice_total",
+            "description": "Total invoice amount in USD",
+            "is_required": True
+        }
+    ]
+)
+```
+
+#### Create WebSocket tool
+
+WebSocket tools allow you to handle tool execution on the client side through the WebSocket connection. When the assistant calls a WebSocket tool, you'll receive a `tool_call` message and must respond with the result.
+
+```python
+from phonic.client import Tools
+
+tools = Tools(api_key=API_KEY)
+
+websocket_tool = tools.create(
+    name="get_product_recommendations",
+    description="Gets personalized product recommendations",
+    type="custom_websocket",
+    execution_mode="async",
+    tool_call_output_timeout_ms=5000,  # Optional, defaults to 15000
+    parameters=[
+        {
+            "type": "string",
+            "name": "category",
+            "description": "Product category (e.g., 'handbags', 'shoes', 'electronics')",
+            "is_required": True
+        }
+    ]
+)
+```
+
+To use this tool in a conversation, add it to your agent:
+
+```python
+from phonic.client import Agents, PhonicSTSClient
+
+# When creating an agent
+agent = agents.create(
+    name="shopping-assistant",
+    tools=["get_product_recommendations"],
+    # ... other config
+)
+
+# Handle the tool call when it's invoked
+client = PhonicSTSClient(api_key=API_KEY)
+
+async def handle_messages():
+    async for message in client.sts(
+        agent="shopping-assistant",
+        tools=["get_product_recommendations"]
+    ):
+        if message["type"] == "tool_call" and message["name"] == "get_product_recommendations":
+            category = message["arguments"]["category"]
+            
+            # Execute your business logic
+            recommendations = await fetch_recommendations(category)
+            
+            # Send the result back
+            await client.send_tool_call_output(
+                tool_call_id=message["tool_call_id"],
+                output={
+                    "products": recommendations,
+                    "total": len(recommendations)
+                }
+            )
+```
+
+#### Response Format
+
+```json
+{
+  "id": "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
+  "name": "next_invoice"
+}
+```
+
+### List Tools
+
+```python
+from phonic.client import Tools
+
+tools = Tools(api_key=API_KEY)
+
+# List all tools for the organization
+tools_list = tools.list()
+```
+
+#### Response Format
+
+```json
+{
+  "tools": [
+    {
+      "id": "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
+      "name": "next_invoice",
+      "description": "Returns the next invoice of the given user",
+      "endpoint_url": "https://myapp.com/webhooks/next-invoice",
+      "endpoint_method": "POST",
+      "endpoint_headers": {
+        "Authorization": "Bearer 123",
+        "Content-Type": "application/json"
+      },
+      "endpoint_timeout_ms": 20000,
+      "parameters": [
+        {
+          "type": "string",
+          "name": "user",
+          "description": "Full name of the user to get the invoice for",
+          "is_required": true
+        },
+        {
+          "type": "array",
+          "item_type": "string",
+          "name": "invoice_items",
+          "description": "List of invoice items",
+          "is_required": false
+        },
+        {
+          "type": "number",
+          "name": "invoice_total",
+          "description": "Total invoice amount in USD",
+          "is_required": true
+        }
+      ]
+    }
+  ]
+}
+```
+
+### Get Tool
+
+```python
+from phonic.client import Tools
+
+tools = Tools(api_key=API_KEY)
+
+# Get tool by ID
+tool = tools.get("tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c")
+
+# Get tool by name
+tool = tools.get("next_invoice")
+```
+
+#### Response Format
+
+```json
+{
+  "tool": {
+    "id": "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
+    "name": "next_invoice",
+    "description": "Returns the next invoice of the given user",
+    "endpoint_url": "https://myapp.com/webhooks/next-invoice",
+    "endpoint_method": "POST",
+    "endpoint_headers": {
+      "Authorization": "Bearer 123",
+      "Content-Type": "application/json"
+    },
+    "endpoint_timeout_ms": 20000,
+    "parameters": [
+      {
+        "type": "string",
+        "name": "user",
+        "description": "Full name of the user to get the invoice for",
+        "is_required": true
+      },
+      {
+        "type": "array",
+        "item_type": "string",
+        "name": "invoice_items",
+        "description": "List of invoice items",
+        "is_required": false
+      },
+      {
+        "type": "number",
+        "name": "invoice_total",
+        "description": "Total invoice amount in USD",
+        "is_required": true
+      }
+    ]
+  }
+}
+```
+
+### Update Tool
+
+```python
+from phonic.client import Tools
+
+tools = Tools(api_key=API_KEY)
+
+# Update webhook tool by name
+tools.update(
+    "next_invoice",
+    name="next_invoice_updated",
+    description="Updated description",
+    type="custom_webhook",
+    execution_mode="sync",
+    endpoint_method="POST",
+    endpoint_url="https://myapp.com/webhooks/next-invoice-updated",
+    endpoint_headers={
+        "Authorization": "Bearer 456"
+    },
+    endpoint_timeout_ms=30000,
+    parameters=[
+        {
+            "type": "string",
+            "name": "user",
+            "description": "Full name of the user to get the invoice for",
+            "is_required": True
+        },
+        {
+            "type": "array",
+            "item_type": "string",
+            "name": "invoice_items",
+            "description": "List of invoice items",
+            "is_required": True
+        },
+        {
+            "type": "number",
+            "name": "invoice_total",
+            "description": "Total invoice amount in USD",
+            "is_required": True
+        }
+    ]
+)
+
+# For WebSocket tools, use tool_call_output_timeout_ms instead of endpoint fields
+tools.update(
+    "get_product_recommendations",
+    description="Updated product recommendation tool",
+    tool_call_output_timeout_ms=7000
+)
+```
+
+### Delete Tool
+
+Deletes a tool by ID or name.
+
+```python
+from phonic.client import Tools
+
+tools = Tools(api_key=API_KEY)
+
+# Delete tool by ID
+tools.delete("tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c")
+
+# Delete tool by name
+tools.delete("next_invoice")
+```
+
+## 🎤 Voices
+
 ```python
 from phonic.client import get_voices
 
 voices = get_voices(api_key=API_KEY)
-voice_ids = [voice["id"] for voice in voices]
-print(f"Available voices: {voice_ids}")
 ```
 
-### Managing Conversations
+### Response Format
+
+```json
+[
+  {
+    "id": "grant",
+    "name": "Grant",
+    "description": null
+  }
+]
+```
+
+## 💬 Conversations
+
+### List Conversations
+
 ```python
 from phonic.client import Conversations
 
-conversation_id = "conv_12cf6e88-c254-4d3e-a149-ddf1bdd2254c"
+conversations = Conversations(api_key=API_KEY)
+
+# List conversations with filters
+results = conversations.list(
+    project="main",
+    duration_min=10,  # seconds
+    duration_max=20,  # seconds
+    started_at_min="2025-04-17",  # 00:00:00 UTC time is assumed
+    started_at_max="2025-09-05T10:30:00.000Z"
+)
+```
+
+#### Response Format
+
+```json
+{
+  "conversations": [
+    {
+      "id": "conv_b1804883-5be4-42fe-b1cf-aa84450d5c84",
+      "external_id": "CAdb9c032c809fec7feb932ea4c96d71e1",
+      "project": {
+        "id": "proj_f640a76e-a649-4232-a8eb-c97f3f9cb3f8",
+        "name": "main"
+      },
+      "agent": {
+        "id": "agent_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
+        "name": "booking-support-agent"
+      },
+      "status": "completed",
+      "started_at": "2025-04-20T14:30:00.000Z",
+      "ended_at": "2025-04-20T14:30:15.000Z",
+      "duration": 15,
+      "phone_number": "+12345678901",
+      "summary": "Customer inquiry about appointment booking"
+    }
+  ],
+  "pagination": {
+    "next_cursor": "eyJzdGFydGVkX2F0IjoiMjAyNS0wNC0yMFQxNDozMDowMC4wMDBaIn0=",
+    "prev_cursor": null
+  }
+}
+```
+
+### Get Conversation by ID
+
+```python
+from phonic.client import Conversations
+
 conversations = Conversations(api_key=API_KEY)
 
 # Get conversation by ID
-result = conversations.get(conversation_id)
+conversation = conversations.get("conv_b1804883-5be4-42fe-b1cf-aa84450d5c84")
+```
+
+#### Response Format
+
+```json
+{
+  "conversation": {
+    "id": "conv_b1804883-5be4-42fe-b1cf-aa84450d5c84",
+    "external_id": "CAdb9c032c809fec7feb932ea4c96d71e1",
+    "project": {
+      "id": "proj_f640a76e-a649-4232-a8eb-c97f3f9cb3f8",
+      "name": "main"
+    },
+    "agent": {
+      "id": "agent_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
+      "name": "booking-support-agent"
+    },
+    "status": "completed",
+    "started_at": "2025-04-20T14:30:00.000Z",
+    "ended_at": "2025-04-20T14:30:15.000Z",
+    "duration": 15,
+    "phone_number": "+12345678901",
+    "summary": "Customer inquiry about appointment booking",
+    "transcript": [
+      {
+        "speaker": "agent",
+        "text": "Hello! How can I help you today?",
+        "timestamp": "2025-04-20T14:30:02.000Z"
+      },
+      {
+        "speaker": "user",
+        "text": "I'd like to book an appointment",
+        "timestamp": "2025-04-20T14:30:05.000Z"
+      }
+    ]
+  }
+}
+```
+
+### Get Conversation by External ID
+
+```python
+from phonic.client import Conversations
+
+conversations = Conversations(api_key=API_KEY)
 
 # Get conversation by external ID
-conversation = conversations.get_by_external_id("external-123", project="main")
+conversation = conversations.get_by_external_id("CAdb9c032c809fec7feb932ea4c96d71e1", project="main")
+```
 
-# List conversations with filters and pagination
+#### Response Format
+
+```json
+{
+  "conversation": {
+    "id": "conv_b1804883-5be4-42fe-b1cf-aa84450d5c84",
+    "external_id": "CAdb9c032c809fec7feb932ea4c96d71e1",
+    "project": {
+      "id": "proj_f640a76e-a649-4232-a8eb-c97f3f9cb3f8",
+      "name": "main"
+    },
+    "agent": {
+      "id": "agent_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
+      "name": "booking-support-agent"
+    },
+    "status": "completed",
+    "started_at": "2025-04-20T14:30:00.000Z",
+    "ended_at": "2025-04-20T14:30:15.000Z",
+    "duration": 15,
+    "phone_number": "+12345678901",
+    "summary": "Customer inquiry about appointment booking",
+    "transcript": [
+      {
+        "speaker": "agent",
+        "text": "Hello! How can I help you today?",
+        "timestamp": "2025-04-20T14:30:02.000Z"
+      },
+      {
+        "speaker": "user",
+        "text": "I'd like to book an appointment",
+        "timestamp": "2025-04-20T14:30:05.000Z"
+      }
+    ]
+  }
+}
+```
+
+### 📞 Outbound Calls
+
+You can initiate outbound calls programmatically using the `outbound_call` method:
+
+```python
+from phonic.client import Conversations
+
+conversations = Conversations(api_key=API_KEY)
+
+# Basic outbound call
+result = conversations.outbound_call(
+    to_phone_number="+12345678901",
+    system_prompt="You are calling to confirm an appointment scheduled for tomorrow at 2 PM.",
+    welcome_message="Hello, this is a confirmation call from ABC Medical Center."
+)
+
+# Make an outbound call using an existing agent
+result = conversations.outbound_call(
+    to_phone_number="+12345678901",
+    agent="booking-support-agent",
+    template_variables={
+        "customer_name": "John Smith",
+        "business_name": "ABC Medical Center"
+    }
+)
+```
+
+#### Response Format
+
+```json
+{
+  "conversation_id": "conv_b1804883-5be4-42fe-b1cf-aa84450d5c84"
+}
+```
+
+### 📄 Pagination
+
+Handle pagination when listing conversations:
+
+```python
+from phonic.client import Conversations
+
+conversations = Conversations(api_key=API_KEY)
+
+# Handle pagination manually
 results = conversations.list(
     project="main",
     started_at_min="2025-01-01",
@@ -49,9 +747,9 @@ results = conversations.list(
     duration_min=0,
     duration_max=120,
     limit=50
+)
 
-# Handle pagination manually
-next_cursor = results.get['pagination']['next_cursor']
+next_cursor = results.get('pagination')['next_cursor']
 if next_cursor:
     next_page = conversations.list(
         started_at_min="2025-01-01",
@@ -81,13 +779,21 @@ for conversation in conversations.scroll(
     duration_max=120,
 ):
     print(conversation["id"])
+```
+
+### 📝 Evaluation Prompts
+
+```python
+from phonic.client import Conversations
+
+conversations = Conversations(api_key=API_KEY)
 
 # List evaluation prompts for a project
-prompts = conversations.list_evaluation_prompts(project_id)
+prompts = conversations.list_evaluation_prompts(project="main")
 
 # Create a new evaluation prompt
 new_prompt = conversations.create_evaluation_prompt(
-    project_id=project_id,
+    project="main",
     name="customer_issue_resolved",
     prompt="Did the agent resolve the customer's issue?"
 )
@@ -97,16 +803,32 @@ evaluation = conversations.execute_evaluation(
     conversation_id=conversation_id,
     prompt_id=prompt_id
 )
+```
+
+### 📋 Summaries
+
+```python
+from phonic.client import Conversations
+
+conversations = Conversations(api_key=API_KEY)
 
 # Generate a summary of the conversation
 summary = conversations.summarize_conversation(conversation_id)
+```
+
+### 📊 Extractions
+
+```python
+from phonic.client import Conversations
+
+conversations = Conversations(api_key=API_KEY)
 
 # List extraction schemas for a project
-schemas = conversations.list_extraction_schemas(project_id)
+schemas = conversations.list_extraction_schemas(project="main")
 
 # Create a new extraction schema
 new_schema = conversations.create_extraction_schema(
-    project_id=project_id,
+    project="main",
     name="booking_details",
     prompt="Extract booking details from this conversation",
     fields=[
@@ -131,6 +853,14 @@ extraction = conversations.create_extraction(
 
 # List all extractions for a conversation
 extractions = conversations.list_extractions(conversation_id)
+```
+
+### ❌ Cancel Conversations
+
+```python
+from phonic.client import Conversations
+
+conversations = Conversations(api_key=API_KEY)
 
 # Cancel an active conversation
 result = conversations.cancel(conversation_id)
@@ -138,324 +868,7 @@ result = conversations.cancel(conversation_id)
 # Returns: {"error": {"message": <error message>}} on error
 ```
 
-### Managing Agents
-
-```python
-from phonic.client import Agents
-
-agents = Agents(api_key=API_KEY)
-
-# Create a new agent
-agent = agents.create(
-    "booking-support-agent",
-    project="customer-support",
-    phone_number="assign-automatically",
-    voice_id="grant",
-    timezone="America/Los_Angeles",
-    welcome_message="Hello! Welcome to our business. How can I help you today?",
-    system_prompt="You are a helpful customer support agent for {{business_name}}. When addressing the customer, call them {{customer_name}}. Be friendly and concise.",
-    template_variables={
-        "customer_name": {"default_value": "valued customer"},
-        "business_name": {"default_value": "our company"}
-    },
-    tools=["keypad_input","natural_conversation_ending"],
-    boosted_keywords=["appointment", "booking", "cancel"],
-    no_input_poke_sec=30,
-    no_input_poke_text="Are you still there?",
-    configuration_endpoint={
-        "url": "https://api.example.com/config",
-        "headers": {
-            "Authorization": "Bearer token123",
-            "Content-Type": "application/json"
-        },
-        "timeout_ms": 2000
-    }
-)
-
-# List all agents in a project
-agents_list = agents.list(project="customer-support")
-
-# Get an agent
-agent = agents.get("agent_12cf6e88-c254-4d3e-a149-ddf1bdd2254c")
-agent = agents.get("booking-support-agent", project="customer-support")  # by name
-
-# Update an agent
-agents.update(
-    "booking-support-agent",
-    project="customer-support",
-    timezone="America/New_York",
-    system_prompt="You are a helpful support agent. Address customers as {{customer_name}} and inform them our support hours are {{support_hours}}. Be concise.",
-    voice_id="maya",
-    template_variables={
-        "customer_name": {"default_value": "dear customer"},
-        "support_hours": {"default_value": "9 AM to 5 PM"}
-    },
-    tools=["keypad_input","natural_conversation_ending"]
-)
-
-# Delete an agent
-agents.delete("agent_12cf6e88-c254-4d3e-a149-ddf1bdd2254c")
-agents.delete("booking-support-agent", project="customer-support")  # by name
-```
-
-### Managing Tools
-
-```python
-from phonic.client import Tools
-
-tools = Tools(api_key=API_KEY)
-
-# Create a webhook tool (executes on server)
-webhook_tool = tools.create(
-    name="book_appointment",
-    description="Books an appointment in the calendar system",
-    type="custom_webhook",
-    execution_mode="sync",
-    endpoint_url="https://api.example.com/book-appointment",
-    endpoint_method="POST",
-    endpoint_timeout_ms=5000,
-    parameters=[
-        {
-            "type": "string",
-            "name": "date",
-            "description": "The date for the appointment in YYYY-MM-DD format",
-            "is_required": True
-        },
-        {
-            "type": "string",
-            "name": "time", 
-            "description": "The time for the appointment in HH:MM format",
-            "is_required": True
-        },
-        {
-            "type": "array",
-            "item_type": "string",
-            "name": "service_types",
-            "description": "List of services requested",
-            "is_required": False
-        }
-    ],
-    endpoint_headers={
-        "Authorization": "Bearer token123",
-        "Content-Type": "application/json"
-    }
-)
-
-# Create a WebSocket tool (executes on client)
-websocket_tool = tools.create(
-    name="get_product_recommendations",
-    description="Gets personalized product recommendations based on user preferences",
-    type="custom_websocket",
-    execution_mode="async",
-    tool_call_output_timeout_ms=5000,
-    parameters=[
-        {
-            "type": "string",
-            "name": "category",
-            "description": "Product category (e.g., 'handbags', 'shoes', 'electronics')",
-            "is_required": True
-        },
-        {
-            "type": "integer",
-            "name": "max_results",
-            "description": "Maximum number of recommendations to return",
-            "is_required": False
-        }
-    ]
-)
-
-# List all tools for the organization
-tools_list = tools.list()
-
-# Get a tool by ID or name
-tool = tools.get("tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c")
-tool = tools.get("book_appointment")  # by name
-
-# Update a tool
-tools.update(
-    "book_appointment",
-    description="Updated booking tool with enhanced features",
-    endpoint_timeout_ms=7000,
-    parameters=[
-        {
-            "type": "string",
-            "name": "customer_name",
-            "description": "Name of the customer",
-            "is_required": True
-        }
-    ]
-)
-
-# Delete a tool
-tools.delete("tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c")
-tools.delete("book_appointment")  # by name
-```
-
-## Response Formats
-
-### Agent Creation Response
-When you create an agent, the response contains:
-```json
-{
-  "id": "agent_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
-  "name": "booking-support-agent"
-}
-```
-
-### Agent Details Response
-When you get or list agents, each agent object contains:
-```json
-{
-  "id": "agent_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
-  "name": "booking-support-agent",
-  "project": {
-    "id": "proj_ad0334f1-2404-4155-9df3-bfd8129b29ad",
-    "name": "customer-support"
-  },
-  "voice_id": "grant",
-  "timezone": "America/Los_Angeles",
-  "audio_format": "pcm_44100",
-  "welcome_message": "Hello! Welcome to our business. How can I help you today?",
-  "system_prompt": "You are a helpful customer support agent for {{business_name}}. When addressing the customer, call them {{customer_name}}. Be friendly and concise.",
-  "template_variables": {
-    "customer_name": {"default_value": "valued customer"},
-    "business_name": {"default_value": "our company"}
-  },
-  "tool_ids": ["keypad_input"],
-  "no_input_poke_sec": 30,
-  "no_input_poke_text": "Are you still there?", 
-  "no_input_end_conversation_sec": 180,
-  "boosted_keywords": ["appointment", "booking", "cancel"],
-  "configuration_endpoint": {
-    "url": "https://api.example.com/config",
-    "headers": {
-      "Authorization": "Bearer token123",
-      "Content-Type": "application/json"
-    },
-    "timeout_ms": 2000
-  },
-  "phone_number": "+1234567890"
-}
-```
-
-### Tool Creation Response
-When you create a tool, the response contains:
-```json
-{
-  "id": "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
-  "name": "book_appointment"
-}
-```
-
-### Tool Details Response
-When you get or list tools, each tool object contains:
-```json
-{
-  "id": "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
-  "name": "book_appointment",
-  "description": "Books an appointment in the calendar system",
-  "endpoint_url": "https://api.example.com/book-appointment",
-  "endpoint_headers": {
-    "Authorization": "Bearer token123",
-    "Content-Type": "application/json"
-  },
-  "endpoint_timeout_ms": 5000,
-  "parameters": [
-    {
-      "type": "string",
-      "name": "date",
-      "description": "The date for the appointment in YYYY-MM-DD format",
-      "is_required": true
-    },
-    {
-      "type": "string",
-      "name": "customer_name",
-      "description": "The name of the customer booking the appointment",
-      "is_required": true
-    }
-  ]
-}
-```
-
-### WebSocket Tool Call Message Formats
-
-When using the Speech-to-Speech WebSocket connection, you'll receive various message types:
-
-#### tool_call
-Sent when a WebSocket tool is invoked by the assistant:
-```json
-{
-  "type": "tool_call",
-  "tool_call_id": "tc_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
-  "name": "get_product_recommendations",
-  "arguments": {
-    "category": "handbags",
-    "max_results": 5
-  }
-}
-```
-
-#### Sending Tool Call Responses
-
-When you receive a `tool_call` message for a WebSocket tool, you must send back a `tool_call_output` message with the result:
-
-```python
-# Send the tool call result back to Phonic
-await client.send_tool_call_output(
-    tool_call_id=message["tool_call_id"],  # Use the ID from the tool_call message
-    output=result  # Your tool's result (any JSON-serializable value)
-)
-```
-
-The response message format:
-```json
-{
-  "type": "tool_call_output",
-  "tool_call_id": "tc_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
-  "output": {
-    "products": [
-      {"name": "Designer Handbag", "price": 299.99},
-      {"name": "Classic Tote", "price": 89.99}
-    ],
-    "total": 2
-  }
-}
-```
-
-Important notes:
-- You must respond while the conversation is in the "streaming" state
-- Each tool call expects exactly one response
-- The `output` can be any JSON-serializable value (string, number, object, array, etc.)
-- WebSocket tools can be either `sync` (assistant waits for response) or `async` (assistant continues while tool executes)
-
-#### tool_call_completed
-Sent after any tool call (webhook or WebSocket) completes:
-```json
-{
-  "type": "tool_call_completed",
-  "tool_call_id": "tc_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
-  "tool": {
-    "id": "tool_98765432-abcd-efgh-ijkl-mnopqrstuvwx",
-    "name": "get_product_recommendations"
-  },
-  "arguments": {
-    "category": "handbags",
-    "max_results": 5
-  },
-  "output": {
-    "products": [...],
-    "total": 5
-  },
-  "error_message": null
-}
-```
-
-**Note**: Webhook tools will have `request_body` and `response_body` instead of `arguments` and `output`.
-
-## Troubleshooting
+## 🐛 Troubleshooting
 
 - `pyaudio` installation has a known issue where the `portaudio.h` file cannot be found. See [Stack Overflow](https://stackoverflow.com/questions/33513522/when-installing-pyaudio-pip-cannot-find-portaudio-h-in-usr-local-include) for OS-specific advice.
 - Sometimes, when running the example speech-to-speech code for the first time, you may see a certificate verification failure. A solution for this is also documented in [Stack Overflow](https://stackoverflow.com/questions/52805115/certificate-verify-failed-unable-to-get-local-issuer-certificate).
-- WebSocket tools can be either `sync` (assistant waits for response) or `async` (assistant continues while tool executes)
-
-**Note**: Webhook tools will have `request_body`
