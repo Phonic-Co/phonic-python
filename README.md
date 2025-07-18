@@ -205,11 +205,14 @@ from phonic.client import Tools
 
 tools = Tools(api_key=API_KEY)
 
-# Create a new tool
-tool = tools.create(
+# Create a webhook tool (executes on server)
+webhook_tool = tools.create(
     name="book_appointment",
     description="Books an appointment in the calendar system",
+    type="custom_webhook",
+    execution_mode="sync",
     endpoint_url="https://api.example.com/book-appointment",
+    endpoint_method="POST",
     endpoint_timeout_ms=5000,
     parameters=[
         {
@@ -236,6 +239,29 @@ tool = tools.create(
         "Authorization": "Bearer token123",
         "Content-Type": "application/json"
     }
+)
+
+# Create a WebSocket tool (executes on client)
+websocket_tool = tools.create(
+    name="get_product_recommendations",
+    description="Gets personalized product recommendations based on user preferences",
+    type="custom_websocket",
+    execution_mode="async",
+    tool_call_output_timeout_ms=5000,
+    parameters=[
+        {
+            "type": "string",
+            "name": "category",
+            "description": "Product category (e.g., 'handbags', 'shoes', 'electronics')",
+            "is_required": True
+        },
+        {
+            "type": "integer",
+            "name": "max_results",
+            "description": "Maximum number of recommendations to return",
+            "is_required": False
+        }
+    ]
 )
 
 # List all tools for the organization
@@ -351,7 +377,85 @@ When you get or list tools, each tool object contains:
 }
 ```
 
+### WebSocket Tool Call Message Formats
+
+When using the Speech-to-Speech WebSocket connection, you'll receive various message types:
+
+#### tool_call
+Sent when a WebSocket tool is invoked by the assistant:
+```json
+{
+  "type": "tool_call",
+  "tool_call_id": "tc_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
+  "name": "get_product_recommendations",
+  "arguments": {
+    "category": "handbags",
+    "max_results": 5
+  }
+}
+```
+
+#### Sending Tool Call Responses
+
+When you receive a `tool_call` message for a WebSocket tool, you must send back a `tool_call_output` message with the result:
+
+```python
+# Send the tool call result back to Phonic
+await client.send_tool_call_output(
+    tool_call_id=message["tool_call_id"],  # Use the ID from the tool_call message
+    output=result  # Your tool's result (any JSON-serializable value)
+)
+```
+
+The response message format:
+```json
+{
+  "type": "tool_call_output",
+  "tool_call_id": "tc_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
+  "output": {
+    "products": [
+      {"name": "Designer Handbag", "price": 299.99},
+      {"name": "Classic Tote", "price": 89.99}
+    ],
+    "total": 2
+  }
+}
+```
+
+Important notes:
+- You must respond while the conversation is in the "streaming" state
+- Each tool call expects exactly one response
+- The `output` can be any JSON-serializable value (string, number, object, array, etc.)
+- WebSocket tools can be either `sync` (assistant waits for response) or `async` (assistant continues while tool executes)
+
+#### tool_call_completed
+Sent after any tool call (webhook or WebSocket) completes:
+```json
+{
+  "type": "tool_call_completed",
+  "tool_call_id": "tc_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
+  "tool": {
+    "id": "tool_98765432-abcd-efgh-ijkl-mnopqrstuvwx",
+    "name": "get_product_recommendations"
+  },
+  "arguments": {
+    "category": "handbags",
+    "max_results": 5
+  },
+  "output": {
+    "products": [...],
+    "total": 5
+  },
+  "error_message": null
+}
+```
+
+**Note**: Webhook tools will have `request_body` and `response_body` instead of `arguments` and `output`.
+
 ## Troubleshooting
 
 - `pyaudio` installation has a known issue where the `portaudio.h` file cannot be found. See [Stack Overflow](https://stackoverflow.com/questions/33513522/when-installing-pyaudio-pip-cannot-find-portaudio-h-in-usr-local-include) for OS-specific advice.
 - Sometimes, when running the example speech-to-speech code for the first time, you may see a certificate verification failure. A solution for this is also documented in [Stack Overflow](https://stackoverflow.com/questions/52805115/certificate-verify-failed-unable-to-get-local-issuer-certificate).
+- WebSocket tools can be either `sync` (assistant waits for response) or `async` (assistant continues while tool executes)
+
+**Note**: Webhook tools will have `request_body`

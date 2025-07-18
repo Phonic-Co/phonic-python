@@ -177,6 +177,23 @@ class PhonicSTSClient(PhonicAsyncWebsocketClient):
         }
         await self._send_queue.put(message)
 
+    async def send_tool_call_output(self, tool_call_id: str, output: Any) -> None:
+        """Send the output of a tool call back to the server.
+
+        Args:
+            tool_call_id: The ID from the tool_call message
+            output: The result of executing the tool
+        """
+        if not self._is_running:
+            raise RuntimeError("WebSocket connection not established")
+
+        message = {
+            "type": "tool_call_output",
+            "tool_call_id": tool_call_id,
+            "output": output,
+        }
+        await self._send_queue.put(message)
+
     async def sts(
         self,
         agent: str | NotGiven = NOT_GIVEN,
@@ -689,7 +706,8 @@ class Tools(PhonicHTTPClient):
                   or "custom_websocket".
             execution_mode: Required. Mode of operation:
                         - "sync" - The voice agent waits for the tool response before continuing
-                        - "async" - The voice agent continues the conversation without waiting for the tool response (Only supported for custom_websocket tools)
+                        - "async" - The voice agent continues the conversation without waiting
+                                   for the tool response (Only supported for custom_websocket tools)
             endpoint_url: Required for custom_webhook tools. The URL that will be called when the tool is invoked.
             endpoint_method: Required for custom_webhook tools. Only "POST" is supported for now.
             endpoint_timeout_ms: Optional for custom_webhook tools. Timeout in milliseconds for the endpoint call.
@@ -697,7 +715,7 @@ class Tools(PhonicHTTPClient):
             endpoint_headers: Optional for custom_webhook tools. Dictionary of header key-value pairs.
                             Defaults to empty dictionary {} if not provided.
             tool_call_output_timeout_ms: Optional for custom_websocket tools. Timeout in milliseconds
-                                       for the tool call response. Defaults to 15000 ms if not provided.
+                                       for the tool call response. Defaults to 15000 ms.
             parameters: Optional. Array of parameter definitions for the tool.
                        Defaults to empty array [] if not provided.
 
@@ -772,7 +790,8 @@ class Tools(PhonicHTTPClient):
             execution_mode: Mode of operation for custom_websocket tools:
                           - "sync" - The voice agent waits for the tool response before continuing
                           - "async" - The voice agent continues the conversation without waiting for the tool response
-            tool_call_output_timeout_ms: Timeout in milliseconds for the tool call response (custom_websocket only). (Only supported for custom_websocket tools)
+            tool_call_output_timeout_ms: Timeout in milliseconds for the tool call response
+                                       (custom_websocket only).
             parameters: Array of parameter definitions (same format as create).
 
         Returns:
