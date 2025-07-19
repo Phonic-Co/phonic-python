@@ -330,8 +330,8 @@ async def handle_messages():
         agent="shopping-assistant",
         tools=["get_product_recommendations"]
     ):
-        if message["type"] == "tool_call" and message["name"] == "get_product_recommendations":
-            category = message["arguments"]["category"]
+        if message["type"] == "tool_call" and message["tool_name"] == "get_product_recommendations":
+            category = message["parameters"]["category"]
             
             # Execute your business logic
             recommendations = await fetch_recommendations(category)
