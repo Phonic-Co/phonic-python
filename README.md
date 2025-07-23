@@ -12,6 +12,8 @@ The official Python library for the Phonic API.
   - [Delete Agent](#delete-agent)
 - [🛠️ Tools](#️-tools)
   - [Create Tool](#create-tool)
+    - [Create webhook tool](#create-webhook-tool)
+    - [Create WebSocket tool](#create-websocket-tool)
   - [List Tools](#list-tools)
   - [Get Tool](#get-tool)
   - [Update Tool](#update-tool)
@@ -235,22 +237,29 @@ agents.delete("booking-support-agent", project="main")
 
 ## 🛠️ Tools
 
-All tools require an `endpoint_method` parameter that specifies the HTTP method to use when calling the tool endpoint. Currently, only "POST" is supported.
-
 ### Create Tool
+
+Tools can be either webhook-based (HTTP endpoints) or WebSocket-based.
+
+#### Create webhook tool
 
 ```python
 from phonic.client import Tools
 
 tools = Tools(api_key=API_KEY)
 
-# Create a new tool
-tool = tools.create(
+webhook_tool = tools.create(
     name="next_invoice",
     description="Returns the next invoice of the given user",
-    endpoint_url="https://myapp.com/webhooks/next-invoice",
+    type="custom_webhook",
+    execution_mode="sync",  # Only "sync" is supported for webhook tools
     endpoint_method="POST",
-    endpoint_timeout_ms=20000,
+    endpoint_url="https://myapp.com/webhooks/next-invoice",
+    endpoint_headers={
+        "Authorization": "Bearer 123",
+        "Content-Type": "application/json"
+    },
+    endpoint_timeout_ms=20000,  # Optional, defaults to 15000
     parameters=[
         {
             "type": "string",
@@ -271,12 +280,70 @@ tool = tools.create(
             "description": "Total invoice amount in USD",
             "is_required": True
         }
-    ],
-    endpoint_headers={
-        "Authorization": "Bearer 123",
-        "Content-Type": "application/json"
-    }
+    ]
 )
+```
+
+#### Create WebSocket tool
+
+WebSocket tools allow you to handle tool execution on the client side through the WebSocket connection. When the assistant calls a WebSocket tool, you'll receive a `tool_call` message and must respond with the result.
+
+```python
+from phonic.client import Tools
+
+tools = Tools(api_key=API_KEY)
+
+websocket_tool = tools.create(
+    name="get_product_recommendations",
+    description="Gets personalized product recommendations",
+    type="custom_websocket",
+    execution_mode="async",
+    tool_call_output_timeout_ms=5000,  # Optional, defaults to 15000
+    parameters=[
+        {
+            "type": "string",
+            "name": "category",
+            "description": "Product category (e.g., 'handbags', 'shoes', 'electronics')",
+            "is_required": True
+        }
+    ]
+)
+```
+
+To use this tool in a conversation, add it to your agent:
+
+```python
+from phonic.client import Agents, PhonicSTSClient
+
+# When creating an agent
+agent = agents.create(
+    name="shopping-assistant",
+    tools=["get_product_recommendations"],
+    # ... other config
+)
+
+# Handle the tool call when it's invoked
+client = PhonicSTSClient(api_key=API_KEY)
+
+async def handle_messages():
+    async for message in client.sts(
+        agent="shopping-assistant",
+        tools=["get_product_recommendations"]
+    ):
+        if message["type"] == "tool_call" and message["tool_name"] == "get_product_recommendations":
+            category = message["parameters"]["category"]
+            
+            # Execute your business logic
+            recommendations = await fetch_recommendations(category)
+            
+            # Send the result back
+            await client.send_tool_call_output(
+                tool_call_id=message["tool_call_id"],
+                output={
+                    "products": recommendations,
+                    "total": len(recommendations)
+                }
+            )
 ```
 
 #### Response Format
@@ -402,17 +469,31 @@ from phonic.client import Tools
 
 tools = Tools(api_key=API_KEY)
 
-# Update tool by name
+# Update webhook tool by name
 tools.update(
     "next_invoice",
-    description="Returns the next invoice with updated processing",
+    name="next_invoice_updated",
+    description="Updated description",
+    type="custom_webhook",
+    execution_mode="sync",
     endpoint_method="POST",
+    endpoint_url="https://myapp.com/webhooks/next-invoice-updated",
+    endpoint_headers={
+        "Authorization": "Bearer 456"
+    },
     endpoint_timeout_ms=30000,
     parameters=[
         {
             "type": "string",
             "name": "user",
             "description": "Full name of the user to get the invoice for",
+            "is_required": True
+        },
+        {
+            "type": "array",
+            "item_type": "string",
+            "name": "invoice_items",
+            "description": "List of invoice items",
             "is_required": True
         },
         {
@@ -424,14 +505,17 @@ tools.update(
     ]
 )
 
-# Update tool by ID
+# For WebSocket tools, use tool_call_output_timeout_ms instead of endpoint fields
 tools.update(
-    "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
-    endpoint_timeout_ms=25000
+    "get_product_recommendations",
+    description="Updated product recommendation tool",
+    tool_call_output_timeout_ms=7000
 )
 ```
 
 ### Delete Tool
+
+Deletes a tool by ID or name.
 
 ```python
 from phonic.client import Tools
