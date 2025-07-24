@@ -845,6 +845,50 @@ new_schema = conversations.create_extraction_schema(
     ]
 )
 
+# Update an extraction schema by ID or name
+conversations.update_extraction_schema(
+    project="main",
+    identifier="conv_extract_schema_12345",  # Schema ID
+    name="updated_booking_details",
+    prompt="Updated prompt for extracting booking information",
+    fields=[
+        {
+            "name": "appointment_date",
+            "type": "string",
+            "description": "The date of the appointment in YYYY-MM-DD format",
+        },
+        {
+            "name": "copay_amount",
+            "type": "float",
+            "description": "Amount of money the patient pays for the appointment",
+        },
+        {
+            "name": "confirmed",
+            "type": "bool",
+            "description": "Whether the appointment was confirmed",
+        },
+    ]
+)
+
+# Update schema by name (partial update)
+conversations.update_extraction_schema(
+    project="main",
+    identifier="booking_details",  # Schema name
+    prompt="Updated prompt only - fields remain unchanged"
+)
+
+# Delete an extraction schema by ID or name
+conversations.delete_extraction_schema(
+    project="main",
+    identifier="conv_extract_schema_12345"  # Schema ID
+)
+
+# Delete schema by name
+conversations.delete_extraction_schema(
+    project="main",
+    identifier="booking_details"  # Schema name
+)
+
 # Create an extraction using a schema
 extraction = conversations.create_extraction(
     conversation_id=conversation_id,

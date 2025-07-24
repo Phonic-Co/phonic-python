@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import asyncio
 import base64
 import json
@@ -625,15 +627,15 @@ class Conversations(PhonicHTTPClient):
         return self._get(f"/projects/{project}/conversation_extraction_schemas")
 
     def create_extraction_schema(
-        self, project: str, name: str, prompt: str, fields: dict
+        self, project: str, name: str, prompt: str, fields: list[dict]
     ) -> dict:
-        """Create a new extraction fields.
+        """Create a new extraction schema.
 
         Args:
             project: Name of the project
-            name: Name of the fields
+            name: Name of the schema
             prompt: Prompt for the extraction
-            fields: list of field definition objects, where each object contains "name", "type",
+            fields: List of field definition objects, where each object contains "name", "type",
                     and an optional "description" key. For example:
                 [
                     {
@@ -649,11 +651,57 @@ class Conversations(PhonicHTTPClient):
                 ]
 
         Returns:
-            Dictionary containing the ID of the created fields
+            Dictionary containing the ID of the created schema
         """
         return self._post(
             f"/projects/{project}/conversation_extraction_schemas",
             {"name": name, "prompt": prompt, "fields": fields},
+        )
+
+    def update_extraction_schema(
+        self,
+        project: str,
+        identifier: str,
+        *,
+        name: str | NotGiven = NOT_GIVEN,
+        prompt: str | NotGiven = NOT_GIVEN,
+        fields: list[dict] | NotGiven = NOT_GIVEN,
+    ) -> dict:
+        """Update an extraction schema by ID or name.
+
+        Args:
+            project: Name of the project containing the schema
+            identifier: Schema ID (starting with "conv_extract_schema_") or schema name
+            name: Optional. Name of the schema
+            prompt: Optional. Prompt for the extraction
+            fields: Optional. List of field definition objects (same format as create)
+
+        Returns:
+            Dictionary containing success status: {"success": true}
+        """
+        excluded = {"self", "project", "identifier", "excluded"}
+        data = {
+            k: v
+            for k, v in locals().items()
+            if k not in excluded and v is not NOT_GIVEN
+        }
+
+        return self._patch(
+            f"/projects/{project}/conversation_extraction_schemas/{identifier}", data
+        )
+
+    def delete_extraction_schema(self, project: str, identifier: str) -> dict:
+        """Delete an extraction schema by ID or name.
+
+        Args:
+            project: Name of the project containing the schema
+            identifier: Schema ID (starting with "conv_extract_schema_") or schema name
+
+        Returns:
+            Dictionary containing success status: {"success": true}
+        """
+        return self._delete(
+            f"/projects/{project}/conversation_extraction_schemas/{identifier}"
         )
 
     def cancel(self, conversation_id: str) -> dict:
