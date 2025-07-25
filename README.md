@@ -28,7 +28,7 @@ The official Python library for the Phonic API.
   - [📝 Evaluation Prompts](#-evaluation-prompts)
   - [📋 Summaries](#-summaries)
   - [❌ Cancel Conversations](#-cancel-conversations)
-- [📊 Extractions](#-extractions)
+- [📊 Extraction Schemas](#-extraction-schemas)
 - [🐛 Troubleshooting](#-troubleshooting)
 
 ## 📦 Installation
@@ -50,7 +50,7 @@ Please set it to the environment variable `PHONIC_API_KEY`.
 from phonic.client import (
     Agents,
     Conversations,
-    Extractions,
+    ExtractionSchemas,
     Tools,
     PhonicSTSClient,
     get_voices
@@ -829,21 +829,21 @@ conversations = Conversations(api_key=API_KEY)
 summary = conversations.summarize_conversation(conversation_id)
 ```
 
-### 📊 Extractions
+### 📊 Extraction Schemas
 
 The Phonic API provides powerful extraction capabilities to automatically extract structured data from conversations. You can define custom extraction schemas with specific fields and data types, then apply them to conversations to extract relevant information.
 
 ```python
-from phonic.client import Conversations, Extractions
+from phonic.client import Conversations, ExtractionSchemas
 
 conversations = Conversations(api_key=API_KEY)
-extractions = Extractions(api_key=API_KEY)
+extraction_schemas = ExtractionSchemas(api_key=API_KEY)
 
 # List extraction schemas for a project
-schemas = extractions.list(project="main")
+schemas = extraction_schemas.list(project="main")
 
 # Create a new extraction schema
-new_schema = extractions.create(
+new_schema = extraction_schemas.create(
     project="main",
     name="booking_details",
     prompt="Extract booking details from this conversation",
@@ -862,12 +862,12 @@ new_schema = extractions.create(
 )
 
 # Get a specific extraction schema by ID or name
-schema = extractions.get("booking_details", project="main")
+schema = extraction_schemas.get("booking_details", project="main")
 # Or by ID
-schema = extractions.get("conv_extract_schema_12345")
+schema = extraction_schemas.get("conv_extract_schema_12345")
 
 # Update an extraction schema by ID or name
-extractions.update(
+extraction_schemas.update(
     identifier="conv_extract_schema_12345",  # Schema ID
     project="main",
     name="updated_booking_details",
@@ -892,20 +892,20 @@ extractions.update(
 )
 
 # Update schema by name (partial update)
-extractions.update(
+extraction_schemas.update(
     identifier="booking_details",  # Schema name
     project="main",
     prompt="Updated prompt only - fields remain unchanged"
 )
 
 # Delete an extraction schema by ID or name
-extractions.delete(
+extraction_schemas.delete(
     identifier="conv_extract_schema_12345",  # Schema ID
     project="main"
 )
 
 # Delete schema by name
-extractions.delete(
+extraction_schemas.delete(
     identifier="booking_details",  # Schema name
     project="main"
 )

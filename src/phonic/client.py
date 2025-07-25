@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 import asyncio
 import base64
 import json
@@ -14,13 +12,9 @@ from typing_extensions import Literal
 from websockets.asyncio.client import ClientConnection, connect
 from websockets.exceptions import ConnectionClosedError
 
-from ._base import (
-    DEFAULT_HTTP_TIMEOUT,
-    INSUFFICIENT_CAPACITY_AVAILABLE_ERROR_CODE,
-    InsufficientCapacityError,
-    PhonicHTTPClient,
-    is_agent_id,
-)
+from ._base import (DEFAULT_HTTP_TIMEOUT,
+                    INSUFFICIENT_CAPACITY_AVAILABLE_ERROR_CODE,
+                    InsufficientCapacityError, PhonicHTTPClient, is_agent_id)
 from ._types import NOT_GIVEN, NotGiven, PhonicSTSTool
 
 
@@ -626,7 +620,7 @@ class Conversations(PhonicHTTPClient):
         return self._post(f"/conversations/{conversation_id}/cancel")
 
 
-class Extractions(PhonicHTTPClient):
+class ExtractionSchemas(PhonicHTTPClient):
     """Client for interacting with Phonic extraction schema endpoints."""
 
     def __init__(
@@ -1137,7 +1131,7 @@ __all__ = [
     "PhonicSTSClient",
     "PhonicHTTPClient",
     "Conversations",
-    "Extractions",
+    "ExtractionSchemas",
     "Agents",
     "Tools",
     "get_voices",
