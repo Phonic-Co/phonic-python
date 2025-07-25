@@ -14,9 +14,13 @@ from typing_extensions import Literal
 from websockets.asyncio.client import ClientConnection, connect
 from websockets.exceptions import ConnectionClosedError
 
-from ._base import (DEFAULT_HTTP_TIMEOUT,
-                    INSUFFICIENT_CAPACITY_AVAILABLE_ERROR_CODE,
-                    InsufficientCapacityError, PhonicHTTPClient, is_agent_id)
+from ._base import (
+    DEFAULT_HTTP_TIMEOUT,
+    INSUFFICIENT_CAPACITY_AVAILABLE_ERROR_CODE,
+    InsufficientCapacityError,
+    PhonicHTTPClient,
+    is_agent_id,
+)
 from ._types import NOT_GIVEN, NotGiven, PhonicSTSTool
 
 
@@ -727,7 +731,7 @@ class Extractions(PhonicHTTPClient):
         """
         params = {"project": project}
         return self._delete(f"/extraction_schemas/{identifier}", params)
-    
+
     def list(self, project: str = "main") -> dict:
         """List all extraction schemas for a project.
 
