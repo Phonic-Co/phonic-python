@@ -27,8 +27,8 @@ The official Python library for the Phonic API.
   - [📄 Pagination](#-pagination)
   - [📝 Evaluation Prompts](#-evaluation-prompts)
   - [📋 Summaries](#-summaries)
-  - [📊 Extractions](#-extractions)
   - [❌ Cancel Conversations](#-cancel-conversations)
+- [📊 Extractions](#-extractions)
 - [🐛 Troubleshooting](#-troubleshooting)
 
 ## 📦 Installation
@@ -43,6 +43,19 @@ To obtain an API key, you must be invited to the Phonic platform.
 After you have been invited, you can generate an API key by visiting the [Phonic API Key page](https://phonic.co/api-keys).
 
 Please set it to the environment variable `PHONIC_API_KEY`.
+
+### Basic Imports
+
+```python
+from phonic.client import (
+    Agents,
+    Conversations,
+    Extractions,
+    Tools,
+    PhonicSTSClient,
+    get_voices
+)
+```
 
 ## 🤖 Agents
 
@@ -818,16 +831,19 @@ summary = conversations.summarize_conversation(conversation_id)
 
 ### 📊 Extractions
 
+The Phonic API provides powerful extraction capabilities to automatically extract structured data from conversations. You can define custom extraction schemas with specific fields and data types, then apply them to conversations to extract relevant information.
+
 ```python
-from phonic.client import Conversations
+from phonic.client import Conversations, Extractions
 
 conversations = Conversations(api_key=API_KEY)
+extractions = Extractions(api_key=API_KEY)
 
 # List extraction schemas for a project
-schemas = conversations.list_extraction_schemas(project="main")
+schemas = extractions.list(project="main")
 
 # Create a new extraction schema
-new_schema = conversations.create_extraction_schema(
+new_schema = extractions.create(
     project="main",
     name="booking_details",
     prompt="Extract booking details from this conversation",
@@ -845,10 +861,15 @@ new_schema = conversations.create_extraction_schema(
     ]
 )
 
+# Get a specific extraction schema by ID or name
+schema = extractions.get("booking_details", project="main")
+# Or by ID
+schema = extractions.get("conv_extract_schema_12345")
+
 # Update an extraction schema by ID or name
-conversations.update_extraction_schema(
-    project="main",
+extractions.update(
     identifier="conv_extract_schema_12345",  # Schema ID
+    project="main",
     name="updated_booking_details",
     prompt="Updated prompt for extracting booking information",
     fields=[
@@ -871,22 +892,22 @@ conversations.update_extraction_schema(
 )
 
 # Update schema by name (partial update)
-conversations.update_extraction_schema(
-    project="main",
+extractions.update(
     identifier="booking_details",  # Schema name
+    project="main",
     prompt="Updated prompt only - fields remain unchanged"
 )
 
 # Delete an extraction schema by ID or name
-conversations.delete_extraction_schema(
-    project="main",
-    identifier="conv_extract_schema_12345"  # Schema ID
+extractions.delete(
+    identifier="conv_extract_schema_12345",  # Schema ID
+    project="main"
 )
 
 # Delete schema by name
-conversations.delete_extraction_schema(
-    project="main",
-    identifier="booking_details"  # Schema name
+extractions.delete(
+    identifier="booking_details",  # Schema name
+    project="main"
 )
 
 # Create an extraction using a schema
@@ -896,8 +917,20 @@ extraction = conversations.create_extraction(
 )
 
 # List all extractions for a conversation
-extractions = conversations.list_extractions(conversation_id)
+extractions_list = conversations.list_extractions(conversation_id)
 ```
+
+#### Supported Field Types
+
+Extraction schemas support the following field types:
+- `string` - Text values
+- `int` - Integer numbers
+- `float` - Decimal numbers
+- `bool` - Boolean values (true/false)
+- `string[]` - Array of text values
+- `int[]` - Array of integers
+- `float[]` - Array of decimal numbers
+- `bool[]` - Array of boolean values
 
 ### ❌ Cancel Conversations
 
