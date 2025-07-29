@@ -831,7 +831,7 @@ summary = conversations.summarize_conversation(conversation_id)
 
 ### 📊 Extraction Schemas
 
-The Phonic API provides powerful extraction capabilities to automatically extract structured data from conversations. You can define custom extraction schemas with specific fields and data types, then apply them to conversations to extract relevant information.
+The Phonic API provides extraction capabilities to automatically extract structured data from conversations. You can define custom extraction schemas with specific fields and data types, then apply them to conversations to extract relevant information.
 
 ```python
 from phonic.client import Conversations, ExtractionSchemas
