@@ -611,29 +611,54 @@ class Conversations(PhonicHTTPClient):
         """
         return self._get(f"/conversations/{conversation_id}/extractions")
 
-    def list_extraction_schemas(self, project: str = "main") -> dict:
-        """List all extraction schemas for a project.
+    def cancel(self, conversation_id: str) -> dict:
+        """Cancel an active conversation.
 
         Args:
-            project: Name of the project (defaults to "main")
+            conversation_id: ID of the conversation to cancel
 
         Returns:
-            Dictionary containing the list of extraction schemas under the
-            "conversation_extraction_schemas" key, where each schema includes
-            id, name, prompt, schema definition, and created_at timestamp
+            Dictionary containing success status: {"success": true} on success
+            Dictionary containing error status: {"error": {"message": <error message>}} on error
         """
-        return self._get(f"/projects/{project}/conversation_extraction_schemas")
+        return self._post(f"/conversations/{conversation_id}/cancel")
 
-    def create_extraction_schema(
-        self, project: str, name: str, prompt: str, fields: dict
-    ) -> dict:
-        """Create a new extraction fields.
+
+class ExtractionSchemas(PhonicHTTPClient):
+    """Client for interacting with Phonic extraction schema endpoints."""
+
+    def __init__(
+        self,
+        api_key: str,
+        base_url: str = "https://api.phonic.co/v1",
+        additional_headers: dict | None = None,
+    ):
+        super().__init__(api_key, additional_headers, base_url)
+
+    def get(self, identifier: str, project: str = "main") -> dict:
+        """Get a specific extraction schema by ID or name.
 
         Args:
-            project: Name of the project
-            name: Name of the fields
+            identifier: Schema ID (starting with "conv_extract_schema_") or schema name
+            project: Optional. The name of the project containing the schema.
+                    Defaults to "main". Only used when looking up by name.
+
+        Returns:
+            Dictionary containing the extraction schema details under the
+            "extraction_schema" key
+        """
+        params = {"project": project}
+        return self._get(f"/extraction_schemas/{identifier}", params)
+
+    def create(
+        self, name: str, prompt: str, fields: list[dict], project: str = "main"
+    ) -> dict:
+        """Create a new extraction schema.
+
+        Args:
+            name: Name of the schema
             prompt: Prompt for the extraction
-            fields: list of field definition objects, where each object contains "name", "type",
+            fields: List of field definition objects, where each object contains "name", "type",
                     and an optional "description" key. For example:
                 [
                     {
@@ -647,26 +672,77 @@ class Conversations(PhonicHTTPClient):
                         "description": "Amount of money the patient pays for the appointment",
                     },
                 ]
+            project: Name of the project (defaults to "main")
 
         Returns:
-            Dictionary containing the ID of the created fields
+            Dictionary containing the ID and name of the created schema: {"id": "...", "name": "..."}
         """
+        params = {"project": project}
         return self._post(
-            f"/projects/{project}/conversation_extraction_schemas",
+            "/extraction_schemas",
             {"name": name, "prompt": prompt, "fields": fields},
+            params,
         )
 
-    def cancel(self, conversation_id: str) -> dict:
-        """Cancel an active conversation.
+    def update(
+        self,
+        identifier: str,
+        *,
+        name: str | NotGiven = NOT_GIVEN,
+        prompt: str | NotGiven = NOT_GIVEN,
+        fields: list[dict] | NotGiven = NOT_GIVEN,
+        project: str = "main",
+    ) -> dict:
+        """Update an extraction schema by ID or name.
 
         Args:
-            conversation_id: ID of the conversation to cancel
+            identifier: Schema ID (starting with "conv_extract_schema_") or schema name
+            name: Optional. Name of the schema
+            prompt: Optional. Prompt for the extraction
+            fields: Optional. List of field definition objects (same format as create)
+            project: Optional. Name of the project containing the schema.
+                    Defaults to "main". Only used when updating by name.
 
         Returns:
-            Dictionary containing success status: {"success": true} on success
-            Dictionary containing error status: {"error": {"message": <error message>}} on error
+            Dictionary containing success status: {"success": true}
         """
-        return self._post(f"/conversations/{conversation_id}/cancel")
+        excluded = {"self", "identifier", "project", "excluded"}
+        data = {
+            k: v
+            for k, v in locals().items()
+            if k not in excluded and v is not NOT_GIVEN
+        }
+
+        params = {"project": project}
+        return self._patch(f"/extraction_schemas/{identifier}", data, params)
+
+    def delete(self, identifier: str, project: str = "main") -> dict:
+        """Delete an extraction schema by ID or name.
+
+        Args:
+            identifier: Schema ID (starting with "conv_extract_schema_") or schema name
+            project: Optional. Name of the project containing the schema.
+                    Defaults to "main". Only used when deleting by name.
+
+        Returns:
+            Dictionary containing success status: {"success": true}
+        """
+        params = {"project": project}
+        return self._delete(f"/extraction_schemas/{identifier}", params)
+
+    def list(self, project: str = "main") -> dict:
+        """List all extraction schemas for a project.
+
+        Args:
+            project: Name of the project (defaults to "main")
+
+        Returns:
+            Dictionary containing the list of extraction schemas under the
+            "extraction_schemas" key, where each schema includes
+            id, name, prompt, and fields
+        """
+        params = {"project": project}
+        return self._get("/extraction_schemas", params)
 
 
 class Tools(PhonicHTTPClient):
@@ -1059,6 +1135,7 @@ __all__ = [
     "PhonicSTSClient",
     "PhonicHTTPClient",
     "Conversations",
+    "ExtractionSchemas",
     "Agents",
     "Tools",
     "get_voices",
