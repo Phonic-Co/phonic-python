@@ -763,7 +763,7 @@ class Tools(PhonicHTTPClient):
         type: Literal["custom_webhook", "custom_websocket"],
         execution_mode: Literal["sync", "async"],
         *,
-        project: str = "main",
+        project: str | NotGiven = NOT_GIVEN,
         endpoint_url: str | NotGiven = NOT_GIVEN,
         endpoint_method: Literal["POST"] | NotGiven = NOT_GIVEN,
         endpoint_timeout_ms: int | NotGiven = NOT_GIVEN,
@@ -783,7 +783,7 @@ class Tools(PhonicHTTPClient):
                         - "sync" - The voice agent waits for the tool response before continuing
                         - "async" - The voice agent continues the conversation without waiting
                                    for the tool response (Only supported for custom_websocket tools)
-            project: Optional. The name of the project to create the tool in. Defaults to "main".
+            project: Optional. The name of the project to create the tool in. Defaults to server default ("main").
             endpoint_url: Required for custom_webhook tools. The URL that will be called when the tool is invoked.
             endpoint_method: Required for custom_webhook tools. Only "POST" is supported for now.
             endpoint_timeout_ms: Optional. Timeout in milliseconds for the endpoint call.
@@ -813,42 +813,42 @@ class Tools(PhonicHTTPClient):
             if k not in excluded and v is not NOT_GIVEN
         }
 
-        params = {"project": project}
+        params = {} if project is NOT_GIVEN else {"project": project}
         return self._post("/tools", data, params)
 
-    def get(self, identifier: str, *, project: str = "main") -> dict:
+    def get(self, identifier: str, *, project: str | NotGiven = NOT_GIVEN) -> dict:
         """Get a tool by ID or name.
 
         Args:
             identifier: Tool ID (starting with "tool_" followed by UUID) or tool name
             project: Optional. The name of the project containing the tool.
-                    Defaults to "main". Only used when looking up by name.
+                    Defaults to server default ("main"). Only used when looking up by name.
 
         Returns:
             Dictionary containing the tool details under the "tool" key
         """
-        params = {"project": project}
+        params = {} if project is NOT_GIVEN else {"project": project}
         return self._get(f"/tools/{identifier}", params)
 
-    def delete(self, identifier: str, *, project: str = "main") -> dict:
+    def delete(self, identifier: str, *, project: str | NotGiven = NOT_GIVEN) -> dict:
         """Delete a tool by ID or name.
 
         Args:
             identifier: Tool ID (starting with "tool_" followed by UUID) or tool name
             project: Optional. The name of the project containing the tool.
-                    Defaults to "main". Only used when deleting by name.
+                    Defaults to server default ("main"). Only used when deleting by name.
 
         Returns:
             Dictionary containing success status: {"success": true}
         """
-        params = {"project": project}
+        params = {} if project is NOT_GIVEN else {"project": project}
         return self._delete(f"/tools/{identifier}", params)
 
     def update(
         self,
         identifier: str,
         *,
-        project: str = "main",
+        project: str | NotGiven = NOT_GIVEN,
         name: str | NotGiven = NOT_GIVEN,
         description: str | NotGiven = NOT_GIVEN,
         type: Literal["custom_webhook", "custom_websocket"] | NotGiven = NOT_GIVEN,
@@ -865,7 +865,7 @@ class Tools(PhonicHTTPClient):
         Args:
             identifier: Tool ID (starting with "tool_") or tool name
             project: Optional. The name of the project containing the tool.
-                    Defaults to "main". Only used when updating by name.
+                    Defaults to server default ("main"). Only used when updating by name.
             name: Tool name. Must be snake_case and unique within the project.
             description: Description of what the tool does.
             type: The type of tool. Must be either "custom_webhook" or "custom_websocket".
@@ -890,19 +890,19 @@ class Tools(PhonicHTTPClient):
             if k not in excluded and v is not NOT_GIVEN
         }
 
-        params = {"project": project}
+        params = {} if project is NOT_GIVEN else {"project": project}
         return self._patch(f"/tools/{identifier}", data, params)
 
-    def list(self, *, project: str = "main") -> dict:
+    def list(self, *, project: str | NotGiven = NOT_GIVEN) -> dict:
         """List all tools for a project.
 
         Args:
-            project: Optional. The name of the project to list tools from. Defaults to "main".
+            project: Optional. The name of the project to list tools from. Defaults to server default ("main").
 
         Returns:
             Dictionary containing a list of tools with full details under the "tools" key
         """
-        params = {"project": project}
+        params = {} if project is NOT_GIVEN else {"project": project}
         return self._get("/tools", params)
 
 
