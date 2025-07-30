@@ -266,6 +266,7 @@ webhook_tool = tools.create(
     description="Returns the next invoice of the given user",
     type="custom_webhook",
     execution_mode="sync",  # Only "sync" is supported for webhook tools
+    project="main",  # Optional, defaults to server default ("main")
     endpoint_method="POST",
     endpoint_url="https://myapp.com/webhooks/next-invoice",
     endpoint_headers={
@@ -311,6 +312,7 @@ websocket_tool = tools.create(
     description="Gets personalized product recommendations",
     type="custom_websocket",
     execution_mode="async",
+    project="main",  # Optional, defaults to server default ("main")
     tool_call_output_timeout_ms=5000,  # Optional, defaults to 15000
     parameters=[
         {
@@ -375,8 +377,11 @@ from phonic.client import Tools
 
 tools = Tools(api_key=API_KEY)
 
-# List all tools for the organization
+# List all tools for the default project ("main")
 tools_list = tools.list()
+
+# List tools for a specific project
+tools_list = tools.list(project="customer-support")
 ```
 
 #### Response Format
@@ -386,8 +391,14 @@ tools_list = tools.list()
   "tools": [
     {
       "id": "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
+      "project": {
+        "id": "proj_fc86489d-fa2d-4921-8f14-7b95a926d481",
+        "name": "main"
+      },
       "name": "next_invoice",
       "description": "Returns the next invoice of the given user",
+      "type": "custom_webhook",
+      "execution_mode": "sync",
       "endpoint_url": "https://myapp.com/webhooks/next-invoice",
       "endpoint_method": "POST",
       "endpoint_headers": {
@@ -428,11 +439,14 @@ from phonic.client import Tools
 
 tools = Tools(api_key=API_KEY)
 
-# Get tool by ID
+# Get tool by ID (works across all projects)
 tool = tools.get("tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c")
 
-# Get tool by name
+# Get tool by name (uses default project)
 tool = tools.get("next_invoice")
+
+# Get tool by name in specific project
+tool = tools.get("next_invoice", project="customer-support")
 ```
 
 #### Response Format
@@ -441,8 +455,14 @@ tool = tools.get("next_invoice")
 {
   "tool": {
     "id": "tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c",
+    "project": {
+      "id": "proj_fc86489d-fa2d-4921-8f14-7b95a926d481",
+      "name": "main"
+    },
     "name": "next_invoice",
     "description": "Returns the next invoice of the given user",
+    "type": "custom_webhook",
+    "execution_mode": "sync",
     "endpoint_url": "https://myapp.com/webhooks/next-invoice",
     "endpoint_method": "POST",
     "endpoint_headers": {
@@ -482,7 +502,7 @@ from phonic.client import Tools
 
 tools = Tools(api_key=API_KEY)
 
-# Update webhook tool by name
+# Update webhook tool by name (uses default project)
 tools.update(
     "next_invoice",
     name="next_invoice_updated",
@@ -518,6 +538,13 @@ tools.update(
     ]
 )
 
+# Update tool by name in specific project
+tools.update(
+    "next_invoice",
+    project="customer-support",
+    description="Updated description for customer support project"
+)
+
 # For WebSocket tools, use tool_call_output_timeout_ms instead of endpoint fields
 tools.update(
     "get_product_recommendations",
@@ -535,11 +562,14 @@ from phonic.client import Tools
 
 tools = Tools(api_key=API_KEY)
 
-# Delete tool by ID
+# Delete tool by ID (works across all projects)
 tools.delete("tool_12cf6e88-c254-4d3e-a149-ddf1bdd2254c")
 
-# Delete tool by name
+# Delete tool by name (uses default project)
 tools.delete("next_invoice")
+
+# Delete tool by name in specific project
+tools.delete("next_invoice", project="customer-support")
 ```
 
 ## 🎤 Voices
