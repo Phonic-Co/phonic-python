@@ -55,7 +55,6 @@ class ExtractionSchemasClient:
         from phonic import Phonic
 
         client = Phonic(
-            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
         client.extraction_schemas.list()
@@ -102,7 +101,6 @@ class ExtractionSchemasClient:
         from phonic import ExtractionField, Phonic
 
         client = Phonic(
-            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
         client.extraction_schemas.create(
@@ -163,7 +161,6 @@ class ExtractionSchemasClient:
         from phonic import Phonic
 
         client = Phonic(
-            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
         client.extraction_schemas.get(
@@ -204,7 +201,6 @@ class ExtractionSchemasClient:
         from phonic import Phonic
 
         client = Phonic(
-            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
         client.extraction_schemas.delete(
@@ -257,7 +253,6 @@ class ExtractionSchemasClient:
         from phonic import ExtractionField, Phonic
 
         client = Phonic(
-            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
         client.extraction_schemas.update(
@@ -325,7 +320,6 @@ class AsyncExtractionSchemasClient:
         from phonic import AsyncPhonic
 
         client = AsyncPhonic(
-            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
 
@@ -380,7 +374,6 @@ class AsyncExtractionSchemasClient:
         from phonic import AsyncPhonic, ExtractionField
 
         client = AsyncPhonic(
-            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
 
@@ -449,7 +442,6 @@ class AsyncExtractionSchemasClient:
         from phonic import AsyncPhonic
 
         client = AsyncPhonic(
-            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
 
@@ -498,7 +490,6 @@ class AsyncExtractionSchemasClient:
         from phonic import AsyncPhonic
 
         client = AsyncPhonic(
-            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
 
@@ -559,7 +550,6 @@ class AsyncExtractionSchemasClient:
         from phonic import AsyncPhonic, ExtractionField
 
         client = AsyncPhonic(
-            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
 

@@ -27,7 +27,6 @@ from phonic import (
 )
 
 client = Phonic(
-    twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
     token="YOUR_TOKEN",
 )
 client.agents.create(
@@ -68,7 +67,6 @@ from phonic import (
 )
 
 client = AsyncPhonic(
-    twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
     token="YOUR_TOKEN",
 )
 

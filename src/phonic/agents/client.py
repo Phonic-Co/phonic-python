@@ -63,7 +63,6 @@ class AgentsClient:
         from phonic import Phonic
 
         client = Phonic(
-            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
         client.agents.list()
@@ -157,7 +156,6 @@ class AgentsClient:
         )
 
         client = Phonic(
-            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
         client.agents.create(
@@ -289,7 +287,6 @@ class AgentsClient:
         )
 
         client = Phonic(
-            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
         client.agents.upsert(
@@ -367,7 +364,6 @@ class AgentsClient:
         from phonic import Phonic
 
         client = Phonic(
-            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
         client.agents.get(
@@ -408,7 +404,6 @@ class AgentsClient:
         from phonic import Phonic
 
         client = Phonic(
-            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
         client.agents.delete(
@@ -508,7 +503,6 @@ class AgentsClient:
         )
 
         client = Phonic(
-            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
         client.agents.update(
@@ -599,7 +593,6 @@ class AsyncAgentsClient:
         from phonic import AsyncPhonic
 
         client = AsyncPhonic(
-            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
 
@@ -701,7 +694,6 @@ class AsyncAgentsClient:
         )
 
         client = AsyncPhonic(
-            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
 
@@ -841,7 +833,6 @@ class AsyncAgentsClient:
         )
 
         client = AsyncPhonic(
-            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
 
@@ -927,7 +918,6 @@ class AsyncAgentsClient:
         from phonic import AsyncPhonic
 
         client = AsyncPhonic(
-            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
 
@@ -976,7 +966,6 @@ class AsyncAgentsClient:
         from phonic import AsyncPhonic
 
         client = AsyncPhonic(
-            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
 
@@ -1084,7 +1073,6 @@ class AsyncAgentsClient:
         )
 
         client = AsyncPhonic(
-            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
 

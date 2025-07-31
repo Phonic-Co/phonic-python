@@ -29,7 +29,6 @@ class Phonic:
 
 
 
-    twilio_account_sid : str
     token : typing.Union[str, typing.Callable[[], str]]
     headers : typing.Optional[typing.Dict[str, str]]
         Additional headers to send with every request.
@@ -48,7 +47,6 @@ class Phonic:
     from phonic import Phonic
 
     client = Phonic(
-        twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
         token="YOUR_TOKEN",
     )
     """
@@ -57,7 +55,6 @@ class Phonic:
         self,
         *,
         environment: PhonicEnvironment = PhonicEnvironment.DEFAULT,
-        twilio_account_sid: str,
         token: typing.Union[str, typing.Callable[[], str]],
         headers: typing.Optional[typing.Dict[str, str]] = None,
         timeout: typing.Optional[float] = None,
@@ -69,7 +66,6 @@ class Phonic:
         )
         self._client_wrapper = SyncClientWrapper(
             environment=environment,
-            twilio_account_sid=twilio_account_sid,
             token=token,
             headers=headers,
             httpx_client=httpx_client
@@ -103,7 +99,6 @@ class AsyncPhonic:
 
 
 
-    twilio_account_sid : str
     token : typing.Union[str, typing.Callable[[], str]]
     headers : typing.Optional[typing.Dict[str, str]]
         Additional headers to send with every request.
@@ -122,7 +117,6 @@ class AsyncPhonic:
     from phonic import AsyncPhonic
 
     client = AsyncPhonic(
-        twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
         token="YOUR_TOKEN",
     )
     """
@@ -131,7 +125,6 @@ class AsyncPhonic:
         self,
         *,
         environment: PhonicEnvironment = PhonicEnvironment.DEFAULT,
-        twilio_account_sid: str,
         token: typing.Union[str, typing.Callable[[], str]],
         headers: typing.Optional[typing.Dict[str, str]] = None,
         timeout: typing.Optional[float] = None,
@@ -143,7 +136,6 @@ class AsyncPhonic:
         )
         self._client_wrapper = AsyncClientWrapper(
             environment=environment,
-            twilio_account_sid=twilio_account_sid,
             token=token,
             headers=headers,
             httpx_client=httpx_client

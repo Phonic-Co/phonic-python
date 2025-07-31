@@ -30,7 +30,6 @@ Returns all agents in a project.
 from phonic import Phonic
 
 client = Phonic(
-    twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
     token="YOUR_TOKEN",
 )
 client.agents.list()
@@ -103,7 +102,6 @@ from phonic import (
 )
 
 client = Phonic(
-    twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
     token="YOUR_TOKEN",
 )
 client.agents.create(
@@ -309,7 +307,6 @@ from phonic import (
 )
 
 client = Phonic(
-    twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
     token="YOUR_TOKEN",
 )
 client.agents.upsert(
@@ -512,7 +509,6 @@ Returns an agent by name or ID.
 from phonic import Phonic
 
 client = Phonic(
-    twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
     token="YOUR_TOKEN",
 )
 client.agents.get(
@@ -591,7 +587,6 @@ Deletes an agent by name or ID.
 from phonic import Phonic
 
 client = Phonic(
-    twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
     token="YOUR_TOKEN",
 )
 client.agents.delete(
@@ -674,7 +669,6 @@ from phonic.agents import (
 )
 
 client = Phonic(
-    twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
     token="YOUR_TOKEN",
 )
 client.agents.update(
@@ -887,7 +881,6 @@ Returns all custom tools for the organization.
 from phonic import Phonic
 
 client = Phonic(
-    twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
     token="YOUR_TOKEN",
 )
 client.tools.list()
@@ -956,7 +949,6 @@ Creates a new tool in a project.
 from phonic import Phonic, ToolParameter
 
 client = Phonic(
-    twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
     token="YOUR_TOKEN",
 )
 client.tools.create(
@@ -1119,7 +1111,6 @@ Returns a tool by name or ID.
 from phonic import Phonic
 
 client = Phonic(
-    twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
     token="YOUR_TOKEN",
 )
 client.tools.get(
@@ -1198,7 +1189,6 @@ Deletes a tool by name or ID.
 from phonic import Phonic
 
 client = Phonic(
-    twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
     token="YOUR_TOKEN",
 )
 client.tools.delete(
@@ -1277,7 +1267,6 @@ Updates a tool by name or ID.
 from phonic import Phonic
 
 client = Phonic(
-    twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
     token="YOUR_TOKEN",
 )
 client.tools.update(
@@ -1440,7 +1429,6 @@ Returns all extraction schemas in a project.
 from phonic import Phonic
 
 client = Phonic(
-    twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
     token="YOUR_TOKEN",
 )
 client.extraction_schemas.list()
@@ -1509,7 +1497,6 @@ Creates a new extraction schema in a project.
 from phonic import ExtractionField, Phonic
 
 client = Phonic(
-    twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
     token="YOUR_TOKEN",
 )
 client.extraction_schemas.create(
@@ -1622,7 +1609,6 @@ Returns an extraction schema by name or ID.
 from phonic import Phonic
 
 client = Phonic(
-    twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
     token="YOUR_TOKEN",
 )
 client.extraction_schemas.get(
@@ -1701,7 +1687,6 @@ Deletes an extraction schema by name or ID.
 from phonic import Phonic
 
 client = Phonic(
-    twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
     token="YOUR_TOKEN",
 )
 client.extraction_schemas.delete(
@@ -1780,7 +1765,6 @@ Updates an extraction schema by name or ID.
 from phonic import ExtractionField, Phonic
 
 client = Phonic(
-    twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
     token="YOUR_TOKEN",
 )
 client.extraction_schemas.update(
@@ -1898,7 +1882,6 @@ Returns all available voices for a model.
 from phonic import Phonic
 
 client = Phonic(
-    twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
     token="YOUR_TOKEN",
 )
 client.voices.list()
@@ -1959,7 +1942,6 @@ Returns a voice by ID.
 from phonic import Phonic
 
 client = Phonic(
-    twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
     token="YOUR_TOKEN",
 )
 client.voices.get(
@@ -2031,7 +2013,6 @@ Returns conversations with optional filtering.
 from phonic import Phonic
 
 client = Phonic(
-    twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
     token="YOUR_TOKEN",
 )
 client.conversations.list()
@@ -2164,7 +2145,6 @@ Returns a conversation by ID.
 from phonic import Phonic
 
 client = Phonic(
-    twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
     token="YOUR_TOKEN",
 )
 client.conversations.get(
@@ -2235,7 +2215,6 @@ Cancels an active conversation.
 from phonic import Phonic
 
 client = Phonic(
-    twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
     token="YOUR_TOKEN",
 )
 client.conversations.cancel(
@@ -2306,7 +2285,6 @@ Generates a summary of the specified conversation.
 from phonic import Phonic
 
 client = Phonic(
-    twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
     token="YOUR_TOKEN",
 )
 client.conversations.summarize(
@@ -2377,7 +2355,6 @@ Returns an analysis of the specified conversation.
 from phonic import Phonic
 
 client = Phonic(
-    twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
     token="YOUR_TOKEN",
 )
 client.conversations.get_analysis(
@@ -2448,7 +2425,6 @@ Returns all extractions for a conversation.
 from phonic import Phonic
 
 client = Phonic(
-    twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
     token="YOUR_TOKEN",
 )
 client.conversations.list_extractions(
@@ -2519,7 +2495,6 @@ Extracts data from a conversation using a schema.
 from phonic import Phonic
 
 client = Phonic(
-    twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
     token="YOUR_TOKEN",
 )
 client.conversations.extract_data(
@@ -2599,7 +2574,6 @@ Returns all evaluations for a conversation.
 from phonic import Phonic
 
 client = Phonic(
-    twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
     token="YOUR_TOKEN",
 )
 client.conversations.list_evaluations(
@@ -2670,7 +2644,6 @@ Evaluates a conversation using an evaluation prompt.
 from phonic import Phonic
 
 client = Phonic(
-    twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
     token="YOUR_TOKEN",
 )
 client.conversations.evaluate(
@@ -2750,7 +2723,6 @@ Initiates a call to a given phone number using Phonic's Twilio account.
 from phonic import OutboundCallConfig, Phonic
 
 client = Phonic(
-    twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
     token="YOUR_TOKEN",
 )
 client.conversations.outbound_call(
@@ -2842,7 +2814,6 @@ Returns all projects in a workspace.
 from phonic import Phonic
 
 client = Phonic(
-    twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
     token="YOUR_TOKEN",
 )
 client.projects.list()
@@ -2903,7 +2874,6 @@ Creates a new project in a workspace.
 from phonic import Phonic
 
 client = Phonic(
-    twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
     token="YOUR_TOKEN",
 )
 client.projects.create(
@@ -2974,7 +2944,6 @@ Returns a project by name or ID.
 from phonic import Phonic
 
 client = Phonic(
-    twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
     token="YOUR_TOKEN",
 )
 client.projects.get(
@@ -3045,7 +3014,6 @@ Deletes a project by name or ID.
 from phonic import Phonic
 
 client = Phonic(
-    twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
     token="YOUR_TOKEN",
 )
 client.projects.delete(
@@ -3116,7 +3084,6 @@ Updates a project by name or ID.
 from phonic import Phonic
 
 client = Phonic(
-    twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
     token="YOUR_TOKEN",
 )
 client.projects.update(
@@ -3205,7 +3172,6 @@ Returns all conversation evaluation prompts for a project.
 from phonic import Phonic
 
 client = Phonic(
-    twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
     token="YOUR_TOKEN",
 )
 client.projects.list_eval_prompts(
@@ -3276,7 +3242,6 @@ Creates a new conversation evaluation prompt for a project.
 from phonic import Phonic
 
 client = Phonic(
-    twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
     token="YOUR_TOKEN",
 )
 client.projects.create_eval_prompt(
