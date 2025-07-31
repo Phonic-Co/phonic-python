@@ -4,6 +4,10 @@ import typing
 
 from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.request_options import RequestOptions
+from ..types.create_agent_request_audio_format import CreateAgentRequestAudioFormat
+from ..types.create_agent_request_configuration_endpoint import CreateAgentRequestConfigurationEndpoint
+from ..types.create_agent_request_template_variables_value import CreateAgentRequestTemplateVariablesValue
+from ..types.create_agent_request_tools_item import CreateAgentRequestToolsItem
 from .raw_client import AsyncRawAgentsClient, RawAgentsClient
 from .types.agents_create_response import AgentsCreateResponse
 from .types.agents_delete_response import AgentsDeleteResponse
@@ -11,18 +15,10 @@ from .types.agents_get_response import AgentsGetResponse
 from .types.agents_list_response import AgentsListResponse
 from .types.agents_update_response import AgentsUpdateResponse
 from .types.agents_upsert_response import AgentsUpsertResponse
-from .types.create_agent_request_audio_format import CreateAgentRequestAudioFormat
-from .types.create_agent_request_configuration_endpoint import CreateAgentRequestConfigurationEndpoint
-from .types.create_agent_request_template_variables_value import CreateAgentRequestTemplateVariablesValue
-from .types.create_agent_request_tools_item import CreateAgentRequestToolsItem
 from .types.update_agent_request_audio_format import UpdateAgentRequestAudioFormat
 from .types.update_agent_request_configuration_endpoint import UpdateAgentRequestConfigurationEndpoint
 from .types.update_agent_request_template_variables_value import UpdateAgentRequestTemplateVariablesValue
 from .types.update_agent_request_tools_item import UpdateAgentRequestToolsItem
-from .types.upsert_agent_request_audio_format import UpsertAgentRequestAudioFormat
-from .types.upsert_agent_request_configuration_endpoint import UpsertAgentRequestConfigurationEndpoint
-from .types.upsert_agent_request_template_variables_value import UpsertAgentRequestTemplateVariablesValue
-from .types.upsert_agent_request_tools_item import UpsertAgentRequestToolsItem
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -67,6 +63,7 @@ class AgentsClient:
         from phonic import Phonic
 
         client = Phonic(
+            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
         client.agents.list()
@@ -153,18 +150,18 @@ class AgentsClient:
 
         Examples
         --------
-        from phonic import Phonic
-        from phonic.agents import (
+        from phonic import (
             CreateAgentRequestConfigurationEndpoint,
             CreateAgentRequestTemplateVariablesValue,
+            Phonic,
         )
 
         client = Phonic(
+            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
         client.agents.create(
             name="support-agent",
-            phone_number="assign-automatically",
             timezone="America/Los_Angeles",
             voice_id="sarah",
             welcome_message="Hi {{customer_name}}. How can I help you today?",
@@ -209,21 +206,21 @@ class AgentsClient:
     def upsert(
         self,
         *,
+        name: str,
         project: typing.Optional[str] = None,
-        name: typing.Optional[str] = OMIT,
         phone_number: typing.Optional[typing.Literal["assign-automatically"]] = OMIT,
         timezone: typing.Optional[str] = OMIT,
         voice_id: typing.Optional[str] = OMIT,
-        audio_format: typing.Optional[UpsertAgentRequestAudioFormat] = OMIT,
+        audio_format: typing.Optional[CreateAgentRequestAudioFormat] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
-        template_variables: typing.Optional[typing.Dict[str, UpsertAgentRequestTemplateVariablesValue]] = OMIT,
-        tools: typing.Optional[typing.Sequence[UpsertAgentRequestToolsItem]] = OMIT,
+        template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValue]] = OMIT,
+        tools: typing.Optional[typing.Sequence[CreateAgentRequestToolsItem]] = OMIT,
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
-        configuration_endpoint: typing.Optional[UpsertAgentRequestConfigurationEndpoint] = OMIT,
+        configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpoint] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AgentsUpsertResponse:
         """
@@ -231,11 +228,11 @@ class AgentsClient:
 
         Parameters
         ----------
+        name : str
+            The name of the agent. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
+
         project : typing.Optional[str]
             The name of the project containing the agent.
-
-        name : typing.Optional[str]
-            The name of the agent. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
 
         phone_number : typing.Optional[typing.Literal["assign-automatically"]]
 
@@ -245,7 +242,7 @@ class AgentsClient:
         voice_id : typing.Optional[str]
             The voice ID to use.
 
-        audio_format : typing.Optional[UpsertAgentRequestAudioFormat]
+        audio_format : typing.Optional[CreateAgentRequestAudioFormat]
             The audio format of the agent.
 
         welcome_message : typing.Optional[str]
@@ -254,10 +251,10 @@ class AgentsClient:
         system_prompt : typing.Optional[str]
             Instructions for the conversation. Can contain template variables like `{{subject}}`.
 
-        template_variables : typing.Optional[typing.Dict[str, UpsertAgentRequestTemplateVariablesValue]]
+        template_variables : typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValue]]
             Variables that can be used in the welcome message and the system prompt.
 
-        tools : typing.Optional[typing.Sequence[UpsertAgentRequestToolsItem]]
+        tools : typing.Optional[typing.Sequence[CreateAgentRequestToolsItem]]
             Array of built-in or custom tool names to use.
 
         no_input_poke_sec : typing.Optional[int]
@@ -272,7 +269,7 @@ class AgentsClient:
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
 
-        configuration_endpoint : typing.Optional[UpsertAgentRequestConfigurationEndpoint]
+        configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpoint]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint when to get configuration options.
 
         request_options : typing.Optional[RequestOptions]
@@ -285,13 +282,14 @@ class AgentsClient:
 
         Examples
         --------
-        from phonic import Phonic
-        from phonic.agents import (
-            UpsertAgentRequestConfigurationEndpoint,
-            UpsertAgentRequestTemplateVariablesValue,
+        from phonic import (
+            CreateAgentRequestConfigurationEndpoint,
+            CreateAgentRequestTemplateVariablesValue,
+            Phonic,
         )
 
         client = Phonic(
+            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
         client.agents.upsert(
@@ -302,8 +300,8 @@ class AgentsClient:
             welcome_message="Hi {{customer_name}}. How can I help you today?",
             system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
             template_variables={
-                "customer_name": UpsertAgentRequestTemplateVariablesValue(),
-                "subject": UpsertAgentRequestTemplateVariablesValue(
+                "customer_name": CreateAgentRequestTemplateVariablesValue(),
+                "subject": CreateAgentRequestTemplateVariablesValue(
                     default_value="Chess",
                 ),
             },
@@ -311,7 +309,7 @@ class AgentsClient:
             no_input_poke_sec=30,
             no_input_poke_text="Are you still there?",
             boosted_keywords=["Load ID", "dispatch"],
-            configuration_endpoint=UpsertAgentRequestConfigurationEndpoint(
+            configuration_endpoint=CreateAgentRequestConfigurationEndpoint(
                 url="https://api.example.com/config",
                 headers={"Authorization": "Bearer token123"},
                 timeout_ms=7000,
@@ -319,8 +317,8 @@ class AgentsClient:
         )
         """
         _response = self._raw_client.upsert(
-            project=project,
             name=name,
+            project=project,
             phone_number=phone_number,
             timezone=timezone,
             voice_id=voice_id,
@@ -369,6 +367,7 @@ class AgentsClient:
         from phonic import Phonic
 
         client = Phonic(
+            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
         client.agents.get(
@@ -409,6 +408,7 @@ class AgentsClient:
         from phonic import Phonic
 
         client = Phonic(
+            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
         client.agents.delete(
@@ -508,6 +508,7 @@ class AgentsClient:
         )
 
         client = Phonic(
+            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
         client.agents.update(
@@ -598,6 +599,7 @@ class AsyncAgentsClient:
         from phonic import AsyncPhonic
 
         client = AsyncPhonic(
+            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
 
@@ -692,13 +694,14 @@ class AsyncAgentsClient:
         --------
         import asyncio
 
-        from phonic import AsyncPhonic
-        from phonic.agents import (
+        from phonic import (
+            AsyncPhonic,
             CreateAgentRequestConfigurationEndpoint,
             CreateAgentRequestTemplateVariablesValue,
         )
 
         client = AsyncPhonic(
+            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
 
@@ -706,7 +709,6 @@ class AsyncAgentsClient:
         async def main() -> None:
             await client.agents.create(
                 name="support-agent",
-                phone_number="assign-automatically",
                 timezone="America/Los_Angeles",
                 voice_id="sarah",
                 welcome_message="Hi {{customer_name}}. How can I help you today?",
@@ -754,21 +756,21 @@ class AsyncAgentsClient:
     async def upsert(
         self,
         *,
+        name: str,
         project: typing.Optional[str] = None,
-        name: typing.Optional[str] = OMIT,
         phone_number: typing.Optional[typing.Literal["assign-automatically"]] = OMIT,
         timezone: typing.Optional[str] = OMIT,
         voice_id: typing.Optional[str] = OMIT,
-        audio_format: typing.Optional[UpsertAgentRequestAudioFormat] = OMIT,
+        audio_format: typing.Optional[CreateAgentRequestAudioFormat] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
-        template_variables: typing.Optional[typing.Dict[str, UpsertAgentRequestTemplateVariablesValue]] = OMIT,
-        tools: typing.Optional[typing.Sequence[UpsertAgentRequestToolsItem]] = OMIT,
+        template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValue]] = OMIT,
+        tools: typing.Optional[typing.Sequence[CreateAgentRequestToolsItem]] = OMIT,
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
-        configuration_endpoint: typing.Optional[UpsertAgentRequestConfigurationEndpoint] = OMIT,
+        configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpoint] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AgentsUpsertResponse:
         """
@@ -776,11 +778,11 @@ class AsyncAgentsClient:
 
         Parameters
         ----------
+        name : str
+            The name of the agent. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
+
         project : typing.Optional[str]
             The name of the project containing the agent.
-
-        name : typing.Optional[str]
-            The name of the agent. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
 
         phone_number : typing.Optional[typing.Literal["assign-automatically"]]
 
@@ -790,7 +792,7 @@ class AsyncAgentsClient:
         voice_id : typing.Optional[str]
             The voice ID to use.
 
-        audio_format : typing.Optional[UpsertAgentRequestAudioFormat]
+        audio_format : typing.Optional[CreateAgentRequestAudioFormat]
             The audio format of the agent.
 
         welcome_message : typing.Optional[str]
@@ -799,10 +801,10 @@ class AsyncAgentsClient:
         system_prompt : typing.Optional[str]
             Instructions for the conversation. Can contain template variables like `{{subject}}`.
 
-        template_variables : typing.Optional[typing.Dict[str, UpsertAgentRequestTemplateVariablesValue]]
+        template_variables : typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValue]]
             Variables that can be used in the welcome message and the system prompt.
 
-        tools : typing.Optional[typing.Sequence[UpsertAgentRequestToolsItem]]
+        tools : typing.Optional[typing.Sequence[CreateAgentRequestToolsItem]]
             Array of built-in or custom tool names to use.
 
         no_input_poke_sec : typing.Optional[int]
@@ -817,7 +819,7 @@ class AsyncAgentsClient:
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
 
-        configuration_endpoint : typing.Optional[UpsertAgentRequestConfigurationEndpoint]
+        configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpoint]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint when to get configuration options.
 
         request_options : typing.Optional[RequestOptions]
@@ -832,13 +834,14 @@ class AsyncAgentsClient:
         --------
         import asyncio
 
-        from phonic import AsyncPhonic
-        from phonic.agents import (
-            UpsertAgentRequestConfigurationEndpoint,
-            UpsertAgentRequestTemplateVariablesValue,
+        from phonic import (
+            AsyncPhonic,
+            CreateAgentRequestConfigurationEndpoint,
+            CreateAgentRequestTemplateVariablesValue,
         )
 
         client = AsyncPhonic(
+            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
 
@@ -852,8 +855,8 @@ class AsyncAgentsClient:
                 welcome_message="Hi {{customer_name}}. How can I help you today?",
                 system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
                 template_variables={
-                    "customer_name": UpsertAgentRequestTemplateVariablesValue(),
-                    "subject": UpsertAgentRequestTemplateVariablesValue(
+                    "customer_name": CreateAgentRequestTemplateVariablesValue(),
+                    "subject": CreateAgentRequestTemplateVariablesValue(
                         default_value="Chess",
                     ),
                 },
@@ -861,7 +864,7 @@ class AsyncAgentsClient:
                 no_input_poke_sec=30,
                 no_input_poke_text="Are you still there?",
                 boosted_keywords=["Load ID", "dispatch"],
-                configuration_endpoint=UpsertAgentRequestConfigurationEndpoint(
+                configuration_endpoint=CreateAgentRequestConfigurationEndpoint(
                     url="https://api.example.com/config",
                     headers={"Authorization": "Bearer token123"},
                     timeout_ms=7000,
@@ -872,8 +875,8 @@ class AsyncAgentsClient:
         asyncio.run(main())
         """
         _response = await self._raw_client.upsert(
-            project=project,
             name=name,
+            project=project,
             phone_number=phone_number,
             timezone=timezone,
             voice_id=voice_id,
@@ -924,6 +927,7 @@ class AsyncAgentsClient:
         from phonic import AsyncPhonic
 
         client = AsyncPhonic(
+            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
 
@@ -972,6 +976,7 @@ class AsyncAgentsClient:
         from phonic import AsyncPhonic
 
         client = AsyncPhonic(
+            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
 
@@ -1079,6 +1084,7 @@ class AsyncAgentsClient:
         )
 
         client = AsyncPhonic(
+            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
 

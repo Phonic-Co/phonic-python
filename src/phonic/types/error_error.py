@@ -3,11 +3,19 @@
 import typing
 
 import pydantic
-from ...core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from ..core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 
 
-class CreateAgentRequestTemplateVariablesValue(UniversalBaseModel):
-    default_value: typing.Optional[str] = None
+class ErrorError(UniversalBaseModel):
+    message: str = pydantic.Field()
+    """
+    Error message
+    """
+
+    code: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    Error code
+    """
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

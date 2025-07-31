@@ -9,8 +9,13 @@ from ..core.http_response import AsyncHttpResponse, HttpResponse
 from ..core.jsonable_encoder import jsonable_encoder
 from ..core.pydantic_utilities import parse_obj_as
 from ..core.request_options import RequestOptions
+from ..errors.not_found_error import NotFoundError
+from ..types.error import Error
+from .types.projects_create_eval_prompt_response import ProjectsCreateEvalPromptResponse
+from .types.projects_create_response import ProjectsCreateResponse
 from .types.projects_delete_response import ProjectsDeleteResponse
 from .types.projects_get_response import ProjectsGetResponse
+from .types.projects_list_eval_prompts_response import ProjectsListEvalPromptsResponse
 from .types.projects_list_response import ProjectsListResponse
 from .types.projects_update_response import ProjectsUpdateResponse
 
@@ -48,6 +53,53 @@ class RawProjectsClient:
                     ProjectsListResponse,
                     parse_obj_as(
                         type_=ProjectsListResponse,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return HttpResponse(response=_response, data=_data)
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    def create(
+        self, *, name: str, request_options: typing.Optional[RequestOptions] = None
+    ) -> HttpResponse[ProjectsCreateResponse]:
+        """
+        Creates a new project in a workspace.
+
+        Parameters
+        ----------
+        name : str
+            The name of the project. Can only contain lowercase letters, numbers and hyphens. Must be unique within the workspace.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[ProjectsCreateResponse]
+            Success response
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            "projects",
+            base_url=self._client_wrapper.get_environment().base,
+            method="POST",
+            json={
+                "name": name,
+            },
+            headers={
+                "content-type": "application/json",
+            },
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    ProjectsCreateResponse,
+                    parse_obj_as(
+                        type_=ProjectsCreateResponse,  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -195,6 +247,122 @@ class RawProjectsClient:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
+    def list_eval_prompts(
+        self, id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> HttpResponse[ProjectsListEvalPromptsResponse]:
+        """
+        Returns all conversation evaluation prompts for a project.
+
+        Parameters
+        ----------
+        id : str
+            The ID of the project.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[ProjectsListEvalPromptsResponse]
+            Success response
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"projects/{jsonable_encoder(id)}/conversation_eval_prompts",
+            base_url=self._client_wrapper.get_environment().base,
+            method="GET",
+            request_options=request_options,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    ProjectsListEvalPromptsResponse,
+                    parse_obj_as(
+                        type_=ProjectsListEvalPromptsResponse,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return HttpResponse(response=_response, data=_data)
+            if _response.status_code == 404:
+                raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        parse_obj_as(
+                            type_=Error,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    def create_eval_prompt(
+        self, id: str, *, name: str, prompt: str, request_options: typing.Optional[RequestOptions] = None
+    ) -> HttpResponse[ProjectsCreateEvalPromptResponse]:
+        """
+        Creates a new conversation evaluation prompt for a project.
+
+        Parameters
+        ----------
+        id : str
+            The ID of the project.
+
+        name : str
+            A useful name for referring to this prompt.
+
+        prompt : str
+            Actual evaluation prompt text to evaluate conversations with.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[ProjectsCreateEvalPromptResponse]
+            Success response
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"projects/{jsonable_encoder(id)}/conversation_eval_prompts",
+            base_url=self._client_wrapper.get_environment().base,
+            method="POST",
+            json={
+                "name": name,
+                "prompt": prompt,
+            },
+            headers={
+                "content-type": "application/json",
+            },
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    ProjectsCreateEvalPromptResponse,
+                    parse_obj_as(
+                        type_=ProjectsCreateEvalPromptResponse,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return HttpResponse(response=_response, data=_data)
+            if _response.status_code == 404:
+                raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        parse_obj_as(
+                            type_=Error,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
 
 class AsyncRawProjectsClient:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
@@ -228,6 +396,53 @@ class AsyncRawProjectsClient:
                     ProjectsListResponse,
                     parse_obj_as(
                         type_=ProjectsListResponse,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return AsyncHttpResponse(response=_response, data=_data)
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def create(
+        self, *, name: str, request_options: typing.Optional[RequestOptions] = None
+    ) -> AsyncHttpResponse[ProjectsCreateResponse]:
+        """
+        Creates a new project in a workspace.
+
+        Parameters
+        ----------
+        name : str
+            The name of the project. Can only contain lowercase letters, numbers and hyphens. Must be unique within the workspace.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[ProjectsCreateResponse]
+            Success response
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "projects",
+            base_url=self._client_wrapper.get_environment().base,
+            method="POST",
+            json={
+                "name": name,
+            },
+            headers={
+                "content-type": "application/json",
+            },
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    ProjectsCreateResponse,
+                    parse_obj_as(
+                        type_=ProjectsCreateResponse,  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -370,6 +585,122 @@ class AsyncRawProjectsClient:
                     ),
                 )
                 return AsyncHttpResponse(response=_response, data=_data)
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def list_eval_prompts(
+        self, id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> AsyncHttpResponse[ProjectsListEvalPromptsResponse]:
+        """
+        Returns all conversation evaluation prompts for a project.
+
+        Parameters
+        ----------
+        id : str
+            The ID of the project.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[ProjectsListEvalPromptsResponse]
+            Success response
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"projects/{jsonable_encoder(id)}/conversation_eval_prompts",
+            base_url=self._client_wrapper.get_environment().base,
+            method="GET",
+            request_options=request_options,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    ProjectsListEvalPromptsResponse,
+                    parse_obj_as(
+                        type_=ProjectsListEvalPromptsResponse,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return AsyncHttpResponse(response=_response, data=_data)
+            if _response.status_code == 404:
+                raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        parse_obj_as(
+                            type_=Error,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def create_eval_prompt(
+        self, id: str, *, name: str, prompt: str, request_options: typing.Optional[RequestOptions] = None
+    ) -> AsyncHttpResponse[ProjectsCreateEvalPromptResponse]:
+        """
+        Creates a new conversation evaluation prompt for a project.
+
+        Parameters
+        ----------
+        id : str
+            The ID of the project.
+
+        name : str
+            A useful name for referring to this prompt.
+
+        prompt : str
+            Actual evaluation prompt text to evaluate conversations with.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[ProjectsCreateEvalPromptResponse]
+            Success response
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"projects/{jsonable_encoder(id)}/conversation_eval_prompts",
+            base_url=self._client_wrapper.get_environment().base,
+            method="POST",
+            json={
+                "name": name,
+                "prompt": prompt,
+            },
+            headers={
+                "content-type": "application/json",
+            },
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    ProjectsCreateEvalPromptResponse,
+                    parse_obj_as(
+                        type_=ProjectsCreateEvalPromptResponse,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return AsyncHttpResponse(response=_response, data=_data)
+            if _response.status_code == 404:
+                raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        parse_obj_as(
+                            type_=Error,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)

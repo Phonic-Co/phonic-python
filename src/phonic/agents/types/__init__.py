@@ -8,18 +8,10 @@ from .agents_get_response import AgentsGetResponse
 from .agents_list_response import AgentsListResponse
 from .agents_update_response import AgentsUpdateResponse
 from .agents_upsert_response import AgentsUpsertResponse
-from .create_agent_request_audio_format import CreateAgentRequestAudioFormat
-from .create_agent_request_configuration_endpoint import CreateAgentRequestConfigurationEndpoint
-from .create_agent_request_template_variables_value import CreateAgentRequestTemplateVariablesValue
-from .create_agent_request_tools_item import CreateAgentRequestToolsItem
 from .update_agent_request_audio_format import UpdateAgentRequestAudioFormat
 from .update_agent_request_configuration_endpoint import UpdateAgentRequestConfigurationEndpoint
 from .update_agent_request_template_variables_value import UpdateAgentRequestTemplateVariablesValue
 from .update_agent_request_tools_item import UpdateAgentRequestToolsItem
-from .upsert_agent_request_audio_format import UpsertAgentRequestAudioFormat
-from .upsert_agent_request_configuration_endpoint import UpsertAgentRequestConfigurationEndpoint
-from .upsert_agent_request_template_variables_value import UpsertAgentRequestTemplateVariablesValue
-from .upsert_agent_request_tools_item import UpsertAgentRequestToolsItem
 
 __all__ = [
     "AgentsCreateResponse",
@@ -28,16 +20,8 @@ __all__ = [
     "AgentsListResponse",
     "AgentsUpdateResponse",
     "AgentsUpsertResponse",
-    "CreateAgentRequestAudioFormat",
-    "CreateAgentRequestConfigurationEndpoint",
-    "CreateAgentRequestTemplateVariablesValue",
-    "CreateAgentRequestToolsItem",
     "UpdateAgentRequestAudioFormat",
     "UpdateAgentRequestConfigurationEndpoint",
     "UpdateAgentRequestTemplateVariablesValue",
     "UpdateAgentRequestToolsItem",
-    "UpsertAgentRequestAudioFormat",
-    "UpsertAgentRequestConfigurationEndpoint",
-    "UpsertAgentRequestTemplateVariablesValue",
-    "UpsertAgentRequestToolsItem",
 ]

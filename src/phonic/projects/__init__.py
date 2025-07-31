@@ -2,6 +2,22 @@
 
 # isort: skip_file
 
-from .types import ProjectsDeleteResponse, ProjectsGetResponse, ProjectsListResponse, ProjectsUpdateResponse
+from .types import (
+    ProjectsCreateEvalPromptResponse,
+    ProjectsCreateResponse,
+    ProjectsDeleteResponse,
+    ProjectsGetResponse,
+    ProjectsListEvalPromptsResponse,
+    ProjectsListResponse,
+    ProjectsUpdateResponse,
+)
 
-__all__ = ["ProjectsDeleteResponse", "ProjectsGetResponse", "ProjectsListResponse", "ProjectsUpdateResponse"]
+__all__ = [
+    "ProjectsCreateEvalPromptResponse",
+    "ProjectsCreateResponse",
+    "ProjectsDeleteResponse",
+    "ProjectsGetResponse",
+    "ProjectsListEvalPromptsResponse",
+    "ProjectsListResponse",
+    "ProjectsUpdateResponse",
+]

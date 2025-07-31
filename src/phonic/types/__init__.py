@@ -16,11 +16,35 @@ from .audio_finished_payload import AudioFinishedPayload
 from .config_payload import ConfigPayload
 from .config_payload_input_format import ConfigPayloadInputFormat
 from .config_payload_output_format import ConfigPayloadOutputFormat
+from .conversation import Conversation
+from .conversation_analysis import ConversationAnalysis
 from .conversation_created_payload import ConversationCreatedPayload
-from .create_response import CreateResponse
+from .conversation_eval import ConversationEval
+from .conversation_eval_prompt import ConversationEvalPrompt
+from .conversation_eval_result import ConversationEvalResult
+from .conversation_evaluation import ConversationEvaluation
+from .conversation_evaluation_result import ConversationEvaluationResult
+from .conversation_extraction import ConversationExtraction
+from .conversation_extraction_schema import ConversationExtractionSchema
+from .conversation_item import ConversationItem
+from .conversation_item_role import ConversationItemRole
+from .conversation_project import ConversationProject
+from .create_agent_request import CreateAgentRequest
+from .create_agent_request_audio_format import CreateAgentRequestAudioFormat
+from .create_agent_request_configuration_endpoint import CreateAgentRequestConfigurationEndpoint
+from .create_agent_request_template_variables_value import CreateAgentRequestTemplateVariablesValue
+from .create_agent_request_tools_item import CreateAgentRequestToolsItem
+from .create_codec_request import CreateCodecRequest
+from .create_latent_request import CreateLatentRequest
+from .create_voice_request import CreateVoiceRequest
 from .dtmf_payload import DtmfPayload
+from .error import Error
+from .error_error import ErrorError
 from .error_payload import ErrorPayload
 from .error_payload_error import ErrorPayloadError
+from .extraction_field import ExtractionField
+from .extraction_field_type import ExtractionFieldType
+from .extraction_schema import ExtractionSchema
 from .input_cancelled_payload import InputCancelledPayload
 from .input_text_payload import InputTextPayload
 from .interrupted_response_payload import InterruptedResponsePayload
@@ -32,13 +56,23 @@ from .project_default_agent import ProjectDefaultAgent
 from .ready_to_start_conversation_payload import ReadyToStartConversationPayload
 from .set_external_id_payload import SetExternalIdPayload
 from .set_twilio_call_sid_payload import SetTwilioCallSidPayload
+from .tool import Tool
 from .tool_call_output_payload import ToolCallOutputPayload
 from .tool_call_output_processed_payload import ToolCallOutputProcessedPayload
 from .tool_call_output_processed_payload_tool import ToolCallOutputProcessedPayloadTool
 from .tool_call_payload import ToolCallPayload
+from .tool_execution_mode import ToolExecutionMode
+from .tool_parameter import ToolParameter
+from .tool_parameter_item_type import ToolParameterItemType
+from .tool_parameter_type import ToolParameterType
+from .tool_project import ToolProject
+from .tool_type import ToolType
+from .twilio_outbound_call_request import TwilioOutboundCallRequest
 from .update_system_prompt_payload import UpdateSystemPromptPayload
 from .user_finished_speaking_payload import UserFinishedSpeakingPayload
 from .user_started_speaking_payload import UserStartedSpeakingPayload
+from .voice import Voice
+from .voice_latent import VoiceLatent
 
 __all__ = [
     "Agent",
@@ -55,11 +89,35 @@ __all__ = [
     "ConfigPayload",
     "ConfigPayloadInputFormat",
     "ConfigPayloadOutputFormat",
+    "Conversation",
+    "ConversationAnalysis",
     "ConversationCreatedPayload",
-    "CreateResponse",
+    "ConversationEval",
+    "ConversationEvalPrompt",
+    "ConversationEvalResult",
+    "ConversationEvaluation",
+    "ConversationEvaluationResult",
+    "ConversationExtraction",
+    "ConversationExtractionSchema",
+    "ConversationItem",
+    "ConversationItemRole",
+    "ConversationProject",
+    "CreateAgentRequest",
+    "CreateAgentRequestAudioFormat",
+    "CreateAgentRequestConfigurationEndpoint",
+    "CreateAgentRequestTemplateVariablesValue",
+    "CreateAgentRequestToolsItem",
+    "CreateCodecRequest",
+    "CreateLatentRequest",
+    "CreateVoiceRequest",
     "DtmfPayload",
+    "Error",
+    "ErrorError",
     "ErrorPayload",
     "ErrorPayloadError",
+    "ExtractionField",
+    "ExtractionFieldType",
+    "ExtractionSchema",
     "InputCancelledPayload",
     "InputTextPayload",
     "InterruptedResponsePayload",
@@ -71,11 +129,21 @@ __all__ = [
     "ReadyToStartConversationPayload",
     "SetExternalIdPayload",
     "SetTwilioCallSidPayload",
+    "Tool",
     "ToolCallOutputPayload",
     "ToolCallOutputProcessedPayload",
     "ToolCallOutputProcessedPayloadTool",
     "ToolCallPayload",
+    "ToolExecutionMode",
+    "ToolParameter",
+    "ToolParameterItemType",
+    "ToolParameterType",
+    "ToolProject",
+    "ToolType",
+    "TwilioOutboundCallRequest",
     "UpdateSystemPromptPayload",
     "UserFinishedSpeakingPayload",
     "UserStartedSpeakingPayload",
+    "Voice",
+    "VoiceLatent",
 ]

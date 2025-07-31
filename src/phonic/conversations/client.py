@@ -6,7 +6,16 @@ from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.request_options import RequestOptions
 from ..types.outbound_call_config import OutboundCallConfig
 from .raw_client import AsyncRawConversationsClient, RawConversationsClient
+from .types.conversations_cancel_response import ConversationsCancelResponse
+from .types.conversations_evaluate_response import ConversationsEvaluateResponse
+from .types.conversations_extract_data_response import ConversationsExtractDataResponse
+from .types.conversations_get_analysis_response import ConversationsGetAnalysisResponse
+from .types.conversations_get_response import ConversationsGetResponse
+from .types.conversations_list_evaluations_response import ConversationsListEvaluationsResponse
+from .types.conversations_list_extractions_response import ConversationsListExtractionsResponse
+from .types.conversations_list_response import ConversationsListResponse
 from .types.conversations_outbound_call_response import ConversationsOutboundCallResponse
+from .types.conversations_summarize_response import ConversationsSummarizeResponse
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -27,6 +36,362 @@ class ConversationsClient:
         """
         return self._raw_client
 
+    def list(
+        self,
+        *,
+        project: typing.Optional[str] = None,
+        external_id: typing.Optional[str] = None,
+        duration_min: typing.Optional[int] = None,
+        duration_max: typing.Optional[int] = None,
+        started_at_min: typing.Optional[str] = None,
+        started_at_max: typing.Optional[str] = None,
+        before: typing.Optional[str] = None,
+        after: typing.Optional[str] = None,
+        limit: typing.Optional[int] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> ConversationsListResponse:
+        """
+        Returns conversations with optional filtering.
+
+        Parameters
+        ----------
+        project : typing.Optional[str]
+            The name of the project to list conversations for.
+
+        external_id : typing.Optional[str]
+            Filter by external ID to get a specific conversation.
+
+        duration_min : typing.Optional[int]
+            Minimum duration in seconds.
+
+        duration_max : typing.Optional[int]
+            Maximum duration in seconds.
+
+        started_at_min : typing.Optional[str]
+            Minimum start date/time. Valid examples: `2025-04-17`, `2025-04-17T02:48:52.708Z`
+
+        started_at_max : typing.Optional[str]
+            Maximum start date/time. Valid examples: `2025-04-17`, `2025-04-17T02:48:52.708Z`
+
+        before : typing.Optional[str]
+            Cursor for pagination (before).
+
+        after : typing.Optional[str]
+            Cursor for pagination (after).
+
+        limit : typing.Optional[int]
+            Maximum number of conversations to return.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ConversationsListResponse
+            Success response
+
+        Examples
+        --------
+        from phonic import Phonic
+
+        client = Phonic(
+            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
+            token="YOUR_TOKEN",
+        )
+        client.conversations.list()
+        """
+        _response = self._raw_client.list(
+            project=project,
+            external_id=external_id,
+            duration_min=duration_min,
+            duration_max=duration_max,
+            started_at_min=started_at_min,
+            started_at_max=started_at_max,
+            before=before,
+            after=after,
+            limit=limit,
+            request_options=request_options,
+        )
+        return _response.data
+
+    def get(self, id: str, *, request_options: typing.Optional[RequestOptions] = None) -> ConversationsGetResponse:
+        """
+        Returns a conversation by ID.
+
+        Parameters
+        ----------
+        id : str
+            The ID of the conversation to get.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ConversationsGetResponse
+            Success response
+
+        Examples
+        --------
+        from phonic import Phonic
+
+        client = Phonic(
+            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
+            token="YOUR_TOKEN",
+        )
+        client.conversations.get(
+            id="id",
+        )
+        """
+        _response = self._raw_client.get(id, request_options=request_options)
+        return _response.data
+
+    def cancel(
+        self, id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> ConversationsCancelResponse:
+        """
+        Cancels an active conversation.
+
+        Parameters
+        ----------
+        id : str
+            The ID of the conversation to cancel.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ConversationsCancelResponse
+            Success response
+
+        Examples
+        --------
+        from phonic import Phonic
+
+        client = Phonic(
+            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
+            token="YOUR_TOKEN",
+        )
+        client.conversations.cancel(
+            id="id",
+        )
+        """
+        _response = self._raw_client.cancel(id, request_options=request_options)
+        return _response.data
+
+    def summarize(
+        self, id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> ConversationsSummarizeResponse:
+        """
+        Generates a summary of the specified conversation.
+
+        Parameters
+        ----------
+        id : str
+            The ID of the conversation to summarize.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ConversationsSummarizeResponse
+            Success response
+
+        Examples
+        --------
+        from phonic import Phonic
+
+        client = Phonic(
+            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
+            token="YOUR_TOKEN",
+        )
+        client.conversations.summarize(
+            id="id",
+        )
+        """
+        _response = self._raw_client.summarize(id, request_options=request_options)
+        return _response.data
+
+    def get_analysis(
+        self, id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> ConversationsGetAnalysisResponse:
+        """
+        Returns an analysis of the specified conversation.
+
+        Parameters
+        ----------
+        id : str
+            The ID of the conversation to analyze.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ConversationsGetAnalysisResponse
+            Success response
+
+        Examples
+        --------
+        from phonic import Phonic
+
+        client = Phonic(
+            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
+            token="YOUR_TOKEN",
+        )
+        client.conversations.get_analysis(
+            id="id",
+        )
+        """
+        _response = self._raw_client.get_analysis(id, request_options=request_options)
+        return _response.data
+
+    def list_extractions(
+        self, id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> ConversationsListExtractionsResponse:
+        """
+        Returns all extractions for a conversation.
+
+        Parameters
+        ----------
+        id : str
+            The ID of the conversation to get extractions for.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ConversationsListExtractionsResponse
+            Success response
+
+        Examples
+        --------
+        from phonic import Phonic
+
+        client = Phonic(
+            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
+            token="YOUR_TOKEN",
+        )
+        client.conversations.list_extractions(
+            id="id",
+        )
+        """
+        _response = self._raw_client.list_extractions(id, request_options=request_options)
+        return _response.data
+
+    def extract_data(
+        self, id: str, *, schema_id: str, request_options: typing.Optional[RequestOptions] = None
+    ) -> ConversationsExtractDataResponse:
+        """
+        Extracts data from a conversation using a schema.
+
+        Parameters
+        ----------
+        id : str
+            The ID of the conversation to extract data from.
+
+        schema_id : str
+            ID of the extraction schema to use.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ConversationsExtractDataResponse
+            Success response
+
+        Examples
+        --------
+        from phonic import Phonic
+
+        client = Phonic(
+            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
+            token="YOUR_TOKEN",
+        )
+        client.conversations.extract_data(
+            id="id",
+            schema_id="conv_extract_schema_6458e4ac-533c-4bdf-8e6d-c2f06f87fd5c",
+        )
+        """
+        _response = self._raw_client.extract_data(id, schema_id=schema_id, request_options=request_options)
+        return _response.data
+
+    def list_evaluations(
+        self, id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> ConversationsListEvaluationsResponse:
+        """
+        Returns all evaluations for a conversation.
+
+        Parameters
+        ----------
+        id : str
+            The ID of the conversation to get evaluations for.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ConversationsListEvaluationsResponse
+            Success response
+
+        Examples
+        --------
+        from phonic import Phonic
+
+        client = Phonic(
+            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
+            token="YOUR_TOKEN",
+        )
+        client.conversations.list_evaluations(
+            id="id",
+        )
+        """
+        _response = self._raw_client.list_evaluations(id, request_options=request_options)
+        return _response.data
+
+    def evaluate(
+        self, id: str, *, prompt_id: str, request_options: typing.Optional[RequestOptions] = None
+    ) -> ConversationsEvaluateResponse:
+        """
+        Evaluates a conversation using an evaluation prompt.
+
+        Parameters
+        ----------
+        id : str
+            The ID of the conversation to evaluate.
+
+        prompt_id : str
+            ID of the evaluation prompt to use.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ConversationsEvaluateResponse
+            Success response
+
+        Examples
+        --------
+        from phonic import Phonic
+
+        client = Phonic(
+            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
+            token="YOUR_TOKEN",
+        )
+        client.conversations.evaluate(
+            id="id",
+            prompt_id="conv_eval_prompt_d7cfe45d-35db-4ef6-a254-81ab1da76ce0",
+        )
+        """
+        _response = self._raw_client.evaluate(id, prompt_id=prompt_id, request_options=request_options)
+        return _response.data
+
     def outbound_call(
         self,
         *,
@@ -35,7 +400,7 @@ class ConversationsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ConversationsOutboundCallResponse:
         """
-        Initiates a call to a given phone number.
+        Initiates a call to a given phone number using Phonic's Twilio account.
 
         Parameters
         ----------
@@ -57,6 +422,7 @@ class ConversationsClient:
         from phonic import OutboundCallConfig, Phonic
 
         client = Phonic(
+            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
         client.conversations.outbound_call(
@@ -96,6 +462,436 @@ class AsyncConversationsClient:
         """
         return self._raw_client
 
+    async def list(
+        self,
+        *,
+        project: typing.Optional[str] = None,
+        external_id: typing.Optional[str] = None,
+        duration_min: typing.Optional[int] = None,
+        duration_max: typing.Optional[int] = None,
+        started_at_min: typing.Optional[str] = None,
+        started_at_max: typing.Optional[str] = None,
+        before: typing.Optional[str] = None,
+        after: typing.Optional[str] = None,
+        limit: typing.Optional[int] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> ConversationsListResponse:
+        """
+        Returns conversations with optional filtering.
+
+        Parameters
+        ----------
+        project : typing.Optional[str]
+            The name of the project to list conversations for.
+
+        external_id : typing.Optional[str]
+            Filter by external ID to get a specific conversation.
+
+        duration_min : typing.Optional[int]
+            Minimum duration in seconds.
+
+        duration_max : typing.Optional[int]
+            Maximum duration in seconds.
+
+        started_at_min : typing.Optional[str]
+            Minimum start date/time. Valid examples: `2025-04-17`, `2025-04-17T02:48:52.708Z`
+
+        started_at_max : typing.Optional[str]
+            Maximum start date/time. Valid examples: `2025-04-17`, `2025-04-17T02:48:52.708Z`
+
+        before : typing.Optional[str]
+            Cursor for pagination (before).
+
+        after : typing.Optional[str]
+            Cursor for pagination (after).
+
+        limit : typing.Optional[int]
+            Maximum number of conversations to return.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ConversationsListResponse
+            Success response
+
+        Examples
+        --------
+        import asyncio
+
+        from phonic import AsyncPhonic
+
+        client = AsyncPhonic(
+            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
+            token="YOUR_TOKEN",
+        )
+
+
+        async def main() -> None:
+            await client.conversations.list()
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.list(
+            project=project,
+            external_id=external_id,
+            duration_min=duration_min,
+            duration_max=duration_max,
+            started_at_min=started_at_min,
+            started_at_max=started_at_max,
+            before=before,
+            after=after,
+            limit=limit,
+            request_options=request_options,
+        )
+        return _response.data
+
+    async def get(
+        self, id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> ConversationsGetResponse:
+        """
+        Returns a conversation by ID.
+
+        Parameters
+        ----------
+        id : str
+            The ID of the conversation to get.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ConversationsGetResponse
+            Success response
+
+        Examples
+        --------
+        import asyncio
+
+        from phonic import AsyncPhonic
+
+        client = AsyncPhonic(
+            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
+            token="YOUR_TOKEN",
+        )
+
+
+        async def main() -> None:
+            await client.conversations.get(
+                id="id",
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.get(id, request_options=request_options)
+        return _response.data
+
+    async def cancel(
+        self, id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> ConversationsCancelResponse:
+        """
+        Cancels an active conversation.
+
+        Parameters
+        ----------
+        id : str
+            The ID of the conversation to cancel.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ConversationsCancelResponse
+            Success response
+
+        Examples
+        --------
+        import asyncio
+
+        from phonic import AsyncPhonic
+
+        client = AsyncPhonic(
+            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
+            token="YOUR_TOKEN",
+        )
+
+
+        async def main() -> None:
+            await client.conversations.cancel(
+                id="id",
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.cancel(id, request_options=request_options)
+        return _response.data
+
+    async def summarize(
+        self, id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> ConversationsSummarizeResponse:
+        """
+        Generates a summary of the specified conversation.
+
+        Parameters
+        ----------
+        id : str
+            The ID of the conversation to summarize.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ConversationsSummarizeResponse
+            Success response
+
+        Examples
+        --------
+        import asyncio
+
+        from phonic import AsyncPhonic
+
+        client = AsyncPhonic(
+            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
+            token="YOUR_TOKEN",
+        )
+
+
+        async def main() -> None:
+            await client.conversations.summarize(
+                id="id",
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.summarize(id, request_options=request_options)
+        return _response.data
+
+    async def get_analysis(
+        self, id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> ConversationsGetAnalysisResponse:
+        """
+        Returns an analysis of the specified conversation.
+
+        Parameters
+        ----------
+        id : str
+            The ID of the conversation to analyze.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ConversationsGetAnalysisResponse
+            Success response
+
+        Examples
+        --------
+        import asyncio
+
+        from phonic import AsyncPhonic
+
+        client = AsyncPhonic(
+            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
+            token="YOUR_TOKEN",
+        )
+
+
+        async def main() -> None:
+            await client.conversations.get_analysis(
+                id="id",
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.get_analysis(id, request_options=request_options)
+        return _response.data
+
+    async def list_extractions(
+        self, id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> ConversationsListExtractionsResponse:
+        """
+        Returns all extractions for a conversation.
+
+        Parameters
+        ----------
+        id : str
+            The ID of the conversation to get extractions for.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ConversationsListExtractionsResponse
+            Success response
+
+        Examples
+        --------
+        import asyncio
+
+        from phonic import AsyncPhonic
+
+        client = AsyncPhonic(
+            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
+            token="YOUR_TOKEN",
+        )
+
+
+        async def main() -> None:
+            await client.conversations.list_extractions(
+                id="id",
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.list_extractions(id, request_options=request_options)
+        return _response.data
+
+    async def extract_data(
+        self, id: str, *, schema_id: str, request_options: typing.Optional[RequestOptions] = None
+    ) -> ConversationsExtractDataResponse:
+        """
+        Extracts data from a conversation using a schema.
+
+        Parameters
+        ----------
+        id : str
+            The ID of the conversation to extract data from.
+
+        schema_id : str
+            ID of the extraction schema to use.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ConversationsExtractDataResponse
+            Success response
+
+        Examples
+        --------
+        import asyncio
+
+        from phonic import AsyncPhonic
+
+        client = AsyncPhonic(
+            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
+            token="YOUR_TOKEN",
+        )
+
+
+        async def main() -> None:
+            await client.conversations.extract_data(
+                id="id",
+                schema_id="conv_extract_schema_6458e4ac-533c-4bdf-8e6d-c2f06f87fd5c",
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.extract_data(id, schema_id=schema_id, request_options=request_options)
+        return _response.data
+
+    async def list_evaluations(
+        self, id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> ConversationsListEvaluationsResponse:
+        """
+        Returns all evaluations for a conversation.
+
+        Parameters
+        ----------
+        id : str
+            The ID of the conversation to get evaluations for.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ConversationsListEvaluationsResponse
+            Success response
+
+        Examples
+        --------
+        import asyncio
+
+        from phonic import AsyncPhonic
+
+        client = AsyncPhonic(
+            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
+            token="YOUR_TOKEN",
+        )
+
+
+        async def main() -> None:
+            await client.conversations.list_evaluations(
+                id="id",
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.list_evaluations(id, request_options=request_options)
+        return _response.data
+
+    async def evaluate(
+        self, id: str, *, prompt_id: str, request_options: typing.Optional[RequestOptions] = None
+    ) -> ConversationsEvaluateResponse:
+        """
+        Evaluates a conversation using an evaluation prompt.
+
+        Parameters
+        ----------
+        id : str
+            The ID of the conversation to evaluate.
+
+        prompt_id : str
+            ID of the evaluation prompt to use.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ConversationsEvaluateResponse
+            Success response
+
+        Examples
+        --------
+        import asyncio
+
+        from phonic import AsyncPhonic
+
+        client = AsyncPhonic(
+            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
+            token="YOUR_TOKEN",
+        )
+
+
+        async def main() -> None:
+            await client.conversations.evaluate(
+                id="id",
+                prompt_id="conv_eval_prompt_d7cfe45d-35db-4ef6-a254-81ab1da76ce0",
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.evaluate(id, prompt_id=prompt_id, request_options=request_options)
+        return _response.data
+
     async def outbound_call(
         self,
         *,
@@ -104,7 +900,7 @@ class AsyncConversationsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ConversationsOutboundCallResponse:
         """
-        Initiates a call to a given phone number.
+        Initiates a call to a given phone number using Phonic's Twilio account.
 
         Parameters
         ----------
@@ -128,6 +924,7 @@ class AsyncConversationsClient:
         from phonic import AsyncPhonic, OutboundCallConfig
 
         client = AsyncPhonic(
+            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
 

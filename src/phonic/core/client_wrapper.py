@@ -11,11 +11,13 @@ class BaseClientWrapper:
     def __init__(
         self,
         *,
+        twilio_account_sid: str,
         token: typing.Union[str, typing.Callable[[], str]],
         headers: typing.Optional[typing.Dict[str, str]] = None,
         environment: PhonicEnvironment,
         timeout: typing.Optional[float] = None,
     ):
+        self._twilio_account_sid = twilio_account_sid
         self._token = token
         self._headers = headers
         self._environment = environment
@@ -28,6 +30,7 @@ class BaseClientWrapper:
             "X-Fern-SDK-Version": "0.0.0",
             **(self.get_custom_headers() or {}),
         }
+        headers["X-Twilio-Account-Sid"] = self._twilio_account_sid
         headers["Authorization"] = f"Bearer {self._get_token()}"
         return headers
 
@@ -51,13 +54,20 @@ class SyncClientWrapper(BaseClientWrapper):
     def __init__(
         self,
         *,
+        twilio_account_sid: str,
         token: typing.Union[str, typing.Callable[[], str]],
         headers: typing.Optional[typing.Dict[str, str]] = None,
         environment: PhonicEnvironment,
         timeout: typing.Optional[float] = None,
         httpx_client: httpx.Client,
     ):
-        super().__init__(token=token, headers=headers, environment=environment, timeout=timeout)
+        super().__init__(
+            twilio_account_sid=twilio_account_sid,
+            token=token,
+            headers=headers,
+            environment=environment,
+            timeout=timeout,
+        )
         self.httpx_client = HttpClient(
             httpx_client=httpx_client, base_headers=self.get_headers, base_timeout=self.get_timeout
         )
@@ -67,13 +77,20 @@ class AsyncClientWrapper(BaseClientWrapper):
     def __init__(
         self,
         *,
+        twilio_account_sid: str,
         token: typing.Union[str, typing.Callable[[], str]],
         headers: typing.Optional[typing.Dict[str, str]] = None,
         environment: PhonicEnvironment,
         timeout: typing.Optional[float] = None,
         httpx_client: httpx.AsyncClient,
     ):
-        super().__init__(token=token, headers=headers, environment=environment, timeout=timeout)
+        super().__init__(
+            twilio_account_sid=twilio_account_sid,
+            token=token,
+            headers=headers,
+            environment=environment,
+            timeout=timeout,
+        )
         self.httpx_client = AsyncHttpClient(
             httpx_client=httpx_client, base_headers=self.get_headers, base_timeout=self.get_timeout
         )

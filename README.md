@@ -20,13 +20,37 @@ A full reference for this library is available [here](https://github.com/fern-de
 Instantiate and use the client with the following:
 
 ```python
-from phonic import Phonic
+from phonic import (
+    CreateAgentRequestConfigurationEndpoint,
+    CreateAgentRequestTemplateVariablesValue,
+    Phonic,
+)
 
 client = Phonic(
+    twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
     token="YOUR_TOKEN",
 )
-client.create(
-    name="customer-support",
+client.agents.create(
+    name="support-agent",
+    timezone="America/Los_Angeles",
+    voice_id="sarah",
+    welcome_message="Hi {{customer_name}}. How can I help you today?",
+    system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
+    template_variables={
+        "customer_name": CreateAgentRequestTemplateVariablesValue(),
+        "subject": CreateAgentRequestTemplateVariablesValue(
+            default_value="Chess",
+        ),
+    },
+    tools=[],
+    no_input_poke_sec=30,
+    no_input_poke_text="Are you still there?",
+    boosted_keywords=["Load ID", "dispatch"],
+    configuration_endpoint=CreateAgentRequestConfigurationEndpoint(
+        url="https://api.example.com/config",
+        headers={"Authorization": "Bearer token123"},
+        timeout_ms=7000,
+    ),
 )
 ```
 
@@ -37,16 +61,40 @@ The SDK also exports an `async` client so that you can make non-blocking calls t
 ```python
 import asyncio
 
-from phonic import AsyncPhonic
+from phonic import (
+    AsyncPhonic,
+    CreateAgentRequestConfigurationEndpoint,
+    CreateAgentRequestTemplateVariablesValue,
+)
 
 client = AsyncPhonic(
+    twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
     token="YOUR_TOKEN",
 )
 
 
 async def main() -> None:
-    await client.create(
-        name="customer-support",
+    await client.agents.create(
+        name="support-agent",
+        timezone="America/Los_Angeles",
+        voice_id="sarah",
+        welcome_message="Hi {{customer_name}}. How can I help you today?",
+        system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
+        template_variables={
+            "customer_name": CreateAgentRequestTemplateVariablesValue(),
+            "subject": CreateAgentRequestTemplateVariablesValue(
+                default_value="Chess",
+            ),
+        },
+        tools=[],
+        no_input_poke_sec=30,
+        no_input_poke_text="Are you still there?",
+        boosted_keywords=["Load ID", "dispatch"],
+        configuration_endpoint=CreateAgentRequestConfigurationEndpoint(
+            url="https://api.example.com/config",
+            headers={"Authorization": "Bearer token123"},
+            timeout_ms=7000,
+        ),
     )
 
 
@@ -62,7 +110,7 @@ will be thrown.
 from phonic.core.api_error import ApiError
 
 try:
-    client.create(...)
+    client.agents.create(...)
 except ApiError as e:
     print(e.status_code)
     print(e.body)
@@ -137,7 +185,7 @@ from phonic import Phonic
 client = Phonic(
     ...,
 )
-response = client.with_raw_response.create(...)
+response = client.agents.with_raw_response.create(...)
 print(response.headers)  # access the response headers
 print(response.data)  # access the underlying object
 ```
@@ -157,7 +205,7 @@ A request is deemed retryable when any of the following HTTP status codes is ret
 Use the `max_retries` request option to configure this behavior.
 
 ```python
-client.create(..., request_options={
+client.agents.create(..., request_options={
     "max_retries": 1
 })
 ```
@@ -177,7 +225,7 @@ client = Phonic(
 
 
 # Override timeout for a specific method
-client.create(..., request_options={
+client.agents.create(..., request_options={
     "timeout_in_seconds": 1
 })
 ```
