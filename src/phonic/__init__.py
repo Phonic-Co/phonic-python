@@ -35,9 +35,6 @@ from .types import (
     CreateAgentRequestConfigurationEndpoint,
     CreateAgentRequestTemplateVariablesValue,
     CreateAgentRequestToolsItem,
-    CreateCodecRequest,
-    CreateLatentRequest,
-    CreateVoiceRequest,
     DtmfPayload,
     Error,
     ErrorError,
@@ -73,10 +70,9 @@ from .types import (
     UserFinishedSpeakingPayload,
     UserStartedSpeakingPayload,
     Voice,
-    VoiceLatent,
 )
 from .errors import BadRequestError, ConflictError, GatewayTimeoutError, NotFoundError
-from . import admin, agents, conversations, extraction_schemas, projects, sts, tools, voices
+from . import agents, conversations, extraction_schemas, projects, sts, tools, voices
 from .agents import (
     AgentsCreateResponse,
     AgentsDeleteResponse,
@@ -189,11 +185,8 @@ __all__ = [
     "CreateAgentRequestConfigurationEndpoint",
     "CreateAgentRequestTemplateVariablesValue",
     "CreateAgentRequestToolsItem",
-    "CreateCodecRequest",
-    "CreateLatentRequest",
     "CreateToolRequestExecutionMode",
     "CreateToolRequestType",
-    "CreateVoiceRequest",
     "DtmfPayload",
     "Error",
     "ErrorError",
@@ -256,11 +249,9 @@ __all__ = [
     "UserFinishedSpeakingPayload",
     "UserStartedSpeakingPayload",
     "Voice",
-    "VoiceLatent",
     "VoicesGetResponse",
     "VoicesListResponse",
     "__version__",
-    "admin",
     "agents",
     "conversations",
     "extraction_schemas",

@@ -3,7 +3,6 @@
 import typing
 from contextlib import asynccontextmanager, contextmanager
 
-import httpx
 import websockets.exceptions
 import websockets.sync.client as websockets_sync_client
 from ..core.api_error import ApiError
@@ -34,17 +33,12 @@ class StsClient:
         return self._raw_client
 
     @contextmanager
-    def connect(
-        self, *, d: str, request_options: typing.Optional[RequestOptions] = None
-    ) -> typing.Iterator[StsSocketClient]:
+    def connect(self, *, request_options: typing.Optional[RequestOptions] = None) -> typing.Iterator[StsSocketClient]:
         """
         Main STS WebSocket channel for real-time voice conversations
 
         Parameters
         ----------
-        d : str
-            Encrypted data from Twilio outbound calls
-
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -53,10 +47,6 @@ class StsClient:
         StsSocketClient
         """
         ws_url = self._raw_client._client_wrapper.get_environment().production + "/v1/sts/ws"
-        query_params = httpx.QueryParams()
-        if d is not None:
-            query_params = query_params.add("d", d)
-        ws_url = ws_url + f"?{query_params}"
         headers = self._raw_client._client_wrapper.get_headers()
         if request_options and "additional_headers" in request_options:
             headers.update(request_options["additional_headers"])
@@ -95,16 +85,13 @@ class AsyncStsClient:
 
     @asynccontextmanager
     async def connect(
-        self, *, d: str, request_options: typing.Optional[RequestOptions] = None
+        self, *, request_options: typing.Optional[RequestOptions] = None
     ) -> typing.AsyncIterator[AsyncStsSocketClient]:
         """
         Main STS WebSocket channel for real-time voice conversations
 
         Parameters
         ----------
-        d : str
-            Encrypted data from Twilio outbound calls
-
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -113,10 +100,6 @@ class AsyncStsClient:
         AsyncStsSocketClient
         """
         ws_url = self._raw_client._client_wrapper.get_environment().production + "/v1/sts/ws"
-        query_params = httpx.QueryParams()
-        if d is not None:
-            query_params = query_params.add("d", d)
-        ws_url = ws_url + f"?{query_params}"
         headers = self._raw_client._client_wrapper.get_headers()
         if request_options and "additional_headers" in request_options:
             headers.update(request_options["additional_headers"])

@@ -3,7 +3,6 @@
 import typing
 
 import httpx
-from .admin.client import AdminClient, AsyncAdminClient
 from .agents.client import AgentsClient, AsyncAgentsClient
 from .conversations.client import AsyncConversationsClient, ConversationsClient
 from .core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
@@ -86,7 +85,6 @@ class Phonic:
         self.voices = VoicesClient(client_wrapper=self._client_wrapper)
         self.conversations = ConversationsClient(client_wrapper=self._client_wrapper)
         self.projects = ProjectsClient(client_wrapper=self._client_wrapper)
-        self.admin = AdminClient(client_wrapper=self._client_wrapper)
         self.sts = StsClient(client_wrapper=self._client_wrapper)
 
 
@@ -161,5 +159,4 @@ class AsyncPhonic:
         self.voices = AsyncVoicesClient(client_wrapper=self._client_wrapper)
         self.conversations = AsyncConversationsClient(client_wrapper=self._client_wrapper)
         self.projects = AsyncProjectsClient(client_wrapper=self._client_wrapper)
-        self.admin = AsyncAdminClient(client_wrapper=self._client_wrapper)
         self.sts = AsyncStsClient(client_wrapper=self._client_wrapper)
