@@ -27,7 +27,7 @@ class BaseClientWrapper:
         headers: typing.Dict[str, str] = {
             "X-Fern-Language": "Python",
             "X-Fern-SDK-Name": "phonic",
-            "X-Fern-SDK-Version": "0.0.0",
+            "X-Fern-SDK-Version": "0.0.18",
             **(self.get_custom_headers() or {}),
         }
         headers["X-Twilio-Account-Sid"] = self._twilio_account_sid
