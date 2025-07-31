@@ -34,9 +34,6 @@ from .create_agent_request_audio_format import CreateAgentRequestAudioFormat
 from .create_agent_request_configuration_endpoint import CreateAgentRequestConfigurationEndpoint
 from .create_agent_request_template_variables_value import CreateAgentRequestTemplateVariablesValue
 from .create_agent_request_tools_item import CreateAgentRequestToolsItem
-from .create_codec_request import CreateCodecRequest
-from .create_latent_request import CreateLatentRequest
-from .create_voice_request import CreateVoiceRequest
 from .dtmf_payload import DtmfPayload
 from .error import Error
 from .error_error import ErrorError
@@ -72,7 +69,6 @@ from .update_system_prompt_payload import UpdateSystemPromptPayload
 from .user_finished_speaking_payload import UserFinishedSpeakingPayload
 from .user_started_speaking_payload import UserStartedSpeakingPayload
 from .voice import Voice
-from .voice_latent import VoiceLatent
 
 __all__ = [
     "Agent",
@@ -107,9 +103,6 @@ __all__ = [
     "CreateAgentRequestConfigurationEndpoint",
     "CreateAgentRequestTemplateVariablesValue",
     "CreateAgentRequestToolsItem",
-    "CreateCodecRequest",
-    "CreateLatentRequest",
-    "CreateVoiceRequest",
     "DtmfPayload",
     "Error",
     "ErrorError",
@@ -145,5 +138,4 @@ __all__ = [
     "UserFinishedSpeakingPayload",
     "UserStartedSpeakingPayload",
     "Voice",
-    "VoiceLatent",
 ]
