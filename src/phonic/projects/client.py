@@ -5,8 +5,11 @@ import typing
 from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.request_options import RequestOptions
 from .raw_client import AsyncRawProjectsClient, RawProjectsClient
+from .types.projects_create_eval_prompt_response import ProjectsCreateEvalPromptResponse
+from .types.projects_create_response import ProjectsCreateResponse
 from .types.projects_delete_response import ProjectsDeleteResponse
 from .types.projects_get_response import ProjectsGetResponse
+from .types.projects_list_eval_prompts_response import ProjectsListEvalPromptsResponse
 from .types.projects_list_response import ProjectsListResponse
 from .types.projects_update_response import ProjectsUpdateResponse
 
@@ -48,11 +51,44 @@ class ProjectsClient:
         from phonic import Phonic
 
         client = Phonic(
+            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
         client.projects.list()
         """
         _response = self._raw_client.list(request_options=request_options)
+        return _response.data
+
+    def create(self, *, name: str, request_options: typing.Optional[RequestOptions] = None) -> ProjectsCreateResponse:
+        """
+        Creates a new project in a workspace.
+
+        Parameters
+        ----------
+        name : str
+            The name of the project. Can only contain lowercase letters, numbers and hyphens. Must be unique within the workspace.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ProjectsCreateResponse
+            Success response
+
+        Examples
+        --------
+        from phonic import Phonic
+
+        client = Phonic(
+            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
+            token="YOUR_TOKEN",
+        )
+        client.projects.create(
+            name="customer-support",
+        )
+        """
+        _response = self._raw_client.create(name=name, request_options=request_options)
         return _response.data
 
     def get(self, name_or_id: str, *, request_options: typing.Optional[RequestOptions] = None) -> ProjectsGetResponse:
@@ -77,6 +113,7 @@ class ProjectsClient:
         from phonic import Phonic
 
         client = Phonic(
+            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
         client.projects.get(
@@ -110,6 +147,7 @@ class ProjectsClient:
         from phonic import Phonic
 
         client = Phonic(
+            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
         client.projects.delete(
@@ -153,6 +191,7 @@ class ProjectsClient:
         from phonic import Phonic
 
         client = Phonic(
+            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
         client.projects.update(
@@ -164,6 +203,82 @@ class ProjectsClient:
         _response = self._raw_client.update(
             name_or_id, name=name, default_agent=default_agent, request_options=request_options
         )
+        return _response.data
+
+    def list_eval_prompts(
+        self, id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> ProjectsListEvalPromptsResponse:
+        """
+        Returns all conversation evaluation prompts for a project.
+
+        Parameters
+        ----------
+        id : str
+            The ID of the project.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ProjectsListEvalPromptsResponse
+            Success response
+
+        Examples
+        --------
+        from phonic import Phonic
+
+        client = Phonic(
+            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
+            token="YOUR_TOKEN",
+        )
+        client.projects.list_eval_prompts(
+            id="id",
+        )
+        """
+        _response = self._raw_client.list_eval_prompts(id, request_options=request_options)
+        return _response.data
+
+    def create_eval_prompt(
+        self, id: str, *, name: str, prompt: str, request_options: typing.Optional[RequestOptions] = None
+    ) -> ProjectsCreateEvalPromptResponse:
+        """
+        Creates a new conversation evaluation prompt for a project.
+
+        Parameters
+        ----------
+        id : str
+            The ID of the project.
+
+        name : str
+            A useful name for referring to this prompt.
+
+        prompt : str
+            Actual evaluation prompt text to evaluate conversations with.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ProjectsCreateEvalPromptResponse
+            Success response
+
+        Examples
+        --------
+        from phonic import Phonic
+
+        client = Phonic(
+            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
+            token="YOUR_TOKEN",
+        )
+        client.projects.create_eval_prompt(
+            id="id",
+            name="test_prompt",
+            prompt="The assistant used the word chocolate in the conversation",
+        )
+        """
+        _response = self._raw_client.create_eval_prompt(id, name=name, prompt=prompt, request_options=request_options)
         return _response.data
 
 
@@ -203,6 +318,7 @@ class AsyncProjectsClient:
         from phonic import AsyncPhonic
 
         client = AsyncPhonic(
+            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
 
@@ -214,6 +330,48 @@ class AsyncProjectsClient:
         asyncio.run(main())
         """
         _response = await self._raw_client.list(request_options=request_options)
+        return _response.data
+
+    async def create(
+        self, *, name: str, request_options: typing.Optional[RequestOptions] = None
+    ) -> ProjectsCreateResponse:
+        """
+        Creates a new project in a workspace.
+
+        Parameters
+        ----------
+        name : str
+            The name of the project. Can only contain lowercase letters, numbers and hyphens. Must be unique within the workspace.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ProjectsCreateResponse
+            Success response
+
+        Examples
+        --------
+        import asyncio
+
+        from phonic import AsyncPhonic
+
+        client = AsyncPhonic(
+            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
+            token="YOUR_TOKEN",
+        )
+
+
+        async def main() -> None:
+            await client.projects.create(
+                name="customer-support",
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.create(name=name, request_options=request_options)
         return _response.data
 
     async def get(
@@ -242,6 +400,7 @@ class AsyncProjectsClient:
         from phonic import AsyncPhonic
 
         client = AsyncPhonic(
+            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
 
@@ -283,6 +442,7 @@ class AsyncProjectsClient:
         from phonic import AsyncPhonic
 
         client = AsyncPhonic(
+            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
 
@@ -334,6 +494,7 @@ class AsyncProjectsClient:
         from phonic import AsyncPhonic
 
         client = AsyncPhonic(
+            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
 
@@ -350,5 +511,99 @@ class AsyncProjectsClient:
         """
         _response = await self._raw_client.update(
             name_or_id, name=name, default_agent=default_agent, request_options=request_options
+        )
+        return _response.data
+
+    async def list_eval_prompts(
+        self, id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> ProjectsListEvalPromptsResponse:
+        """
+        Returns all conversation evaluation prompts for a project.
+
+        Parameters
+        ----------
+        id : str
+            The ID of the project.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ProjectsListEvalPromptsResponse
+            Success response
+
+        Examples
+        --------
+        import asyncio
+
+        from phonic import AsyncPhonic
+
+        client = AsyncPhonic(
+            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
+            token="YOUR_TOKEN",
+        )
+
+
+        async def main() -> None:
+            await client.projects.list_eval_prompts(
+                id="id",
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.list_eval_prompts(id, request_options=request_options)
+        return _response.data
+
+    async def create_eval_prompt(
+        self, id: str, *, name: str, prompt: str, request_options: typing.Optional[RequestOptions] = None
+    ) -> ProjectsCreateEvalPromptResponse:
+        """
+        Creates a new conversation evaluation prompt for a project.
+
+        Parameters
+        ----------
+        id : str
+            The ID of the project.
+
+        name : str
+            A useful name for referring to this prompt.
+
+        prompt : str
+            Actual evaluation prompt text to evaluate conversations with.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ProjectsCreateEvalPromptResponse
+            Success response
+
+        Examples
+        --------
+        import asyncio
+
+        from phonic import AsyncPhonic
+
+        client = AsyncPhonic(
+            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
+            token="YOUR_TOKEN",
+        )
+
+
+        async def main() -> None:
+            await client.projects.create_eval_prompt(
+                id="id",
+                name="test_prompt",
+                prompt="The assistant used the word chocolate in the conversation",
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.create_eval_prompt(
+            id, name=name, prompt=prompt, request_options=request_options
         )
         return _response.data

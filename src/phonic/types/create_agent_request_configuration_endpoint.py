@@ -3,10 +3,10 @@
 import typing
 
 import pydantic
-from ...core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from ..core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 
 
-class UpsertAgentRequestConfigurationEndpoint(UniversalBaseModel):
+class CreateAgentRequestConfigurationEndpoint(UniversalBaseModel):
     """
     When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint when to get configuration options.
     """

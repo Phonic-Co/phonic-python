@@ -3,18 +3,16 @@
 import typing
 
 import httpx
+from .admin.client import AdminClient, AsyncAdminClient
 from .agents.client import AgentsClient, AsyncAgentsClient
 from .conversations.client import AsyncConversationsClient, ConversationsClient
 from .core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
-from .core.request_options import RequestOptions
 from .environment import PhonicEnvironment
+from .extraction_schemas.client import AsyncExtractionSchemasClient, ExtractionSchemasClient
 from .projects.client import AsyncProjectsClient, ProjectsClient
-from .raw_client import AsyncRawPhonic, RawPhonic
 from .sts.client import AsyncStsClient, StsClient
-from .types.create_response import CreateResponse
-
-# this is used as the default value for optional parameters
-OMIT = typing.cast(typing.Any, ...)
+from .tools.client import AsyncToolsClient, ToolsClient
+from .voices.client import AsyncVoicesClient, VoicesClient
 
 
 class Phonic:
@@ -32,6 +30,7 @@ class Phonic:
 
 
 
+    twilio_account_sid : str
     token : typing.Union[str, typing.Callable[[], str]]
     headers : typing.Optional[typing.Dict[str, str]]
         Additional headers to send with every request.
@@ -50,6 +49,7 @@ class Phonic:
     from phonic import Phonic
 
     client = Phonic(
+        twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
         token="YOUR_TOKEN",
     )
     """
@@ -58,6 +58,7 @@ class Phonic:
         self,
         *,
         environment: PhonicEnvironment = PhonicEnvironment.DEFAULT,
+        twilio_account_sid: str,
         token: typing.Union[str, typing.Callable[[], str]],
         headers: typing.Optional[typing.Dict[str, str]] = None,
         timeout: typing.Optional[float] = None,
@@ -69,6 +70,7 @@ class Phonic:
         )
         self._client_wrapper = SyncClientWrapper(
             environment=environment,
+            twilio_account_sid=twilio_account_sid,
             token=token,
             headers=headers,
             httpx_client=httpx_client
@@ -78,53 +80,14 @@ class Phonic:
             else httpx.Client(timeout=_defaulted_timeout),
             timeout=_defaulted_timeout,
         )
-        self._raw_client = RawPhonic(client_wrapper=self._client_wrapper)
         self.agents = AgentsClient(client_wrapper=self._client_wrapper)
+        self.tools = ToolsClient(client_wrapper=self._client_wrapper)
+        self.extraction_schemas = ExtractionSchemasClient(client_wrapper=self._client_wrapper)
+        self.voices = VoicesClient(client_wrapper=self._client_wrapper)
         self.conversations = ConversationsClient(client_wrapper=self._client_wrapper)
         self.projects = ProjectsClient(client_wrapper=self._client_wrapper)
+        self.admin = AdminClient(client_wrapper=self._client_wrapper)
         self.sts = StsClient(client_wrapper=self._client_wrapper)
-
-    @property
-    def with_raw_response(self) -> RawPhonic:
-        """
-        Retrieves a raw implementation of this client that returns raw responses.
-
-        Returns
-        -------
-        RawPhonic
-        """
-        return self._raw_client
-
-    def create(self, *, name: str, request_options: typing.Optional[RequestOptions] = None) -> CreateResponse:
-        """
-        Creates a new project in a workspace.
-
-        Parameters
-        ----------
-        name : str
-            The name of the project. Can only contain lowercase letters, numbers and hyphens. Must be unique within the workspace.
-
-        request_options : typing.Optional[RequestOptions]
-            Request-specific configuration.
-
-        Returns
-        -------
-        CreateResponse
-            Success response
-
-        Examples
-        --------
-        from phonic import Phonic
-
-        client = Phonic(
-            token="YOUR_TOKEN",
-        )
-        client.create(
-            name="customer-support",
-        )
-        """
-        _response = self._raw_client.create(name=name, request_options=request_options)
-        return _response.data
 
 
 class AsyncPhonic:
@@ -142,6 +105,7 @@ class AsyncPhonic:
 
 
 
+    twilio_account_sid : str
     token : typing.Union[str, typing.Callable[[], str]]
     headers : typing.Optional[typing.Dict[str, str]]
         Additional headers to send with every request.
@@ -160,6 +124,7 @@ class AsyncPhonic:
     from phonic import AsyncPhonic
 
     client = AsyncPhonic(
+        twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
         token="YOUR_TOKEN",
     )
     """
@@ -168,6 +133,7 @@ class AsyncPhonic:
         self,
         *,
         environment: PhonicEnvironment = PhonicEnvironment.DEFAULT,
+        twilio_account_sid: str,
         token: typing.Union[str, typing.Callable[[], str]],
         headers: typing.Optional[typing.Dict[str, str]] = None,
         timeout: typing.Optional[float] = None,
@@ -179,6 +145,7 @@ class AsyncPhonic:
         )
         self._client_wrapper = AsyncClientWrapper(
             environment=environment,
+            twilio_account_sid=twilio_account_sid,
             token=token,
             headers=headers,
             httpx_client=httpx_client
@@ -188,58 +155,11 @@ class AsyncPhonic:
             else httpx.AsyncClient(timeout=_defaulted_timeout),
             timeout=_defaulted_timeout,
         )
-        self._raw_client = AsyncRawPhonic(client_wrapper=self._client_wrapper)
         self.agents = AsyncAgentsClient(client_wrapper=self._client_wrapper)
+        self.tools = AsyncToolsClient(client_wrapper=self._client_wrapper)
+        self.extraction_schemas = AsyncExtractionSchemasClient(client_wrapper=self._client_wrapper)
+        self.voices = AsyncVoicesClient(client_wrapper=self._client_wrapper)
         self.conversations = AsyncConversationsClient(client_wrapper=self._client_wrapper)
         self.projects = AsyncProjectsClient(client_wrapper=self._client_wrapper)
+        self.admin = AsyncAdminClient(client_wrapper=self._client_wrapper)
         self.sts = AsyncStsClient(client_wrapper=self._client_wrapper)
-
-    @property
-    def with_raw_response(self) -> AsyncRawPhonic:
-        """
-        Retrieves a raw implementation of this client that returns raw responses.
-
-        Returns
-        -------
-        AsyncRawPhonic
-        """
-        return self._raw_client
-
-    async def create(self, *, name: str, request_options: typing.Optional[RequestOptions] = None) -> CreateResponse:
-        """
-        Creates a new project in a workspace.
-
-        Parameters
-        ----------
-        name : str
-            The name of the project. Can only contain lowercase letters, numbers and hyphens. Must be unique within the workspace.
-
-        request_options : typing.Optional[RequestOptions]
-            Request-specific configuration.
-
-        Returns
-        -------
-        CreateResponse
-            Success response
-
-        Examples
-        --------
-        import asyncio
-
-        from phonic import AsyncPhonic
-
-        client = AsyncPhonic(
-            token="YOUR_TOKEN",
-        )
-
-
-        async def main() -> None:
-            await client.create(
-                name="customer-support",
-            )
-
-
-        asyncio.run(main())
-        """
-        _response = await self._raw_client.create(name=name, request_options=request_options)
-        return _response.data

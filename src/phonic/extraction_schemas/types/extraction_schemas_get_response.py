@@ -4,10 +4,11 @@ import typing
 
 import pydantic
 from ...core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from ...types.extraction_schema import ExtractionSchema
 
 
-class UpsertAgentRequestTemplateVariablesValue(UniversalBaseModel):
-    default_value: typing.Optional[str] = None
+class ExtractionSchemasGetResponse(UniversalBaseModel):
+    extraction_schema: ExtractionSchema
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

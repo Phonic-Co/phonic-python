@@ -6,11 +6,26 @@ from json.decoder import JSONDecodeError
 from ..core.api_error import ApiError
 from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.http_response import AsyncHttpResponse, HttpResponse
+from ..core.jsonable_encoder import jsonable_encoder
 from ..core.pydantic_utilities import parse_obj_as
 from ..core.request_options import RequestOptions
 from ..core.serialization import convert_and_respect_annotation_metadata
+from ..errors.bad_request_error import BadRequestError
+from ..errors.conflict_error import ConflictError
+from ..errors.gateway_timeout_error import GatewayTimeoutError
+from ..errors.not_found_error import NotFoundError
+from ..types.error import Error
 from ..types.outbound_call_config import OutboundCallConfig
+from .types.conversations_cancel_response import ConversationsCancelResponse
+from .types.conversations_evaluate_response import ConversationsEvaluateResponse
+from .types.conversations_extract_data_response import ConversationsExtractDataResponse
+from .types.conversations_get_analysis_response import ConversationsGetAnalysisResponse
+from .types.conversations_get_response import ConversationsGetResponse
+from .types.conversations_list_evaluations_response import ConversationsListEvaluationsResponse
+from .types.conversations_list_extractions_response import ConversationsListExtractionsResponse
+from .types.conversations_list_response import ConversationsListResponse
 from .types.conversations_outbound_call_response import ConversationsOutboundCallResponse
+from .types.conversations_summarize_response import ConversationsSummarizeResponse
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -20,6 +35,553 @@ class RawConversationsClient:
     def __init__(self, *, client_wrapper: SyncClientWrapper):
         self._client_wrapper = client_wrapper
 
+    def list(
+        self,
+        *,
+        project: typing.Optional[str] = None,
+        external_id: typing.Optional[str] = None,
+        duration_min: typing.Optional[int] = None,
+        duration_max: typing.Optional[int] = None,
+        started_at_min: typing.Optional[str] = None,
+        started_at_max: typing.Optional[str] = None,
+        before: typing.Optional[str] = None,
+        after: typing.Optional[str] = None,
+        limit: typing.Optional[int] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> HttpResponse[ConversationsListResponse]:
+        """
+        Returns conversations with optional filtering.
+
+        Parameters
+        ----------
+        project : typing.Optional[str]
+            The name of the project to list conversations for.
+
+        external_id : typing.Optional[str]
+            Filter by external ID to get a specific conversation.
+
+        duration_min : typing.Optional[int]
+            Minimum duration in seconds.
+
+        duration_max : typing.Optional[int]
+            Maximum duration in seconds.
+
+        started_at_min : typing.Optional[str]
+            Minimum start date/time. Valid examples: `2025-04-17`, `2025-04-17T02:48:52.708Z`
+
+        started_at_max : typing.Optional[str]
+            Maximum start date/time. Valid examples: `2025-04-17`, `2025-04-17T02:48:52.708Z`
+
+        before : typing.Optional[str]
+            Cursor for pagination (before).
+
+        after : typing.Optional[str]
+            Cursor for pagination (after).
+
+        limit : typing.Optional[int]
+            Maximum number of conversations to return.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[ConversationsListResponse]
+            Success response
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            "conversations",
+            base_url=self._client_wrapper.get_environment().base,
+            method="GET",
+            params={
+                "project": project,
+                "external_id": external_id,
+                "duration_min": duration_min,
+                "duration_max": duration_max,
+                "started_at_min": started_at_min,
+                "started_at_max": started_at_max,
+                "before": before,
+                "after": after,
+                "limit": limit,
+            },
+            request_options=request_options,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    ConversationsListResponse,
+                    parse_obj_as(
+                        type_=ConversationsListResponse,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return HttpResponse(response=_response, data=_data)
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    def get(
+        self, id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> HttpResponse[ConversationsGetResponse]:
+        """
+        Returns a conversation by ID.
+
+        Parameters
+        ----------
+        id : str
+            The ID of the conversation to get.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[ConversationsGetResponse]
+            Success response
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"conversations/{jsonable_encoder(id)}",
+            base_url=self._client_wrapper.get_environment().base,
+            method="GET",
+            request_options=request_options,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    ConversationsGetResponse,
+                    parse_obj_as(
+                        type_=ConversationsGetResponse,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return HttpResponse(response=_response, data=_data)
+            if _response.status_code == 404:
+                raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        parse_obj_as(
+                            type_=Error,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    def cancel(
+        self, id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> HttpResponse[ConversationsCancelResponse]:
+        """
+        Cancels an active conversation.
+
+        Parameters
+        ----------
+        id : str
+            The ID of the conversation to cancel.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[ConversationsCancelResponse]
+            Success response
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"conversations/{jsonable_encoder(id)}/cancel",
+            base_url=self._client_wrapper.get_environment().base,
+            method="POST",
+            request_options=request_options,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    ConversationsCancelResponse,
+                    parse_obj_as(
+                        type_=ConversationsCancelResponse,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return HttpResponse(response=_response, data=_data)
+            if _response.status_code == 404:
+                raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        parse_obj_as(
+                            type_=Error,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 409:
+                raise ConflictError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        parse_obj_as(
+                            type_=Error,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 504:
+                raise GatewayTimeoutError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        parse_obj_as(
+                            type_=Error,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    def summarize(
+        self, id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> HttpResponse[ConversationsSummarizeResponse]:
+        """
+        Generates a summary of the specified conversation.
+
+        Parameters
+        ----------
+        id : str
+            The ID of the conversation to summarize.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[ConversationsSummarizeResponse]
+            Success response
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"conversations/{jsonable_encoder(id)}/summarize",
+            base_url=self._client_wrapper.get_environment().base,
+            method="POST",
+            request_options=request_options,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    ConversationsSummarizeResponse,
+                    parse_obj_as(
+                        type_=ConversationsSummarizeResponse,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return HttpResponse(response=_response, data=_data)
+            if _response.status_code == 400:
+                raise BadRequestError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        parse_obj_as(
+                            type_=Error,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 404:
+                raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        parse_obj_as(
+                            type_=Error,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    def get_analysis(
+        self, id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> HttpResponse[ConversationsGetAnalysisResponse]:
+        """
+        Returns an analysis of the specified conversation.
+
+        Parameters
+        ----------
+        id : str
+            The ID of the conversation to analyze.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[ConversationsGetAnalysisResponse]
+            Success response
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"conversations/{jsonable_encoder(id)}/analysis",
+            base_url=self._client_wrapper.get_environment().base,
+            method="GET",
+            request_options=request_options,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    ConversationsGetAnalysisResponse,
+                    parse_obj_as(
+                        type_=ConversationsGetAnalysisResponse,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return HttpResponse(response=_response, data=_data)
+            if _response.status_code == 404:
+                raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        parse_obj_as(
+                            type_=Error,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    def list_extractions(
+        self, id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> HttpResponse[ConversationsListExtractionsResponse]:
+        """
+        Returns all extractions for a conversation.
+
+        Parameters
+        ----------
+        id : str
+            The ID of the conversation to get extractions for.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[ConversationsListExtractionsResponse]
+            Success response
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"conversations/{jsonable_encoder(id)}/extractions",
+            base_url=self._client_wrapper.get_environment().base,
+            method="GET",
+            request_options=request_options,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    ConversationsListExtractionsResponse,
+                    parse_obj_as(
+                        type_=ConversationsListExtractionsResponse,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return HttpResponse(response=_response, data=_data)
+            if _response.status_code == 404:
+                raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        parse_obj_as(
+                            type_=Error,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    def extract_data(
+        self, id: str, *, schema_id: str, request_options: typing.Optional[RequestOptions] = None
+    ) -> HttpResponse[ConversationsExtractDataResponse]:
+        """
+        Extracts data from a conversation using a schema.
+
+        Parameters
+        ----------
+        id : str
+            The ID of the conversation to extract data from.
+
+        schema_id : str
+            ID of the extraction schema to use.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[ConversationsExtractDataResponse]
+            Success response
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"conversations/{jsonable_encoder(id)}/extractions",
+            base_url=self._client_wrapper.get_environment().base,
+            method="POST",
+            json={
+                "schema_id": schema_id,
+            },
+            headers={
+                "content-type": "application/json",
+            },
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    ConversationsExtractDataResponse,
+                    parse_obj_as(
+                        type_=ConversationsExtractDataResponse,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return HttpResponse(response=_response, data=_data)
+            if _response.status_code == 404:
+                raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        parse_obj_as(
+                            type_=Error,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    def list_evaluations(
+        self, id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> HttpResponse[ConversationsListEvaluationsResponse]:
+        """
+        Returns all evaluations for a conversation.
+
+        Parameters
+        ----------
+        id : str
+            The ID of the conversation to get evaluations for.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[ConversationsListEvaluationsResponse]
+            Success response
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"conversations/{jsonable_encoder(id)}/evals",
+            base_url=self._client_wrapper.get_environment().base,
+            method="GET",
+            request_options=request_options,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    ConversationsListEvaluationsResponse,
+                    parse_obj_as(
+                        type_=ConversationsListEvaluationsResponse,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return HttpResponse(response=_response, data=_data)
+            if _response.status_code == 404:
+                raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        parse_obj_as(
+                            type_=Error,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    def evaluate(
+        self, id: str, *, prompt_id: str, request_options: typing.Optional[RequestOptions] = None
+    ) -> HttpResponse[ConversationsEvaluateResponse]:
+        """
+        Evaluates a conversation using an evaluation prompt.
+
+        Parameters
+        ----------
+        id : str
+            The ID of the conversation to evaluate.
+
+        prompt_id : str
+            ID of the evaluation prompt to use.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[ConversationsEvaluateResponse]
+            Success response
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"conversations/{jsonable_encoder(id)}/evals",
+            base_url=self._client_wrapper.get_environment().base,
+            method="POST",
+            json={
+                "prompt_id": prompt_id,
+            },
+            headers={
+                "content-type": "application/json",
+            },
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    ConversationsEvaluateResponse,
+                    parse_obj_as(
+                        type_=ConversationsEvaluateResponse,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return HttpResponse(response=_response, data=_data)
+            if _response.status_code == 404:
+                raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        parse_obj_as(
+                            type_=Error,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
     def outbound_call(
         self,
         *,
@@ -28,7 +590,7 @@ class RawConversationsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[ConversationsOutboundCallResponse]:
         """
-        Initiates a call to a given phone number.
+        Initiates a call to a given phone number using Phonic's Twilio account.
 
         Parameters
         ----------
@@ -81,6 +643,553 @@ class AsyncRawConversationsClient:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
         self._client_wrapper = client_wrapper
 
+    async def list(
+        self,
+        *,
+        project: typing.Optional[str] = None,
+        external_id: typing.Optional[str] = None,
+        duration_min: typing.Optional[int] = None,
+        duration_max: typing.Optional[int] = None,
+        started_at_min: typing.Optional[str] = None,
+        started_at_max: typing.Optional[str] = None,
+        before: typing.Optional[str] = None,
+        after: typing.Optional[str] = None,
+        limit: typing.Optional[int] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AsyncHttpResponse[ConversationsListResponse]:
+        """
+        Returns conversations with optional filtering.
+
+        Parameters
+        ----------
+        project : typing.Optional[str]
+            The name of the project to list conversations for.
+
+        external_id : typing.Optional[str]
+            Filter by external ID to get a specific conversation.
+
+        duration_min : typing.Optional[int]
+            Minimum duration in seconds.
+
+        duration_max : typing.Optional[int]
+            Maximum duration in seconds.
+
+        started_at_min : typing.Optional[str]
+            Minimum start date/time. Valid examples: `2025-04-17`, `2025-04-17T02:48:52.708Z`
+
+        started_at_max : typing.Optional[str]
+            Maximum start date/time. Valid examples: `2025-04-17`, `2025-04-17T02:48:52.708Z`
+
+        before : typing.Optional[str]
+            Cursor for pagination (before).
+
+        after : typing.Optional[str]
+            Cursor for pagination (after).
+
+        limit : typing.Optional[int]
+            Maximum number of conversations to return.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[ConversationsListResponse]
+            Success response
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "conversations",
+            base_url=self._client_wrapper.get_environment().base,
+            method="GET",
+            params={
+                "project": project,
+                "external_id": external_id,
+                "duration_min": duration_min,
+                "duration_max": duration_max,
+                "started_at_min": started_at_min,
+                "started_at_max": started_at_max,
+                "before": before,
+                "after": after,
+                "limit": limit,
+            },
+            request_options=request_options,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    ConversationsListResponse,
+                    parse_obj_as(
+                        type_=ConversationsListResponse,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return AsyncHttpResponse(response=_response, data=_data)
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def get(
+        self, id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> AsyncHttpResponse[ConversationsGetResponse]:
+        """
+        Returns a conversation by ID.
+
+        Parameters
+        ----------
+        id : str
+            The ID of the conversation to get.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[ConversationsGetResponse]
+            Success response
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"conversations/{jsonable_encoder(id)}",
+            base_url=self._client_wrapper.get_environment().base,
+            method="GET",
+            request_options=request_options,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    ConversationsGetResponse,
+                    parse_obj_as(
+                        type_=ConversationsGetResponse,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return AsyncHttpResponse(response=_response, data=_data)
+            if _response.status_code == 404:
+                raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        parse_obj_as(
+                            type_=Error,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def cancel(
+        self, id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> AsyncHttpResponse[ConversationsCancelResponse]:
+        """
+        Cancels an active conversation.
+
+        Parameters
+        ----------
+        id : str
+            The ID of the conversation to cancel.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[ConversationsCancelResponse]
+            Success response
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"conversations/{jsonable_encoder(id)}/cancel",
+            base_url=self._client_wrapper.get_environment().base,
+            method="POST",
+            request_options=request_options,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    ConversationsCancelResponse,
+                    parse_obj_as(
+                        type_=ConversationsCancelResponse,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return AsyncHttpResponse(response=_response, data=_data)
+            if _response.status_code == 404:
+                raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        parse_obj_as(
+                            type_=Error,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 409:
+                raise ConflictError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        parse_obj_as(
+                            type_=Error,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 504:
+                raise GatewayTimeoutError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        parse_obj_as(
+                            type_=Error,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def summarize(
+        self, id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> AsyncHttpResponse[ConversationsSummarizeResponse]:
+        """
+        Generates a summary of the specified conversation.
+
+        Parameters
+        ----------
+        id : str
+            The ID of the conversation to summarize.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[ConversationsSummarizeResponse]
+            Success response
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"conversations/{jsonable_encoder(id)}/summarize",
+            base_url=self._client_wrapper.get_environment().base,
+            method="POST",
+            request_options=request_options,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    ConversationsSummarizeResponse,
+                    parse_obj_as(
+                        type_=ConversationsSummarizeResponse,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return AsyncHttpResponse(response=_response, data=_data)
+            if _response.status_code == 400:
+                raise BadRequestError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        parse_obj_as(
+                            type_=Error,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 404:
+                raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        parse_obj_as(
+                            type_=Error,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def get_analysis(
+        self, id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> AsyncHttpResponse[ConversationsGetAnalysisResponse]:
+        """
+        Returns an analysis of the specified conversation.
+
+        Parameters
+        ----------
+        id : str
+            The ID of the conversation to analyze.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[ConversationsGetAnalysisResponse]
+            Success response
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"conversations/{jsonable_encoder(id)}/analysis",
+            base_url=self._client_wrapper.get_environment().base,
+            method="GET",
+            request_options=request_options,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    ConversationsGetAnalysisResponse,
+                    parse_obj_as(
+                        type_=ConversationsGetAnalysisResponse,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return AsyncHttpResponse(response=_response, data=_data)
+            if _response.status_code == 404:
+                raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        parse_obj_as(
+                            type_=Error,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def list_extractions(
+        self, id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> AsyncHttpResponse[ConversationsListExtractionsResponse]:
+        """
+        Returns all extractions for a conversation.
+
+        Parameters
+        ----------
+        id : str
+            The ID of the conversation to get extractions for.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[ConversationsListExtractionsResponse]
+            Success response
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"conversations/{jsonable_encoder(id)}/extractions",
+            base_url=self._client_wrapper.get_environment().base,
+            method="GET",
+            request_options=request_options,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    ConversationsListExtractionsResponse,
+                    parse_obj_as(
+                        type_=ConversationsListExtractionsResponse,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return AsyncHttpResponse(response=_response, data=_data)
+            if _response.status_code == 404:
+                raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        parse_obj_as(
+                            type_=Error,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def extract_data(
+        self, id: str, *, schema_id: str, request_options: typing.Optional[RequestOptions] = None
+    ) -> AsyncHttpResponse[ConversationsExtractDataResponse]:
+        """
+        Extracts data from a conversation using a schema.
+
+        Parameters
+        ----------
+        id : str
+            The ID of the conversation to extract data from.
+
+        schema_id : str
+            ID of the extraction schema to use.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[ConversationsExtractDataResponse]
+            Success response
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"conversations/{jsonable_encoder(id)}/extractions",
+            base_url=self._client_wrapper.get_environment().base,
+            method="POST",
+            json={
+                "schema_id": schema_id,
+            },
+            headers={
+                "content-type": "application/json",
+            },
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    ConversationsExtractDataResponse,
+                    parse_obj_as(
+                        type_=ConversationsExtractDataResponse,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return AsyncHttpResponse(response=_response, data=_data)
+            if _response.status_code == 404:
+                raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        parse_obj_as(
+                            type_=Error,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def list_evaluations(
+        self, id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> AsyncHttpResponse[ConversationsListEvaluationsResponse]:
+        """
+        Returns all evaluations for a conversation.
+
+        Parameters
+        ----------
+        id : str
+            The ID of the conversation to get evaluations for.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[ConversationsListEvaluationsResponse]
+            Success response
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"conversations/{jsonable_encoder(id)}/evals",
+            base_url=self._client_wrapper.get_environment().base,
+            method="GET",
+            request_options=request_options,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    ConversationsListEvaluationsResponse,
+                    parse_obj_as(
+                        type_=ConversationsListEvaluationsResponse,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return AsyncHttpResponse(response=_response, data=_data)
+            if _response.status_code == 404:
+                raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        parse_obj_as(
+                            type_=Error,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def evaluate(
+        self, id: str, *, prompt_id: str, request_options: typing.Optional[RequestOptions] = None
+    ) -> AsyncHttpResponse[ConversationsEvaluateResponse]:
+        """
+        Evaluates a conversation using an evaluation prompt.
+
+        Parameters
+        ----------
+        id : str
+            The ID of the conversation to evaluate.
+
+        prompt_id : str
+            ID of the evaluation prompt to use.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[ConversationsEvaluateResponse]
+            Success response
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"conversations/{jsonable_encoder(id)}/evals",
+            base_url=self._client_wrapper.get_environment().base,
+            method="POST",
+            json={
+                "prompt_id": prompt_id,
+            },
+            headers={
+                "content-type": "application/json",
+            },
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    ConversationsEvaluateResponse,
+                    parse_obj_as(
+                        type_=ConversationsEvaluateResponse,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return AsyncHttpResponse(response=_response, data=_data)
+            if _response.status_code == 404:
+                raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        parse_obj_as(
+                            type_=Error,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
     async def outbound_call(
         self,
         *,
@@ -89,7 +1198,7 @@ class AsyncRawConversationsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[ConversationsOutboundCallResponse]:
         """
-        Initiates a call to a given phone number.
+        Initiates a call to a given phone number using Phonic's Twilio account.
 
         Parameters
         ----------
