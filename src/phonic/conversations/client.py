@@ -95,7 +95,6 @@ class ConversationsClient:
         from phonic import Phonic
 
         client = Phonic(
-            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
         client.conversations.list()
@@ -136,7 +135,6 @@ class ConversationsClient:
         from phonic import Phonic
 
         client = Phonic(
-            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
         client.conversations.get(
@@ -170,7 +168,6 @@ class ConversationsClient:
         from phonic import Phonic
 
         client = Phonic(
-            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
         client.conversations.cancel(
@@ -204,7 +201,6 @@ class ConversationsClient:
         from phonic import Phonic
 
         client = Phonic(
-            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
         client.conversations.summarize(
@@ -238,7 +234,6 @@ class ConversationsClient:
         from phonic import Phonic
 
         client = Phonic(
-            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
         client.conversations.get_analysis(
@@ -272,7 +267,6 @@ class ConversationsClient:
         from phonic import Phonic
 
         client = Phonic(
-            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
         client.conversations.list_extractions(
@@ -309,7 +303,6 @@ class ConversationsClient:
         from phonic import Phonic
 
         client = Phonic(
-            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
         client.conversations.extract_data(
@@ -344,7 +337,6 @@ class ConversationsClient:
         from phonic import Phonic
 
         client = Phonic(
-            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
         client.conversations.list_evaluations(
@@ -381,7 +373,6 @@ class ConversationsClient:
         from phonic import Phonic
 
         client = Phonic(
-            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
         client.conversations.evaluate(
@@ -422,7 +413,6 @@ class ConversationsClient:
         from phonic import OutboundCallConfig, Phonic
 
         client = Phonic(
-            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
         client.conversations.outbound_call(
@@ -523,7 +513,6 @@ class AsyncConversationsClient:
         from phonic import AsyncPhonic
 
         client = AsyncPhonic(
-            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
 
@@ -574,7 +563,6 @@ class AsyncConversationsClient:
         from phonic import AsyncPhonic
 
         client = AsyncPhonic(
-            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
 
@@ -616,7 +604,6 @@ class AsyncConversationsClient:
         from phonic import AsyncPhonic
 
         client = AsyncPhonic(
-            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
 
@@ -658,7 +645,6 @@ class AsyncConversationsClient:
         from phonic import AsyncPhonic
 
         client = AsyncPhonic(
-            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
 
@@ -700,7 +686,6 @@ class AsyncConversationsClient:
         from phonic import AsyncPhonic
 
         client = AsyncPhonic(
-            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
 
@@ -742,7 +727,6 @@ class AsyncConversationsClient:
         from phonic import AsyncPhonic
 
         client = AsyncPhonic(
-            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
 
@@ -787,7 +771,6 @@ class AsyncConversationsClient:
         from phonic import AsyncPhonic
 
         client = AsyncPhonic(
-            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
 
@@ -830,7 +813,6 @@ class AsyncConversationsClient:
         from phonic import AsyncPhonic
 
         client = AsyncPhonic(
-            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
 
@@ -875,7 +857,6 @@ class AsyncConversationsClient:
         from phonic import AsyncPhonic
 
         client = AsyncPhonic(
-            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
 
@@ -924,7 +905,6 @@ class AsyncConversationsClient:
         from phonic import AsyncPhonic, OutboundCallConfig
 
         client = AsyncPhonic(
-            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
 

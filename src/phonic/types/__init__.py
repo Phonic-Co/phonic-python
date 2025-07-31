@@ -64,7 +64,6 @@ from .tool_parameter_item_type import ToolParameterItemType
 from .tool_parameter_type import ToolParameterType
 from .tool_project import ToolProject
 from .tool_type import ToolType
-from .twilio_outbound_call_request import TwilioOutboundCallRequest
 from .update_system_prompt_payload import UpdateSystemPromptPayload
 from .user_finished_speaking_payload import UserFinishedSpeakingPayload
 from .user_started_speaking_payload import UserStartedSpeakingPayload
@@ -133,7 +132,6 @@ __all__ = [
     "ToolParameterType",
     "ToolProject",
     "ToolType",
-    "TwilioOutboundCallRequest",
     "UpdateSystemPromptPayload",
     "UserFinishedSpeakingPayload",
     "UserStartedSpeakingPayload",

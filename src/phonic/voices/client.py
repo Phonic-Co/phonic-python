@@ -43,7 +43,6 @@ class VoicesClient:
         from phonic import Phonic
 
         client = Phonic(
-            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
         client.voices.list()
@@ -73,7 +72,6 @@ class VoicesClient:
         from phonic import Phonic
 
         client = Phonic(
-            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
         client.voices.get(
@@ -120,7 +118,6 @@ class AsyncVoicesClient:
         from phonic import AsyncPhonic
 
         client = AsyncPhonic(
-            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
 
@@ -158,7 +155,6 @@ class AsyncVoicesClient:
         from phonic import AsyncPhonic
 
         client = AsyncPhonic(
-            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
 

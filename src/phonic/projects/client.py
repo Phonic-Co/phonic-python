@@ -51,7 +51,6 @@ class ProjectsClient:
         from phonic import Phonic
 
         client = Phonic(
-            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
         client.projects.list()
@@ -81,7 +80,6 @@ class ProjectsClient:
         from phonic import Phonic
 
         client = Phonic(
-            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
         client.projects.create(
@@ -113,7 +111,6 @@ class ProjectsClient:
         from phonic import Phonic
 
         client = Phonic(
-            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
         client.projects.get(
@@ -147,7 +144,6 @@ class ProjectsClient:
         from phonic import Phonic
 
         client = Phonic(
-            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
         client.projects.delete(
@@ -191,7 +187,6 @@ class ProjectsClient:
         from phonic import Phonic
 
         client = Phonic(
-            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
         client.projects.update(
@@ -229,7 +224,6 @@ class ProjectsClient:
         from phonic import Phonic
 
         client = Phonic(
-            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
         client.projects.list_eval_prompts(
@@ -269,7 +263,6 @@ class ProjectsClient:
         from phonic import Phonic
 
         client = Phonic(
-            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
         client.projects.create_eval_prompt(
@@ -318,7 +311,6 @@ class AsyncProjectsClient:
         from phonic import AsyncPhonic
 
         client = AsyncPhonic(
-            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
 
@@ -358,7 +350,6 @@ class AsyncProjectsClient:
         from phonic import AsyncPhonic
 
         client = AsyncPhonic(
-            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
 
@@ -400,7 +391,6 @@ class AsyncProjectsClient:
         from phonic import AsyncPhonic
 
         client = AsyncPhonic(
-            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
 
@@ -442,7 +432,6 @@ class AsyncProjectsClient:
         from phonic import AsyncPhonic
 
         client = AsyncPhonic(
-            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
 
@@ -494,7 +483,6 @@ class AsyncProjectsClient:
         from phonic import AsyncPhonic
 
         client = AsyncPhonic(
-            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
 
@@ -540,7 +528,6 @@ class AsyncProjectsClient:
         from phonic import AsyncPhonic
 
         client = AsyncPhonic(
-            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
 
@@ -588,7 +575,6 @@ class AsyncProjectsClient:
         from phonic import AsyncPhonic
 
         client = AsyncPhonic(
-            twilio_account_sid="YOUR_TWILIO_ACCOUNT_SID",
             token="YOUR_TOKEN",
         )
 
