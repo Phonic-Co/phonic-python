@@ -16,7 +16,7 @@ class ConversationExtraction(UniversalBaseModel):
     The extraction ID.
     """
 
-    conversation_id: str = pydantic.Field()
+    conversation_id: typing.Optional[str] = pydantic.Field(default=None)
     """
     The conversation ID.
     """

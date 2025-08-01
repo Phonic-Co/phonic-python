@@ -4,11 +4,11 @@ import typing
 
 import pydantic
 from ...core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
-from ...types.conversation_eval import ConversationEval
+from ...types.conversation_evaluation_result import ConversationEvaluationResult
 
 
 class ConversationsListEvaluationsResponse(UniversalBaseModel):
-    evals: typing.List[ConversationEval]
+    evals: typing.List[ConversationEvaluationResult]
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

@@ -3,12 +3,16 @@
 import typing
 
 import pydantic
-from ...core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
-from ...types.conversation_evaluation import ConversationEvaluation
+from ..core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 
 
-class ConversationsEvaluateResponse(UniversalBaseModel):
-    evaluation: ConversationEvaluation
+class ConversationEvaluationResultPrompt(UniversalBaseModel):
+    """
+    The evaluation prompt information.
+    """
+
+    id: str
+    name: str
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

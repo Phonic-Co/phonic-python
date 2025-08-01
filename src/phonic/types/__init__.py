@@ -21,9 +21,10 @@ from .conversation_analysis import ConversationAnalysis
 from .conversation_created_payload import ConversationCreatedPayload
 from .conversation_eval import ConversationEval
 from .conversation_eval_prompt import ConversationEvalPrompt
-from .conversation_eval_result import ConversationEvalResult
 from .conversation_evaluation import ConversationEvaluation
 from .conversation_evaluation_result import ConversationEvaluationResult
+from .conversation_evaluation_result_prompt import ConversationEvaluationResultPrompt
+from .conversation_evaluation_result_result import ConversationEvaluationResultResult
 from .conversation_extraction import ConversationExtraction
 from .conversation_extraction_schema import ConversationExtractionSchema
 from .conversation_item import ConversationItem
@@ -88,9 +89,10 @@ __all__ = [
     "ConversationCreatedPayload",
     "ConversationEval",
     "ConversationEvalPrompt",
-    "ConversationEvalResult",
     "ConversationEvaluation",
     "ConversationEvaluationResult",
+    "ConversationEvaluationResultPrompt",
+    "ConversationEvaluationResultResult",
     "ConversationExtraction",
     "ConversationExtractionSchema",
     "ConversationItem",
