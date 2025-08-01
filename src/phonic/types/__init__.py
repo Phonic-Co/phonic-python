@@ -28,7 +28,6 @@ from .conversation_extraction import ConversationExtraction
 from .conversation_extraction_schema import ConversationExtractionSchema
 from .conversation_item import ConversationItem
 from .conversation_item_role import ConversationItemRole
-from .conversation_project import ConversationProject
 from .create_agent_request import CreateAgentRequest
 from .create_agent_request_audio_format import CreateAgentRequestAudioFormat
 from .create_agent_request_configuration_endpoint import CreateAgentRequestConfigurationEndpoint
@@ -96,7 +95,6 @@ __all__ = [
     "ConversationExtractionSchema",
     "ConversationItem",
     "ConversationItemRole",
-    "ConversationProject",
     "CreateAgentRequest",
     "CreateAgentRequestAudioFormat",
     "CreateAgentRequestConfigurationEndpoint",
