@@ -6,7 +6,6 @@ import typing
 import pydantic
 from ..core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .conversation_item import ConversationItem
-from .conversation_project import ConversationProject
 
 
 class Conversation(UniversalBaseModel):
@@ -15,12 +14,16 @@ class Conversation(UniversalBaseModel):
     The conversation ID.
     """
 
+    workspace: str = pydantic.Field()
+    """
+    The organization/workspace name.
+    """
+
     external_id: typing.Optional[str] = pydantic.Field(default=None)
     """
     External ID for conversation tracking.
     """
 
-    project: ConversationProject
     model: str = pydantic.Field()
     """
     The STS model used.
@@ -29,11 +32,6 @@ class Conversation(UniversalBaseModel):
     welcome_message: typing.Optional[str] = pydantic.Field(default=None)
     """
     Welcome message played at start.
-    """
-
-    template_variables: typing.Dict[str, str] = pydantic.Field()
-    """
-    Template variables used in the conversation.
     """
 
     input_format: str = pydantic.Field()
@@ -56,9 +54,14 @@ class Conversation(UniversalBaseModel):
     Post-call processed transcript.
     """
 
-    duration_ms: int = pydantic.Field()
+    duration_ms: float = pydantic.Field()
     """
     Duration of the conversation in milliseconds.
+    """
+
+    audio_url: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    Presigned URL to the conversation audio file.
     """
 
     started_at: dt.datetime = pydantic.Field()
@@ -71,14 +74,14 @@ class Conversation(UniversalBaseModel):
     When the conversation ended.
     """
 
-    audio_url: str = pydantic.Field()
-    """
-    URL to the conversation audio file.
-    """
-
     items: typing.List[ConversationItem] = pydantic.Field()
     """
     Array of conversation items (turns).
+    """
+
+    task_results: typing.Dict[str, typing.Optional[typing.Any]] = pydantic.Field()
+    """
+    Results from conversation evaluations and extractions.
     """
 
     if IS_PYDANTIC_V2:
