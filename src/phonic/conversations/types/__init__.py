@@ -3,7 +3,6 @@
 # isort: skip_file
 
 from .conversations_cancel_response import ConversationsCancelResponse
-from .conversations_evaluate_response import ConversationsEvaluateResponse
 from .conversations_extract_data_response import ConversationsExtractDataResponse
 from .conversations_get_analysis_response import ConversationsGetAnalysisResponse
 from .conversations_get_response import ConversationsGetResponse
@@ -17,7 +16,6 @@ from .conversations_summarize_response import ConversationsSummarizeResponse
 
 __all__ = [
     "ConversationsCancelResponse",
-    "ConversationsEvaluateResponse",
     "ConversationsExtractDataResponse",
     "ConversationsGetAnalysisResponse",
     "ConversationsGetResponse",

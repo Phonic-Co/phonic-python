@@ -14,10 +14,10 @@ from ..errors.bad_request_error import BadRequestError
 from ..errors.conflict_error import ConflictError
 from ..errors.gateway_timeout_error import GatewayTimeoutError
 from ..errors.not_found_error import NotFoundError
+from ..types.conversation_evaluation_result import ConversationEvaluationResult
 from ..types.error import Error
 from ..types.outbound_call_config import OutboundCallConfig
 from .types.conversations_cancel_response import ConversationsCancelResponse
-from .types.conversations_evaluate_response import ConversationsEvaluateResponse
 from .types.conversations_extract_data_response import ConversationsExtractDataResponse
 from .types.conversations_get_analysis_response import ConversationsGetAnalysisResponse
 from .types.conversations_get_response import ConversationsGetResponse
@@ -523,7 +523,7 @@ class RawConversationsClient:
 
     def evaluate(
         self, id: str, *, prompt_id: str, request_options: typing.Optional[RequestOptions] = None
-    ) -> HttpResponse[ConversationsEvaluateResponse]:
+    ) -> HttpResponse[ConversationEvaluationResult]:
         """
         Evaluates a conversation using an evaluation prompt.
 
@@ -540,7 +540,7 @@ class RawConversationsClient:
 
         Returns
         -------
-        HttpResponse[ConversationsEvaluateResponse]
+        HttpResponse[ConversationEvaluationResult]
             Success response
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -559,9 +559,9 @@ class RawConversationsClient:
         try:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
-                    ConversationsEvaluateResponse,
+                    ConversationEvaluationResult,
                     parse_obj_as(
-                        type_=ConversationsEvaluateResponse,  # type: ignore
+                        type_=ConversationEvaluationResult,  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -1131,7 +1131,7 @@ class AsyncRawConversationsClient:
 
     async def evaluate(
         self, id: str, *, prompt_id: str, request_options: typing.Optional[RequestOptions] = None
-    ) -> AsyncHttpResponse[ConversationsEvaluateResponse]:
+    ) -> AsyncHttpResponse[ConversationEvaluationResult]:
         """
         Evaluates a conversation using an evaluation prompt.
 
@@ -1148,7 +1148,7 @@ class AsyncRawConversationsClient:
 
         Returns
         -------
-        AsyncHttpResponse[ConversationsEvaluateResponse]
+        AsyncHttpResponse[ConversationEvaluationResult]
             Success response
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -1167,9 +1167,9 @@ class AsyncRawConversationsClient:
         try:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
-                    ConversationsEvaluateResponse,
+                    ConversationEvaluationResult,
                     parse_obj_as(
-                        type_=ConversationsEvaluateResponse,  # type: ignore
+                        type_=ConversationEvaluationResult,  # type: ignore
                         object_=_response.json(),
                     ),
                 )

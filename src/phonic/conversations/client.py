@@ -4,10 +4,10 @@ import typing
 
 from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.request_options import RequestOptions
+from ..types.conversation_evaluation_result import ConversationEvaluationResult
 from ..types.outbound_call_config import OutboundCallConfig
 from .raw_client import AsyncRawConversationsClient, RawConversationsClient
 from .types.conversations_cancel_response import ConversationsCancelResponse
-from .types.conversations_evaluate_response import ConversationsEvaluateResponse
 from .types.conversations_extract_data_response import ConversationsExtractDataResponse
 from .types.conversations_get_analysis_response import ConversationsGetAnalysisResponse
 from .types.conversations_get_response import ConversationsGetResponse
@@ -348,7 +348,7 @@ class ConversationsClient:
 
     def evaluate(
         self, id: str, *, prompt_id: str, request_options: typing.Optional[RequestOptions] = None
-    ) -> ConversationsEvaluateResponse:
+    ) -> ConversationEvaluationResult:
         """
         Evaluates a conversation using an evaluation prompt.
 
@@ -365,7 +365,7 @@ class ConversationsClient:
 
         Returns
         -------
-        ConversationsEvaluateResponse
+        ConversationEvaluationResult
             Success response
 
         Examples
@@ -830,7 +830,7 @@ class AsyncConversationsClient:
 
     async def evaluate(
         self, id: str, *, prompt_id: str, request_options: typing.Optional[RequestOptions] = None
-    ) -> ConversationsEvaluateResponse:
+    ) -> ConversationEvaluationResult:
         """
         Evaluates a conversation using an evaluation prompt.
 
@@ -847,7 +847,7 @@ class AsyncConversationsClient:
 
         Returns
         -------
-        ConversationsEvaluateResponse
+        ConversationEvaluationResult
             Success response
 
         Examples

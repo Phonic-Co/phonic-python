@@ -4,7 +4,6 @@
 
 from .types import (
     ConversationsCancelResponse,
-    ConversationsEvaluateResponse,
     ConversationsExtractDataResponse,
     ConversationsGetAnalysisResponse,
     ConversationsGetResponse,
@@ -19,7 +18,6 @@ from .types import (
 
 __all__ = [
     "ConversationsCancelResponse",
-    "ConversationsEvaluateResponse",
     "ConversationsExtractDataResponse",
     "ConversationsGetAnalysisResponse",
     "ConversationsGetResponse",
