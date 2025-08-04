@@ -53,6 +53,7 @@ from .project_default_agent import ProjectDefaultAgent
 from .ready_to_start_conversation_payload import ReadyToStartConversationPayload
 from .set_external_id_payload import SetExternalIdPayload
 from .set_twilio_call_sid_payload import SetTwilioCallSidPayload
+from .task import Task
 from .tool import Tool
 from .tool_call_output_payload import ToolCallOutputPayload
 from .tool_call_output_processed_payload import ToolCallOutputProcessedPayload
@@ -121,6 +122,7 @@ __all__ = [
     "ReadyToStartConversationPayload",
     "SetExternalIdPayload",
     "SetTwilioCallSidPayload",
+    "Task",
     "Tool",
     "ToolCallOutputPayload",
     "ToolCallOutputProcessedPayload",

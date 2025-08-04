@@ -8,6 +8,7 @@ from ..types.create_agent_request_audio_format import CreateAgentRequestAudioFor
 from ..types.create_agent_request_configuration_endpoint import CreateAgentRequestConfigurationEndpoint
 from ..types.create_agent_request_template_variables_value import CreateAgentRequestTemplateVariablesValue
 from ..types.create_agent_request_tools_item import CreateAgentRequestToolsItem
+from ..types.task import Task
 from .raw_client import AsyncRawAgentsClient, RawAgentsClient
 from .types.agents_create_response import AgentsCreateResponse
 from .types.agents_delete_response import AgentsDeleteResponse
@@ -83,6 +84,7 @@ class AgentsClient:
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValue]] = OMIT,
         tools: typing.Optional[typing.Sequence[CreateAgentRequestToolsItem]] = OMIT,
+        tasks: typing.Optional[typing.Sequence[Task]] = OMIT,
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
@@ -123,6 +125,9 @@ class AgentsClient:
 
         tools : typing.Optional[typing.Sequence[CreateAgentRequestToolsItem]]
             Array of built-in or custom tool names to use.
+
+        tasks : typing.Optional[typing.Sequence[Task]]
+            Array of task objects with `name` and `description` fields.
 
         no_input_poke_sec : typing.Optional[int]
             Number of seconds of silence before sending a poke message. `null` disables the poke message.
@@ -192,6 +197,7 @@ class AgentsClient:
             system_prompt=system_prompt,
             template_variables=template_variables,
             tools=tools,
+            tasks=tasks,
             no_input_poke_sec=no_input_poke_sec,
             no_input_poke_text=no_input_poke_text,
             no_input_end_conversation_sec=no_input_end_conversation_sec,
@@ -214,6 +220,7 @@ class AgentsClient:
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValue]] = OMIT,
         tools: typing.Optional[typing.Sequence[CreateAgentRequestToolsItem]] = OMIT,
+        tasks: typing.Optional[typing.Sequence[Task]] = OMIT,
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
@@ -254,6 +261,9 @@ class AgentsClient:
 
         tools : typing.Optional[typing.Sequence[CreateAgentRequestToolsItem]]
             Array of built-in or custom tool names to use.
+
+        tasks : typing.Optional[typing.Sequence[Task]]
+            Array of task objects with `name` and `description` fields.
 
         no_input_poke_sec : typing.Optional[int]
             Number of seconds of silence before sending a poke message. `null` disables the poke message.
@@ -324,6 +334,7 @@ class AgentsClient:
             system_prompt=system_prompt,
             template_variables=template_variables,
             tools=tools,
+            tasks=tasks,
             no_input_poke_sec=no_input_poke_sec,
             no_input_poke_text=no_input_poke_text,
             no_input_end_conversation_sec=no_input_end_conversation_sec,
@@ -427,6 +438,7 @@ class AgentsClient:
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, UpdateAgentRequestTemplateVariablesValue]] = OMIT,
         tools: typing.Optional[typing.Sequence[UpdateAgentRequestToolsItem]] = OMIT,
+        tasks: typing.Optional[typing.Sequence[Task]] = OMIT,
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
@@ -470,6 +482,9 @@ class AgentsClient:
 
         tools : typing.Optional[typing.Sequence[UpdateAgentRequestToolsItem]]
             Array of built-in or custom tool names to use.
+
+        tasks : typing.Optional[typing.Sequence[Task]]
+            Array of task objects with `name` and `description` fields.
 
         no_input_poke_sec : typing.Optional[int]
             Number of seconds of silence before sending a poke message. `null` disables the poke message.
@@ -542,6 +557,7 @@ class AgentsClient:
             system_prompt=system_prompt,
             template_variables=template_variables,
             tools=tools,
+            tasks=tasks,
             no_input_poke_sec=no_input_poke_sec,
             no_input_poke_text=no_input_poke_text,
             no_input_end_conversation_sec=no_input_end_conversation_sec,
@@ -619,6 +635,7 @@ class AsyncAgentsClient:
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValue]] = OMIT,
         tools: typing.Optional[typing.Sequence[CreateAgentRequestToolsItem]] = OMIT,
+        tasks: typing.Optional[typing.Sequence[Task]] = OMIT,
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
@@ -659,6 +676,9 @@ class AsyncAgentsClient:
 
         tools : typing.Optional[typing.Sequence[CreateAgentRequestToolsItem]]
             Array of built-in or custom tool names to use.
+
+        tasks : typing.Optional[typing.Sequence[Task]]
+            Array of task objects with `name` and `description` fields.
 
         no_input_poke_sec : typing.Optional[int]
             Number of seconds of silence before sending a poke message. `null` disables the poke message.
@@ -736,6 +756,7 @@ class AsyncAgentsClient:
             system_prompt=system_prompt,
             template_variables=template_variables,
             tools=tools,
+            tasks=tasks,
             no_input_poke_sec=no_input_poke_sec,
             no_input_poke_text=no_input_poke_text,
             no_input_end_conversation_sec=no_input_end_conversation_sec,
@@ -758,6 +779,7 @@ class AsyncAgentsClient:
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValue]] = OMIT,
         tools: typing.Optional[typing.Sequence[CreateAgentRequestToolsItem]] = OMIT,
+        tasks: typing.Optional[typing.Sequence[Task]] = OMIT,
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
@@ -798,6 +820,9 @@ class AsyncAgentsClient:
 
         tools : typing.Optional[typing.Sequence[CreateAgentRequestToolsItem]]
             Array of built-in or custom tool names to use.
+
+        tasks : typing.Optional[typing.Sequence[Task]]
+            Array of task objects with `name` and `description` fields.
 
         no_input_poke_sec : typing.Optional[int]
             Number of seconds of silence before sending a poke message. `null` disables the poke message.
@@ -876,6 +901,7 @@ class AsyncAgentsClient:
             system_prompt=system_prompt,
             template_variables=template_variables,
             tools=tools,
+            tasks=tasks,
             no_input_poke_sec=no_input_poke_sec,
             no_input_poke_text=no_input_poke_text,
             no_input_end_conversation_sec=no_input_end_conversation_sec,
@@ -995,6 +1021,7 @@ class AsyncAgentsClient:
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, UpdateAgentRequestTemplateVariablesValue]] = OMIT,
         tools: typing.Optional[typing.Sequence[UpdateAgentRequestToolsItem]] = OMIT,
+        tasks: typing.Optional[typing.Sequence[Task]] = OMIT,
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
@@ -1038,6 +1065,9 @@ class AsyncAgentsClient:
 
         tools : typing.Optional[typing.Sequence[UpdateAgentRequestToolsItem]]
             Array of built-in or custom tool names to use.
+
+        tasks : typing.Optional[typing.Sequence[Task]]
+            Array of task objects with `name` and `description` fields.
 
         no_input_poke_sec : typing.Optional[int]
             Number of seconds of silence before sending a poke message. `null` disables the poke message.
@@ -1118,6 +1148,7 @@ class AsyncAgentsClient:
             system_prompt=system_prompt,
             template_variables=template_variables,
             tools=tools,
+            tasks=tasks,
             no_input_poke_sec=no_input_poke_sec,
             no_input_poke_text=no_input_poke_text,
             no_input_end_conversation_sec=no_input_end_conversation_sec,

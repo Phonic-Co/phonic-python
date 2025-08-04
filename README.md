@@ -128,7 +128,7 @@ from phonic import Phonic
 
 client = Phonic(...)
 
-with client.sts.connect() as socket:
+with client.sts.connect(...) as socket:
     # Iterate over the messages as they arrive
     for message in socket
         print(message)
@@ -154,7 +154,7 @@ from phonic import AsyncPhonic
 
 client = AsyncPhonic(...)
 
-async with client.sts.connect() as socket:
+async with client.sts.connect(...) as socket:
     # Iterate over the messages as they arrive
     async for message in socket
         print(message)

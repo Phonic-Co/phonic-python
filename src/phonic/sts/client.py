@@ -3,6 +3,7 @@
 import typing
 from contextlib import asynccontextmanager, contextmanager
 
+import httpx
 import websockets.exceptions
 import websockets.sync.client as websockets_sync_client
 from ..core.api_error import ApiError
@@ -33,12 +34,36 @@ class StsClient:
         return self._raw_client
 
     @contextmanager
-    def connect(self, *, request_options: typing.Optional[RequestOptions] = None) -> typing.Iterator[StsSocketClient]:
+    def connect(
+        self,
+        *,
+        test: str,
+        downstream_websocket_url: str,
+        metadata: str,
+        d: str,
+        authorization: typing.Optional[str] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> typing.Iterator[StsSocketClient]:
         """
         Main STS WebSocket channel for real-time voice conversations
 
         Parameters
         ----------
+        test : str
+            Set to "true" for test conversations (admin only)
+
+        downstream_websocket_url : str
+            Custom downstream WebSocket URL
+
+        metadata : str
+            Set to "true" to include metadata in responses
+
+        d : str
+            Encrypted data for phone integrations
+
+        authorization : typing.Optional[str]
+            API key for authentication. Format: 'Bearer PHONIC_API_KEY'
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -47,7 +72,19 @@ class StsClient:
         StsSocketClient
         """
         ws_url = self._raw_client._client_wrapper.get_environment().production + "/v1/sts/ws"
+        query_params = httpx.QueryParams()
+        if test is not None:
+            query_params = query_params.add("Test", test)
+        if downstream_websocket_url is not None:
+            query_params = query_params.add("downstream_websocket_url", downstream_websocket_url)
+        if metadata is not None:
+            query_params = query_params.add("Metadata", metadata)
+        if d is not None:
+            query_params = query_params.add("D", d)
+        ws_url = ws_url + f"?{query_params}"
         headers = self._raw_client._client_wrapper.get_headers()
+        if authorization is not None:
+            headers["Authorization"] = str(authorization)
         if request_options and "additional_headers" in request_options:
             headers.update(request_options["additional_headers"])
         try:
@@ -85,13 +122,35 @@ class AsyncStsClient:
 
     @asynccontextmanager
     async def connect(
-        self, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        *,
+        test: str,
+        downstream_websocket_url: str,
+        metadata: str,
+        d: str,
+        authorization: typing.Optional[str] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.AsyncIterator[AsyncStsSocketClient]:
         """
         Main STS WebSocket channel for real-time voice conversations
 
         Parameters
         ----------
+        test : str
+            Set to "true" for test conversations (admin only)
+
+        downstream_websocket_url : str
+            Custom downstream WebSocket URL
+
+        metadata : str
+            Set to "true" to include metadata in responses
+
+        d : str
+            Encrypted data for phone integrations
+
+        authorization : typing.Optional[str]
+            API key for authentication. Format: 'Bearer PHONIC_API_KEY'
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -100,7 +159,19 @@ class AsyncStsClient:
         AsyncStsSocketClient
         """
         ws_url = self._raw_client._client_wrapper.get_environment().production + "/v1/sts/ws"
+        query_params = httpx.QueryParams()
+        if test is not None:
+            query_params = query_params.add("Test", test)
+        if downstream_websocket_url is not None:
+            query_params = query_params.add("downstream_websocket_url", downstream_websocket_url)
+        if metadata is not None:
+            query_params = query_params.add("Metadata", metadata)
+        if d is not None:
+            query_params = query_params.add("D", d)
+        ws_url = ws_url + f"?{query_params}"
         headers = self._raw_client._client_wrapper.get_headers()
+        if authorization is not None:
+            headers["Authorization"] = str(authorization)
         if request_options and "additional_headers" in request_options:
             headers.update(request_options["additional_headers"])
         try:

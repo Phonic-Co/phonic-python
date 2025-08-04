@@ -221,6 +221,14 @@ client.agents.create(
 <dl>
 <dd>
 
+**tasks:** `typing.Optional[typing.Sequence[Task]]` — Array of task objects with `name` and `description` fields.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **no_input_poke_sec:** `typing.Optional[int]` — Number of seconds of silence before sending a poke message. `null` disables the poke message.
     
 </dd>
@@ -420,6 +428,14 @@ client.agents.upsert(
 <dd>
 
 **tools:** `typing.Optional[typing.Sequence[CreateAgentRequestToolsItem]]` — Array of built-in or custom tool names to use.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**tasks:** `typing.Optional[typing.Sequence[Task]]` — Array of task objects with `name` and `description` fields.
     
 </dd>
 </dl>
@@ -791,6 +807,14 @@ client.agents.update(
 <dd>
 
 **tools:** `typing.Optional[typing.Sequence[UpdateAgentRequestToolsItem]]` — Array of built-in or custom tool names to use.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**tasks:** `typing.Optional[typing.Sequence[Task]]` — Array of task objects with `name` and `description` fields.
     
 </dd>
 </dl>
