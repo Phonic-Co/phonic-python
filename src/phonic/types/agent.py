@@ -9,6 +9,7 @@ from .agent_configuration_endpoint import AgentConfigurationEndpoint
 from .agent_project import AgentProject
 from .agent_template_variables_value import AgentTemplateVariablesValue
 from .agent_tools_item import AgentToolsItem
+from .task import Task
 
 
 class Agent(UniversalBaseModel):
@@ -65,6 +66,11 @@ class Agent(UniversalBaseModel):
     tools: typing.List[AgentToolsItem] = pydantic.Field()
     """
     List of tools available to the agent.
+    """
+
+    tasks: typing.List[Task] = pydantic.Field()
+    """
+    Tasks for the agent to complete during the conversation.
     """
 
     no_input_poke_sec: typing.Optional[int] = pydantic.Field(default=None)

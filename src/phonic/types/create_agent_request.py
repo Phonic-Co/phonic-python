@@ -8,6 +8,7 @@ from .create_agent_request_audio_format import CreateAgentRequestAudioFormat
 from .create_agent_request_configuration_endpoint import CreateAgentRequestConfigurationEndpoint
 from .create_agent_request_template_variables_value import CreateAgentRequestTemplateVariablesValue
 from .create_agent_request_tools_item import CreateAgentRequestToolsItem
+from .task import Task
 
 
 class CreateAgentRequest(UniversalBaseModel):
@@ -52,6 +53,11 @@ class CreateAgentRequest(UniversalBaseModel):
     tools: typing.Optional[typing.List[CreateAgentRequestToolsItem]] = pydantic.Field(default=None)
     """
     Array of built-in or custom tool names to use.
+    """
+
+    tasks: typing.Optional[typing.List[Task]] = pydantic.Field(default=None)
+    """
+    Array of task objects with `name` and `description` fields.
     """
 
     no_input_poke_sec: typing.Optional[int] = pydantic.Field(default=None)
