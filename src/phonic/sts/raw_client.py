@@ -35,6 +35,7 @@ class RawStsClient:
         Parameters
         ----------
         downstream_websocket_url : str
+            Custom downstream WebSocket URL
 
         authorization : typing.Optional[str]
             API key for authentication. Format: 'Bearer PHONIC_API_KEY'
@@ -92,6 +93,7 @@ class AsyncRawStsClient:
         Parameters
         ----------
         downstream_websocket_url : str
+            Custom downstream WebSocket URL
 
         authorization : typing.Optional[str]
             API key for authentication. Format: 'Bearer PHONIC_API_KEY'
