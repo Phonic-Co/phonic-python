@@ -25,10 +25,7 @@ class RawStsClient:
     def connect(
         self,
         *,
-        test: str,
         downstream_websocket_url: str,
-        metadata: str,
-        d: str,
         authorization: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.Iterator[StsSocketClient]:
@@ -37,17 +34,7 @@ class RawStsClient:
 
         Parameters
         ----------
-        test : str
-            Set to "true" for test conversations (admin only)
-
         downstream_websocket_url : str
-            Custom downstream WebSocket URL
-
-        metadata : str
-            Set to "true" to include metadata in responses
-
-        d : str
-            Encrypted data for phone integrations
 
         authorization : typing.Optional[str]
             API key for authentication. Format: 'Bearer PHONIC_API_KEY'
@@ -61,14 +48,8 @@ class RawStsClient:
         """
         ws_url = self._client_wrapper.get_environment().production + "/v1/sts/ws"
         query_params = httpx.QueryParams()
-        if test is not None:
-            query_params = query_params.add("Test", test)
         if downstream_websocket_url is not None:
             query_params = query_params.add("downstream_websocket_url", downstream_websocket_url)
-        if metadata is not None:
-            query_params = query_params.add("Metadata", metadata)
-        if d is not None:
-            query_params = query_params.add("D", d)
         ws_url = ws_url + f"?{query_params}"
         headers = self._client_wrapper.get_headers()
         if authorization is not None:
@@ -101,10 +82,7 @@ class AsyncRawStsClient:
     async def connect(
         self,
         *,
-        test: str,
         downstream_websocket_url: str,
-        metadata: str,
-        d: str,
         authorization: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.AsyncIterator[AsyncStsSocketClient]:
@@ -113,17 +91,7 @@ class AsyncRawStsClient:
 
         Parameters
         ----------
-        test : str
-            Set to "true" for test conversations (admin only)
-
         downstream_websocket_url : str
-            Custom downstream WebSocket URL
-
-        metadata : str
-            Set to "true" to include metadata in responses
-
-        d : str
-            Encrypted data for phone integrations
 
         authorization : typing.Optional[str]
             API key for authentication. Format: 'Bearer PHONIC_API_KEY'
@@ -137,14 +105,8 @@ class AsyncRawStsClient:
         """
         ws_url = self._client_wrapper.get_environment().production + "/v1/sts/ws"
         query_params = httpx.QueryParams()
-        if test is not None:
-            query_params = query_params.add("Test", test)
         if downstream_websocket_url is not None:
             query_params = query_params.add("downstream_websocket_url", downstream_websocket_url)
-        if metadata is not None:
-            query_params = query_params.add("Metadata", metadata)
-        if d is not None:
-            query_params = query_params.add("D", d)
         ws_url = ws_url + f"?{query_params}"
         headers = self._client_wrapper.get_headers()
         if authorization is not None:
