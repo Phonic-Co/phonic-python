@@ -63,7 +63,7 @@ class AsyncStsSocketClient(EventEmitterMixin):
 
     async def __aiter__(self):
         async for message in self._websocket:
-            yield parse_obj_as(StsSocketClientResponse, message)  # type: ignore
+            yield parse_obj_as(StsSocketClientResponse, json.loads(message))  # type: ignore
 
     async def start_listening(self):
         """
@@ -158,7 +158,7 @@ class StsSocketClient(EventEmitterMixin):
 
     def __iter__(self):
         for message in self._websocket:
-            yield parse_obj_as(StsSocketClientResponse, message)  # type: ignore
+            yield parse_obj_as(StsSocketClientResponse, json.loads(message))  # type: ignore
 
     def start_listening(self):
         """
