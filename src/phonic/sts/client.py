@@ -47,6 +47,7 @@ class StsClient:
         Parameters
         ----------
         downstream_websocket_url : str
+            Custom downstream WebSocket URL
 
         authorization : typing.Optional[str]
             API key for authentication. Format: 'Bearer PHONIC_API_KEY'
@@ -115,6 +116,7 @@ class AsyncStsClient:
         Parameters
         ----------
         downstream_websocket_url : str
+            Custom downstream WebSocket URL
 
         authorization : typing.Optional[str]
             API key for authentication. Format: 'Bearer PHONIC_API_KEY'
