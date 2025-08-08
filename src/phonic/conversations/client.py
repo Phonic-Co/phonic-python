@@ -15,7 +15,6 @@ from .types.conversations_list_evaluations_response import ConversationsListEval
 from .types.conversations_list_extractions_response import ConversationsListExtractionsResponse
 from .types.conversations_list_response import ConversationsListResponse
 from .types.conversations_outbound_call_response import ConversationsOutboundCallResponse
-from .types.conversations_summarize_response import ConversationsSummarizeResponse
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -175,39 +174,6 @@ class ConversationsClient:
         )
         """
         _response = self._raw_client.cancel(id, request_options=request_options)
-        return _response.data
-
-    def summarize(
-        self, id: str, *, request_options: typing.Optional[RequestOptions] = None
-    ) -> ConversationsSummarizeResponse:
-        """
-        Generates a summary of the specified conversation.
-
-        Parameters
-        ----------
-        id : str
-            The ID of the conversation to summarize.
-
-        request_options : typing.Optional[RequestOptions]
-            Request-specific configuration.
-
-        Returns
-        -------
-        ConversationsSummarizeResponse
-            Success response
-
-        Examples
-        --------
-        from phonic import Phonic
-
-        client = Phonic(
-            token="YOUR_TOKEN",
-        )
-        client.conversations.summarize(
-            id="id",
-        )
-        """
-        _response = self._raw_client.summarize(id, request_options=request_options)
         return _response.data
 
     def get_analysis(
@@ -436,6 +402,33 @@ class ConversationsClient:
         )
         return _response.data
 
+    def summarize(self, id: str, *, request_options: typing.Optional[RequestOptions] = None) -> None:
+        """
+        Parameters
+        ----------
+        id : str
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        None
+
+        Examples
+        --------
+        from phonic import Phonic
+
+        client = Phonic(
+            token="YOUR_TOKEN",
+        )
+        client.conversations.summarize(
+            id="id",
+        )
+        """
+        _response = self._raw_client.summarize(id, request_options=request_options)
+        return _response.data
+
 
 class AsyncConversationsClient:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
@@ -617,47 +610,6 @@ class AsyncConversationsClient:
         asyncio.run(main())
         """
         _response = await self._raw_client.cancel(id, request_options=request_options)
-        return _response.data
-
-    async def summarize(
-        self, id: str, *, request_options: typing.Optional[RequestOptions] = None
-    ) -> ConversationsSummarizeResponse:
-        """
-        Generates a summary of the specified conversation.
-
-        Parameters
-        ----------
-        id : str
-            The ID of the conversation to summarize.
-
-        request_options : typing.Optional[RequestOptions]
-            Request-specific configuration.
-
-        Returns
-        -------
-        ConversationsSummarizeResponse
-            Success response
-
-        Examples
-        --------
-        import asyncio
-
-        from phonic import AsyncPhonic
-
-        client = AsyncPhonic(
-            token="YOUR_TOKEN",
-        )
-
-
-        async def main() -> None:
-            await client.conversations.summarize(
-                id="id",
-            )
-
-
-        asyncio.run(main())
-        """
-        _response = await self._raw_client.summarize(id, request_options=request_options)
         return _response.data
 
     async def get_analysis(
@@ -932,4 +884,39 @@ class AsyncConversationsClient:
         _response = await self._raw_client.outbound_call(
             to_phone_number=to_phone_number, config=config, request_options=request_options
         )
+        return _response.data
+
+    async def summarize(self, id: str, *, request_options: typing.Optional[RequestOptions] = None) -> None:
+        """
+        Parameters
+        ----------
+        id : str
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        None
+
+        Examples
+        --------
+        import asyncio
+
+        from phonic import AsyncPhonic
+
+        client = AsyncPhonic(
+            token="YOUR_TOKEN",
+        )
+
+
+        async def main() -> None:
+            await client.conversations.summarize(
+                id="id",
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.summarize(id, request_options=request_options)
         return _response.data

@@ -24,6 +24,7 @@ from ..types.is_user_speaking_payload import IsUserSpeakingPayload
 from ..types.ready_to_start_conversation_payload import ReadyToStartConversationPayload
 from ..types.set_external_id_payload import SetExternalIdPayload
 from ..types.set_twilio_call_sid_payload import SetTwilioCallSidPayload
+from ..types.tool_call_interrupted_payload import ToolCallInterruptedPayload
 from ..types.tool_call_output_payload import ToolCallOutputPayload
 from ..types.tool_call_output_processed_payload import ToolCallOutputProcessedPayload
 from ..types.tool_call_payload import ToolCallPayload
@@ -50,6 +51,7 @@ StsSocketClientResponse = typing.Union[
     DtmfPayload,
     ToolCallPayload,
     ToolCallOutputProcessedPayload,
+    ToolCallInterruptedPayload,
     AssistantChoseNotToRespondPayload,
     AssistantEndedConversationPayload,
     ErrorPayload,

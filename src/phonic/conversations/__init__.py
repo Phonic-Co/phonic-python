@@ -13,7 +13,6 @@ from .types import (
     ConversationsListResponseConversation,
     ConversationsListResponseConversations,
     ConversationsOutboundCallResponse,
-    ConversationsSummarizeResponse,
 )
 
 __all__ = [
@@ -27,5 +26,4 @@ __all__ = [
     "ConversationsListResponseConversation",
     "ConversationsListResponseConversations",
     "ConversationsOutboundCallResponse",
-    "ConversationsSummarizeResponse",
 ]

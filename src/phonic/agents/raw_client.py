@@ -10,10 +10,14 @@ from ..core.jsonable_encoder import jsonable_encoder
 from ..core.pydantic_utilities import parse_obj_as
 from ..core.request_options import RequestOptions
 from ..core.serialization import convert_and_respect_annotation_metadata
+from ..errors.bad_request_error import BadRequestError
+from ..errors.forbidden_error import ForbiddenError
+from ..errors.not_found_error import NotFoundError
 from ..types.create_agent_request_audio_format import CreateAgentRequestAudioFormat
 from ..types.create_agent_request_configuration_endpoint import CreateAgentRequestConfigurationEndpoint
 from ..types.create_agent_request_template_variables_value import CreateAgentRequestTemplateVariablesValue
 from ..types.create_agent_request_tools_item import CreateAgentRequestToolsItem
+from ..types.error import Error
 from ..types.task import Task
 from .types.agents_create_response import AgentsCreateResponse
 from .types.agents_delete_response import AgentsDeleteResponse
@@ -86,6 +90,7 @@ class RawAgentsClient:
         timezone: typing.Optional[str] = OMIT,
         voice_id: typing.Optional[str] = OMIT,
         audio_format: typing.Optional[CreateAgentRequestAudioFormat] = OMIT,
+        audio_speed: typing.Optional[float] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValue]] = OMIT,
@@ -119,6 +124,9 @@ class RawAgentsClient:
 
         audio_format : typing.Optional[CreateAgentRequestAudioFormat]
             The audio format of the agent.
+
+        audio_speed : typing.Optional[float]
+            The audio speed of the agent.
 
         welcome_message : typing.Optional[str]
             Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`.
@@ -171,6 +179,7 @@ class RawAgentsClient:
                 "timezone": timezone,
                 "voice_id": voice_id,
                 "audio_format": audio_format,
+                "audio_speed": audio_speed,
                 "welcome_message": welcome_message,
                 "system_prompt": system_prompt,
                 "template_variables": convert_and_respect_annotation_metadata(
@@ -210,6 +219,28 @@ class RawAgentsClient:
                     ),
                 )
                 return HttpResponse(response=_response, data=_data)
+            if _response.status_code == 400:
+                raise BadRequestError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        parse_obj_as(
+                            type_=Error,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 404:
+                raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        parse_obj_as(
+                            type_=Error,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
@@ -224,6 +255,7 @@ class RawAgentsClient:
         timezone: typing.Optional[str] = OMIT,
         voice_id: typing.Optional[str] = OMIT,
         audio_format: typing.Optional[CreateAgentRequestAudioFormat] = OMIT,
+        audio_speed: typing.Optional[float] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValue]] = OMIT,
@@ -257,6 +289,9 @@ class RawAgentsClient:
 
         audio_format : typing.Optional[CreateAgentRequestAudioFormat]
             The audio format of the agent.
+
+        audio_speed : typing.Optional[float]
+            The audio speed of the agent.
 
         welcome_message : typing.Optional[str]
             Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`.
@@ -309,6 +344,7 @@ class RawAgentsClient:
                 "timezone": timezone,
                 "voice_id": voice_id,
                 "audio_format": audio_format,
+                "audio_speed": audio_speed,
                 "welcome_message": welcome_message,
                 "system_prompt": system_prompt,
                 "template_variables": convert_and_respect_annotation_metadata(
@@ -348,6 +384,28 @@ class RawAgentsClient:
                     ),
                 )
                 return HttpResponse(response=_response, data=_data)
+            if _response.status_code == 400:
+                raise BadRequestError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        parse_obj_as(
+                            type_=Error,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 404:
+                raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        parse_obj_as(
+                            type_=Error,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
@@ -398,6 +456,28 @@ class RawAgentsClient:
                     ),
                 )
                 return HttpResponse(response=_response, data=_data)
+            if _response.status_code == 403:
+                raise ForbiddenError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        parse_obj_as(
+                            type_=Error,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 404:
+                raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        parse_obj_as(
+                            type_=Error,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
@@ -448,6 +528,28 @@ class RawAgentsClient:
                     ),
                 )
                 return HttpResponse(response=_response, data=_data)
+            if _response.status_code == 403:
+                raise ForbiddenError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        parse_obj_as(
+                            type_=Error,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 404:
+                raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        parse_obj_as(
+                            type_=Error,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
@@ -463,6 +565,7 @@ class RawAgentsClient:
         timezone: typing.Optional[str] = OMIT,
         voice_id: typing.Optional[str] = OMIT,
         audio_format: typing.Optional[UpdateAgentRequestAudioFormat] = OMIT,
+        audio_speed: typing.Optional[float] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, UpdateAgentRequestTemplateVariablesValue]] = OMIT,
@@ -499,6 +602,9 @@ class RawAgentsClient:
 
         audio_format : typing.Optional[UpdateAgentRequestAudioFormat]
             The audio format of the agent.
+
+        audio_speed : typing.Optional[float]
+            The audio speed of the agent.
 
         welcome_message : typing.Optional[str]
             Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`.
@@ -551,6 +657,7 @@ class RawAgentsClient:
                 "timezone": timezone,
                 "voice_id": voice_id,
                 "audio_format": audio_format,
+                "audio_speed": audio_speed,
                 "welcome_message": welcome_message,
                 "system_prompt": system_prompt,
                 "template_variables": convert_and_respect_annotation_metadata(
@@ -590,6 +697,39 @@ class RawAgentsClient:
                     ),
                 )
                 return HttpResponse(response=_response, data=_data)
+            if _response.status_code == 400:
+                raise BadRequestError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        parse_obj_as(
+                            type_=Error,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 403:
+                raise ForbiddenError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        parse_obj_as(
+                            type_=Error,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 404:
+                raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        parse_obj_as(
+                            type_=Error,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
@@ -652,6 +792,7 @@ class AsyncRawAgentsClient:
         timezone: typing.Optional[str] = OMIT,
         voice_id: typing.Optional[str] = OMIT,
         audio_format: typing.Optional[CreateAgentRequestAudioFormat] = OMIT,
+        audio_speed: typing.Optional[float] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValue]] = OMIT,
@@ -685,6 +826,9 @@ class AsyncRawAgentsClient:
 
         audio_format : typing.Optional[CreateAgentRequestAudioFormat]
             The audio format of the agent.
+
+        audio_speed : typing.Optional[float]
+            The audio speed of the agent.
 
         welcome_message : typing.Optional[str]
             Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`.
@@ -737,6 +881,7 @@ class AsyncRawAgentsClient:
                 "timezone": timezone,
                 "voice_id": voice_id,
                 "audio_format": audio_format,
+                "audio_speed": audio_speed,
                 "welcome_message": welcome_message,
                 "system_prompt": system_prompt,
                 "template_variables": convert_and_respect_annotation_metadata(
@@ -776,6 +921,28 @@ class AsyncRawAgentsClient:
                     ),
                 )
                 return AsyncHttpResponse(response=_response, data=_data)
+            if _response.status_code == 400:
+                raise BadRequestError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        parse_obj_as(
+                            type_=Error,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 404:
+                raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        parse_obj_as(
+                            type_=Error,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
@@ -790,6 +957,7 @@ class AsyncRawAgentsClient:
         timezone: typing.Optional[str] = OMIT,
         voice_id: typing.Optional[str] = OMIT,
         audio_format: typing.Optional[CreateAgentRequestAudioFormat] = OMIT,
+        audio_speed: typing.Optional[float] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValue]] = OMIT,
@@ -823,6 +991,9 @@ class AsyncRawAgentsClient:
 
         audio_format : typing.Optional[CreateAgentRequestAudioFormat]
             The audio format of the agent.
+
+        audio_speed : typing.Optional[float]
+            The audio speed of the agent.
 
         welcome_message : typing.Optional[str]
             Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`.
@@ -875,6 +1046,7 @@ class AsyncRawAgentsClient:
                 "timezone": timezone,
                 "voice_id": voice_id,
                 "audio_format": audio_format,
+                "audio_speed": audio_speed,
                 "welcome_message": welcome_message,
                 "system_prompt": system_prompt,
                 "template_variables": convert_and_respect_annotation_metadata(
@@ -914,6 +1086,28 @@ class AsyncRawAgentsClient:
                     ),
                 )
                 return AsyncHttpResponse(response=_response, data=_data)
+            if _response.status_code == 400:
+                raise BadRequestError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        parse_obj_as(
+                            type_=Error,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 404:
+                raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        parse_obj_as(
+                            type_=Error,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
@@ -964,6 +1158,28 @@ class AsyncRawAgentsClient:
                     ),
                 )
                 return AsyncHttpResponse(response=_response, data=_data)
+            if _response.status_code == 403:
+                raise ForbiddenError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        parse_obj_as(
+                            type_=Error,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 404:
+                raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        parse_obj_as(
+                            type_=Error,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
@@ -1014,6 +1230,28 @@ class AsyncRawAgentsClient:
                     ),
                 )
                 return AsyncHttpResponse(response=_response, data=_data)
+            if _response.status_code == 403:
+                raise ForbiddenError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        parse_obj_as(
+                            type_=Error,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 404:
+                raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        parse_obj_as(
+                            type_=Error,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
@@ -1029,6 +1267,7 @@ class AsyncRawAgentsClient:
         timezone: typing.Optional[str] = OMIT,
         voice_id: typing.Optional[str] = OMIT,
         audio_format: typing.Optional[UpdateAgentRequestAudioFormat] = OMIT,
+        audio_speed: typing.Optional[float] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, UpdateAgentRequestTemplateVariablesValue]] = OMIT,
@@ -1065,6 +1304,9 @@ class AsyncRawAgentsClient:
 
         audio_format : typing.Optional[UpdateAgentRequestAudioFormat]
             The audio format of the agent.
+
+        audio_speed : typing.Optional[float]
+            The audio speed of the agent.
 
         welcome_message : typing.Optional[str]
             Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`.
@@ -1117,6 +1359,7 @@ class AsyncRawAgentsClient:
                 "timezone": timezone,
                 "voice_id": voice_id,
                 "audio_format": audio_format,
+                "audio_speed": audio_speed,
                 "welcome_message": welcome_message,
                 "system_prompt": system_prompt,
                 "template_variables": convert_and_respect_annotation_metadata(
@@ -1156,6 +1399,39 @@ class AsyncRawAgentsClient:
                     ),
                 )
                 return AsyncHttpResponse(response=_response, data=_data)
+            if _response.status_code == 400:
+                raise BadRequestError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        parse_obj_as(
+                            type_=Error,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 403:
+                raise ForbiddenError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        parse_obj_as(
+                            type_=Error,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 404:
+                raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        Error,
+                        parse_obj_as(
+                            type_=Error,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)

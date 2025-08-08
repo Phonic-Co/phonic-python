@@ -48,6 +48,11 @@ class Agent(UniversalBaseModel):
     The audio format of the agent. If the agent has a phone number, the audio format will be `mulaw_8000`.
     """
 
+    audio_speed: float = pydantic.Field()
+    """
+    The audio speed of the agent.
+    """
+
     welcome_message: typing.Optional[str] = pydantic.Field(default=None)
     """
     Message to play when the conversation starts.

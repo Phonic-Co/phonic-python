@@ -108,6 +108,7 @@ client.agents.create(
     name="support-agent",
     timezone="America/Los_Angeles",
     voice_id="sarah",
+    audio_speed=1.0,
     welcome_message="Hi {{customer_name}}. How can I help you today?",
     system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
     template_variables={
@@ -182,6 +183,14 @@ client.agents.create(
 <dd>
 
 **audio_format:** `typing.Optional[CreateAgentRequestAudioFormat]` — The audio format of the agent.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**audio_speed:** `typing.Optional[float]` — The audio speed of the agent.
     
 </dd>
 </dl>
@@ -322,6 +331,7 @@ client.agents.upsert(
     phone_number="assign-automatically",
     timezone="America/Los_Angeles",
     voice_id="sarah",
+    audio_speed=1.0,
     welcome_message="Hi {{customer_name}}. How can I help you today?",
     system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
     template_variables={
@@ -396,6 +406,14 @@ client.agents.upsert(
 <dd>
 
 **audio_format:** `typing.Optional[CreateAgentRequestAudioFormat]` — The audio format of the agent.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**audio_speed:** `typing.Optional[float]` — The audio speed of the agent.
     
 </dd>
 </dl>
@@ -693,6 +711,7 @@ client.agents.update(
     phone_number="assign-automatically",
     timezone="America/Los_Angeles",
     voice_id="sarah",
+    audio_speed=1.0,
     welcome_message="Hi {{customer_name}}. How can I help you today?",
     system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
     template_variables={
@@ -775,6 +794,14 @@ client.agents.update(
 <dd>
 
 **audio_format:** `typing.Optional[UpdateAgentRequestAudioFormat]` — The audio format of the agent.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**audio_speed:** `typing.Optional[float]` — The audio speed of the agent.
     
 </dd>
 </dl>
@@ -2279,76 +2306,6 @@ client.conversations.cancel(
 </dl>
 </details>
 
-<details><summary><code>client.conversations.<a href="src/phonic/conversations/client.py">summarize</a>(...)</code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Generates a summary of the specified conversation.
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```python
-from phonic import Phonic
-
-client = Phonic(
-    token="YOUR_TOKEN",
-)
-client.conversations.summarize(
-    id="id",
-)
-
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**id:** `str` — The ID of the conversation to summarize.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
-    
-</dd>
-</dl>
-</dd>
-</dl>
-
-
-</dd>
-</dl>
-</details>
-
 <details><summary><code>client.conversations.<a href="src/phonic/conversations/client.py">get_analysis</a>(...)</code></summary>
 <dl>
 <dd>
@@ -2788,6 +2745,62 @@ client.conversations.outbound_call(
 <dd>
 
 **config:** `typing.Optional[OutboundCallConfig]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.conversations.<a href="src/phonic/conversations/client.py">summarize</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from phonic import Phonic
+
+client = Phonic(
+    token="YOUR_TOKEN",
+)
+client.conversations.summarize(
+    id="id",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `str` 
     
 </dd>
 </dl>
