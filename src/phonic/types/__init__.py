@@ -55,6 +55,7 @@ from .set_external_id_payload import SetExternalIdPayload
 from .set_twilio_call_sid_payload import SetTwilioCallSidPayload
 from .task import Task
 from .tool import Tool
+from .tool_call_interrupted_payload import ToolCallInterruptedPayload
 from .tool_call_output_payload import ToolCallOutputPayload
 from .tool_call_output_processed_payload import ToolCallOutputProcessedPayload
 from .tool_call_output_processed_payload_tool import ToolCallOutputProcessedPayloadTool
@@ -124,6 +125,7 @@ __all__ = [
     "SetTwilioCallSidPayload",
     "Task",
     "Tool",
+    "ToolCallInterruptedPayload",
     "ToolCallOutputPayload",
     "ToolCallOutputProcessedPayload",
     "ToolCallOutputProcessedPayloadTool",

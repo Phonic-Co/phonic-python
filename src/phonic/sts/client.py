@@ -37,7 +37,7 @@ class StsClient:
     def connect(
         self,
         *,
-        downstream_websocket_url: str,
+        downstream_websocket_url: typing.Optional[str] = None,
         authorization: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.Iterator[StsSocketClient]:
@@ -46,7 +46,7 @@ class StsClient:
 
         Parameters
         ----------
-        downstream_websocket_url : str
+        downstream_websocket_url : typing.Optional[str]
             Custom downstream WebSocket URL
 
         authorization : typing.Optional[str]
@@ -106,7 +106,7 @@ class AsyncStsClient:
     async def connect(
         self,
         *,
-        downstream_websocket_url: str,
+        downstream_websocket_url: typing.Optional[str] = None,
         authorization: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.AsyncIterator[AsyncStsSocketClient]:
@@ -115,7 +115,7 @@ class AsyncStsClient:
 
         Parameters
         ----------
-        downstream_websocket_url : str
+        downstream_websocket_url : typing.Optional[str]
             Custom downstream WebSocket URL
 
         authorization : typing.Optional[str]

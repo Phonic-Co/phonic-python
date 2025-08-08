@@ -12,7 +12,6 @@ from .conversations_list_response import ConversationsListResponse
 from .conversations_list_response_conversation import ConversationsListResponseConversation
 from .conversations_list_response_conversations import ConversationsListResponseConversations
 from .conversations_outbound_call_response import ConversationsOutboundCallResponse
-from .conversations_summarize_response import ConversationsSummarizeResponse
 
 __all__ = [
     "ConversationsCancelResponse",
@@ -25,5 +24,4 @@ __all__ = [
     "ConversationsListResponseConversation",
     "ConversationsListResponseConversations",
     "ConversationsOutboundCallResponse",
-    "ConversationsSummarizeResponse",
 ]

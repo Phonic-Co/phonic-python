@@ -80,6 +80,7 @@ class AgentsClient:
         timezone: typing.Optional[str] = OMIT,
         voice_id: typing.Optional[str] = OMIT,
         audio_format: typing.Optional[CreateAgentRequestAudioFormat] = OMIT,
+        audio_speed: typing.Optional[float] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValue]] = OMIT,
@@ -113,6 +114,9 @@ class AgentsClient:
 
         audio_format : typing.Optional[CreateAgentRequestAudioFormat]
             The audio format of the agent.
+
+        audio_speed : typing.Optional[float]
+            The audio speed of the agent.
 
         welcome_message : typing.Optional[str]
             Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`.
@@ -167,6 +171,7 @@ class AgentsClient:
             name="support-agent",
             timezone="America/Los_Angeles",
             voice_id="sarah",
+            audio_speed=1.0,
             welcome_message="Hi {{customer_name}}. How can I help you today?",
             system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
             template_variables={
@@ -193,6 +198,7 @@ class AgentsClient:
             timezone=timezone,
             voice_id=voice_id,
             audio_format=audio_format,
+            audio_speed=audio_speed,
             welcome_message=welcome_message,
             system_prompt=system_prompt,
             template_variables=template_variables,
@@ -216,6 +222,7 @@ class AgentsClient:
         timezone: typing.Optional[str] = OMIT,
         voice_id: typing.Optional[str] = OMIT,
         audio_format: typing.Optional[CreateAgentRequestAudioFormat] = OMIT,
+        audio_speed: typing.Optional[float] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValue]] = OMIT,
@@ -249,6 +256,9 @@ class AgentsClient:
 
         audio_format : typing.Optional[CreateAgentRequestAudioFormat]
             The audio format of the agent.
+
+        audio_speed : typing.Optional[float]
+            The audio speed of the agent.
 
         welcome_message : typing.Optional[str]
             Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`.
@@ -304,6 +314,7 @@ class AgentsClient:
             phone_number="assign-automatically",
             timezone="America/Los_Angeles",
             voice_id="sarah",
+            audio_speed=1.0,
             welcome_message="Hi {{customer_name}}. How can I help you today?",
             system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
             template_variables={
@@ -330,6 +341,7 @@ class AgentsClient:
             timezone=timezone,
             voice_id=voice_id,
             audio_format=audio_format,
+            audio_speed=audio_speed,
             welcome_message=welcome_message,
             system_prompt=system_prompt,
             template_variables=template_variables,
@@ -434,6 +446,7 @@ class AgentsClient:
         timezone: typing.Optional[str] = OMIT,
         voice_id: typing.Optional[str] = OMIT,
         audio_format: typing.Optional[UpdateAgentRequestAudioFormat] = OMIT,
+        audio_speed: typing.Optional[float] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, UpdateAgentRequestTemplateVariablesValue]] = OMIT,
@@ -470,6 +483,9 @@ class AgentsClient:
 
         audio_format : typing.Optional[UpdateAgentRequestAudioFormat]
             The audio format of the agent.
+
+        audio_speed : typing.Optional[float]
+            The audio speed of the agent.
 
         welcome_message : typing.Optional[str]
             Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`.
@@ -526,6 +542,7 @@ class AgentsClient:
             phone_number="assign-automatically",
             timezone="America/Los_Angeles",
             voice_id="sarah",
+            audio_speed=1.0,
             welcome_message="Hi {{customer_name}}. How can I help you today?",
             system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
             template_variables={
@@ -553,6 +570,7 @@ class AgentsClient:
             timezone=timezone,
             voice_id=voice_id,
             audio_format=audio_format,
+            audio_speed=audio_speed,
             welcome_message=welcome_message,
             system_prompt=system_prompt,
             template_variables=template_variables,
@@ -631,6 +649,7 @@ class AsyncAgentsClient:
         timezone: typing.Optional[str] = OMIT,
         voice_id: typing.Optional[str] = OMIT,
         audio_format: typing.Optional[CreateAgentRequestAudioFormat] = OMIT,
+        audio_speed: typing.Optional[float] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValue]] = OMIT,
@@ -664,6 +683,9 @@ class AsyncAgentsClient:
 
         audio_format : typing.Optional[CreateAgentRequestAudioFormat]
             The audio format of the agent.
+
+        audio_speed : typing.Optional[float]
+            The audio speed of the agent.
 
         welcome_message : typing.Optional[str]
             Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`.
@@ -723,6 +745,7 @@ class AsyncAgentsClient:
                 name="support-agent",
                 timezone="America/Los_Angeles",
                 voice_id="sarah",
+                audio_speed=1.0,
                 welcome_message="Hi {{customer_name}}. How can I help you today?",
                 system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
                 template_variables={
@@ -752,6 +775,7 @@ class AsyncAgentsClient:
             timezone=timezone,
             voice_id=voice_id,
             audio_format=audio_format,
+            audio_speed=audio_speed,
             welcome_message=welcome_message,
             system_prompt=system_prompt,
             template_variables=template_variables,
@@ -775,6 +799,7 @@ class AsyncAgentsClient:
         timezone: typing.Optional[str] = OMIT,
         voice_id: typing.Optional[str] = OMIT,
         audio_format: typing.Optional[CreateAgentRequestAudioFormat] = OMIT,
+        audio_speed: typing.Optional[float] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValue]] = OMIT,
@@ -808,6 +833,9 @@ class AsyncAgentsClient:
 
         audio_format : typing.Optional[CreateAgentRequestAudioFormat]
             The audio format of the agent.
+
+        audio_speed : typing.Optional[float]
+            The audio speed of the agent.
 
         welcome_message : typing.Optional[str]
             Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`.
@@ -868,6 +896,7 @@ class AsyncAgentsClient:
                 phone_number="assign-automatically",
                 timezone="America/Los_Angeles",
                 voice_id="sarah",
+                audio_speed=1.0,
                 welcome_message="Hi {{customer_name}}. How can I help you today?",
                 system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
                 template_variables={
@@ -897,6 +926,7 @@ class AsyncAgentsClient:
             timezone=timezone,
             voice_id=voice_id,
             audio_format=audio_format,
+            audio_speed=audio_speed,
             welcome_message=welcome_message,
             system_prompt=system_prompt,
             template_variables=template_variables,
@@ -1017,6 +1047,7 @@ class AsyncAgentsClient:
         timezone: typing.Optional[str] = OMIT,
         voice_id: typing.Optional[str] = OMIT,
         audio_format: typing.Optional[UpdateAgentRequestAudioFormat] = OMIT,
+        audio_speed: typing.Optional[float] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, UpdateAgentRequestTemplateVariablesValue]] = OMIT,
@@ -1053,6 +1084,9 @@ class AsyncAgentsClient:
 
         audio_format : typing.Optional[UpdateAgentRequestAudioFormat]
             The audio format of the agent.
+
+        audio_speed : typing.Optional[float]
+            The audio speed of the agent.
 
         welcome_message : typing.Optional[str]
             Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`.
@@ -1114,6 +1148,7 @@ class AsyncAgentsClient:
                 phone_number="assign-automatically",
                 timezone="America/Los_Angeles",
                 voice_id="sarah",
+                audio_speed=1.0,
                 welcome_message="Hi {{customer_name}}. How can I help you today?",
                 system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
                 template_variables={
@@ -1144,6 +1179,7 @@ class AsyncAgentsClient:
             timezone=timezone,
             voice_id=voice_id,
             audio_format=audio_format,
+            audio_speed=audio_speed,
             welcome_message=welcome_message,
             system_prompt=system_prompt,
             template_variables=template_variables,

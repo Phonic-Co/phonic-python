@@ -56,6 +56,7 @@ from .types import (
     SetTwilioCallSidPayload,
     Task,
     Tool,
+    ToolCallInterruptedPayload,
     ToolCallOutputPayload,
     ToolCallOutputProcessedPayload,
     ToolCallOutputProcessedPayloadTool,
@@ -71,7 +72,7 @@ from .types import (
     UserStartedSpeakingPayload,
     Voice,
 )
-from .errors import BadRequestError, ConflictError, GatewayTimeoutError, NotFoundError
+from .errors import BadRequestError, ConflictError, ForbiddenError, GatewayTimeoutError, NotFoundError
 from . import agents, conversations, extraction_schemas, projects, sts, tools, voices
 from .agents import (
     AgentsCreateResponse,
@@ -97,7 +98,6 @@ from .conversations import (
     ConversationsListResponseConversation,
     ConversationsListResponseConversations,
     ConversationsOutboundCallResponse,
-    ConversationsSummarizeResponse,
 )
 from .environment import PhonicEnvironment
 from .extraction_schemas import (
@@ -177,7 +177,6 @@ __all__ = [
     "ConversationsListResponseConversation",
     "ConversationsListResponseConversations",
     "ConversationsOutboundCallResponse",
-    "ConversationsSummarizeResponse",
     "CreateAgentRequest",
     "CreateAgentRequestAudioFormat",
     "CreateAgentRequestConfigurationEndpoint",
@@ -198,6 +197,7 @@ __all__ = [
     "ExtractionSchemasGetResponse",
     "ExtractionSchemasListResponse",
     "ExtractionSchemasUpdateResponse",
+    "ForbiddenError",
     "GatewayTimeoutError",
     "InputCancelledPayload",
     "InputTextPayload",
@@ -222,6 +222,7 @@ __all__ = [
     "SetTwilioCallSidPayload",
     "Task",
     "Tool",
+    "ToolCallInterruptedPayload",
     "ToolCallOutputPayload",
     "ToolCallOutputProcessedPayload",
     "ToolCallOutputProcessedPayloadTool",
