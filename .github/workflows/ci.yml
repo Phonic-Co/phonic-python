@@ -52,10 +52,9 @@ jobs:
           curl -sSL https://install.python-poetry.org | python - -y --version 1.5.1
       - name: Install dependencies
         run: poetry install
-      - name: Publish to pypi
-        run: |
-          poetry config pypi-token.pypi "$PYPI_TOKEN"
-          poetry build
-          poetry publish
+      - name: Publish to PyPI
         env:
-          PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
+          POETRY_PYPI_TOKEN_PYPI: ${{ secrets.PYPI_TOKEN }}
+        run: |
+          poetry build
+          poetry publish --no-interaction
