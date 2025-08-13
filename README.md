@@ -1,6 +1,6 @@
 # Phonic Python Library
 
-[![fern shield](https://img.shields.io/badge/%F0%9F%8C%BF-Built%20with%20Fern-brightgreen)](https://buildwithfern.com?utm_source=github&utm_medium=github&utm_campaign=readme&utm_source=https%3A%2F%2Fgithub.com%2Ffern-demo%2Fphonic-python-sdk)
+[![fern shield](https://img.shields.io/badge/%F0%9F%8C%BF-Built%20with%20Fern-brightgreen)](https://buildwithfern.com?utm_source=github&utm_medium=github&utm_campaign=readme&utm_source=https%3A%2F%2Fgithub.com%2FPhonic-Co%2Fphonic-python)
 [![pypi](https://img.shields.io/pypi/v/phonic)](https://pypi.python.org/pypi/phonic)
 
 The Phonic Python library provides convenient access to the Phonic API from Python.
@@ -13,7 +13,7 @@ pip install phonic
 
 ## Reference
 
-A full reference for this library is available [here](https://github.com/fern-demo/phonic-python-sdk/blob/HEAD/./reference.md).
+A full reference for this library is available [here](https://github.com/Phonic-Co/phonic-python/blob/HEAD/./reference.md).
 
 ## Usage
 
@@ -27,9 +27,9 @@ from phonic import (
 )
 
 client = Phonic(
-    token="YOUR_TOKEN",
+    api_key="YOUR_API_KEY",
 )
-client.agents.create(
+client.post_agents(
     name="support-agent",
     timezone="America/Los_Angeles",
     voice_id="sarah",
@@ -68,12 +68,12 @@ from phonic import (
 )
 
 client = AsyncPhonic(
-    token="YOUR_TOKEN",
+    api_key="YOUR_API_KEY",
 )
 
 
 async def main() -> None:
-    await client.agents.create(
+    await client.post_agents(
         name="support-agent",
         timezone="America/Los_Angeles",
         voice_id="sarah",
@@ -110,7 +110,7 @@ will be thrown.
 from phonic.core.api_error import ApiError
 
 try:
-    client.agents.create(...)
+    client.post_agents(...)
 except ApiError as e:
     print(e.status_code)
     print(e.body)
@@ -130,7 +130,7 @@ from phonic import Phonic
 
 client = Phonic(...)
 
-with client.sts.connect(...) as socket:
+with client.conversations.connect(...) as socket:
     # Iterate over the messages as they arrive
     for message in socket
         print(message)
@@ -156,7 +156,7 @@ from phonic import AsyncPhonic
 
 client = AsyncPhonic(...)
 
-async with client.sts.connect(...) as socket:
+async with client.conversations.connect(...) as socket:
     # Iterate over the messages as they arrive
     async for message in socket
         print(message)
@@ -185,7 +185,7 @@ from phonic import Phonic
 client = Phonic(
     ...,
 )
-response = client.agents.with_raw_response.create(...)
+response = client.with_raw_response.post_agents(...)
 print(response.headers)  # access the response headers
 print(response.data)  # access the underlying object
 ```
@@ -205,7 +205,7 @@ A request is deemed retryable when any of the following HTTP status codes is ret
 Use the `max_retries` request option to configure this behavior.
 
 ```python
-client.agents.create(..., request_options={
+client.post_agents(..., request_options={
     "max_retries": 1
 })
 ```
@@ -225,7 +225,7 @@ client = Phonic(
 
 
 # Override timeout for a specific method
-client.agents.create(..., request_options={
+client.post_agents(..., request_options={
     "timeout_in_seconds": 1
 })
 ```

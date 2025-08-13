@@ -5,6 +5,7 @@ import typing
 
 import pydantic
 from ..core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from .conversation_agent import ConversationAgent
 from .conversation_item import ConversationItem
 
 
@@ -12,6 +13,11 @@ class Conversation(UniversalBaseModel):
     id: str = pydantic.Field()
     """
     The conversation ID.
+    """
+
+    agent: typing.Optional[ConversationAgent] = pydantic.Field(default=None)
+    """
+    The agent associated with the conversation.
     """
 
     workspace: str = pydantic.Field()
