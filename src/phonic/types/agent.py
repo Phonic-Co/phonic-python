@@ -50,7 +50,7 @@ class Agent(UniversalBaseModel):
 
     audio_speed: float = pydantic.Field()
     """
-    The audio speed of the agent.
+    The audio speed of the agent. Must be a multiple of 0.1.
     """
 
     welcome_message: typing.Optional[str] = pydantic.Field(default=None)

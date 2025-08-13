@@ -13,10 +13,14 @@ from .assistant_ended_conversation_payload import AssistantEndedConversationPayl
 from .audio_chunk_payload import AudioChunkPayload
 from .audio_chunk_response_payload import AudioChunkResponsePayload
 from .audio_finished_payload import AudioFinishedPayload
+from .bad_request_error_body import BadRequestErrorBody
+from .basic_error import BasicError
+from .basic_error_error import BasicErrorError
 from .config_payload import ConfigPayload
 from .config_payload_input_format import ConfigPayloadInputFormat
 from .config_payload_output_format import ConfigPayloadOutputFormat
 from .conversation import Conversation
+from .conversation_agent import ConversationAgent
 from .conversation_analysis import ConversationAnalysis
 from .conversation_created_payload import ConversationCreatedPayload
 from .conversation_eval import ConversationEval
@@ -34,22 +38,58 @@ from .create_agent_request_audio_format import CreateAgentRequestAudioFormat
 from .create_agent_request_configuration_endpoint import CreateAgentRequestConfigurationEndpoint
 from .create_agent_request_template_variables_value import CreateAgentRequestTemplateVariablesValue
 from .create_agent_request_tools_item import CreateAgentRequestToolsItem
+from .create_tool_request_execution_mode import CreateToolRequestExecutionMode
+from .create_tool_request_type import CreateToolRequestType
+from .delete_agents_name_or_id_response import DeleteAgentsNameOrIdResponse
+from .delete_extraction_schemas_name_or_id_response import DeleteExtractionSchemasNameOrIdResponse
+from .delete_projects_name_or_id_response import DeleteProjectsNameOrIdResponse
+from .delete_tools_name_or_id_response import DeleteToolsNameOrIdResponse
 from .dtmf_payload import DtmfPayload
 from .error import Error
-from .error_error import ErrorError
 from .error_payload import ErrorPayload
 from .error_payload_error import ErrorPayloadError
 from .extraction_field import ExtractionField
 from .extraction_field_type import ExtractionFieldType
 from .extraction_schema import ExtractionSchema
+from .get_agents_name_or_id_response import GetAgentsNameOrIdResponse
+from .get_agents_response import GetAgentsResponse
+from .get_conversations_id_analysis_response import GetConversationsIdAnalysisResponse
+from .get_conversations_id_evals_response import GetConversationsIdEvalsResponse
+from .get_conversations_id_extractions_response import GetConversationsIdExtractionsResponse
+from .get_conversations_id_response import GetConversationsIdResponse
+from .get_conversations_response import GetConversationsResponse
+from .get_conversations_response_conversation import GetConversationsResponseConversation
+from .get_conversations_response_conversations import GetConversationsResponseConversations
+from .get_extraction_schemas_name_or_id_response import GetExtractionSchemasNameOrIdResponse
+from .get_extraction_schemas_response import GetExtractionSchemasResponse
+from .get_projects_id_conversation_eval_prompts_response import GetProjectsIdConversationEvalPromptsResponse
+from .get_projects_name_or_id_response import GetProjectsNameOrIdResponse
+from .get_projects_response import GetProjectsResponse
+from .get_tools_name_or_id_response import GetToolsNameOrIdResponse
+from .get_tools_response import GetToolsResponse
+from .get_voices_id_response import GetVoicesIdResponse
+from .get_voices_response import GetVoicesResponse
 from .input_cancelled_payload import InputCancelledPayload
 from .input_text_payload import InputTextPayload
 from .interrupted_response_payload import InterruptedResponsePayload
-from .is_user_speaking_payload import IsUserSpeakingPayload
 from .outbound_call_config import OutboundCallConfig
 from .outbound_call_config_tools_item import OutboundCallConfigToolsItem
+from .patch_agents_name_or_id_response import PatchAgentsNameOrIdResponse
+from .patch_extraction_schemas_name_or_id_response import PatchExtractionSchemasNameOrIdResponse
+from .patch_projects_name_or_id_response import PatchProjectsNameOrIdResponse
+from .patch_tools_name_or_id_response import PatchToolsNameOrIdResponse
+from .post_agents_response import PostAgentsResponse
+from .post_conversations_id_cancel_response import PostConversationsIdCancelResponse
+from .post_conversations_id_extractions_response import PostConversationsIdExtractionsResponse
+from .post_conversations_outbound_call_response import PostConversationsOutboundCallResponse
+from .post_conversations_sip_outbound_call_response import PostConversationsSipOutboundCallResponse
+from .post_extraction_schemas_response import PostExtractionSchemasResponse
+from .post_projects_id_conversation_eval_prompts_response import PostProjectsIdConversationEvalPromptsResponse
+from .post_projects_response import PostProjectsResponse
+from .post_tools_response import PostToolsResponse
 from .project import Project
 from .project_default_agent import ProjectDefaultAgent
+from .put_agents_upsert_response import PutAgentsUpsertResponse
 from .ready_to_start_conversation_payload import ReadyToStartConversationPayload
 from .set_external_id_payload import SetExternalIdPayload
 from .set_twilio_call_sid_payload import SetTwilioCallSidPayload
@@ -66,9 +106,17 @@ from .tool_parameter_item_type import ToolParameterItemType
 from .tool_parameter_type import ToolParameterType
 from .tool_project import ToolProject
 from .tool_type import ToolType
+from .update_agent_request_audio_format import UpdateAgentRequestAudioFormat
+from .update_agent_request_configuration_endpoint import UpdateAgentRequestConfigurationEndpoint
+from .update_agent_request_template_variables_value import UpdateAgentRequestTemplateVariablesValue
+from .update_agent_request_tools_item import UpdateAgentRequestToolsItem
 from .update_system_prompt_payload import UpdateSystemPromptPayload
+from .update_tool_request_execution_mode import UpdateToolRequestExecutionMode
+from .update_tool_request_type import UpdateToolRequestType
 from .user_finished_speaking_payload import UserFinishedSpeakingPayload
 from .user_started_speaking_payload import UserStartedSpeakingPayload
+from .validation_error import ValidationError
+from .validation_error_error import ValidationErrorError
 from .voice import Voice
 
 __all__ = [
@@ -83,10 +131,14 @@ __all__ = [
     "AudioChunkPayload",
     "AudioChunkResponsePayload",
     "AudioFinishedPayload",
+    "BadRequestErrorBody",
+    "BasicError",
+    "BasicErrorError",
     "ConfigPayload",
     "ConfigPayloadInputFormat",
     "ConfigPayloadOutputFormat",
     "Conversation",
+    "ConversationAgent",
     "ConversationAnalysis",
     "ConversationCreatedPayload",
     "ConversationEval",
@@ -104,22 +156,58 @@ __all__ = [
     "CreateAgentRequestConfigurationEndpoint",
     "CreateAgentRequestTemplateVariablesValue",
     "CreateAgentRequestToolsItem",
+    "CreateToolRequestExecutionMode",
+    "CreateToolRequestType",
+    "DeleteAgentsNameOrIdResponse",
+    "DeleteExtractionSchemasNameOrIdResponse",
+    "DeleteProjectsNameOrIdResponse",
+    "DeleteToolsNameOrIdResponse",
     "DtmfPayload",
     "Error",
-    "ErrorError",
     "ErrorPayload",
     "ErrorPayloadError",
     "ExtractionField",
     "ExtractionFieldType",
     "ExtractionSchema",
+    "GetAgentsNameOrIdResponse",
+    "GetAgentsResponse",
+    "GetConversationsIdAnalysisResponse",
+    "GetConversationsIdEvalsResponse",
+    "GetConversationsIdExtractionsResponse",
+    "GetConversationsIdResponse",
+    "GetConversationsResponse",
+    "GetConversationsResponseConversation",
+    "GetConversationsResponseConversations",
+    "GetExtractionSchemasNameOrIdResponse",
+    "GetExtractionSchemasResponse",
+    "GetProjectsIdConversationEvalPromptsResponse",
+    "GetProjectsNameOrIdResponse",
+    "GetProjectsResponse",
+    "GetToolsNameOrIdResponse",
+    "GetToolsResponse",
+    "GetVoicesIdResponse",
+    "GetVoicesResponse",
     "InputCancelledPayload",
     "InputTextPayload",
     "InterruptedResponsePayload",
-    "IsUserSpeakingPayload",
     "OutboundCallConfig",
     "OutboundCallConfigToolsItem",
+    "PatchAgentsNameOrIdResponse",
+    "PatchExtractionSchemasNameOrIdResponse",
+    "PatchProjectsNameOrIdResponse",
+    "PatchToolsNameOrIdResponse",
+    "PostAgentsResponse",
+    "PostConversationsIdCancelResponse",
+    "PostConversationsIdExtractionsResponse",
+    "PostConversationsOutboundCallResponse",
+    "PostConversationsSipOutboundCallResponse",
+    "PostExtractionSchemasResponse",
+    "PostProjectsIdConversationEvalPromptsResponse",
+    "PostProjectsResponse",
+    "PostToolsResponse",
     "Project",
     "ProjectDefaultAgent",
+    "PutAgentsUpsertResponse",
     "ReadyToStartConversationPayload",
     "SetExternalIdPayload",
     "SetTwilioCallSidPayload",
@@ -136,8 +224,16 @@ __all__ = [
     "ToolParameterType",
     "ToolProject",
     "ToolType",
+    "UpdateAgentRequestAudioFormat",
+    "UpdateAgentRequestConfigurationEndpoint",
+    "UpdateAgentRequestTemplateVariablesValue",
+    "UpdateAgentRequestToolsItem",
     "UpdateSystemPromptPayload",
+    "UpdateToolRequestExecutionMode",
+    "UpdateToolRequestType",
     "UserFinishedSpeakingPayload",
     "UserStartedSpeakingPayload",
+    "ValidationError",
+    "ValidationErrorError",
     "Voice",
 ]

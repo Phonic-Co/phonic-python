@@ -5,4 +5,4 @@ import typing
 from .basic_error import BasicError
 from .validation_error import ValidationError
 
-Error = typing.Union[BasicError, ValidationError]
+BadRequestErrorBody = typing.Union[ValidationError, BasicError]
