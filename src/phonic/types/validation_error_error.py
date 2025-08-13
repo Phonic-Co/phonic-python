@@ -6,11 +6,10 @@ import pydantic
 from ..core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 
 
-class IsUserSpeakingPayload(UniversalBaseModel):
-    type: typing.Literal["is_user_speaking"] = "is_user_speaking"
-    is_user_speaking: bool = pydantic.Field()
+class ValidationErrorError(UniversalBaseModel):
+    message: str = pydantic.Field()
     """
-    Whether user is currently speaking
+    Error message
     """
 
     if IS_PYDANTIC_V2:

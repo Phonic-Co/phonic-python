@@ -30,7 +30,7 @@ Returns all agents in a project.
 from phonic import Phonic
 
 client = Phonic(
-    token="YOUR_TOKEN",
+    api_key="YOUR_API_KEY",
 )
 client.agents.list()
 
@@ -102,7 +102,7 @@ from phonic import (
 )
 
 client = Phonic(
-    token="YOUR_TOKEN",
+    api_key="YOUR_API_KEY",
 )
 client.agents.create(
     name="support-agent",
@@ -324,7 +324,7 @@ from phonic import (
 )
 
 client = Phonic(
-    token="YOUR_TOKEN",
+    api_key="YOUR_API_KEY",
 )
 client.agents.upsert(
     name="support-agent",
@@ -543,7 +543,7 @@ Returns an agent by name or ID.
 from phonic import Phonic
 
 client = Phonic(
-    token="YOUR_TOKEN",
+    api_key="YOUR_API_KEY",
 )
 client.agents.get(
     name_or_id="nameOrId",
@@ -621,7 +621,7 @@ Deletes an agent by name or ID.
 from phonic import Phonic
 
 client = Phonic(
-    token="YOUR_TOKEN",
+    api_key="YOUR_API_KEY",
 )
 client.agents.delete(
     name_or_id="nameOrId",
@@ -703,7 +703,7 @@ from phonic.agents import (
 )
 
 client = Phonic(
-    token="YOUR_TOKEN",
+    api_key="YOUR_API_KEY",
 )
 client.agents.update(
     name_or_id="nameOrId",
@@ -932,7 +932,7 @@ Returns all custom tools for the organization.
 from phonic import Phonic
 
 client = Phonic(
-    token="YOUR_TOKEN",
+    api_key="YOUR_API_KEY",
 )
 client.tools.list()
 
@@ -1000,7 +1000,7 @@ Creates a new tool in a project.
 from phonic import Phonic, ToolParameter
 
 client = Phonic(
-    token="YOUR_TOKEN",
+    api_key="YOUR_API_KEY",
 )
 client.tools.create(
     name="check_inventory",
@@ -1162,7 +1162,7 @@ Returns a tool by name or ID.
 from phonic import Phonic
 
 client = Phonic(
-    token="YOUR_TOKEN",
+    api_key="YOUR_API_KEY",
 )
 client.tools.get(
     name_or_id="nameOrId",
@@ -1240,7 +1240,7 @@ Deletes a tool by name or ID.
 from phonic import Phonic
 
 client = Phonic(
-    token="YOUR_TOKEN",
+    api_key="YOUR_API_KEY",
 )
 client.tools.delete(
     name_or_id="nameOrId",
@@ -1318,7 +1318,7 @@ Updates a tool by name or ID.
 from phonic import Phonic
 
 client = Phonic(
-    token="YOUR_TOKEN",
+    api_key="YOUR_API_KEY",
 )
 client.tools.update(
     name_or_id="nameOrId",
@@ -1480,7 +1480,7 @@ Returns all extraction schemas in a project.
 from phonic import Phonic
 
 client = Phonic(
-    token="YOUR_TOKEN",
+    api_key="YOUR_API_KEY",
 )
 client.extraction_schemas.list()
 
@@ -1548,7 +1548,7 @@ Creates a new extraction schema in a project.
 from phonic import ExtractionField, Phonic
 
 client = Phonic(
-    token="YOUR_TOKEN",
+    api_key="YOUR_API_KEY",
 )
 client.extraction_schemas.create(
     name="Appointment details",
@@ -1660,7 +1660,7 @@ Returns an extraction schema by name or ID.
 from phonic import Phonic
 
 client = Phonic(
-    token="YOUR_TOKEN",
+    api_key="YOUR_API_KEY",
 )
 client.extraction_schemas.get(
     name_or_id="nameOrId",
@@ -1738,7 +1738,7 @@ Deletes an extraction schema by name or ID.
 from phonic import Phonic
 
 client = Phonic(
-    token="YOUR_TOKEN",
+    api_key="YOUR_API_KEY",
 )
 client.extraction_schemas.delete(
     name_or_id="nameOrId",
@@ -1816,7 +1816,7 @@ Updates an extraction schema by name or ID.
 from phonic import ExtractionField, Phonic
 
 client = Phonic(
-    token="YOUR_TOKEN",
+    api_key="YOUR_API_KEY",
 )
 client.extraction_schemas.update(
     name_or_id="nameOrId",
@@ -1933,7 +1933,7 @@ Returns all available voices for a model.
 from phonic import Phonic
 
 client = Phonic(
-    token="YOUR_TOKEN",
+    api_key="YOUR_API_KEY",
 )
 client.voices.list()
 
@@ -1993,7 +1993,7 @@ Returns a voice by ID.
 from phonic import Phonic
 
 client = Phonic(
-    token="YOUR_TOKEN",
+    api_key="YOUR_API_KEY",
 )
 client.voices.get(
     id="id",
@@ -2064,7 +2064,7 @@ Returns conversations with optional filtering.
 from phonic import Phonic
 
 client = Phonic(
-    token="YOUR_TOKEN",
+    api_key="YOUR_API_KEY",
 )
 client.conversations.list()
 
@@ -2196,7 +2196,7 @@ Returns a conversation by ID.
 from phonic import Phonic
 
 client = Phonic(
-    token="YOUR_TOKEN",
+    api_key="YOUR_API_KEY",
 )
 client.conversations.get(
     id="id",
@@ -2266,7 +2266,7 @@ Cancels an active conversation.
 from phonic import Phonic
 
 client = Phonic(
-    token="YOUR_TOKEN",
+    api_key="YOUR_API_KEY",
 )
 client.conversations.cancel(
     id="id",
@@ -2336,7 +2336,7 @@ Returns an analysis of the specified conversation.
 from phonic import Phonic
 
 client = Phonic(
-    token="YOUR_TOKEN",
+    api_key="YOUR_API_KEY",
 )
 client.conversations.get_analysis(
     id="id",
@@ -2406,7 +2406,7 @@ Returns all extractions for a conversation.
 from phonic import Phonic
 
 client = Phonic(
-    token="YOUR_TOKEN",
+    api_key="YOUR_API_KEY",
 )
 client.conversations.list_extractions(
     id="id",
@@ -2476,7 +2476,7 @@ Extracts data from a conversation using a schema.
 from phonic import Phonic
 
 client = Phonic(
-    token="YOUR_TOKEN",
+    api_key="YOUR_API_KEY",
 )
 client.conversations.extract_data(
     id="id",
@@ -2555,7 +2555,7 @@ Returns all evaluations for a conversation.
 from phonic import Phonic
 
 client = Phonic(
-    token="YOUR_TOKEN",
+    api_key="YOUR_API_KEY",
 )
 client.conversations.list_evaluations(
     id="id",
@@ -2625,7 +2625,7 @@ Evaluates a conversation using an evaluation prompt.
 from phonic import Phonic
 
 client = Phonic(
-    token="YOUR_TOKEN",
+    api_key="YOUR_API_KEY",
 )
 client.conversations.evaluate(
     id="id",
@@ -2704,7 +2704,7 @@ Initiates a call to a given phone number using Phonic's Twilio account.
 from phonic import OutboundCallConfig, Phonic
 
 client = Phonic(
-    token="YOUR_TOKEN",
+    api_key="YOUR_API_KEY",
 )
 client.conversations.outbound_call(
     to_phone_number="+19189397081",
@@ -2764,9 +2764,23 @@ client.conversations.outbound_call(
 </dl>
 </details>
 
-<details><summary><code>client.conversations.<a href="src/phonic/conversations/client.py">summarize</a>(...)</code></summary>
+<details><summary><code>client.conversations.<a href="src/phonic/conversations/client.py">sip_outbound_call</a>(...)</code></summary>
 <dl>
 <dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Initiates a SIP outbound call using user-supplied SIP credentials in headers.
+</dd>
+</dl>
+</dd>
+</dl>
 
 #### 🔌 Usage
 
@@ -2780,10 +2794,12 @@ client.conversations.outbound_call(
 from phonic import Phonic
 
 client = Phonic(
-    token="YOUR_TOKEN",
+    api_key="YOUR_API_KEY",
 )
-client.conversations.summarize(
-    id="id",
+client.conversations.sip_outbound_call(
+    sip_address="X-Sip-Address",
+    from_phone_number="from_phone_number",
+    to_phone_number="to_phone_number",
 )
 
 ```
@@ -2800,7 +2816,63 @@ client.conversations.summarize(
 <dl>
 <dd>
 
-**id:** `str` 
+**sip_address:** `str` — SIP address of the user's SIP trunk. Required.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**from_phone_number:** `str` — Caller ID phone number in E.164 format.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**to_phone_number:** `str` — Destination phone number in E.164 format.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**token:** `typing.Optional[str]` — Optional session token used for STS authorization.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**downstream_websocket_url:** `typing.Optional[str]` — Optional downstream STS WebSocket URL to override the default.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**sip_auth_username:** `typing.Optional[str]` — SIP auth username, if your provider requires it.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**sip_auth_password:** `typing.Optional[str]` — SIP auth password, if your provider requires it.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**config:** `typing.Optional[OutboundCallConfig]` 
     
 </dd>
 </dl>
@@ -2851,7 +2923,7 @@ Returns all projects in a workspace.
 from phonic import Phonic
 
 client = Phonic(
-    token="YOUR_TOKEN",
+    api_key="YOUR_API_KEY",
 )
 client.projects.list()
 
@@ -2911,7 +2983,7 @@ Creates a new project in a workspace.
 from phonic import Phonic
 
 client = Phonic(
-    token="YOUR_TOKEN",
+    api_key="YOUR_API_KEY",
 )
 client.projects.create(
     name="customer-support",
@@ -2981,7 +3053,7 @@ Returns a project by name or ID.
 from phonic import Phonic
 
 client = Phonic(
-    token="YOUR_TOKEN",
+    api_key="YOUR_API_KEY",
 )
 client.projects.get(
     name_or_id="nameOrId",
@@ -3051,7 +3123,7 @@ Deletes a project by name or ID.
 from phonic import Phonic
 
 client = Phonic(
-    token="YOUR_TOKEN",
+    api_key="YOUR_API_KEY",
 )
 client.projects.delete(
     name_or_id="nameOrId",
@@ -3121,7 +3193,7 @@ Updates a project by name or ID.
 from phonic import Phonic
 
 client = Phonic(
-    token="YOUR_TOKEN",
+    api_key="YOUR_API_KEY",
 )
 client.projects.update(
     name_or_id="nameOrId",
@@ -3209,7 +3281,7 @@ Returns all conversation evaluation prompts for a project.
 from phonic import Phonic
 
 client = Phonic(
-    token="YOUR_TOKEN",
+    api_key="YOUR_API_KEY",
 )
 client.projects.list_eval_prompts(
     id="id",
@@ -3279,7 +3351,7 @@ Creates a new conversation evaluation prompt for a project.
 from phonic import Phonic
 
 client = Phonic(
-    token="YOUR_TOKEN",
+    api_key="YOUR_API_KEY",
 )
 client.projects.create_eval_prompt(
     id="id",

@@ -64,7 +64,7 @@ class AgentsClient:
         from phonic import Phonic
 
         client = Phonic(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
         client.agents.list()
         """
@@ -165,7 +165,7 @@ class AgentsClient:
         )
 
         client = Phonic(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
         client.agents.create(
             name="support-agent",
@@ -307,7 +307,7 @@ class AgentsClient:
         )
 
         client = Phonic(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
         client.agents.upsert(
             name="support-agent",
@@ -387,7 +387,7 @@ class AgentsClient:
         from phonic import Phonic
 
         client = Phonic(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
         client.agents.get(
             name_or_id="nameOrId",
@@ -427,7 +427,7 @@ class AgentsClient:
         from phonic import Phonic
 
         client = Phonic(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
         client.agents.delete(
             name_or_id="nameOrId",
@@ -534,7 +534,7 @@ class AgentsClient:
         )
 
         client = Phonic(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
         client.agents.update(
             name_or_id="nameOrId",
@@ -627,7 +627,7 @@ class AsyncAgentsClient:
         from phonic import AsyncPhonic
 
         client = AsyncPhonic(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
 
 
@@ -736,7 +736,7 @@ class AsyncAgentsClient:
         )
 
         client = AsyncPhonic(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
 
 
@@ -886,7 +886,7 @@ class AsyncAgentsClient:
         )
 
         client = AsyncPhonic(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
 
 
@@ -974,7 +974,7 @@ class AsyncAgentsClient:
         from phonic import AsyncPhonic
 
         client = AsyncPhonic(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
 
 
@@ -1022,7 +1022,7 @@ class AsyncAgentsClient:
         from phonic import AsyncPhonic
 
         client = AsyncPhonic(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
 
 
@@ -1137,7 +1137,7 @@ class AsyncAgentsClient:
         )
 
         client = AsyncPhonic(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
 
 
