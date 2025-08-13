@@ -6,15 +6,19 @@ import pydantic
 from ..core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 
 
-class ErrorError(UniversalBaseModel):
-    message: str = pydantic.Field()
+class ConversationAgent(UniversalBaseModel):
     """
-    Error message
+    The agent associated with the conversation.
     """
 
-    code: typing.Optional[str] = pydantic.Field(default=None)
+    id: str = pydantic.Field()
     """
-    Error code
+    The ID of the agent.
+    """
+
+    name: str = pydantic.Field()
+    """
+    The name of the agent.
     """
 
     if IS_PYDANTIC_V2:

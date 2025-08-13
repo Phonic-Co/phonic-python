@@ -43,7 +43,7 @@ class VoicesClient:
         from phonic import Phonic
 
         client = Phonic(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
         client.voices.list()
         """
@@ -72,7 +72,7 @@ class VoicesClient:
         from phonic import Phonic
 
         client = Phonic(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
         client.voices.get(
             id="id",
@@ -118,7 +118,7 @@ class AsyncVoicesClient:
         from phonic import AsyncPhonic
 
         client = AsyncPhonic(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
 
 
@@ -155,7 +155,7 @@ class AsyncVoicesClient:
         from phonic import AsyncPhonic
 
         client = AsyncPhonic(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
 
 

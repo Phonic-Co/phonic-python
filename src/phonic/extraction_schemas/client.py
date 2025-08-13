@@ -55,7 +55,7 @@ class ExtractionSchemasClient:
         from phonic import Phonic
 
         client = Phonic(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
         client.extraction_schemas.list()
         """
@@ -101,7 +101,7 @@ class ExtractionSchemasClient:
         from phonic import ExtractionField, Phonic
 
         client = Phonic(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
         client.extraction_schemas.create(
             name="Appointment details",
@@ -161,7 +161,7 @@ class ExtractionSchemasClient:
         from phonic import Phonic
 
         client = Phonic(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
         client.extraction_schemas.get(
             name_or_id="nameOrId",
@@ -201,7 +201,7 @@ class ExtractionSchemasClient:
         from phonic import Phonic
 
         client = Phonic(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
         client.extraction_schemas.delete(
             name_or_id="nameOrId",
@@ -253,7 +253,7 @@ class ExtractionSchemasClient:
         from phonic import ExtractionField, Phonic
 
         client = Phonic(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
         client.extraction_schemas.update(
             name_or_id="nameOrId",
@@ -320,7 +320,7 @@ class AsyncExtractionSchemasClient:
         from phonic import AsyncPhonic
 
         client = AsyncPhonic(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
 
 
@@ -374,7 +374,7 @@ class AsyncExtractionSchemasClient:
         from phonic import AsyncPhonic, ExtractionField
 
         client = AsyncPhonic(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
 
 
@@ -442,7 +442,7 @@ class AsyncExtractionSchemasClient:
         from phonic import AsyncPhonic
 
         client = AsyncPhonic(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
 
 
@@ -490,7 +490,7 @@ class AsyncExtractionSchemasClient:
         from phonic import AsyncPhonic
 
         client = AsyncPhonic(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
 
 
@@ -550,7 +550,7 @@ class AsyncExtractionSchemasClient:
         from phonic import AsyncPhonic, ExtractionField
 
         client = AsyncPhonic(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
 
 

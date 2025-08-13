@@ -13,10 +13,14 @@ from .assistant_ended_conversation_payload import AssistantEndedConversationPayl
 from .audio_chunk_payload import AudioChunkPayload
 from .audio_chunk_response_payload import AudioChunkResponsePayload
 from .audio_finished_payload import AudioFinishedPayload
+from .bad_request_error_body import BadRequestErrorBody
+from .basic_error import BasicError
+from .basic_error_error import BasicErrorError
 from .config_payload import ConfigPayload
 from .config_payload_input_format import ConfigPayloadInputFormat
 from .config_payload_output_format import ConfigPayloadOutputFormat
 from .conversation import Conversation
+from .conversation_agent import ConversationAgent
 from .conversation_analysis import ConversationAnalysis
 from .conversation_created_payload import ConversationCreatedPayload
 from .conversation_eval import ConversationEval
@@ -36,7 +40,6 @@ from .create_agent_request_template_variables_value import CreateAgentRequestTem
 from .create_agent_request_tools_item import CreateAgentRequestToolsItem
 from .dtmf_payload import DtmfPayload
 from .error import Error
-from .error_error import ErrorError
 from .error_payload import ErrorPayload
 from .error_payload_error import ErrorPayloadError
 from .extraction_field import ExtractionField
@@ -45,7 +48,6 @@ from .extraction_schema import ExtractionSchema
 from .input_cancelled_payload import InputCancelledPayload
 from .input_text_payload import InputTextPayload
 from .interrupted_response_payload import InterruptedResponsePayload
-from .is_user_speaking_payload import IsUserSpeakingPayload
 from .outbound_call_config import OutboundCallConfig
 from .outbound_call_config_tools_item import OutboundCallConfigToolsItem
 from .project import Project
@@ -69,6 +71,8 @@ from .tool_type import ToolType
 from .update_system_prompt_payload import UpdateSystemPromptPayload
 from .user_finished_speaking_payload import UserFinishedSpeakingPayload
 from .user_started_speaking_payload import UserStartedSpeakingPayload
+from .validation_error import ValidationError
+from .validation_error_error import ValidationErrorError
 from .voice import Voice
 
 __all__ = [
@@ -83,10 +87,14 @@ __all__ = [
     "AudioChunkPayload",
     "AudioChunkResponsePayload",
     "AudioFinishedPayload",
+    "BadRequestErrorBody",
+    "BasicError",
+    "BasicErrorError",
     "ConfigPayload",
     "ConfigPayloadInputFormat",
     "ConfigPayloadOutputFormat",
     "Conversation",
+    "ConversationAgent",
     "ConversationAnalysis",
     "ConversationCreatedPayload",
     "ConversationEval",
@@ -106,7 +114,6 @@ __all__ = [
     "CreateAgentRequestToolsItem",
     "DtmfPayload",
     "Error",
-    "ErrorError",
     "ErrorPayload",
     "ErrorPayloadError",
     "ExtractionField",
@@ -115,7 +122,6 @@ __all__ = [
     "InputCancelledPayload",
     "InputTextPayload",
     "InterruptedResponsePayload",
-    "IsUserSpeakingPayload",
     "OutboundCallConfig",
     "OutboundCallConfigToolsItem",
     "Project",
@@ -139,5 +145,7 @@ __all__ = [
     "UpdateSystemPromptPayload",
     "UserFinishedSpeakingPayload",
     "UserStartedSpeakingPayload",
+    "ValidationError",
+    "ValidationErrorError",
     "Voice",
 ]

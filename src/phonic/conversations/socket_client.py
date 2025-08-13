@@ -20,7 +20,6 @@ from ..types.error_payload import ErrorPayload
 from ..types.input_cancelled_payload import InputCancelledPayload
 from ..types.input_text_payload import InputTextPayload
 from ..types.interrupted_response_payload import InterruptedResponsePayload
-from ..types.is_user_speaking_payload import IsUserSpeakingPayload
 from ..types.ready_to_start_conversation_payload import ReadyToStartConversationPayload
 from ..types.set_external_id_payload import SetExternalIdPayload
 from ..types.set_twilio_call_sid_payload import SetTwilioCallSidPayload
@@ -37,14 +36,13 @@ try:
 except ImportError:
     from websockets import WebSocketClientProtocol  # type: ignore
 
-StsSocketClientResponse = typing.Union[
+ConversationsSocketClientResponse = typing.Union[
     ReadyToStartConversationPayload,
     ConversationCreatedPayload,
     InputTextPayload,
     InputCancelledPayload,
     AudioChunkResponsePayload,
     AudioFinishedPayload,
-    IsUserSpeakingPayload,
     UserStartedSpeakingPayload,
     UserFinishedSpeakingPayload,
     InterruptedResponsePayload,
@@ -58,14 +56,14 @@ StsSocketClientResponse = typing.Union[
 ]
 
 
-class AsyncStsSocketClient(EventEmitterMixin):
+class AsyncConversationsSocketClient(EventEmitterMixin):
     def __init__(self, *, websocket: WebSocketClientProtocol):
         super().__init__()
         self._websocket = websocket
 
     async def __aiter__(self):
         async for message in self._websocket:
-            yield parse_obj_as(StsSocketClientResponse, json.loads(message))  # type: ignore
+            yield parse_obj_as(ConversationsSocketClientResponse, json.loads(message))  # type: ignore
 
     async def start_listening(self):
         """
@@ -81,7 +79,7 @@ class AsyncStsSocketClient(EventEmitterMixin):
         try:
             async for raw_message in self._websocket:
                 json_data = json.loads(raw_message)
-                parsed = parse_obj_as(StsSocketClientResponse, json_data)  # type: ignore
+                parsed = parse_obj_as(ConversationsSocketClientResponse, json_data)  # type: ignore
                 await self._emit_async(EventType.MESSAGE, parsed)
         except (websockets.WebSocketException, JSONDecodeError) as exc:
             await self._emit_async(EventType.ERROR, exc)
@@ -130,13 +128,13 @@ class AsyncStsSocketClient(EventEmitterMixin):
         """
         await self._send_model(message)
 
-    async def recv(self) -> StsSocketClientResponse:
+    async def recv(self) -> ConversationsSocketClientResponse:
         """
         Receive a message from the websocket connection.
         """
         data = await self._websocket.recv()
         json_data = json.loads(data)
-        return parse_obj_as(StsSocketClientResponse, json_data)  # type: ignore
+        return parse_obj_as(ConversationsSocketClientResponse, json_data)  # type: ignore
 
     async def _send(self, data: typing.Any) -> None:
         """
@@ -153,14 +151,14 @@ class AsyncStsSocketClient(EventEmitterMixin):
         await self._send(data.dict())
 
 
-class StsSocketClient(EventEmitterMixin):
+class ConversationsSocketClient(EventEmitterMixin):
     def __init__(self, *, websocket: websockets_sync_connection.Connection):
         super().__init__()
         self._websocket = websocket
 
     def __iter__(self):
         for message in self._websocket:
-            yield parse_obj_as(StsSocketClientResponse, json.loads(message))  # type: ignore
+            yield parse_obj_as(ConversationsSocketClientResponse, json.loads(message))  # type: ignore
 
     def start_listening(self):
         """
@@ -176,7 +174,7 @@ class StsSocketClient(EventEmitterMixin):
         try:
             for raw_message in self._websocket:
                 json_data = json.loads(raw_message)
-                parsed = parse_obj_as(StsSocketClientResponse, json_data)  # type: ignore
+                parsed = parse_obj_as(ConversationsSocketClientResponse, json_data)  # type: ignore
                 self._emit(EventType.MESSAGE, parsed)
         except (websockets.WebSocketException, JSONDecodeError) as exc:
             self._emit(EventType.ERROR, exc)
@@ -225,13 +223,13 @@ class StsSocketClient(EventEmitterMixin):
         """
         self._send_model(message)
 
-    def recv(self) -> StsSocketClientResponse:
+    def recv(self) -> ConversationsSocketClientResponse:
         """
         Receive a message from the websocket connection.
         """
         data = self._websocket.recv()
         json_data = json.loads(data)
-        return parse_obj_as(StsSocketClientResponse, json_data)  # type: ignore
+        return parse_obj_as(ConversationsSocketClientResponse, json_data)  # type: ignore
 
     def _send(self, data: typing.Any) -> None:
         """
