@@ -51,7 +51,7 @@ class ProjectsClient:
         from phonic import Phonic
 
         client = Phonic(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
         client.projects.list()
         """
@@ -80,7 +80,7 @@ class ProjectsClient:
         from phonic import Phonic
 
         client = Phonic(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
         client.projects.create(
             name="customer-support",
@@ -111,7 +111,7 @@ class ProjectsClient:
         from phonic import Phonic
 
         client = Phonic(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
         client.projects.get(
             name_or_id="nameOrId",
@@ -144,7 +144,7 @@ class ProjectsClient:
         from phonic import Phonic
 
         client = Phonic(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
         client.projects.delete(
             name_or_id="nameOrId",
@@ -187,7 +187,7 @@ class ProjectsClient:
         from phonic import Phonic
 
         client = Phonic(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
         client.projects.update(
             name_or_id="nameOrId",
@@ -224,7 +224,7 @@ class ProjectsClient:
         from phonic import Phonic
 
         client = Phonic(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
         client.projects.list_eval_prompts(
             id="id",
@@ -263,7 +263,7 @@ class ProjectsClient:
         from phonic import Phonic
 
         client = Phonic(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
         client.projects.create_eval_prompt(
             id="id",
@@ -311,7 +311,7 @@ class AsyncProjectsClient:
         from phonic import AsyncPhonic
 
         client = AsyncPhonic(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
 
 
@@ -350,7 +350,7 @@ class AsyncProjectsClient:
         from phonic import AsyncPhonic
 
         client = AsyncPhonic(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
 
 
@@ -391,7 +391,7 @@ class AsyncProjectsClient:
         from phonic import AsyncPhonic
 
         client = AsyncPhonic(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
 
 
@@ -432,7 +432,7 @@ class AsyncProjectsClient:
         from phonic import AsyncPhonic
 
         client = AsyncPhonic(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
 
 
@@ -483,7 +483,7 @@ class AsyncProjectsClient:
         from phonic import AsyncPhonic
 
         client = AsyncPhonic(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
 
 
@@ -528,7 +528,7 @@ class AsyncProjectsClient:
         from phonic import AsyncPhonic
 
         client = AsyncPhonic(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
 
 
@@ -575,7 +575,7 @@ class AsyncProjectsClient:
         from phonic import AsyncPhonic
 
         client = AsyncPhonic(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
 
 

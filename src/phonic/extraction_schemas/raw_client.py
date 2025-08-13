@@ -13,7 +13,6 @@ from ..core.serialization import convert_and_respect_annotation_metadata
 from ..errors.bad_request_error import BadRequestError
 from ..errors.conflict_error import ConflictError
 from ..errors.not_found_error import NotFoundError
-from ..types.error import Error
 from ..types.extraction_field import ExtractionField
 from .types.extraction_schemas_create_response import ExtractionSchemasCreateResponse
 from .types.extraction_schemas_delete_response import ExtractionSchemasDeleteResponse
@@ -71,9 +70,9 @@ class RawExtractionSchemasClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        Error,
+                        typing.Optional[typing.Any],
                         parse_obj_as(
-                            type_=Error,  # type: ignore
+                            type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -151,9 +150,9 @@ class RawExtractionSchemasClient:
                 raise BadRequestError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        Error,
+                        typing.Optional[typing.Any],
                         parse_obj_as(
-                            type_=Error,  # type: ignore
+                            type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -162,9 +161,9 @@ class RawExtractionSchemasClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        Error,
+                        typing.Optional[typing.Any],
                         parse_obj_as(
-                            type_=Error,  # type: ignore
+                            type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -173,9 +172,9 @@ class RawExtractionSchemasClient:
                 raise ConflictError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        Error,
+                        typing.Optional[typing.Any],
                         parse_obj_as(
-                            type_=Error,  # type: ignore
+                            type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -234,9 +233,9 @@ class RawExtractionSchemasClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        Error,
+                        typing.Optional[typing.Any],
                         parse_obj_as(
-                            type_=Error,  # type: ignore
+                            type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -295,9 +294,9 @@ class RawExtractionSchemasClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        Error,
+                        typing.Optional[typing.Any],
                         parse_obj_as(
-                            type_=Error,  # type: ignore
+                            type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -379,9 +378,9 @@ class RawExtractionSchemasClient:
                 raise BadRequestError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        Error,
+                        typing.Optional[typing.Any],
                         parse_obj_as(
-                            type_=Error,  # type: ignore
+                            type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -390,9 +389,9 @@ class RawExtractionSchemasClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        Error,
+                        typing.Optional[typing.Any],
                         parse_obj_as(
-                            type_=Error,  # type: ignore
+                            type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -401,9 +400,9 @@ class RawExtractionSchemasClient:
                 raise ConflictError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        Error,
+                        typing.Optional[typing.Any],
                         parse_obj_as(
-                            type_=Error,  # type: ignore
+                            type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -460,9 +459,9 @@ class AsyncRawExtractionSchemasClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        Error,
+                        typing.Optional[typing.Any],
                         parse_obj_as(
-                            type_=Error,  # type: ignore
+                            type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -540,9 +539,9 @@ class AsyncRawExtractionSchemasClient:
                 raise BadRequestError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        Error,
+                        typing.Optional[typing.Any],
                         parse_obj_as(
-                            type_=Error,  # type: ignore
+                            type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -551,9 +550,9 @@ class AsyncRawExtractionSchemasClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        Error,
+                        typing.Optional[typing.Any],
                         parse_obj_as(
-                            type_=Error,  # type: ignore
+                            type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -562,9 +561,9 @@ class AsyncRawExtractionSchemasClient:
                 raise ConflictError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        Error,
+                        typing.Optional[typing.Any],
                         parse_obj_as(
-                            type_=Error,  # type: ignore
+                            type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -623,9 +622,9 @@ class AsyncRawExtractionSchemasClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        Error,
+                        typing.Optional[typing.Any],
                         parse_obj_as(
-                            type_=Error,  # type: ignore
+                            type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -684,9 +683,9 @@ class AsyncRawExtractionSchemasClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        Error,
+                        typing.Optional[typing.Any],
                         parse_obj_as(
-                            type_=Error,  # type: ignore
+                            type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -768,9 +767,9 @@ class AsyncRawExtractionSchemasClient:
                 raise BadRequestError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        Error,
+                        typing.Optional[typing.Any],
                         parse_obj_as(
-                            type_=Error,  # type: ignore
+                            type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -779,9 +778,9 @@ class AsyncRawExtractionSchemasClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        Error,
+                        typing.Optional[typing.Any],
                         parse_obj_as(
-                            type_=Error,  # type: ignore
+                            type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -790,9 +789,9 @@ class AsyncRawExtractionSchemasClient:
                 raise ConflictError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        Error,
+                        typing.Optional[typing.Any],
                         parse_obj_as(
-                            type_=Error,  # type: ignore
+                            type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
                     ),

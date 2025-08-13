@@ -59,7 +59,7 @@ class ToolsClient:
         from phonic import Phonic
 
         client = Phonic(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
         client.tools.list()
         """
@@ -133,7 +133,7 @@ class ToolsClient:
         from phonic import Phonic, ToolParameter
 
         client = Phonic(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
         client.tools.create(
             name="book_appointment",
@@ -210,7 +210,7 @@ class ToolsClient:
         from phonic import Phonic
 
         client = Phonic(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
         client.tools.get(
             name_or_id="nameOrId",
@@ -250,7 +250,7 @@ class ToolsClient:
         from phonic import Phonic
 
         client = Phonic(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
         client.tools.delete(
             name_or_id="nameOrId",
@@ -325,7 +325,7 @@ class ToolsClient:
         from phonic import Phonic
 
         client = Phonic(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
         client.tools.update(
             name_or_id="nameOrId",
@@ -393,7 +393,7 @@ class AsyncToolsClient:
         from phonic import AsyncPhonic
 
         client = AsyncPhonic(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
 
 
@@ -475,7 +475,7 @@ class AsyncToolsClient:
         from phonic import AsyncPhonic, ToolParameter
 
         client = AsyncPhonic(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
 
 
@@ -560,7 +560,7 @@ class AsyncToolsClient:
         from phonic import AsyncPhonic
 
         client = AsyncPhonic(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
 
 
@@ -608,7 +608,7 @@ class AsyncToolsClient:
         from phonic import AsyncPhonic
 
         client = AsyncPhonic(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
 
 
@@ -691,7 +691,7 @@ class AsyncToolsClient:
         from phonic import AsyncPhonic
 
         client = AsyncPhonic(
-            token="YOUR_TOKEN",
+            api_key="YOUR_API_KEY",
         )
 
 

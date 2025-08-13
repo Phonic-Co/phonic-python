@@ -12,12 +12,14 @@ from ..core.request_options import RequestOptions
 from ..core.serialization import convert_and_respect_annotation_metadata
 from ..errors.bad_request_error import BadRequestError
 from ..errors.forbidden_error import ForbiddenError
+from ..errors.internal_server_error import InternalServerError
 from ..errors.not_found_error import NotFoundError
+from ..errors.unauthorized_error import UnauthorizedError
+from ..types.basic_error import BasicError
 from ..types.create_agent_request_audio_format import CreateAgentRequestAudioFormat
 from ..types.create_agent_request_configuration_endpoint import CreateAgentRequestConfigurationEndpoint
 from ..types.create_agent_request_template_variables_value import CreateAgentRequestTemplateVariablesValue
 from ..types.create_agent_request_tools_item import CreateAgentRequestToolsItem
-from ..types.error import Error
 from ..types.task import Task
 from .types.agents_create_response import AgentsCreateResponse
 from .types.agents_delete_response import AgentsDeleteResponse
@@ -76,6 +78,28 @@ class RawAgentsClient:
                     ),
                 )
                 return HttpResponse(response=_response, data=_data)
+            if _response.status_code == 404:
+                raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Optional[typing.Any],
+                        parse_obj_as(
+                            type_=typing.Optional[typing.Any],  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 500:
+                raise InternalServerError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        BasicError,
+                        parse_obj_as(
+                            type_=BasicError,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
@@ -223,9 +247,20 @@ class RawAgentsClient:
                 raise BadRequestError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        Error,
+                        typing.Optional[typing.Any],
                         parse_obj_as(
-                            type_=Error,  # type: ignore
+                            type_=typing.Optional[typing.Any],  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 401:
+                raise UnauthorizedError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        BasicError,
+                        parse_obj_as(
+                            type_=BasicError,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -234,9 +269,20 @@ class RawAgentsClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        Error,
+                        typing.Optional[typing.Any],
                         parse_obj_as(
-                            type_=Error,  # type: ignore
+                            type_=typing.Optional[typing.Any],  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 500:
+                raise InternalServerError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        BasicError,
+                        parse_obj_as(
+                            type_=BasicError,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -388,9 +434,9 @@ class RawAgentsClient:
                 raise BadRequestError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        Error,
+                        typing.Optional[typing.Any],
                         parse_obj_as(
-                            type_=Error,  # type: ignore
+                            type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -399,9 +445,9 @@ class RawAgentsClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        Error,
+                        typing.Optional[typing.Any],
                         parse_obj_as(
-                            type_=Error,  # type: ignore
+                            type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -460,9 +506,9 @@ class RawAgentsClient:
                 raise ForbiddenError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        Error,
+                        typing.Optional[typing.Any],
                         parse_obj_as(
-                            type_=Error,  # type: ignore
+                            type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -471,9 +517,9 @@ class RawAgentsClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        Error,
+                        typing.Optional[typing.Any],
                         parse_obj_as(
-                            type_=Error,  # type: ignore
+                            type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -532,9 +578,9 @@ class RawAgentsClient:
                 raise ForbiddenError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        Error,
+                        typing.Optional[typing.Any],
                         parse_obj_as(
-                            type_=Error,  # type: ignore
+                            type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -543,9 +589,9 @@ class RawAgentsClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        Error,
+                        typing.Optional[typing.Any],
                         parse_obj_as(
-                            type_=Error,  # type: ignore
+                            type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -701,9 +747,9 @@ class RawAgentsClient:
                 raise BadRequestError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        Error,
+                        typing.Optional[typing.Any],
                         parse_obj_as(
-                            type_=Error,  # type: ignore
+                            type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -712,9 +758,9 @@ class RawAgentsClient:
                 raise ForbiddenError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        Error,
+                        typing.Optional[typing.Any],
                         parse_obj_as(
-                            type_=Error,  # type: ignore
+                            type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -723,9 +769,9 @@ class RawAgentsClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        Error,
+                        typing.Optional[typing.Any],
                         parse_obj_as(
-                            type_=Error,  # type: ignore
+                            type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -778,6 +824,28 @@ class AsyncRawAgentsClient:
                     ),
                 )
                 return AsyncHttpResponse(response=_response, data=_data)
+            if _response.status_code == 404:
+                raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Optional[typing.Any],
+                        parse_obj_as(
+                            type_=typing.Optional[typing.Any],  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 500:
+                raise InternalServerError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        BasicError,
+                        parse_obj_as(
+                            type_=BasicError,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
             _response_json = _response.json()
         except JSONDecodeError:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
@@ -925,9 +993,20 @@ class AsyncRawAgentsClient:
                 raise BadRequestError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        Error,
+                        typing.Optional[typing.Any],
                         parse_obj_as(
-                            type_=Error,  # type: ignore
+                            type_=typing.Optional[typing.Any],  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 401:
+                raise UnauthorizedError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        BasicError,
+                        parse_obj_as(
+                            type_=BasicError,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -936,9 +1015,20 @@ class AsyncRawAgentsClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        Error,
+                        typing.Optional[typing.Any],
                         parse_obj_as(
-                            type_=Error,  # type: ignore
+                            type_=typing.Optional[typing.Any],  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 500:
+                raise InternalServerError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        BasicError,
+                        parse_obj_as(
+                            type_=BasicError,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -1090,9 +1180,9 @@ class AsyncRawAgentsClient:
                 raise BadRequestError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        Error,
+                        typing.Optional[typing.Any],
                         parse_obj_as(
-                            type_=Error,  # type: ignore
+                            type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -1101,9 +1191,9 @@ class AsyncRawAgentsClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        Error,
+                        typing.Optional[typing.Any],
                         parse_obj_as(
-                            type_=Error,  # type: ignore
+                            type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -1162,9 +1252,9 @@ class AsyncRawAgentsClient:
                 raise ForbiddenError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        Error,
+                        typing.Optional[typing.Any],
                         parse_obj_as(
-                            type_=Error,  # type: ignore
+                            type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -1173,9 +1263,9 @@ class AsyncRawAgentsClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        Error,
+                        typing.Optional[typing.Any],
                         parse_obj_as(
-                            type_=Error,  # type: ignore
+                            type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -1234,9 +1324,9 @@ class AsyncRawAgentsClient:
                 raise ForbiddenError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        Error,
+                        typing.Optional[typing.Any],
                         parse_obj_as(
-                            type_=Error,  # type: ignore
+                            type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -1245,9 +1335,9 @@ class AsyncRawAgentsClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        Error,
+                        typing.Optional[typing.Any],
                         parse_obj_as(
-                            type_=Error,  # type: ignore
+                            type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -1403,9 +1493,9 @@ class AsyncRawAgentsClient:
                 raise BadRequestError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        Error,
+                        typing.Optional[typing.Any],
                         parse_obj_as(
-                            type_=Error,  # type: ignore
+                            type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -1414,9 +1504,9 @@ class AsyncRawAgentsClient:
                 raise ForbiddenError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        Error,
+                        typing.Optional[typing.Any],
                         parse_obj_as(
-                            type_=Error,  # type: ignore
+                            type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -1425,9 +1515,9 @@ class AsyncRawAgentsClient:
                 raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
-                        Error,
+                        typing.Optional[typing.Any],
                         parse_obj_as(
-                            type_=Error,  # type: ignore
+                            type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
