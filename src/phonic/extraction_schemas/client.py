@@ -57,7 +57,9 @@ class ExtractionSchemasClient:
         client = Phonic(
             api_key="YOUR_API_KEY",
         )
-        client.extraction_schemas.list()
+        client.extraction_schemas.list(
+            project="main",
+        )
         """
         _response = self._raw_client.list(project=project, request_options=request_options)
         return _response.data
@@ -104,6 +106,7 @@ class ExtractionSchemasClient:
             api_key="YOUR_API_KEY",
         )
         client.extraction_schemas.create(
+            project="main",
             name="Appointment details",
             prompt="Dates should be in `9 Apr 2025` format. Prices should be in $150.00 format.",
             fields=[
@@ -165,6 +168,7 @@ class ExtractionSchemasClient:
         )
         client.extraction_schemas.get(
             name_or_id="nameOrId",
+            project="main",
         )
         """
         _response = self._raw_client.get(name_or_id, project=project, request_options=request_options)
@@ -205,6 +209,7 @@ class ExtractionSchemasClient:
         )
         client.extraction_schemas.delete(
             name_or_id="nameOrId",
+            project="main",
         )
         """
         _response = self._raw_client.delete(name_or_id, project=project, request_options=request_options)
@@ -257,6 +262,7 @@ class ExtractionSchemasClient:
         )
         client.extraction_schemas.update(
             name_or_id="nameOrId",
+            project="main",
             name="Updated appointment details",
             prompt="Updated extraction instructions. Dates should be in `9 Apr 2025` format.",
             fields=[
@@ -325,7 +331,9 @@ class AsyncExtractionSchemasClient:
 
 
         async def main() -> None:
-            await client.extraction_schemas.list()
+            await client.extraction_schemas.list(
+                project="main",
+            )
 
 
         asyncio.run(main())
@@ -380,6 +388,7 @@ class AsyncExtractionSchemasClient:
 
         async def main() -> None:
             await client.extraction_schemas.create(
+                project="main",
                 name="Appointment details",
                 prompt="Dates should be in `9 Apr 2025` format. Prices should be in $150.00 format.",
                 fields=[
@@ -449,6 +458,7 @@ class AsyncExtractionSchemasClient:
         async def main() -> None:
             await client.extraction_schemas.get(
                 name_or_id="nameOrId",
+                project="main",
             )
 
 
@@ -497,6 +507,7 @@ class AsyncExtractionSchemasClient:
         async def main() -> None:
             await client.extraction_schemas.delete(
                 name_or_id="nameOrId",
+                project="main",
             )
 
 
@@ -557,6 +568,7 @@ class AsyncExtractionSchemasClient:
         async def main() -> None:
             await client.extraction_schemas.update(
                 name_or_id="nameOrId",
+                project="main",
                 name="Updated appointment details",
                 prompt="Updated extraction instructions. Dates should be in `9 Apr 2025` format.",
                 fields=[

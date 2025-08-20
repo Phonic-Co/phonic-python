@@ -168,6 +168,7 @@ class AgentsClient:
             api_key="YOUR_API_KEY",
         )
         client.agents.create(
+            project="main",
             name="support-agent",
             timezone="America/Los_Angeles",
             voice_id="sarah",
@@ -310,6 +311,7 @@ class AgentsClient:
             api_key="YOUR_API_KEY",
         )
         client.agents.upsert(
+            project="main",
             name="support-agent",
             phone_number="assign-automatically",
             timezone="America/Los_Angeles",
@@ -391,6 +393,7 @@ class AgentsClient:
         )
         client.agents.get(
             name_or_id="nameOrId",
+            project="main",
         )
         """
         _response = self._raw_client.get(name_or_id, project=project, request_options=request_options)
@@ -431,6 +434,7 @@ class AgentsClient:
         )
         client.agents.delete(
             name_or_id="nameOrId",
+            project="main",
         )
         """
         _response = self._raw_client.delete(name_or_id, project=project, request_options=request_options)
@@ -538,6 +542,7 @@ class AgentsClient:
         )
         client.agents.update(
             name_or_id="nameOrId",
+            project="main",
             name="updated-support-agent",
             phone_number="assign-automatically",
             timezone="America/Los_Angeles",
@@ -742,6 +747,7 @@ class AsyncAgentsClient:
 
         async def main() -> None:
             await client.agents.create(
+                project="main",
                 name="support-agent",
                 timezone="America/Los_Angeles",
                 voice_id="sarah",
@@ -892,6 +898,7 @@ class AsyncAgentsClient:
 
         async def main() -> None:
             await client.agents.upsert(
+                project="main",
                 name="support-agent",
                 phone_number="assign-automatically",
                 timezone="America/Los_Angeles",
@@ -981,6 +988,7 @@ class AsyncAgentsClient:
         async def main() -> None:
             await client.agents.get(
                 name_or_id="nameOrId",
+                project="main",
             )
 
 
@@ -1029,6 +1037,7 @@ class AsyncAgentsClient:
         async def main() -> None:
             await client.agents.delete(
                 name_or_id="nameOrId",
+                project="main",
             )
 
 
@@ -1144,6 +1153,7 @@ class AsyncAgentsClient:
         async def main() -> None:
             await client.agents.update(
                 name_or_id="nameOrId",
+                project="main",
                 name="updated-support-agent",
                 phone_number="assign-automatically",
                 timezone="America/Los_Angeles",

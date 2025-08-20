@@ -61,7 +61,9 @@ class ToolsClient:
         client = Phonic(
             api_key="YOUR_API_KEY",
         )
-        client.tools.list()
+        client.tools.list(
+            project="main",
+        )
         """
         _response = self._raw_client.list(project=project, request_options=request_options)
         return _response.data
@@ -136,6 +138,7 @@ class ToolsClient:
             api_key="YOUR_API_KEY",
         )
         client.tools.create(
+            project="main",
             name="book_appointment",
             description="Books an appointment in the calendar system",
             type="custom_webhook",
@@ -214,6 +217,7 @@ class ToolsClient:
         )
         client.tools.get(
             name_or_id="nameOrId",
+            project="main",
         )
         """
         _response = self._raw_client.get(name_or_id, project=project, request_options=request_options)
@@ -254,6 +258,7 @@ class ToolsClient:
         )
         client.tools.delete(
             name_or_id="nameOrId",
+            project="main",
         )
         """
         _response = self._raw_client.delete(name_or_id, project=project, request_options=request_options)
@@ -329,6 +334,7 @@ class ToolsClient:
         )
         client.tools.update(
             name_or_id="nameOrId",
+            project="main",
             description="Updated description for booking appointments with enhanced features",
             endpoint_headers={"Authorization": "Bearer updated_token456"},
             endpoint_timeout_ms=7000,
@@ -398,7 +404,9 @@ class AsyncToolsClient:
 
 
         async def main() -> None:
-            await client.tools.list()
+            await client.tools.list(
+                project="main",
+            )
 
 
         asyncio.run(main())
@@ -481,6 +489,7 @@ class AsyncToolsClient:
 
         async def main() -> None:
             await client.tools.create(
+                project="main",
                 name="book_appointment",
                 description="Books an appointment in the calendar system",
                 type="custom_webhook",
@@ -567,6 +576,7 @@ class AsyncToolsClient:
         async def main() -> None:
             await client.tools.get(
                 name_or_id="nameOrId",
+                project="main",
             )
 
 
@@ -615,6 +625,7 @@ class AsyncToolsClient:
         async def main() -> None:
             await client.tools.delete(
                 name_or_id="nameOrId",
+                project="main",
             )
 
 
@@ -698,6 +709,7 @@ class AsyncToolsClient:
         async def main() -> None:
             await client.tools.update(
                 name_or_id="nameOrId",
+                project="main",
                 description="Updated description for booking appointments with enhanced features",
                 endpoint_headers={"Authorization": "Bearer updated_token456"},
                 endpoint_timeout_ms=7000,

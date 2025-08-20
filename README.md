@@ -30,6 +30,7 @@ client = Phonic(
     api_key="YOUR_API_KEY",
 )
 client.agents.create(
+    project="main",
     name="support-agent",
     timezone="America/Los_Angeles",
     voice_id="sarah",
@@ -74,6 +75,7 @@ client = AsyncPhonic(
 
 async def main() -> None:
     await client.agents.create(
+        project="main",
         name="support-agent",
         timezone="America/Los_Angeles",
         voice_id="sarah",
