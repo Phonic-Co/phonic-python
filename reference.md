@@ -105,6 +105,7 @@ client = Phonic(
     api_key="YOUR_API_KEY",
 )
 client.agents.create(
+    project="main",
     name="support-agent",
     timezone="America/Los_Angeles",
     voice_id="sarah",
@@ -327,6 +328,7 @@ client = Phonic(
     api_key="YOUR_API_KEY",
 )
 client.agents.upsert(
+    project="main",
     name="support-agent",
     phone_number="assign-automatically",
     timezone="America/Los_Angeles",
@@ -547,6 +549,7 @@ client = Phonic(
 )
 client.agents.get(
     name_or_id="nameOrId",
+    project="main",
 )
 
 ```
@@ -625,6 +628,7 @@ client = Phonic(
 )
 client.agents.delete(
     name_or_id="nameOrId",
+    project="main",
 )
 
 ```
@@ -707,6 +711,7 @@ client = Phonic(
 )
 client.agents.update(
     name_or_id="nameOrId",
+    project="main",
     name="updated-support-agent",
     phone_number="assign-automatically",
     timezone="America/Los_Angeles",
@@ -934,7 +939,9 @@ from phonic import Phonic
 client = Phonic(
     api_key="YOUR_API_KEY",
 )
-client.tools.list()
+client.tools.list(
+    project="main",
+)
 
 ```
 </dd>
@@ -1003,6 +1010,7 @@ client = Phonic(
     api_key="YOUR_API_KEY",
 )
 client.tools.create(
+    project="main",
     name="check_inventory",
     description="Checks product inventory levels",
     type="custom_websocket",
@@ -1166,6 +1174,7 @@ client = Phonic(
 )
 client.tools.get(
     name_or_id="nameOrId",
+    project="main",
 )
 
 ```
@@ -1244,6 +1253,7 @@ client = Phonic(
 )
 client.tools.delete(
     name_or_id="nameOrId",
+    project="main",
 )
 
 ```
@@ -1322,6 +1332,7 @@ client = Phonic(
 )
 client.tools.update(
     name_or_id="nameOrId",
+    project="main",
     description="Updated description for booking appointments with enhanced features",
     endpoint_headers={"Authorization": "Bearer updated_token456"},
     endpoint_timeout_ms=7000,
@@ -1482,7 +1493,9 @@ from phonic import Phonic
 client = Phonic(
     api_key="YOUR_API_KEY",
 )
-client.extraction_schemas.list()
+client.extraction_schemas.list(
+    project="main",
+)
 
 ```
 </dd>
@@ -1551,6 +1564,7 @@ client = Phonic(
     api_key="YOUR_API_KEY",
 )
 client.extraction_schemas.create(
+    project="main",
     name="Appointment details",
     prompt="Dates should be in `9 Apr 2025` format. Prices should be in $150.00 format.",
     fields=[
@@ -1664,6 +1678,7 @@ client = Phonic(
 )
 client.extraction_schemas.get(
     name_or_id="nameOrId",
+    project="main",
 )
 
 ```
@@ -1742,6 +1757,7 @@ client = Phonic(
 )
 client.extraction_schemas.delete(
     name_or_id="nameOrId",
+    project="main",
 )
 
 ```
@@ -1820,6 +1836,7 @@ client = Phonic(
 )
 client.extraction_schemas.update(
     name_or_id="nameOrId",
+    project="main",
     name="Updated appointment details",
     prompt="Updated extraction instructions. Dates should be in `9 Apr 2025` format.",
     fields=[
