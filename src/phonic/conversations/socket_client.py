@@ -100,9 +100,7 @@ class AsyncConversationsSocketClient(EventEmitterMixin):
         """
         await self._send_model(message)
 
-    async def send_update_system_prompt(
-        self, message: UpdateSystemPromptPayload
-    ) -> None:
+    async def send_update_system_prompt(self, message: UpdateSystemPromptPayload) -> None:
         """
         Send a message to the websocket connection.
         The message will be sent as a UpdateSystemPromptPayload.
