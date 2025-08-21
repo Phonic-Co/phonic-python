@@ -20,6 +20,7 @@ from ..types.error_payload import ErrorPayload
 from ..types.input_cancelled_payload import InputCancelledPayload
 from ..types.input_text_payload import InputTextPayload
 from ..types.interrupted_response_payload import InterruptedResponsePayload
+from ..types.is_user_speaking_payload import IsUserSpeakingPayload
 from ..types.ready_to_start_conversation_payload import ReadyToStartConversationPayload
 from ..types.set_external_id_payload import SetExternalIdPayload
 from ..types.set_twilio_call_sid_payload import SetTwilioCallSidPayload
@@ -43,6 +44,7 @@ ConversationsSocketClientResponse = typing.Union[
     InputCancelledPayload,
     AudioChunkResponsePayload,
     AudioFinishedPayload,
+    IsUserSpeakingPayload,
     UserStartedSpeakingPayload,
     UserFinishedSpeakingPayload,
     InterruptedResponsePayload,
