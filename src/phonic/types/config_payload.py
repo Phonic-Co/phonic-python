@@ -7,126 +7,116 @@ from ..core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .config_payload_input_format import ConfigPayloadInputFormat
 from .config_payload_output_format import ConfigPayloadOutputFormat
 
-OMIT = typing.cast(typing.Any, ...)
-
 
 class ConfigPayload(UniversalBaseModel):
     type: typing.Literal["config"] = "config"
-    agent: typing.Optional[str] = pydantic.Field(default=OMIT)
+    agent: typing.Optional[str] = pydantic.Field(default=None)
     """
     Agent name to use for conversation
     """
 
-    project: typing.Optional[str] = pydantic.Field(default=OMIT)
+    project: typing.Optional[str] = pydantic.Field(default=None)
     """
     Project name
     """
 
-    model: typing.Optional[typing.Literal["merritt"]] = pydantic.Field(default=OMIT)
+    model: typing.Optional[typing.Literal["merritt"]] = pydantic.Field(default=None)
     """
     STS model to use
     """
 
-    system_prompt: typing.Optional[str] = pydantic.Field(default=OMIT)
+    system_prompt: typing.Optional[str] = pydantic.Field(default=None)
     """
     System prompt for AI assistant
     """
 
-    audio_speed: typing.Optional[float] = pydantic.Field(default=OMIT)
+    audio_speed: typing.Optional[float] = pydantic.Field(default=None)
     """
     Audio playback speed
     """
 
-    welcome_message: typing.Optional[str] = pydantic.Field(default=OMIT)
+    welcome_message: typing.Optional[str] = pydantic.Field(default=None)
     """
     Message to play when conversation starts
     """
 
-    voice_id: typing.Optional[str] = pydantic.Field(default=OMIT)
+    voice_id: typing.Optional[str] = pydantic.Field(default=None)
     """
     Voice ID to use for speech synthesis
     """
 
-    input_format: typing.Optional[ConfigPayloadInputFormat] = pydantic.Field(
-        default=OMIT
-    )
+    input_format: typing.Optional[ConfigPayloadInputFormat] = pydantic.Field(default=None)
     """
     Audio input format
     """
 
-    output_format: typing.Optional[ConfigPayloadOutputFormat] = pydantic.Field(
-        default=OMIT
-    )
+    output_format: typing.Optional[ConfigPayloadOutputFormat] = pydantic.Field(default=None)
     """
     Audio output format
     """
 
-    vad_prebuffer_duration_ms: typing.Optional[float] = pydantic.Field(default=OMIT)
+    vad_prebuffer_duration_ms: typing.Optional[float] = pydantic.Field(default=None)
     """
     Voice activity detection prebuffer duration
     """
 
-    vad_min_speech_duration_ms: typing.Optional[float] = pydantic.Field(default=OMIT)
+    vad_min_speech_duration_ms: typing.Optional[float] = pydantic.Field(default=None)
     """
     Minimum speech duration for VAD
     """
 
-    vad_min_silence_duration_ms: typing.Optional[float] = pydantic.Field(default=OMIT)
+    vad_min_silence_duration_ms: typing.Optional[float] = pydantic.Field(default=None)
     """
     Minimum silence duration for VAD
     """
 
-    vad_threshold: typing.Optional[float] = pydantic.Field(default=OMIT)
+    vad_threshold: typing.Optional[float] = pydantic.Field(default=None)
     """
     Voice activity detection threshold
     """
 
-    enable_documents_rag: typing.Optional[bool] = pydantic.Field(default=OMIT)
+    enable_documents_rag: typing.Optional[bool] = pydantic.Field(default=None)
     """
     Enable document RAG
     """
 
-    enable_transcripts_rag: typing.Optional[bool] = pydantic.Field(default=OMIT)
+    enable_transcripts_rag: typing.Optional[bool] = pydantic.Field(default=None)
     """
     Enable transcript RAG
     """
 
-    no_input_poke_sec: typing.Optional[float] = pydantic.Field(default=OMIT)
+    no_input_poke_sec: typing.Optional[float] = pydantic.Field(default=None)
     """
     Seconds of silence before poke message
     """
 
-    no_input_poke_text: typing.Optional[str] = pydantic.Field(default=OMIT)
+    no_input_poke_text: typing.Optional[str] = pydantic.Field(default=None)
     """
     Poke message text
     """
 
-    no_input_end_conversation_sec: typing.Optional[float] = pydantic.Field(default=OMIT)
+    no_input_end_conversation_sec: typing.Optional[float] = pydantic.Field(default=None)
     """
     Seconds of silence before ending conversation
     """
 
-    boosted_keywords: typing.Optional[typing.List[str]] = pydantic.Field(default=OMIT)
+    boosted_keywords: typing.Optional[typing.List[str]] = pydantic.Field(default=None)
     """
     Keywords to boost in speech recognition
     """
 
-    tools: typing.Optional[typing.List[str]] = pydantic.Field(default=OMIT)
+    tools: typing.Optional[typing.List[str]] = pydantic.Field(default=None)
     """
     Tools available to the assistant
     """
 
-    template_variables: typing.Optional[typing.Dict[str, str]] = pydantic.Field(
-        default=OMIT
-    )
+    template_variables: typing.Optional[typing.Dict[str, str]] = pydantic.Field(default=None)
     """
     Template variables for system prompt and welcome message
     """
 
     if IS_PYDANTIC_V2:
-        model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(
-            extra="allow", frozen=True
-        )  # type: ignore # Pydantic v2
+        model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
     else:
 
         class Config:
