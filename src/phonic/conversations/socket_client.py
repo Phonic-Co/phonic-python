@@ -8,8 +8,12 @@ import websockets
 import websockets.sync.connection as websockets_sync_connection
 from ..core.events import EventEmitterMixin, EventType
 from ..core.pydantic_utilities import parse_obj_as
-from ..types.assistant_chose_not_to_respond_payload import AssistantChoseNotToRespondPayload
-from ..types.assistant_ended_conversation_payload import AssistantEndedConversationPayload
+from ..types.assistant_chose_not_to_respond_payload import (
+    AssistantChoseNotToRespondPayload,
+)
+from ..types.assistant_ended_conversation_payload import (
+    AssistantEndedConversationPayload,
+)
 from ..types.audio_chunk_payload import AudioChunkPayload
 from ..types.audio_chunk_response_payload import AudioChunkResponsePayload
 from ..types.audio_finished_payload import AudioFinishedPayload
@@ -100,7 +104,9 @@ class AsyncConversationsSocketClient(EventEmitterMixin):
         """
         await self._send_model(message)
 
-    async def send_update_system_prompt(self, message: UpdateSystemPromptPayload) -> None:
+    async def send_update_system_prompt(
+        self, message: UpdateSystemPromptPayload
+    ) -> None:
         """
         Send a message to the websocket connection.
         The message will be sent as a UpdateSystemPromptPayload.
