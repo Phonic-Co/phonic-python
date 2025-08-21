@@ -48,6 +48,7 @@ from .extraction_schema import ExtractionSchema
 from .input_cancelled_payload import InputCancelledPayload
 from .input_text_payload import InputTextPayload
 from .interrupted_response_payload import InterruptedResponsePayload
+from .is_user_speaking_payload import IsUserSpeakingPayload
 from .outbound_call_config import OutboundCallConfig
 from .outbound_call_config_tools_item import OutboundCallConfigToolsItem
 from .project import Project
@@ -122,6 +123,7 @@ __all__ = [
     "InputCancelledPayload",
     "InputTextPayload",
     "InterruptedResponsePayload",
+    "IsUserSpeakingPayload",
     "OutboundCallConfig",
     "OutboundCallConfigToolsItem",
     "Project",
