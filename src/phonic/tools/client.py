@@ -82,6 +82,7 @@ class ToolsClient:
         endpoint_headers: typing.Optional[typing.Dict[str, str]] = OMIT,
         endpoint_timeout_ms: typing.Optional[int] = OMIT,
         tool_call_output_timeout_ms: typing.Optional[int] = OMIT,
+        phone_number: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ToolsCreateResponse:
         """
@@ -121,6 +122,9 @@ class ToolsClient:
 
         tool_call_output_timeout_ms : typing.Optional[int]
             Timeout for WebSocket tool responses.
+
+        phone_number : typing.Optional[str]
+            The E.164 formatted phone number to transfer calls to. Required for built_in_transfer_to_phone_number tools.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -178,6 +182,7 @@ class ToolsClient:
             endpoint_headers=endpoint_headers,
             endpoint_timeout_ms=endpoint_timeout_ms,
             tool_call_output_timeout_ms=tool_call_output_timeout_ms,
+            phone_number=phone_number,
             request_options=request_options,
         )
         return _response.data
@@ -279,6 +284,7 @@ class ToolsClient:
         endpoint_headers: typing.Optional[typing.Dict[str, str]] = OMIT,
         endpoint_timeout_ms: typing.Optional[int] = OMIT,
         tool_call_output_timeout_ms: typing.Optional[int] = OMIT,
+        phone_number: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ToolsUpdateResponse:
         """
@@ -317,6 +323,9 @@ class ToolsClient:
 
         tool_call_output_timeout_ms : typing.Optional[int]
 
+        phone_number : typing.Optional[str]
+            The E.164 formatted phone number to transfer calls to. Required for built_in_transfer_to_phone_number tools.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -353,6 +362,7 @@ class ToolsClient:
             endpoint_headers=endpoint_headers,
             endpoint_timeout_ms=endpoint_timeout_ms,
             tool_call_output_timeout_ms=tool_call_output_timeout_ms,
+            phone_number=phone_number,
             request_options=request_options,
         )
         return _response.data
@@ -428,6 +438,7 @@ class AsyncToolsClient:
         endpoint_headers: typing.Optional[typing.Dict[str, str]] = OMIT,
         endpoint_timeout_ms: typing.Optional[int] = OMIT,
         tool_call_output_timeout_ms: typing.Optional[int] = OMIT,
+        phone_number: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ToolsCreateResponse:
         """
@@ -467,6 +478,9 @@ class AsyncToolsClient:
 
         tool_call_output_timeout_ms : typing.Optional[int]
             Timeout for WebSocket tool responses.
+
+        phone_number : typing.Optional[str]
+            The E.164 formatted phone number to transfer calls to. Required for built_in_transfer_to_phone_number tools.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -532,6 +546,7 @@ class AsyncToolsClient:
             endpoint_headers=endpoint_headers,
             endpoint_timeout_ms=endpoint_timeout_ms,
             tool_call_output_timeout_ms=tool_call_output_timeout_ms,
+            phone_number=phone_number,
             request_options=request_options,
         )
         return _response.data
@@ -649,6 +664,7 @@ class AsyncToolsClient:
         endpoint_headers: typing.Optional[typing.Dict[str, str]] = OMIT,
         endpoint_timeout_ms: typing.Optional[int] = OMIT,
         tool_call_output_timeout_ms: typing.Optional[int] = OMIT,
+        phone_number: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ToolsUpdateResponse:
         """
@@ -686,6 +702,9 @@ class AsyncToolsClient:
         endpoint_timeout_ms : typing.Optional[int]
 
         tool_call_output_timeout_ms : typing.Optional[int]
+
+        phone_number : typing.Optional[str]
+            The E.164 formatted phone number to transfer calls to. Required for built_in_transfer_to_phone_number tools.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -731,6 +750,7 @@ class AsyncToolsClient:
             endpoint_headers=endpoint_headers,
             endpoint_timeout_ms=endpoint_timeout_ms,
             tool_call_output_timeout_ms=tool_call_output_timeout_ms,
+            phone_number=phone_number,
             request_options=request_options,
         )
         return _response.data

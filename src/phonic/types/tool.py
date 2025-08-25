@@ -67,6 +67,11 @@ class Tool(UniversalBaseModel):
     Timeout in milliseconds for WebSocket tool responses.
     """
 
+    phone_number: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    The E.164 formatted phone number to transfer calls to. Required for built_in_transfer_to_phone_number tools.
+    """
+
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
     else:

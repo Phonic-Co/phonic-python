@@ -108,7 +108,7 @@ client.agents.create(
     project="main",
     name="support-agent",
     timezone="America/Los_Angeles",
-    voice_id="sarah",
+    voice_id="grant",
     audio_speed=1.0,
     welcome_message="Hi {{customer_name}}. How can I help you today?",
     system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
@@ -332,7 +332,7 @@ client.agents.upsert(
     name="support-agent",
     phone_number="assign-automatically",
     timezone="America/Los_Angeles",
-    voice_id="sarah",
+    voice_id="grant",
     audio_speed=1.0,
     welcome_message="Hi {{customer_name}}. How can I help you today?",
     system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
@@ -715,7 +715,7 @@ client.agents.update(
     name="updated-support-agent",
     phone_number="assign-automatically",
     timezone="America/Los_Angeles",
-    voice_id="sarah",
+    voice_id="grant",
     audio_speed=1.0,
     welcome_message="Hi {{customer_name}}. How can I help you today?",
     system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
@@ -1004,26 +1004,18 @@ Creates a new tool in a project.
 <dd>
 
 ```python
-from phonic import Phonic, ToolParameter
+from phonic import Phonic
 
 client = Phonic(
     api_key="YOUR_API_KEY",
 )
 client.tools.create(
     project="main",
-    name="check_inventory",
-    description="Checks product inventory levels",
-    type="custom_websocket",
-    execution_mode="async",
-    parameters=[
-        ToolParameter(
-            type="string",
-            name="product_id",
-            description="The product ID to check",
-            is_required=True,
-        )
-    ],
-    tool_call_output_timeout_ms=5000,
+    name="transfer_to_support",
+    description="Transfers the caller to the support team",
+    type="built_in_transfer_to_phone_number",
+    execution_mode="sync",
+    phone_number="+15551234567",
 )
 
 ```
@@ -1121,6 +1113,14 @@ client.tools.create(
 <dd>
 
 **tool_call_output_timeout_ms:** `typing.Optional[int]` — Timeout for WebSocket tool responses.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**phone_number:** `typing.Optional[str]` — The E.164 formatted phone number to transfer calls to. Required for built_in_transfer_to_phone_number tools.
     
 </dd>
 </dl>
@@ -1441,6 +1441,14 @@ client.tools.update(
 <dd>
 
 **tool_call_output_timeout_ms:** `typing.Optional[int]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**phone_number:** `typing.Optional[str]` — The E.164 formatted phone number to transfer calls to. Required for built_in_transfer_to_phone_number tools.
     
 </dd>
 </dl>
@@ -2730,7 +2738,7 @@ client.conversations.outbound_call(
         welcome_message="Hi {{customer_name}}. How can I help you today?",
         system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
         template_variables={"customer_name": "David", "subject": "Chess"},
-        voice_id="sarah",
+        voice_id="grant",
         no_input_poke_sec=30,
         no_input_poke_text="Are you still there?",
         no_input_end_conversation_sec=180,

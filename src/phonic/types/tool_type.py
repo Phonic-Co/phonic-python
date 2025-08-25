@@ -2,4 +2,6 @@
 
 import typing
 
-ToolType = typing.Union[typing.Literal["custom_webhook", "custom_websocket"], typing.Any]
+ToolType = typing.Union[
+    typing.Literal["custom_webhook", "custom_websocket", "built_in_transfer_to_phone_number"], typing.Any
+]

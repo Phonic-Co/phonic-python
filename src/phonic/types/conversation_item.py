@@ -39,11 +39,6 @@ class ConversationItem(UniversalBaseModel):
     When this turn started.
     """
 
-    system_prompt: typing.Optional[str] = pydantic.Field(default=None)
-    """
-    System prompt used (assistant only).
-    """
-
     voice_id: typing.Optional[str] = pydantic.Field(default=None)
     """
     Voice ID used (assistant only).
