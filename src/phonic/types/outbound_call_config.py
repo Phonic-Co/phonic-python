@@ -19,7 +19,7 @@ class OutboundCallConfig(UniversalBaseModel):
 
     project: typing.Optional[str] = pydantic.Field(default=None)
     """
-    The name of the project to use for the call. Ignored when `agent` is provided.
+    The name of the project to use for the call.
     """
 
     welcome_message: typing.Optional[str] = pydantic.Field(default=None)

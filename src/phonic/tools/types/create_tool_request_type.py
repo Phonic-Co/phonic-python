@@ -2,4 +2,6 @@
 
 import typing
 
-CreateToolRequestType = typing.Union[typing.Literal["custom_webhook", "custom_websocket"], typing.Any]
+CreateToolRequestType = typing.Union[
+    typing.Literal["custom_webhook", "custom_websocket", "built_in_transfer_to_phone_number"], typing.Any
+]

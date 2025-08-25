@@ -80,6 +80,11 @@ class Conversation(UniversalBaseModel):
     When the conversation ended.
     """
 
+    system_prompt: str = pydantic.Field()
+    """
+    System prompt used for the conversation.
+    """
+
     items: typing.List[ConversationItem] = pydantic.Field()
     """
     Array of conversation items (turns).

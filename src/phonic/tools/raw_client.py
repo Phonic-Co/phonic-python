@@ -101,6 +101,7 @@ class RawToolsClient:
         endpoint_headers: typing.Optional[typing.Dict[str, str]] = OMIT,
         endpoint_timeout_ms: typing.Optional[int] = OMIT,
         tool_call_output_timeout_ms: typing.Optional[int] = OMIT,
+        phone_number: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[ToolsCreateResponse]:
         """
@@ -141,6 +142,9 @@ class RawToolsClient:
         tool_call_output_timeout_ms : typing.Optional[int]
             Timeout for WebSocket tool responses.
 
+        phone_number : typing.Optional[str]
+            The E.164 formatted phone number to transfer calls to. Required for built_in_transfer_to_phone_number tools.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -169,6 +173,7 @@ class RawToolsClient:
                 "endpoint_headers": endpoint_headers,
                 "endpoint_timeout_ms": endpoint_timeout_ms,
                 "tool_call_output_timeout_ms": tool_call_output_timeout_ms,
+                "phone_number": phone_number,
             },
             headers={
                 "content-type": "application/json",
@@ -372,6 +377,7 @@ class RawToolsClient:
         endpoint_headers: typing.Optional[typing.Dict[str, str]] = OMIT,
         endpoint_timeout_ms: typing.Optional[int] = OMIT,
         tool_call_output_timeout_ms: typing.Optional[int] = OMIT,
+        phone_number: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[ToolsUpdateResponse]:
         """
@@ -410,6 +416,9 @@ class RawToolsClient:
 
         tool_call_output_timeout_ms : typing.Optional[int]
 
+        phone_number : typing.Optional[str]
+            The E.164 formatted phone number to transfer calls to. Required for built_in_transfer_to_phone_number tools.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -438,6 +447,7 @@ class RawToolsClient:
                 "endpoint_headers": endpoint_headers,
                 "endpoint_timeout_ms": endpoint_timeout_ms,
                 "tool_call_output_timeout_ms": tool_call_output_timeout_ms,
+                "phone_number": phone_number,
             },
             headers={
                 "content-type": "application/json",
@@ -566,6 +576,7 @@ class AsyncRawToolsClient:
         endpoint_headers: typing.Optional[typing.Dict[str, str]] = OMIT,
         endpoint_timeout_ms: typing.Optional[int] = OMIT,
         tool_call_output_timeout_ms: typing.Optional[int] = OMIT,
+        phone_number: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[ToolsCreateResponse]:
         """
@@ -606,6 +617,9 @@ class AsyncRawToolsClient:
         tool_call_output_timeout_ms : typing.Optional[int]
             Timeout for WebSocket tool responses.
 
+        phone_number : typing.Optional[str]
+            The E.164 formatted phone number to transfer calls to. Required for built_in_transfer_to_phone_number tools.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -634,6 +648,7 @@ class AsyncRawToolsClient:
                 "endpoint_headers": endpoint_headers,
                 "endpoint_timeout_ms": endpoint_timeout_ms,
                 "tool_call_output_timeout_ms": tool_call_output_timeout_ms,
+                "phone_number": phone_number,
             },
             headers={
                 "content-type": "application/json",
@@ -837,6 +852,7 @@ class AsyncRawToolsClient:
         endpoint_headers: typing.Optional[typing.Dict[str, str]] = OMIT,
         endpoint_timeout_ms: typing.Optional[int] = OMIT,
         tool_call_output_timeout_ms: typing.Optional[int] = OMIT,
+        phone_number: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[ToolsUpdateResponse]:
         """
@@ -875,6 +891,9 @@ class AsyncRawToolsClient:
 
         tool_call_output_timeout_ms : typing.Optional[int]
 
+        phone_number : typing.Optional[str]
+            The E.164 formatted phone number to transfer calls to. Required for built_in_transfer_to_phone_number tools.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -903,6 +922,7 @@ class AsyncRawToolsClient:
                 "endpoint_headers": endpoint_headers,
                 "endpoint_timeout_ms": endpoint_timeout_ms,
                 "tool_call_output_timeout_ms": tool_call_output_timeout_ms,
+                "phone_number": phone_number,
             },
             headers={
                 "content-type": "application/json",
