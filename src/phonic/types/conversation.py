@@ -7,6 +7,7 @@ import pydantic
 from ..core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .conversation_agent import ConversationAgent
 from .conversation_item import ConversationItem
+from .conversation_project import ConversationProject
 
 
 class Conversation(UniversalBaseModel):
@@ -25,6 +26,11 @@ class Conversation(UniversalBaseModel):
     The organization/workspace name.
     """
 
+    project: ConversationProject = pydantic.Field()
+    """
+    The project associated with the conversation.
+    """
+
     external_id: typing.Optional[str] = pydantic.Field(default=None)
     """
     External ID for conversation tracking.
@@ -38,6 +44,11 @@ class Conversation(UniversalBaseModel):
     welcome_message: typing.Optional[str] = pydantic.Field(default=None)
     """
     Welcome message played at start.
+    """
+
+    template_variables: typing.Dict[str, typing.Optional[typing.Any]] = pydantic.Field()
+    """
+    Template variables used in the conversation.
     """
 
     input_format: str = pydantic.Field()
@@ -78,11 +89,6 @@ class Conversation(UniversalBaseModel):
     ended_at: typing.Optional[dt.datetime] = pydantic.Field(default=None)
     """
     When the conversation ended.
-    """
-
-    system_prompt: str = pydantic.Field()
-    """
-    System prompt used for the conversation.
     """
 
     items: typing.List[ConversationItem] = pydantic.Field()
