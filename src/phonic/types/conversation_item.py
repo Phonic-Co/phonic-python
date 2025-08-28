@@ -6,6 +6,7 @@ import typing
 import pydantic
 from ..core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .conversation_item_role import ConversationItemRole
+from .conversation_item_tool_calls_item import ConversationItemToolCallsItem
 
 
 class ConversationItem(UniversalBaseModel):
@@ -54,9 +55,7 @@ class ConversationItem(UniversalBaseModel):
     System prompt used for this assistant turn.
     """
 
-    tool_calls: typing.Optional[typing.List[typing.Dict[str, typing.Optional[typing.Any]]]] = pydantic.Field(
-        default=None
-    )
+    tool_calls: typing.Optional[typing.List[ConversationItemToolCallsItem]] = pydantic.Field(default=None)
     """
     Tool calls made by the assistant.
     """

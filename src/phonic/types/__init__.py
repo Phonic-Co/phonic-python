@@ -33,6 +33,8 @@ from .conversation_extraction import ConversationExtraction
 from .conversation_extraction_schema import ConversationExtractionSchema
 from .conversation_item import ConversationItem
 from .conversation_item_role import ConversationItemRole
+from .conversation_item_tool_calls_item import ConversationItemToolCallsItem
+from .conversation_item_tool_calls_item_tool import ConversationItemToolCallsItemTool
 from .conversation_project import ConversationProject
 from .create_agent_request import CreateAgentRequest
 from .create_agent_request_audio_format import CreateAgentRequestAudioFormat
@@ -109,6 +111,8 @@ __all__ = [
     "ConversationExtractionSchema",
     "ConversationItem",
     "ConversationItemRole",
+    "ConversationItemToolCallsItem",
+    "ConversationItemToolCallsItemTool",
     "ConversationProject",
     "CreateAgentRequest",
     "CreateAgentRequestAudioFormat",
