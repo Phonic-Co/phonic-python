@@ -49,6 +49,18 @@ class ConversationItem(UniversalBaseModel):
     Audio speed used (assistant only).
     """
 
+    system_prompt: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    System prompt used for this assistant turn.
+    """
+
+    tool_calls: typing.Optional[typing.List[typing.Dict[str, typing.Optional[typing.Any]]]] = pydantic.Field(
+        default=None
+    )
+    """
+    Tool calls made by the assistant.
+    """
+
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
     else:
