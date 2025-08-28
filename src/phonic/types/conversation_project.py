@@ -6,24 +6,19 @@ import pydantic
 from ..core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 
 
-class ConversationAgent(UniversalBaseModel):
+class ConversationProject(UniversalBaseModel):
     """
-    The agent associated with the conversation.
+    The project associated with the conversation.
     """
 
     id: str = pydantic.Field()
     """
-    The ID of the agent.
+    The ID of the project.
     """
 
     name: str = pydantic.Field()
     """
-    The name of the agent.
-    """
-
-    is_deleted: bool = pydantic.Field()
-    """
-    Whether the agent has been deleted.
+    The name of the project.
     """
 
     if IS_PYDANTIC_V2:
