@@ -46,7 +46,7 @@ class Conversation(UniversalBaseModel):
     Welcome message played at start.
     """
 
-    template_variables: typing.Dict[str, typing.Optional[typing.Any]] = pydantic.Field()
+    template_variables: typing.Dict[str, str] = pydantic.Field()
     """
     Template variables used in the conversation.
     """
