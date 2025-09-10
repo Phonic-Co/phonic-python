@@ -46,6 +46,7 @@ client.agents.create(
     tools=[],
     no_input_poke_sec=30,
     no_input_poke_text="Are you still there?",
+    recognized_languages=["en", "es"],
     boosted_keywords=["Load ID", "dispatch"],
     configuration_endpoint=CreateAgentRequestConfigurationEndpoint(
         url="https://api.example.com/config",
@@ -91,6 +92,7 @@ async def main() -> None:
         tools=[],
         no_input_poke_sec=30,
         no_input_poke_text="Are you still there?",
+        recognized_languages=["en", "es"],
         boosted_keywords=["Load ID", "dispatch"],
         configuration_endpoint=CreateAgentRequestConfigurationEndpoint(
             url="https://api.example.com/config",

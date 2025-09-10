@@ -89,6 +89,7 @@ class AgentsClient:
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
+        recognized_languages: typing.Optional[typing.Sequence[str]] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpoint] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
@@ -142,6 +143,9 @@ class AgentsClient:
         no_input_end_conversation_sec : typing.Optional[int]
             Seconds of silence before ending the conversation.
 
+        recognized_languages : typing.Optional[typing.Sequence[str]]
+            Array of ISO 639-1 language codes that the agent should be able to recognize
+
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
 
@@ -184,6 +188,7 @@ class AgentsClient:
             tools=[],
             no_input_poke_sec=30,
             no_input_poke_text="Are you still there?",
+            recognized_languages=["en", "es"],
             boosted_keywords=["Load ID", "dispatch"],
             configuration_endpoint=CreateAgentRequestConfigurationEndpoint(
                 url="https://api.example.com/config",
@@ -208,6 +213,7 @@ class AgentsClient:
             no_input_poke_sec=no_input_poke_sec,
             no_input_poke_text=no_input_poke_text,
             no_input_end_conversation_sec=no_input_end_conversation_sec,
+            recognized_languages=recognized_languages,
             boosted_keywords=boosted_keywords,
             configuration_endpoint=configuration_endpoint,
             request_options=request_options,
@@ -232,6 +238,7 @@ class AgentsClient:
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
+        recognized_languages: typing.Optional[typing.Sequence[str]] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpoint] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
@@ -285,6 +292,9 @@ class AgentsClient:
         no_input_end_conversation_sec : typing.Optional[int]
             Seconds of silence before ending the conversation.
 
+        recognized_languages : typing.Optional[typing.Sequence[str]]
+            Array of ISO 639-1 language codes that the agent should be able to recognize
+
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
 
@@ -328,6 +338,7 @@ class AgentsClient:
             tools=[],
             no_input_poke_sec=30,
             no_input_poke_text="Are you still there?",
+            recognized_languages=["en", "es"],
             boosted_keywords=["Load ID", "dispatch"],
             configuration_endpoint=CreateAgentRequestConfigurationEndpoint(
                 url="https://api.example.com/config",
@@ -352,6 +363,7 @@ class AgentsClient:
             no_input_poke_sec=no_input_poke_sec,
             no_input_poke_text=no_input_poke_text,
             no_input_end_conversation_sec=no_input_end_conversation_sec,
+            recognized_languages=recognized_languages,
             boosted_keywords=boosted_keywords,
             configuration_endpoint=configuration_endpoint,
             request_options=request_options,
@@ -459,6 +471,7 @@ class AgentsClient:
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
+        recognized_languages: typing.Optional[typing.Sequence[str]] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
         configuration_endpoint: typing.Optional[UpdateAgentRequestConfigurationEndpoint] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
@@ -515,6 +528,9 @@ class AgentsClient:
         no_input_end_conversation_sec : typing.Optional[int]
             Seconds of silence before ending the conversation.
 
+        recognized_languages : typing.Optional[typing.Sequence[str]]
+            Array of ISO 639-1 language codes that the agent should be able to recognize
+
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
 
@@ -559,6 +575,7 @@ class AgentsClient:
             tools=[],
             no_input_poke_sec=30,
             no_input_poke_text="Are you still there?",
+            recognized_languages=["en", "es"],
             boosted_keywords=["Load ID", "dispatch"],
             configuration_endpoint=UpdateAgentRequestConfigurationEndpoint(
                 url="https://api.example.com/config",
@@ -584,6 +601,7 @@ class AgentsClient:
             no_input_poke_sec=no_input_poke_sec,
             no_input_poke_text=no_input_poke_text,
             no_input_end_conversation_sec=no_input_end_conversation_sec,
+            recognized_languages=recognized_languages,
             boosted_keywords=boosted_keywords,
             configuration_endpoint=configuration_endpoint,
             request_options=request_options,
@@ -663,6 +681,7 @@ class AsyncAgentsClient:
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
+        recognized_languages: typing.Optional[typing.Sequence[str]] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpoint] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
@@ -716,6 +735,9 @@ class AsyncAgentsClient:
         no_input_end_conversation_sec : typing.Optional[int]
             Seconds of silence before ending the conversation.
 
+        recognized_languages : typing.Optional[typing.Sequence[str]]
+            Array of ISO 639-1 language codes that the agent should be able to recognize
+
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
 
@@ -763,6 +785,7 @@ class AsyncAgentsClient:
                 tools=[],
                 no_input_poke_sec=30,
                 no_input_poke_text="Are you still there?",
+                recognized_languages=["en", "es"],
                 boosted_keywords=["Load ID", "dispatch"],
                 configuration_endpoint=CreateAgentRequestConfigurationEndpoint(
                     url="https://api.example.com/config",
@@ -790,6 +813,7 @@ class AsyncAgentsClient:
             no_input_poke_sec=no_input_poke_sec,
             no_input_poke_text=no_input_poke_text,
             no_input_end_conversation_sec=no_input_end_conversation_sec,
+            recognized_languages=recognized_languages,
             boosted_keywords=boosted_keywords,
             configuration_endpoint=configuration_endpoint,
             request_options=request_options,
@@ -814,6 +838,7 @@ class AsyncAgentsClient:
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
+        recognized_languages: typing.Optional[typing.Sequence[str]] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpoint] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
@@ -867,6 +892,9 @@ class AsyncAgentsClient:
         no_input_end_conversation_sec : typing.Optional[int]
             Seconds of silence before ending the conversation.
 
+        recognized_languages : typing.Optional[typing.Sequence[str]]
+            Array of ISO 639-1 language codes that the agent should be able to recognize
+
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
 
@@ -915,6 +943,7 @@ class AsyncAgentsClient:
                 tools=[],
                 no_input_poke_sec=30,
                 no_input_poke_text="Are you still there?",
+                recognized_languages=["en", "es"],
                 boosted_keywords=["Load ID", "dispatch"],
                 configuration_endpoint=CreateAgentRequestConfigurationEndpoint(
                     url="https://api.example.com/config",
@@ -942,6 +971,7 @@ class AsyncAgentsClient:
             no_input_poke_sec=no_input_poke_sec,
             no_input_poke_text=no_input_poke_text,
             no_input_end_conversation_sec=no_input_end_conversation_sec,
+            recognized_languages=recognized_languages,
             boosted_keywords=boosted_keywords,
             configuration_endpoint=configuration_endpoint,
             request_options=request_options,
@@ -1065,6 +1095,7 @@ class AsyncAgentsClient:
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
+        recognized_languages: typing.Optional[typing.Sequence[str]] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
         configuration_endpoint: typing.Optional[UpdateAgentRequestConfigurationEndpoint] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
@@ -1121,6 +1152,9 @@ class AsyncAgentsClient:
         no_input_end_conversation_sec : typing.Optional[int]
             Seconds of silence before ending the conversation.
 
+        recognized_languages : typing.Optional[typing.Sequence[str]]
+            Array of ISO 639-1 language codes that the agent should be able to recognize
+
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
 
@@ -1170,6 +1204,7 @@ class AsyncAgentsClient:
                 tools=[],
                 no_input_poke_sec=30,
                 no_input_poke_text="Are you still there?",
+                recognized_languages=["en", "es"],
                 boosted_keywords=["Load ID", "dispatch"],
                 configuration_endpoint=UpdateAgentRequestConfigurationEndpoint(
                     url="https://api.example.com/config",
@@ -1198,6 +1233,7 @@ class AsyncAgentsClient:
             no_input_poke_sec=no_input_poke_sec,
             no_input_poke_text=no_input_poke_text,
             no_input_end_conversation_sec=no_input_end_conversation_sec,
+            recognized_languages=recognized_languages,
             boosted_keywords=boosted_keywords,
             configuration_endpoint=configuration_endpoint,
             request_options=request_options,

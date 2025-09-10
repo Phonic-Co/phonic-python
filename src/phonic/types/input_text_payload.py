@@ -8,6 +8,11 @@ from ..core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 
 class InputTextPayload(UniversalBaseModel):
     type: typing.Literal["input_text"] = "input_text"
+    language: str = pydantic.Field()
+    """
+    Detected ISO 639-1 language code of user speech
+    """
+
     text: str = pydantic.Field()
     """
     Transcribed user speech

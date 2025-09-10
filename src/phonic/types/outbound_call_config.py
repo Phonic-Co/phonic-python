@@ -57,6 +57,11 @@ class OutboundCallConfig(UniversalBaseModel):
     Seconds of silence before ending the conversation.
     """
 
+    recognized_languages: typing.Optional[typing.List[str]] = pydantic.Field(default=None)
+    """
+    Array of ISO 639-1 language codes that the agent should be able to recognize
+    """
+
     boosted_keywords: typing.Optional[typing.List[str]] = pydantic.Field(default=None)
     """
     These words, or short phrases, will be more accurately recognized by the agent.
