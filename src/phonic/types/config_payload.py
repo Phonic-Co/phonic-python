@@ -35,6 +35,11 @@ class ConfigPayload(UniversalBaseModel):
     Audio playback speed
     """
 
+    background_noise_level: typing.Optional[float] = pydantic.Field(default=None)
+    """
+    Background noise level for the conversation
+    """
+
     welcome_message: typing.Optional[str] = pydantic.Field(default=None)
     """
     Message to play when conversation starts

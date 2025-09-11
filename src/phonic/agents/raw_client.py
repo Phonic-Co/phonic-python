@@ -115,6 +115,7 @@ class RawAgentsClient:
         voice_id: typing.Optional[str] = OMIT,
         audio_format: typing.Optional[CreateAgentRequestAudioFormat] = OMIT,
         audio_speed: typing.Optional[float] = OMIT,
+        background_noise_level: typing.Optional[float] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValue]] = OMIT,
@@ -151,6 +152,9 @@ class RawAgentsClient:
 
         audio_speed : typing.Optional[float]
             The audio speed of the agent.
+
+        background_noise_level : typing.Optional[float]
+            The background noise level of the agent.
 
         welcome_message : typing.Optional[str]
             Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`.
@@ -204,6 +208,7 @@ class RawAgentsClient:
                 "voice_id": voice_id,
                 "audio_format": audio_format,
                 "audio_speed": audio_speed,
+                "background_noise_level": background_noise_level,
                 "welcome_message": welcome_message,
                 "system_prompt": system_prompt,
                 "template_variables": convert_and_respect_annotation_metadata(
@@ -302,6 +307,7 @@ class RawAgentsClient:
         voice_id: typing.Optional[str] = OMIT,
         audio_format: typing.Optional[CreateAgentRequestAudioFormat] = OMIT,
         audio_speed: typing.Optional[float] = OMIT,
+        background_noise_level: typing.Optional[float] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValue]] = OMIT,
@@ -338,6 +344,9 @@ class RawAgentsClient:
 
         audio_speed : typing.Optional[float]
             The audio speed of the agent.
+
+        background_noise_level : typing.Optional[float]
+            The background noise level of the agent.
 
         welcome_message : typing.Optional[str]
             Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`.
@@ -391,6 +400,7 @@ class RawAgentsClient:
                 "voice_id": voice_id,
                 "audio_format": audio_format,
                 "audio_speed": audio_speed,
+                "background_noise_level": background_noise_level,
                 "welcome_message": welcome_message,
                 "system_prompt": system_prompt,
                 "template_variables": convert_and_respect_annotation_metadata(
@@ -612,6 +622,7 @@ class RawAgentsClient:
         voice_id: typing.Optional[str] = OMIT,
         audio_format: typing.Optional[UpdateAgentRequestAudioFormat] = OMIT,
         audio_speed: typing.Optional[float] = OMIT,
+        background_noise_level: typing.Optional[float] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, UpdateAgentRequestTemplateVariablesValue]] = OMIT,
@@ -651,6 +662,9 @@ class RawAgentsClient:
 
         audio_speed : typing.Optional[float]
             The audio speed of the agent.
+
+        background_noise_level : typing.Optional[float]
+            The background noise level of the agent.
 
         welcome_message : typing.Optional[str]
             Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`.
@@ -704,6 +718,7 @@ class RawAgentsClient:
                 "voice_id": voice_id,
                 "audio_format": audio_format,
                 "audio_speed": audio_speed,
+                "background_noise_level": background_noise_level,
                 "welcome_message": welcome_message,
                 "system_prompt": system_prompt,
                 "template_variables": convert_and_respect_annotation_metadata(
@@ -861,6 +876,7 @@ class AsyncRawAgentsClient:
         voice_id: typing.Optional[str] = OMIT,
         audio_format: typing.Optional[CreateAgentRequestAudioFormat] = OMIT,
         audio_speed: typing.Optional[float] = OMIT,
+        background_noise_level: typing.Optional[float] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValue]] = OMIT,
@@ -897,6 +913,9 @@ class AsyncRawAgentsClient:
 
         audio_speed : typing.Optional[float]
             The audio speed of the agent.
+
+        background_noise_level : typing.Optional[float]
+            The background noise level of the agent.
 
         welcome_message : typing.Optional[str]
             Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`.
@@ -950,6 +969,7 @@ class AsyncRawAgentsClient:
                 "voice_id": voice_id,
                 "audio_format": audio_format,
                 "audio_speed": audio_speed,
+                "background_noise_level": background_noise_level,
                 "welcome_message": welcome_message,
                 "system_prompt": system_prompt,
                 "template_variables": convert_and_respect_annotation_metadata(
@@ -1048,6 +1068,7 @@ class AsyncRawAgentsClient:
         voice_id: typing.Optional[str] = OMIT,
         audio_format: typing.Optional[CreateAgentRequestAudioFormat] = OMIT,
         audio_speed: typing.Optional[float] = OMIT,
+        background_noise_level: typing.Optional[float] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValue]] = OMIT,
@@ -1084,6 +1105,9 @@ class AsyncRawAgentsClient:
 
         audio_speed : typing.Optional[float]
             The audio speed of the agent.
+
+        background_noise_level : typing.Optional[float]
+            The background noise level of the agent.
 
         welcome_message : typing.Optional[str]
             Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`.
@@ -1137,6 +1161,7 @@ class AsyncRawAgentsClient:
                 "voice_id": voice_id,
                 "audio_format": audio_format,
                 "audio_speed": audio_speed,
+                "background_noise_level": background_noise_level,
                 "welcome_message": welcome_message,
                 "system_prompt": system_prompt,
                 "template_variables": convert_and_respect_annotation_metadata(
@@ -1358,6 +1383,7 @@ class AsyncRawAgentsClient:
         voice_id: typing.Optional[str] = OMIT,
         audio_format: typing.Optional[UpdateAgentRequestAudioFormat] = OMIT,
         audio_speed: typing.Optional[float] = OMIT,
+        background_noise_level: typing.Optional[float] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, UpdateAgentRequestTemplateVariablesValue]] = OMIT,
@@ -1397,6 +1423,9 @@ class AsyncRawAgentsClient:
 
         audio_speed : typing.Optional[float]
             The audio speed of the agent.
+
+        background_noise_level : typing.Optional[float]
+            The background noise level of the agent.
 
         welcome_message : typing.Optional[str]
             Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`.
@@ -1450,6 +1479,7 @@ class AsyncRawAgentsClient:
                 "voice_id": voice_id,
                 "audio_format": audio_format,
                 "audio_speed": audio_speed,
+                "background_noise_level": background_noise_level,
                 "welcome_message": welcome_message,
                 "system_prompt": system_prompt,
                 "template_variables": convert_and_respect_annotation_metadata(

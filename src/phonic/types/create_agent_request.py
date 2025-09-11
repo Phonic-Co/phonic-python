@@ -38,6 +38,11 @@ class CreateAgentRequest(UniversalBaseModel):
     The audio speed of the agent.
     """
 
+    background_noise_level: typing.Optional[float] = pydantic.Field(default=None)
+    """
+    The background noise level of the agent.
+    """
+
     welcome_message: typing.Optional[str] = pydantic.Field(default=None)
     """
     Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`.

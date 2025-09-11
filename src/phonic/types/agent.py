@@ -53,6 +53,11 @@ class Agent(UniversalBaseModel):
     The audio speed of the agent. Must be a multiple of 0.1.
     """
 
+    background_noise_level: float = pydantic.Field()
+    """
+    The background noise level of the agent. Must be between 0 and 1.
+    """
+
     welcome_message: typing.Optional[str] = pydantic.Field(default=None)
     """
     Message to play when the conversation starts.

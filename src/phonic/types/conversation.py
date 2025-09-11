@@ -61,6 +61,11 @@ class Conversation(UniversalBaseModel):
     Audio output format.
     """
 
+    background_noise_level: float = pydantic.Field()
+    """
+    Background noise level used in the conversation.
+    """
+
     live_transcript: str = pydantic.Field()
     """
     Live transcript of the conversation.

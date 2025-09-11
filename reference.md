@@ -110,6 +110,7 @@ client.agents.create(
     timezone="America/Los_Angeles",
     voice_id="grant",
     audio_speed=1.0,
+    background_noise_level=0.0,
     welcome_message="Hi {{customer_name}}. How can I help you today?",
     system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
     template_variables={
@@ -192,6 +193,14 @@ client.agents.create(
 <dd>
 
 **audio_speed:** `typing.Optional[float]` — The audio speed of the agent.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**background_noise_level:** `typing.Optional[float]` — The background noise level of the agent.
     
 </dd>
 </dl>
@@ -334,6 +343,7 @@ client.agents.upsert(
     timezone="America/Los_Angeles",
     voice_id="grant",
     audio_speed=1.0,
+    background_noise_level=0.0,
     welcome_message="Hi {{customer_name}}. How can I help you today?",
     system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
     template_variables={
@@ -416,6 +426,14 @@ client.agents.upsert(
 <dd>
 
 **audio_speed:** `typing.Optional[float]` — The audio speed of the agent.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**background_noise_level:** `typing.Optional[float]` — The background noise level of the agent.
     
 </dd>
 </dl>
@@ -717,6 +735,7 @@ client.agents.update(
     timezone="America/Los_Angeles",
     voice_id="grant",
     audio_speed=1.0,
+    background_noise_level=0.0,
     welcome_message="Hi {{customer_name}}. How can I help you today?",
     system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
     template_variables={
@@ -807,6 +826,14 @@ client.agents.update(
 <dd>
 
 **audio_speed:** `typing.Optional[float]` — The audio speed of the agent.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**background_noise_level:** `typing.Optional[float]` — The background noise level of the agent.
     
 </dd>
 </dl>
