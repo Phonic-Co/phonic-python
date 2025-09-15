@@ -13,15 +13,27 @@ from .types import (
     UpdateToolRequestExecutionMode,
     UpdateToolRequestType,
 )
+from .requests import (
+    ToolsCreateResponseParams,
+    ToolsDeleteResponseParams,
+    ToolsGetResponseParams,
+    ToolsListResponseParams,
+    ToolsUpdateResponseParams,
+)
 
 __all__ = [
     "CreateToolRequestExecutionMode",
     "CreateToolRequestType",
     "ToolsCreateResponse",
+    "ToolsCreateResponseParams",
     "ToolsDeleteResponse",
+    "ToolsDeleteResponseParams",
     "ToolsGetResponse",
+    "ToolsGetResponseParams",
     "ToolsListResponse",
+    "ToolsListResponseParams",
     "ToolsUpdateResponse",
+    "ToolsUpdateResponseParams",
     "UpdateToolRequestExecutionMode",
     "UpdateToolRequestType",
 ]

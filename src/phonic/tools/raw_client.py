@@ -14,7 +14,7 @@ from ..errors.bad_request_error import BadRequestError
 from ..errors.conflict_error import ConflictError
 from ..errors.forbidden_error import ForbiddenError
 from ..errors.not_found_error import NotFoundError
-from ..types.tool_parameter import ToolParameter
+from ..requests.tool_parameter import ToolParameterParams
 from .types.create_tool_request_execution_mode import CreateToolRequestExecutionMode
 from .types.create_tool_request_type import CreateToolRequestType
 from .types.tools_create_response import ToolsCreateResponse
@@ -95,7 +95,7 @@ class RawToolsClient:
         type: CreateToolRequestType,
         execution_mode: CreateToolRequestExecutionMode,
         project: typing.Optional[str] = None,
-        parameters: typing.Optional[typing.Sequence[ToolParameter]] = OMIT,
+        parameters: typing.Optional[typing.Sequence[ToolParameterParams]] = OMIT,
         endpoint_method: typing.Optional[typing.Literal["POST"]] = OMIT,
         endpoint_url: typing.Optional[str] = OMIT,
         endpoint_headers: typing.Optional[typing.Dict[str, str]] = OMIT,
@@ -124,7 +124,7 @@ class RawToolsClient:
         project : typing.Optional[str]
             The name of the project to create the tool in.
 
-        parameters : typing.Optional[typing.Sequence[ToolParameter]]
+        parameters : typing.Optional[typing.Sequence[ToolParameterParams]]
             Array of parameter definitions.
 
         endpoint_method : typing.Optional[typing.Literal["POST"]]
@@ -166,7 +166,7 @@ class RawToolsClient:
                 "type": type,
                 "execution_mode": execution_mode,
                 "parameters": convert_and_respect_annotation_metadata(
-                    object_=parameters, annotation=typing.Sequence[ToolParameter], direction="write"
+                    object_=parameters, annotation=typing.Sequence[ToolParameterParams], direction="write"
                 ),
                 "endpoint_method": endpoint_method,
                 "endpoint_url": endpoint_url,
@@ -371,7 +371,7 @@ class RawToolsClient:
         description: typing.Optional[str] = OMIT,
         type: typing.Optional[UpdateToolRequestType] = OMIT,
         execution_mode: typing.Optional[UpdateToolRequestExecutionMode] = OMIT,
-        parameters: typing.Optional[typing.Sequence[ToolParameter]] = OMIT,
+        parameters: typing.Optional[typing.Sequence[ToolParameterParams]] = OMIT,
         endpoint_method: typing.Optional[typing.Literal["POST"]] = OMIT,
         endpoint_url: typing.Optional[str] = OMIT,
         endpoint_headers: typing.Optional[typing.Dict[str, str]] = OMIT,
@@ -403,7 +403,7 @@ class RawToolsClient:
         execution_mode : typing.Optional[UpdateToolRequestExecutionMode]
             Mode of operation.
 
-        parameters : typing.Optional[typing.Sequence[ToolParameter]]
+        parameters : typing.Optional[typing.Sequence[ToolParameterParams]]
             Array of parameter definitions.
 
         endpoint_method : typing.Optional[typing.Literal["POST"]]
@@ -440,7 +440,7 @@ class RawToolsClient:
                 "type": type,
                 "execution_mode": execution_mode,
                 "parameters": convert_and_respect_annotation_metadata(
-                    object_=parameters, annotation=typing.Sequence[ToolParameter], direction="write"
+                    object_=parameters, annotation=typing.Sequence[ToolParameterParams], direction="write"
                 ),
                 "endpoint_method": endpoint_method,
                 "endpoint_url": endpoint_url,
@@ -570,7 +570,7 @@ class AsyncRawToolsClient:
         type: CreateToolRequestType,
         execution_mode: CreateToolRequestExecutionMode,
         project: typing.Optional[str] = None,
-        parameters: typing.Optional[typing.Sequence[ToolParameter]] = OMIT,
+        parameters: typing.Optional[typing.Sequence[ToolParameterParams]] = OMIT,
         endpoint_method: typing.Optional[typing.Literal["POST"]] = OMIT,
         endpoint_url: typing.Optional[str] = OMIT,
         endpoint_headers: typing.Optional[typing.Dict[str, str]] = OMIT,
@@ -599,7 +599,7 @@ class AsyncRawToolsClient:
         project : typing.Optional[str]
             The name of the project to create the tool in.
 
-        parameters : typing.Optional[typing.Sequence[ToolParameter]]
+        parameters : typing.Optional[typing.Sequence[ToolParameterParams]]
             Array of parameter definitions.
 
         endpoint_method : typing.Optional[typing.Literal["POST"]]
@@ -641,7 +641,7 @@ class AsyncRawToolsClient:
                 "type": type,
                 "execution_mode": execution_mode,
                 "parameters": convert_and_respect_annotation_metadata(
-                    object_=parameters, annotation=typing.Sequence[ToolParameter], direction="write"
+                    object_=parameters, annotation=typing.Sequence[ToolParameterParams], direction="write"
                 ),
                 "endpoint_method": endpoint_method,
                 "endpoint_url": endpoint_url,
@@ -846,7 +846,7 @@ class AsyncRawToolsClient:
         description: typing.Optional[str] = OMIT,
         type: typing.Optional[UpdateToolRequestType] = OMIT,
         execution_mode: typing.Optional[UpdateToolRequestExecutionMode] = OMIT,
-        parameters: typing.Optional[typing.Sequence[ToolParameter]] = OMIT,
+        parameters: typing.Optional[typing.Sequence[ToolParameterParams]] = OMIT,
         endpoint_method: typing.Optional[typing.Literal["POST"]] = OMIT,
         endpoint_url: typing.Optional[str] = OMIT,
         endpoint_headers: typing.Optional[typing.Dict[str, str]] = OMIT,
@@ -878,7 +878,7 @@ class AsyncRawToolsClient:
         execution_mode : typing.Optional[UpdateToolRequestExecutionMode]
             Mode of operation.
 
-        parameters : typing.Optional[typing.Sequence[ToolParameter]]
+        parameters : typing.Optional[typing.Sequence[ToolParameterParams]]
             Array of parameter definitions.
 
         endpoint_method : typing.Optional[typing.Literal["POST"]]
@@ -915,7 +915,7 @@ class AsyncRawToolsClient:
                 "type": type,
                 "execution_mode": execution_mode,
                 "parameters": convert_and_respect_annotation_metadata(
-                    object_=parameters, annotation=typing.Sequence[ToolParameter], direction="write"
+                    object_=parameters, annotation=typing.Sequence[ToolParameterParams], direction="write"
                 ),
                 "endpoint_method": endpoint_method,
                 "endpoint_url": endpoint_url,

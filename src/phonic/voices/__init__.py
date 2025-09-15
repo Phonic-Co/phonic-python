@@ -3,5 +3,6 @@
 # isort: skip_file
 
 from .types import VoicesGetResponse, VoicesListResponse
+from .requests import VoicesGetResponseParams, VoicesListResponseParams
 
-__all__ = ["VoicesGetResponse", "VoicesListResponse"]
+__all__ = ["VoicesGetResponse", "VoicesGetResponseParams", "VoicesListResponse", "VoicesListResponseParams"]

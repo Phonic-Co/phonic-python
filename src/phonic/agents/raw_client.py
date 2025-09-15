@@ -15,12 +15,15 @@ from ..errors.forbidden_error import ForbiddenError
 from ..errors.internal_server_error import InternalServerError
 from ..errors.not_found_error import NotFoundError
 from ..errors.unauthorized_error import UnauthorizedError
+from ..requests.create_agent_request_configuration_endpoint import CreateAgentRequestConfigurationEndpointParams
+from ..requests.create_agent_request_template_variables_value import CreateAgentRequestTemplateVariablesValueParams
+from ..requests.create_agent_request_tools_item import CreateAgentRequestToolsItemParams
+from ..requests.task import TaskParams
 from ..types.basic_error import BasicError
 from ..types.create_agent_request_audio_format import CreateAgentRequestAudioFormat
-from ..types.create_agent_request_configuration_endpoint import CreateAgentRequestConfigurationEndpoint
-from ..types.create_agent_request_template_variables_value import CreateAgentRequestTemplateVariablesValue
-from ..types.create_agent_request_tools_item import CreateAgentRequestToolsItem
-from ..types.task import Task
+from .requests.update_agent_request_configuration_endpoint import UpdateAgentRequestConfigurationEndpointParams
+from .requests.update_agent_request_template_variables_value import UpdateAgentRequestTemplateVariablesValueParams
+from .requests.update_agent_request_tools_item import UpdateAgentRequestToolsItemParams
 from .types.agents_create_response import AgentsCreateResponse
 from .types.agents_delete_response import AgentsDeleteResponse
 from .types.agents_get_response import AgentsGetResponse
@@ -28,9 +31,6 @@ from .types.agents_list_response import AgentsListResponse
 from .types.agents_update_response import AgentsUpdateResponse
 from .types.agents_upsert_response import AgentsUpsertResponse
 from .types.update_agent_request_audio_format import UpdateAgentRequestAudioFormat
-from .types.update_agent_request_configuration_endpoint import UpdateAgentRequestConfigurationEndpoint
-from .types.update_agent_request_template_variables_value import UpdateAgentRequestTemplateVariablesValue
-from .types.update_agent_request_tools_item import UpdateAgentRequestToolsItem
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -117,14 +117,14 @@ class RawAgentsClient:
         audio_speed: typing.Optional[float] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
-        template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValue]] = OMIT,
-        tools: typing.Optional[typing.Sequence[CreateAgentRequestToolsItem]] = OMIT,
-        tasks: typing.Optional[typing.Sequence[Task]] = OMIT,
+        template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValueParams]] = OMIT,
+        tools: typing.Optional[typing.Sequence[CreateAgentRequestToolsItemParams]] = OMIT,
+        tasks: typing.Optional[typing.Sequence[TaskParams]] = OMIT,
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
-        configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpoint] = OMIT,
+        configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[AgentsCreateResponse]:
         """
@@ -158,13 +158,13 @@ class RawAgentsClient:
         system_prompt : typing.Optional[str]
             Instructions for the conversation. Can contain template variables like `{{subject}}`.
 
-        template_variables : typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValue]]
+        template_variables : typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValueParams]]
             Variables that can be used in the welcome message and the system prompt.
 
-        tools : typing.Optional[typing.Sequence[CreateAgentRequestToolsItem]]
+        tools : typing.Optional[typing.Sequence[CreateAgentRequestToolsItemParams]]
             Array of built-in or custom tool names to use.
 
-        tasks : typing.Optional[typing.Sequence[Task]]
+        tasks : typing.Optional[typing.Sequence[TaskParams]]
             Array of task objects with `name` and `description` fields.
 
         no_input_poke_sec : typing.Optional[int]
@@ -179,7 +179,7 @@ class RawAgentsClient:
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
 
-        configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpoint]
+        configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpointParams]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint when to get configuration options.
 
         request_options : typing.Optional[RequestOptions]
@@ -208,14 +208,14 @@ class RawAgentsClient:
                 "system_prompt": system_prompt,
                 "template_variables": convert_and_respect_annotation_metadata(
                     object_=template_variables,
-                    annotation=typing.Dict[str, CreateAgentRequestTemplateVariablesValue],
+                    annotation=typing.Dict[str, CreateAgentRequestTemplateVariablesValueParams],
                     direction="write",
                 ),
                 "tools": convert_and_respect_annotation_metadata(
-                    object_=tools, annotation=typing.Sequence[CreateAgentRequestToolsItem], direction="write"
+                    object_=tools, annotation=typing.Sequence[CreateAgentRequestToolsItemParams], direction="write"
                 ),
                 "tasks": convert_and_respect_annotation_metadata(
-                    object_=tasks, annotation=typing.Sequence[Task], direction="write"
+                    object_=tasks, annotation=typing.Sequence[TaskParams], direction="write"
                 ),
                 "no_input_poke_sec": no_input_poke_sec,
                 "no_input_poke_text": no_input_poke_text,
@@ -223,7 +223,7 @@ class RawAgentsClient:
                 "boosted_keywords": boosted_keywords,
                 "configuration_endpoint": convert_and_respect_annotation_metadata(
                     object_=configuration_endpoint,
-                    annotation=CreateAgentRequestConfigurationEndpoint,
+                    annotation=CreateAgentRequestConfigurationEndpointParams,
                     direction="write",
                 ),
             },
@@ -304,14 +304,14 @@ class RawAgentsClient:
         audio_speed: typing.Optional[float] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
-        template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValue]] = OMIT,
-        tools: typing.Optional[typing.Sequence[CreateAgentRequestToolsItem]] = OMIT,
-        tasks: typing.Optional[typing.Sequence[Task]] = OMIT,
+        template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValueParams]] = OMIT,
+        tools: typing.Optional[typing.Sequence[CreateAgentRequestToolsItemParams]] = OMIT,
+        tasks: typing.Optional[typing.Sequence[TaskParams]] = OMIT,
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
-        configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpoint] = OMIT,
+        configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[AgentsUpsertResponse]:
         """
@@ -345,13 +345,13 @@ class RawAgentsClient:
         system_prompt : typing.Optional[str]
             Instructions for the conversation. Can contain template variables like `{{subject}}`.
 
-        template_variables : typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValue]]
+        template_variables : typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValueParams]]
             Variables that can be used in the welcome message and the system prompt.
 
-        tools : typing.Optional[typing.Sequence[CreateAgentRequestToolsItem]]
+        tools : typing.Optional[typing.Sequence[CreateAgentRequestToolsItemParams]]
             Array of built-in or custom tool names to use.
 
-        tasks : typing.Optional[typing.Sequence[Task]]
+        tasks : typing.Optional[typing.Sequence[TaskParams]]
             Array of task objects with `name` and `description` fields.
 
         no_input_poke_sec : typing.Optional[int]
@@ -366,7 +366,7 @@ class RawAgentsClient:
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
 
-        configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpoint]
+        configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpointParams]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint when to get configuration options.
 
         request_options : typing.Optional[RequestOptions]
@@ -395,14 +395,14 @@ class RawAgentsClient:
                 "system_prompt": system_prompt,
                 "template_variables": convert_and_respect_annotation_metadata(
                     object_=template_variables,
-                    annotation=typing.Dict[str, CreateAgentRequestTemplateVariablesValue],
+                    annotation=typing.Dict[str, CreateAgentRequestTemplateVariablesValueParams],
                     direction="write",
                 ),
                 "tools": convert_and_respect_annotation_metadata(
-                    object_=tools, annotation=typing.Sequence[CreateAgentRequestToolsItem], direction="write"
+                    object_=tools, annotation=typing.Sequence[CreateAgentRequestToolsItemParams], direction="write"
                 ),
                 "tasks": convert_and_respect_annotation_metadata(
-                    object_=tasks, annotation=typing.Sequence[Task], direction="write"
+                    object_=tasks, annotation=typing.Sequence[TaskParams], direction="write"
                 ),
                 "no_input_poke_sec": no_input_poke_sec,
                 "no_input_poke_text": no_input_poke_text,
@@ -410,7 +410,7 @@ class RawAgentsClient:
                 "boosted_keywords": boosted_keywords,
                 "configuration_endpoint": convert_and_respect_annotation_metadata(
                     object_=configuration_endpoint,
-                    annotation=CreateAgentRequestConfigurationEndpoint,
+                    annotation=CreateAgentRequestConfigurationEndpointParams,
                     direction="write",
                 ),
             },
@@ -614,14 +614,14 @@ class RawAgentsClient:
         audio_speed: typing.Optional[float] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
-        template_variables: typing.Optional[typing.Dict[str, UpdateAgentRequestTemplateVariablesValue]] = OMIT,
-        tools: typing.Optional[typing.Sequence[UpdateAgentRequestToolsItem]] = OMIT,
-        tasks: typing.Optional[typing.Sequence[Task]] = OMIT,
+        template_variables: typing.Optional[typing.Dict[str, UpdateAgentRequestTemplateVariablesValueParams]] = OMIT,
+        tools: typing.Optional[typing.Sequence[UpdateAgentRequestToolsItemParams]] = OMIT,
+        tasks: typing.Optional[typing.Sequence[TaskParams]] = OMIT,
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
-        configuration_endpoint: typing.Optional[UpdateAgentRequestConfigurationEndpoint] = OMIT,
+        configuration_endpoint: typing.Optional[UpdateAgentRequestConfigurationEndpointParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[AgentsUpdateResponse]:
         """
@@ -658,13 +658,13 @@ class RawAgentsClient:
         system_prompt : typing.Optional[str]
             Instructions for the conversation. Can contain template variables like `{{subject}}`.
 
-        template_variables : typing.Optional[typing.Dict[str, UpdateAgentRequestTemplateVariablesValue]]
+        template_variables : typing.Optional[typing.Dict[str, UpdateAgentRequestTemplateVariablesValueParams]]
             Variables that can be used in the welcome message and the system prompt.
 
-        tools : typing.Optional[typing.Sequence[UpdateAgentRequestToolsItem]]
+        tools : typing.Optional[typing.Sequence[UpdateAgentRequestToolsItemParams]]
             Array of built-in or custom tool names to use.
 
-        tasks : typing.Optional[typing.Sequence[Task]]
+        tasks : typing.Optional[typing.Sequence[TaskParams]]
             Array of task objects with `name` and `description` fields.
 
         no_input_poke_sec : typing.Optional[int]
@@ -679,7 +679,7 @@ class RawAgentsClient:
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
 
-        configuration_endpoint : typing.Optional[UpdateAgentRequestConfigurationEndpoint]
+        configuration_endpoint : typing.Optional[UpdateAgentRequestConfigurationEndpointParams]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint when to get configuration options.
 
         request_options : typing.Optional[RequestOptions]
@@ -708,14 +708,14 @@ class RawAgentsClient:
                 "system_prompt": system_prompt,
                 "template_variables": convert_and_respect_annotation_metadata(
                     object_=template_variables,
-                    annotation=typing.Dict[str, UpdateAgentRequestTemplateVariablesValue],
+                    annotation=typing.Dict[str, UpdateAgentRequestTemplateVariablesValueParams],
                     direction="write",
                 ),
                 "tools": convert_and_respect_annotation_metadata(
-                    object_=tools, annotation=typing.Sequence[UpdateAgentRequestToolsItem], direction="write"
+                    object_=tools, annotation=typing.Sequence[UpdateAgentRequestToolsItemParams], direction="write"
                 ),
                 "tasks": convert_and_respect_annotation_metadata(
-                    object_=tasks, annotation=typing.Sequence[Task], direction="write"
+                    object_=tasks, annotation=typing.Sequence[TaskParams], direction="write"
                 ),
                 "no_input_poke_sec": no_input_poke_sec,
                 "no_input_poke_text": no_input_poke_text,
@@ -723,7 +723,7 @@ class RawAgentsClient:
                 "boosted_keywords": boosted_keywords,
                 "configuration_endpoint": convert_and_respect_annotation_metadata(
                     object_=configuration_endpoint,
-                    annotation=UpdateAgentRequestConfigurationEndpoint,
+                    annotation=UpdateAgentRequestConfigurationEndpointParams,
                     direction="write",
                 ),
             },
@@ -863,14 +863,14 @@ class AsyncRawAgentsClient:
         audio_speed: typing.Optional[float] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
-        template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValue]] = OMIT,
-        tools: typing.Optional[typing.Sequence[CreateAgentRequestToolsItem]] = OMIT,
-        tasks: typing.Optional[typing.Sequence[Task]] = OMIT,
+        template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValueParams]] = OMIT,
+        tools: typing.Optional[typing.Sequence[CreateAgentRequestToolsItemParams]] = OMIT,
+        tasks: typing.Optional[typing.Sequence[TaskParams]] = OMIT,
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
-        configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpoint] = OMIT,
+        configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[AgentsCreateResponse]:
         """
@@ -904,13 +904,13 @@ class AsyncRawAgentsClient:
         system_prompt : typing.Optional[str]
             Instructions for the conversation. Can contain template variables like `{{subject}}`.
 
-        template_variables : typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValue]]
+        template_variables : typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValueParams]]
             Variables that can be used in the welcome message and the system prompt.
 
-        tools : typing.Optional[typing.Sequence[CreateAgentRequestToolsItem]]
+        tools : typing.Optional[typing.Sequence[CreateAgentRequestToolsItemParams]]
             Array of built-in or custom tool names to use.
 
-        tasks : typing.Optional[typing.Sequence[Task]]
+        tasks : typing.Optional[typing.Sequence[TaskParams]]
             Array of task objects with `name` and `description` fields.
 
         no_input_poke_sec : typing.Optional[int]
@@ -925,7 +925,7 @@ class AsyncRawAgentsClient:
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
 
-        configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpoint]
+        configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpointParams]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint when to get configuration options.
 
         request_options : typing.Optional[RequestOptions]
@@ -954,14 +954,14 @@ class AsyncRawAgentsClient:
                 "system_prompt": system_prompt,
                 "template_variables": convert_and_respect_annotation_metadata(
                     object_=template_variables,
-                    annotation=typing.Dict[str, CreateAgentRequestTemplateVariablesValue],
+                    annotation=typing.Dict[str, CreateAgentRequestTemplateVariablesValueParams],
                     direction="write",
                 ),
                 "tools": convert_and_respect_annotation_metadata(
-                    object_=tools, annotation=typing.Sequence[CreateAgentRequestToolsItem], direction="write"
+                    object_=tools, annotation=typing.Sequence[CreateAgentRequestToolsItemParams], direction="write"
                 ),
                 "tasks": convert_and_respect_annotation_metadata(
-                    object_=tasks, annotation=typing.Sequence[Task], direction="write"
+                    object_=tasks, annotation=typing.Sequence[TaskParams], direction="write"
                 ),
                 "no_input_poke_sec": no_input_poke_sec,
                 "no_input_poke_text": no_input_poke_text,
@@ -969,7 +969,7 @@ class AsyncRawAgentsClient:
                 "boosted_keywords": boosted_keywords,
                 "configuration_endpoint": convert_and_respect_annotation_metadata(
                     object_=configuration_endpoint,
-                    annotation=CreateAgentRequestConfigurationEndpoint,
+                    annotation=CreateAgentRequestConfigurationEndpointParams,
                     direction="write",
                 ),
             },
@@ -1050,14 +1050,14 @@ class AsyncRawAgentsClient:
         audio_speed: typing.Optional[float] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
-        template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValue]] = OMIT,
-        tools: typing.Optional[typing.Sequence[CreateAgentRequestToolsItem]] = OMIT,
-        tasks: typing.Optional[typing.Sequence[Task]] = OMIT,
+        template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValueParams]] = OMIT,
+        tools: typing.Optional[typing.Sequence[CreateAgentRequestToolsItemParams]] = OMIT,
+        tasks: typing.Optional[typing.Sequence[TaskParams]] = OMIT,
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
-        configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpoint] = OMIT,
+        configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[AgentsUpsertResponse]:
         """
@@ -1091,13 +1091,13 @@ class AsyncRawAgentsClient:
         system_prompt : typing.Optional[str]
             Instructions for the conversation. Can contain template variables like `{{subject}}`.
 
-        template_variables : typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValue]]
+        template_variables : typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValueParams]]
             Variables that can be used in the welcome message and the system prompt.
 
-        tools : typing.Optional[typing.Sequence[CreateAgentRequestToolsItem]]
+        tools : typing.Optional[typing.Sequence[CreateAgentRequestToolsItemParams]]
             Array of built-in or custom tool names to use.
 
-        tasks : typing.Optional[typing.Sequence[Task]]
+        tasks : typing.Optional[typing.Sequence[TaskParams]]
             Array of task objects with `name` and `description` fields.
 
         no_input_poke_sec : typing.Optional[int]
@@ -1112,7 +1112,7 @@ class AsyncRawAgentsClient:
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
 
-        configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpoint]
+        configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpointParams]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint when to get configuration options.
 
         request_options : typing.Optional[RequestOptions]
@@ -1141,14 +1141,14 @@ class AsyncRawAgentsClient:
                 "system_prompt": system_prompt,
                 "template_variables": convert_and_respect_annotation_metadata(
                     object_=template_variables,
-                    annotation=typing.Dict[str, CreateAgentRequestTemplateVariablesValue],
+                    annotation=typing.Dict[str, CreateAgentRequestTemplateVariablesValueParams],
                     direction="write",
                 ),
                 "tools": convert_and_respect_annotation_metadata(
-                    object_=tools, annotation=typing.Sequence[CreateAgentRequestToolsItem], direction="write"
+                    object_=tools, annotation=typing.Sequence[CreateAgentRequestToolsItemParams], direction="write"
                 ),
                 "tasks": convert_and_respect_annotation_metadata(
-                    object_=tasks, annotation=typing.Sequence[Task], direction="write"
+                    object_=tasks, annotation=typing.Sequence[TaskParams], direction="write"
                 ),
                 "no_input_poke_sec": no_input_poke_sec,
                 "no_input_poke_text": no_input_poke_text,
@@ -1156,7 +1156,7 @@ class AsyncRawAgentsClient:
                 "boosted_keywords": boosted_keywords,
                 "configuration_endpoint": convert_and_respect_annotation_metadata(
                     object_=configuration_endpoint,
-                    annotation=CreateAgentRequestConfigurationEndpoint,
+                    annotation=CreateAgentRequestConfigurationEndpointParams,
                     direction="write",
                 ),
             },
@@ -1360,14 +1360,14 @@ class AsyncRawAgentsClient:
         audio_speed: typing.Optional[float] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
-        template_variables: typing.Optional[typing.Dict[str, UpdateAgentRequestTemplateVariablesValue]] = OMIT,
-        tools: typing.Optional[typing.Sequence[UpdateAgentRequestToolsItem]] = OMIT,
-        tasks: typing.Optional[typing.Sequence[Task]] = OMIT,
+        template_variables: typing.Optional[typing.Dict[str, UpdateAgentRequestTemplateVariablesValueParams]] = OMIT,
+        tools: typing.Optional[typing.Sequence[UpdateAgentRequestToolsItemParams]] = OMIT,
+        tasks: typing.Optional[typing.Sequence[TaskParams]] = OMIT,
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
-        configuration_endpoint: typing.Optional[UpdateAgentRequestConfigurationEndpoint] = OMIT,
+        configuration_endpoint: typing.Optional[UpdateAgentRequestConfigurationEndpointParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[AgentsUpdateResponse]:
         """
@@ -1404,13 +1404,13 @@ class AsyncRawAgentsClient:
         system_prompt : typing.Optional[str]
             Instructions for the conversation. Can contain template variables like `{{subject}}`.
 
-        template_variables : typing.Optional[typing.Dict[str, UpdateAgentRequestTemplateVariablesValue]]
+        template_variables : typing.Optional[typing.Dict[str, UpdateAgentRequestTemplateVariablesValueParams]]
             Variables that can be used in the welcome message and the system prompt.
 
-        tools : typing.Optional[typing.Sequence[UpdateAgentRequestToolsItem]]
+        tools : typing.Optional[typing.Sequence[UpdateAgentRequestToolsItemParams]]
             Array of built-in or custom tool names to use.
 
-        tasks : typing.Optional[typing.Sequence[Task]]
+        tasks : typing.Optional[typing.Sequence[TaskParams]]
             Array of task objects with `name` and `description` fields.
 
         no_input_poke_sec : typing.Optional[int]
@@ -1425,7 +1425,7 @@ class AsyncRawAgentsClient:
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
 
-        configuration_endpoint : typing.Optional[UpdateAgentRequestConfigurationEndpoint]
+        configuration_endpoint : typing.Optional[UpdateAgentRequestConfigurationEndpointParams]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint when to get configuration options.
 
         request_options : typing.Optional[RequestOptions]
@@ -1454,14 +1454,14 @@ class AsyncRawAgentsClient:
                 "system_prompt": system_prompt,
                 "template_variables": convert_and_respect_annotation_metadata(
                     object_=template_variables,
-                    annotation=typing.Dict[str, UpdateAgentRequestTemplateVariablesValue],
+                    annotation=typing.Dict[str, UpdateAgentRequestTemplateVariablesValueParams],
                     direction="write",
                 ),
                 "tools": convert_and_respect_annotation_metadata(
-                    object_=tools, annotation=typing.Sequence[UpdateAgentRequestToolsItem], direction="write"
+                    object_=tools, annotation=typing.Sequence[UpdateAgentRequestToolsItemParams], direction="write"
                 ),
                 "tasks": convert_and_respect_annotation_metadata(
-                    object_=tasks, annotation=typing.Sequence[Task], direction="write"
+                    object_=tasks, annotation=typing.Sequence[TaskParams], direction="write"
                 ),
                 "no_input_poke_sec": no_input_poke_sec,
                 "no_input_poke_text": no_input_poke_text,
@@ -1469,7 +1469,7 @@ class AsyncRawAgentsClient:
                 "boosted_keywords": boosted_keywords,
                 "configuration_endpoint": convert_and_respect_annotation_metadata(
                     object_=configuration_endpoint,
-                    annotation=UpdateAgentRequestConfigurationEndpoint,
+                    annotation=UpdateAgentRequestConfigurationEndpointParams,
                     direction="write",
                 ),
             },

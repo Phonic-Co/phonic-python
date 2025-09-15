@@ -13,7 +13,7 @@ from ..core.serialization import convert_and_respect_annotation_metadata
 from ..errors.bad_request_error import BadRequestError
 from ..errors.conflict_error import ConflictError
 from ..errors.not_found_error import NotFoundError
-from ..types.extraction_field import ExtractionField
+from ..requests.extraction_field import ExtractionFieldParams
 from .types.extraction_schemas_create_response import ExtractionSchemasCreateResponse
 from .types.extraction_schemas_delete_response import ExtractionSchemasDeleteResponse
 from .types.extraction_schemas_get_response import ExtractionSchemasGetResponse
@@ -87,7 +87,7 @@ class RawExtractionSchemasClient:
         *,
         name: str,
         prompt: str,
-        fields: typing.Sequence[ExtractionField],
+        fields: typing.Sequence[ExtractionFieldParams],
         project: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[ExtractionSchemasCreateResponse]:
@@ -102,7 +102,7 @@ class RawExtractionSchemasClient:
         prompt : str
             Instructions for how to extract data from conversations.
 
-        fields : typing.Sequence[ExtractionField]
+        fields : typing.Sequence[ExtractionFieldParams]
             Array of field definitions.
 
         project : typing.Optional[str]
@@ -127,7 +127,7 @@ class RawExtractionSchemasClient:
                 "name": name,
                 "prompt": prompt,
                 "fields": convert_and_respect_annotation_metadata(
-                    object_=fields, annotation=typing.Sequence[ExtractionField], direction="write"
+                    object_=fields, annotation=typing.Sequence[ExtractionFieldParams], direction="write"
                 ),
             },
             headers={
@@ -313,7 +313,7 @@ class RawExtractionSchemasClient:
         project: typing.Optional[str] = None,
         name: typing.Optional[str] = OMIT,
         prompt: typing.Optional[str] = OMIT,
-        fields: typing.Optional[typing.Sequence[ExtractionField]] = OMIT,
+        fields: typing.Optional[typing.Sequence[ExtractionFieldParams]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[ExtractionSchemasUpdateResponse]:
         """
@@ -333,7 +333,7 @@ class RawExtractionSchemasClient:
         prompt : typing.Optional[str]
             Instructions for how to extract data from conversations.
 
-        fields : typing.Optional[typing.Sequence[ExtractionField]]
+        fields : typing.Optional[typing.Sequence[ExtractionFieldParams]]
             Array of field definitions.
 
         request_options : typing.Optional[RequestOptions]
@@ -355,7 +355,7 @@ class RawExtractionSchemasClient:
                 "name": name,
                 "prompt": prompt,
                 "fields": convert_and_respect_annotation_metadata(
-                    object_=fields, annotation=typing.Sequence[ExtractionField], direction="write"
+                    object_=fields, annotation=typing.Sequence[ExtractionFieldParams], direction="write"
                 ),
             },
             headers={
@@ -476,7 +476,7 @@ class AsyncRawExtractionSchemasClient:
         *,
         name: str,
         prompt: str,
-        fields: typing.Sequence[ExtractionField],
+        fields: typing.Sequence[ExtractionFieldParams],
         project: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[ExtractionSchemasCreateResponse]:
@@ -491,7 +491,7 @@ class AsyncRawExtractionSchemasClient:
         prompt : str
             Instructions for how to extract data from conversations.
 
-        fields : typing.Sequence[ExtractionField]
+        fields : typing.Sequence[ExtractionFieldParams]
             Array of field definitions.
 
         project : typing.Optional[str]
@@ -516,7 +516,7 @@ class AsyncRawExtractionSchemasClient:
                 "name": name,
                 "prompt": prompt,
                 "fields": convert_and_respect_annotation_metadata(
-                    object_=fields, annotation=typing.Sequence[ExtractionField], direction="write"
+                    object_=fields, annotation=typing.Sequence[ExtractionFieldParams], direction="write"
                 ),
             },
             headers={
@@ -702,7 +702,7 @@ class AsyncRawExtractionSchemasClient:
         project: typing.Optional[str] = None,
         name: typing.Optional[str] = OMIT,
         prompt: typing.Optional[str] = OMIT,
-        fields: typing.Optional[typing.Sequence[ExtractionField]] = OMIT,
+        fields: typing.Optional[typing.Sequence[ExtractionFieldParams]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[ExtractionSchemasUpdateResponse]:
         """
@@ -722,7 +722,7 @@ class AsyncRawExtractionSchemasClient:
         prompt : typing.Optional[str]
             Instructions for how to extract data from conversations.
 
-        fields : typing.Optional[typing.Sequence[ExtractionField]]
+        fields : typing.Optional[typing.Sequence[ExtractionFieldParams]]
             Array of field definitions.
 
         request_options : typing.Optional[RequestOptions]
@@ -744,7 +744,7 @@ class AsyncRawExtractionSchemasClient:
                 "name": name,
                 "prompt": prompt,
                 "fields": convert_and_respect_annotation_metadata(
-                    object_=fields, annotation=typing.Sequence[ExtractionField], direction="write"
+                    object_=fields, annotation=typing.Sequence[ExtractionFieldParams], direction="write"
                 ),
             },
             headers={

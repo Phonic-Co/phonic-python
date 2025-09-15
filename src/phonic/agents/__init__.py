@@ -14,16 +14,36 @@ from .types import (
     UpdateAgentRequestTemplateVariablesValue,
     UpdateAgentRequestToolsItem,
 )
+from .requests import (
+    AgentsCreateResponseParams,
+    AgentsDeleteResponseParams,
+    AgentsGetResponseParams,
+    AgentsListResponseParams,
+    AgentsUpdateResponseParams,
+    AgentsUpsertResponseParams,
+    UpdateAgentRequestConfigurationEndpointParams,
+    UpdateAgentRequestTemplateVariablesValueParams,
+    UpdateAgentRequestToolsItemParams,
+)
 
 __all__ = [
     "AgentsCreateResponse",
+    "AgentsCreateResponseParams",
     "AgentsDeleteResponse",
+    "AgentsDeleteResponseParams",
     "AgentsGetResponse",
+    "AgentsGetResponseParams",
     "AgentsListResponse",
+    "AgentsListResponseParams",
     "AgentsUpdateResponse",
+    "AgentsUpdateResponseParams",
     "AgentsUpsertResponse",
+    "AgentsUpsertResponseParams",
     "UpdateAgentRequestAudioFormat",
     "UpdateAgentRequestConfigurationEndpoint",
+    "UpdateAgentRequestConfigurationEndpointParams",
     "UpdateAgentRequestTemplateVariablesValue",
+    "UpdateAgentRequestTemplateVariablesValueParams",
     "UpdateAgentRequestToolsItem",
+    "UpdateAgentRequestToolsItemParams",
 ]

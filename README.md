@@ -20,11 +20,7 @@ A full reference for this library is available [here](https://github.com/Phonic-
 Instantiate and use the client with the following:
 
 ```python
-from phonic import (
-    CreateAgentRequestConfigurationEndpoint,
-    CreateAgentRequestTemplateVariablesValue,
-    Phonic,
-)
+from phonic import Phonic
 
 client = Phonic(
     api_key="YOUR_API_KEY",
@@ -38,20 +34,18 @@ client.agents.create(
     welcome_message="Hi {{customer_name}}. How can I help you today?",
     system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
     template_variables={
-        "customer_name": CreateAgentRequestTemplateVariablesValue(),
-        "subject": CreateAgentRequestTemplateVariablesValue(
-            default_value="Chess",
-        ),
+        "customer_name": {},
+        "subject": {"default_value": "Chess"},
     },
     tools=[],
     no_input_poke_sec=30,
     no_input_poke_text="Are you still there?",
     boosted_keywords=["Load ID", "dispatch"],
-    configuration_endpoint=CreateAgentRequestConfigurationEndpoint(
-        url="https://api.example.com/config",
-        headers={"Authorization": "Bearer token123"},
-        timeout_ms=7000,
-    ),
+    configuration_endpoint={
+        "url": "https://api.example.com/config",
+        "headers": {"Authorization": "Bearer token123"},
+        "timeout_ms": 7000,
+    },
 )
 ```
 
@@ -62,11 +56,7 @@ The SDK also exports an `async` client so that you can make non-blocking calls t
 ```python
 import asyncio
 
-from phonic import (
-    AsyncPhonic,
-    CreateAgentRequestConfigurationEndpoint,
-    CreateAgentRequestTemplateVariablesValue,
-)
+from phonic import AsyncPhonic
 
 client = AsyncPhonic(
     api_key="YOUR_API_KEY",
@@ -83,20 +73,18 @@ async def main() -> None:
         welcome_message="Hi {{customer_name}}. How can I help you today?",
         system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
         template_variables={
-            "customer_name": CreateAgentRequestTemplateVariablesValue(),
-            "subject": CreateAgentRequestTemplateVariablesValue(
-                default_value="Chess",
-            ),
+            "customer_name": {},
+            "subject": {"default_value": "Chess"},
         },
         tools=[],
         no_input_poke_sec=30,
         no_input_poke_text="Are you still there?",
         boosted_keywords=["Load ID", "dispatch"],
-        configuration_endpoint=CreateAgentRequestConfigurationEndpoint(
-            url="https://api.example.com/config",
-            headers={"Authorization": "Bearer token123"},
-            timeout_ms=7000,
-        ),
+        configuration_endpoint={
+            "url": "https://api.example.com/config",
+            "headers": {"Authorization": "Bearer token123"},
+            "timeout_ms": 7000,
+        },
     )
 
 
