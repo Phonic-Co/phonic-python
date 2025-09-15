@@ -4,7 +4,7 @@ import typing
 
 from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.request_options import RequestOptions
-from ..types.extraction_field import ExtractionField
+from ..requests.extraction_field import ExtractionFieldParams
 from .raw_client import AsyncRawExtractionSchemasClient, RawExtractionSchemasClient
 from .types.extraction_schemas_create_response import ExtractionSchemasCreateResponse
 from .types.extraction_schemas_delete_response import ExtractionSchemasDeleteResponse
@@ -69,7 +69,7 @@ class ExtractionSchemasClient:
         *,
         name: str,
         prompt: str,
-        fields: typing.Sequence[ExtractionField],
+        fields: typing.Sequence[ExtractionFieldParams],
         project: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ExtractionSchemasCreateResponse:
@@ -84,7 +84,7 @@ class ExtractionSchemasClient:
         prompt : str
             Instructions for how to extract data from conversations.
 
-        fields : typing.Sequence[ExtractionField]
+        fields : typing.Sequence[ExtractionFieldParams]
             Array of field definitions.
 
         project : typing.Optional[str]
@@ -100,7 +100,7 @@ class ExtractionSchemasClient:
 
         Examples
         --------
-        from phonic import ExtractionField, Phonic
+        from phonic import Phonic
 
         client = Phonic(
             api_key="YOUR_API_KEY",
@@ -110,21 +110,21 @@ class ExtractionSchemasClient:
             name="Appointment details",
             prompt="Dates should be in `9 Apr 2025` format. Prices should be in $150.00 format.",
             fields=[
-                ExtractionField(
-                    name="Date",
-                    type="string",
-                    description="The date of the appointment",
-                ),
-                ExtractionField(
-                    name="Copay",
-                    type="string",
-                    description="Amount of money the patient pays for the appointment",
-                ),
-                ExtractionField(
-                    name="Confirmed as booked",
-                    type="bool",
-                    description="Is the appointment confirmed as booked?",
-                ),
+                {
+                    "name": "Date",
+                    "type": "string",
+                    "description": "The date of the appointment",
+                },
+                {
+                    "name": "Copay",
+                    "type": "string",
+                    "description": "Amount of money the patient pays for the appointment",
+                },
+                {
+                    "name": "Confirmed as booked",
+                    "type": "bool",
+                    "description": "Is the appointment confirmed as booked?",
+                },
             ],
         )
         """
@@ -222,7 +222,7 @@ class ExtractionSchemasClient:
         project: typing.Optional[str] = None,
         name: typing.Optional[str] = OMIT,
         prompt: typing.Optional[str] = OMIT,
-        fields: typing.Optional[typing.Sequence[ExtractionField]] = OMIT,
+        fields: typing.Optional[typing.Sequence[ExtractionFieldParams]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ExtractionSchemasUpdateResponse:
         """
@@ -242,7 +242,7 @@ class ExtractionSchemasClient:
         prompt : typing.Optional[str]
             Instructions for how to extract data from conversations.
 
-        fields : typing.Optional[typing.Sequence[ExtractionField]]
+        fields : typing.Optional[typing.Sequence[ExtractionFieldParams]]
             Array of field definitions.
 
         request_options : typing.Optional[RequestOptions]
@@ -255,7 +255,7 @@ class ExtractionSchemasClient:
 
         Examples
         --------
-        from phonic import ExtractionField, Phonic
+        from phonic import Phonic
 
         client = Phonic(
             api_key="YOUR_API_KEY",
@@ -266,16 +266,16 @@ class ExtractionSchemasClient:
             name="Updated appointment details",
             prompt="Updated extraction instructions. Dates should be in `9 Apr 2025` format.",
             fields=[
-                ExtractionField(
-                    name="Date",
-                    type="string",
-                    description="The date of the appointment",
-                ),
-                ExtractionField(
-                    name="Time",
-                    type="string",
-                    description="The time of the appointment",
-                ),
+                {
+                    "name": "Date",
+                    "type": "string",
+                    "description": "The date of the appointment",
+                },
+                {
+                    "name": "Time",
+                    "type": "string",
+                    "description": "The time of the appointment",
+                },
             ],
         )
         """
@@ -346,7 +346,7 @@ class AsyncExtractionSchemasClient:
         *,
         name: str,
         prompt: str,
-        fields: typing.Sequence[ExtractionField],
+        fields: typing.Sequence[ExtractionFieldParams],
         project: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ExtractionSchemasCreateResponse:
@@ -361,7 +361,7 @@ class AsyncExtractionSchemasClient:
         prompt : str
             Instructions for how to extract data from conversations.
 
-        fields : typing.Sequence[ExtractionField]
+        fields : typing.Sequence[ExtractionFieldParams]
             Array of field definitions.
 
         project : typing.Optional[str]
@@ -379,7 +379,7 @@ class AsyncExtractionSchemasClient:
         --------
         import asyncio
 
-        from phonic import AsyncPhonic, ExtractionField
+        from phonic import AsyncPhonic
 
         client = AsyncPhonic(
             api_key="YOUR_API_KEY",
@@ -392,21 +392,21 @@ class AsyncExtractionSchemasClient:
                 name="Appointment details",
                 prompt="Dates should be in `9 Apr 2025` format. Prices should be in $150.00 format.",
                 fields=[
-                    ExtractionField(
-                        name="Date",
-                        type="string",
-                        description="The date of the appointment",
-                    ),
-                    ExtractionField(
-                        name="Copay",
-                        type="string",
-                        description="Amount of money the patient pays for the appointment",
-                    ),
-                    ExtractionField(
-                        name="Confirmed as booked",
-                        type="bool",
-                        description="Is the appointment confirmed as booked?",
-                    ),
+                    {
+                        "name": "Date",
+                        "type": "string",
+                        "description": "The date of the appointment",
+                    },
+                    {
+                        "name": "Copay",
+                        "type": "string",
+                        "description": "Amount of money the patient pays for the appointment",
+                    },
+                    {
+                        "name": "Confirmed as booked",
+                        "type": "bool",
+                        "description": "Is the appointment confirmed as booked?",
+                    },
                 ],
             )
 
@@ -523,7 +523,7 @@ class AsyncExtractionSchemasClient:
         project: typing.Optional[str] = None,
         name: typing.Optional[str] = OMIT,
         prompt: typing.Optional[str] = OMIT,
-        fields: typing.Optional[typing.Sequence[ExtractionField]] = OMIT,
+        fields: typing.Optional[typing.Sequence[ExtractionFieldParams]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ExtractionSchemasUpdateResponse:
         """
@@ -543,7 +543,7 @@ class AsyncExtractionSchemasClient:
         prompt : typing.Optional[str]
             Instructions for how to extract data from conversations.
 
-        fields : typing.Optional[typing.Sequence[ExtractionField]]
+        fields : typing.Optional[typing.Sequence[ExtractionFieldParams]]
             Array of field definitions.
 
         request_options : typing.Optional[RequestOptions]
@@ -558,7 +558,7 @@ class AsyncExtractionSchemasClient:
         --------
         import asyncio
 
-        from phonic import AsyncPhonic, ExtractionField
+        from phonic import AsyncPhonic
 
         client = AsyncPhonic(
             api_key="YOUR_API_KEY",
@@ -572,16 +572,16 @@ class AsyncExtractionSchemasClient:
                 name="Updated appointment details",
                 prompt="Updated extraction instructions. Dates should be in `9 Apr 2025` format.",
                 fields=[
-                    ExtractionField(
-                        name="Date",
-                        type="string",
-                        description="The date of the appointment",
-                    ),
-                    ExtractionField(
-                        name="Time",
-                        type="string",
-                        description="The time of the appointment",
-                    ),
+                    {
+                        "name": "Date",
+                        "type": "string",
+                        "description": "The date of the appointment",
+                    },
+                    {
+                        "name": "Time",
+                        "type": "string",
+                        "description": "The time of the appointment",
+                    },
                 ],
             )
 

@@ -95,11 +95,7 @@ Creates a new agent in a project.
 <dd>
 
 ```python
-from phonic import (
-    CreateAgentRequestConfigurationEndpoint,
-    CreateAgentRequestTemplateVariablesValue,
-    Phonic,
-)
+from phonic import Phonic
 
 client = Phonic(
     api_key="YOUR_API_KEY",
@@ -113,20 +109,18 @@ client.agents.create(
     welcome_message="Hi {{customer_name}}. How can I help you today?",
     system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
     template_variables={
-        "customer_name": CreateAgentRequestTemplateVariablesValue(),
-        "subject": CreateAgentRequestTemplateVariablesValue(
-            default_value="Chess",
-        ),
+        "customer_name": {},
+        "subject": {"default_value": "Chess"},
     },
     tools=[],
     no_input_poke_sec=30,
     no_input_poke_text="Are you still there?",
     boosted_keywords=["Load ID", "dispatch"],
-    configuration_endpoint=CreateAgentRequestConfigurationEndpoint(
-        url="https://api.example.com/config",
-        headers={"Authorization": "Bearer token123"},
-        timeout_ms=7000,
-    ),
+    configuration_endpoint={
+        "url": "https://api.example.com/config",
+        "headers": {"Authorization": "Bearer token123"},
+        "timeout_ms": 7000,
+    },
 )
 
 ```
@@ -215,7 +209,9 @@ client.agents.create(
 <dl>
 <dd>
 
-**template_variables:** `typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValue]]` — Variables that can be used in the welcome message and the system prompt.
+**template_variables:** `typing.Optional[
+    typing.Dict[str, CreateAgentRequestTemplateVariablesValueParams]
+]` — Variables that can be used in the welcome message and the system prompt.
     
 </dd>
 </dl>
@@ -223,7 +219,7 @@ client.agents.create(
 <dl>
 <dd>
 
-**tools:** `typing.Optional[typing.Sequence[CreateAgentRequestToolsItem]]` — Array of built-in or custom tool names to use.
+**tools:** `typing.Optional[typing.Sequence[CreateAgentRequestToolsItemParams]]` — Array of built-in or custom tool names to use.
     
 </dd>
 </dl>
@@ -231,7 +227,7 @@ client.agents.create(
 <dl>
 <dd>
 
-**tasks:** `typing.Optional[typing.Sequence[Task]]` — Array of task objects with `name` and `description` fields.
+**tasks:** `typing.Optional[typing.Sequence[TaskParams]]` — Array of task objects with `name` and `description` fields.
     
 </dd>
 </dl>
@@ -271,7 +267,7 @@ client.agents.create(
 <dl>
 <dd>
 
-**configuration_endpoint:** `typing.Optional[CreateAgentRequestConfigurationEndpoint]` — When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint when to get configuration options.
+**configuration_endpoint:** `typing.Optional[CreateAgentRequestConfigurationEndpointParams]` — When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint when to get configuration options.
     
 </dd>
 </dl>
@@ -318,11 +314,7 @@ Upserts an agent by name. If an agent with the same name already exists, it will
 <dd>
 
 ```python
-from phonic import (
-    CreateAgentRequestConfigurationEndpoint,
-    CreateAgentRequestTemplateVariablesValue,
-    Phonic,
-)
+from phonic import Phonic
 
 client = Phonic(
     api_key="YOUR_API_KEY",
@@ -337,20 +329,18 @@ client.agents.upsert(
     welcome_message="Hi {{customer_name}}. How can I help you today?",
     system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
     template_variables={
-        "customer_name": CreateAgentRequestTemplateVariablesValue(),
-        "subject": CreateAgentRequestTemplateVariablesValue(
-            default_value="Chess",
-        ),
+        "customer_name": {},
+        "subject": {"default_value": "Chess"},
     },
     tools=[],
     no_input_poke_sec=30,
     no_input_poke_text="Are you still there?",
     boosted_keywords=["Load ID", "dispatch"],
-    configuration_endpoint=CreateAgentRequestConfigurationEndpoint(
-        url="https://api.example.com/config",
-        headers={"Authorization": "Bearer token123"},
-        timeout_ms=7000,
-    ),
+    configuration_endpoint={
+        "url": "https://api.example.com/config",
+        "headers": {"Authorization": "Bearer token123"},
+        "timeout_ms": 7000,
+    },
 )
 
 ```
@@ -439,7 +429,9 @@ client.agents.upsert(
 <dl>
 <dd>
 
-**template_variables:** `typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValue]]` — Variables that can be used in the welcome message and the system prompt.
+**template_variables:** `typing.Optional[
+    typing.Dict[str, CreateAgentRequestTemplateVariablesValueParams]
+]` — Variables that can be used in the welcome message and the system prompt.
     
 </dd>
 </dl>
@@ -447,7 +439,7 @@ client.agents.upsert(
 <dl>
 <dd>
 
-**tools:** `typing.Optional[typing.Sequence[CreateAgentRequestToolsItem]]` — Array of built-in or custom tool names to use.
+**tools:** `typing.Optional[typing.Sequence[CreateAgentRequestToolsItemParams]]` — Array of built-in or custom tool names to use.
     
 </dd>
 </dl>
@@ -455,7 +447,7 @@ client.agents.upsert(
 <dl>
 <dd>
 
-**tasks:** `typing.Optional[typing.Sequence[Task]]` — Array of task objects with `name` and `description` fields.
+**tasks:** `typing.Optional[typing.Sequence[TaskParams]]` — Array of task objects with `name` and `description` fields.
     
 </dd>
 </dl>
@@ -495,7 +487,7 @@ client.agents.upsert(
 <dl>
 <dd>
 
-**configuration_endpoint:** `typing.Optional[CreateAgentRequestConfigurationEndpoint]` — When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint when to get configuration options.
+**configuration_endpoint:** `typing.Optional[CreateAgentRequestConfigurationEndpointParams]` — When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint when to get configuration options.
     
 </dd>
 </dl>
@@ -701,10 +693,6 @@ Updates an agent by name or ID.
 
 ```python
 from phonic import Phonic
-from phonic.agents import (
-    UpdateAgentRequestConfigurationEndpoint,
-    UpdateAgentRequestTemplateVariablesValue,
-)
 
 client = Phonic(
     api_key="YOUR_API_KEY",
@@ -720,20 +708,18 @@ client.agents.update(
     welcome_message="Hi {{customer_name}}. How can I help you today?",
     system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
     template_variables={
-        "customer_name": UpdateAgentRequestTemplateVariablesValue(),
-        "subject": UpdateAgentRequestTemplateVariablesValue(
-            default_value="Chess",
-        ),
+        "customer_name": {},
+        "subject": {"default_value": "Chess"},
     },
     tools=[],
     no_input_poke_sec=30,
     no_input_poke_text="Are you still there?",
     boosted_keywords=["Load ID", "dispatch"],
-    configuration_endpoint=UpdateAgentRequestConfigurationEndpoint(
-        url="https://api.example.com/config",
-        headers={"Authorization": "Bearer token123"},
-        timeout_ms=7000,
-    ),
+    configuration_endpoint={
+        "url": "https://api.example.com/config",
+        "headers": {"Authorization": "Bearer token123"},
+        "timeout_ms": 7000,
+    },
 )
 
 ```
@@ -830,7 +816,9 @@ client.agents.update(
 <dl>
 <dd>
 
-**template_variables:** `typing.Optional[typing.Dict[str, UpdateAgentRequestTemplateVariablesValue]]` — Variables that can be used in the welcome message and the system prompt.
+**template_variables:** `typing.Optional[
+    typing.Dict[str, UpdateAgentRequestTemplateVariablesValueParams]
+]` — Variables that can be used in the welcome message and the system prompt.
     
 </dd>
 </dl>
@@ -838,7 +826,7 @@ client.agents.update(
 <dl>
 <dd>
 
-**tools:** `typing.Optional[typing.Sequence[UpdateAgentRequestToolsItem]]` — Array of built-in or custom tool names to use.
+**tools:** `typing.Optional[typing.Sequence[UpdateAgentRequestToolsItemParams]]` — Array of built-in or custom tool names to use.
     
 </dd>
 </dl>
@@ -846,7 +834,7 @@ client.agents.update(
 <dl>
 <dd>
 
-**tasks:** `typing.Optional[typing.Sequence[Task]]` — Array of task objects with `name` and `description` fields.
+**tasks:** `typing.Optional[typing.Sequence[TaskParams]]` — Array of task objects with `name` and `description` fields.
     
 </dd>
 </dl>
@@ -886,7 +874,7 @@ client.agents.update(
 <dl>
 <dd>
 
-**configuration_endpoint:** `typing.Optional[UpdateAgentRequestConfigurationEndpoint]` — When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint when to get configuration options.
+**configuration_endpoint:** `typing.Optional[UpdateAgentRequestConfigurationEndpointParams]` — When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint when to get configuration options.
     
 </dd>
 </dl>
@@ -1072,7 +1060,7 @@ client.tools.create(
 <dl>
 <dd>
 
-**parameters:** `typing.Optional[typing.Sequence[ToolParameter]]` — Array of parameter definitions.
+**parameters:** `typing.Optional[typing.Sequence[ToolParameterParams]]` — Array of parameter definitions.
     
 </dd>
 </dl>
@@ -1400,7 +1388,7 @@ client.tools.update(
 <dl>
 <dd>
 
-**parameters:** `typing.Optional[typing.Sequence[ToolParameter]]` — Array of parameter definitions.
+**parameters:** `typing.Optional[typing.Sequence[ToolParameterParams]]` — Array of parameter definitions.
     
 </dd>
 </dl>
@@ -1566,7 +1554,7 @@ Creates a new extraction schema in a project.
 <dd>
 
 ```python
-from phonic import ExtractionField, Phonic
+from phonic import Phonic
 
 client = Phonic(
     api_key="YOUR_API_KEY",
@@ -1576,21 +1564,21 @@ client.extraction_schemas.create(
     name="Appointment details",
     prompt="Dates should be in `9 Apr 2025` format. Prices should be in $150.00 format.",
     fields=[
-        ExtractionField(
-            name="Date",
-            type="string",
-            description="The date of the appointment",
-        ),
-        ExtractionField(
-            name="Copay",
-            type="string",
-            description="Amount of money the patient pays for the appointment",
-        ),
-        ExtractionField(
-            name="Confirmed as booked",
-            type="bool",
-            description="Is the appointment confirmed as booked?",
-        ),
+        {
+            "name": "Date",
+            "type": "string",
+            "description": "The date of the appointment",
+        },
+        {
+            "name": "Copay",
+            "type": "string",
+            "description": "Amount of money the patient pays for the appointment",
+        },
+        {
+            "name": "Confirmed as booked",
+            "type": "bool",
+            "description": "Is the appointment confirmed as booked?",
+        },
     ],
 )
 
@@ -1624,7 +1612,7 @@ client.extraction_schemas.create(
 <dl>
 <dd>
 
-**fields:** `typing.Sequence[ExtractionField]` — Array of field definitions.
+**fields:** `typing.Sequence[ExtractionFieldParams]` — Array of field definitions.
     
 </dd>
 </dl>
@@ -1837,7 +1825,7 @@ Updates an extraction schema by name or ID.
 <dd>
 
 ```python
-from phonic import ExtractionField, Phonic
+from phonic import Phonic
 
 client = Phonic(
     api_key="YOUR_API_KEY",
@@ -1848,16 +1836,16 @@ client.extraction_schemas.update(
     name="Updated appointment details",
     prompt="Updated extraction instructions. Dates should be in `9 Apr 2025` format.",
     fields=[
-        ExtractionField(
-            name="Date",
-            type="string",
-            description="The date of the appointment",
-        ),
-        ExtractionField(
-            name="Time",
-            type="string",
-            description="The time of the appointment",
-        ),
+        {
+            "name": "Date",
+            "type": "string",
+            "description": "The date of the appointment",
+        },
+        {
+            "name": "Time",
+            "type": "string",
+            "description": "The time of the appointment",
+        },
     ],
 )
 
@@ -1907,7 +1895,7 @@ client.extraction_schemas.update(
 <dl>
 <dd>
 
-**fields:** `typing.Optional[typing.Sequence[ExtractionField]]` — Array of field definitions.
+**fields:** `typing.Optional[typing.Sequence[ExtractionFieldParams]]` — Array of field definitions.
     
 </dd>
 </dl>
@@ -2726,25 +2714,25 @@ Initiates a call to a given phone number using Phonic's Twilio account.
 <dd>
 
 ```python
-from phonic import OutboundCallConfig, Phonic
+from phonic import Phonic
 
 client = Phonic(
     api_key="YOUR_API_KEY",
 )
 client.conversations.outbound_call(
     to_phone_number="+19189397081",
-    config=OutboundCallConfig(
-        agent="support-agent",
-        welcome_message="Hi {{customer_name}}. How can I help you today?",
-        system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
-        template_variables={"customer_name": "David", "subject": "Chess"},
-        voice_id="grant",
-        no_input_poke_sec=30,
-        no_input_poke_text="Are you still there?",
-        no_input_end_conversation_sec=180,
-        boosted_keywords=["Load ID", "dispatch"],
-        tools=[],
-    ),
+    config={
+        "agent": "support-agent",
+        "welcome_message": "Hi {{customer_name}}. How can I help you today?",
+        "system_prompt": "You are an expert in {{subject}}. Be friendly, helpful and concise.",
+        "template_variables": {"customer_name": "David", "subject": "Chess"},
+        "voice_id": "grant",
+        "no_input_poke_sec": 30,
+        "no_input_poke_text": "Are you still there?",
+        "no_input_end_conversation_sec": 180,
+        "boosted_keywords": ["Load ID", "dispatch"],
+        "tools": [],
+    },
 )
 
 ```
@@ -2769,7 +2757,7 @@ client.conversations.outbound_call(
 <dl>
 <dd>
 
-**config:** `typing.Optional[OutboundCallConfig]` 
+**config:** `typing.Optional[OutboundCallConfigParams]` 
     
 </dd>
 </dl>
@@ -2897,7 +2885,7 @@ client.conversations.sip_outbound_call(
 <dl>
 <dd>
 
-**config:** `typing.Optional[OutboundCallConfig]` 
+**config:** `typing.Optional[OutboundCallConfigParams]` 
     
 </dd>
 </dl>

@@ -11,13 +11,29 @@ from .types import (
     ProjectsListResponse,
     ProjectsUpdateResponse,
 )
+from .requests import (
+    ProjectsCreateEvalPromptResponseParams,
+    ProjectsCreateResponseParams,
+    ProjectsDeleteResponseParams,
+    ProjectsGetResponseParams,
+    ProjectsListEvalPromptsResponseParams,
+    ProjectsListResponseParams,
+    ProjectsUpdateResponseParams,
+)
 
 __all__ = [
     "ProjectsCreateEvalPromptResponse",
+    "ProjectsCreateEvalPromptResponseParams",
     "ProjectsCreateResponse",
+    "ProjectsCreateResponseParams",
     "ProjectsDeleteResponse",
+    "ProjectsDeleteResponseParams",
     "ProjectsGetResponse",
+    "ProjectsGetResponseParams",
     "ProjectsListEvalPromptsResponse",
+    "ProjectsListEvalPromptsResponseParams",
     "ProjectsListResponse",
+    "ProjectsListResponseParams",
     "ProjectsUpdateResponse",
+    "ProjectsUpdateResponseParams",
 ]

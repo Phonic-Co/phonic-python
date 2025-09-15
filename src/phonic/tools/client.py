@@ -4,7 +4,7 @@ import typing
 
 from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.request_options import RequestOptions
-from ..types.tool_parameter import ToolParameter
+from ..requests.tool_parameter import ToolParameterParams
 from .raw_client import AsyncRawToolsClient, RawToolsClient
 from .types.create_tool_request_execution_mode import CreateToolRequestExecutionMode
 from .types.create_tool_request_type import CreateToolRequestType
@@ -76,7 +76,7 @@ class ToolsClient:
         type: CreateToolRequestType,
         execution_mode: CreateToolRequestExecutionMode,
         project: typing.Optional[str] = None,
-        parameters: typing.Optional[typing.Sequence[ToolParameter]] = OMIT,
+        parameters: typing.Optional[typing.Sequence[ToolParameterParams]] = OMIT,
         endpoint_method: typing.Optional[typing.Literal["POST"]] = OMIT,
         endpoint_url: typing.Optional[str] = OMIT,
         endpoint_headers: typing.Optional[typing.Dict[str, str]] = OMIT,
@@ -105,7 +105,7 @@ class ToolsClient:
         project : typing.Optional[str]
             The name of the project to create the tool in.
 
-        parameters : typing.Optional[typing.Sequence[ToolParameter]]
+        parameters : typing.Optional[typing.Sequence[ToolParameterParams]]
             Array of parameter definitions.
 
         endpoint_method : typing.Optional[typing.Literal["POST"]]
@@ -136,7 +136,7 @@ class ToolsClient:
 
         Examples
         --------
-        from phonic import Phonic, ToolParameter
+        from phonic import Phonic
 
         client = Phonic(
             api_key="YOUR_API_KEY",
@@ -148,18 +148,18 @@ class ToolsClient:
             type="custom_webhook",
             execution_mode="sync",
             parameters=[
-                ToolParameter(
-                    type="string",
-                    name="date",
-                    description="The date for the appointment in YYYY-MM-DD format",
-                    is_required=True,
-                ),
-                ToolParameter(
-                    type="string",
-                    name="time",
-                    description="The time for the appointment in HH:MM format",
-                    is_required=True,
-                ),
+                {
+                    "type": "string",
+                    "name": "date",
+                    "description": "The date for the appointment in YYYY-MM-DD format",
+                    "is_required": True,
+                },
+                {
+                    "type": "string",
+                    "name": "time",
+                    "description": "The time for the appointment in HH:MM format",
+                    "is_required": True,
+                },
             ],
             endpoint_method="POST",
             endpoint_url="https://api.example.com/book-appointment",
@@ -278,7 +278,7 @@ class ToolsClient:
         description: typing.Optional[str] = OMIT,
         type: typing.Optional[UpdateToolRequestType] = OMIT,
         execution_mode: typing.Optional[UpdateToolRequestExecutionMode] = OMIT,
-        parameters: typing.Optional[typing.Sequence[ToolParameter]] = OMIT,
+        parameters: typing.Optional[typing.Sequence[ToolParameterParams]] = OMIT,
         endpoint_method: typing.Optional[typing.Literal["POST"]] = OMIT,
         endpoint_url: typing.Optional[str] = OMIT,
         endpoint_headers: typing.Optional[typing.Dict[str, str]] = OMIT,
@@ -310,7 +310,7 @@ class ToolsClient:
         execution_mode : typing.Optional[UpdateToolRequestExecutionMode]
             Mode of operation.
 
-        parameters : typing.Optional[typing.Sequence[ToolParameter]]
+        parameters : typing.Optional[typing.Sequence[ToolParameterParams]]
             Array of parameter definitions.
 
         endpoint_method : typing.Optional[typing.Literal["POST"]]
@@ -432,7 +432,7 @@ class AsyncToolsClient:
         type: CreateToolRequestType,
         execution_mode: CreateToolRequestExecutionMode,
         project: typing.Optional[str] = None,
-        parameters: typing.Optional[typing.Sequence[ToolParameter]] = OMIT,
+        parameters: typing.Optional[typing.Sequence[ToolParameterParams]] = OMIT,
         endpoint_method: typing.Optional[typing.Literal["POST"]] = OMIT,
         endpoint_url: typing.Optional[str] = OMIT,
         endpoint_headers: typing.Optional[typing.Dict[str, str]] = OMIT,
@@ -461,7 +461,7 @@ class AsyncToolsClient:
         project : typing.Optional[str]
             The name of the project to create the tool in.
 
-        parameters : typing.Optional[typing.Sequence[ToolParameter]]
+        parameters : typing.Optional[typing.Sequence[ToolParameterParams]]
             Array of parameter definitions.
 
         endpoint_method : typing.Optional[typing.Literal["POST"]]
@@ -494,7 +494,7 @@ class AsyncToolsClient:
         --------
         import asyncio
 
-        from phonic import AsyncPhonic, ToolParameter
+        from phonic import AsyncPhonic
 
         client = AsyncPhonic(
             api_key="YOUR_API_KEY",
@@ -509,18 +509,18 @@ class AsyncToolsClient:
                 type="custom_webhook",
                 execution_mode="sync",
                 parameters=[
-                    ToolParameter(
-                        type="string",
-                        name="date",
-                        description="The date for the appointment in YYYY-MM-DD format",
-                        is_required=True,
-                    ),
-                    ToolParameter(
-                        type="string",
-                        name="time",
-                        description="The time for the appointment in HH:MM format",
-                        is_required=True,
-                    ),
+                    {
+                        "type": "string",
+                        "name": "date",
+                        "description": "The date for the appointment in YYYY-MM-DD format",
+                        "is_required": True,
+                    },
+                    {
+                        "type": "string",
+                        "name": "time",
+                        "description": "The time for the appointment in HH:MM format",
+                        "is_required": True,
+                    },
                 ],
                 endpoint_method="POST",
                 endpoint_url="https://api.example.com/book-appointment",
@@ -658,7 +658,7 @@ class AsyncToolsClient:
         description: typing.Optional[str] = OMIT,
         type: typing.Optional[UpdateToolRequestType] = OMIT,
         execution_mode: typing.Optional[UpdateToolRequestExecutionMode] = OMIT,
-        parameters: typing.Optional[typing.Sequence[ToolParameter]] = OMIT,
+        parameters: typing.Optional[typing.Sequence[ToolParameterParams]] = OMIT,
         endpoint_method: typing.Optional[typing.Literal["POST"]] = OMIT,
         endpoint_url: typing.Optional[str] = OMIT,
         endpoint_headers: typing.Optional[typing.Dict[str, str]] = OMIT,
@@ -690,7 +690,7 @@ class AsyncToolsClient:
         execution_mode : typing.Optional[UpdateToolRequestExecutionMode]
             Mode of operation.
 
-        parameters : typing.Optional[typing.Sequence[ToolParameter]]
+        parameters : typing.Optional[typing.Sequence[ToolParameterParams]]
             Array of parameter definitions.
 
         endpoint_method : typing.Optional[typing.Literal["POST"]]

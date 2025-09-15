@@ -21,10 +21,10 @@ from ..errors.gateway_timeout_error import GatewayTimeoutError
 from ..errors.internal_server_error import InternalServerError
 from ..errors.not_found_error import NotFoundError
 from ..errors.unauthorized_error import UnauthorizedError
+from ..requests.outbound_call_config import OutboundCallConfigParams
 from ..types.basic_error import BasicError
 from ..types.conversation_evaluation_result import ConversationEvaluationResult
 from ..types.error import Error
-from ..types.outbound_call_config import OutboundCallConfig
 from .socket_client import AsyncConversationsSocketClient, ConversationsSocketClient
 from .types.conversations_cancel_response import ConversationsCancelResponse
 from .types.conversations_extract_data_response import ConversationsExtractDataResponse
@@ -846,7 +846,7 @@ class RawConversationsClient:
         self,
         *,
         to_phone_number: str,
-        config: typing.Optional[OutboundCallConfig] = OMIT,
+        config: typing.Optional[OutboundCallConfigParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[ConversationsOutboundCallResponse]:
         """
@@ -857,7 +857,7 @@ class RawConversationsClient:
         to_phone_number : str
             The phone number to call in E.164 format.
 
-        config : typing.Optional[OutboundCallConfig]
+        config : typing.Optional[OutboundCallConfigParams]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -874,7 +874,7 @@ class RawConversationsClient:
             json={
                 "to_phone_number": to_phone_number,
                 "config": convert_and_respect_annotation_metadata(
-                    object_=config, annotation=OutboundCallConfig, direction="write"
+                    object_=config, annotation=OutboundCallConfigParams, direction="write"
                 ),
             },
             headers={
@@ -952,7 +952,7 @@ class RawConversationsClient:
         downstream_websocket_url: typing.Optional[str] = None,
         sip_auth_username: typing.Optional[str] = None,
         sip_auth_password: typing.Optional[str] = None,
-        config: typing.Optional[OutboundCallConfig] = OMIT,
+        config: typing.Optional[OutboundCallConfigParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[ConversationsSipOutboundCallResponse]:
         """
@@ -981,7 +981,7 @@ class RawConversationsClient:
         sip_auth_password : typing.Optional[str]
             SIP auth password, if your provider requires it.
 
-        config : typing.Optional[OutboundCallConfig]
+        config : typing.Optional[OutboundCallConfigParams]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1003,7 +1003,7 @@ class RawConversationsClient:
                 "from_phone_number": from_phone_number,
                 "to_phone_number": to_phone_number,
                 "config": convert_and_respect_annotation_metadata(
-                    object_=config, annotation=OutboundCallConfig, direction="write"
+                    object_=config, annotation=OutboundCallConfigParams, direction="write"
                 ),
             },
             headers={
@@ -1912,7 +1912,7 @@ class AsyncRawConversationsClient:
         self,
         *,
         to_phone_number: str,
-        config: typing.Optional[OutboundCallConfig] = OMIT,
+        config: typing.Optional[OutboundCallConfigParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[ConversationsOutboundCallResponse]:
         """
@@ -1923,7 +1923,7 @@ class AsyncRawConversationsClient:
         to_phone_number : str
             The phone number to call in E.164 format.
 
-        config : typing.Optional[OutboundCallConfig]
+        config : typing.Optional[OutboundCallConfigParams]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1940,7 +1940,7 @@ class AsyncRawConversationsClient:
             json={
                 "to_phone_number": to_phone_number,
                 "config": convert_and_respect_annotation_metadata(
-                    object_=config, annotation=OutboundCallConfig, direction="write"
+                    object_=config, annotation=OutboundCallConfigParams, direction="write"
                 ),
             },
             headers={
@@ -2018,7 +2018,7 @@ class AsyncRawConversationsClient:
         downstream_websocket_url: typing.Optional[str] = None,
         sip_auth_username: typing.Optional[str] = None,
         sip_auth_password: typing.Optional[str] = None,
-        config: typing.Optional[OutboundCallConfig] = OMIT,
+        config: typing.Optional[OutboundCallConfigParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[ConversationsSipOutboundCallResponse]:
         """
@@ -2047,7 +2047,7 @@ class AsyncRawConversationsClient:
         sip_auth_password : typing.Optional[str]
             SIP auth password, if your provider requires it.
 
-        config : typing.Optional[OutboundCallConfig]
+        config : typing.Optional[OutboundCallConfigParams]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -2069,7 +2069,7 @@ class AsyncRawConversationsClient:
                 "from_phone_number": from_phone_number,
                 "to_phone_number": to_phone_number,
                 "config": convert_and_respect_annotation_metadata(
-                    object_=config, annotation=OutboundCallConfig, direction="write"
+                    object_=config, annotation=OutboundCallConfigParams, direction="write"
                 ),
             },
             headers={

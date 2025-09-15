@@ -9,8 +9,8 @@ import websockets.sync.client as websockets_sync_client
 from ..core.api_error import ApiError
 from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.request_options import RequestOptions
+from ..requests.outbound_call_config import OutboundCallConfigParams
 from ..types.conversation_evaluation_result import ConversationEvaluationResult
-from ..types.outbound_call_config import OutboundCallConfig
 from .raw_client import AsyncRawConversationsClient, RawConversationsClient
 from .socket_client import AsyncConversationsSocketClient, ConversationsSocketClient
 from .types.conversations_cancel_response import ConversationsCancelResponse
@@ -365,7 +365,7 @@ class ConversationsClient:
         self,
         *,
         to_phone_number: str,
-        config: typing.Optional[OutboundCallConfig] = OMIT,
+        config: typing.Optional[OutboundCallConfigParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ConversationsOutboundCallResponse:
         """
@@ -376,7 +376,7 @@ class ConversationsClient:
         to_phone_number : str
             The phone number to call in E.164 format.
 
-        config : typing.Optional[OutboundCallConfig]
+        config : typing.Optional[OutboundCallConfigParams]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -388,25 +388,25 @@ class ConversationsClient:
 
         Examples
         --------
-        from phonic import OutboundCallConfig, Phonic
+        from phonic import Phonic
 
         client = Phonic(
             api_key="YOUR_API_KEY",
         )
         client.conversations.outbound_call(
             to_phone_number="+19189397081",
-            config=OutboundCallConfig(
-                agent="support-agent",
-                welcome_message="Hi {{customer_name}}. How can I help you today?",
-                system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
-                template_variables={"customer_name": "David", "subject": "Chess"},
-                voice_id="grant",
-                no_input_poke_sec=30,
-                no_input_poke_text="Are you still there?",
-                no_input_end_conversation_sec=180,
-                boosted_keywords=["Load ID", "dispatch"],
-                tools=[],
-            ),
+            config={
+                "agent": "support-agent",
+                "welcome_message": "Hi {{customer_name}}. How can I help you today?",
+                "system_prompt": "You are an expert in {{subject}}. Be friendly, helpful and concise.",
+                "template_variables": {"customer_name": "David", "subject": "Chess"},
+                "voice_id": "grant",
+                "no_input_poke_sec": 30,
+                "no_input_poke_text": "Are you still there?",
+                "no_input_end_conversation_sec": 180,
+                "boosted_keywords": ["Load ID", "dispatch"],
+                "tools": [],
+            },
         )
         """
         _response = self._raw_client.outbound_call(
@@ -424,7 +424,7 @@ class ConversationsClient:
         downstream_websocket_url: typing.Optional[str] = None,
         sip_auth_username: typing.Optional[str] = None,
         sip_auth_password: typing.Optional[str] = None,
-        config: typing.Optional[OutboundCallConfig] = OMIT,
+        config: typing.Optional[OutboundCallConfigParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ConversationsSipOutboundCallResponse:
         """
@@ -453,7 +453,7 @@ class ConversationsClient:
         sip_auth_password : typing.Optional[str]
             SIP auth password, if your provider requires it.
 
-        config : typing.Optional[OutboundCallConfig]
+        config : typing.Optional[OutboundCallConfigParams]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -936,7 +936,7 @@ class AsyncConversationsClient:
         self,
         *,
         to_phone_number: str,
-        config: typing.Optional[OutboundCallConfig] = OMIT,
+        config: typing.Optional[OutboundCallConfigParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ConversationsOutboundCallResponse:
         """
@@ -947,7 +947,7 @@ class AsyncConversationsClient:
         to_phone_number : str
             The phone number to call in E.164 format.
 
-        config : typing.Optional[OutboundCallConfig]
+        config : typing.Optional[OutboundCallConfigParams]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -961,7 +961,7 @@ class AsyncConversationsClient:
         --------
         import asyncio
 
-        from phonic import AsyncPhonic, OutboundCallConfig
+        from phonic import AsyncPhonic
 
         client = AsyncPhonic(
             api_key="YOUR_API_KEY",
@@ -971,18 +971,21 @@ class AsyncConversationsClient:
         async def main() -> None:
             await client.conversations.outbound_call(
                 to_phone_number="+19189397081",
-                config=OutboundCallConfig(
-                    agent="support-agent",
-                    welcome_message="Hi {{customer_name}}. How can I help you today?",
-                    system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
-                    template_variables={"customer_name": "David", "subject": "Chess"},
-                    voice_id="grant",
-                    no_input_poke_sec=30,
-                    no_input_poke_text="Are you still there?",
-                    no_input_end_conversation_sec=180,
-                    boosted_keywords=["Load ID", "dispatch"],
-                    tools=[],
-                ),
+                config={
+                    "agent": "support-agent",
+                    "welcome_message": "Hi {{customer_name}}. How can I help you today?",
+                    "system_prompt": "You are an expert in {{subject}}. Be friendly, helpful and concise.",
+                    "template_variables": {
+                        "customer_name": "David",
+                        "subject": "Chess",
+                    },
+                    "voice_id": "grant",
+                    "no_input_poke_sec": 30,
+                    "no_input_poke_text": "Are you still there?",
+                    "no_input_end_conversation_sec": 180,
+                    "boosted_keywords": ["Load ID", "dispatch"],
+                    "tools": [],
+                },
             )
 
 
@@ -1003,7 +1006,7 @@ class AsyncConversationsClient:
         downstream_websocket_url: typing.Optional[str] = None,
         sip_auth_username: typing.Optional[str] = None,
         sip_auth_password: typing.Optional[str] = None,
-        config: typing.Optional[OutboundCallConfig] = OMIT,
+        config: typing.Optional[OutboundCallConfigParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ConversationsSipOutboundCallResponse:
         """
@@ -1032,7 +1035,7 @@ class AsyncConversationsClient:
         sip_auth_password : typing.Optional[str]
             SIP auth password, if your provider requires it.
 
-        config : typing.Optional[OutboundCallConfig]
+        config : typing.Optional[OutboundCallConfigParams]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.

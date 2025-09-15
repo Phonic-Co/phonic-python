@@ -9,11 +9,23 @@ from .types import (
     ExtractionSchemasListResponse,
     ExtractionSchemasUpdateResponse,
 )
+from .requests import (
+    ExtractionSchemasCreateResponseParams,
+    ExtractionSchemasDeleteResponseParams,
+    ExtractionSchemasGetResponseParams,
+    ExtractionSchemasListResponseParams,
+    ExtractionSchemasUpdateResponseParams,
+)
 
 __all__ = [
     "ExtractionSchemasCreateResponse",
+    "ExtractionSchemasCreateResponseParams",
     "ExtractionSchemasDeleteResponse",
+    "ExtractionSchemasDeleteResponseParams",
     "ExtractionSchemasGetResponse",
+    "ExtractionSchemasGetResponseParams",
     "ExtractionSchemasListResponse",
+    "ExtractionSchemasListResponseParams",
     "ExtractionSchemasUpdateResponse",
+    "ExtractionSchemasUpdateResponseParams",
 ]
