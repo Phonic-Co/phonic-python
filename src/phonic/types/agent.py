@@ -93,6 +93,11 @@ class Agent(UniversalBaseModel):
     Seconds of silence before ending the conversation.
     """
 
+    recognized_languages: typing.List[str] = pydantic.Field()
+    """
+    Array of ISO 639-1 language codes that the agent should be able to recognize
+    """
+
     boosted_keywords: typing.List[str] = pydantic.Field()
     """
     These words, or short phrases, will be more accurately recognized by the agent.

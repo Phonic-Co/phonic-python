@@ -5,3 +5,4 @@ import typing_extensions
 
 class UpdateAgentRequestTemplateVariablesValueParams(typing_extensions.TypedDict):
     default_value: typing_extensions.NotRequired[str]
+    is_boosted_keyword: typing_extensions.NotRequired[bool]

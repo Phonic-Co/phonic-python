@@ -115,6 +115,7 @@ client.agents.create(
     tools=[],
     no_input_poke_sec=30,
     no_input_poke_text="Are you still there?",
+    recognized_languages=["en", "es"],
     boosted_keywords=["Load ID", "dispatch"],
     configuration_endpoint={
         "url": "https://api.example.com/config",
@@ -259,6 +260,14 @@ client.agents.create(
 <dl>
 <dd>
 
+**recognized_languages:** `typing.Optional[typing.Sequence[str]]` — Array of ISO 639-1 language codes that the agent should be able to recognize
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **boosted_keywords:** `typing.Optional[typing.Sequence[str]]` — These words, or short phrases, will be more accurately recognized by the agent.
     
 </dd>
@@ -335,6 +344,7 @@ client.agents.upsert(
     tools=[],
     no_input_poke_sec=30,
     no_input_poke_text="Are you still there?",
+    recognized_languages=["en", "es"],
     boosted_keywords=["Load ID", "dispatch"],
     configuration_endpoint={
         "url": "https://api.example.com/config",
@@ -472,6 +482,14 @@ client.agents.upsert(
 <dd>
 
 **no_input_end_conversation_sec:** `typing.Optional[int]` — Seconds of silence before ending the conversation.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**recognized_languages:** `typing.Optional[typing.Sequence[str]]` — Array of ISO 639-1 language codes that the agent should be able to recognize
     
 </dd>
 </dl>
@@ -714,6 +732,7 @@ client.agents.update(
     tools=[],
     no_input_poke_sec=30,
     no_input_poke_text="Are you still there?",
+    recognized_languages=["en", "es"],
     boosted_keywords=["Load ID", "dispatch"],
     configuration_endpoint={
         "url": "https://api.example.com/config",
@@ -859,6 +878,14 @@ client.agents.update(
 <dd>
 
 **no_input_end_conversation_sec:** `typing.Optional[int]` — Seconds of silence before ending the conversation.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**recognized_languages:** `typing.Optional[typing.Sequence[str]]` — Array of ISO 639-1 language codes that the agent should be able to recognize
     
 </dd>
 </dl>
@@ -2730,6 +2757,7 @@ client.conversations.outbound_call(
         "no_input_poke_sec": 30,
         "no_input_poke_text": "Are you still there?",
         "no_input_end_conversation_sec": 180,
+        "recognized_languages": ["en", "es"],
         "boosted_keywords": ["Load ID", "dispatch"],
         "tools": [],
     },

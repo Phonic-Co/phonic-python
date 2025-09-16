@@ -99,6 +99,11 @@ class ConfigPayloadParams(typing_extensions.TypedDict):
     Seconds of silence before ending conversation
     """
 
+    recognized_languages: typing_extensions.NotRequired[typing.Sequence[str]]
+    """
+    Array of ISO 639-1 language codes that the agent should be able to recognize
+    """
+
     boosted_keywords: typing_extensions.NotRequired[typing.Sequence[str]]
     """
     Keywords to boost in speech recognition
