@@ -7,6 +7,11 @@ import typing_extensions
 
 class InputTextPayloadParams(typing_extensions.TypedDict):
     type: typing.Literal["input_text"]
+    language: str
+    """
+    Detected ISO 639-1 language code of user speech
+    """
+
     text: str
     """
     Transcribed user speech

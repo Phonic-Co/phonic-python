@@ -92,6 +92,11 @@ class AgentParams(typing_extensions.TypedDict):
     Seconds of silence before ending the conversation.
     """
 
+    recognized_languages: typing.Sequence[str]
+    """
+    Array of ISO 639-1 language codes that the agent should be able to recognize
+    """
+
     boosted_keywords: typing.Sequence[str]
     """
     These words, or short phrases, will be more accurately recognized by the agent.
