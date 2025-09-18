@@ -12,7 +12,6 @@ from .assistant_chose_not_to_respond_payload import AssistantChoseNotToRespondPa
 from .assistant_ended_conversation_payload import AssistantEndedConversationPayload
 from .audio_chunk_payload import AudioChunkPayload
 from .audio_chunk_response_payload import AudioChunkResponsePayload
-from .audio_finished_payload import AudioFinishedPayload
 from .bad_request_error_body import BadRequestErrorBody
 from .basic_error import BasicError
 from .basic_error_error import BasicErrorError
@@ -50,7 +49,6 @@ from .extraction_field_type import ExtractionFieldType
 from .extraction_schema import ExtractionSchema
 from .input_cancelled_payload import InputCancelledPayload
 from .input_text_payload import InputTextPayload
-from .interrupted_response_payload import InterruptedResponsePayload
 from .is_user_speaking_payload import IsUserSpeakingPayload
 from .outbound_call_config import OutboundCallConfig
 from .outbound_call_config_tools_item import OutboundCallConfigToolsItem
@@ -90,7 +88,6 @@ __all__ = [
     "AssistantEndedConversationPayload",
     "AudioChunkPayload",
     "AudioChunkResponsePayload",
-    "AudioFinishedPayload",
     "BadRequestErrorBody",
     "BasicError",
     "BasicErrorError",
@@ -128,7 +125,6 @@ __all__ = [
     "ExtractionSchema",
     "InputCancelledPayload",
     "InputTextPayload",
-    "InterruptedResponsePayload",
     "IsUserSpeakingPayload",
     "OutboundCallConfig",
     "OutboundCallConfigToolsItem",

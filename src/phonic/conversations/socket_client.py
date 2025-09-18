@@ -12,14 +12,12 @@ from ..types.assistant_chose_not_to_respond_payload import AssistantChoseNotToRe
 from ..types.assistant_ended_conversation_payload import AssistantEndedConversationPayload
 from ..types.audio_chunk_payload import AudioChunkPayload
 from ..types.audio_chunk_response_payload import AudioChunkResponsePayload
-from ..types.audio_finished_payload import AudioFinishedPayload
 from ..types.config_payload import ConfigPayload
 from ..types.conversation_created_payload import ConversationCreatedPayload
 from ..types.dtmf_payload import DtmfPayload
 from ..types.error_payload import ErrorPayload
 from ..types.input_cancelled_payload import InputCancelledPayload
 from ..types.input_text_payload import InputTextPayload
-from ..types.interrupted_response_payload import InterruptedResponsePayload
 from ..types.is_user_speaking_payload import IsUserSpeakingPayload
 from ..types.ready_to_start_conversation_payload import ReadyToStartConversationPayload
 from ..types.set_external_id_payload import SetExternalIdPayload
@@ -43,11 +41,9 @@ ConversationsSocketClientResponse = typing.Union[
     InputTextPayload,
     InputCancelledPayload,
     AudioChunkResponsePayload,
-    AudioFinishedPayload,
     IsUserSpeakingPayload,
     UserStartedSpeakingPayload,
     UserFinishedSpeakingPayload,
-    InterruptedResponsePayload,
     DtmfPayload,
     ToolCallPayload,
     ToolCallOutputProcessedPayload,

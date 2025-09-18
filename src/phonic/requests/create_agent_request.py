@@ -37,6 +37,11 @@ class CreateAgentRequestParams(typing_extensions.TypedDict):
     The audio speed of the agent.
     """
 
+    background_noise_level: typing_extensions.NotRequired[float]
+    """
+    The background noise level of the agent.
+    """
+
     welcome_message: typing_extensions.NotRequired[str]
     """
     Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`.

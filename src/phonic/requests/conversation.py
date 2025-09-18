@@ -60,6 +60,11 @@ class ConversationParams(typing_extensions.TypedDict):
     Audio output format.
     """
 
+    background_noise_level: float
+    """
+    Background noise level used in the conversation.
+    """
+
     live_transcript: str
     """
     Live transcript of the conversation.
@@ -88,6 +93,11 @@ class ConversationParams(typing_extensions.TypedDict):
     ended_at: typing_extensions.NotRequired[dt.datetime]
     """
     When the conversation ended.
+    """
+
+    ended_by: typing_extensions.NotRequired[str]
+    """
+    Who or what ended the conversation.
     """
 
     items: typing.Sequence[ConversationItemParams]

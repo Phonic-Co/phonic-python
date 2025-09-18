@@ -52,6 +52,11 @@ class AgentParams(typing_extensions.TypedDict):
     The audio speed of the agent. Must be a multiple of 0.1.
     """
 
+    background_noise_level: float
+    """
+    The background noise level of the agent. Must be between 0 and 1.
+    """
+
     welcome_message: typing_extensions.NotRequired[str]
     """
     Message to play when the conversation starts.
