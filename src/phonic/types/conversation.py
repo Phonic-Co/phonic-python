@@ -61,6 +61,11 @@ class Conversation(UniversalBaseModel):
     Audio output format.
     """
 
+    background_noise_level: float = pydantic.Field()
+    """
+    Background noise level used in the conversation.
+    """
+
     live_transcript: str = pydantic.Field()
     """
     Live transcript of the conversation.
@@ -89,6 +94,11 @@ class Conversation(UniversalBaseModel):
     ended_at: typing.Optional[dt.datetime] = pydantic.Field(default=None)
     """
     When the conversation ended.
+    """
+
+    ended_by: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    Who or what ended the conversation.
     """
 
     items: typing.List[ConversationItem] = pydantic.Field()

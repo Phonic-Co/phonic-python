@@ -11,7 +11,6 @@ from .assistant_chose_not_to_respond_payload import AssistantChoseNotToRespondPa
 from .assistant_ended_conversation_payload import AssistantEndedConversationPayloadParams
 from .audio_chunk_payload import AudioChunkPayloadParams
 from .audio_chunk_response_payload import AudioChunkResponsePayloadParams
-from .audio_finished_payload import AudioFinishedPayloadParams
 from .bad_request_error_body import BadRequestErrorBodyParams
 from .basic_error import BasicErrorParams
 from .basic_error_error import BasicErrorErrorParams
@@ -42,7 +41,6 @@ from .extraction_field import ExtractionFieldParams
 from .extraction_schema import ExtractionSchemaParams
 from .input_cancelled_payload import InputCancelledPayloadParams
 from .input_text_payload import InputTextPayloadParams
-from .interrupted_response_payload import InterruptedResponsePayloadParams
 from .is_user_speaking_payload import IsUserSpeakingPayloadParams
 from .outbound_call_config import OutboundCallConfigParams
 from .outbound_call_config_tools_item import OutboundCallConfigToolsItemParams
@@ -77,7 +75,6 @@ __all__ = [
     "AssistantEndedConversationPayloadParams",
     "AudioChunkPayloadParams",
     "AudioChunkResponsePayloadParams",
-    "AudioFinishedPayloadParams",
     "BadRequestErrorBodyParams",
     "BasicErrorErrorParams",
     "BasicErrorParams",
@@ -108,7 +105,6 @@ __all__ = [
     "ExtractionSchemaParams",
     "InputCancelledPayloadParams",
     "InputTextPayloadParams",
-    "InterruptedResponsePayloadParams",
     "IsUserSpeakingPayloadParams",
     "OutboundCallConfigParams",
     "OutboundCallConfigToolsItemParams",

@@ -34,6 +34,11 @@ class ConfigPayloadParams(typing_extensions.TypedDict):
     Audio playback speed
     """
 
+    background_noise_level: typing_extensions.NotRequired[float]
+    """
+    Background noise level for the conversation
+    """
+
     welcome_message: typing_extensions.NotRequired[str]
     """
     Message to play when conversation starts
