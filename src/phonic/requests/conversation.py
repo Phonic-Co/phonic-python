@@ -4,6 +4,7 @@ import datetime as dt
 import typing
 
 import typing_extensions
+from ..types.conversation_ended_by import ConversationEndedBy
 from .conversation_agent import ConversationAgentParams
 from .conversation_item import ConversationItemParams
 from .conversation_project import ConversationProjectParams
@@ -95,7 +96,7 @@ class ConversationParams(typing_extensions.TypedDict):
     When the conversation ended.
     """
 
-    ended_by: typing_extensions.NotRequired[str]
+    ended_by: typing_extensions.NotRequired[ConversationEndedBy]
     """
     Who or what ended the conversation.
     """

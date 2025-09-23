@@ -22,6 +22,7 @@ from .conversation import Conversation
 from .conversation_agent import ConversationAgent
 from .conversation_analysis import ConversationAnalysis
 from .conversation_created_payload import ConversationCreatedPayload
+from .conversation_ended_by import ConversationEndedBy
 from .conversation_eval import ConversationEval
 from .conversation_eval_prompt import ConversationEvalPrompt
 from .conversation_evaluation import ConversationEvaluation
@@ -98,6 +99,7 @@ __all__ = [
     "ConversationAgent",
     "ConversationAnalysis",
     "ConversationCreatedPayload",
+    "ConversationEndedBy",
     "ConversationEval",
     "ConversationEvalPrompt",
     "ConversationEvaluation",
