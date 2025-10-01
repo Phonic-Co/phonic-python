@@ -4,6 +4,7 @@ import datetime as dt
 import typing
 
 import typing_extensions
+from ..types.conversation_ended_by import ConversationEndedBy
 from .conversation_agent import ConversationAgentParams
 from .conversation_item import ConversationItemParams
 from .conversation_project import ConversationProjectParams
@@ -15,7 +16,7 @@ class ConversationParams(typing_extensions.TypedDict):
     The conversation ID.
     """
 
-    agent: typing_extensions.NotRequired[ConversationAgentParams]
+    agent: typing.Optional[ConversationAgentParams]
     """
     The agent associated with the conversation.
     """
@@ -30,7 +31,7 @@ class ConversationParams(typing_extensions.TypedDict):
     The project associated with the conversation.
     """
 
-    external_id: typing_extensions.NotRequired[str]
+    external_id: typing.Optional[str]
     """
     External ID for conversation tracking.
     """
@@ -40,7 +41,7 @@ class ConversationParams(typing_extensions.TypedDict):
     The STS model used.
     """
 
-    welcome_message: typing_extensions.NotRequired[str]
+    welcome_message: typing.Optional[str]
     """
     Welcome message played at start.
     """
@@ -70,7 +71,7 @@ class ConversationParams(typing_extensions.TypedDict):
     Live transcript of the conversation.
     """
 
-    post_call_transcript: typing_extensions.NotRequired[str]
+    post_call_transcript: typing.Optional[str]
     """
     Post-call processed transcript.
     """
@@ -80,7 +81,7 @@ class ConversationParams(typing_extensions.TypedDict):
     Duration of the conversation in milliseconds.
     """
 
-    audio_url: typing_extensions.NotRequired[str]
+    audio_url: typing.Optional[str]
     """
     Presigned URL to the conversation audio file.
     """
@@ -90,12 +91,12 @@ class ConversationParams(typing_extensions.TypedDict):
     When the conversation started.
     """
 
-    ended_at: typing_extensions.NotRequired[dt.datetime]
+    ended_at: typing.Optional[dt.datetime]
     """
     When the conversation ended.
     """
 
-    ended_by: typing_extensions.NotRequired[str]
+    ended_by: typing.Optional[ConversationEndedBy]
     """
     Who or what ended the conversation.
     """

@@ -14,62 +14,62 @@ class ConversationItemToolCallsItemParams(typing_extensions.TypedDict):
     """
 
     tool: ConversationItemToolCallsItemToolParams
-    endpoint_method: typing_extensions.NotRequired[str]
+    endpoint_method: typing_extensions.NotRequired[typing.Optional[str]]
     """
     HTTP method for webhook tool calls.
     """
 
-    endpoint_url: typing_extensions.NotRequired[str]
+    endpoint_url: typing_extensions.NotRequired[typing.Optional[str]]
     """
     URL for webhook tool calls.
     """
 
-    endpoint_headers: typing_extensions.NotRequired[typing.Dict[str, typing.Optional[str]]]
+    endpoint_headers: typing_extensions.NotRequired[typing.Optional[typing.Dict[str, typing.Optional[str]]]]
     """
     Headers for webhook tool calls.
     """
 
-    endpoint_timeout_ms: typing_extensions.NotRequired[float]
+    endpoint_timeout_ms: typing_extensions.NotRequired[typing.Optional[float]]
     """
     Timeout in milliseconds for webhook tool calls.
     """
 
-    endpoint_called_at: typing_extensions.NotRequired[dt.datetime]
+    endpoint_called_at: typing_extensions.NotRequired[typing.Optional[dt.datetime]]
     """
     When the webhook endpoint was called (null on error).
     """
 
-    query_params: typing_extensions.NotRequired[typing.Dict[str, typing.Optional[typing.Any]]]
+    query_params: typing_extensions.NotRequired[typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]]]
     """
     Query parameters for webhook tool calls (null on error or when no params).
     """
 
-    response_status_code: typing_extensions.NotRequired[float]
+    response_status_code: typing_extensions.NotRequired[typing.Optional[float]]
     """
     HTTP response status code for webhook tool calls (null on error).
     """
 
-    tool_call_output_timeout_ms: typing_extensions.NotRequired[float]
+    tool_call_output_timeout_ms: typing_extensions.NotRequired[typing.Optional[float]]
     """
     Timeout in milliseconds for websocket tool calls.
     """
 
-    request_body: typing_extensions.NotRequired[typing.Dict[str, typing.Optional[typing.Any]]]
+    request_body: typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]]
     """
     The request body sent to the tool.
     """
 
-    response_body: typing_extensions.NotRequired[typing.Dict[str, typing.Optional[typing.Any]]]
+    response_body: typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]]
     """
     The response body received from the tool.
     """
 
-    timed_out: typing_extensions.NotRequired[bool]
+    timed_out: typing.Optional[bool]
     """
     Whether the tool call timed out.
     """
 
-    error_message: typing_extensions.NotRequired[str]
+    error_message: typing.Optional[str]
     """
     Error message if the tool call failed.
     """

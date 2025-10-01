@@ -233,7 +233,7 @@ class RawAgentsClient:
                 "boosted_keywords": boosted_keywords,
                 "configuration_endpoint": convert_and_respect_annotation_metadata(
                     object_=configuration_endpoint,
-                    annotation=CreateAgentRequestConfigurationEndpointParams,
+                    annotation=typing.Optional[CreateAgentRequestConfigurationEndpointParams],
                     direction="write",
                 ),
             },
@@ -430,7 +430,7 @@ class RawAgentsClient:
                 "boosted_keywords": boosted_keywords,
                 "configuration_endpoint": convert_and_respect_annotation_metadata(
                     object_=configuration_endpoint,
-                    annotation=CreateAgentRequestConfigurationEndpointParams,
+                    annotation=typing.Optional[CreateAgentRequestConfigurationEndpointParams],
                     direction="write",
                 ),
             },
@@ -753,7 +753,7 @@ class RawAgentsClient:
                 "boosted_keywords": boosted_keywords,
                 "configuration_endpoint": convert_and_respect_annotation_metadata(
                     object_=configuration_endpoint,
-                    annotation=UpdateAgentRequestConfigurationEndpointParams,
+                    annotation=typing.Optional[UpdateAgentRequestConfigurationEndpointParams],
                     direction="write",
                 ),
             },
@@ -1009,7 +1009,7 @@ class AsyncRawAgentsClient:
                 "boosted_keywords": boosted_keywords,
                 "configuration_endpoint": convert_and_respect_annotation_metadata(
                     object_=configuration_endpoint,
-                    annotation=CreateAgentRequestConfigurationEndpointParams,
+                    annotation=typing.Optional[CreateAgentRequestConfigurationEndpointParams],
                     direction="write",
                 ),
             },
@@ -1206,7 +1206,7 @@ class AsyncRawAgentsClient:
                 "boosted_keywords": boosted_keywords,
                 "configuration_endpoint": convert_and_respect_annotation_metadata(
                     object_=configuration_endpoint,
-                    annotation=CreateAgentRequestConfigurationEndpointParams,
+                    annotation=typing.Optional[CreateAgentRequestConfigurationEndpointParams],
                     direction="write",
                 ),
             },
@@ -1529,7 +1529,7 @@ class AsyncRawAgentsClient:
                 "boosted_keywords": boosted_keywords,
                 "configuration_endpoint": convert_and_respect_annotation_metadata(
                     object_=configuration_endpoint,
-                    annotation=UpdateAgentRequestConfigurationEndpointParams,
+                    annotation=typing.Optional[UpdateAgentRequestConfigurationEndpointParams],
                     direction="write",
                 ),
             },

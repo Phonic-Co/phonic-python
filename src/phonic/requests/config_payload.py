@@ -39,7 +39,7 @@ class ConfigPayloadParams(typing_extensions.TypedDict):
     Background noise level for the conversation
     """
 
-    welcome_message: typing_extensions.NotRequired[str]
+    welcome_message: typing_extensions.NotRequired[typing.Optional[str]]
     """
     Message to play when conversation starts
     """
@@ -89,7 +89,7 @@ class ConfigPayloadParams(typing_extensions.TypedDict):
     Enable transcript RAG
     """
 
-    no_input_poke_sec: typing_extensions.NotRequired[float]
+    no_input_poke_sec: typing_extensions.NotRequired[typing.Optional[float]]
     """
     Seconds of silence before poke message
     """

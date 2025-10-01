@@ -24,7 +24,7 @@ class ConversationExtractionParams(typing_extensions.TypedDict):
     The extracted data.
     """
 
-    error: typing_extensions.NotRequired[str]
+    error: typing.Optional[str]
     """
     Error message if extraction failed.
     """

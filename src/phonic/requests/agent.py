@@ -22,7 +22,7 @@ class AgentParams(typing_extensions.TypedDict):
     The name of the agent.
     """
 
-    phone_number: typing_extensions.NotRequired[str]
+    phone_number: typing.Optional[str]
     """
     The phone number that the agent uses to accept and initiate phone calls. `null` if the agent is not associated with a phone number, in which can the agent can be used via WebSockets.
     """
@@ -57,7 +57,7 @@ class AgentParams(typing_extensions.TypedDict):
     The background noise level of the agent. Must be between 0 and 1.
     """
 
-    welcome_message: typing_extensions.NotRequired[str]
+    welcome_message: typing.Optional[str]
     """
     Message to play when the conversation starts.
     """
@@ -82,7 +82,7 @@ class AgentParams(typing_extensions.TypedDict):
     Tasks for the agent to complete during the conversation.
     """
 
-    no_input_poke_sec: typing_extensions.NotRequired[int]
+    no_input_poke_sec: typing.Optional[int]
     """
     Number of seconds of silence before sending a poke message. `null` disables the poke message.
     """
@@ -107,7 +107,7 @@ class AgentParams(typing_extensions.TypedDict):
     These words, or short phrases, will be more accurately recognized by the agent.
     """
 
-    configuration_endpoint: typing_extensions.NotRequired[AgentConfigurationEndpointParams]
+    configuration_endpoint: typing.Optional[AgentConfigurationEndpointParams]
     """
     When not `null`, the agent will call this endpoint to get configuration options.
     """
