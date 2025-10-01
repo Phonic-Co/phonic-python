@@ -6,6 +6,7 @@ import typing
 import pydantic
 from ..core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .conversation_agent import ConversationAgent
+from .conversation_ended_by import ConversationEndedBy
 from .conversation_item import ConversationItem
 from .conversation_project import ConversationProject
 
@@ -96,7 +97,7 @@ class Conversation(UniversalBaseModel):
     When the conversation ended.
     """
 
-    ended_by: typing.Optional[str] = pydantic.Field(default=None)
+    ended_by: typing.Optional[ConversationEndedBy] = pydantic.Field(default=None)
     """
     Who or what ended the conversation.
     """

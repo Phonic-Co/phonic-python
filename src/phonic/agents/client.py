@@ -66,7 +66,9 @@ class AgentsClient:
         client = Phonic(
             api_key="YOUR_API_KEY",
         )
-        client.agents.list()
+        client.agents.list(
+            project="project",
+        )
         """
         _response = self._raw_client.list(project=project, request_options=request_options)
         return _response.data
@@ -655,7 +657,9 @@ class AsyncAgentsClient:
 
 
         async def main() -> None:
-            await client.agents.list()
+            await client.agents.list(
+                project="project",
+            )
 
 
         asyncio.run(main())

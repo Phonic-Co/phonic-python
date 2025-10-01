@@ -108,7 +108,17 @@ class ConversationsClient:
         client = Phonic(
             api_key="YOUR_API_KEY",
         )
-        client.conversations.list()
+        client.conversations.list(
+            project="project",
+            external_id="external_id",
+            duration_min=1,
+            duration_max=1,
+            started_at_min="started_at_min",
+            started_at_max="started_at_max",
+            before="before",
+            after="after",
+            limit=1,
+        )
         """
         _response = self._raw_client.list(
             project=project,
@@ -473,6 +483,10 @@ class ConversationsClient:
         )
         client.conversations.sip_outbound_call(
             sip_address="X-Sip-Address",
+            sip_auth_username="X-Sip-Auth-Username",
+            sip_auth_password="X-Sip-Auth-Password",
+            token="token",
+            downstream_websocket_url="downstream_websocket_url",
             from_phone_number="from_phone_number",
             to_phone_number="to_phone_number",
         )
@@ -619,7 +633,17 @@ class AsyncConversationsClient:
 
 
         async def main() -> None:
-            await client.conversations.list()
+            await client.conversations.list(
+                project="project",
+                external_id="external_id",
+                duration_min=1,
+                duration_max=1,
+                started_at_min="started_at_min",
+                started_at_max="started_at_max",
+                before="before",
+                after="after",
+                limit=1,
+            )
 
 
         asyncio.run(main())
@@ -1061,6 +1085,10 @@ class AsyncConversationsClient:
         async def main() -> None:
             await client.conversations.sip_outbound_call(
                 sip_address="X-Sip-Address",
+                sip_auth_username="X-Sip-Auth-Username",
+                sip_auth_password="X-Sip-Auth-Password",
+                token="token",
+                downstream_websocket_url="downstream_websocket_url",
                 from_phone_number="from_phone_number",
                 to_phone_number="to_phone_number",
             )
