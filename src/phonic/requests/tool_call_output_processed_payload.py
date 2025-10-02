@@ -15,44 +15,44 @@ class ToolCallOutputProcessedPayloadParams(typing_extensions.TypedDict):
     """
 
     tool: ToolCallOutputProcessedPayloadToolParams
-    endpoint_url: typing_extensions.NotRequired[str]
+    endpoint_url: typing_extensions.NotRequired[typing.Optional[str]]
     """
     Webhook endpoint URL (null for WebSocket tools)
     """
 
-    endpoint_timeout_ms: typing_extensions.NotRequired[float]
+    endpoint_timeout_ms: typing_extensions.NotRequired[typing.Optional[float]]
     """
     Webhook timeout in milliseconds (null for WebSocket tools)
     """
 
-    endpoint_called_at: typing_extensions.NotRequired[dt.datetime]
+    endpoint_called_at: typing_extensions.NotRequired[typing.Optional[dt.datetime]]
     """
     When webhook was called (null for WebSocket tools)
     """
 
-    request_body: typing_extensions.NotRequired[typing.Dict[str, typing.Optional[typing.Any]]]
+    request_body: typing_extensions.NotRequired[typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]]]
     """
     Webhook request body (null for WebSocket tools)
     """
 
     response_body: typing_extensions.NotRequired[typing.Optional[typing.Any]]
-    parameters: typing_extensions.NotRequired[typing.Dict[str, typing.Optional[typing.Any]]]
+    parameters: typing_extensions.NotRequired[typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]]]
     """
     WebSocket tool parameters (null for webhook tools)
     """
 
     output: typing_extensions.NotRequired[typing.Optional[typing.Any]]
-    response_status_code: typing_extensions.NotRequired[float]
+    response_status_code: typing_extensions.NotRequired[typing.Optional[float]]
     """
     Webhook HTTP status code (null for WebSocket tools)
     """
 
-    timed_out: typing_extensions.NotRequired[bool]
+    timed_out: typing_extensions.NotRequired[typing.Optional[bool]]
     """
     Whether the tool call timed out
     """
 
-    error_message: typing_extensions.NotRequired[str]
+    error_message: typing_extensions.NotRequired[typing.Optional[str]]
     """
     Error message if tool call failed
     """

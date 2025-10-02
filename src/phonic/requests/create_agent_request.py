@@ -16,7 +16,7 @@ class CreateAgentRequestParams(typing_extensions.TypedDict):
     The name of the agent. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
     """
 
-    phone_number: typing_extensions.NotRequired[typing.Literal["assign-automatically"]]
+    phone_number: typing_extensions.NotRequired[typing.Optional[typing.Literal["assign-automatically"]]]
     timezone: typing_extensions.NotRequired[str]
     """
     The timezone of the agent. Used to format system variables like `{{system_time}}`.
@@ -67,7 +67,7 @@ class CreateAgentRequestParams(typing_extensions.TypedDict):
     Array of task objects with `name` and `description` fields.
     """
 
-    no_input_poke_sec: typing_extensions.NotRequired[int]
+    no_input_poke_sec: typing_extensions.NotRequired[typing.Optional[int]]
     """
     Number of seconds of silence before sending a poke message. `null` disables the poke message.
     """
@@ -92,7 +92,9 @@ class CreateAgentRequestParams(typing_extensions.TypedDict):
     These words, or short phrases, will be more accurately recognized by the agent.
     """
 
-    configuration_endpoint: typing_extensions.NotRequired[CreateAgentRequestConfigurationEndpointParams]
+    configuration_endpoint: typing_extensions.NotRequired[
+        typing.Optional[CreateAgentRequestConfigurationEndpointParams]
+    ]
     """
     When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint when to get configuration options.
     """

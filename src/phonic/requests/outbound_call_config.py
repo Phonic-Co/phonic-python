@@ -21,7 +21,7 @@ class OutboundCallConfigParams(typing_extensions.TypedDict):
     The name of the project to use for the call.
     """
 
-    welcome_message: typing_extensions.NotRequired[str]
+    welcome_message: typing_extensions.NotRequired[typing.Optional[str]]
     """
     Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`.
     """
@@ -41,7 +41,7 @@ class OutboundCallConfigParams(typing_extensions.TypedDict):
     The voice ID to use for the agent.
     """
 
-    no_input_poke_sec: typing_extensions.NotRequired[int]
+    no_input_poke_sec: typing_extensions.NotRequired[typing.Optional[int]]
     """
     Number of seconds of silence before sending a poke message. `null` disables the poke message.
     """

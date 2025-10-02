@@ -24,7 +24,7 @@ class ConversationItemParams(typing_extensions.TypedDict):
     Live transcript of this turn.
     """
 
-    post_call_transcript: typing_extensions.NotRequired[str]
+    post_call_transcript: typing.Optional[str]
     """
     Post-call processed transcript.
     """
