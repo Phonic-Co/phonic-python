@@ -8,6 +8,7 @@ from .create_agent_request_audio_format import CreateAgentRequestAudioFormat
 from .create_agent_request_configuration_endpoint import CreateAgentRequestConfigurationEndpoint
 from .create_agent_request_template_variables_value import CreateAgentRequestTemplateVariablesValue
 from .create_agent_request_tools_item import CreateAgentRequestToolsItem
+from .language_code import LanguageCode
 from .task import Task
 
 
@@ -85,7 +86,7 @@ class CreateAgentRequest(UniversalBaseModel):
     Seconds of silence before ending the conversation.
     """
 
-    recognized_languages: typing.Optional[typing.List[str]] = pydantic.Field(default=None)
+    languages: typing.Optional[typing.List[LanguageCode]] = pydantic.Field(default=None)
     """
     Array of ISO 639-1 language codes that the agent should be able to recognize
     """

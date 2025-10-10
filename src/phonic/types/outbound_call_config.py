@@ -4,6 +4,7 @@ import typing
 
 import pydantic
 from ..core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from .language_code import LanguageCode
 from .outbound_call_config_tools_item import OutboundCallConfigToolsItem
 
 
@@ -57,7 +58,7 @@ class OutboundCallConfig(UniversalBaseModel):
     Seconds of silence before ending the conversation.
     """
 
-    recognized_languages: typing.Optional[typing.List[str]] = pydantic.Field(default=None)
+    languages: typing.Optional[typing.List[LanguageCode]] = pydantic.Field(default=None)
     """
     Array of ISO 639-1 language codes that the agent should be able to recognize
     """

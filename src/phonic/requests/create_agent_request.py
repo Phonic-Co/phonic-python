@@ -4,6 +4,7 @@ import typing
 
 import typing_extensions
 from ..types.create_agent_request_audio_format import CreateAgentRequestAudioFormat
+from ..types.language_code import LanguageCode
 from .create_agent_request_configuration_endpoint import CreateAgentRequestConfigurationEndpointParams
 from .create_agent_request_template_variables_value import CreateAgentRequestTemplateVariablesValueParams
 from .create_agent_request_tools_item import CreateAgentRequestToolsItemParams
@@ -82,7 +83,7 @@ class CreateAgentRequestParams(typing_extensions.TypedDict):
     Seconds of silence before ending the conversation.
     """
 
-    recognized_languages: typing_extensions.NotRequired[typing.Sequence[str]]
+    languages: typing_extensions.NotRequired[typing.Sequence[LanguageCode]]
     """
     Array of ISO 639-1 language codes that the agent should be able to recognize
     """

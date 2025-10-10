@@ -116,7 +116,7 @@ client.agents.create(
     tools=[],
     no_input_poke_sec=30,
     no_input_poke_text="Are you still there?",
-    recognized_languages=["en", "es"],
+    languages=["en", "es"],
     boosted_keywords=["Load ID", "dispatch"],
     configuration_endpoint={
         "url": "https://api.example.com/config",
@@ -269,7 +269,7 @@ client.agents.create(
 <dl>
 <dd>
 
-**recognized_languages:** `typing.Optional[typing.Sequence[str]]` — Array of ISO 639-1 language codes that the agent should be able to recognize
+**languages:** `typing.Optional[typing.Sequence[LanguageCode]]` — Array of ISO 639-1 language codes that the agent should be able to recognize
     
 </dd>
 </dl>
@@ -354,7 +354,7 @@ client.agents.upsert(
     tools=[],
     no_input_poke_sec=30,
     no_input_poke_text="Are you still there?",
-    recognized_languages=["en", "es"],
+    languages=["en", "es"],
     boosted_keywords=["Load ID", "dispatch"],
     configuration_endpoint={
         "url": "https://api.example.com/config",
@@ -507,7 +507,7 @@ client.agents.upsert(
 <dl>
 <dd>
 
-**recognized_languages:** `typing.Optional[typing.Sequence[str]]` — Array of ISO 639-1 language codes that the agent should be able to recognize
+**languages:** `typing.Optional[typing.Sequence[LanguageCode]]` — Array of ISO 639-1 language codes that the agent should be able to recognize
     
 </dd>
 </dl>
@@ -751,7 +751,7 @@ client.agents.update(
     tools=[],
     no_input_poke_sec=30,
     no_input_poke_text="Are you still there?",
-    recognized_languages=["en", "es"],
+    languages=["en", "es"],
     boosted_keywords=["Load ID", "dispatch"],
     configuration_endpoint={
         "url": "https://api.example.com/config",
@@ -912,7 +912,7 @@ client.agents.update(
 <dl>
 <dd>
 
-**recognized_languages:** `typing.Optional[typing.Sequence[str]]` — Array of ISO 639-1 language codes that the agent should be able to recognize
+**languages:** `typing.Optional[typing.Sequence[LanguageCode]]` — Array of ISO 639-1 language codes that the agent should be able to recognize
     
 </dd>
 </dl>
@@ -2784,7 +2784,7 @@ client.conversations.outbound_call(
         "no_input_poke_sec": 30,
         "no_input_poke_text": "Are you still there?",
         "no_input_end_conversation_sec": 180,
-        "recognized_languages": ["en", "es"],
+        "languages": ["en", "es"],
         "boosted_keywords": ["Load ID", "dispatch"],
         "tools": [],
     },
