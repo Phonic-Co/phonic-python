@@ -101,12 +101,37 @@ class ConversationParams(typing_extensions.TypedDict):
     Who or what ended the conversation.
     """
 
-    items: typing.Sequence[ConversationItemParams]
+    boosted_keywords: typing.Optional[typing.Sequence[str]]
     """
-    Array of conversation items (turns).
+    These words, or short phrases, are more accurately recognized by the model.
+    """
+
+    languages: typing.Optional[typing.Sequence[str]]
+    """
+    Array of ISO 639-1 language codes recognized by the model.
+    """
+
+    no_input_poke_sec: typing.Optional[int]
+    """
+    Number of seconds of silence before a poke message is sent. `null` means the poke message is disabled.
+    """
+
+    no_input_poke_text: typing.Optional[str]
+    """
+    The message to send after the specified silence. Relevant only if `no_input_poke_sec` is not `null`.
+    """
+
+    no_input_end_conversation_sec: typing.Optional[int]
+    """
+    Seconds of silence before the conversation is ended.
     """
 
     task_results: typing.Dict[str, typing.Optional[typing.Any]]
     """
     Results from conversation evaluations and extractions.
+    """
+
+    items: typing.Sequence[ConversationItemParams]
+    """
+    Array of conversation items (turns).
     """

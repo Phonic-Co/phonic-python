@@ -9,6 +9,7 @@ from ..requests.create_agent_request_template_variables_value import CreateAgent
 from ..requests.create_agent_request_tools_item import CreateAgentRequestToolsItemParams
 from ..requests.task import TaskParams
 from ..types.create_agent_request_audio_format import CreateAgentRequestAudioFormat
+from ..types.language_code import LanguageCode
 from .raw_client import AsyncRawAgentsClient, RawAgentsClient
 from .requests.update_agent_request_configuration_endpoint import UpdateAgentRequestConfigurationEndpointParams
 from .requests.update_agent_request_template_variables_value import UpdateAgentRequestTemplateVariablesValueParams
@@ -90,7 +91,7 @@ class AgentsClient:
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
-        recognized_languages: typing.Optional[typing.Sequence[str]] = OMIT,
+        languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
@@ -147,7 +148,7 @@ class AgentsClient:
         no_input_end_conversation_sec : typing.Optional[int]
             Seconds of silence before ending the conversation.
 
-        recognized_languages : typing.Optional[typing.Sequence[str]]
+        languages : typing.Optional[typing.Sequence[LanguageCode]]
             Array of ISO 639-1 language codes that the agent should be able to recognize
 
         boosted_keywords : typing.Optional[typing.Sequence[str]]
@@ -187,7 +188,7 @@ class AgentsClient:
             tools=[],
             no_input_poke_sec=30,
             no_input_poke_text="Are you still there?",
-            recognized_languages=["en", "es"],
+            languages=["en", "es"],
             boosted_keywords=["Load ID", "dispatch"],
             configuration_endpoint={
                 "url": "https://api.example.com/config",
@@ -213,7 +214,7 @@ class AgentsClient:
             no_input_poke_sec=no_input_poke_sec,
             no_input_poke_text=no_input_poke_text,
             no_input_end_conversation_sec=no_input_end_conversation_sec,
-            recognized_languages=recognized_languages,
+            languages=languages,
             boosted_keywords=boosted_keywords,
             configuration_endpoint=configuration_endpoint,
             request_options=request_options,
@@ -239,7 +240,7 @@ class AgentsClient:
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
-        recognized_languages: typing.Optional[typing.Sequence[str]] = OMIT,
+        languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
@@ -296,7 +297,7 @@ class AgentsClient:
         no_input_end_conversation_sec : typing.Optional[int]
             Seconds of silence before ending the conversation.
 
-        recognized_languages : typing.Optional[typing.Sequence[str]]
+        languages : typing.Optional[typing.Sequence[LanguageCode]]
             Array of ISO 639-1 language codes that the agent should be able to recognize
 
         boosted_keywords : typing.Optional[typing.Sequence[str]]
@@ -337,7 +338,7 @@ class AgentsClient:
             tools=[],
             no_input_poke_sec=30,
             no_input_poke_text="Are you still there?",
-            recognized_languages=["en", "es"],
+            languages=["en", "es"],
             boosted_keywords=["Load ID", "dispatch"],
             configuration_endpoint={
                 "url": "https://api.example.com/config",
@@ -363,7 +364,7 @@ class AgentsClient:
             no_input_poke_sec=no_input_poke_sec,
             no_input_poke_text=no_input_poke_text,
             no_input_end_conversation_sec=no_input_end_conversation_sec,
-            recognized_languages=recognized_languages,
+            languages=languages,
             boosted_keywords=boosted_keywords,
             configuration_endpoint=configuration_endpoint,
             request_options=request_options,
@@ -472,7 +473,7 @@ class AgentsClient:
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
-        recognized_languages: typing.Optional[typing.Sequence[str]] = OMIT,
+        languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
         configuration_endpoint: typing.Optional[UpdateAgentRequestConfigurationEndpointParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
@@ -532,7 +533,7 @@ class AgentsClient:
         no_input_end_conversation_sec : typing.Optional[int]
             Seconds of silence before ending the conversation.
 
-        recognized_languages : typing.Optional[typing.Sequence[str]]
+        languages : typing.Optional[typing.Sequence[LanguageCode]]
             Array of ISO 639-1 language codes that the agent should be able to recognize
 
         boosted_keywords : typing.Optional[typing.Sequence[str]]
@@ -574,7 +575,7 @@ class AgentsClient:
             tools=[],
             no_input_poke_sec=30,
             no_input_poke_text="Are you still there?",
-            recognized_languages=["en", "es"],
+            languages=["en", "es"],
             boosted_keywords=["Load ID", "dispatch"],
             configuration_endpoint={
                 "url": "https://api.example.com/config",
@@ -601,7 +602,7 @@ class AgentsClient:
             no_input_poke_sec=no_input_poke_sec,
             no_input_poke_text=no_input_poke_text,
             no_input_end_conversation_sec=no_input_end_conversation_sec,
-            recognized_languages=recognized_languages,
+            languages=languages,
             boosted_keywords=boosted_keywords,
             configuration_endpoint=configuration_endpoint,
             request_options=request_options,
@@ -682,7 +683,7 @@ class AsyncAgentsClient:
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
-        recognized_languages: typing.Optional[typing.Sequence[str]] = OMIT,
+        languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
@@ -739,7 +740,7 @@ class AsyncAgentsClient:
         no_input_end_conversation_sec : typing.Optional[int]
             Seconds of silence before ending the conversation.
 
-        recognized_languages : typing.Optional[typing.Sequence[str]]
+        languages : typing.Optional[typing.Sequence[LanguageCode]]
             Array of ISO 639-1 language codes that the agent should be able to recognize
 
         boosted_keywords : typing.Optional[typing.Sequence[str]]
@@ -784,7 +785,7 @@ class AsyncAgentsClient:
                 tools=[],
                 no_input_poke_sec=30,
                 no_input_poke_text="Are you still there?",
-                recognized_languages=["en", "es"],
+                languages=["en", "es"],
                 boosted_keywords=["Load ID", "dispatch"],
                 configuration_endpoint={
                     "url": "https://api.example.com/config",
@@ -813,7 +814,7 @@ class AsyncAgentsClient:
             no_input_poke_sec=no_input_poke_sec,
             no_input_poke_text=no_input_poke_text,
             no_input_end_conversation_sec=no_input_end_conversation_sec,
-            recognized_languages=recognized_languages,
+            languages=languages,
             boosted_keywords=boosted_keywords,
             configuration_endpoint=configuration_endpoint,
             request_options=request_options,
@@ -839,7 +840,7 @@ class AsyncAgentsClient:
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
-        recognized_languages: typing.Optional[typing.Sequence[str]] = OMIT,
+        languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
@@ -896,7 +897,7 @@ class AsyncAgentsClient:
         no_input_end_conversation_sec : typing.Optional[int]
             Seconds of silence before ending the conversation.
 
-        recognized_languages : typing.Optional[typing.Sequence[str]]
+        languages : typing.Optional[typing.Sequence[LanguageCode]]
             Array of ISO 639-1 language codes that the agent should be able to recognize
 
         boosted_keywords : typing.Optional[typing.Sequence[str]]
@@ -942,7 +943,7 @@ class AsyncAgentsClient:
                 tools=[],
                 no_input_poke_sec=30,
                 no_input_poke_text="Are you still there?",
-                recognized_languages=["en", "es"],
+                languages=["en", "es"],
                 boosted_keywords=["Load ID", "dispatch"],
                 configuration_endpoint={
                     "url": "https://api.example.com/config",
@@ -971,7 +972,7 @@ class AsyncAgentsClient:
             no_input_poke_sec=no_input_poke_sec,
             no_input_poke_text=no_input_poke_text,
             no_input_end_conversation_sec=no_input_end_conversation_sec,
-            recognized_languages=recognized_languages,
+            languages=languages,
             boosted_keywords=boosted_keywords,
             configuration_endpoint=configuration_endpoint,
             request_options=request_options,
@@ -1096,7 +1097,7 @@ class AsyncAgentsClient:
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
-        recognized_languages: typing.Optional[typing.Sequence[str]] = OMIT,
+        languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
         configuration_endpoint: typing.Optional[UpdateAgentRequestConfigurationEndpointParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
@@ -1156,7 +1157,7 @@ class AsyncAgentsClient:
         no_input_end_conversation_sec : typing.Optional[int]
             Seconds of silence before ending the conversation.
 
-        recognized_languages : typing.Optional[typing.Sequence[str]]
+        languages : typing.Optional[typing.Sequence[LanguageCode]]
             Array of ISO 639-1 language codes that the agent should be able to recognize
 
         boosted_keywords : typing.Optional[typing.Sequence[str]]
@@ -1203,7 +1204,7 @@ class AsyncAgentsClient:
                 tools=[],
                 no_input_poke_sec=30,
                 no_input_poke_text="Are you still there?",
-                recognized_languages=["en", "es"],
+                languages=["en", "es"],
                 boosted_keywords=["Load ID", "dispatch"],
                 configuration_endpoint={
                     "url": "https://api.example.com/config",
@@ -1233,7 +1234,7 @@ class AsyncAgentsClient:
             no_input_poke_sec=no_input_poke_sec,
             no_input_poke_text=no_input_poke_text,
             no_input_end_conversation_sec=no_input_end_conversation_sec,
-            recognized_languages=recognized_languages,
+            languages=languages,
             boosted_keywords=boosted_keywords,
             configuration_endpoint=configuration_endpoint,
             request_options=request_options,

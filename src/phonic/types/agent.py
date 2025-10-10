@@ -9,6 +9,7 @@ from .agent_configuration_endpoint import AgentConfigurationEndpoint
 from .agent_project import AgentProject
 from .agent_template_variables_value import AgentTemplateVariablesValue
 from .agent_tools_item import AgentToolsItem
+from .language_code import LanguageCode
 from .task import Task
 
 
@@ -98,7 +99,7 @@ class Agent(UniversalBaseModel):
     Seconds of silence before ending the conversation.
     """
 
-    recognized_languages: typing.List[str] = pydantic.Field()
+    languages: typing.List[LanguageCode] = pydantic.Field()
     """
     Array of ISO 639-1 language codes that the agent should be able to recognize
     """

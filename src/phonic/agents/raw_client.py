@@ -21,6 +21,7 @@ from ..requests.create_agent_request_tools_item import CreateAgentRequestToolsIt
 from ..requests.task import TaskParams
 from ..types.basic_error import BasicError
 from ..types.create_agent_request_audio_format import CreateAgentRequestAudioFormat
+from ..types.language_code import LanguageCode
 from .requests.update_agent_request_configuration_endpoint import UpdateAgentRequestConfigurationEndpointParams
 from .requests.update_agent_request_template_variables_value import UpdateAgentRequestTemplateVariablesValueParams
 from .requests.update_agent_request_tools_item import UpdateAgentRequestToolsItemParams
@@ -124,7 +125,7 @@ class RawAgentsClient:
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
-        recognized_languages: typing.Optional[typing.Sequence[str]] = OMIT,
+        languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
@@ -181,7 +182,7 @@ class RawAgentsClient:
         no_input_end_conversation_sec : typing.Optional[int]
             Seconds of silence before ending the conversation.
 
-        recognized_languages : typing.Optional[typing.Sequence[str]]
+        languages : typing.Optional[typing.Sequence[LanguageCode]]
             Array of ISO 639-1 language codes that the agent should be able to recognize
 
         boosted_keywords : typing.Optional[typing.Sequence[str]]
@@ -229,7 +230,7 @@ class RawAgentsClient:
                 "no_input_poke_sec": no_input_poke_sec,
                 "no_input_poke_text": no_input_poke_text,
                 "no_input_end_conversation_sec": no_input_end_conversation_sec,
-                "recognized_languages": recognized_languages,
+                "languages": languages,
                 "boosted_keywords": boosted_keywords,
                 "configuration_endpoint": convert_and_respect_annotation_metadata(
                     object_=configuration_endpoint,
@@ -321,7 +322,7 @@ class RawAgentsClient:
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
-        recognized_languages: typing.Optional[typing.Sequence[str]] = OMIT,
+        languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
@@ -378,7 +379,7 @@ class RawAgentsClient:
         no_input_end_conversation_sec : typing.Optional[int]
             Seconds of silence before ending the conversation.
 
-        recognized_languages : typing.Optional[typing.Sequence[str]]
+        languages : typing.Optional[typing.Sequence[LanguageCode]]
             Array of ISO 639-1 language codes that the agent should be able to recognize
 
         boosted_keywords : typing.Optional[typing.Sequence[str]]
@@ -426,7 +427,7 @@ class RawAgentsClient:
                 "no_input_poke_sec": no_input_poke_sec,
                 "no_input_poke_text": no_input_poke_text,
                 "no_input_end_conversation_sec": no_input_end_conversation_sec,
-                "recognized_languages": recognized_languages,
+                "languages": languages,
                 "boosted_keywords": boosted_keywords,
                 "configuration_endpoint": convert_and_respect_annotation_metadata(
                     object_=configuration_endpoint,
@@ -641,7 +642,7 @@ class RawAgentsClient:
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
-        recognized_languages: typing.Optional[typing.Sequence[str]] = OMIT,
+        languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
         configuration_endpoint: typing.Optional[UpdateAgentRequestConfigurationEndpointParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
@@ -701,7 +702,7 @@ class RawAgentsClient:
         no_input_end_conversation_sec : typing.Optional[int]
             Seconds of silence before ending the conversation.
 
-        recognized_languages : typing.Optional[typing.Sequence[str]]
+        languages : typing.Optional[typing.Sequence[LanguageCode]]
             Array of ISO 639-1 language codes that the agent should be able to recognize
 
         boosted_keywords : typing.Optional[typing.Sequence[str]]
@@ -749,7 +750,7 @@ class RawAgentsClient:
                 "no_input_poke_sec": no_input_poke_sec,
                 "no_input_poke_text": no_input_poke_text,
                 "no_input_end_conversation_sec": no_input_end_conversation_sec,
-                "recognized_languages": recognized_languages,
+                "languages": languages,
                 "boosted_keywords": boosted_keywords,
                 "configuration_endpoint": convert_and_respect_annotation_metadata(
                     object_=configuration_endpoint,
@@ -900,7 +901,7 @@ class AsyncRawAgentsClient:
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
-        recognized_languages: typing.Optional[typing.Sequence[str]] = OMIT,
+        languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
@@ -957,7 +958,7 @@ class AsyncRawAgentsClient:
         no_input_end_conversation_sec : typing.Optional[int]
             Seconds of silence before ending the conversation.
 
-        recognized_languages : typing.Optional[typing.Sequence[str]]
+        languages : typing.Optional[typing.Sequence[LanguageCode]]
             Array of ISO 639-1 language codes that the agent should be able to recognize
 
         boosted_keywords : typing.Optional[typing.Sequence[str]]
@@ -1005,7 +1006,7 @@ class AsyncRawAgentsClient:
                 "no_input_poke_sec": no_input_poke_sec,
                 "no_input_poke_text": no_input_poke_text,
                 "no_input_end_conversation_sec": no_input_end_conversation_sec,
-                "recognized_languages": recognized_languages,
+                "languages": languages,
                 "boosted_keywords": boosted_keywords,
                 "configuration_endpoint": convert_and_respect_annotation_metadata(
                     object_=configuration_endpoint,
@@ -1097,7 +1098,7 @@ class AsyncRawAgentsClient:
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
-        recognized_languages: typing.Optional[typing.Sequence[str]] = OMIT,
+        languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
@@ -1154,7 +1155,7 @@ class AsyncRawAgentsClient:
         no_input_end_conversation_sec : typing.Optional[int]
             Seconds of silence before ending the conversation.
 
-        recognized_languages : typing.Optional[typing.Sequence[str]]
+        languages : typing.Optional[typing.Sequence[LanguageCode]]
             Array of ISO 639-1 language codes that the agent should be able to recognize
 
         boosted_keywords : typing.Optional[typing.Sequence[str]]
@@ -1202,7 +1203,7 @@ class AsyncRawAgentsClient:
                 "no_input_poke_sec": no_input_poke_sec,
                 "no_input_poke_text": no_input_poke_text,
                 "no_input_end_conversation_sec": no_input_end_conversation_sec,
-                "recognized_languages": recognized_languages,
+                "languages": languages,
                 "boosted_keywords": boosted_keywords,
                 "configuration_endpoint": convert_and_respect_annotation_metadata(
                     object_=configuration_endpoint,
@@ -1417,7 +1418,7 @@ class AsyncRawAgentsClient:
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
-        recognized_languages: typing.Optional[typing.Sequence[str]] = OMIT,
+        languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
         configuration_endpoint: typing.Optional[UpdateAgentRequestConfigurationEndpointParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
@@ -1477,7 +1478,7 @@ class AsyncRawAgentsClient:
         no_input_end_conversation_sec : typing.Optional[int]
             Seconds of silence before ending the conversation.
 
-        recognized_languages : typing.Optional[typing.Sequence[str]]
+        languages : typing.Optional[typing.Sequence[LanguageCode]]
             Array of ISO 639-1 language codes that the agent should be able to recognize
 
         boosted_keywords : typing.Optional[typing.Sequence[str]]
@@ -1525,7 +1526,7 @@ class AsyncRawAgentsClient:
                 "no_input_poke_sec": no_input_poke_sec,
                 "no_input_poke_text": no_input_poke_text,
                 "no_input_end_conversation_sec": no_input_end_conversation_sec,
-                "recognized_languages": recognized_languages,
+                "languages": languages,
                 "boosted_keywords": boosted_keywords,
                 "configuration_endpoint": convert_and_respect_annotation_metadata(
                     object_=configuration_endpoint,

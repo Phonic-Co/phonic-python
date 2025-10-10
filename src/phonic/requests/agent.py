@@ -4,6 +4,7 @@ import typing
 
 import typing_extensions
 from ..types.agent_audio_format import AgentAudioFormat
+from ..types.language_code import LanguageCode
 from .agent_configuration_endpoint import AgentConfigurationEndpointParams
 from .agent_project import AgentProjectParams
 from .agent_template_variables_value import AgentTemplateVariablesValueParams
@@ -97,7 +98,7 @@ class AgentParams(typing_extensions.TypedDict):
     Seconds of silence before ending the conversation.
     """
 
-    recognized_languages: typing.Sequence[str]
+    languages: typing.Sequence[LanguageCode]
     """
     Array of ISO 639-1 language codes that the agent should be able to recognize
     """

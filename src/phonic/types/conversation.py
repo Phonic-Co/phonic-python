@@ -102,14 +102,39 @@ class Conversation(UniversalBaseModel):
     Who or what ended the conversation.
     """
 
-    items: typing.List[ConversationItem] = pydantic.Field()
+    boosted_keywords: typing.Optional[typing.List[str]] = pydantic.Field(default=None)
     """
-    Array of conversation items (turns).
+    These words, or short phrases, are more accurately recognized by the model.
+    """
+
+    languages: typing.Optional[typing.List[str]] = pydantic.Field(default=None)
+    """
+    Array of ISO 639-1 language codes recognized by the model.
+    """
+
+    no_input_poke_sec: typing.Optional[int] = pydantic.Field(default=None)
+    """
+    Number of seconds of silence before a poke message is sent. `null` means the poke message is disabled.
+    """
+
+    no_input_poke_text: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    The message to send after the specified silence. Relevant only if `no_input_poke_sec` is not `null`.
+    """
+
+    no_input_end_conversation_sec: typing.Optional[int] = pydantic.Field(default=None)
+    """
+    Seconds of silence before the conversation is ended.
     """
 
     task_results: typing.Dict[str, typing.Optional[typing.Any]] = pydantic.Field()
     """
     Results from conversation evaluations and extractions.
+    """
+
+    items: typing.List[ConversationItem] = pydantic.Field()
+    """
+    Array of conversation items (turns).
     """
 
     if IS_PYDANTIC_V2:
