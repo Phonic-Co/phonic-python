@@ -2,16 +2,56 @@
 
 # isort: skip_file
 
-from .agents_create_response import AgentsCreateResponse
-from .agents_delete_response import AgentsDeleteResponse
-from .agents_get_response import AgentsGetResponse
-from .agents_list_response import AgentsListResponse
-from .agents_update_response import AgentsUpdateResponse
-from .agents_upsert_response import AgentsUpsertResponse
-from .update_agent_request_audio_format import UpdateAgentRequestAudioFormat
-from .update_agent_request_configuration_endpoint import UpdateAgentRequestConfigurationEndpoint
-from .update_agent_request_template_variables_value import UpdateAgentRequestTemplateVariablesValue
-from .update_agent_request_tools_item import UpdateAgentRequestToolsItem
+import typing
+from importlib import import_module
+
+if typing.TYPE_CHECKING:
+    from .agents_create_response import AgentsCreateResponse
+    from .agents_delete_response import AgentsDeleteResponse
+    from .agents_get_response import AgentsGetResponse
+    from .agents_list_response import AgentsListResponse
+    from .agents_update_response import AgentsUpdateResponse
+    from .agents_upsert_response import AgentsUpsertResponse
+    from .update_agent_request_audio_format import UpdateAgentRequestAudioFormat
+    from .update_agent_request_background_noise import UpdateAgentRequestBackgroundNoise
+    from .update_agent_request_configuration_endpoint import UpdateAgentRequestConfigurationEndpoint
+    from .update_agent_request_template_variables_value import UpdateAgentRequestTemplateVariablesValue
+    from .update_agent_request_tools_item import UpdateAgentRequestToolsItem
+_dynamic_imports: typing.Dict[str, str] = {
+    "AgentsCreateResponse": ".agents_create_response",
+    "AgentsDeleteResponse": ".agents_delete_response",
+    "AgentsGetResponse": ".agents_get_response",
+    "AgentsListResponse": ".agents_list_response",
+    "AgentsUpdateResponse": ".agents_update_response",
+    "AgentsUpsertResponse": ".agents_upsert_response",
+    "UpdateAgentRequestAudioFormat": ".update_agent_request_audio_format",
+    "UpdateAgentRequestBackgroundNoise": ".update_agent_request_background_noise",
+    "UpdateAgentRequestConfigurationEndpoint": ".update_agent_request_configuration_endpoint",
+    "UpdateAgentRequestTemplateVariablesValue": ".update_agent_request_template_variables_value",
+    "UpdateAgentRequestToolsItem": ".update_agent_request_tools_item",
+}
+
+
+def __getattr__(attr_name: str) -> typing.Any:
+    module_name = _dynamic_imports.get(attr_name)
+    if module_name is None:
+        raise AttributeError(f"No {attr_name} found in _dynamic_imports for module name -> {__name__}")
+    try:
+        module = import_module(module_name, __package__)
+        if module_name == f".{attr_name}":
+            return module
+        else:
+            return getattr(module, attr_name)
+    except ImportError as e:
+        raise ImportError(f"Failed to import {attr_name} from {module_name}: {e}") from e
+    except AttributeError as e:
+        raise AttributeError(f"Failed to get {attr_name} from {module_name}: {e}") from e
+
+
+def __dir__():
+    lazy_attrs = list(_dynamic_imports.keys())
+    return sorted(lazy_attrs)
+
 
 __all__ = [
     "AgentsCreateResponse",
@@ -21,6 +61,7 @@ __all__ = [
     "AgentsUpdateResponse",
     "AgentsUpsertResponse",
     "UpdateAgentRequestAudioFormat",
+    "UpdateAgentRequestBackgroundNoise",
     "UpdateAgentRequestConfigurationEndpoint",
     "UpdateAgentRequestTemplateVariablesValue",
     "UpdateAgentRequestToolsItem",

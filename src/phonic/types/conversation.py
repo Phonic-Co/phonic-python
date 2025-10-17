@@ -6,6 +6,7 @@ import typing
 import pydantic
 from ..core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .conversation_agent import ConversationAgent
+from .conversation_background_noise import ConversationBackgroundNoise
 from .conversation_ended_by import ConversationEndedBy
 from .conversation_item import ConversationItem
 from .conversation_project import ConversationProject
@@ -65,6 +66,11 @@ class Conversation(UniversalBaseModel):
     background_noise_level: float = pydantic.Field()
     """
     Background noise level used in the conversation.
+    """
+
+    background_noise: typing.Optional[ConversationBackgroundNoise] = pydantic.Field(default=None)
+    """
+    The background noise type used in the conversation.
     """
 
     live_transcript: str = pydantic.Field()

@@ -5,6 +5,7 @@ import typing
 import pydantic
 from ..core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .agent_audio_format import AgentAudioFormat
+from .agent_background_noise import AgentBackgroundNoise
 from .agent_configuration_endpoint import AgentConfigurationEndpoint
 from .agent_project import AgentProject
 from .agent_template_variables_value import AgentTemplateVariablesValue
@@ -57,6 +58,11 @@ class Agent(UniversalBaseModel):
     background_noise_level: float = pydantic.Field()
     """
     The background noise level of the agent. Must be between 0 and 1.
+    """
+
+    background_noise: typing.Optional[AgentBackgroundNoise] = pydantic.Field(default=None)
+    """
+    The background noise type. Can be "office", "call-center", "coffee-shop", or null.
     """
 
     welcome_message: typing.Optional[str] = pydantic.Field(default=None)
