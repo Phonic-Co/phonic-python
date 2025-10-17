@@ -4,6 +4,7 @@ import datetime as dt
 import typing
 
 import typing_extensions
+from ..types.conversation_background_noise import ConversationBackgroundNoise
 from ..types.conversation_ended_by import ConversationEndedBy
 from .conversation_agent import ConversationAgentParams
 from .conversation_item import ConversationItemParams
@@ -64,6 +65,11 @@ class ConversationParams(typing_extensions.TypedDict):
     background_noise_level: float
     """
     Background noise level used in the conversation.
+    """
+
+    background_noise: typing.Optional[ConversationBackgroundNoise]
+    """
+    The background noise type used in the conversation.
     """
 
     live_transcript: str

@@ -203,6 +203,14 @@ client.agents.create(
 <dl>
 <dd>
 
+**background_noise:** `typing.Optional[CreateAgentRequestBackgroundNoise]` — The background noise type. Can be "office", "call-center", "coffee-shop", or null.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **welcome_message:** `typing.Optional[str]` — Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`.
     
 </dd>
@@ -434,6 +442,14 @@ client.agents.upsert(
 <dd>
 
 **background_noise_level:** `typing.Optional[float]` — The background noise level of the agent.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**background_noise:** `typing.Optional[CreateAgentRequestBackgroundNoise]` — The background noise type. Can be "office", "call-center", "coffee-shop", or null.
     
 </dd>
 </dl>
@@ -839,6 +855,14 @@ client.agents.update(
 <dd>
 
 **background_noise_level:** `typing.Optional[float]` — The background noise level of the agent.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**background_noise:** `typing.Optional[UpdateAgentRequestBackgroundNoise]` — The background noise type. Can be "office", "call-center", "coffee-shop", or null.
     
 </dd>
 </dl>

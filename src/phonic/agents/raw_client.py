@@ -21,6 +21,7 @@ from ..requests.create_agent_request_tools_item import CreateAgentRequestToolsIt
 from ..requests.task import TaskParams
 from ..types.basic_error import BasicError
 from ..types.create_agent_request_audio_format import CreateAgentRequestAudioFormat
+from ..types.create_agent_request_background_noise import CreateAgentRequestBackgroundNoise
 from ..types.language_code import LanguageCode
 from .requests.update_agent_request_configuration_endpoint import UpdateAgentRequestConfigurationEndpointParams
 from .requests.update_agent_request_template_variables_value import UpdateAgentRequestTemplateVariablesValueParams
@@ -32,6 +33,7 @@ from .types.agents_list_response import AgentsListResponse
 from .types.agents_update_response import AgentsUpdateResponse
 from .types.agents_upsert_response import AgentsUpsertResponse
 from .types.update_agent_request_audio_format import UpdateAgentRequestAudioFormat
+from .types.update_agent_request_background_noise import UpdateAgentRequestBackgroundNoise
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -117,6 +119,7 @@ class RawAgentsClient:
         audio_format: typing.Optional[CreateAgentRequestAudioFormat] = OMIT,
         audio_speed: typing.Optional[float] = OMIT,
         background_noise_level: typing.Optional[float] = OMIT,
+        background_noise: typing.Optional[CreateAgentRequestBackgroundNoise] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValueParams]] = OMIT,
@@ -157,6 +160,9 @@ class RawAgentsClient:
 
         background_noise_level : typing.Optional[float]
             The background noise level of the agent.
+
+        background_noise : typing.Optional[CreateAgentRequestBackgroundNoise]
+            The background noise type. Can be "office", "call-center", "coffee-shop", or null.
 
         welcome_message : typing.Optional[str]
             Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`.
@@ -214,6 +220,7 @@ class RawAgentsClient:
                 "audio_format": audio_format,
                 "audio_speed": audio_speed,
                 "background_noise_level": background_noise_level,
+                "background_noise": background_noise,
                 "welcome_message": welcome_message,
                 "system_prompt": system_prompt,
                 "template_variables": convert_and_respect_annotation_metadata(
@@ -314,6 +321,7 @@ class RawAgentsClient:
         audio_format: typing.Optional[CreateAgentRequestAudioFormat] = OMIT,
         audio_speed: typing.Optional[float] = OMIT,
         background_noise_level: typing.Optional[float] = OMIT,
+        background_noise: typing.Optional[CreateAgentRequestBackgroundNoise] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValueParams]] = OMIT,
@@ -354,6 +362,9 @@ class RawAgentsClient:
 
         background_noise_level : typing.Optional[float]
             The background noise level of the agent.
+
+        background_noise : typing.Optional[CreateAgentRequestBackgroundNoise]
+            The background noise type. Can be "office", "call-center", "coffee-shop", or null.
 
         welcome_message : typing.Optional[str]
             Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`.
@@ -411,6 +422,7 @@ class RawAgentsClient:
                 "audio_format": audio_format,
                 "audio_speed": audio_speed,
                 "background_noise_level": background_noise_level,
+                "background_noise": background_noise,
                 "welcome_message": welcome_message,
                 "system_prompt": system_prompt,
                 "template_variables": convert_and_respect_annotation_metadata(
@@ -634,6 +646,7 @@ class RawAgentsClient:
         audio_format: typing.Optional[UpdateAgentRequestAudioFormat] = OMIT,
         audio_speed: typing.Optional[float] = OMIT,
         background_noise_level: typing.Optional[float] = OMIT,
+        background_noise: typing.Optional[UpdateAgentRequestBackgroundNoise] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, UpdateAgentRequestTemplateVariablesValueParams]] = OMIT,
@@ -677,6 +690,9 @@ class RawAgentsClient:
 
         background_noise_level : typing.Optional[float]
             The background noise level of the agent.
+
+        background_noise : typing.Optional[UpdateAgentRequestBackgroundNoise]
+            The background noise type. Can be "office", "call-center", "coffee-shop", or null.
 
         welcome_message : typing.Optional[str]
             Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`.
@@ -734,6 +750,7 @@ class RawAgentsClient:
                 "audio_format": audio_format,
                 "audio_speed": audio_speed,
                 "background_noise_level": background_noise_level,
+                "background_noise": background_noise,
                 "welcome_message": welcome_message,
                 "system_prompt": system_prompt,
                 "template_variables": convert_and_respect_annotation_metadata(
@@ -893,6 +910,7 @@ class AsyncRawAgentsClient:
         audio_format: typing.Optional[CreateAgentRequestAudioFormat] = OMIT,
         audio_speed: typing.Optional[float] = OMIT,
         background_noise_level: typing.Optional[float] = OMIT,
+        background_noise: typing.Optional[CreateAgentRequestBackgroundNoise] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValueParams]] = OMIT,
@@ -933,6 +951,9 @@ class AsyncRawAgentsClient:
 
         background_noise_level : typing.Optional[float]
             The background noise level of the agent.
+
+        background_noise : typing.Optional[CreateAgentRequestBackgroundNoise]
+            The background noise type. Can be "office", "call-center", "coffee-shop", or null.
 
         welcome_message : typing.Optional[str]
             Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`.
@@ -990,6 +1011,7 @@ class AsyncRawAgentsClient:
                 "audio_format": audio_format,
                 "audio_speed": audio_speed,
                 "background_noise_level": background_noise_level,
+                "background_noise": background_noise,
                 "welcome_message": welcome_message,
                 "system_prompt": system_prompt,
                 "template_variables": convert_and_respect_annotation_metadata(
@@ -1090,6 +1112,7 @@ class AsyncRawAgentsClient:
         audio_format: typing.Optional[CreateAgentRequestAudioFormat] = OMIT,
         audio_speed: typing.Optional[float] = OMIT,
         background_noise_level: typing.Optional[float] = OMIT,
+        background_noise: typing.Optional[CreateAgentRequestBackgroundNoise] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValueParams]] = OMIT,
@@ -1130,6 +1153,9 @@ class AsyncRawAgentsClient:
 
         background_noise_level : typing.Optional[float]
             The background noise level of the agent.
+
+        background_noise : typing.Optional[CreateAgentRequestBackgroundNoise]
+            The background noise type. Can be "office", "call-center", "coffee-shop", or null.
 
         welcome_message : typing.Optional[str]
             Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`.
@@ -1187,6 +1213,7 @@ class AsyncRawAgentsClient:
                 "audio_format": audio_format,
                 "audio_speed": audio_speed,
                 "background_noise_level": background_noise_level,
+                "background_noise": background_noise,
                 "welcome_message": welcome_message,
                 "system_prompt": system_prompt,
                 "template_variables": convert_and_respect_annotation_metadata(
@@ -1410,6 +1437,7 @@ class AsyncRawAgentsClient:
         audio_format: typing.Optional[UpdateAgentRequestAudioFormat] = OMIT,
         audio_speed: typing.Optional[float] = OMIT,
         background_noise_level: typing.Optional[float] = OMIT,
+        background_noise: typing.Optional[UpdateAgentRequestBackgroundNoise] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, UpdateAgentRequestTemplateVariablesValueParams]] = OMIT,
@@ -1453,6 +1481,9 @@ class AsyncRawAgentsClient:
 
         background_noise_level : typing.Optional[float]
             The background noise level of the agent.
+
+        background_noise : typing.Optional[UpdateAgentRequestBackgroundNoise]
+            The background noise type. Can be "office", "call-center", "coffee-shop", or null.
 
         welcome_message : typing.Optional[str]
             Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`.
@@ -1510,6 +1541,7 @@ class AsyncRawAgentsClient:
                 "audio_format": audio_format,
                 "audio_speed": audio_speed,
                 "background_noise_level": background_noise_level,
+                "background_noise": background_noise,
                 "welcome_message": welcome_message,
                 "system_prompt": system_prompt,
                 "template_variables": convert_and_respect_annotation_metadata(

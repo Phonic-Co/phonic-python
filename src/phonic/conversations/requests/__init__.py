@@ -2,17 +2,56 @@
 
 # isort: skip_file
 
-from .conversations_cancel_response import ConversationsCancelResponseParams
-from .conversations_extract_data_response import ConversationsExtractDataResponseParams
-from .conversations_get_analysis_response import ConversationsGetAnalysisResponseParams
-from .conversations_get_response import ConversationsGetResponseParams
-from .conversations_list_evaluations_response import ConversationsListEvaluationsResponseParams
-from .conversations_list_extractions_response import ConversationsListExtractionsResponseParams
-from .conversations_list_response import ConversationsListResponseParams
-from .conversations_list_response_conversation import ConversationsListResponseConversationParams
-from .conversations_list_response_conversations import ConversationsListResponseConversationsParams
-from .conversations_outbound_call_response import ConversationsOutboundCallResponseParams
-from .conversations_sip_outbound_call_response import ConversationsSipOutboundCallResponseParams
+import typing
+from importlib import import_module
+
+if typing.TYPE_CHECKING:
+    from .conversations_cancel_response import ConversationsCancelResponseParams
+    from .conversations_extract_data_response import ConversationsExtractDataResponseParams
+    from .conversations_get_analysis_response import ConversationsGetAnalysisResponseParams
+    from .conversations_get_response import ConversationsGetResponseParams
+    from .conversations_list_evaluations_response import ConversationsListEvaluationsResponseParams
+    from .conversations_list_extractions_response import ConversationsListExtractionsResponseParams
+    from .conversations_list_response import ConversationsListResponseParams
+    from .conversations_list_response_conversation import ConversationsListResponseConversationParams
+    from .conversations_list_response_conversations import ConversationsListResponseConversationsParams
+    from .conversations_outbound_call_response import ConversationsOutboundCallResponseParams
+    from .conversations_sip_outbound_call_response import ConversationsSipOutboundCallResponseParams
+_dynamic_imports: typing.Dict[str, str] = {
+    "ConversationsCancelResponseParams": ".conversations_cancel_response",
+    "ConversationsExtractDataResponseParams": ".conversations_extract_data_response",
+    "ConversationsGetAnalysisResponseParams": ".conversations_get_analysis_response",
+    "ConversationsGetResponseParams": ".conversations_get_response",
+    "ConversationsListEvaluationsResponseParams": ".conversations_list_evaluations_response",
+    "ConversationsListExtractionsResponseParams": ".conversations_list_extractions_response",
+    "ConversationsListResponseConversationParams": ".conversations_list_response_conversation",
+    "ConversationsListResponseConversationsParams": ".conversations_list_response_conversations",
+    "ConversationsListResponseParams": ".conversations_list_response",
+    "ConversationsOutboundCallResponseParams": ".conversations_outbound_call_response",
+    "ConversationsSipOutboundCallResponseParams": ".conversations_sip_outbound_call_response",
+}
+
+
+def __getattr__(attr_name: str) -> typing.Any:
+    module_name = _dynamic_imports.get(attr_name)
+    if module_name is None:
+        raise AttributeError(f"No {attr_name} found in _dynamic_imports for module name -> {__name__}")
+    try:
+        module = import_module(module_name, __package__)
+        if module_name == f".{attr_name}":
+            return module
+        else:
+            return getattr(module, attr_name)
+    except ImportError as e:
+        raise ImportError(f"Failed to import {attr_name} from {module_name}: {e}") from e
+    except AttributeError as e:
+        raise AttributeError(f"Failed to get {attr_name} from {module_name}: {e}") from e
+
+
+def __dir__():
+    lazy_attrs = list(_dynamic_imports.keys())
+    return sorted(lazy_attrs)
+
 
 __all__ = [
     "ConversationsCancelResponseParams",
