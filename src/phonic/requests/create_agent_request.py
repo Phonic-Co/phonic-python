@@ -4,7 +4,7 @@ import typing
 
 import typing_extensions
 from ..types.create_agent_request_audio_format import CreateAgentRequestAudioFormat
-from ..types.language_code import LanguageCode
+from ..types.create_agent_request_background_noise import CreateAgentRequestBackgroundNoise
 from .create_agent_request_configuration_endpoint import CreateAgentRequestConfigurationEndpointParams
 from .create_agent_request_template_variables_value import CreateAgentRequestTemplateVariablesValueParams
 from .create_agent_request_tools_item import CreateAgentRequestToolsItemParams
@@ -41,6 +41,11 @@ class CreateAgentRequestParams(typing_extensions.TypedDict):
     background_noise_level: typing_extensions.NotRequired[float]
     """
     The background noise level of the agent.
+    """
+
+    background_noise: typing_extensions.NotRequired[typing.Optional[CreateAgentRequestBackgroundNoise]]
+    """
+    The background noise type. Can be "office", "call-center", "coffee-shop", or null.
     """
 
     welcome_message: typing_extensions.NotRequired[str]
@@ -83,7 +88,7 @@ class CreateAgentRequestParams(typing_extensions.TypedDict):
     Seconds of silence before ending the conversation.
     """
 
-    languages: typing_extensions.NotRequired[typing.Sequence[LanguageCode]]
+    recognized_languages: typing_extensions.NotRequired[typing.Sequence[str]]
     """
     Array of ISO 639-1 language codes that the agent should be able to recognize
     """

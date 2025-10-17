@@ -4,7 +4,7 @@ import typing
 
 import typing_extensions
 from ..types.agent_audio_format import AgentAudioFormat
-from ..types.language_code import LanguageCode
+from ..types.agent_background_noise import AgentBackgroundNoise
 from .agent_configuration_endpoint import AgentConfigurationEndpointParams
 from .agent_project import AgentProjectParams
 from .agent_template_variables_value import AgentTemplateVariablesValueParams
@@ -58,6 +58,11 @@ class AgentParams(typing_extensions.TypedDict):
     The background noise level of the agent. Must be between 0 and 1.
     """
 
+    background_noise: typing.Optional[AgentBackgroundNoise]
+    """
+    The background noise type. Can be "office", "call-center", "coffee-shop", or null.
+    """
+
     welcome_message: typing.Optional[str]
     """
     Message to play when the conversation starts.
@@ -98,7 +103,7 @@ class AgentParams(typing_extensions.TypedDict):
     Seconds of silence before ending the conversation.
     """
 
-    languages: typing.Sequence[LanguageCode]
+    recognized_languages: typing.Sequence[str]
     """
     Array of ISO 639-1 language codes that the agent should be able to recognize
     """

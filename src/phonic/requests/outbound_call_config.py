@@ -3,7 +3,6 @@
 import typing
 
 import typing_extensions
-from ..types.language_code import LanguageCode
 from .outbound_call_config_tools_item import OutboundCallConfigToolsItemParams
 
 
@@ -57,7 +56,7 @@ class OutboundCallConfigParams(typing_extensions.TypedDict):
     Seconds of silence before ending the conversation.
     """
 
-    languages: typing_extensions.NotRequired[typing.Sequence[LanguageCode]]
+    recognized_languages: typing_extensions.NotRequired[typing.Sequence[str]]
     """
     Array of ISO 639-1 language codes that the agent should be able to recognize
     """
