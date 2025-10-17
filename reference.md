@@ -116,7 +116,7 @@ client.agents.create(
     tools=[],
     no_input_poke_sec=30,
     no_input_poke_text="Are you still there?",
-    languages=["en", "es"],
+    recognized_languages=["en", "es"],
     boosted_keywords=["Load ID", "dispatch"],
     configuration_endpoint={
         "url": "https://api.example.com/config",
@@ -203,6 +203,14 @@ client.agents.create(
 <dl>
 <dd>
 
+**background_noise:** `typing.Optional[CreateAgentRequestBackgroundNoise]` — The background noise type. Can be "office", "call-center", "coffee-shop", or null.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **welcome_message:** `typing.Optional[str]` — Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`.
     
 </dd>
@@ -269,7 +277,7 @@ client.agents.create(
 <dl>
 <dd>
 
-**languages:** `typing.Optional[typing.Sequence[LanguageCode]]` — Array of ISO 639-1 language codes that the agent should be able to recognize
+**recognized_languages:** `typing.Optional[typing.Sequence[str]]` — Array of ISO 639-1 language codes that the agent should be able to recognize
     
 </dd>
 </dl>
@@ -354,7 +362,7 @@ client.agents.upsert(
     tools=[],
     no_input_poke_sec=30,
     no_input_poke_text="Are you still there?",
-    languages=["en", "es"],
+    recognized_languages=["en", "es"],
     boosted_keywords=["Load ID", "dispatch"],
     configuration_endpoint={
         "url": "https://api.example.com/config",
@@ -441,6 +449,14 @@ client.agents.upsert(
 <dl>
 <dd>
 
+**background_noise:** `typing.Optional[CreateAgentRequestBackgroundNoise]` — The background noise type. Can be "office", "call-center", "coffee-shop", or null.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **welcome_message:** `typing.Optional[str]` — Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`.
     
 </dd>
@@ -507,7 +523,7 @@ client.agents.upsert(
 <dl>
 <dd>
 
-**languages:** `typing.Optional[typing.Sequence[LanguageCode]]` — Array of ISO 639-1 language codes that the agent should be able to recognize
+**recognized_languages:** `typing.Optional[typing.Sequence[str]]` — Array of ISO 639-1 language codes that the agent should be able to recognize
     
 </dd>
 </dl>
@@ -751,7 +767,7 @@ client.agents.update(
     tools=[],
     no_input_poke_sec=30,
     no_input_poke_text="Are you still there?",
-    languages=["en", "es"],
+    recognized_languages=["en", "es"],
     boosted_keywords=["Load ID", "dispatch"],
     configuration_endpoint={
         "url": "https://api.example.com/config",
@@ -846,6 +862,14 @@ client.agents.update(
 <dl>
 <dd>
 
+**background_noise:** `typing.Optional[UpdateAgentRequestBackgroundNoise]` — The background noise type. Can be "office", "call-center", "coffee-shop", or null.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **welcome_message:** `typing.Optional[str]` — Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`.
     
 </dd>
@@ -912,7 +936,7 @@ client.agents.update(
 <dl>
 <dd>
 
-**languages:** `typing.Optional[typing.Sequence[LanguageCode]]` — Array of ISO 639-1 language codes that the agent should be able to recognize
+**recognized_languages:** `typing.Optional[typing.Sequence[str]]` — Array of ISO 639-1 language codes that the agent should be able to recognize
     
 </dd>
 </dl>
@@ -2784,7 +2808,7 @@ client.conversations.outbound_call(
         "no_input_poke_sec": 30,
         "no_input_poke_text": "Are you still there?",
         "no_input_end_conversation_sec": 180,
-        "languages": ["en", "es"],
+        "recognized_languages": ["en", "es"],
         "boosted_keywords": ["Load ID", "dispatch"],
         "tools": [],
     },

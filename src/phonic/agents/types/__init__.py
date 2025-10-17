@@ -9,6 +9,7 @@ from .agents_list_response import AgentsListResponse
 from .agents_update_response import AgentsUpdateResponse
 from .agents_upsert_response import AgentsUpsertResponse
 from .update_agent_request_audio_format import UpdateAgentRequestAudioFormat
+from .update_agent_request_background_noise import UpdateAgentRequestBackgroundNoise
 from .update_agent_request_configuration_endpoint import UpdateAgentRequestConfigurationEndpoint
 from .update_agent_request_template_variables_value import UpdateAgentRequestTemplateVariablesValue
 from .update_agent_request_tools_item import UpdateAgentRequestToolsItem
@@ -21,6 +22,7 @@ __all__ = [
     "AgentsUpdateResponse",
     "AgentsUpsertResponse",
     "UpdateAgentRequestAudioFormat",
+    "UpdateAgentRequestBackgroundNoise",
     "UpdateAgentRequestConfigurationEndpoint",
     "UpdateAgentRequestTemplateVariablesValue",
     "UpdateAgentRequestToolsItem",

@@ -4,6 +4,7 @@
 
 from .agent import Agent
 from .agent_audio_format import AgentAudioFormat
+from .agent_background_noise import AgentBackgroundNoise
 from .agent_configuration_endpoint import AgentConfigurationEndpoint
 from .agent_project import AgentProject
 from .agent_template_variables_value import AgentTemplateVariablesValue
@@ -16,11 +17,13 @@ from .bad_request_error_body import BadRequestErrorBody
 from .basic_error import BasicError
 from .basic_error_error import BasicErrorError
 from .config_payload import ConfigPayload
+from .config_payload_background_noise import ConfigPayloadBackgroundNoise
 from .config_payload_input_format import ConfigPayloadInputFormat
 from .config_payload_output_format import ConfigPayloadOutputFormat
 from .conversation import Conversation
 from .conversation_agent import ConversationAgent
 from .conversation_analysis import ConversationAnalysis
+from .conversation_background_noise import ConversationBackgroundNoise
 from .conversation_created_payload import ConversationCreatedPayload
 from .conversation_ended_by import ConversationEndedBy
 from .conversation_eval import ConversationEval
@@ -38,6 +41,7 @@ from .conversation_item_tool_calls_item_tool import ConversationItemToolCallsIte
 from .conversation_project import ConversationProject
 from .create_agent_request import CreateAgentRequest
 from .create_agent_request_audio_format import CreateAgentRequestAudioFormat
+from .create_agent_request_background_noise import CreateAgentRequestBackgroundNoise
 from .create_agent_request_configuration_endpoint import CreateAgentRequestConfigurationEndpoint
 from .create_agent_request_template_variables_value import CreateAgentRequestTemplateVariablesValue
 from .create_agent_request_tools_item import CreateAgentRequestToolsItem
@@ -51,7 +55,6 @@ from .extraction_schema import ExtractionSchema
 from .input_cancelled_payload import InputCancelledPayload
 from .input_text_payload import InputTextPayload
 from .is_user_speaking_payload import IsUserSpeakingPayload
-from .language_code import LanguageCode
 from .outbound_call_config import OutboundCallConfig
 from .outbound_call_config_tools_item import OutboundCallConfigToolsItem
 from .project import Project
@@ -82,6 +85,7 @@ from .voice import Voice
 __all__ = [
     "Agent",
     "AgentAudioFormat",
+    "AgentBackgroundNoise",
     "AgentConfigurationEndpoint",
     "AgentProject",
     "AgentTemplateVariablesValue",
@@ -94,11 +98,13 @@ __all__ = [
     "BasicError",
     "BasicErrorError",
     "ConfigPayload",
+    "ConfigPayloadBackgroundNoise",
     "ConfigPayloadInputFormat",
     "ConfigPayloadOutputFormat",
     "Conversation",
     "ConversationAgent",
     "ConversationAnalysis",
+    "ConversationBackgroundNoise",
     "ConversationCreatedPayload",
     "ConversationEndedBy",
     "ConversationEval",
@@ -116,6 +122,7 @@ __all__ = [
     "ConversationProject",
     "CreateAgentRequest",
     "CreateAgentRequestAudioFormat",
+    "CreateAgentRequestBackgroundNoise",
     "CreateAgentRequestConfigurationEndpoint",
     "CreateAgentRequestTemplateVariablesValue",
     "CreateAgentRequestToolsItem",
@@ -129,7 +136,6 @@ __all__ = [
     "InputCancelledPayload",
     "InputTextPayload",
     "IsUserSpeakingPayload",
-    "LanguageCode",
     "OutboundCallConfig",
     "OutboundCallConfigToolsItem",
     "Project",

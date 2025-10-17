@@ -5,11 +5,11 @@ import typing
 import pydantic
 from ..core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .agent_audio_format import AgentAudioFormat
+from .agent_background_noise import AgentBackgroundNoise
 from .agent_configuration_endpoint import AgentConfigurationEndpoint
 from .agent_project import AgentProject
 from .agent_template_variables_value import AgentTemplateVariablesValue
 from .agent_tools_item import AgentToolsItem
-from .language_code import LanguageCode
 from .task import Task
 
 
@@ -59,6 +59,11 @@ class Agent(UniversalBaseModel):
     The background noise level of the agent. Must be between 0 and 1.
     """
 
+    background_noise: typing.Optional[AgentBackgroundNoise] = pydantic.Field(default=None)
+    """
+    The background noise type. Can be "office", "call-center", "coffee-shop", or null.
+    """
+
     welcome_message: typing.Optional[str] = pydantic.Field(default=None)
     """
     Message to play when the conversation starts.
@@ -99,7 +104,7 @@ class Agent(UniversalBaseModel):
     Seconds of silence before ending the conversation.
     """
 
-    languages: typing.List[LanguageCode] = pydantic.Field()
+    recognized_languages: typing.List[str] = pydantic.Field()
     """
     Array of ISO 639-1 language codes that the agent should be able to recognize
     """

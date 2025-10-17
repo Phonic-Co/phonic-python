@@ -21,7 +21,7 @@ from ..requests.create_agent_request_tools_item import CreateAgentRequestToolsIt
 from ..requests.task import TaskParams
 from ..types.basic_error import BasicError
 from ..types.create_agent_request_audio_format import CreateAgentRequestAudioFormat
-from ..types.language_code import LanguageCode
+from ..types.create_agent_request_background_noise import CreateAgentRequestBackgroundNoise
 from .requests.update_agent_request_configuration_endpoint import UpdateAgentRequestConfigurationEndpointParams
 from .requests.update_agent_request_template_variables_value import UpdateAgentRequestTemplateVariablesValueParams
 from .requests.update_agent_request_tools_item import UpdateAgentRequestToolsItemParams
@@ -32,6 +32,7 @@ from .types.agents_list_response import AgentsListResponse
 from .types.agents_update_response import AgentsUpdateResponse
 from .types.agents_upsert_response import AgentsUpsertResponse
 from .types.update_agent_request_audio_format import UpdateAgentRequestAudioFormat
+from .types.update_agent_request_background_noise import UpdateAgentRequestBackgroundNoise
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -117,6 +118,7 @@ class RawAgentsClient:
         audio_format: typing.Optional[CreateAgentRequestAudioFormat] = OMIT,
         audio_speed: typing.Optional[float] = OMIT,
         background_noise_level: typing.Optional[float] = OMIT,
+        background_noise: typing.Optional[CreateAgentRequestBackgroundNoise] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValueParams]] = OMIT,
@@ -125,7 +127,7 @@ class RawAgentsClient:
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
-        languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
+        recognized_languages: typing.Optional[typing.Sequence[str]] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
@@ -158,6 +160,9 @@ class RawAgentsClient:
         background_noise_level : typing.Optional[float]
             The background noise level of the agent.
 
+        background_noise : typing.Optional[CreateAgentRequestBackgroundNoise]
+            The background noise type. Can be "office", "call-center", "coffee-shop", or null.
+
         welcome_message : typing.Optional[str]
             Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`.
 
@@ -182,7 +187,7 @@ class RawAgentsClient:
         no_input_end_conversation_sec : typing.Optional[int]
             Seconds of silence before ending the conversation.
 
-        languages : typing.Optional[typing.Sequence[LanguageCode]]
+        recognized_languages : typing.Optional[typing.Sequence[str]]
             Array of ISO 639-1 language codes that the agent should be able to recognize
 
         boosted_keywords : typing.Optional[typing.Sequence[str]]
@@ -214,6 +219,7 @@ class RawAgentsClient:
                 "audio_format": audio_format,
                 "audio_speed": audio_speed,
                 "background_noise_level": background_noise_level,
+                "background_noise": background_noise,
                 "welcome_message": welcome_message,
                 "system_prompt": system_prompt,
                 "template_variables": convert_and_respect_annotation_metadata(
@@ -230,7 +236,7 @@ class RawAgentsClient:
                 "no_input_poke_sec": no_input_poke_sec,
                 "no_input_poke_text": no_input_poke_text,
                 "no_input_end_conversation_sec": no_input_end_conversation_sec,
-                "languages": languages,
+                "recognized_languages": recognized_languages,
                 "boosted_keywords": boosted_keywords,
                 "configuration_endpoint": convert_and_respect_annotation_metadata(
                     object_=configuration_endpoint,
@@ -314,6 +320,7 @@ class RawAgentsClient:
         audio_format: typing.Optional[CreateAgentRequestAudioFormat] = OMIT,
         audio_speed: typing.Optional[float] = OMIT,
         background_noise_level: typing.Optional[float] = OMIT,
+        background_noise: typing.Optional[CreateAgentRequestBackgroundNoise] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValueParams]] = OMIT,
@@ -322,7 +329,7 @@ class RawAgentsClient:
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
-        languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
+        recognized_languages: typing.Optional[typing.Sequence[str]] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
@@ -355,6 +362,9 @@ class RawAgentsClient:
         background_noise_level : typing.Optional[float]
             The background noise level of the agent.
 
+        background_noise : typing.Optional[CreateAgentRequestBackgroundNoise]
+            The background noise type. Can be "office", "call-center", "coffee-shop", or null.
+
         welcome_message : typing.Optional[str]
             Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`.
 
@@ -379,7 +389,7 @@ class RawAgentsClient:
         no_input_end_conversation_sec : typing.Optional[int]
             Seconds of silence before ending the conversation.
 
-        languages : typing.Optional[typing.Sequence[LanguageCode]]
+        recognized_languages : typing.Optional[typing.Sequence[str]]
             Array of ISO 639-1 language codes that the agent should be able to recognize
 
         boosted_keywords : typing.Optional[typing.Sequence[str]]
@@ -411,6 +421,7 @@ class RawAgentsClient:
                 "audio_format": audio_format,
                 "audio_speed": audio_speed,
                 "background_noise_level": background_noise_level,
+                "background_noise": background_noise,
                 "welcome_message": welcome_message,
                 "system_prompt": system_prompt,
                 "template_variables": convert_and_respect_annotation_metadata(
@@ -427,7 +438,7 @@ class RawAgentsClient:
                 "no_input_poke_sec": no_input_poke_sec,
                 "no_input_poke_text": no_input_poke_text,
                 "no_input_end_conversation_sec": no_input_end_conversation_sec,
-                "languages": languages,
+                "recognized_languages": recognized_languages,
                 "boosted_keywords": boosted_keywords,
                 "configuration_endpoint": convert_and_respect_annotation_metadata(
                     object_=configuration_endpoint,
@@ -634,6 +645,7 @@ class RawAgentsClient:
         audio_format: typing.Optional[UpdateAgentRequestAudioFormat] = OMIT,
         audio_speed: typing.Optional[float] = OMIT,
         background_noise_level: typing.Optional[float] = OMIT,
+        background_noise: typing.Optional[UpdateAgentRequestBackgroundNoise] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, UpdateAgentRequestTemplateVariablesValueParams]] = OMIT,
@@ -642,7 +654,7 @@ class RawAgentsClient:
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
-        languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
+        recognized_languages: typing.Optional[typing.Sequence[str]] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
         configuration_endpoint: typing.Optional[UpdateAgentRequestConfigurationEndpointParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
@@ -678,6 +690,9 @@ class RawAgentsClient:
         background_noise_level : typing.Optional[float]
             The background noise level of the agent.
 
+        background_noise : typing.Optional[UpdateAgentRequestBackgroundNoise]
+            The background noise type. Can be "office", "call-center", "coffee-shop", or null.
+
         welcome_message : typing.Optional[str]
             Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`.
 
@@ -702,7 +717,7 @@ class RawAgentsClient:
         no_input_end_conversation_sec : typing.Optional[int]
             Seconds of silence before ending the conversation.
 
-        languages : typing.Optional[typing.Sequence[LanguageCode]]
+        recognized_languages : typing.Optional[typing.Sequence[str]]
             Array of ISO 639-1 language codes that the agent should be able to recognize
 
         boosted_keywords : typing.Optional[typing.Sequence[str]]
@@ -734,6 +749,7 @@ class RawAgentsClient:
                 "audio_format": audio_format,
                 "audio_speed": audio_speed,
                 "background_noise_level": background_noise_level,
+                "background_noise": background_noise,
                 "welcome_message": welcome_message,
                 "system_prompt": system_prompt,
                 "template_variables": convert_and_respect_annotation_metadata(
@@ -750,7 +766,7 @@ class RawAgentsClient:
                 "no_input_poke_sec": no_input_poke_sec,
                 "no_input_poke_text": no_input_poke_text,
                 "no_input_end_conversation_sec": no_input_end_conversation_sec,
-                "languages": languages,
+                "recognized_languages": recognized_languages,
                 "boosted_keywords": boosted_keywords,
                 "configuration_endpoint": convert_and_respect_annotation_metadata(
                     object_=configuration_endpoint,
@@ -893,6 +909,7 @@ class AsyncRawAgentsClient:
         audio_format: typing.Optional[CreateAgentRequestAudioFormat] = OMIT,
         audio_speed: typing.Optional[float] = OMIT,
         background_noise_level: typing.Optional[float] = OMIT,
+        background_noise: typing.Optional[CreateAgentRequestBackgroundNoise] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValueParams]] = OMIT,
@@ -901,7 +918,7 @@ class AsyncRawAgentsClient:
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
-        languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
+        recognized_languages: typing.Optional[typing.Sequence[str]] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
@@ -934,6 +951,9 @@ class AsyncRawAgentsClient:
         background_noise_level : typing.Optional[float]
             The background noise level of the agent.
 
+        background_noise : typing.Optional[CreateAgentRequestBackgroundNoise]
+            The background noise type. Can be "office", "call-center", "coffee-shop", or null.
+
         welcome_message : typing.Optional[str]
             Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`.
 
@@ -958,7 +978,7 @@ class AsyncRawAgentsClient:
         no_input_end_conversation_sec : typing.Optional[int]
             Seconds of silence before ending the conversation.
 
-        languages : typing.Optional[typing.Sequence[LanguageCode]]
+        recognized_languages : typing.Optional[typing.Sequence[str]]
             Array of ISO 639-1 language codes that the agent should be able to recognize
 
         boosted_keywords : typing.Optional[typing.Sequence[str]]
@@ -990,6 +1010,7 @@ class AsyncRawAgentsClient:
                 "audio_format": audio_format,
                 "audio_speed": audio_speed,
                 "background_noise_level": background_noise_level,
+                "background_noise": background_noise,
                 "welcome_message": welcome_message,
                 "system_prompt": system_prompt,
                 "template_variables": convert_and_respect_annotation_metadata(
@@ -1006,7 +1027,7 @@ class AsyncRawAgentsClient:
                 "no_input_poke_sec": no_input_poke_sec,
                 "no_input_poke_text": no_input_poke_text,
                 "no_input_end_conversation_sec": no_input_end_conversation_sec,
-                "languages": languages,
+                "recognized_languages": recognized_languages,
                 "boosted_keywords": boosted_keywords,
                 "configuration_endpoint": convert_and_respect_annotation_metadata(
                     object_=configuration_endpoint,
@@ -1090,6 +1111,7 @@ class AsyncRawAgentsClient:
         audio_format: typing.Optional[CreateAgentRequestAudioFormat] = OMIT,
         audio_speed: typing.Optional[float] = OMIT,
         background_noise_level: typing.Optional[float] = OMIT,
+        background_noise: typing.Optional[CreateAgentRequestBackgroundNoise] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValueParams]] = OMIT,
@@ -1098,7 +1120,7 @@ class AsyncRawAgentsClient:
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
-        languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
+        recognized_languages: typing.Optional[typing.Sequence[str]] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
@@ -1131,6 +1153,9 @@ class AsyncRawAgentsClient:
         background_noise_level : typing.Optional[float]
             The background noise level of the agent.
 
+        background_noise : typing.Optional[CreateAgentRequestBackgroundNoise]
+            The background noise type. Can be "office", "call-center", "coffee-shop", or null.
+
         welcome_message : typing.Optional[str]
             Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`.
 
@@ -1155,7 +1180,7 @@ class AsyncRawAgentsClient:
         no_input_end_conversation_sec : typing.Optional[int]
             Seconds of silence before ending the conversation.
 
-        languages : typing.Optional[typing.Sequence[LanguageCode]]
+        recognized_languages : typing.Optional[typing.Sequence[str]]
             Array of ISO 639-1 language codes that the agent should be able to recognize
 
         boosted_keywords : typing.Optional[typing.Sequence[str]]
@@ -1187,6 +1212,7 @@ class AsyncRawAgentsClient:
                 "audio_format": audio_format,
                 "audio_speed": audio_speed,
                 "background_noise_level": background_noise_level,
+                "background_noise": background_noise,
                 "welcome_message": welcome_message,
                 "system_prompt": system_prompt,
                 "template_variables": convert_and_respect_annotation_metadata(
@@ -1203,7 +1229,7 @@ class AsyncRawAgentsClient:
                 "no_input_poke_sec": no_input_poke_sec,
                 "no_input_poke_text": no_input_poke_text,
                 "no_input_end_conversation_sec": no_input_end_conversation_sec,
-                "languages": languages,
+                "recognized_languages": recognized_languages,
                 "boosted_keywords": boosted_keywords,
                 "configuration_endpoint": convert_and_respect_annotation_metadata(
                     object_=configuration_endpoint,
@@ -1410,6 +1436,7 @@ class AsyncRawAgentsClient:
         audio_format: typing.Optional[UpdateAgentRequestAudioFormat] = OMIT,
         audio_speed: typing.Optional[float] = OMIT,
         background_noise_level: typing.Optional[float] = OMIT,
+        background_noise: typing.Optional[UpdateAgentRequestBackgroundNoise] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, UpdateAgentRequestTemplateVariablesValueParams]] = OMIT,
@@ -1418,7 +1445,7 @@ class AsyncRawAgentsClient:
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
-        languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
+        recognized_languages: typing.Optional[typing.Sequence[str]] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
         configuration_endpoint: typing.Optional[UpdateAgentRequestConfigurationEndpointParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
@@ -1454,6 +1481,9 @@ class AsyncRawAgentsClient:
         background_noise_level : typing.Optional[float]
             The background noise level of the agent.
 
+        background_noise : typing.Optional[UpdateAgentRequestBackgroundNoise]
+            The background noise type. Can be "office", "call-center", "coffee-shop", or null.
+
         welcome_message : typing.Optional[str]
             Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`.
 
@@ -1478,7 +1508,7 @@ class AsyncRawAgentsClient:
         no_input_end_conversation_sec : typing.Optional[int]
             Seconds of silence before ending the conversation.
 
-        languages : typing.Optional[typing.Sequence[LanguageCode]]
+        recognized_languages : typing.Optional[typing.Sequence[str]]
             Array of ISO 639-1 language codes that the agent should be able to recognize
 
         boosted_keywords : typing.Optional[typing.Sequence[str]]
@@ -1510,6 +1540,7 @@ class AsyncRawAgentsClient:
                 "audio_format": audio_format,
                 "audio_speed": audio_speed,
                 "background_noise_level": background_noise_level,
+                "background_noise": background_noise,
                 "welcome_message": welcome_message,
                 "system_prompt": system_prompt,
                 "template_variables": convert_and_respect_annotation_metadata(
@@ -1526,7 +1557,7 @@ class AsyncRawAgentsClient:
                 "no_input_poke_sec": no_input_poke_sec,
                 "no_input_poke_text": no_input_poke_text,
                 "no_input_end_conversation_sec": no_input_end_conversation_sec,
-                "languages": languages,
+                "recognized_languages": recognized_languages,
                 "boosted_keywords": boosted_keywords,
                 "configuration_endpoint": convert_and_respect_annotation_metadata(
                     object_=configuration_endpoint,

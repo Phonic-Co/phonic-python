@@ -4,6 +4,7 @@ import typing
 
 import pydantic
 from ..core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from .config_payload_background_noise import ConfigPayloadBackgroundNoise
 from .config_payload_input_format import ConfigPayloadInputFormat
 from .config_payload_output_format import ConfigPayloadOutputFormat
 
@@ -38,6 +39,11 @@ class ConfigPayload(UniversalBaseModel):
     background_noise_level: typing.Optional[float] = pydantic.Field(default=None)
     """
     Background noise level for the conversation
+    """
+
+    background_noise: typing.Optional[ConfigPayloadBackgroundNoise] = pydantic.Field(default=None)
+    """
+    Background noise type for the conversation
     """
 
     welcome_message: typing.Optional[str] = pydantic.Field(default=None)

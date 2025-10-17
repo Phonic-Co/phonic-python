@@ -3,6 +3,7 @@
 import typing
 
 import typing_extensions
+from ..types.config_payload_background_noise import ConfigPayloadBackgroundNoise
 from ..types.config_payload_input_format import ConfigPayloadInputFormat
 from ..types.config_payload_output_format import ConfigPayloadOutputFormat
 
@@ -37,6 +38,11 @@ class ConfigPayloadParams(typing_extensions.TypedDict):
     background_noise_level: typing_extensions.NotRequired[float]
     """
     Background noise level for the conversation
+    """
+
+    background_noise: typing_extensions.NotRequired[typing.Optional[ConfigPayloadBackgroundNoise]]
+    """
+    Background noise type for the conversation
     """
 
     welcome_message: typing_extensions.NotRequired[typing.Optional[str]]
