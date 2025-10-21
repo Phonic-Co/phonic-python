@@ -203,14 +203,6 @@ client.agents.create(
 <dl>
 <dd>
 
-**background_noise:** `typing.Optional[CreateAgentRequestBackgroundNoise]` — The background noise type. Can be "office", "call-center", "coffee-shop", or null.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
 **welcome_message:** `typing.Optional[str]` — Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`.
     
 </dd>
@@ -442,14 +434,6 @@ client.agents.upsert(
 <dd>
 
 **background_noise_level:** `typing.Optional[float]` — The background noise level of the agent.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**background_noise:** `typing.Optional[CreateAgentRequestBackgroundNoise]` — The background noise type. Can be "office", "call-center", "coffee-shop", or null.
     
 </dd>
 </dl>
@@ -862,14 +846,6 @@ client.agents.update(
 <dl>
 <dd>
 
-**background_noise:** `typing.Optional[UpdateAgentRequestBackgroundNoise]` — The background noise type. Can be "office", "call-center", "coffee-shop", or null.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
 **welcome_message:** `typing.Optional[str]` — Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`.
     
 </dd>
@@ -1138,7 +1114,12 @@ client.tools.create(
 <dl>
 <dd>
 
-**parameters:** `typing.Optional[typing.Sequence[ToolParameterParams]]` — Array of parameter definitions.
+**parameters:** `typing.Optional[typing.Sequence[ToolParameterParams]]` 
+
+Array of parameter definitions.
+For `custom_webhook` tools with POST method, each parameter must include a `location` field.
+For `custom_webhook` tools with GET method, `location` defaults to `"query_string"` if not specified.
+For `custom_websocket` and `built_in_transfer_to_phone_number` tools, `location` must not be specified.
     
 </dd>
 </dl>
@@ -1146,7 +1127,7 @@ client.tools.create(
 <dl>
 <dd>
 
-**endpoint_method:** `typing.Optional[typing.Literal["POST"]]` — Required for webhook tools.
+**endpoint_method:** `typing.Optional[CreateToolRequestEndpointMethod]` — Required for webhook tools. HTTP method for the webhook endpoint.
     
 </dd>
 </dl>
@@ -1466,7 +1447,12 @@ client.tools.update(
 <dl>
 <dd>
 
-**parameters:** `typing.Optional[typing.Sequence[ToolParameterParams]]` — Array of parameter definitions.
+**parameters:** `typing.Optional[typing.Sequence[ToolParameterParams]]` 
+
+Array of parameter definitions.
+When updating `type` or `endpoint_method`, all parameters must include explicit `location` values.
+For `custom_webhook` tools: `location` is required for POST, defaults to `"query_string"` for GET.
+For `custom_websocket` and `built_in_transfer_to_phone_number` tools: `location` must not be specified.
     
 </dd>
 </dl>
@@ -1474,7 +1460,7 @@ client.tools.update(
 <dl>
 <dd>
 
-**endpoint_method:** `typing.Optional[typing.Literal["POST"]]` 
+**endpoint_method:** `typing.Optional[UpdateToolRequestEndpointMethod]` — HTTP method for webhook tools. When changing this value, all parameters must include explicit `location` values.
     
 </dd>
 </dl>

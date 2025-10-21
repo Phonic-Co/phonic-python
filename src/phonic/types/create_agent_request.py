@@ -5,7 +5,6 @@ import typing
 import pydantic
 from ..core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .create_agent_request_audio_format import CreateAgentRequestAudioFormat
-from .create_agent_request_background_noise import CreateAgentRequestBackgroundNoise
 from .create_agent_request_configuration_endpoint import CreateAgentRequestConfigurationEndpoint
 from .create_agent_request_template_variables_value import CreateAgentRequestTemplateVariablesValue
 from .create_agent_request_tools_item import CreateAgentRequestToolsItem
@@ -43,11 +42,6 @@ class CreateAgentRequest(UniversalBaseModel):
     background_noise_level: typing.Optional[float] = pydantic.Field(default=None)
     """
     The background noise level of the agent.
-    """
-
-    background_noise: typing.Optional[CreateAgentRequestBackgroundNoise] = pydantic.Field(default=None)
-    """
-    The background noise type. Can be "office", "call-center", "coffee-shop", or null.
     """
 
     welcome_message: typing.Optional[str] = pydantic.Field(default=None)

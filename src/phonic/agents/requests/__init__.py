@@ -2,52 +2,15 @@
 
 # isort: skip_file
 
-import typing
-from importlib import import_module
-
-if typing.TYPE_CHECKING:
-    from .agents_create_response import AgentsCreateResponseParams
-    from .agents_delete_response import AgentsDeleteResponseParams
-    from .agents_get_response import AgentsGetResponseParams
-    from .agents_list_response import AgentsListResponseParams
-    from .agents_update_response import AgentsUpdateResponseParams
-    from .agents_upsert_response import AgentsUpsertResponseParams
-    from .update_agent_request_configuration_endpoint import UpdateAgentRequestConfigurationEndpointParams
-    from .update_agent_request_template_variables_value import UpdateAgentRequestTemplateVariablesValueParams
-    from .update_agent_request_tools_item import UpdateAgentRequestToolsItemParams
-_dynamic_imports: typing.Dict[str, str] = {
-    "AgentsCreateResponseParams": ".agents_create_response",
-    "AgentsDeleteResponseParams": ".agents_delete_response",
-    "AgentsGetResponseParams": ".agents_get_response",
-    "AgentsListResponseParams": ".agents_list_response",
-    "AgentsUpdateResponseParams": ".agents_update_response",
-    "AgentsUpsertResponseParams": ".agents_upsert_response",
-    "UpdateAgentRequestConfigurationEndpointParams": ".update_agent_request_configuration_endpoint",
-    "UpdateAgentRequestTemplateVariablesValueParams": ".update_agent_request_template_variables_value",
-    "UpdateAgentRequestToolsItemParams": ".update_agent_request_tools_item",
-}
-
-
-def __getattr__(attr_name: str) -> typing.Any:
-    module_name = _dynamic_imports.get(attr_name)
-    if module_name is None:
-        raise AttributeError(f"No {attr_name} found in _dynamic_imports for module name -> {__name__}")
-    try:
-        module = import_module(module_name, __package__)
-        if module_name == f".{attr_name}":
-            return module
-        else:
-            return getattr(module, attr_name)
-    except ImportError as e:
-        raise ImportError(f"Failed to import {attr_name} from {module_name}: {e}") from e
-    except AttributeError as e:
-        raise AttributeError(f"Failed to get {attr_name} from {module_name}: {e}") from e
-
-
-def __dir__():
-    lazy_attrs = list(_dynamic_imports.keys())
-    return sorted(lazy_attrs)
-
+from .agents_create_response import AgentsCreateResponseParams
+from .agents_delete_response import AgentsDeleteResponseParams
+from .agents_get_response import AgentsGetResponseParams
+from .agents_list_response import AgentsListResponseParams
+from .agents_update_response import AgentsUpdateResponseParams
+from .agents_upsert_response import AgentsUpsertResponseParams
+from .update_agent_request_configuration_endpoint import UpdateAgentRequestConfigurationEndpointParams
+from .update_agent_request_template_variables_value import UpdateAgentRequestTemplateVariablesValueParams
+from .update_agent_request_tools_item import UpdateAgentRequestToolsItemParams
 
 __all__ = [
     "AgentsCreateResponseParams",

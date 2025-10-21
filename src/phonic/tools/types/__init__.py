@@ -2,54 +2,20 @@
 
 # isort: skip_file
 
-import typing
-from importlib import import_module
-
-if typing.TYPE_CHECKING:
-    from .create_tool_request_execution_mode import CreateToolRequestExecutionMode
-    from .create_tool_request_type import CreateToolRequestType
-    from .tools_create_response import ToolsCreateResponse
-    from .tools_delete_response import ToolsDeleteResponse
-    from .tools_get_response import ToolsGetResponse
-    from .tools_list_response import ToolsListResponse
-    from .tools_update_response import ToolsUpdateResponse
-    from .update_tool_request_execution_mode import UpdateToolRequestExecutionMode
-    from .update_tool_request_type import UpdateToolRequestType
-_dynamic_imports: typing.Dict[str, str] = {
-    "CreateToolRequestExecutionMode": ".create_tool_request_execution_mode",
-    "CreateToolRequestType": ".create_tool_request_type",
-    "ToolsCreateResponse": ".tools_create_response",
-    "ToolsDeleteResponse": ".tools_delete_response",
-    "ToolsGetResponse": ".tools_get_response",
-    "ToolsListResponse": ".tools_list_response",
-    "ToolsUpdateResponse": ".tools_update_response",
-    "UpdateToolRequestExecutionMode": ".update_tool_request_execution_mode",
-    "UpdateToolRequestType": ".update_tool_request_type",
-}
-
-
-def __getattr__(attr_name: str) -> typing.Any:
-    module_name = _dynamic_imports.get(attr_name)
-    if module_name is None:
-        raise AttributeError(f"No {attr_name} found in _dynamic_imports for module name -> {__name__}")
-    try:
-        module = import_module(module_name, __package__)
-        if module_name == f".{attr_name}":
-            return module
-        else:
-            return getattr(module, attr_name)
-    except ImportError as e:
-        raise ImportError(f"Failed to import {attr_name} from {module_name}: {e}") from e
-    except AttributeError as e:
-        raise AttributeError(f"Failed to get {attr_name} from {module_name}: {e}") from e
-
-
-def __dir__():
-    lazy_attrs = list(_dynamic_imports.keys())
-    return sorted(lazy_attrs)
-
+from .create_tool_request_endpoint_method import CreateToolRequestEndpointMethod
+from .create_tool_request_execution_mode import CreateToolRequestExecutionMode
+from .create_tool_request_type import CreateToolRequestType
+from .tools_create_response import ToolsCreateResponse
+from .tools_delete_response import ToolsDeleteResponse
+from .tools_get_response import ToolsGetResponse
+from .tools_list_response import ToolsListResponse
+from .tools_update_response import ToolsUpdateResponse
+from .update_tool_request_endpoint_method import UpdateToolRequestEndpointMethod
+from .update_tool_request_execution_mode import UpdateToolRequestExecutionMode
+from .update_tool_request_type import UpdateToolRequestType
 
 __all__ = [
+    "CreateToolRequestEndpointMethod",
     "CreateToolRequestExecutionMode",
     "CreateToolRequestType",
     "ToolsCreateResponse",
@@ -57,6 +23,7 @@ __all__ = [
     "ToolsGetResponse",
     "ToolsListResponse",
     "ToolsUpdateResponse",
+    "UpdateToolRequestEndpointMethod",
     "UpdateToolRequestExecutionMode",
     "UpdateToolRequestType",
 ]

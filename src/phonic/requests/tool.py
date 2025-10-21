@@ -3,6 +3,7 @@
 import typing
 
 import typing_extensions
+from ..types.tool_endpoint_method import ToolEndpointMethod
 from ..types.tool_execution_mode import ToolExecutionMode
 from ..types.tool_type import ToolType
 from .tool_parameter import ToolParameterParams
@@ -41,7 +42,7 @@ class ToolParams(typing_extensions.TypedDict):
     Array of parameter definitions for the tool.
     """
 
-    endpoint_method: typing_extensions.NotRequired[typing.Literal["POST"]]
+    endpoint_method: typing_extensions.NotRequired[ToolEndpointMethod]
     """
     HTTP method for webhook tools.
     """

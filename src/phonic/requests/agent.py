@@ -4,7 +4,6 @@ import typing
 
 import typing_extensions
 from ..types.agent_audio_format import AgentAudioFormat
-from ..types.agent_background_noise import AgentBackgroundNoise
 from ..types.language_code import LanguageCode
 from .agent_configuration_endpoint import AgentConfigurationEndpointParams
 from .agent_project import AgentProjectParams
@@ -57,11 +56,6 @@ class AgentParams(typing_extensions.TypedDict):
     background_noise_level: float
     """
     The background noise level of the agent. Must be between 0 and 1.
-    """
-
-    background_noise: typing.Optional[AgentBackgroundNoise]
-    """
-    The background noise type. Can be "office", "call-center", "coffee-shop", or null.
     """
 
     welcome_message: typing.Optional[str]

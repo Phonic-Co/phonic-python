@@ -53,7 +53,7 @@ client.agents.create(
 
 ## Async Client
 
-The SDK also exports an `async` client so that you can make non-blocking calls to our API. Note that if you are constructing an Async httpx client class to pass into this client, use `httpx.AsyncClient()` instead of `httpx.Client()` (e.g. for the `httpx_client` parameter of this client).
+The SDK also exports an `async` client so that you can make non-blocking calls to our API.
 
 ```python
 import asyncio
@@ -236,7 +236,7 @@ from phonic import Phonic
 client = Phonic(
     ...,
     httpx_client=httpx.Client(
-        proxy="http://my.test.proxy.example.com",
+        proxies="http://my.test.proxy.example.com",
         transport=httpx.HTTPTransport(local_address="0.0.0.0"),
     ),
 )

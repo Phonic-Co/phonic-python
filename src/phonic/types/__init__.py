@@ -2,199 +2,88 @@
 
 # isort: skip_file
 
-import typing
-from importlib import import_module
-
-if typing.TYPE_CHECKING:
-    from .agent import Agent
-    from .agent_audio_format import AgentAudioFormat
-    from .agent_background_noise import AgentBackgroundNoise
-    from .agent_configuration_endpoint import AgentConfigurationEndpoint
-    from .agent_project import AgentProject
-    from .agent_template_variables_value import AgentTemplateVariablesValue
-    from .agent_tools_item import AgentToolsItem
-    from .assistant_chose_not_to_respond_payload import AssistantChoseNotToRespondPayload
-    from .assistant_ended_conversation_payload import AssistantEndedConversationPayload
-    from .audio_chunk_payload import AudioChunkPayload
-    from .audio_chunk_response_payload import AudioChunkResponsePayload
-    from .bad_request_error_body import BadRequestErrorBody
-    from .basic_error import BasicError
-    from .basic_error_error import BasicErrorError
-    from .config_payload import ConfigPayload
-    from .config_payload_background_noise import ConfigPayloadBackgroundNoise
-    from .config_payload_input_format import ConfigPayloadInputFormat
-    from .config_payload_output_format import ConfigPayloadOutputFormat
-    from .conversation import Conversation
-    from .conversation_agent import ConversationAgent
-    from .conversation_analysis import ConversationAnalysis
-    from .conversation_background_noise import ConversationBackgroundNoise
-    from .conversation_created_payload import ConversationCreatedPayload
-    from .conversation_ended_by import ConversationEndedBy
-    from .conversation_eval import ConversationEval
-    from .conversation_eval_prompt import ConversationEvalPrompt
-    from .conversation_evaluation import ConversationEvaluation
-    from .conversation_evaluation_result import ConversationEvaluationResult
-    from .conversation_evaluation_result_prompt import ConversationEvaluationResultPrompt
-    from .conversation_evaluation_result_result import ConversationEvaluationResultResult
-    from .conversation_extraction import ConversationExtraction
-    from .conversation_extraction_schema import ConversationExtractionSchema
-    from .conversation_item import ConversationItem
-    from .conversation_item_role import ConversationItemRole
-    from .conversation_item_tool_calls_item import ConversationItemToolCallsItem
-    from .conversation_item_tool_calls_item_tool import ConversationItemToolCallsItemTool
-    from .conversation_project import ConversationProject
-    from .create_agent_request import CreateAgentRequest
-    from .create_agent_request_audio_format import CreateAgentRequestAudioFormat
-    from .create_agent_request_background_noise import CreateAgentRequestBackgroundNoise
-    from .create_agent_request_configuration_endpoint import CreateAgentRequestConfigurationEndpoint
-    from .create_agent_request_template_variables_value import CreateAgentRequestTemplateVariablesValue
-    from .create_agent_request_tools_item import CreateAgentRequestToolsItem
-    from .dtmf_payload import DtmfPayload
-    from .error import Error
-    from .error_payload import ErrorPayload
-    from .error_payload_error import ErrorPayloadError
-    from .extraction_field import ExtractionField
-    from .extraction_field_type import ExtractionFieldType
-    from .extraction_schema import ExtractionSchema
-    from .input_cancelled_payload import InputCancelledPayload
-    from .input_text_payload import InputTextPayload
-    from .is_user_speaking_payload import IsUserSpeakingPayload
-    from .language_code import LanguageCode
-    from .outbound_call_config import OutboundCallConfig
-    from .outbound_call_config_tools_item import OutboundCallConfigToolsItem
-    from .project import Project
-    from .project_default_agent import ProjectDefaultAgent
-    from .ready_to_start_conversation_payload import ReadyToStartConversationPayload
-    from .set_external_id_payload import SetExternalIdPayload
-    from .set_twilio_call_sid_payload import SetTwilioCallSidPayload
-    from .task import Task
-    from .tool import Tool
-    from .tool_call_interrupted_payload import ToolCallInterruptedPayload
-    from .tool_call_output_payload import ToolCallOutputPayload
-    from .tool_call_output_processed_payload import ToolCallOutputProcessedPayload
-    from .tool_call_output_processed_payload_tool import ToolCallOutputProcessedPayloadTool
-    from .tool_call_payload import ToolCallPayload
-    from .tool_execution_mode import ToolExecutionMode
-    from .tool_parameter import ToolParameter
-    from .tool_parameter_item_type import ToolParameterItemType
-    from .tool_parameter_type import ToolParameterType
-    from .tool_project import ToolProject
-    from .tool_type import ToolType
-    from .update_system_prompt_payload import UpdateSystemPromptPayload
-    from .user_finished_speaking_payload import UserFinishedSpeakingPayload
-    from .user_started_speaking_payload import UserStartedSpeakingPayload
-    from .validation_error import ValidationError
-    from .validation_error_error import ValidationErrorError
-    from .voice import Voice
-_dynamic_imports: typing.Dict[str, str] = {
-    "Agent": ".agent",
-    "AgentAudioFormat": ".agent_audio_format",
-    "AgentBackgroundNoise": ".agent_background_noise",
-    "AgentConfigurationEndpoint": ".agent_configuration_endpoint",
-    "AgentProject": ".agent_project",
-    "AgentTemplateVariablesValue": ".agent_template_variables_value",
-    "AgentToolsItem": ".agent_tools_item",
-    "AssistantChoseNotToRespondPayload": ".assistant_chose_not_to_respond_payload",
-    "AssistantEndedConversationPayload": ".assistant_ended_conversation_payload",
-    "AudioChunkPayload": ".audio_chunk_payload",
-    "AudioChunkResponsePayload": ".audio_chunk_response_payload",
-    "BadRequestErrorBody": ".bad_request_error_body",
-    "BasicError": ".basic_error",
-    "BasicErrorError": ".basic_error_error",
-    "ConfigPayload": ".config_payload",
-    "ConfigPayloadBackgroundNoise": ".config_payload_background_noise",
-    "ConfigPayloadInputFormat": ".config_payload_input_format",
-    "ConfigPayloadOutputFormat": ".config_payload_output_format",
-    "Conversation": ".conversation",
-    "ConversationAgent": ".conversation_agent",
-    "ConversationAnalysis": ".conversation_analysis",
-    "ConversationBackgroundNoise": ".conversation_background_noise",
-    "ConversationCreatedPayload": ".conversation_created_payload",
-    "ConversationEndedBy": ".conversation_ended_by",
-    "ConversationEval": ".conversation_eval",
-    "ConversationEvalPrompt": ".conversation_eval_prompt",
-    "ConversationEvaluation": ".conversation_evaluation",
-    "ConversationEvaluationResult": ".conversation_evaluation_result",
-    "ConversationEvaluationResultPrompt": ".conversation_evaluation_result_prompt",
-    "ConversationEvaluationResultResult": ".conversation_evaluation_result_result",
-    "ConversationExtraction": ".conversation_extraction",
-    "ConversationExtractionSchema": ".conversation_extraction_schema",
-    "ConversationItem": ".conversation_item",
-    "ConversationItemRole": ".conversation_item_role",
-    "ConversationItemToolCallsItem": ".conversation_item_tool_calls_item",
-    "ConversationItemToolCallsItemTool": ".conversation_item_tool_calls_item_tool",
-    "ConversationProject": ".conversation_project",
-    "CreateAgentRequest": ".create_agent_request",
-    "CreateAgentRequestAudioFormat": ".create_agent_request_audio_format",
-    "CreateAgentRequestBackgroundNoise": ".create_agent_request_background_noise",
-    "CreateAgentRequestConfigurationEndpoint": ".create_agent_request_configuration_endpoint",
-    "CreateAgentRequestTemplateVariablesValue": ".create_agent_request_template_variables_value",
-    "CreateAgentRequestToolsItem": ".create_agent_request_tools_item",
-    "DtmfPayload": ".dtmf_payload",
-    "Error": ".error",
-    "ErrorPayload": ".error_payload",
-    "ErrorPayloadError": ".error_payload_error",
-    "ExtractionField": ".extraction_field",
-    "ExtractionFieldType": ".extraction_field_type",
-    "ExtractionSchema": ".extraction_schema",
-    "InputCancelledPayload": ".input_cancelled_payload",
-    "InputTextPayload": ".input_text_payload",
-    "IsUserSpeakingPayload": ".is_user_speaking_payload",
-    "LanguageCode": ".language_code",
-    "OutboundCallConfig": ".outbound_call_config",
-    "OutboundCallConfigToolsItem": ".outbound_call_config_tools_item",
-    "Project": ".project",
-    "ProjectDefaultAgent": ".project_default_agent",
-    "ReadyToStartConversationPayload": ".ready_to_start_conversation_payload",
-    "SetExternalIdPayload": ".set_external_id_payload",
-    "SetTwilioCallSidPayload": ".set_twilio_call_sid_payload",
-    "Task": ".task",
-    "Tool": ".tool",
-    "ToolCallInterruptedPayload": ".tool_call_interrupted_payload",
-    "ToolCallOutputPayload": ".tool_call_output_payload",
-    "ToolCallOutputProcessedPayload": ".tool_call_output_processed_payload",
-    "ToolCallOutputProcessedPayloadTool": ".tool_call_output_processed_payload_tool",
-    "ToolCallPayload": ".tool_call_payload",
-    "ToolExecutionMode": ".tool_execution_mode",
-    "ToolParameter": ".tool_parameter",
-    "ToolParameterItemType": ".tool_parameter_item_type",
-    "ToolParameterType": ".tool_parameter_type",
-    "ToolProject": ".tool_project",
-    "ToolType": ".tool_type",
-    "UpdateSystemPromptPayload": ".update_system_prompt_payload",
-    "UserFinishedSpeakingPayload": ".user_finished_speaking_payload",
-    "UserStartedSpeakingPayload": ".user_started_speaking_payload",
-    "ValidationError": ".validation_error",
-    "ValidationErrorError": ".validation_error_error",
-    "Voice": ".voice",
-}
-
-
-def __getattr__(attr_name: str) -> typing.Any:
-    module_name = _dynamic_imports.get(attr_name)
-    if module_name is None:
-        raise AttributeError(f"No {attr_name} found in _dynamic_imports for module name -> {__name__}")
-    try:
-        module = import_module(module_name, __package__)
-        if module_name == f".{attr_name}":
-            return module
-        else:
-            return getattr(module, attr_name)
-    except ImportError as e:
-        raise ImportError(f"Failed to import {attr_name} from {module_name}: {e}") from e
-    except AttributeError as e:
-        raise AttributeError(f"Failed to get {attr_name} from {module_name}: {e}") from e
-
-
-def __dir__():
-    lazy_attrs = list(_dynamic_imports.keys())
-    return sorted(lazy_attrs)
-
+from .agent import Agent
+from .agent_audio_format import AgentAudioFormat
+from .agent_configuration_endpoint import AgentConfigurationEndpoint
+from .agent_project import AgentProject
+from .agent_template_variables_value import AgentTemplateVariablesValue
+from .agent_tools_item import AgentToolsItem
+from .assistant_chose_not_to_respond_payload import AssistantChoseNotToRespondPayload
+from .assistant_ended_conversation_payload import AssistantEndedConversationPayload
+from .audio_chunk_payload import AudioChunkPayload
+from .audio_chunk_response_payload import AudioChunkResponsePayload
+from .bad_request_error_body import BadRequestErrorBody
+from .basic_error import BasicError
+from .basic_error_error import BasicErrorError
+from .config_payload import ConfigPayload
+from .config_payload_input_format import ConfigPayloadInputFormat
+from .config_payload_output_format import ConfigPayloadOutputFormat
+from .conversation import Conversation
+from .conversation_agent import ConversationAgent
+from .conversation_analysis import ConversationAnalysis
+from .conversation_created_payload import ConversationCreatedPayload
+from .conversation_ended_by import ConversationEndedBy
+from .conversation_eval import ConversationEval
+from .conversation_eval_prompt import ConversationEvalPrompt
+from .conversation_evaluation import ConversationEvaluation
+from .conversation_evaluation_result import ConversationEvaluationResult
+from .conversation_evaluation_result_prompt import ConversationEvaluationResultPrompt
+from .conversation_evaluation_result_result import ConversationEvaluationResultResult
+from .conversation_extraction import ConversationExtraction
+from .conversation_extraction_schema import ConversationExtractionSchema
+from .conversation_item import ConversationItem
+from .conversation_item_role import ConversationItemRole
+from .conversation_item_tool_calls_item import ConversationItemToolCallsItem
+from .conversation_item_tool_calls_item_tool import ConversationItemToolCallsItemTool
+from .conversation_project import ConversationProject
+from .create_agent_request import CreateAgentRequest
+from .create_agent_request_audio_format import CreateAgentRequestAudioFormat
+from .create_agent_request_configuration_endpoint import CreateAgentRequestConfigurationEndpoint
+from .create_agent_request_template_variables_value import CreateAgentRequestTemplateVariablesValue
+from .create_agent_request_tools_item import CreateAgentRequestToolsItem
+from .dtmf_payload import DtmfPayload
+from .error import Error
+from .error_payload import ErrorPayload
+from .error_payload_error import ErrorPayloadError
+from .extraction_field import ExtractionField
+from .extraction_field_type import ExtractionFieldType
+from .extraction_schema import ExtractionSchema
+from .input_cancelled_payload import InputCancelledPayload
+from .input_text_payload import InputTextPayload
+from .is_user_speaking_payload import IsUserSpeakingPayload
+from .language_code import LanguageCode
+from .outbound_call_config import OutboundCallConfig
+from .outbound_call_config_tools_item import OutboundCallConfigToolsItem
+from .project import Project
+from .project_default_agent import ProjectDefaultAgent
+from .ready_to_start_conversation_payload import ReadyToStartConversationPayload
+from .set_external_id_payload import SetExternalIdPayload
+from .set_twilio_call_sid_payload import SetTwilioCallSidPayload
+from .task import Task
+from .tool import Tool
+from .tool_call_interrupted_payload import ToolCallInterruptedPayload
+from .tool_call_output_payload import ToolCallOutputPayload
+from .tool_call_output_processed_payload import ToolCallOutputProcessedPayload
+from .tool_call_output_processed_payload_tool import ToolCallOutputProcessedPayloadTool
+from .tool_call_payload import ToolCallPayload
+from .tool_endpoint_method import ToolEndpointMethod
+from .tool_execution_mode import ToolExecutionMode
+from .tool_parameter import ToolParameter
+from .tool_parameter_item_type import ToolParameterItemType
+from .tool_parameter_location import ToolParameterLocation
+from .tool_parameter_type import ToolParameterType
+from .tool_project import ToolProject
+from .tool_type import ToolType
+from .update_system_prompt_payload import UpdateSystemPromptPayload
+from .user_finished_speaking_payload import UserFinishedSpeakingPayload
+from .user_started_speaking_payload import UserStartedSpeakingPayload
+from .validation_error import ValidationError
+from .validation_error_error import ValidationErrorError
+from .voice import Voice
 
 __all__ = [
     "Agent",
     "AgentAudioFormat",
-    "AgentBackgroundNoise",
     "AgentConfigurationEndpoint",
     "AgentProject",
     "AgentTemplateVariablesValue",
@@ -207,13 +96,11 @@ __all__ = [
     "BasicError",
     "BasicErrorError",
     "ConfigPayload",
-    "ConfigPayloadBackgroundNoise",
     "ConfigPayloadInputFormat",
     "ConfigPayloadOutputFormat",
     "Conversation",
     "ConversationAgent",
     "ConversationAnalysis",
-    "ConversationBackgroundNoise",
     "ConversationCreatedPayload",
     "ConversationEndedBy",
     "ConversationEval",
@@ -231,7 +118,6 @@ __all__ = [
     "ConversationProject",
     "CreateAgentRequest",
     "CreateAgentRequestAudioFormat",
-    "CreateAgentRequestBackgroundNoise",
     "CreateAgentRequestConfigurationEndpoint",
     "CreateAgentRequestTemplateVariablesValue",
     "CreateAgentRequestToolsItem",
@@ -260,9 +146,11 @@ __all__ = [
     "ToolCallOutputProcessedPayload",
     "ToolCallOutputProcessedPayloadTool",
     "ToolCallPayload",
+    "ToolEndpointMethod",
     "ToolExecutionMode",
     "ToolParameter",
     "ToolParameterItemType",
+    "ToolParameterLocation",
     "ToolParameterType",
     "ToolProject",
     "ToolType",
