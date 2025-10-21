@@ -74,9 +74,11 @@ if typing.TYPE_CHECKING:
     from .tool_call_output_processed_payload import ToolCallOutputProcessedPayload
     from .tool_call_output_processed_payload_tool import ToolCallOutputProcessedPayloadTool
     from .tool_call_payload import ToolCallPayload
+    from .tool_endpoint_method import ToolEndpointMethod
     from .tool_execution_mode import ToolExecutionMode
     from .tool_parameter import ToolParameter
     from .tool_parameter_item_type import ToolParameterItemType
+    from .tool_parameter_location import ToolParameterLocation
     from .tool_parameter_type import ToolParameterType
     from .tool_project import ToolProject
     from .tool_type import ToolType
@@ -155,9 +157,11 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ToolCallOutputProcessedPayload": ".tool_call_output_processed_payload",
     "ToolCallOutputProcessedPayloadTool": ".tool_call_output_processed_payload_tool",
     "ToolCallPayload": ".tool_call_payload",
+    "ToolEndpointMethod": ".tool_endpoint_method",
     "ToolExecutionMode": ".tool_execution_mode",
     "ToolParameter": ".tool_parameter",
     "ToolParameterItemType": ".tool_parameter_item_type",
+    "ToolParameterLocation": ".tool_parameter_location",
     "ToolParameterType": ".tool_parameter_type",
     "ToolProject": ".tool_project",
     "ToolType": ".tool_type",
@@ -260,9 +264,11 @@ __all__ = [
     "ToolCallOutputProcessedPayload",
     "ToolCallOutputProcessedPayloadTool",
     "ToolCallPayload",
+    "ToolEndpointMethod",
     "ToolExecutionMode",
     "ToolParameter",
     "ToolParameterItemType",
+    "ToolParameterLocation",
     "ToolParameterType",
     "ToolProject",
     "ToolType",

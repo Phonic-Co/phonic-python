@@ -7,6 +7,7 @@ from importlib import import_module
 
 if typing.TYPE_CHECKING:
     from .types import (
+        CreateToolRequestEndpointMethod,
         CreateToolRequestExecutionMode,
         CreateToolRequestType,
         ToolsCreateResponse,
@@ -14,6 +15,7 @@ if typing.TYPE_CHECKING:
         ToolsGetResponse,
         ToolsListResponse,
         ToolsUpdateResponse,
+        UpdateToolRequestEndpointMethod,
         UpdateToolRequestExecutionMode,
         UpdateToolRequestType,
     )
@@ -25,6 +27,7 @@ if typing.TYPE_CHECKING:
         ToolsUpdateResponseParams,
     )
 _dynamic_imports: typing.Dict[str, str] = {
+    "CreateToolRequestEndpointMethod": ".types",
     "CreateToolRequestExecutionMode": ".types",
     "CreateToolRequestType": ".types",
     "ToolsCreateResponse": ".types",
@@ -37,6 +40,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ToolsListResponseParams": ".requests",
     "ToolsUpdateResponse": ".types",
     "ToolsUpdateResponseParams": ".requests",
+    "UpdateToolRequestEndpointMethod": ".types",
     "UpdateToolRequestExecutionMode": ".types",
     "UpdateToolRequestType": ".types",
 }
@@ -64,6 +68,7 @@ def __dir__():
 
 
 __all__ = [
+    "CreateToolRequestEndpointMethod",
     "CreateToolRequestExecutionMode",
     "CreateToolRequestType",
     "ToolsCreateResponse",
@@ -76,6 +81,7 @@ __all__ = [
     "ToolsListResponseParams",
     "ToolsUpdateResponse",
     "ToolsUpdateResponseParams",
+    "UpdateToolRequestEndpointMethod",
     "UpdateToolRequestExecutionMode",
     "UpdateToolRequestType",
 ]

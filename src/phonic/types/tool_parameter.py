@@ -5,6 +5,7 @@ import typing
 import pydantic
 from ..core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .tool_parameter_item_type import ToolParameterItemType
+from .tool_parameter_location import ToolParameterLocation
 from .tool_parameter_type import ToolParameterType
 
 
@@ -32,6 +33,15 @@ class ToolParameter(UniversalBaseModel):
     is_required: bool = pydantic.Field()
     """
     Whether the parameter is required.
+    """
+
+    location: typing.Optional[ToolParameterLocation] = pydantic.Field(default=None)
+    """
+    Only applicable for `custom_webhook` tools. Specifies where the parameter should be sent in the webhook request.
+    - For GET webhooks: defaults to `"query_string"` and `"request_body"` is not allowed.
+    - For POST webhooks: required, can be either `"request_body"` or `"query_string"`.
+    - Not allowed for `custom_websocket` or `built_in_transfer_to_phone_number` tools.
+    When updating a tool's type or endpoint_method, all parameters must include explicit `location` values.
     """
 
     if IS_PYDANTIC_V2:
