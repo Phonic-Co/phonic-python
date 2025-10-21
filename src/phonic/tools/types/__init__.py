@@ -6,6 +6,7 @@ import typing
 from importlib import import_module
 
 if typing.TYPE_CHECKING:
+    from .create_tool_request_endpoint_method import CreateToolRequestEndpointMethod
     from .create_tool_request_execution_mode import CreateToolRequestExecutionMode
     from .create_tool_request_type import CreateToolRequestType
     from .tools_create_response import ToolsCreateResponse
@@ -13,9 +14,11 @@ if typing.TYPE_CHECKING:
     from .tools_get_response import ToolsGetResponse
     from .tools_list_response import ToolsListResponse
     from .tools_update_response import ToolsUpdateResponse
+    from .update_tool_request_endpoint_method import UpdateToolRequestEndpointMethod
     from .update_tool_request_execution_mode import UpdateToolRequestExecutionMode
     from .update_tool_request_type import UpdateToolRequestType
 _dynamic_imports: typing.Dict[str, str] = {
+    "CreateToolRequestEndpointMethod": ".create_tool_request_endpoint_method",
     "CreateToolRequestExecutionMode": ".create_tool_request_execution_mode",
     "CreateToolRequestType": ".create_tool_request_type",
     "ToolsCreateResponse": ".tools_create_response",
@@ -23,6 +26,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ToolsGetResponse": ".tools_get_response",
     "ToolsListResponse": ".tools_list_response",
     "ToolsUpdateResponse": ".tools_update_response",
+    "UpdateToolRequestEndpointMethod": ".update_tool_request_endpoint_method",
     "UpdateToolRequestExecutionMode": ".update_tool_request_execution_mode",
     "UpdateToolRequestType": ".update_tool_request_type",
 }
@@ -50,6 +54,7 @@ def __dir__():
 
 
 __all__ = [
+    "CreateToolRequestEndpointMethod",
     "CreateToolRequestExecutionMode",
     "CreateToolRequestType",
     "ToolsCreateResponse",
@@ -57,6 +62,7 @@ __all__ = [
     "ToolsGetResponse",
     "ToolsListResponse",
     "ToolsUpdateResponse",
+    "UpdateToolRequestEndpointMethod",
     "UpdateToolRequestExecutionMode",
     "UpdateToolRequestType",
 ]

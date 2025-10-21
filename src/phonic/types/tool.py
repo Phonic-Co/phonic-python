@@ -4,6 +4,7 @@ import typing
 
 import pydantic
 from ..core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from .tool_endpoint_method import ToolEndpointMethod
 from .tool_execution_mode import ToolExecutionMode
 from .tool_parameter import ToolParameter
 from .tool_project import ToolProject
@@ -42,7 +43,7 @@ class Tool(UniversalBaseModel):
     Array of parameter definitions for the tool.
     """
 
-    endpoint_method: typing.Optional[typing.Literal["POST"]] = pydantic.Field(default=None)
+    endpoint_method: typing.Optional[ToolEndpointMethod] = pydantic.Field(default=None)
     """
     HTTP method for webhook tools.
     """

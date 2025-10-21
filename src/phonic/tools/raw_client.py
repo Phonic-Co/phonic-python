@@ -15,6 +15,7 @@ from ..errors.conflict_error import ConflictError
 from ..errors.forbidden_error import ForbiddenError
 from ..errors.not_found_error import NotFoundError
 from ..requests.tool_parameter import ToolParameterParams
+from .types.create_tool_request_endpoint_method import CreateToolRequestEndpointMethod
 from .types.create_tool_request_execution_mode import CreateToolRequestExecutionMode
 from .types.create_tool_request_type import CreateToolRequestType
 from .types.tools_create_response import ToolsCreateResponse
@@ -22,6 +23,7 @@ from .types.tools_delete_response import ToolsDeleteResponse
 from .types.tools_get_response import ToolsGetResponse
 from .types.tools_list_response import ToolsListResponse
 from .types.tools_update_response import ToolsUpdateResponse
+from .types.update_tool_request_endpoint_method import UpdateToolRequestEndpointMethod
 from .types.update_tool_request_execution_mode import UpdateToolRequestExecutionMode
 from .types.update_tool_request_type import UpdateToolRequestType
 
@@ -96,7 +98,7 @@ class RawToolsClient:
         execution_mode: CreateToolRequestExecutionMode,
         project: typing.Optional[str] = None,
         parameters: typing.Optional[typing.Sequence[ToolParameterParams]] = OMIT,
-        endpoint_method: typing.Optional[typing.Literal["POST"]] = OMIT,
+        endpoint_method: typing.Optional[CreateToolRequestEndpointMethod] = OMIT,
         endpoint_url: typing.Optional[str] = OMIT,
         endpoint_headers: typing.Optional[typing.Dict[str, str]] = OMIT,
         endpoint_timeout_ms: typing.Optional[int] = OMIT,
@@ -126,9 +128,12 @@ class RawToolsClient:
 
         parameters : typing.Optional[typing.Sequence[ToolParameterParams]]
             Array of parameter definitions.
+            For `custom_webhook` tools with POST method, each parameter must include a `location` field.
+            For `custom_webhook` tools with GET method, `location` defaults to `"query_string"` if not specified.
+            For `custom_websocket` and `built_in_transfer_to_phone_number` tools, `location` must not be specified.
 
-        endpoint_method : typing.Optional[typing.Literal["POST"]]
-            Required for webhook tools.
+        endpoint_method : typing.Optional[CreateToolRequestEndpointMethod]
+            Required for webhook tools. HTTP method for the webhook endpoint.
 
         endpoint_url : typing.Optional[str]
             Required for webhook tools.
@@ -372,7 +377,7 @@ class RawToolsClient:
         type: typing.Optional[UpdateToolRequestType] = OMIT,
         execution_mode: typing.Optional[UpdateToolRequestExecutionMode] = OMIT,
         parameters: typing.Optional[typing.Sequence[ToolParameterParams]] = OMIT,
-        endpoint_method: typing.Optional[typing.Literal["POST"]] = OMIT,
+        endpoint_method: typing.Optional[UpdateToolRequestEndpointMethod] = OMIT,
         endpoint_url: typing.Optional[str] = OMIT,
         endpoint_headers: typing.Optional[typing.Dict[str, str]] = OMIT,
         endpoint_timeout_ms: typing.Optional[int] = OMIT,
@@ -405,8 +410,12 @@ class RawToolsClient:
 
         parameters : typing.Optional[typing.Sequence[ToolParameterParams]]
             Array of parameter definitions.
+            When updating `type` or `endpoint_method`, all parameters must include explicit `location` values.
+            For `custom_webhook` tools: `location` is required for POST, defaults to `"query_string"` for GET.
+            For `custom_websocket` and `built_in_transfer_to_phone_number` tools: `location` must not be specified.
 
-        endpoint_method : typing.Optional[typing.Literal["POST"]]
+        endpoint_method : typing.Optional[UpdateToolRequestEndpointMethod]
+            HTTP method for webhook tools. When changing this value, all parameters must include explicit `location` values.
 
         endpoint_url : typing.Optional[str]
 
@@ -571,7 +580,7 @@ class AsyncRawToolsClient:
         execution_mode: CreateToolRequestExecutionMode,
         project: typing.Optional[str] = None,
         parameters: typing.Optional[typing.Sequence[ToolParameterParams]] = OMIT,
-        endpoint_method: typing.Optional[typing.Literal["POST"]] = OMIT,
+        endpoint_method: typing.Optional[CreateToolRequestEndpointMethod] = OMIT,
         endpoint_url: typing.Optional[str] = OMIT,
         endpoint_headers: typing.Optional[typing.Dict[str, str]] = OMIT,
         endpoint_timeout_ms: typing.Optional[int] = OMIT,
@@ -601,9 +610,12 @@ class AsyncRawToolsClient:
 
         parameters : typing.Optional[typing.Sequence[ToolParameterParams]]
             Array of parameter definitions.
+            For `custom_webhook` tools with POST method, each parameter must include a `location` field.
+            For `custom_webhook` tools with GET method, `location` defaults to `"query_string"` if not specified.
+            For `custom_websocket` and `built_in_transfer_to_phone_number` tools, `location` must not be specified.
 
-        endpoint_method : typing.Optional[typing.Literal["POST"]]
-            Required for webhook tools.
+        endpoint_method : typing.Optional[CreateToolRequestEndpointMethod]
+            Required for webhook tools. HTTP method for the webhook endpoint.
 
         endpoint_url : typing.Optional[str]
             Required for webhook tools.
@@ -847,7 +859,7 @@ class AsyncRawToolsClient:
         type: typing.Optional[UpdateToolRequestType] = OMIT,
         execution_mode: typing.Optional[UpdateToolRequestExecutionMode] = OMIT,
         parameters: typing.Optional[typing.Sequence[ToolParameterParams]] = OMIT,
-        endpoint_method: typing.Optional[typing.Literal["POST"]] = OMIT,
+        endpoint_method: typing.Optional[UpdateToolRequestEndpointMethod] = OMIT,
         endpoint_url: typing.Optional[str] = OMIT,
         endpoint_headers: typing.Optional[typing.Dict[str, str]] = OMIT,
         endpoint_timeout_ms: typing.Optional[int] = OMIT,
@@ -880,8 +892,12 @@ class AsyncRawToolsClient:
 
         parameters : typing.Optional[typing.Sequence[ToolParameterParams]]
             Array of parameter definitions.
+            When updating `type` or `endpoint_method`, all parameters must include explicit `location` values.
+            For `custom_webhook` tools: `location` is required for POST, defaults to `"query_string"` for GET.
+            For `custom_websocket` and `built_in_transfer_to_phone_number` tools: `location` must not be specified.
 
-        endpoint_method : typing.Optional[typing.Literal["POST"]]
+        endpoint_method : typing.Optional[UpdateToolRequestEndpointMethod]
+            HTTP method for webhook tools. When changing this value, all parameters must include explicit `location` values.
 
         endpoint_url : typing.Optional[str]
 
