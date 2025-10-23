@@ -2231,7 +2231,7 @@ client.conversations.list()
 <dl>
 <dd>
 
-**before:** `typing.Optional[str]` — Cursor for pagination (before).
+**before:** `typing.Optional[str]` — Cursor for backward pagination. Use a conversation ID from `pagination.prev_cursor` to fetch the previous page of conversations. Cannot be used with `after`.
     
 </dd>
 </dl>
@@ -2239,7 +2239,7 @@ client.conversations.list()
 <dl>
 <dd>
 
-**after:** `typing.Optional[str]` — Cursor for pagination (after).
+**after:** `typing.Optional[str]` — Cursor for forward pagination. Use a conversation ID from `pagination.next_cursor` to fetch the next page of conversations. Cannot be used with `before`.
     
 </dd>
 </dl>
@@ -2247,7 +2247,7 @@ client.conversations.list()
 <dl>
 <dd>
 
-**limit:** `typing.Optional[int]` — Maximum number of conversations to return.
+**limit:** `typing.Optional[int]` — Maximum number of conversations to return per page.
     
 </dd>
 </dl>

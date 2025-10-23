@@ -4,7 +4,9 @@ import typing
 
 import typing_extensions
 from ...requests.conversation import ConversationParams
+from .conversations_list_response_conversations_pagination import ConversationsListResponseConversationsPaginationParams
 
 
 class ConversationsListResponseConversationsParams(typing_extensions.TypedDict):
     conversations: typing.Sequence[ConversationParams]
+    pagination: ConversationsListResponseConversationsPaginationParams
