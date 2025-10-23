@@ -15,6 +15,7 @@ if typing.TYPE_CHECKING:
     from .conversations_list_response import ConversationsListResponse
     from .conversations_list_response_conversation import ConversationsListResponseConversation
     from .conversations_list_response_conversations import ConversationsListResponseConversations
+    from .conversations_list_response_conversations_pagination import ConversationsListResponseConversationsPagination
     from .conversations_outbound_call_response import ConversationsOutboundCallResponse
     from .conversations_sip_outbound_call_response import ConversationsSipOutboundCallResponse
 _dynamic_imports: typing.Dict[str, str] = {
@@ -27,6 +28,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ConversationsListResponse": ".conversations_list_response",
     "ConversationsListResponseConversation": ".conversations_list_response_conversation",
     "ConversationsListResponseConversations": ".conversations_list_response_conversations",
+    "ConversationsListResponseConversationsPagination": ".conversations_list_response_conversations_pagination",
     "ConversationsOutboundCallResponse": ".conversations_outbound_call_response",
     "ConversationsSipOutboundCallResponse": ".conversations_sip_outbound_call_response",
 }
@@ -63,6 +65,7 @@ __all__ = [
     "ConversationsListResponse",
     "ConversationsListResponseConversation",
     "ConversationsListResponseConversations",
+    "ConversationsListResponseConversationsPagination",
     "ConversationsOutboundCallResponse",
     "ConversationsSipOutboundCallResponse",
 ]
