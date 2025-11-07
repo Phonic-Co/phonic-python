@@ -1082,6 +1082,7 @@ client.tools.create(
     type="built_in_transfer_to_phone_number",
     execution_mode="sync",
     phone_number="+15551234567",
+    dtmf="1234",
 )
 
 ```
@@ -1192,6 +1193,14 @@ For `custom_websocket` and `built_in_transfer_to_phone_number` tools, `location`
 <dd>
 
 **phone_number:** `typing.Optional[str]` — The E.164 formatted phone number to transfer calls to. Required for built_in_transfer_to_phone_number tools.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**dtmf:** `typing.Optional[str]` — DTMF digits to send after the transfer connects (e.g., "1234"). Defaults to null.
     
 </dd>
 </dl>
@@ -1525,6 +1534,14 @@ For `custom_websocket` and `built_in_transfer_to_phone_number` tools: `location`
 <dd>
 
 **phone_number:** `typing.Optional[str]` — The E.164 formatted phone number to transfer calls to. Required for built_in_transfer_to_phone_number tools.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**dtmf:** `typing.Optional[str]` — DTMF digits to send after the transfer connects (e.g., "1234"). Can be set to null to remove DTMF.
     
 </dd>
 </dl>

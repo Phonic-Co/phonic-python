@@ -35,13 +35,21 @@ class ToolCallOutputProcessedPayloadParams(typing_extensions.TypedDict):
     Webhook request body (null for WebSocket tools)
     """
 
-    response_body: typing_extensions.NotRequired[typing.Optional[typing.Any]]
+    response_body: typing_extensions.NotRequired[typing.Optional[typing.Optional[typing.Any]]]
+    """
+    Webhook response body (null for WebSocket tools)
+    """
+
     parameters: typing_extensions.NotRequired[typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]]]
     """
     WebSocket tool parameters (null for webhook tools)
     """
 
-    output: typing_extensions.NotRequired[typing.Optional[typing.Any]]
+    output: typing_extensions.NotRequired[typing.Optional[typing.Optional[typing.Any]]]
+    """
+    WebSocket tool output (null for webhook tools)
+    """
+
     response_status_code: typing_extensions.NotRequired[typing.Optional[float]]
     """
     Webhook HTTP status code (null for WebSocket tools)

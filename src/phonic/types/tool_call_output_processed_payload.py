@@ -36,13 +36,21 @@ class ToolCallOutputProcessedPayload(UniversalBaseModel):
     Webhook request body (null for WebSocket tools)
     """
 
-    response_body: typing.Optional[typing.Optional[typing.Any]] = None
+    response_body: typing.Optional[typing.Optional[typing.Any]] = pydantic.Field(default=None)
+    """
+    Webhook response body (null for WebSocket tools)
+    """
+
     parameters: typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]] = pydantic.Field(default=None)
     """
     WebSocket tool parameters (null for webhook tools)
     """
 
-    output: typing.Optional[typing.Optional[typing.Any]] = None
+    output: typing.Optional[typing.Optional[typing.Any]] = pydantic.Field(default=None)
+    """
+    WebSocket tool output (null for webhook tools)
+    """
+
     response_status_code: typing.Optional[float] = pydantic.Field(default=None)
     """
     Webhook HTTP status code (null for WebSocket tools)
