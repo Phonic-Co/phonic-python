@@ -71,3 +71,8 @@ class ToolParams(typing_extensions.TypedDict):
     """
     The E.164 formatted phone number to transfer calls to. Required for built_in_transfer_to_phone_number tools.
     """
+
+    dtmf: typing_extensions.NotRequired[typing.Optional[str]]
+    """
+    DTMF digits to send after the transfer connects (e.g., "1234"). Defaults to null.
+    """

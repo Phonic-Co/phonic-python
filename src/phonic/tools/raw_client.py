@@ -104,6 +104,7 @@ class RawToolsClient:
         endpoint_timeout_ms: typing.Optional[int] = OMIT,
         tool_call_output_timeout_ms: typing.Optional[int] = OMIT,
         phone_number: typing.Optional[str] = OMIT,
+        dtmf: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[ToolsCreateResponse]:
         """
@@ -150,6 +151,9 @@ class RawToolsClient:
         phone_number : typing.Optional[str]
             The E.164 formatted phone number to transfer calls to. Required for built_in_transfer_to_phone_number tools.
 
+        dtmf : typing.Optional[str]
+            DTMF digits to send after the transfer connects (e.g., "1234"). Defaults to null.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -179,6 +183,7 @@ class RawToolsClient:
                 "endpoint_timeout_ms": endpoint_timeout_ms,
                 "tool_call_output_timeout_ms": tool_call_output_timeout_ms,
                 "phone_number": phone_number,
+                "dtmf": dtmf,
             },
             headers={
                 "content-type": "application/json",
@@ -383,6 +388,7 @@ class RawToolsClient:
         endpoint_timeout_ms: typing.Optional[int] = OMIT,
         tool_call_output_timeout_ms: typing.Optional[int] = OMIT,
         phone_number: typing.Optional[str] = OMIT,
+        dtmf: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[ToolsUpdateResponse]:
         """
@@ -428,6 +434,9 @@ class RawToolsClient:
         phone_number : typing.Optional[str]
             The E.164 formatted phone number to transfer calls to. Required for built_in_transfer_to_phone_number tools.
 
+        dtmf : typing.Optional[str]
+            DTMF digits to send after the transfer connects (e.g., "1234"). Can be set to null to remove DTMF.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -457,6 +466,7 @@ class RawToolsClient:
                 "endpoint_timeout_ms": endpoint_timeout_ms,
                 "tool_call_output_timeout_ms": tool_call_output_timeout_ms,
                 "phone_number": phone_number,
+                "dtmf": dtmf,
             },
             headers={
                 "content-type": "application/json",
@@ -586,6 +596,7 @@ class AsyncRawToolsClient:
         endpoint_timeout_ms: typing.Optional[int] = OMIT,
         tool_call_output_timeout_ms: typing.Optional[int] = OMIT,
         phone_number: typing.Optional[str] = OMIT,
+        dtmf: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[ToolsCreateResponse]:
         """
@@ -632,6 +643,9 @@ class AsyncRawToolsClient:
         phone_number : typing.Optional[str]
             The E.164 formatted phone number to transfer calls to. Required for built_in_transfer_to_phone_number tools.
 
+        dtmf : typing.Optional[str]
+            DTMF digits to send after the transfer connects (e.g., "1234"). Defaults to null.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -661,6 +675,7 @@ class AsyncRawToolsClient:
                 "endpoint_timeout_ms": endpoint_timeout_ms,
                 "tool_call_output_timeout_ms": tool_call_output_timeout_ms,
                 "phone_number": phone_number,
+                "dtmf": dtmf,
             },
             headers={
                 "content-type": "application/json",
@@ -865,6 +880,7 @@ class AsyncRawToolsClient:
         endpoint_timeout_ms: typing.Optional[int] = OMIT,
         tool_call_output_timeout_ms: typing.Optional[int] = OMIT,
         phone_number: typing.Optional[str] = OMIT,
+        dtmf: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[ToolsUpdateResponse]:
         """
@@ -910,6 +926,9 @@ class AsyncRawToolsClient:
         phone_number : typing.Optional[str]
             The E.164 formatted phone number to transfer calls to. Required for built_in_transfer_to_phone_number tools.
 
+        dtmf : typing.Optional[str]
+            DTMF digits to send after the transfer connects (e.g., "1234"). Can be set to null to remove DTMF.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -939,6 +958,7 @@ class AsyncRawToolsClient:
                 "endpoint_timeout_ms": endpoint_timeout_ms,
                 "tool_call_output_timeout_ms": tool_call_output_timeout_ms,
                 "phone_number": phone_number,
+                "dtmf": dtmf,
             },
             headers={
                 "content-type": "application/json",

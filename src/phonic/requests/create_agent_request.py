@@ -18,7 +18,7 @@ class CreateAgentRequestParams(typing_extensions.TypedDict):
     The name of the agent. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
     """
 
-    phone_number: typing_extensions.NotRequired[typing.Optional[typing.Literal["assign-automatically"]]]
+    phone_number: typing.Optional[typing.Literal["assign-automatically"]]
     timezone: typing_extensions.NotRequired[str]
     """
     The timezone of the agent. Used to format system variables like `{{system_time}}`.
