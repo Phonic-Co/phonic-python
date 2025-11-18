@@ -4,11 +4,13 @@ import datetime as dt
 import typing
 
 import pydantic
-from ..core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from ..core.pydantic_utilities import IS_PYDANTIC_V2
+from ..core.unchecked_base_model import UncheckedBaseModel
+from .conversation_item_tool_calls_item_request_body import ConversationItemToolCallsItemRequestBody
 from .conversation_item_tool_calls_item_tool import ConversationItemToolCallsItemTool
 
 
-class ConversationItemToolCallsItem(UniversalBaseModel):
+class ConversationItemToolCallsItem(UncheckedBaseModel):
     id: str = pydantic.Field()
     """
     The tool call ID.
@@ -55,9 +57,9 @@ class ConversationItemToolCallsItem(UniversalBaseModel):
     Timeout in milliseconds for websocket tool calls.
     """
 
-    request_body: typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]] = pydantic.Field(default=None)
+    request_body: typing.Optional[ConversationItemToolCallsItemRequestBody] = pydantic.Field(default=None)
     """
-    The request body sent to the tool.
+    The request body sent to the tool. Can be any JSON-serializable value.
     """
 
     response_body: typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]] = pydantic.Field(default=None)

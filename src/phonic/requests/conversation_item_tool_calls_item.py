@@ -4,6 +4,7 @@ import datetime as dt
 import typing
 
 import typing_extensions
+from .conversation_item_tool_calls_item_request_body import ConversationItemToolCallsItemRequestBodyParams
 from .conversation_item_tool_calls_item_tool import ConversationItemToolCallsItemToolParams
 
 
@@ -54,9 +55,9 @@ class ConversationItemToolCallsItemParams(typing_extensions.TypedDict):
     Timeout in milliseconds for websocket tool calls.
     """
 
-    request_body: typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]]
+    request_body: typing.Optional[ConversationItemToolCallsItemRequestBodyParams]
     """
-    The request body sent to the tool.
+    The request body sent to the tool. Can be any JSON-serializable value.
     """
 
     response_body: typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]]

@@ -4,12 +4,13 @@ import datetime as dt
 import typing
 
 import pydantic
-from ..core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from ..core.pydantic_utilities import IS_PYDANTIC_V2
+from ..core.unchecked_base_model import UncheckedBaseModel
 from .conversation_item_role import ConversationItemRole
 from .conversation_item_tool_calls_item import ConversationItemToolCallsItem
 
 
-class ConversationItem(UniversalBaseModel):
+class ConversationItem(UncheckedBaseModel):
     item_idx: int = pydantic.Field()
     """
     Index of the item in the conversation.

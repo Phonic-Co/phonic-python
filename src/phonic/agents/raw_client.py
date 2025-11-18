@@ -7,9 +7,9 @@ from ..core.api_error import ApiError
 from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.http_response import AsyncHttpResponse, HttpResponse
 from ..core.jsonable_encoder import jsonable_encoder
-from ..core.pydantic_utilities import parse_obj_as
 from ..core.request_options import RequestOptions
 from ..core.serialization import convert_and_respect_annotation_metadata
+from ..core.unchecked_base_model import construct_type
 from ..errors.bad_request_error import BadRequestError
 from ..errors.forbidden_error import ForbiddenError
 from ..errors.internal_server_error import InternalServerError
@@ -75,7 +75,7 @@ class RawAgentsClient:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
                     AgentsListResponse,
-                    parse_obj_as(
+                    construct_type(
                         type_=AgentsListResponse,  # type: ignore
                         object_=_response.json(),
                     ),
@@ -86,7 +86,7 @@ class RawAgentsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        parse_obj_as(
+                        construct_type(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -97,7 +97,7 @@ class RawAgentsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         BasicError,
-                        parse_obj_as(
+                        construct_type(
                             type_=BasicError,  # type: ignore
                             object_=_response.json(),
                         ),
@@ -255,7 +255,7 @@ class RawAgentsClient:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
                     AgentsCreateResponse,
-                    parse_obj_as(
+                    construct_type(
                         type_=AgentsCreateResponse,  # type: ignore
                         object_=_response.json(),
                     ),
@@ -266,7 +266,7 @@ class RawAgentsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        parse_obj_as(
+                        construct_type(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -277,7 +277,7 @@ class RawAgentsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         BasicError,
-                        parse_obj_as(
+                        construct_type(
                             type_=BasicError,  # type: ignore
                             object_=_response.json(),
                         ),
@@ -288,7 +288,7 @@ class RawAgentsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        parse_obj_as(
+                        construct_type(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -299,7 +299,7 @@ class RawAgentsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         BasicError,
-                        parse_obj_as(
+                        construct_type(
                             type_=BasicError,  # type: ignore
                             object_=_response.json(),
                         ),
@@ -457,7 +457,7 @@ class RawAgentsClient:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
                     AgentsUpsertResponse,
-                    parse_obj_as(
+                    construct_type(
                         type_=AgentsUpsertResponse,  # type: ignore
                         object_=_response.json(),
                     ),
@@ -468,7 +468,7 @@ class RawAgentsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        parse_obj_as(
+                        construct_type(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -479,7 +479,7 @@ class RawAgentsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        parse_obj_as(
+                        construct_type(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -529,7 +529,7 @@ class RawAgentsClient:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
                     AgentsGetResponse,
-                    parse_obj_as(
+                    construct_type(
                         type_=AgentsGetResponse,  # type: ignore
                         object_=_response.json(),
                     ),
@@ -540,7 +540,7 @@ class RawAgentsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        parse_obj_as(
+                        construct_type(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -551,7 +551,7 @@ class RawAgentsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        parse_obj_as(
+                        construct_type(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -601,7 +601,7 @@ class RawAgentsClient:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
                     AgentsDeleteResponse,
-                    parse_obj_as(
+                    construct_type(
                         type_=AgentsDeleteResponse,  # type: ignore
                         object_=_response.json(),
                     ),
@@ -612,7 +612,7 @@ class RawAgentsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        parse_obj_as(
+                        construct_type(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -623,7 +623,7 @@ class RawAgentsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        parse_obj_as(
+                        construct_type(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -785,7 +785,7 @@ class RawAgentsClient:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
                     AgentsUpdateResponse,
-                    parse_obj_as(
+                    construct_type(
                         type_=AgentsUpdateResponse,  # type: ignore
                         object_=_response.json(),
                     ),
@@ -796,7 +796,7 @@ class RawAgentsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        parse_obj_as(
+                        construct_type(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -807,7 +807,7 @@ class RawAgentsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        parse_obj_as(
+                        construct_type(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -818,7 +818,7 @@ class RawAgentsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        parse_obj_as(
+                        construct_type(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -866,7 +866,7 @@ class AsyncRawAgentsClient:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
                     AgentsListResponse,
-                    parse_obj_as(
+                    construct_type(
                         type_=AgentsListResponse,  # type: ignore
                         object_=_response.json(),
                     ),
@@ -877,7 +877,7 @@ class AsyncRawAgentsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        parse_obj_as(
+                        construct_type(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -888,7 +888,7 @@ class AsyncRawAgentsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         BasicError,
-                        parse_obj_as(
+                        construct_type(
                             type_=BasicError,  # type: ignore
                             object_=_response.json(),
                         ),
@@ -1046,7 +1046,7 @@ class AsyncRawAgentsClient:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
                     AgentsCreateResponse,
-                    parse_obj_as(
+                    construct_type(
                         type_=AgentsCreateResponse,  # type: ignore
                         object_=_response.json(),
                     ),
@@ -1057,7 +1057,7 @@ class AsyncRawAgentsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        parse_obj_as(
+                        construct_type(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -1068,7 +1068,7 @@ class AsyncRawAgentsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         BasicError,
-                        parse_obj_as(
+                        construct_type(
                             type_=BasicError,  # type: ignore
                             object_=_response.json(),
                         ),
@@ -1079,7 +1079,7 @@ class AsyncRawAgentsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        parse_obj_as(
+                        construct_type(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -1090,7 +1090,7 @@ class AsyncRawAgentsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         BasicError,
-                        parse_obj_as(
+                        construct_type(
                             type_=BasicError,  # type: ignore
                             object_=_response.json(),
                         ),
@@ -1248,7 +1248,7 @@ class AsyncRawAgentsClient:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
                     AgentsUpsertResponse,
-                    parse_obj_as(
+                    construct_type(
                         type_=AgentsUpsertResponse,  # type: ignore
                         object_=_response.json(),
                     ),
@@ -1259,7 +1259,7 @@ class AsyncRawAgentsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        parse_obj_as(
+                        construct_type(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -1270,7 +1270,7 @@ class AsyncRawAgentsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        parse_obj_as(
+                        construct_type(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -1320,7 +1320,7 @@ class AsyncRawAgentsClient:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
                     AgentsGetResponse,
-                    parse_obj_as(
+                    construct_type(
                         type_=AgentsGetResponse,  # type: ignore
                         object_=_response.json(),
                     ),
@@ -1331,7 +1331,7 @@ class AsyncRawAgentsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        parse_obj_as(
+                        construct_type(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -1342,7 +1342,7 @@ class AsyncRawAgentsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        parse_obj_as(
+                        construct_type(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -1392,7 +1392,7 @@ class AsyncRawAgentsClient:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
                     AgentsDeleteResponse,
-                    parse_obj_as(
+                    construct_type(
                         type_=AgentsDeleteResponse,  # type: ignore
                         object_=_response.json(),
                     ),
@@ -1403,7 +1403,7 @@ class AsyncRawAgentsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        parse_obj_as(
+                        construct_type(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -1414,7 +1414,7 @@ class AsyncRawAgentsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        parse_obj_as(
+                        construct_type(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -1576,7 +1576,7 @@ class AsyncRawAgentsClient:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
                     AgentsUpdateResponse,
-                    parse_obj_as(
+                    construct_type(
                         type_=AgentsUpdateResponse,  # type: ignore
                         object_=_response.json(),
                     ),
@@ -1587,7 +1587,7 @@ class AsyncRawAgentsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        parse_obj_as(
+                        construct_type(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -1598,7 +1598,7 @@ class AsyncRawAgentsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        parse_obj_as(
+                        construct_type(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -1609,7 +1609,7 @@ class AsyncRawAgentsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        parse_obj_as(
+                        construct_type(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),

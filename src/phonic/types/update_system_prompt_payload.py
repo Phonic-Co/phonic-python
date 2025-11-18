@@ -3,10 +3,11 @@
 import typing
 
 import pydantic
-from ..core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from ..core.pydantic_utilities import IS_PYDANTIC_V2
+from ..core.unchecked_base_model import UncheckedBaseModel
 
 
-class UpdateSystemPromptPayload(UniversalBaseModel):
+class UpdateSystemPromptPayload(UncheckedBaseModel):
     type: typing.Literal["update_system_prompt"] = "update_system_prompt"
     system_prompt: str = pydantic.Field()
     """

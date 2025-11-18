@@ -3,11 +3,12 @@
 import typing
 
 import pydantic
-from ..core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from ..core.pydantic_utilities import IS_PYDANTIC_V2
+from ..core.unchecked_base_model import UncheckedBaseModel
 from .basic_error_error import BasicErrorError
 
 
-class BasicError(UniversalBaseModel):
+class BasicError(UncheckedBaseModel):
     error: typing.Optional[BasicErrorError] = None
 
     if IS_PYDANTIC_V2:

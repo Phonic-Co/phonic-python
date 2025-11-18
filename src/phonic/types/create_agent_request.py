@@ -3,7 +3,8 @@
 import typing
 
 import pydantic
-from ..core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from ..core.pydantic_utilities import IS_PYDANTIC_V2
+from ..core.unchecked_base_model import UncheckedBaseModel
 from .create_agent_request_audio_format import CreateAgentRequestAudioFormat
 from .create_agent_request_background_noise import CreateAgentRequestBackgroundNoise
 from .create_agent_request_configuration_endpoint import CreateAgentRequestConfigurationEndpoint
@@ -13,7 +14,7 @@ from .language_code import LanguageCode
 from .task import Task
 
 
-class CreateAgentRequest(UniversalBaseModel):
+class CreateAgentRequest(UncheckedBaseModel):
     name: str = pydantic.Field()
     """
     The name of the agent. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.

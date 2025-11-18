@@ -31,6 +31,7 @@ if typing.TYPE_CHECKING:
     from .conversation_extraction_schema import ConversationExtractionSchemaParams
     from .conversation_item import ConversationItemParams
     from .conversation_item_tool_calls_item import ConversationItemToolCallsItemParams
+    from .conversation_item_tool_calls_item_request_body import ConversationItemToolCallsItemRequestBodyParams
     from .conversation_item_tool_calls_item_tool import ConversationItemToolCallsItemToolParams
     from .conversation_project import ConversationProjectParams
     from .create_agent_request import CreateAgentRequestParams
@@ -93,6 +94,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ConversationExtractionSchemaParams": ".conversation_extraction_schema",
     "ConversationItemParams": ".conversation_item",
     "ConversationItemToolCallsItemParams": ".conversation_item_tool_calls_item",
+    "ConversationItemToolCallsItemRequestBodyParams": ".conversation_item_tool_calls_item_request_body",
     "ConversationItemToolCallsItemToolParams": ".conversation_item_tool_calls_item_tool",
     "ConversationParams": ".conversation",
     "ConversationProjectParams": ".conversation_project",
@@ -180,6 +182,7 @@ __all__ = [
     "ConversationExtractionSchemaParams",
     "ConversationItemParams",
     "ConversationItemToolCallsItemParams",
+    "ConversationItemToolCallsItemRequestBodyParams",
     "ConversationItemToolCallsItemToolParams",
     "ConversationParams",
     "ConversationProjectParams",

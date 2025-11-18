@@ -3,12 +3,13 @@
 import typing
 
 import pydantic
-from ..core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from ..core.pydantic_utilities import IS_PYDANTIC_V2
+from ..core.unchecked_base_model import UncheckedBaseModel
 from .language_code import LanguageCode
 from .outbound_call_config_tools_item import OutboundCallConfigToolsItem
 
 
-class OutboundCallConfig(UniversalBaseModel):
+class OutboundCallConfig(UncheckedBaseModel):
     """
     When an `agent` is provided, these `config` options override the agent settings.
     """

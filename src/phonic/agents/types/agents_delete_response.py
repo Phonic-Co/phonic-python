@@ -3,10 +3,11 @@
 import typing
 
 import pydantic
-from ...core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from ...core.pydantic_utilities import IS_PYDANTIC_V2
+from ...core.unchecked_base_model import UncheckedBaseModel
 
 
-class AgentsDeleteResponse(UniversalBaseModel):
+class AgentsDeleteResponse(UncheckedBaseModel):
     success: bool = pydantic.Field()
     """
     Whether the agent was deleted successfully.

@@ -3,10 +3,11 @@
 import typing
 
 import pydantic
-from ..core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from ..core.pydantic_utilities import IS_PYDANTIC_V2
+from ..core.unchecked_base_model import UncheckedBaseModel
 
 
-class AssistantChoseNotToRespondPayload(UniversalBaseModel):
+class AssistantChoseNotToRespondPayload(UncheckedBaseModel):
     type: typing.Literal["assistant_chose_not_to_respond"] = "assistant_chose_not_to_respond"
 
     if IS_PYDANTIC_V2:

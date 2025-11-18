@@ -4,11 +4,12 @@ import datetime as dt
 import typing
 
 import pydantic
-from ..core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from ..core.pydantic_utilities import IS_PYDANTIC_V2
+from ..core.unchecked_base_model import UncheckedBaseModel
 from .tool_call_output_processed_payload_tool import ToolCallOutputProcessedPayloadTool
 
 
-class ToolCallOutputProcessedPayload(UniversalBaseModel):
+class ToolCallOutputProcessedPayload(UncheckedBaseModel):
     type: typing.Literal["tool_call_output_processed"] = "tool_call_output_processed"
     tool_call_id: str = pydantic.Field()
     """

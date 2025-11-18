@@ -3,10 +3,11 @@
 import typing
 
 import pydantic
-from ..core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from ..core.pydantic_utilities import IS_PYDANTIC_V2
+from ..core.unchecked_base_model import UncheckedBaseModel
 
 
-class UserStartedSpeakingPayload(UniversalBaseModel):
+class UserStartedSpeakingPayload(UncheckedBaseModel):
     type: typing.Literal["user_started_speaking"] = "user_started_speaking"
 
     if IS_PYDANTIC_V2:
