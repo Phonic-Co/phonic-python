@@ -3,10 +3,11 @@
 import typing
 
 import pydantic
-from ..core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from ..core.pydantic_utilities import IS_PYDANTIC_V2
+from ..core.unchecked_base_model import UncheckedBaseModel
 
 
-class IsUserSpeakingPayload(UniversalBaseModel):
+class IsUserSpeakingPayload(UncheckedBaseModel):
     type: typing.Literal["is_user_speaking"] = "is_user_speaking"
     is_user_speaking: bool = pydantic.Field()
     """

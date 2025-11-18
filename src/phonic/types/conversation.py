@@ -4,7 +4,8 @@ import datetime as dt
 import typing
 
 import pydantic
-from ..core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from ..core.pydantic_utilities import IS_PYDANTIC_V2
+from ..core.unchecked_base_model import UncheckedBaseModel
 from .conversation_agent import ConversationAgent
 from .conversation_background_noise import ConversationBackgroundNoise
 from .conversation_ended_by import ConversationEndedBy
@@ -12,7 +13,7 @@ from .conversation_item import ConversationItem
 from .conversation_project import ConversationProject
 
 
-class Conversation(UniversalBaseModel):
+class Conversation(UncheckedBaseModel):
     id: str = pydantic.Field()
     """
     The conversation ID.

@@ -3,11 +3,12 @@
 import typing
 
 import pydantic
-from ..core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from ..core.pydantic_utilities import IS_PYDANTIC_V2
+from ..core.unchecked_base_model import UncheckedBaseModel
 from .conversation_evaluation_result import ConversationEvaluationResult
 
 
-class ConversationEvaluation(UniversalBaseModel):
+class ConversationEvaluation(UncheckedBaseModel):
     result: ConversationEvaluationResult = pydantic.Field()
     """
     The evaluation result.

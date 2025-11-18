@@ -3,10 +3,11 @@
 import typing
 
 import pydantic
-from ..core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from ..core.pydantic_utilities import IS_PYDANTIC_V2
+from ..core.unchecked_base_model import UncheckedBaseModel
 
 
-class CreateAgentRequestConfigurationEndpoint(UniversalBaseModel):
+class CreateAgentRequestConfigurationEndpoint(UncheckedBaseModel):
     """
     When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint when to get configuration options.
     """

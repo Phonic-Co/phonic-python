@@ -4,12 +4,13 @@ import datetime as dt
 import typing
 
 import pydantic
-from ..core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from ..core.pydantic_utilities import IS_PYDANTIC_V2
+from ..core.unchecked_base_model import UncheckedBaseModel
 from .conversation_evaluation_result_prompt import ConversationEvaluationResultPrompt
 from .conversation_evaluation_result_result import ConversationEvaluationResultResult
 
 
-class ConversationEvaluationResult(UniversalBaseModel):
+class ConversationEvaluationResult(UncheckedBaseModel):
     id: str = pydantic.Field()
     """
     The evaluation ID.

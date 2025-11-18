@@ -3,11 +3,12 @@
 import typing
 
 import pydantic
-from ...core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from ...core.pydantic_utilities import IS_PYDANTIC_V2
+from ...core.unchecked_base_model import UncheckedBaseModel
 from ...types.agent import Agent
 
 
-class AgentsListResponse(UniversalBaseModel):
+class AgentsListResponse(UncheckedBaseModel):
     agents: typing.List[Agent]
 
     if IS_PYDANTIC_V2:

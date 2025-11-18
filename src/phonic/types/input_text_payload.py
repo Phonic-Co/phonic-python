@@ -3,10 +3,11 @@
 import typing
 
 import pydantic
-from ..core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from ..core.pydantic_utilities import IS_PYDANTIC_V2
+from ..core.unchecked_base_model import UncheckedBaseModel
 
 
-class InputTextPayload(UniversalBaseModel):
+class InputTextPayload(UncheckedBaseModel):
     type: typing.Literal["input_text"] = "input_text"
     language: str = pydantic.Field()
     """

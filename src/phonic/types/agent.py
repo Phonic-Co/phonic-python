@@ -3,7 +3,8 @@
 import typing
 
 import pydantic
-from ..core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from ..core.pydantic_utilities import IS_PYDANTIC_V2
+from ..core.unchecked_base_model import UncheckedBaseModel
 from .agent_audio_format import AgentAudioFormat
 from .agent_background_noise import AgentBackgroundNoise
 from .agent_configuration_endpoint import AgentConfigurationEndpoint
@@ -14,7 +15,7 @@ from .language_code import LanguageCode
 from .task import Task
 
 
-class Agent(UniversalBaseModel):
+class Agent(UncheckedBaseModel):
     id: str = pydantic.Field()
     """
     The ID of the agent.

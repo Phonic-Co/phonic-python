@@ -3,12 +3,13 @@
 import typing
 
 import pydantic
-from ...core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from ...core.pydantic_utilities import IS_PYDANTIC_V2
+from ...core.unchecked_base_model import UncheckedBaseModel
 from ...types.conversation import Conversation
 from .conversations_list_response_conversations_pagination import ConversationsListResponseConversationsPagination
 
 
-class ConversationsListResponseConversations(UniversalBaseModel):
+class ConversationsListResponseConversations(UncheckedBaseModel):
     conversations: typing.List[Conversation]
     pagination: ConversationsListResponseConversationsPagination
 

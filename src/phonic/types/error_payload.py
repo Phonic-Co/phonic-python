@@ -3,11 +3,12 @@
 import typing
 
 import pydantic
-from ..core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from ..core.pydantic_utilities import IS_PYDANTIC_V2
+from ..core.unchecked_base_model import UncheckedBaseModel
 from .error_payload_error import ErrorPayloadError
 
 
-class ErrorPayload(UniversalBaseModel):
+class ErrorPayload(UncheckedBaseModel):
     type: typing.Literal["error"] = "error"
     error: ErrorPayloadError
     param_errors: typing.Optional[typing.Dict[str, str]] = pydantic.Field(default=None)

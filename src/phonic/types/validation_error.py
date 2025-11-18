@@ -3,11 +3,12 @@
 import typing
 
 import pydantic
-from ..core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
+from ..core.pydantic_utilities import IS_PYDANTIC_V2
+from ..core.unchecked_base_model import UncheckedBaseModel
 from .validation_error_error import ValidationErrorError
 
 
-class ValidationError(UniversalBaseModel):
+class ValidationError(UncheckedBaseModel):
     error: ValidationErrorError
     param_errors: typing.Dict[str, str] = pydantic.Field()
     """
