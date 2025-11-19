@@ -76,3 +76,13 @@ class ToolParams(typing_extensions.TypedDict):
     """
     DTMF digits to send after the transfer connects (e.g., "1234"). Defaults to null.
     """
+
+    agents_to_transfer_to: typing_extensions.NotRequired[typing.Sequence[str]]
+    """
+    Array of agent names that the LLM can choose from when transferring. Required for built_in_transfer_to_agent tools.
+    """
+
+    require_speech_before_tool_call: typing_extensions.NotRequired[bool]
+    """
+    When true, forces the agent to speak before executing the tool.
+    """

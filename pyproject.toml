@@ -3,7 +3,7 @@ name = "phonic"
 
 [tool.poetry]
 name = "phonic"
-version = "0.30.14"
+version = "0.30.15"
 description = ""
 readme = "README.md"
 authors = []

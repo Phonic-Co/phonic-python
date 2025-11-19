@@ -1077,12 +1077,12 @@ client = Phonic(
 )
 client.tools.create(
     project="main",
-    name="transfer_to_support",
-    description="Transfers the caller to the support team",
-    type="built_in_transfer_to_phone_number",
+    name="transfer_to_specialist",
+    description="Transfers the caller to a specialist agent",
+    type="built_in_transfer_to_agent",
     execution_mode="sync",
-    phone_number="+15551234567",
-    dtmf="1234",
+    agents_to_transfer_to=["sales-agent", "support-agent", "technical-agent"],
+    require_speech_before_tool_call=False,
 )
 
 ```
@@ -1144,7 +1144,7 @@ client.tools.create(
 Array of parameter definitions.
 For `custom_webhook` tools with POST method, each parameter must include a `location` field.
 For `custom_webhook` tools with GET method, `location` defaults to `"query_string"` if not specified.
-For `custom_websocket` and `built_in_transfer_to_phone_number` tools, `location` must not be specified.
+For `custom_websocket`, `built_in_transfer_to_phone_number`, and `built_in_transfer_to_agent` tools, `location` must not be specified.
     
 </dd>
 </dl>
@@ -1201,6 +1201,22 @@ For `custom_websocket` and `built_in_transfer_to_phone_number` tools, `location`
 <dd>
 
 **dtmf:** `typing.Optional[str]` — DTMF digits to send after the transfer connects (e.g., "1234"). Defaults to null.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**agents_to_transfer_to:** `typing.Optional[typing.Sequence[str]]` — Array of agent names that the LLM can choose from when transferring. Required for built_in_transfer_to_agent tools. All agents must exist in the same project as the tool.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**require_speech_before_tool_call:** `typing.Optional[bool]` — When true, forces the agent to speak before executing the tool.
     
 </dd>
 </dl>
@@ -1485,7 +1501,7 @@ client.tools.update(
 Array of parameter definitions.
 When updating `type` or `endpoint_method`, all parameters must include explicit `location` values.
 For `custom_webhook` tools: `location` is required for POST, defaults to `"query_string"` for GET.
-For `custom_websocket` and `built_in_transfer_to_phone_number` tools: `location` must not be specified.
+For `custom_websocket`, `built_in_transfer_to_phone_number`, and `built_in_transfer_to_agent` tools: `location` must not be specified.
     
 </dd>
 </dl>
@@ -1542,6 +1558,22 @@ For `custom_websocket` and `built_in_transfer_to_phone_number` tools: `location`
 <dd>
 
 **dtmf:** `typing.Optional[str]` — DTMF digits to send after the transfer connects (e.g., "1234"). Can be set to null to remove DTMF.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**agents_to_transfer_to:** `typing.Optional[typing.Sequence[str]]` — Array of agent names that the LLM can choose from when transferring. All agents must exist in the same project as the tool.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**require_speech_before_tool_call:** `typing.Optional[bool]` — When true, forces the agent to speak before executing the tool.
     
 </dd>
 </dl>
