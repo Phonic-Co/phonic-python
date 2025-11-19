@@ -105,6 +105,8 @@ class RawToolsClient:
         tool_call_output_timeout_ms: typing.Optional[int] = OMIT,
         phone_number: typing.Optional[str] = OMIT,
         dtmf: typing.Optional[str] = OMIT,
+        agents_to_transfer_to: typing.Optional[typing.Sequence[str]] = OMIT,
+        require_speech_before_tool_call: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[ToolsCreateResponse]:
         """
@@ -131,7 +133,7 @@ class RawToolsClient:
             Array of parameter definitions.
             For `custom_webhook` tools with POST method, each parameter must include a `location` field.
             For `custom_webhook` tools with GET method, `location` defaults to `"query_string"` if not specified.
-            For `custom_websocket` and `built_in_transfer_to_phone_number` tools, `location` must not be specified.
+            For `custom_websocket`, `built_in_transfer_to_phone_number`, and `built_in_transfer_to_agent` tools, `location` must not be specified.
 
         endpoint_method : typing.Optional[CreateToolRequestEndpointMethod]
             Required for webhook tools. HTTP method for the webhook endpoint.
@@ -153,6 +155,12 @@ class RawToolsClient:
 
         dtmf : typing.Optional[str]
             DTMF digits to send after the transfer connects (e.g., "1234"). Defaults to null.
+
+        agents_to_transfer_to : typing.Optional[typing.Sequence[str]]
+            Array of agent names that the LLM can choose from when transferring. Required for built_in_transfer_to_agent tools. All agents must exist in the same project as the tool.
+
+        require_speech_before_tool_call : typing.Optional[bool]
+            When true, forces the agent to speak before executing the tool.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -184,6 +192,8 @@ class RawToolsClient:
                 "tool_call_output_timeout_ms": tool_call_output_timeout_ms,
                 "phone_number": phone_number,
                 "dtmf": dtmf,
+                "agents_to_transfer_to": agents_to_transfer_to,
+                "require_speech_before_tool_call": require_speech_before_tool_call,
             },
             headers={
                 "content-type": "application/json",
@@ -389,6 +399,8 @@ class RawToolsClient:
         tool_call_output_timeout_ms: typing.Optional[int] = OMIT,
         phone_number: typing.Optional[str] = OMIT,
         dtmf: typing.Optional[str] = OMIT,
+        agents_to_transfer_to: typing.Optional[typing.Sequence[str]] = OMIT,
+        require_speech_before_tool_call: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[ToolsUpdateResponse]:
         """
@@ -418,7 +430,7 @@ class RawToolsClient:
             Array of parameter definitions.
             When updating `type` or `endpoint_method`, all parameters must include explicit `location` values.
             For `custom_webhook` tools: `location` is required for POST, defaults to `"query_string"` for GET.
-            For `custom_websocket` and `built_in_transfer_to_phone_number` tools: `location` must not be specified.
+            For `custom_websocket`, `built_in_transfer_to_phone_number`, and `built_in_transfer_to_agent` tools: `location` must not be specified.
 
         endpoint_method : typing.Optional[UpdateToolRequestEndpointMethod]
             HTTP method for webhook tools. When changing this value, all parameters must include explicit `location` values.
@@ -436,6 +448,12 @@ class RawToolsClient:
 
         dtmf : typing.Optional[str]
             DTMF digits to send after the transfer connects (e.g., "1234"). Can be set to null to remove DTMF.
+
+        agents_to_transfer_to : typing.Optional[typing.Sequence[str]]
+            Array of agent names that the LLM can choose from when transferring. All agents must exist in the same project as the tool.
+
+        require_speech_before_tool_call : typing.Optional[bool]
+            When true, forces the agent to speak before executing the tool.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -467,6 +485,8 @@ class RawToolsClient:
                 "tool_call_output_timeout_ms": tool_call_output_timeout_ms,
                 "phone_number": phone_number,
                 "dtmf": dtmf,
+                "agents_to_transfer_to": agents_to_transfer_to,
+                "require_speech_before_tool_call": require_speech_before_tool_call,
             },
             headers={
                 "content-type": "application/json",
@@ -597,6 +617,8 @@ class AsyncRawToolsClient:
         tool_call_output_timeout_ms: typing.Optional[int] = OMIT,
         phone_number: typing.Optional[str] = OMIT,
         dtmf: typing.Optional[str] = OMIT,
+        agents_to_transfer_to: typing.Optional[typing.Sequence[str]] = OMIT,
+        require_speech_before_tool_call: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[ToolsCreateResponse]:
         """
@@ -623,7 +645,7 @@ class AsyncRawToolsClient:
             Array of parameter definitions.
             For `custom_webhook` tools with POST method, each parameter must include a `location` field.
             For `custom_webhook` tools with GET method, `location` defaults to `"query_string"` if not specified.
-            For `custom_websocket` and `built_in_transfer_to_phone_number` tools, `location` must not be specified.
+            For `custom_websocket`, `built_in_transfer_to_phone_number`, and `built_in_transfer_to_agent` tools, `location` must not be specified.
 
         endpoint_method : typing.Optional[CreateToolRequestEndpointMethod]
             Required for webhook tools. HTTP method for the webhook endpoint.
@@ -645,6 +667,12 @@ class AsyncRawToolsClient:
 
         dtmf : typing.Optional[str]
             DTMF digits to send after the transfer connects (e.g., "1234"). Defaults to null.
+
+        agents_to_transfer_to : typing.Optional[typing.Sequence[str]]
+            Array of agent names that the LLM can choose from when transferring. Required for built_in_transfer_to_agent tools. All agents must exist in the same project as the tool.
+
+        require_speech_before_tool_call : typing.Optional[bool]
+            When true, forces the agent to speak before executing the tool.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -676,6 +704,8 @@ class AsyncRawToolsClient:
                 "tool_call_output_timeout_ms": tool_call_output_timeout_ms,
                 "phone_number": phone_number,
                 "dtmf": dtmf,
+                "agents_to_transfer_to": agents_to_transfer_to,
+                "require_speech_before_tool_call": require_speech_before_tool_call,
             },
             headers={
                 "content-type": "application/json",
@@ -881,6 +911,8 @@ class AsyncRawToolsClient:
         tool_call_output_timeout_ms: typing.Optional[int] = OMIT,
         phone_number: typing.Optional[str] = OMIT,
         dtmf: typing.Optional[str] = OMIT,
+        agents_to_transfer_to: typing.Optional[typing.Sequence[str]] = OMIT,
+        require_speech_before_tool_call: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[ToolsUpdateResponse]:
         """
@@ -910,7 +942,7 @@ class AsyncRawToolsClient:
             Array of parameter definitions.
             When updating `type` or `endpoint_method`, all parameters must include explicit `location` values.
             For `custom_webhook` tools: `location` is required for POST, defaults to `"query_string"` for GET.
-            For `custom_websocket` and `built_in_transfer_to_phone_number` tools: `location` must not be specified.
+            For `custom_websocket`, `built_in_transfer_to_phone_number`, and `built_in_transfer_to_agent` tools: `location` must not be specified.
 
         endpoint_method : typing.Optional[UpdateToolRequestEndpointMethod]
             HTTP method for webhook tools. When changing this value, all parameters must include explicit `location` values.
@@ -928,6 +960,12 @@ class AsyncRawToolsClient:
 
         dtmf : typing.Optional[str]
             DTMF digits to send after the transfer connects (e.g., "1234"). Can be set to null to remove DTMF.
+
+        agents_to_transfer_to : typing.Optional[typing.Sequence[str]]
+            Array of agent names that the LLM can choose from when transferring. All agents must exist in the same project as the tool.
+
+        require_speech_before_tool_call : typing.Optional[bool]
+            When true, forces the agent to speak before executing the tool.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -959,6 +997,8 @@ class AsyncRawToolsClient:
                 "tool_call_output_timeout_ms": tool_call_output_timeout_ms,
                 "phone_number": phone_number,
                 "dtmf": dtmf,
+                "agents_to_transfer_to": agents_to_transfer_to,
+                "require_speech_before_tool_call": require_speech_before_tool_call,
             },
             headers={
                 "content-type": "application/json",

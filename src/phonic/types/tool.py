@@ -79,6 +79,16 @@ class Tool(UncheckedBaseModel):
     DTMF digits to send after the transfer connects (e.g., "1234"). Defaults to null.
     """
 
+    agents_to_transfer_to: typing.Optional[typing.List[str]] = pydantic.Field(default=None)
+    """
+    Array of agent names that the LLM can choose from when transferring. Required for built_in_transfer_to_agent tools.
+    """
+
+    require_speech_before_tool_call: typing.Optional[bool] = pydantic.Field(default=None)
+    """
+    When true, forces the agent to speak before executing the tool.
+    """
+
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
     else:
