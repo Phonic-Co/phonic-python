@@ -8,9 +8,11 @@ import websockets
 import websockets.sync.connection as websockets_sync_connection
 from ..core.events import EventEmitterMixin, EventType
 from ..core.pydantic_utilities import parse_obj_as
+from ..types.add_system_message_payload import AddSystemMessagePayload
 from ..types.assistant_chose_not_to_respond_payload import AssistantChoseNotToRespondPayload
 from ..types.assistant_ended_conversation_payload import AssistantEndedConversationPayload
 from ..types.audio_chunk_payload import AudioChunkPayload
+from ..types.audio_chunk_response_payload import AudioChunkResponsePayload
 from ..types.config_payload import ConfigPayload
 from ..types.conversation_created_payload import ConversationCreatedPayload
 from ..types.dtmf_payload import DtmfPayload
@@ -39,6 +41,7 @@ ConversationsSocketClientResponse = typing.Union[
     ConversationCreatedPayload,
     InputTextPayload,
     InputCancelledPayload,
+    AudioChunkResponsePayload,
     IsUserSpeakingPayload,
     UserStartedSpeakingPayload,
     UserFinishedSpeakingPayload,
@@ -82,13 +85,6 @@ class AsyncConversationsSocketClient(EventEmitterMixin):
         finally:
             await self._emit_async(EventType.CLOSE, None)
 
-    async def send_audio_chunk(self, message: AudioChunkPayload) -> None:
-        """
-        Send a message to the websocket connection.
-        The message will be sent as a AudioChunkPayload.
-        """
-        await self._send_model(message)
-
     async def send_config(self, message: ConfigPayload) -> None:
         """
         Send a message to the websocket connection.
@@ -96,10 +92,24 @@ class AsyncConversationsSocketClient(EventEmitterMixin):
         """
         await self._send_model(message)
 
+    async def send_audio_chunk(self, message: AudioChunkPayload) -> None:
+        """
+        Send a message to the websocket connection.
+        The message will be sent as a AudioChunkPayload.
+        """
+        await self._send_model(message)
+
     async def send_update_system_prompt(self, message: UpdateSystemPromptPayload) -> None:
         """
         Send a message to the websocket connection.
         The message will be sent as a UpdateSystemPromptPayload.
+        """
+        await self._send_model(message)
+
+    async def send_add_system_message(self, message: AddSystemMessagePayload) -> None:
+        """
+        Send a message to the websocket connection.
+        The message will be sent as a AddSystemMessagePayload.
         """
         await self._send_model(message)
 
@@ -177,13 +187,6 @@ class ConversationsSocketClient(EventEmitterMixin):
         finally:
             self._emit(EventType.CLOSE, None)
 
-    def send_audio_chunk(self, message: AudioChunkPayload) -> None:
-        """
-        Send a message to the websocket connection.
-        The message will be sent as a AudioChunkPayload.
-        """
-        self._send_model(message)
-
     def send_config(self, message: ConfigPayload) -> None:
         """
         Send a message to the websocket connection.
@@ -191,10 +194,24 @@ class ConversationsSocketClient(EventEmitterMixin):
         """
         self._send_model(message)
 
+    def send_audio_chunk(self, message: AudioChunkPayload) -> None:
+        """
+        Send a message to the websocket connection.
+        The message will be sent as a AudioChunkPayload.
+        """
+        self._send_model(message)
+
     def send_update_system_prompt(self, message: UpdateSystemPromptPayload) -> None:
         """
         Send a message to the websocket connection.
         The message will be sent as a UpdateSystemPromptPayload.
+        """
+        self._send_model(message)
+
+    def send_add_system_message(self, message: AddSystemMessagePayload) -> None:
+        """
+        Send a message to the websocket connection.
+        The message will be sent as a AddSystemMessagePayload.
         """
         self._send_model(message)
 
