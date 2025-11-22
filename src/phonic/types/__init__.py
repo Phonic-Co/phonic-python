@@ -6,6 +6,7 @@ import typing
 from importlib import import_module
 
 if typing.TYPE_CHECKING:
+    from .add_system_message_payload import AddSystemMessagePayload
     from .agent import Agent
     from .agent_audio_format import AgentAudioFormat
     from .agent_background_noise import AgentBackgroundNoise
@@ -90,6 +91,7 @@ if typing.TYPE_CHECKING:
     from .validation_error_error import ValidationErrorError
     from .voice import Voice
 _dynamic_imports: typing.Dict[str, str] = {
+    "AddSystemMessagePayload": ".add_system_message_payload",
     "Agent": ".agent",
     "AgentAudioFormat": ".agent_audio_format",
     "AgentBackgroundNoise": ".agent_background_noise",
@@ -198,6 +200,7 @@ def __dir__():
 
 
 __all__ = [
+    "AddSystemMessagePayload",
     "Agent",
     "AgentAudioFormat",
     "AgentBackgroundNoise",

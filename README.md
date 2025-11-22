@@ -7,22 +7,6 @@ The Phonic Python library provides convenient access to the Phonic APIs from Pyt
 
 ## Table of Contents
 
-- [Table of Contents](#table-of-contents)
-- [Installation](#installation)
-- [Reference](#reference)
-- [Usage](#usage)
-- [Async Client](#async-client)
-- [Exception Handling](#exception-handling)
-- [Websockets](#websockets)
-- [Advanced](#advanced)
-  - [Access Raw Response Data](#access-raw-response-data)
-  - [Retries](#retries)
-  - [Timeouts](#timeouts)
-  - [Custom Client](#custom-client)
-- [Contributing](#contributing)
-
-## Table of Contents
-
 - [Installation](#installation)
 - [Reference](#reference)
 - [Usage](#usage)

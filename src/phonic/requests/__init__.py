@@ -6,6 +6,7 @@ import typing
 from importlib import import_module
 
 if typing.TYPE_CHECKING:
+    from .add_system_message_payload import AddSystemMessagePayloadParams
     from .agent import AgentParams
     from .agent_configuration_endpoint import AgentConfigurationEndpointParams
     from .agent_project import AgentProjectParams
@@ -70,6 +71,7 @@ if typing.TYPE_CHECKING:
     from .validation_error_error import ValidationErrorErrorParams
     from .voice import VoiceParams
 _dynamic_imports: typing.Dict[str, str] = {
+    "AddSystemMessagePayloadParams": ".add_system_message_payload",
     "AgentConfigurationEndpointParams": ".agent_configuration_endpoint",
     "AgentParams": ".agent",
     "AgentProjectParams": ".agent_project",
@@ -158,6 +160,7 @@ def __dir__():
 
 
 __all__ = [
+    "AddSystemMessagePayloadParams",
     "AgentConfigurationEndpointParams",
     "AgentParams",
     "AgentProjectParams",

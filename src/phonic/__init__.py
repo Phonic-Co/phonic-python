@@ -7,6 +7,7 @@ from importlib import import_module
 
 if typing.TYPE_CHECKING:
     from .types import (
+        AddSystemMessagePayload,
         Agent,
         AgentAudioFormat,
         AgentBackgroundNoise,
@@ -180,6 +181,7 @@ if typing.TYPE_CHECKING:
         ProjectsUpdateResponseParams,
     )
     from .requests import (
+        AddSystemMessagePayloadParams,
         AgentConfigurationEndpointParams,
         AgentParams,
         AgentProjectParams,
@@ -265,6 +267,8 @@ if typing.TYPE_CHECKING:
     from .version import __version__
     from .voices import VoicesGetResponse, VoicesGetResponseParams, VoicesListResponse, VoicesListResponseParams
 _dynamic_imports: typing.Dict[str, str] = {
+    "AddSystemMessagePayload": ".types",
+    "AddSystemMessagePayloadParams": ".requests",
     "Agent": ".types",
     "AgentAudioFormat": ".types",
     "AgentBackgroundNoise": ".types",
@@ -541,6 +545,8 @@ def __dir__():
 
 
 __all__ = [
+    "AddSystemMessagePayload",
+    "AddSystemMessagePayloadParams",
     "Agent",
     "AgentAudioFormat",
     "AgentBackgroundNoise",
