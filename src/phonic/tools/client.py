@@ -88,6 +88,7 @@ class ToolsClient:
         dtmf: typing.Optional[str] = OMIT,
         agents_to_transfer_to: typing.Optional[typing.Sequence[str]] = OMIT,
         require_speech_before_tool_call: typing.Optional[bool] = OMIT,
+        forbid_speech_after_tool_call: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ToolsCreateResponse:
         """
@@ -143,6 +144,9 @@ class ToolsClient:
         require_speech_before_tool_call : typing.Optional[bool]
             When true, forces the agent to speak before executing the tool.
 
+        forbid_speech_after_tool_call : typing.Optional[bool]
+            When true, forbids the agent from speaking after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -160,34 +164,20 @@ class ToolsClient:
         )
         client.tools.create(
             project="main",
-            name="book_appointment",
-            description="Books an appointment in the calendar system",
-            type="custom_webhook",
+            name="context_printer",
+            description="Gets the specific context for fixing our printer",
+            type="custom_context",
             execution_mode="sync",
             parameters=[
                 {
                     "type": "string",
-                    "name": "date",
-                    "description": "The date for the appointment in YYYY-MM-DD format",
+                    "name": "name",
+                    "description": "description",
                     "is_required": True,
-                    "location": "request_body",
-                },
-                {
-                    "type": "string",
-                    "name": "time",
-                    "description": "The time for the appointment in HH:MM format",
-                    "is_required": True,
-                    "location": "request_body",
-                },
+                }
             ],
-            endpoint_method="POST",
-            endpoint_url="https://api.example.com/book-appointment",
-            endpoint_headers={
-                "Authorization": "Bearer token123",
-                "Content-Type": "application/json",
-            },
-            endpoint_timeout_ms=5000,
             require_speech_before_tool_call=False,
+            forbid_speech_after_tool_call=False,
         )
         """
         _response = self._raw_client.create(
@@ -206,6 +196,7 @@ class ToolsClient:
             dtmf=dtmf,
             agents_to_transfer_to=agents_to_transfer_to,
             require_speech_before_tool_call=require_speech_before_tool_call,
+            forbid_speech_after_tool_call=forbid_speech_after_tool_call,
             request_options=request_options,
         )
         return _response.data
@@ -311,6 +302,7 @@ class ToolsClient:
         dtmf: typing.Optional[str] = OMIT,
         agents_to_transfer_to: typing.Optional[typing.Sequence[str]] = OMIT,
         require_speech_before_tool_call: typing.Optional[bool] = OMIT,
+        forbid_speech_after_tool_call: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ToolsUpdateResponse:
         """
@@ -365,6 +357,9 @@ class ToolsClient:
         require_speech_before_tool_call : typing.Optional[bool]
             When true, forces the agent to speak before executing the tool.
 
+        forbid_speech_after_tool_call : typing.Optional[bool]
+            When true, forbids the agent from speaking after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -405,6 +400,7 @@ class ToolsClient:
             dtmf=dtmf,
             agents_to_transfer_to=agents_to_transfer_to,
             require_speech_before_tool_call=require_speech_before_tool_call,
+            forbid_speech_after_tool_call=forbid_speech_after_tool_call,
             request_options=request_options,
         )
         return _response.data
@@ -484,6 +480,7 @@ class AsyncToolsClient:
         dtmf: typing.Optional[str] = OMIT,
         agents_to_transfer_to: typing.Optional[typing.Sequence[str]] = OMIT,
         require_speech_before_tool_call: typing.Optional[bool] = OMIT,
+        forbid_speech_after_tool_call: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ToolsCreateResponse:
         """
@@ -539,6 +536,9 @@ class AsyncToolsClient:
         require_speech_before_tool_call : typing.Optional[bool]
             When true, forces the agent to speak before executing the tool.
 
+        forbid_speech_after_tool_call : typing.Optional[bool]
+            When true, forbids the agent from speaking after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -561,34 +561,20 @@ class AsyncToolsClient:
         async def main() -> None:
             await client.tools.create(
                 project="main",
-                name="book_appointment",
-                description="Books an appointment in the calendar system",
-                type="custom_webhook",
+                name="context_printer",
+                description="Gets the specific context for fixing our printer",
+                type="custom_context",
                 execution_mode="sync",
                 parameters=[
                     {
                         "type": "string",
-                        "name": "date",
-                        "description": "The date for the appointment in YYYY-MM-DD format",
+                        "name": "name",
+                        "description": "description",
                         "is_required": True,
-                        "location": "request_body",
-                    },
-                    {
-                        "type": "string",
-                        "name": "time",
-                        "description": "The time for the appointment in HH:MM format",
-                        "is_required": True,
-                        "location": "request_body",
-                    },
+                    }
                 ],
-                endpoint_method="POST",
-                endpoint_url="https://api.example.com/book-appointment",
-                endpoint_headers={
-                    "Authorization": "Bearer token123",
-                    "Content-Type": "application/json",
-                },
-                endpoint_timeout_ms=5000,
                 require_speech_before_tool_call=False,
+                forbid_speech_after_tool_call=False,
             )
 
 
@@ -610,6 +596,7 @@ class AsyncToolsClient:
             dtmf=dtmf,
             agents_to_transfer_to=agents_to_transfer_to,
             require_speech_before_tool_call=require_speech_before_tool_call,
+            forbid_speech_after_tool_call=forbid_speech_after_tool_call,
             request_options=request_options,
         )
         return _response.data
@@ -731,6 +718,7 @@ class AsyncToolsClient:
         dtmf: typing.Optional[str] = OMIT,
         agents_to_transfer_to: typing.Optional[typing.Sequence[str]] = OMIT,
         require_speech_before_tool_call: typing.Optional[bool] = OMIT,
+        forbid_speech_after_tool_call: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ToolsUpdateResponse:
         """
@@ -785,6 +773,9 @@ class AsyncToolsClient:
         require_speech_before_tool_call : typing.Optional[bool]
             When true, forces the agent to speak before executing the tool.
 
+        forbid_speech_after_tool_call : typing.Optional[bool]
+            When true, forbids the agent from speaking after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -833,6 +824,7 @@ class AsyncToolsClient:
             dtmf=dtmf,
             agents_to_transfer_to=agents_to_transfer_to,
             require_speech_before_tool_call=require_speech_before_tool_call,
+            forbid_speech_after_tool_call=forbid_speech_after_tool_call,
             request_options=request_options,
         )
         return _response.data
