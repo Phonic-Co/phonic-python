@@ -86,3 +86,8 @@ class ToolParams(typing_extensions.TypedDict):
     """
     When true, forces the agent to speak before executing the tool.
     """
+
+    forbid_speech_after_tool_call: typing_extensions.NotRequired[bool]
+    """
+    When true, forbids the agent from speaking after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools.
+    """

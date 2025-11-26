@@ -4,7 +4,11 @@ import typing
 
 UpdateToolRequestType = typing.Union[
     typing.Literal[
-        "custom_webhook", "custom_websocket", "built_in_transfer_to_phone_number", "built_in_transfer_to_agent"
+        "custom_context",
+        "custom_webhook",
+        "custom_websocket",
+        "built_in_transfer_to_phone_number",
+        "built_in_transfer_to_agent",
     ],
     typing.Any,
 ]

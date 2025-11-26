@@ -107,6 +107,7 @@ class RawToolsClient:
         dtmf: typing.Optional[str] = OMIT,
         agents_to_transfer_to: typing.Optional[typing.Sequence[str]] = OMIT,
         require_speech_before_tool_call: typing.Optional[bool] = OMIT,
+        forbid_speech_after_tool_call: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[ToolsCreateResponse]:
         """
@@ -162,6 +163,9 @@ class RawToolsClient:
         require_speech_before_tool_call : typing.Optional[bool]
             When true, forces the agent to speak before executing the tool.
 
+        forbid_speech_after_tool_call : typing.Optional[bool]
+            When true, forbids the agent from speaking after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -194,6 +198,7 @@ class RawToolsClient:
                 "dtmf": dtmf,
                 "agents_to_transfer_to": agents_to_transfer_to,
                 "require_speech_before_tool_call": require_speech_before_tool_call,
+                "forbid_speech_after_tool_call": forbid_speech_after_tool_call,
             },
             headers={
                 "content-type": "application/json",
@@ -401,6 +406,7 @@ class RawToolsClient:
         dtmf: typing.Optional[str] = OMIT,
         agents_to_transfer_to: typing.Optional[typing.Sequence[str]] = OMIT,
         require_speech_before_tool_call: typing.Optional[bool] = OMIT,
+        forbid_speech_after_tool_call: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[ToolsUpdateResponse]:
         """
@@ -455,6 +461,9 @@ class RawToolsClient:
         require_speech_before_tool_call : typing.Optional[bool]
             When true, forces the agent to speak before executing the tool.
 
+        forbid_speech_after_tool_call : typing.Optional[bool]
+            When true, forbids the agent from speaking after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -487,6 +496,7 @@ class RawToolsClient:
                 "dtmf": dtmf,
                 "agents_to_transfer_to": agents_to_transfer_to,
                 "require_speech_before_tool_call": require_speech_before_tool_call,
+                "forbid_speech_after_tool_call": forbid_speech_after_tool_call,
             },
             headers={
                 "content-type": "application/json",
@@ -619,6 +629,7 @@ class AsyncRawToolsClient:
         dtmf: typing.Optional[str] = OMIT,
         agents_to_transfer_to: typing.Optional[typing.Sequence[str]] = OMIT,
         require_speech_before_tool_call: typing.Optional[bool] = OMIT,
+        forbid_speech_after_tool_call: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[ToolsCreateResponse]:
         """
@@ -674,6 +685,9 @@ class AsyncRawToolsClient:
         require_speech_before_tool_call : typing.Optional[bool]
             When true, forces the agent to speak before executing the tool.
 
+        forbid_speech_after_tool_call : typing.Optional[bool]
+            When true, forbids the agent from speaking after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -706,6 +720,7 @@ class AsyncRawToolsClient:
                 "dtmf": dtmf,
                 "agents_to_transfer_to": agents_to_transfer_to,
                 "require_speech_before_tool_call": require_speech_before_tool_call,
+                "forbid_speech_after_tool_call": forbid_speech_after_tool_call,
             },
             headers={
                 "content-type": "application/json",
@@ -913,6 +928,7 @@ class AsyncRawToolsClient:
         dtmf: typing.Optional[str] = OMIT,
         agents_to_transfer_to: typing.Optional[typing.Sequence[str]] = OMIT,
         require_speech_before_tool_call: typing.Optional[bool] = OMIT,
+        forbid_speech_after_tool_call: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[ToolsUpdateResponse]:
         """
@@ -967,6 +983,9 @@ class AsyncRawToolsClient:
         require_speech_before_tool_call : typing.Optional[bool]
             When true, forces the agent to speak before executing the tool.
 
+        forbid_speech_after_tool_call : typing.Optional[bool]
+            When true, forbids the agent from speaking after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -999,6 +1018,7 @@ class AsyncRawToolsClient:
                 "dtmf": dtmf,
                 "agents_to_transfer_to": agents_to_transfer_to,
                 "require_speech_before_tool_call": require_speech_before_tool_call,
+                "forbid_speech_after_tool_call": forbid_speech_after_tool_call,
             },
             headers={
                 "content-type": "application/json",
