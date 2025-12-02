@@ -16,6 +16,7 @@ if typing.TYPE_CHECKING:
         UpdateAgentRequestAudioFormat,
         UpdateAgentRequestBackgroundNoise,
         UpdateAgentRequestConfigurationEndpoint,
+        UpdateAgentRequestPhoneNumber,
         UpdateAgentRequestTemplateVariablesValue,
         UpdateAgentRequestToolsItem,
     )
@@ -47,6 +48,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "UpdateAgentRequestBackgroundNoise": ".types",
     "UpdateAgentRequestConfigurationEndpoint": ".types",
     "UpdateAgentRequestConfigurationEndpointParams": ".requests",
+    "UpdateAgentRequestPhoneNumber": ".types",
     "UpdateAgentRequestTemplateVariablesValue": ".types",
     "UpdateAgentRequestTemplateVariablesValueParams": ".requests",
     "UpdateAgentRequestToolsItem": ".types",
@@ -92,6 +94,7 @@ __all__ = [
     "UpdateAgentRequestBackgroundNoise",
     "UpdateAgentRequestConfigurationEndpoint",
     "UpdateAgentRequestConfigurationEndpointParams",
+    "UpdateAgentRequestPhoneNumber",
     "UpdateAgentRequestTemplateVariablesValue",
     "UpdateAgentRequestTemplateVariablesValueParams",
     "UpdateAgentRequestToolsItem",

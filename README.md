@@ -43,6 +43,7 @@ client = Phonic(
 client.agents.create(
     project="main",
     name="support-agent",
+    phone_number="assign-automatically",
     timezone="America/Los_Angeles",
     voice_id="grant",
     audio_speed=1.0,
@@ -84,6 +85,7 @@ async def main() -> None:
     await client.agents.create(
         project="main",
         name="support-agent",
+        phone_number="assign-automatically",
         timezone="America/Los_Angeles",
         voice_id="grant",
         audio_speed=1.0,

@@ -8,6 +8,7 @@ from ..core.pydantic_utilities import IS_PYDANTIC_V2
 from ..core.unchecked_base_model import UncheckedBaseModel
 from .conversation_agent import ConversationAgent
 from .conversation_background_noise import ConversationBackgroundNoise
+from .conversation_call_info import ConversationCallInfo
 from .conversation_ended_by import ConversationEndedBy
 from .conversation_item import ConversationItem
 from .conversation_project import ConversationProject
@@ -142,6 +143,11 @@ class Conversation(UncheckedBaseModel):
     items: typing.List[ConversationItem] = pydantic.Field()
     """
     Array of conversation items (turns).
+    """
+
+    call_info: typing.Optional[ConversationCallInfo] = pydantic.Field(default=None)
+    """
+    Phone call metadata. `null` for non-phone call conversations.
     """
 
     if IS_PYDANTIC_V2:

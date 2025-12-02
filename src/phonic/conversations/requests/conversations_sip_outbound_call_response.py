@@ -8,3 +8,8 @@ class ConversationsSipOutboundCallResponseParams(typing_extensions.TypedDict):
     """
     The ID of the created conversation.
     """
+
+    twilio_call_sid: str
+    """
+    The Twilio Call SID.
+    """

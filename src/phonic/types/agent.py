@@ -28,7 +28,12 @@ class Agent(UncheckedBaseModel):
 
     phone_number: typing.Optional[str] = pydantic.Field(default=None)
     """
-    The phone number that the agent uses to accept and initiate phone calls. `null` if the agent is not associated with a phone number, in which can the agent can be used via WebSockets.
+    The phone number that the agent uses to accept calls. `null` if the agent is not associated with a phone number, in which can the agent can be used via WebSockets. This field is deprecated. Use `phone_numbers` instead.
+    """
+
+    phone_numbers: typing.List[str] = pydantic.Field()
+    """
+    Array of phone numbers that the agent uses to accept phone calls.
     """
 
     project: AgentProject = pydantic.Field()

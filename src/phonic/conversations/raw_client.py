@@ -948,8 +948,6 @@ class RawConversationsClient:
         sip_address: str,
         from_phone_number: str,
         to_phone_number: str,
-        token: typing.Optional[str] = None,
-        downstream_websocket_url: typing.Optional[str] = None,
         sip_auth_username: typing.Optional[str] = None,
         sip_auth_password: typing.Optional[str] = None,
         config: typing.Optional[OutboundCallConfigParams] = OMIT,
@@ -968,12 +966,6 @@ class RawConversationsClient:
 
         to_phone_number : str
             Destination phone number in E.164 format.
-
-        token : typing.Optional[str]
-            Optional session token used for STS authorization.
-
-        downstream_websocket_url : typing.Optional[str]
-            Optional downstream STS WebSocket URL to override the default.
 
         sip_auth_username : typing.Optional[str]
             SIP auth username, if your provider requires it.
@@ -995,10 +987,6 @@ class RawConversationsClient:
             "conversations/sip/outbound_call",
             base_url=self._client_wrapper.get_environment().base,
             method="POST",
-            params={
-                "token": token,
-                "downstream_websocket_url": downstream_websocket_url,
-            },
             json={
                 "from_phone_number": from_phone_number,
                 "to_phone_number": to_phone_number,
@@ -2014,8 +2002,6 @@ class AsyncRawConversationsClient:
         sip_address: str,
         from_phone_number: str,
         to_phone_number: str,
-        token: typing.Optional[str] = None,
-        downstream_websocket_url: typing.Optional[str] = None,
         sip_auth_username: typing.Optional[str] = None,
         sip_auth_password: typing.Optional[str] = None,
         config: typing.Optional[OutboundCallConfigParams] = OMIT,
@@ -2034,12 +2020,6 @@ class AsyncRawConversationsClient:
 
         to_phone_number : str
             Destination phone number in E.164 format.
-
-        token : typing.Optional[str]
-            Optional session token used for STS authorization.
-
-        downstream_websocket_url : typing.Optional[str]
-            Optional downstream STS WebSocket URL to override the default.
 
         sip_auth_username : typing.Optional[str]
             SIP auth username, if your provider requires it.
@@ -2061,10 +2041,6 @@ class AsyncRawConversationsClient:
             "conversations/sip/outbound_call",
             base_url=self._client_wrapper.get_environment().base,
             method="POST",
-            params={
-                "token": token,
-                "downstream_websocket_url": downstream_websocket_url,
-            },
             json={
                 "from_phone_number": from_phone_number,
                 "to_phone_number": to_phone_number,
