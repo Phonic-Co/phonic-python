@@ -29,6 +29,7 @@ if typing.TYPE_CHECKING:
     from .conversation_agent import ConversationAgent
     from .conversation_analysis import ConversationAnalysis
     from .conversation_background_noise import ConversationBackgroundNoise
+    from .conversation_call_info import ConversationCallInfo
     from .conversation_created_payload import ConversationCreatedPayload
     from .conversation_ended_by import ConversationEndedBy
     from .conversation_eval import ConversationEval
@@ -49,6 +50,7 @@ if typing.TYPE_CHECKING:
     from .create_agent_request_audio_format import CreateAgentRequestAudioFormat
     from .create_agent_request_background_noise import CreateAgentRequestBackgroundNoise
     from .create_agent_request_configuration_endpoint import CreateAgentRequestConfigurationEndpoint
+    from .create_agent_request_phone_number import CreateAgentRequestPhoneNumber
     from .create_agent_request_template_variables_value import CreateAgentRequestTemplateVariablesValue
     from .create_agent_request_tools_item import CreateAgentRequestToolsItem
     from .dtmf_payload import DtmfPayload
@@ -114,6 +116,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ConversationAgent": ".conversation_agent",
     "ConversationAnalysis": ".conversation_analysis",
     "ConversationBackgroundNoise": ".conversation_background_noise",
+    "ConversationCallInfo": ".conversation_call_info",
     "ConversationCreatedPayload": ".conversation_created_payload",
     "ConversationEndedBy": ".conversation_ended_by",
     "ConversationEval": ".conversation_eval",
@@ -134,6 +137,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "CreateAgentRequestAudioFormat": ".create_agent_request_audio_format",
     "CreateAgentRequestBackgroundNoise": ".create_agent_request_background_noise",
     "CreateAgentRequestConfigurationEndpoint": ".create_agent_request_configuration_endpoint",
+    "CreateAgentRequestPhoneNumber": ".create_agent_request_phone_number",
     "CreateAgentRequestTemplateVariablesValue": ".create_agent_request_template_variables_value",
     "CreateAgentRequestToolsItem": ".create_agent_request_tools_item",
     "DtmfPayload": ".dtmf_payload",
@@ -223,6 +227,7 @@ __all__ = [
     "ConversationAgent",
     "ConversationAnalysis",
     "ConversationBackgroundNoise",
+    "ConversationCallInfo",
     "ConversationCreatedPayload",
     "ConversationEndedBy",
     "ConversationEval",
@@ -243,6 +248,7 @@ __all__ = [
     "CreateAgentRequestAudioFormat",
     "CreateAgentRequestBackgroundNoise",
     "CreateAgentRequestConfigurationEndpoint",
+    "CreateAgentRequestPhoneNumber",
     "CreateAgentRequestTemplateVariablesValue",
     "CreateAgentRequestToolsItem",
     "DtmfPayload",

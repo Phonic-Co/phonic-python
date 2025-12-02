@@ -421,8 +421,6 @@ class ConversationsClient:
         sip_address: str,
         from_phone_number: str,
         to_phone_number: str,
-        token: typing.Optional[str] = None,
-        downstream_websocket_url: typing.Optional[str] = None,
         sip_auth_username: typing.Optional[str] = None,
         sip_auth_password: typing.Optional[str] = None,
         config: typing.Optional[OutboundCallConfigParams] = OMIT,
@@ -441,12 +439,6 @@ class ConversationsClient:
 
         to_phone_number : str
             Destination phone number in E.164 format.
-
-        token : typing.Optional[str]
-            Optional session token used for STS authorization.
-
-        downstream_websocket_url : typing.Optional[str]
-            Optional downstream STS WebSocket URL to override the default.
 
         sip_auth_username : typing.Optional[str]
             SIP auth username, if your provider requires it.
@@ -481,8 +473,6 @@ class ConversationsClient:
             sip_address=sip_address,
             from_phone_number=from_phone_number,
             to_phone_number=to_phone_number,
-            token=token,
-            downstream_websocket_url=downstream_websocket_url,
             sip_auth_username=sip_auth_username,
             sip_auth_password=sip_auth_password,
             config=config,
@@ -1004,8 +994,6 @@ class AsyncConversationsClient:
         sip_address: str,
         from_phone_number: str,
         to_phone_number: str,
-        token: typing.Optional[str] = None,
-        downstream_websocket_url: typing.Optional[str] = None,
         sip_auth_username: typing.Optional[str] = None,
         sip_auth_password: typing.Optional[str] = None,
         config: typing.Optional[OutboundCallConfigParams] = OMIT,
@@ -1024,12 +1012,6 @@ class AsyncConversationsClient:
 
         to_phone_number : str
             Destination phone number in E.164 format.
-
-        token : typing.Optional[str]
-            Optional session token used for STS authorization.
-
-        downstream_websocket_url : typing.Optional[str]
-            Optional downstream STS WebSocket URL to override the default.
 
         sip_auth_username : typing.Optional[str]
             SIP auth username, if your provider requires it.
@@ -1072,8 +1054,6 @@ class AsyncConversationsClient:
             sip_address=sip_address,
             from_phone_number=from_phone_number,
             to_phone_number=to_phone_number,
-            token=token,
-            downstream_websocket_url=downstream_websocket_url,
             sip_auth_username=sip_auth_username,
             sip_auth_password=sip_auth_password,
             config=config,

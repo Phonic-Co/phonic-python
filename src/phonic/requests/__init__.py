@@ -23,6 +23,7 @@ if typing.TYPE_CHECKING:
     from .conversation import ConversationParams
     from .conversation_agent import ConversationAgentParams
     from .conversation_analysis import ConversationAnalysisParams
+    from .conversation_call_info import ConversationCallInfoParams
     from .conversation_created_payload import ConversationCreatedPayloadParams
     from .conversation_eval_prompt import ConversationEvalPromptParams
     from .conversation_evaluation import ConversationEvaluationParams
@@ -87,6 +88,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ConfigPayloadParams": ".config_payload",
     "ConversationAgentParams": ".conversation_agent",
     "ConversationAnalysisParams": ".conversation_analysis",
+    "ConversationCallInfoParams": ".conversation_call_info",
     "ConversationCreatedPayloadParams": ".conversation_created_payload",
     "ConversationEvalPromptParams": ".conversation_eval_prompt",
     "ConversationEvaluationParams": ".conversation_evaluation",
@@ -176,6 +178,7 @@ __all__ = [
     "ConfigPayloadParams",
     "ConversationAgentParams",
     "ConversationAnalysisParams",
+    "ConversationCallInfoParams",
     "ConversationCreatedPayloadParams",
     "ConversationEvalPromptParams",
     "ConversationEvaluationParams",

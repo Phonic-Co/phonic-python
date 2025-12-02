@@ -103,6 +103,7 @@ client = Phonic(
 client.agents.create(
     project="main",
     name="support-agent",
+    phone_number="assign-automatically",
     timezone="America/Los_Angeles",
     voice_id="grant",
     audio_speed=1.0,
@@ -155,7 +156,23 @@ client.agents.create(
 <dl>
 <dd>
 
-**phone_number:** `typing.Optional[typing.Literal["assign-automatically"]]` 
+**phone_number:** `typing.Optional[CreateAgentRequestPhoneNumber]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**custom_phone_number:** `typing.Optional[str]` — The custom phone number to use for the agent in E.164 format (e.g., +1234567890). This field is deprecated. Use `custom_phone_numbers` instead.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**custom_phone_numbers:** `typing.Optional[typing.Sequence[str]]` — Array of custom phone numbers in E.164 format (e.g., ["+1234567890", "+0987654321"]). The agent will be able to receive phone calls on any of these numbers. Required when `phone_number` is set to `"custom"`. All phone numbers must be unique.
     
 </dd>
 </dl>
@@ -401,7 +418,23 @@ client.agents.upsert(
 <dl>
 <dd>
 
-**phone_number:** `typing.Optional[typing.Literal["assign-automatically"]]` 
+**phone_number:** `typing.Optional[CreateAgentRequestPhoneNumber]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**custom_phone_number:** `typing.Optional[str]` — The custom phone number to use for the agent in E.164 format (e.g., +1234567890). This field is deprecated. Use `custom_phone_numbers` instead.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**custom_phone_numbers:** `typing.Optional[typing.Sequence[str]]` — Array of custom phone numbers in E.164 format (e.g., ["+1234567890", "+0987654321"]). The agent will be able to receive phone calls on any of these numbers. Required when `phone_number` is set to `"custom"`. All phone numbers must be unique.
     
 </dd>
 </dl>
@@ -814,7 +847,23 @@ client.agents.update(
 <dl>
 <dd>
 
-**phone_number:** `typing.Optional[typing.Literal["assign-automatically"]]` 
+**phone_number:** `typing.Optional[UpdateAgentRequestPhoneNumber]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**custom_phone_number:** `typing.Optional[str]` — The custom phone number to use for the agent in E.164 format (e.g., +1234567890). This field is deprecated. Use `custom_phone_numbers` instead.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**custom_phone_numbers:** `typing.Optional[typing.Sequence[str]]` — Array of custom phone numbers in E.164 format (e.g., ["+1234567890", "+0987654321"]). The agent will be able to receive phone calls on any of these numbers. Required when `phone_number` is set to `"custom"`. All phone numbers must be unique.
     
 </dd>
 </dl>
@@ -3000,22 +3049,6 @@ client.conversations.sip_outbound_call(
 <dd>
 
 **to_phone_number:** `str` — Destination phone number in E.164 format.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**token:** `typing.Optional[str]` — Optional session token used for STS authorization.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**downstream_websocket_url:** `typing.Optional[str]` — Optional downstream STS WebSocket URL to override the default.
     
 </dd>
 </dl>

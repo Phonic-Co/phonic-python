@@ -10,6 +10,7 @@ from ..requests.create_agent_request_tools_item import CreateAgentRequestToolsIt
 from ..requests.task import TaskParams
 from ..types.create_agent_request_audio_format import CreateAgentRequestAudioFormat
 from ..types.create_agent_request_background_noise import CreateAgentRequestBackgroundNoise
+from ..types.create_agent_request_phone_number import CreateAgentRequestPhoneNumber
 from ..types.language_code import LanguageCode
 from .raw_client import AsyncRawAgentsClient, RawAgentsClient
 from .requests.update_agent_request_configuration_endpoint import UpdateAgentRequestConfigurationEndpointParams
@@ -23,6 +24,7 @@ from .types.agents_update_response import AgentsUpdateResponse
 from .types.agents_upsert_response import AgentsUpsertResponse
 from .types.update_agent_request_audio_format import UpdateAgentRequestAudioFormat
 from .types.update_agent_request_background_noise import UpdateAgentRequestBackgroundNoise
+from .types.update_agent_request_phone_number import UpdateAgentRequestPhoneNumber
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -79,7 +81,9 @@ class AgentsClient:
         *,
         name: str,
         project: typing.Optional[str] = None,
-        phone_number: typing.Optional[typing.Literal["assign-automatically"]] = OMIT,
+        phone_number: typing.Optional[CreateAgentRequestPhoneNumber] = OMIT,
+        custom_phone_number: typing.Optional[str] = OMIT,
+        custom_phone_numbers: typing.Optional[typing.Sequence[str]] = OMIT,
         timezone: typing.Optional[str] = OMIT,
         voice_id: typing.Optional[str] = OMIT,
         audio_format: typing.Optional[CreateAgentRequestAudioFormat] = OMIT,
@@ -110,7 +114,13 @@ class AgentsClient:
         project : typing.Optional[str]
             The name of the project to create the agent in.
 
-        phone_number : typing.Optional[typing.Literal["assign-automatically"]]
+        phone_number : typing.Optional[CreateAgentRequestPhoneNumber]
+
+        custom_phone_number : typing.Optional[str]
+            The custom phone number to use for the agent in E.164 format (e.g., +1234567890). This field is deprecated. Use `custom_phone_numbers` instead.
+
+        custom_phone_numbers : typing.Optional[typing.Sequence[str]]
+            Array of custom phone numbers in E.164 format (e.g., ["+1234567890", "+0987654321"]). The agent will be able to receive phone calls on any of these numbers. Required when `phone_number` is set to `"custom"`. All phone numbers must be unique.
 
         timezone : typing.Optional[str]
             The timezone of the agent. Used to format system variables like `{{system_time}}`.
@@ -181,6 +191,7 @@ class AgentsClient:
         client.agents.create(
             project="main",
             name="support-agent",
+            phone_number="assign-automatically",
             timezone="America/Los_Angeles",
             voice_id="grant",
             audio_speed=1.0,
@@ -207,6 +218,8 @@ class AgentsClient:
             name=name,
             project=project,
             phone_number=phone_number,
+            custom_phone_number=custom_phone_number,
+            custom_phone_numbers=custom_phone_numbers,
             timezone=timezone,
             voice_id=voice_id,
             audio_format=audio_format,
@@ -233,7 +246,9 @@ class AgentsClient:
         *,
         name: str,
         project: typing.Optional[str] = None,
-        phone_number: typing.Optional[typing.Literal["assign-automatically"]] = OMIT,
+        phone_number: typing.Optional[CreateAgentRequestPhoneNumber] = OMIT,
+        custom_phone_number: typing.Optional[str] = OMIT,
+        custom_phone_numbers: typing.Optional[typing.Sequence[str]] = OMIT,
         timezone: typing.Optional[str] = OMIT,
         voice_id: typing.Optional[str] = OMIT,
         audio_format: typing.Optional[CreateAgentRequestAudioFormat] = OMIT,
@@ -264,7 +279,13 @@ class AgentsClient:
         project : typing.Optional[str]
             The name of the project containing the agent.
 
-        phone_number : typing.Optional[typing.Literal["assign-automatically"]]
+        phone_number : typing.Optional[CreateAgentRequestPhoneNumber]
+
+        custom_phone_number : typing.Optional[str]
+            The custom phone number to use for the agent in E.164 format (e.g., +1234567890). This field is deprecated. Use `custom_phone_numbers` instead.
+
+        custom_phone_numbers : typing.Optional[typing.Sequence[str]]
+            Array of custom phone numbers in E.164 format (e.g., ["+1234567890", "+0987654321"]). The agent will be able to receive phone calls on any of these numbers. Required when `phone_number` is set to `"custom"`. All phone numbers must be unique.
 
         timezone : typing.Optional[str]
             The timezone of the agent. Used to format system variables like `{{system_time}}`.
@@ -362,6 +383,8 @@ class AgentsClient:
             name=name,
             project=project,
             phone_number=phone_number,
+            custom_phone_number=custom_phone_number,
+            custom_phone_numbers=custom_phone_numbers,
             timezone=timezone,
             voice_id=voice_id,
             audio_format=audio_format,
@@ -471,7 +494,9 @@ class AgentsClient:
         *,
         project: typing.Optional[str] = None,
         name: typing.Optional[str] = OMIT,
-        phone_number: typing.Optional[typing.Literal["assign-automatically"]] = OMIT,
+        phone_number: typing.Optional[UpdateAgentRequestPhoneNumber] = OMIT,
+        custom_phone_number: typing.Optional[str] = OMIT,
+        custom_phone_numbers: typing.Optional[typing.Sequence[str]] = OMIT,
         timezone: typing.Optional[str] = OMIT,
         voice_id: typing.Optional[str] = OMIT,
         audio_format: typing.Optional[UpdateAgentRequestAudioFormat] = OMIT,
@@ -505,7 +530,13 @@ class AgentsClient:
         name : typing.Optional[str]
             The name of the agent. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
 
-        phone_number : typing.Optional[typing.Literal["assign-automatically"]]
+        phone_number : typing.Optional[UpdateAgentRequestPhoneNumber]
+
+        custom_phone_number : typing.Optional[str]
+            The custom phone number to use for the agent in E.164 format (e.g., +1234567890). This field is deprecated. Use `custom_phone_numbers` instead.
+
+        custom_phone_numbers : typing.Optional[typing.Sequence[str]]
+            Array of custom phone numbers in E.164 format (e.g., ["+1234567890", "+0987654321"]). The agent will be able to receive phone calls on any of these numbers. Required when `phone_number` is set to `"custom"`. All phone numbers must be unique.
 
         timezone : typing.Optional[str]
             The timezone of the agent. Used to format system variables like `{{system_time}}`.
@@ -605,6 +636,8 @@ class AgentsClient:
             project=project,
             name=name,
             phone_number=phone_number,
+            custom_phone_number=custom_phone_number,
+            custom_phone_numbers=custom_phone_numbers,
             timezone=timezone,
             voice_id=voice_id,
             audio_format=audio_format,
@@ -686,7 +719,9 @@ class AsyncAgentsClient:
         *,
         name: str,
         project: typing.Optional[str] = None,
-        phone_number: typing.Optional[typing.Literal["assign-automatically"]] = OMIT,
+        phone_number: typing.Optional[CreateAgentRequestPhoneNumber] = OMIT,
+        custom_phone_number: typing.Optional[str] = OMIT,
+        custom_phone_numbers: typing.Optional[typing.Sequence[str]] = OMIT,
         timezone: typing.Optional[str] = OMIT,
         voice_id: typing.Optional[str] = OMIT,
         audio_format: typing.Optional[CreateAgentRequestAudioFormat] = OMIT,
@@ -717,7 +752,13 @@ class AsyncAgentsClient:
         project : typing.Optional[str]
             The name of the project to create the agent in.
 
-        phone_number : typing.Optional[typing.Literal["assign-automatically"]]
+        phone_number : typing.Optional[CreateAgentRequestPhoneNumber]
+
+        custom_phone_number : typing.Optional[str]
+            The custom phone number to use for the agent in E.164 format (e.g., +1234567890). This field is deprecated. Use `custom_phone_numbers` instead.
+
+        custom_phone_numbers : typing.Optional[typing.Sequence[str]]
+            Array of custom phone numbers in E.164 format (e.g., ["+1234567890", "+0987654321"]). The agent will be able to receive phone calls on any of these numbers. Required when `phone_number` is set to `"custom"`. All phone numbers must be unique.
 
         timezone : typing.Optional[str]
             The timezone of the agent. Used to format system variables like `{{system_time}}`.
@@ -793,6 +834,7 @@ class AsyncAgentsClient:
             await client.agents.create(
                 project="main",
                 name="support-agent",
+                phone_number="assign-automatically",
                 timezone="America/Los_Angeles",
                 voice_id="grant",
                 audio_speed=1.0,
@@ -822,6 +864,8 @@ class AsyncAgentsClient:
             name=name,
             project=project,
             phone_number=phone_number,
+            custom_phone_number=custom_phone_number,
+            custom_phone_numbers=custom_phone_numbers,
             timezone=timezone,
             voice_id=voice_id,
             audio_format=audio_format,
@@ -848,7 +892,9 @@ class AsyncAgentsClient:
         *,
         name: str,
         project: typing.Optional[str] = None,
-        phone_number: typing.Optional[typing.Literal["assign-automatically"]] = OMIT,
+        phone_number: typing.Optional[CreateAgentRequestPhoneNumber] = OMIT,
+        custom_phone_number: typing.Optional[str] = OMIT,
+        custom_phone_numbers: typing.Optional[typing.Sequence[str]] = OMIT,
         timezone: typing.Optional[str] = OMIT,
         voice_id: typing.Optional[str] = OMIT,
         audio_format: typing.Optional[CreateAgentRequestAudioFormat] = OMIT,
@@ -879,7 +925,13 @@ class AsyncAgentsClient:
         project : typing.Optional[str]
             The name of the project containing the agent.
 
-        phone_number : typing.Optional[typing.Literal["assign-automatically"]]
+        phone_number : typing.Optional[CreateAgentRequestPhoneNumber]
+
+        custom_phone_number : typing.Optional[str]
+            The custom phone number to use for the agent in E.164 format (e.g., +1234567890). This field is deprecated. Use `custom_phone_numbers` instead.
+
+        custom_phone_numbers : typing.Optional[typing.Sequence[str]]
+            Array of custom phone numbers in E.164 format (e.g., ["+1234567890", "+0987654321"]). The agent will be able to receive phone calls on any of these numbers. Required when `phone_number` is set to `"custom"`. All phone numbers must be unique.
 
         timezone : typing.Optional[str]
             The timezone of the agent. Used to format system variables like `{{system_time}}`.
@@ -985,6 +1037,8 @@ class AsyncAgentsClient:
             name=name,
             project=project,
             phone_number=phone_number,
+            custom_phone_number=custom_phone_number,
+            custom_phone_numbers=custom_phone_numbers,
             timezone=timezone,
             voice_id=voice_id,
             audio_format=audio_format,
@@ -1110,7 +1164,9 @@ class AsyncAgentsClient:
         *,
         project: typing.Optional[str] = None,
         name: typing.Optional[str] = OMIT,
-        phone_number: typing.Optional[typing.Literal["assign-automatically"]] = OMIT,
+        phone_number: typing.Optional[UpdateAgentRequestPhoneNumber] = OMIT,
+        custom_phone_number: typing.Optional[str] = OMIT,
+        custom_phone_numbers: typing.Optional[typing.Sequence[str]] = OMIT,
         timezone: typing.Optional[str] = OMIT,
         voice_id: typing.Optional[str] = OMIT,
         audio_format: typing.Optional[UpdateAgentRequestAudioFormat] = OMIT,
@@ -1144,7 +1200,13 @@ class AsyncAgentsClient:
         name : typing.Optional[str]
             The name of the agent. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
 
-        phone_number : typing.Optional[typing.Literal["assign-automatically"]]
+        phone_number : typing.Optional[UpdateAgentRequestPhoneNumber]
+
+        custom_phone_number : typing.Optional[str]
+            The custom phone number to use for the agent in E.164 format (e.g., +1234567890). This field is deprecated. Use `custom_phone_numbers` instead.
+
+        custom_phone_numbers : typing.Optional[typing.Sequence[str]]
+            Array of custom phone numbers in E.164 format (e.g., ["+1234567890", "+0987654321"]). The agent will be able to receive phone calls on any of these numbers. Required when `phone_number` is set to `"custom"`. All phone numbers must be unique.
 
         timezone : typing.Optional[str]
             The timezone of the agent. Used to format system variables like `{{system_time}}`.
@@ -1252,6 +1314,8 @@ class AsyncAgentsClient:
             project=project,
             name=name,
             phone_number=phone_number,
+            custom_phone_number=custom_phone_number,
+            custom_phone_numbers=custom_phone_numbers,
             timezone=timezone,
             voice_id=voice_id,
             audio_format=audio_format,

@@ -8,6 +8,7 @@ from ..core.unchecked_base_model import UncheckedBaseModel
 from .create_agent_request_audio_format import CreateAgentRequestAudioFormat
 from .create_agent_request_background_noise import CreateAgentRequestBackgroundNoise
 from .create_agent_request_configuration_endpoint import CreateAgentRequestConfigurationEndpoint
+from .create_agent_request_phone_number import CreateAgentRequestPhoneNumber
 from .create_agent_request_template_variables_value import CreateAgentRequestTemplateVariablesValue
 from .create_agent_request_tools_item import CreateAgentRequestToolsItem
 from .language_code import LanguageCode
@@ -20,7 +21,17 @@ class CreateAgentRequest(UncheckedBaseModel):
     The name of the agent. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
     """
 
-    phone_number: typing.Optional[typing.Literal["assign-automatically"]] = None
+    phone_number: typing.Optional[CreateAgentRequestPhoneNumber] = None
+    custom_phone_number: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    The custom phone number to use for the agent in E.164 format (e.g., +1234567890). This field is deprecated. Use `custom_phone_numbers` instead.
+    """
+
+    custom_phone_numbers: typing.Optional[typing.List[str]] = pydantic.Field(default=None)
+    """
+    Array of custom phone numbers in E.164 format (e.g., ["+1234567890", "+0987654321"]). The agent will be able to receive phone calls on any of these numbers. Required when `phone_number` is set to `"custom"`. All phone numbers must be unique.
+    """
+
     timezone: typing.Optional[str] = pydantic.Field(default=None)
     """
     The timezone of the agent. Used to format system variables like `{{system_time}}`.

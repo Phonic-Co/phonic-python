@@ -5,6 +5,7 @@ import typing
 import typing_extensions
 from ..types.create_agent_request_audio_format import CreateAgentRequestAudioFormat
 from ..types.create_agent_request_background_noise import CreateAgentRequestBackgroundNoise
+from ..types.create_agent_request_phone_number import CreateAgentRequestPhoneNumber
 from ..types.language_code import LanguageCode
 from .create_agent_request_configuration_endpoint import CreateAgentRequestConfigurationEndpointParams
 from .create_agent_request_template_variables_value import CreateAgentRequestTemplateVariablesValueParams
@@ -18,7 +19,17 @@ class CreateAgentRequestParams(typing_extensions.TypedDict):
     The name of the agent. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
     """
 
-    phone_number: typing.Optional[typing.Literal["assign-automatically"]]
+    phone_number: typing.Optional[CreateAgentRequestPhoneNumber]
+    custom_phone_number: typing_extensions.NotRequired[typing.Optional[str]]
+    """
+    The custom phone number to use for the agent in E.164 format (e.g., +1234567890). This field is deprecated. Use `custom_phone_numbers` instead.
+    """
+
+    custom_phone_numbers: typing_extensions.NotRequired[typing.Sequence[str]]
+    """
+    Array of custom phone numbers in E.164 format (e.g., ["+1234567890", "+0987654321"]). The agent will be able to receive phone calls on any of these numbers. Required when `phone_number` is set to `"custom"`. All phone numbers must be unique.
+    """
+
     timezone: typing_extensions.NotRequired[str]
     """
     The timezone of the agent. Used to format system variables like `{{system_time}}`.
