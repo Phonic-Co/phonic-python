@@ -3092,6 +3092,77 @@ client.conversations.sip_outbound_call(
 </dl>
 </details>
 
+## Auth
+<details><summary><code>client.auth.<a href="src/phonic/auth/client.py">create_session_token</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Creates a short-lived session token that can be used to authenticate WebSocket connections. Session tokens are useful for client-side applications where you don't want to expose your API key.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from phonic import Phonic
+
+client = Phonic(
+    api_key="YOUR_API_KEY",
+)
+client.auth.create_session_token(
+    ttl_seconds=300,
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**ttl_seconds:** `typing.Optional[int]` — Time-to-live for the session token in seconds.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 ## Projects
 <details><summary><code>client.projects.<a href="src/phonic/projects/client.py">list</a>()</code></summary>
 <dl>
