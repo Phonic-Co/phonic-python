@@ -103,7 +103,7 @@ if typing.TYPE_CHECKING:
         NotFoundError,
         UnauthorizedError,
     )
-    from . import agents, conversations, extraction_schemas, projects, tools, voices
+    from . import agents, auth, conversations, extraction_schemas, projects, tools, voices
     from .agents import (
         AgentsCreateResponse,
         AgentsCreateResponseParams,
@@ -127,6 +127,7 @@ if typing.TYPE_CHECKING:
         UpdateAgentRequestToolsItem,
         UpdateAgentRequestToolsItemParams,
     )
+    from .auth import AuthCreateSessionTokenResponse, AuthCreateSessionTokenResponseParams
     from .client import AsyncPhonic, Phonic
     from .conversations import (
         ConversationsCancelResponse,
@@ -306,6 +307,8 @@ _dynamic_imports: typing.Dict[str, str] = {
     "AudioChunkPayloadParams": ".requests",
     "AudioChunkResponsePayload": ".types",
     "AudioChunkResponsePayloadParams": ".requests",
+    "AuthCreateSessionTokenResponse": ".auth",
+    "AuthCreateSessionTokenResponseParams": ".auth",
     "BadRequestError": ".errors",
     "BadRequestErrorBody": ".types",
     "BadRequestErrorBodyParams": ".requests",
@@ -523,6 +526,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "VoicesListResponseParams": ".voices",
     "__version__": ".version",
     "agents": ".agents",
+    "auth": ".auth",
     "conversations": ".conversations",
     "extraction_schemas": ".extraction_schemas",
     "projects": ".projects",
@@ -588,6 +592,8 @@ __all__ = [
     "AudioChunkPayloadParams",
     "AudioChunkResponsePayload",
     "AudioChunkResponsePayloadParams",
+    "AuthCreateSessionTokenResponse",
+    "AuthCreateSessionTokenResponseParams",
     "BadRequestError",
     "BadRequestErrorBody",
     "BadRequestErrorBodyParams",
@@ -805,6 +811,7 @@ __all__ = [
     "VoicesListResponseParams",
     "__version__",
     "agents",
+    "auth",
     "conversations",
     "extraction_schemas",
     "projects",
