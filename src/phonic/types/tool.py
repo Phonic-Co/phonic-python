@@ -89,6 +89,11 @@ class Tool(UncheckedBaseModel):
     When true, forces the agent to speak before executing the tool.
     """
 
+    wait_for_speech_before_tool_call: typing.Optional[bool] = pydantic.Field(default=None)
+    """
+    If true, the agent will wait to finish speaking before executing the tool. This is only available for custom_webhook and custom_websocket tools.
+    """
+
     forbid_speech_after_tool_call: typing.Optional[bool] = pydantic.Field(default=None)
     """
     When true, forbids the agent from speaking after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools.
