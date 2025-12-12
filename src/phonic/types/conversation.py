@@ -7,6 +7,7 @@ import pydantic
 from ..core.pydantic_utilities import IS_PYDANTIC_V2
 from ..core.unchecked_base_model import UncheckedBaseModel
 from .conversation_agent import ConversationAgent
+from .conversation_analysis import ConversationAnalysis
 from .conversation_background_noise import ConversationBackgroundNoise
 from .conversation_call_info import ConversationCallInfo
 from .conversation_ended_by import ConversationEndedBy
@@ -148,6 +149,11 @@ class Conversation(UncheckedBaseModel):
     call_info: typing.Optional[ConversationCallInfo] = pydantic.Field(default=None)
     """
     Phone call metadata. `null` for non-phone call conversations.
+    """
+
+    analysis: ConversationAnalysis = pydantic.Field()
+    """
+    Analysis of the conversation including latencies and interruptions.
     """
 
     if IS_PYDANTIC_V2:

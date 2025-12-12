@@ -7,6 +7,7 @@ import typing_extensions
 from ..types.conversation_background_noise import ConversationBackgroundNoise
 from ..types.conversation_ended_by import ConversationEndedBy
 from .conversation_agent import ConversationAgentParams
+from .conversation_analysis import ConversationAnalysisParams
 from .conversation_call_info import ConversationCallInfoParams
 from .conversation_item import ConversationItemParams
 from .conversation_project import ConversationProjectParams
@@ -146,4 +147,9 @@ class ConversationParams(typing_extensions.TypedDict):
     call_info: typing.Optional[ConversationCallInfoParams]
     """
     Phone call metadata. `null` for non-phone call conversations.
+    """
+
+    analysis: ConversationAnalysisParams
+    """
+    Analysis of the conversation including latencies and interruptions.
     """
