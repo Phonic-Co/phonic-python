@@ -105,8 +105,10 @@ class RawToolsClient:
         tool_call_output_timeout_ms: typing.Optional[int] = OMIT,
         phone_number: typing.Optional[str] = OMIT,
         dtmf: typing.Optional[str] = OMIT,
+        detect_voicemail: typing.Optional[bool] = OMIT,
         agents_to_transfer_to: typing.Optional[typing.Sequence[str]] = OMIT,
         require_speech_before_tool_call: typing.Optional[bool] = OMIT,
+        wait_for_speech_before_tool_call: typing.Optional[bool] = OMIT,
         forbid_speech_after_tool_call: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[ToolsCreateResponse]:
@@ -157,11 +159,17 @@ class RawToolsClient:
         dtmf : typing.Optional[str]
             DTMF digits to send after the transfer connects (e.g., "1234"). Defaults to null.
 
+        detect_voicemail : typing.Optional[bool]
+            When true, Phonic will listen in and tell the user if the transfer hits voicemail. This is only available for built_in_transfer_to_phone_number tools.
+
         agents_to_transfer_to : typing.Optional[typing.Sequence[str]]
             Array of agent names that the LLM can choose from when transferring. Required for built_in_transfer_to_agent tools. All agents must exist in the same project as the tool.
 
         require_speech_before_tool_call : typing.Optional[bool]
             When true, forces the agent to speak before executing the tool.
+
+        wait_for_speech_before_tool_call : typing.Optional[bool]
+            If true, the agent will wait to finish speaking before executing the tool. This is only available for custom_webhook and custom_websocket tools.
 
         forbid_speech_after_tool_call : typing.Optional[bool]
             When true, forbids the agent from speaking after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools.
@@ -196,8 +204,10 @@ class RawToolsClient:
                 "tool_call_output_timeout_ms": tool_call_output_timeout_ms,
                 "phone_number": phone_number,
                 "dtmf": dtmf,
+                "detect_voicemail": detect_voicemail,
                 "agents_to_transfer_to": agents_to_transfer_to,
                 "require_speech_before_tool_call": require_speech_before_tool_call,
+                "wait_for_speech_before_tool_call": wait_for_speech_before_tool_call,
                 "forbid_speech_after_tool_call": forbid_speech_after_tool_call,
             },
             headers={
@@ -404,8 +414,10 @@ class RawToolsClient:
         tool_call_output_timeout_ms: typing.Optional[int] = OMIT,
         phone_number: typing.Optional[str] = OMIT,
         dtmf: typing.Optional[str] = OMIT,
+        detect_voicemail: typing.Optional[bool] = OMIT,
         agents_to_transfer_to: typing.Optional[typing.Sequence[str]] = OMIT,
         require_speech_before_tool_call: typing.Optional[bool] = OMIT,
+        wait_for_speech_before_tool_call: typing.Optional[bool] = OMIT,
         forbid_speech_after_tool_call: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[ToolsUpdateResponse]:
@@ -455,11 +467,17 @@ class RawToolsClient:
         dtmf : typing.Optional[str]
             DTMF digits to send after the transfer connects (e.g., "1234"). Can be set to null to remove DTMF.
 
+        detect_voicemail : typing.Optional[bool]
+            When true, Phonic will listen in and tell the user if the transfer hits voicemail. This is only available for built_in_transfer_to_phone_number tools.
+
         agents_to_transfer_to : typing.Optional[typing.Sequence[str]]
             Array of agent names that the LLM can choose from when transferring. All agents must exist in the same project as the tool.
 
         require_speech_before_tool_call : typing.Optional[bool]
             When true, forces the agent to speak before executing the tool.
+
+        wait_for_speech_before_tool_call : typing.Optional[bool]
+            If true, the agent will wait to finish speaking before executing the tool. This is only available for custom_webhook and custom_websocket tools.
 
         forbid_speech_after_tool_call : typing.Optional[bool]
             When true, forbids the agent from speaking after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools.
@@ -494,8 +512,10 @@ class RawToolsClient:
                 "tool_call_output_timeout_ms": tool_call_output_timeout_ms,
                 "phone_number": phone_number,
                 "dtmf": dtmf,
+                "detect_voicemail": detect_voicemail,
                 "agents_to_transfer_to": agents_to_transfer_to,
                 "require_speech_before_tool_call": require_speech_before_tool_call,
+                "wait_for_speech_before_tool_call": wait_for_speech_before_tool_call,
                 "forbid_speech_after_tool_call": forbid_speech_after_tool_call,
             },
             headers={
@@ -627,8 +647,10 @@ class AsyncRawToolsClient:
         tool_call_output_timeout_ms: typing.Optional[int] = OMIT,
         phone_number: typing.Optional[str] = OMIT,
         dtmf: typing.Optional[str] = OMIT,
+        detect_voicemail: typing.Optional[bool] = OMIT,
         agents_to_transfer_to: typing.Optional[typing.Sequence[str]] = OMIT,
         require_speech_before_tool_call: typing.Optional[bool] = OMIT,
+        wait_for_speech_before_tool_call: typing.Optional[bool] = OMIT,
         forbid_speech_after_tool_call: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[ToolsCreateResponse]:
@@ -679,11 +701,17 @@ class AsyncRawToolsClient:
         dtmf : typing.Optional[str]
             DTMF digits to send after the transfer connects (e.g., "1234"). Defaults to null.
 
+        detect_voicemail : typing.Optional[bool]
+            When true, Phonic will listen in and tell the user if the transfer hits voicemail. This is only available for built_in_transfer_to_phone_number tools.
+
         agents_to_transfer_to : typing.Optional[typing.Sequence[str]]
             Array of agent names that the LLM can choose from when transferring. Required for built_in_transfer_to_agent tools. All agents must exist in the same project as the tool.
 
         require_speech_before_tool_call : typing.Optional[bool]
             When true, forces the agent to speak before executing the tool.
+
+        wait_for_speech_before_tool_call : typing.Optional[bool]
+            If true, the agent will wait to finish speaking before executing the tool. This is only available for custom_webhook and custom_websocket tools.
 
         forbid_speech_after_tool_call : typing.Optional[bool]
             When true, forbids the agent from speaking after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools.
@@ -718,8 +746,10 @@ class AsyncRawToolsClient:
                 "tool_call_output_timeout_ms": tool_call_output_timeout_ms,
                 "phone_number": phone_number,
                 "dtmf": dtmf,
+                "detect_voicemail": detect_voicemail,
                 "agents_to_transfer_to": agents_to_transfer_to,
                 "require_speech_before_tool_call": require_speech_before_tool_call,
+                "wait_for_speech_before_tool_call": wait_for_speech_before_tool_call,
                 "forbid_speech_after_tool_call": forbid_speech_after_tool_call,
             },
             headers={
@@ -926,8 +956,10 @@ class AsyncRawToolsClient:
         tool_call_output_timeout_ms: typing.Optional[int] = OMIT,
         phone_number: typing.Optional[str] = OMIT,
         dtmf: typing.Optional[str] = OMIT,
+        detect_voicemail: typing.Optional[bool] = OMIT,
         agents_to_transfer_to: typing.Optional[typing.Sequence[str]] = OMIT,
         require_speech_before_tool_call: typing.Optional[bool] = OMIT,
+        wait_for_speech_before_tool_call: typing.Optional[bool] = OMIT,
         forbid_speech_after_tool_call: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[ToolsUpdateResponse]:
@@ -977,11 +1009,17 @@ class AsyncRawToolsClient:
         dtmf : typing.Optional[str]
             DTMF digits to send after the transfer connects (e.g., "1234"). Can be set to null to remove DTMF.
 
+        detect_voicemail : typing.Optional[bool]
+            When true, Phonic will listen in and tell the user if the transfer hits voicemail. This is only available for built_in_transfer_to_phone_number tools.
+
         agents_to_transfer_to : typing.Optional[typing.Sequence[str]]
             Array of agent names that the LLM can choose from when transferring. All agents must exist in the same project as the tool.
 
         require_speech_before_tool_call : typing.Optional[bool]
             When true, forces the agent to speak before executing the tool.
+
+        wait_for_speech_before_tool_call : typing.Optional[bool]
+            If true, the agent will wait to finish speaking before executing the tool. This is only available for custom_webhook and custom_websocket tools.
 
         forbid_speech_after_tool_call : typing.Optional[bool]
             When true, forbids the agent from speaking after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools.
@@ -1016,8 +1054,10 @@ class AsyncRawToolsClient:
                 "tool_call_output_timeout_ms": tool_call_output_timeout_ms,
                 "phone_number": phone_number,
                 "dtmf": dtmf,
+                "detect_voicemail": detect_voicemail,
                 "agents_to_transfer_to": agents_to_transfer_to,
                 "require_speech_before_tool_call": require_speech_before_tool_call,
+                "wait_for_speech_before_tool_call": wait_for_speech_before_tool_call,
                 "forbid_speech_after_tool_call": forbid_speech_after_tool_call,
             },
             headers={

@@ -1257,6 +1257,14 @@ For `custom_websocket`, `built_in_transfer_to_phone_number`, and `built_in_trans
 <dl>
 <dd>
 
+**detect_voicemail:** `typing.Optional[bool]` — When true, Phonic will listen in and tell the user if the transfer hits voicemail. This is only available for built_in_transfer_to_phone_number tools.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **agents_to_transfer_to:** `typing.Optional[typing.Sequence[str]]` — Array of agent names that the LLM can choose from when transferring. Required for built_in_transfer_to_agent tools. All agents must exist in the same project as the tool.
     
 </dd>
@@ -1266,6 +1274,14 @@ For `custom_websocket`, `built_in_transfer_to_phone_number`, and `built_in_trans
 <dd>
 
 **require_speech_before_tool_call:** `typing.Optional[bool]` — When true, forces the agent to speak before executing the tool.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**wait_for_speech_before_tool_call:** `typing.Optional[bool]` — If true, the agent will wait to finish speaking before executing the tool. This is only available for custom_webhook and custom_websocket tools.
     
 </dd>
 </dl>
@@ -1622,6 +1638,14 @@ For `custom_websocket`, `built_in_transfer_to_phone_number`, and `built_in_trans
 <dl>
 <dd>
 
+**detect_voicemail:** `typing.Optional[bool]` — When true, Phonic will listen in and tell the user if the transfer hits voicemail. This is only available for built_in_transfer_to_phone_number tools.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **agents_to_transfer_to:** `typing.Optional[typing.Sequence[str]]` — Array of agent names that the LLM can choose from when transferring. All agents must exist in the same project as the tool.
     
 </dd>
@@ -1631,6 +1655,14 @@ For `custom_websocket`, `built_in_transfer_to_phone_number`, and `built_in_trans
 <dd>
 
 **require_speech_before_tool_call:** `typing.Optional[bool]` — When true, forces the agent to speak before executing the tool.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**wait_for_speech_before_tool_call:** `typing.Optional[bool]` — If true, the agent will wait to finish speaking before executing the tool. This is only available for custom_webhook and custom_websocket tools.
     
 </dd>
 </dl>
