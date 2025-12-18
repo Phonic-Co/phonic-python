@@ -71,9 +71,14 @@ class Agent(UncheckedBaseModel):
     The background noise type. Can be "office", "call-center", "coffee-shop", or null.
     """
 
+    generate_welcome_message: bool = pydantic.Field()
+    """
+    When `true`, the welcome message will be automatically generated and the `welcome_message` field will be ignored.
+    """
+
     welcome_message: typing.Optional[str] = pydantic.Field(default=None)
     """
-    Message to play when the conversation starts.
+    Message to play when the conversation starts. Ignored when `generate_welcome_message` is `true`.
     """
 
     system_prompt: str = pydantic.Field()
