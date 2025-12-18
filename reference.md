@@ -108,6 +108,7 @@ client.agents.create(
     voice_id="grant",
     audio_speed=1.0,
     background_noise_level=0.0,
+    generate_welcome_message=False,
     welcome_message="Hi {{customer_name}}. How can I help you today?",
     system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
     template_variables={
@@ -228,7 +229,15 @@ client.agents.create(
 <dl>
 <dd>
 
-**welcome_message:** `typing.Optional[str]` — Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`.
+**generate_welcome_message:** `typing.Optional[bool]` — When `true`, the welcome message will be automatically generated and the `welcome_message` field will be ignored.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**welcome_message:** `typing.Optional[str]` — Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. Ignored when `generate_welcome_message` is `true`.
     
 </dd>
 </dl>
@@ -370,6 +379,7 @@ client.agents.upsert(
     voice_id="grant",
     audio_speed=1.0,
     background_noise_level=0.0,
+    generate_welcome_message=False,
     welcome_message="Hi {{customer_name}}. How can I help you today?",
     system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
     template_variables={
@@ -490,7 +500,15 @@ client.agents.upsert(
 <dl>
 <dd>
 
-**welcome_message:** `typing.Optional[str]` — Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`.
+**generate_welcome_message:** `typing.Optional[bool]` — When `true`, the welcome message will be automatically generated and the `welcome_message` field will be ignored.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**welcome_message:** `typing.Optional[str]` — Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. Ignored when `generate_welcome_message` is `true`.
     
 </dd>
 </dl>
@@ -791,6 +809,7 @@ client.agents.update(
     voice_id="grant",
     audio_speed=1.0,
     background_noise_level=0.0,
+    generate_welcome_message=False,
     welcome_message="Hi {{customer_name}}. How can I help you today?",
     system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
     template_variables={
@@ -919,7 +938,15 @@ client.agents.update(
 <dl>
 <dd>
 
-**welcome_message:** `typing.Optional[str]` — Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`.
+**generate_welcome_message:** `typing.Optional[bool]` — When `true`, the welcome message will be automatically generated and the `welcome_message` field will be ignored.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**welcome_message:** `typing.Optional[str]` — Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. Ignored when `generate_welcome_message` is `true`.
     
 </dd>
 </dl>
@@ -1290,6 +1317,14 @@ For `custom_websocket`, `built_in_transfer_to_phone_number`, and `built_in_trans
 <dd>
 
 **forbid_speech_after_tool_call:** `typing.Optional[bool]` — When true, forbids the agent from speaking after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**allow_tool_chaining:** `typing.Optional[bool]` — When true, allows the agent to chain and execute other tools after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools.
     
 </dd>
 </dl>
@@ -1671,6 +1706,14 @@ For `custom_websocket`, `built_in_transfer_to_phone_number`, and `built_in_trans
 <dd>
 
 **forbid_speech_after_tool_call:** `typing.Optional[bool]` — When true, forbids the agent from speaking after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**allow_tool_chaining:** `typing.Optional[bool]` — When true, allows the agent to chain and execute other tools after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools.
     
 </dd>
 </dl>

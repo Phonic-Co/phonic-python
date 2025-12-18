@@ -101,3 +101,8 @@ class ToolParams(typing_extensions.TypedDict):
     """
     When true, forbids the agent from speaking after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools.
     """
+
+    allow_tool_chaining: typing_extensions.NotRequired[bool]
+    """
+    When true, allows the agent to chain and execute other tools after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools.
+    """

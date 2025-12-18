@@ -124,6 +124,7 @@ class RawAgentsClient:
         audio_speed: typing.Optional[float] = OMIT,
         background_noise_level: typing.Optional[float] = OMIT,
         background_noise: typing.Optional[CreateAgentRequestBackgroundNoise] = OMIT,
+        generate_welcome_message: typing.Optional[bool] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValueParams]] = OMIT,
@@ -174,8 +175,11 @@ class RawAgentsClient:
         background_noise : typing.Optional[CreateAgentRequestBackgroundNoise]
             The background noise type. Can be "office", "call-center", "coffee-shop", or null.
 
+        generate_welcome_message : typing.Optional[bool]
+            When `true`, the welcome message will be automatically generated and the `welcome_message` field will be ignored.
+
         welcome_message : typing.Optional[str]
-            Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`.
+            Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. Ignored when `generate_welcome_message` is `true`.
 
         system_prompt : typing.Optional[str]
             Instructions for the conversation. Can contain template variables like `{{subject}}`.
@@ -233,6 +237,7 @@ class RawAgentsClient:
                 "audio_speed": audio_speed,
                 "background_noise_level": background_noise_level,
                 "background_noise": background_noise,
+                "generate_welcome_message": generate_welcome_message,
                 "welcome_message": welcome_message,
                 "system_prompt": system_prompt,
                 "template_variables": convert_and_respect_annotation_metadata(
@@ -336,6 +341,7 @@ class RawAgentsClient:
         audio_speed: typing.Optional[float] = OMIT,
         background_noise_level: typing.Optional[float] = OMIT,
         background_noise: typing.Optional[CreateAgentRequestBackgroundNoise] = OMIT,
+        generate_welcome_message: typing.Optional[bool] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValueParams]] = OMIT,
@@ -386,8 +392,11 @@ class RawAgentsClient:
         background_noise : typing.Optional[CreateAgentRequestBackgroundNoise]
             The background noise type. Can be "office", "call-center", "coffee-shop", or null.
 
+        generate_welcome_message : typing.Optional[bool]
+            When `true`, the welcome message will be automatically generated and the `welcome_message` field will be ignored.
+
         welcome_message : typing.Optional[str]
-            Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`.
+            Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. Ignored when `generate_welcome_message` is `true`.
 
         system_prompt : typing.Optional[str]
             Instructions for the conversation. Can contain template variables like `{{subject}}`.
@@ -445,6 +454,7 @@ class RawAgentsClient:
                 "audio_speed": audio_speed,
                 "background_noise_level": background_noise_level,
                 "background_noise": background_noise,
+                "generate_welcome_message": generate_welcome_message,
                 "welcome_message": welcome_message,
                 "system_prompt": system_prompt,
                 "template_variables": convert_and_respect_annotation_metadata(
@@ -671,6 +681,7 @@ class RawAgentsClient:
         audio_speed: typing.Optional[float] = OMIT,
         background_noise_level: typing.Optional[float] = OMIT,
         background_noise: typing.Optional[UpdateAgentRequestBackgroundNoise] = OMIT,
+        generate_welcome_message: typing.Optional[bool] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, UpdateAgentRequestTemplateVariablesValueParams]] = OMIT,
@@ -724,8 +735,11 @@ class RawAgentsClient:
         background_noise : typing.Optional[UpdateAgentRequestBackgroundNoise]
             The background noise type. Can be "office", "call-center", "coffee-shop", or null.
 
+        generate_welcome_message : typing.Optional[bool]
+            When `true`, the welcome message will be automatically generated and the `welcome_message` field will be ignored.
+
         welcome_message : typing.Optional[str]
-            Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`.
+            Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. Ignored when `generate_welcome_message` is `true`.
 
         system_prompt : typing.Optional[str]
             Instructions for the conversation. Can contain template variables like `{{subject}}`.
@@ -783,6 +797,7 @@ class RawAgentsClient:
                 "audio_speed": audio_speed,
                 "background_noise_level": background_noise_level,
                 "background_noise": background_noise,
+                "generate_welcome_message": generate_welcome_message,
                 "welcome_message": welcome_message,
                 "system_prompt": system_prompt,
                 "template_variables": convert_and_respect_annotation_metadata(
@@ -945,6 +960,7 @@ class AsyncRawAgentsClient:
         audio_speed: typing.Optional[float] = OMIT,
         background_noise_level: typing.Optional[float] = OMIT,
         background_noise: typing.Optional[CreateAgentRequestBackgroundNoise] = OMIT,
+        generate_welcome_message: typing.Optional[bool] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValueParams]] = OMIT,
@@ -995,8 +1011,11 @@ class AsyncRawAgentsClient:
         background_noise : typing.Optional[CreateAgentRequestBackgroundNoise]
             The background noise type. Can be "office", "call-center", "coffee-shop", or null.
 
+        generate_welcome_message : typing.Optional[bool]
+            When `true`, the welcome message will be automatically generated and the `welcome_message` field will be ignored.
+
         welcome_message : typing.Optional[str]
-            Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`.
+            Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. Ignored when `generate_welcome_message` is `true`.
 
         system_prompt : typing.Optional[str]
             Instructions for the conversation. Can contain template variables like `{{subject}}`.
@@ -1054,6 +1073,7 @@ class AsyncRawAgentsClient:
                 "audio_speed": audio_speed,
                 "background_noise_level": background_noise_level,
                 "background_noise": background_noise,
+                "generate_welcome_message": generate_welcome_message,
                 "welcome_message": welcome_message,
                 "system_prompt": system_prompt,
                 "template_variables": convert_and_respect_annotation_metadata(
@@ -1157,6 +1177,7 @@ class AsyncRawAgentsClient:
         audio_speed: typing.Optional[float] = OMIT,
         background_noise_level: typing.Optional[float] = OMIT,
         background_noise: typing.Optional[CreateAgentRequestBackgroundNoise] = OMIT,
+        generate_welcome_message: typing.Optional[bool] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValueParams]] = OMIT,
@@ -1207,8 +1228,11 @@ class AsyncRawAgentsClient:
         background_noise : typing.Optional[CreateAgentRequestBackgroundNoise]
             The background noise type. Can be "office", "call-center", "coffee-shop", or null.
 
+        generate_welcome_message : typing.Optional[bool]
+            When `true`, the welcome message will be automatically generated and the `welcome_message` field will be ignored.
+
         welcome_message : typing.Optional[str]
-            Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`.
+            Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. Ignored when `generate_welcome_message` is `true`.
 
         system_prompt : typing.Optional[str]
             Instructions for the conversation. Can contain template variables like `{{subject}}`.
@@ -1266,6 +1290,7 @@ class AsyncRawAgentsClient:
                 "audio_speed": audio_speed,
                 "background_noise_level": background_noise_level,
                 "background_noise": background_noise,
+                "generate_welcome_message": generate_welcome_message,
                 "welcome_message": welcome_message,
                 "system_prompt": system_prompt,
                 "template_variables": convert_and_respect_annotation_metadata(
@@ -1492,6 +1517,7 @@ class AsyncRawAgentsClient:
         audio_speed: typing.Optional[float] = OMIT,
         background_noise_level: typing.Optional[float] = OMIT,
         background_noise: typing.Optional[UpdateAgentRequestBackgroundNoise] = OMIT,
+        generate_welcome_message: typing.Optional[bool] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, UpdateAgentRequestTemplateVariablesValueParams]] = OMIT,
@@ -1545,8 +1571,11 @@ class AsyncRawAgentsClient:
         background_noise : typing.Optional[UpdateAgentRequestBackgroundNoise]
             The background noise type. Can be "office", "call-center", "coffee-shop", or null.
 
+        generate_welcome_message : typing.Optional[bool]
+            When `true`, the welcome message will be automatically generated and the `welcome_message` field will be ignored.
+
         welcome_message : typing.Optional[str]
-            Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`.
+            Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. Ignored when `generate_welcome_message` is `true`.
 
         system_prompt : typing.Optional[str]
             Instructions for the conversation. Can contain template variables like `{{subject}}`.
@@ -1604,6 +1633,7 @@ class AsyncRawAgentsClient:
                 "audio_speed": audio_speed,
                 "background_noise_level": background_noise_level,
                 "background_noise": background_noise,
+                "generate_welcome_message": generate_welcome_message,
                 "welcome_message": welcome_message,
                 "system_prompt": system_prompt,
                 "template_variables": convert_and_respect_annotation_metadata(

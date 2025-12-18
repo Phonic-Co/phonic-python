@@ -45,9 +45,14 @@ class ConfigPayloadParams(typing_extensions.TypedDict):
     Background noise type for the conversation
     """
 
+    generate_welcome_message: typing_extensions.NotRequired[bool]
+    """
+    When `true`, the welcome message will be automatically generated and the `welcome_message` field will be ignored.
+    """
+
     welcome_message: typing_extensions.NotRequired[typing.Optional[str]]
     """
-    Message to play when conversation starts
+    Message to play when conversation starts. Ignored when `generate_welcome_message` is `true`.
     """
 
     voice_id: typing_extensions.NotRequired[str]

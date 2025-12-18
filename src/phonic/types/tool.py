@@ -104,6 +104,11 @@ class Tool(UncheckedBaseModel):
     When true, forbids the agent from speaking after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools.
     """
 
+    allow_tool_chaining: typing.Optional[bool] = pydantic.Field(default=None)
+    """
+    When true, allows the agent to chain and execute other tools after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools.
+    """
+
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
     else:

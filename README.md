@@ -48,6 +48,7 @@ client.agents.create(
     voice_id="grant",
     audio_speed=1.0,
     background_noise_level=0.0,
+    generate_welcome_message=False,
     welcome_message="Hi {{customer_name}}. How can I help you today?",
     system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
     template_variables={
@@ -90,6 +91,7 @@ async def main() -> None:
         voice_id="grant",
         audio_speed=1.0,
         background_noise_level=0.0,
+        generate_welcome_message=False,
         welcome_message="Hi {{customer_name}}. How can I help you today?",
         system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
         template_variables={

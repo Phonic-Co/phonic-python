@@ -47,9 +47,14 @@ class ConfigPayload(UncheckedBaseModel):
     Background noise type for the conversation
     """
 
+    generate_welcome_message: typing.Optional[bool] = pydantic.Field(default=None)
+    """
+    When `true`, the welcome message will be automatically generated and the `welcome_message` field will be ignored.
+    """
+
     welcome_message: typing.Optional[str] = pydantic.Field(default=None)
     """
-    Message to play when conversation starts
+    Message to play when conversation starts. Ignored when `generate_welcome_message` is `true`.
     """
 
     voice_id: typing.Optional[str] = pydantic.Field(default=None)
