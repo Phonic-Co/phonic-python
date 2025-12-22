@@ -79,9 +79,14 @@ class Tool(UncheckedBaseModel):
     DTMF digits to send after the transfer connects (e.g., "1234"). Defaults to null.
     """
 
+    use_agent_phone_number: typing.Optional[bool] = pydantic.Field(default=None)
+    """
+    When true, Phonic will transfer the call using the agent's phone number. When false, Phonic will transfer the call using the phone number of the party to whom the agent is connected. This is only available for built_in_transfer_to_phone_number tools.
+    """
+
     detect_voicemail: typing.Optional[bool] = pydantic.Field(default=None)
     """
-    When true, Phonic will listen in and tell the user if the transfer hits voicemail. This is only available for built_in_transfer_to_phone_number tools.
+    When true, Phonic will listen in and tell the user if the transfer hits voicemail. This is only available for built_in_transfer_to_phone_number tools when use_agent_phone_number is true.
     """
 
     agents_to_transfer_to: typing.Optional[typing.List[str]] = pydantic.Field(default=None)

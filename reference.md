@@ -1284,7 +1284,15 @@ For `custom_websocket`, `built_in_transfer_to_phone_number`, and `built_in_trans
 <dl>
 <dd>
 
-**detect_voicemail:** `typing.Optional[bool]` — When true, Phonic will listen in and tell the user if the transfer hits voicemail. This is only available for built_in_transfer_to_phone_number tools.
+**use_agent_phone_number:** `typing.Optional[bool]` — When true, Phonic will transfer the call using the agent's phone number. When false, Phonic will transfer the call using the phone number of the party to whom the agent is connected. This is only available for built_in_transfer_to_phone_number tools.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**detect_voicemail:** `typing.Optional[bool]` — When true, Phonic will listen in and tell the user if the transfer hits voicemail. This is only available for built_in_transfer_to_phone_number tools when use_agent_phone_number is true.
     
 </dd>
 </dl>
@@ -1673,7 +1681,15 @@ For `custom_websocket`, `built_in_transfer_to_phone_number`, and `built_in_trans
 <dl>
 <dd>
 
-**detect_voicemail:** `typing.Optional[bool]` — When true, Phonic will listen in and tell the user if the transfer hits voicemail. This is only available for built_in_transfer_to_phone_number tools.
+**use_agent_phone_number:** `typing.Optional[bool]` — When true, Phonic will transfer the call using the agent's phone number. When false, Phonic will transfer the call using the phone number of the party to whom the agent is connected. This is only available for built_in_transfer_to_phone_number tools.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**detect_voicemail:** `typing.Optional[bool]` — When true, Phonic will listen in and tell the user if the transfer hits voicemail. This is only available for built_in_transfer_to_phone_number tools when use_agent_phone_number is true.
     
 </dd>
 </dl>
