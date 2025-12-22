@@ -44,14 +44,9 @@ class ConversationParams(typing_extensions.TypedDict):
     The STS model used.
     """
 
-    generate_welcome_message: bool
-    """
-    Will be `true` if welcome message was automatically generated.
-    """
-
     welcome_message: typing.Optional[str]
     """
-    Welcome message played at start. Will be `null` when `generate_welcome_message` is `true`.
+    Welcome message played at start.
     """
 
     template_variables: typing.Dict[str, str]

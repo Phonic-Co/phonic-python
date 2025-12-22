@@ -46,14 +46,9 @@ class Conversation(UncheckedBaseModel):
     The STS model used.
     """
 
-    generate_welcome_message: bool = pydantic.Field()
-    """
-    Will be `true` if welcome message was automatically generated.
-    """
-
     welcome_message: typing.Optional[str] = pydantic.Field(default=None)
     """
-    Welcome message played at start. Will be `null` when `generate_welcome_message` is `true`.
+    Welcome message played at start.
     """
 
     template_variables: typing.Dict[str, str] = pydantic.Field()

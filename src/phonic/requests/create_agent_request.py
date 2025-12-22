@@ -60,14 +60,9 @@ class CreateAgentRequestParams(typing_extensions.TypedDict):
     The background noise type. Can be "office", "call-center", "coffee-shop", or null.
     """
 
-    generate_welcome_message: typing_extensions.NotRequired[bool]
-    """
-    When `true`, the welcome message will be automatically generated and the `welcome_message` field will be ignored.
-    """
-
     welcome_message: typing_extensions.NotRequired[str]
     """
-    Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. Ignored when `generate_welcome_message` is `true`.
+    Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`.
     """
 
     system_prompt: typing_extensions.NotRequired[str]
