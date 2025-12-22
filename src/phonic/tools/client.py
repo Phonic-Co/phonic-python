@@ -86,6 +86,7 @@ class ToolsClient:
         tool_call_output_timeout_ms: typing.Optional[int] = OMIT,
         phone_number: typing.Optional[str] = OMIT,
         dtmf: typing.Optional[str] = OMIT,
+        use_agent_phone_number: typing.Optional[bool] = OMIT,
         detect_voicemail: typing.Optional[bool] = OMIT,
         agents_to_transfer_to: typing.Optional[typing.Sequence[str]] = OMIT,
         require_speech_before_tool_call: typing.Optional[bool] = OMIT,
@@ -141,8 +142,11 @@ class ToolsClient:
         dtmf : typing.Optional[str]
             DTMF digits to send after the transfer connects (e.g., "1234"). Defaults to null.
 
+        use_agent_phone_number : typing.Optional[bool]
+            When true, Phonic will transfer the call using the agent's phone number. When false, Phonic will transfer the call using the phone number of the party to whom the agent is connected. This is only available for built_in_transfer_to_phone_number tools.
+
         detect_voicemail : typing.Optional[bool]
-            When true, Phonic will listen in and tell the user if the transfer hits voicemail. This is only available for built_in_transfer_to_phone_number tools.
+            When true, Phonic will listen in and tell the user if the transfer hits voicemail. This is only available for built_in_transfer_to_phone_number tools when use_agent_phone_number is true.
 
         agents_to_transfer_to : typing.Optional[typing.Sequence[str]]
             Array of agent names that the LLM can choose from when transferring. Required for built_in_transfer_to_agent tools. All agents must exist in the same project as the tool.
@@ -207,6 +211,7 @@ class ToolsClient:
             tool_call_output_timeout_ms=tool_call_output_timeout_ms,
             phone_number=phone_number,
             dtmf=dtmf,
+            use_agent_phone_number=use_agent_phone_number,
             detect_voicemail=detect_voicemail,
             agents_to_transfer_to=agents_to_transfer_to,
             require_speech_before_tool_call=require_speech_before_tool_call,
@@ -316,6 +321,7 @@ class ToolsClient:
         tool_call_output_timeout_ms: typing.Optional[int] = OMIT,
         phone_number: typing.Optional[str] = OMIT,
         dtmf: typing.Optional[str] = OMIT,
+        use_agent_phone_number: typing.Optional[bool] = OMIT,
         detect_voicemail: typing.Optional[bool] = OMIT,
         agents_to_transfer_to: typing.Optional[typing.Sequence[str]] = OMIT,
         require_speech_before_tool_call: typing.Optional[bool] = OMIT,
@@ -370,8 +376,11 @@ class ToolsClient:
         dtmf : typing.Optional[str]
             DTMF digits to send after the transfer connects (e.g., "1234"). Can be set to null to remove DTMF.
 
+        use_agent_phone_number : typing.Optional[bool]
+            When true, Phonic will transfer the call using the agent's phone number. When false, Phonic will transfer the call using the phone number of the party to whom the agent is connected. This is only available for built_in_transfer_to_phone_number tools.
+
         detect_voicemail : typing.Optional[bool]
-            When true, Phonic will listen in and tell the user if the transfer hits voicemail. This is only available for built_in_transfer_to_phone_number tools.
+            When true, Phonic will listen in and tell the user if the transfer hits voicemail. This is only available for built_in_transfer_to_phone_number tools when use_agent_phone_number is true.
 
         agents_to_transfer_to : typing.Optional[typing.Sequence[str]]
             Array of agent names that the LLM can choose from when transferring. All agents must exist in the same project as the tool.
@@ -426,6 +435,7 @@ class ToolsClient:
             tool_call_output_timeout_ms=tool_call_output_timeout_ms,
             phone_number=phone_number,
             dtmf=dtmf,
+            use_agent_phone_number=use_agent_phone_number,
             detect_voicemail=detect_voicemail,
             agents_to_transfer_to=agents_to_transfer_to,
             require_speech_before_tool_call=require_speech_before_tool_call,
@@ -509,6 +519,7 @@ class AsyncToolsClient:
         tool_call_output_timeout_ms: typing.Optional[int] = OMIT,
         phone_number: typing.Optional[str] = OMIT,
         dtmf: typing.Optional[str] = OMIT,
+        use_agent_phone_number: typing.Optional[bool] = OMIT,
         detect_voicemail: typing.Optional[bool] = OMIT,
         agents_to_transfer_to: typing.Optional[typing.Sequence[str]] = OMIT,
         require_speech_before_tool_call: typing.Optional[bool] = OMIT,
@@ -564,8 +575,11 @@ class AsyncToolsClient:
         dtmf : typing.Optional[str]
             DTMF digits to send after the transfer connects (e.g., "1234"). Defaults to null.
 
+        use_agent_phone_number : typing.Optional[bool]
+            When true, Phonic will transfer the call using the agent's phone number. When false, Phonic will transfer the call using the phone number of the party to whom the agent is connected. This is only available for built_in_transfer_to_phone_number tools.
+
         detect_voicemail : typing.Optional[bool]
-            When true, Phonic will listen in and tell the user if the transfer hits voicemail. This is only available for built_in_transfer_to_phone_number tools.
+            When true, Phonic will listen in and tell the user if the transfer hits voicemail. This is only available for built_in_transfer_to_phone_number tools when use_agent_phone_number is true.
 
         agents_to_transfer_to : typing.Optional[typing.Sequence[str]]
             Array of agent names that the LLM can choose from when transferring. Required for built_in_transfer_to_agent tools. All agents must exist in the same project as the tool.
@@ -638,6 +652,7 @@ class AsyncToolsClient:
             tool_call_output_timeout_ms=tool_call_output_timeout_ms,
             phone_number=phone_number,
             dtmf=dtmf,
+            use_agent_phone_number=use_agent_phone_number,
             detect_voicemail=detect_voicemail,
             agents_to_transfer_to=agents_to_transfer_to,
             require_speech_before_tool_call=require_speech_before_tool_call,
@@ -763,6 +778,7 @@ class AsyncToolsClient:
         tool_call_output_timeout_ms: typing.Optional[int] = OMIT,
         phone_number: typing.Optional[str] = OMIT,
         dtmf: typing.Optional[str] = OMIT,
+        use_agent_phone_number: typing.Optional[bool] = OMIT,
         detect_voicemail: typing.Optional[bool] = OMIT,
         agents_to_transfer_to: typing.Optional[typing.Sequence[str]] = OMIT,
         require_speech_before_tool_call: typing.Optional[bool] = OMIT,
@@ -817,8 +833,11 @@ class AsyncToolsClient:
         dtmf : typing.Optional[str]
             DTMF digits to send after the transfer connects (e.g., "1234"). Can be set to null to remove DTMF.
 
+        use_agent_phone_number : typing.Optional[bool]
+            When true, Phonic will transfer the call using the agent's phone number. When false, Phonic will transfer the call using the phone number of the party to whom the agent is connected. This is only available for built_in_transfer_to_phone_number tools.
+
         detect_voicemail : typing.Optional[bool]
-            When true, Phonic will listen in and tell the user if the transfer hits voicemail. This is only available for built_in_transfer_to_phone_number tools.
+            When true, Phonic will listen in and tell the user if the transfer hits voicemail. This is only available for built_in_transfer_to_phone_number tools when use_agent_phone_number is true.
 
         agents_to_transfer_to : typing.Optional[typing.Sequence[str]]
             Array of agent names that the LLM can choose from when transferring. All agents must exist in the same project as the tool.
@@ -881,6 +900,7 @@ class AsyncToolsClient:
             tool_call_output_timeout_ms=tool_call_output_timeout_ms,
             phone_number=phone_number,
             dtmf=dtmf,
+            use_agent_phone_number=use_agent_phone_number,
             detect_voicemail=detect_voicemail,
             agents_to_transfer_to=agents_to_transfer_to,
             require_speech_before_tool_call=require_speech_before_tool_call,
