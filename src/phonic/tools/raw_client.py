@@ -112,6 +112,7 @@ class RawToolsClient:
         wait_for_speech_before_tool_call: typing.Optional[bool] = OMIT,
         forbid_speech_after_tool_call: typing.Optional[bool] = OMIT,
         allow_tool_chaining: typing.Optional[bool] = OMIT,
+        wait_for_response: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[ToolsCreateResponse]:
         """
@@ -182,6 +183,9 @@ class RawToolsClient:
         allow_tool_chaining : typing.Optional[bool]
             When true, allows the agent to chain and execute other tools after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools.
 
+        wait_for_response : typing.Optional[bool]
+            The agent doesn't typically wait for the response of async custom_websocket tools. When true, makes the agent wait for a response, not call other tools and inform the user of the result. Only available for async custom_websocket tools.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -219,6 +223,7 @@ class RawToolsClient:
                 "wait_for_speech_before_tool_call": wait_for_speech_before_tool_call,
                 "forbid_speech_after_tool_call": forbid_speech_after_tool_call,
                 "allow_tool_chaining": allow_tool_chaining,
+                "wait_for_response": wait_for_response,
             },
             headers={
                 "content-type": "application/json",
@@ -431,6 +436,7 @@ class RawToolsClient:
         wait_for_speech_before_tool_call: typing.Optional[bool] = OMIT,
         forbid_speech_after_tool_call: typing.Optional[bool] = OMIT,
         allow_tool_chaining: typing.Optional[bool] = OMIT,
+        wait_for_response: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[ToolsUpdateResponse]:
         """
@@ -500,6 +506,9 @@ class RawToolsClient:
         allow_tool_chaining : typing.Optional[bool]
             When true, allows the agent to chain and execute other tools after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools.
 
+        wait_for_response : typing.Optional[bool]
+            The agent doesn't typically wait for the response of async custom_websocket tools. When true, makes the agent wait for a response, not call other tools and inform the user of the result. Only available for async custom_websocket tools.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -537,6 +546,7 @@ class RawToolsClient:
                 "wait_for_speech_before_tool_call": wait_for_speech_before_tool_call,
                 "forbid_speech_after_tool_call": forbid_speech_after_tool_call,
                 "allow_tool_chaining": allow_tool_chaining,
+                "wait_for_response": wait_for_response,
             },
             headers={
                 "content-type": "application/json",
@@ -674,6 +684,7 @@ class AsyncRawToolsClient:
         wait_for_speech_before_tool_call: typing.Optional[bool] = OMIT,
         forbid_speech_after_tool_call: typing.Optional[bool] = OMIT,
         allow_tool_chaining: typing.Optional[bool] = OMIT,
+        wait_for_response: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[ToolsCreateResponse]:
         """
@@ -744,6 +755,9 @@ class AsyncRawToolsClient:
         allow_tool_chaining : typing.Optional[bool]
             When true, allows the agent to chain and execute other tools after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools.
 
+        wait_for_response : typing.Optional[bool]
+            The agent doesn't typically wait for the response of async custom_websocket tools. When true, makes the agent wait for a response, not call other tools and inform the user of the result. Only available for async custom_websocket tools.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -781,6 +795,7 @@ class AsyncRawToolsClient:
                 "wait_for_speech_before_tool_call": wait_for_speech_before_tool_call,
                 "forbid_speech_after_tool_call": forbid_speech_after_tool_call,
                 "allow_tool_chaining": allow_tool_chaining,
+                "wait_for_response": wait_for_response,
             },
             headers={
                 "content-type": "application/json",
@@ -993,6 +1008,7 @@ class AsyncRawToolsClient:
         wait_for_speech_before_tool_call: typing.Optional[bool] = OMIT,
         forbid_speech_after_tool_call: typing.Optional[bool] = OMIT,
         allow_tool_chaining: typing.Optional[bool] = OMIT,
+        wait_for_response: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[ToolsUpdateResponse]:
         """
@@ -1062,6 +1078,9 @@ class AsyncRawToolsClient:
         allow_tool_chaining : typing.Optional[bool]
             When true, allows the agent to chain and execute other tools after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools.
 
+        wait_for_response : typing.Optional[bool]
+            The agent doesn't typically wait for the response of async custom_websocket tools. When true, makes the agent wait for a response, not call other tools and inform the user of the result. Only available for async custom_websocket tools.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -1099,6 +1118,7 @@ class AsyncRawToolsClient:
                 "wait_for_speech_before_tool_call": wait_for_speech_before_tool_call,
                 "forbid_speech_after_tool_call": forbid_speech_after_tool_call,
                 "allow_tool_chaining": allow_tool_chaining,
+                "wait_for_response": wait_for_response,
             },
             headers={
                 "content-type": "application/json",

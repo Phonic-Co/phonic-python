@@ -131,6 +131,16 @@ class Agent(UncheckedBaseModel):
     When not `null`, the agent will call this endpoint to get configuration options.
     """
 
+    inbound_rollout: typing.Optional[float] = pydantic.Field(default=None)
+    """
+    Float between 0.0 and 1.0 representing the percentage of inbound calls handled by Agent. Requires `phone_number` to be set when less than 1.0.
+    """
+
+    inbound_rollout_forward_phone_number: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    E.164 formatted phone number where non-agent calls will be forwarded. Required when `inbound_rollout < 1.0`, must be `null` when `inbound_rollout = 1.0`.
+    """
+
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
     else:

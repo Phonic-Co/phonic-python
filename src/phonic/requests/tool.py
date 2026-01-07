@@ -111,3 +111,8 @@ class ToolParams(typing_extensions.TypedDict):
     """
     When true, allows the agent to chain and execute other tools after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools.
     """
+
+    wait_for_response: typing_extensions.NotRequired[bool]
+    """
+    The agent doesn't typically wait for the response of async custom_websocket tools. When true, makes the agent wait for a response, not call other tools and inform the user of the result. Only available for async custom_websocket tools.
+    """
