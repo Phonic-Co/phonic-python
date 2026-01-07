@@ -102,6 +102,8 @@ class AgentsClient:
         languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
+        inbound_rollout: typing.Optional[float] = OMIT,
+        inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AgentsCreateResponse:
         """
@@ -177,6 +179,12 @@ class AgentsClient:
         configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpointParams]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint when to get configuration options.
 
+        inbound_rollout : typing.Optional[float]
+            Float between 0.0 and 1.0 representing the percentage of inbound calls handled by Agent. Defaults to `1.0`. Requires `phone_number` to be set when less than 1.0.
+
+        inbound_rollout_forward_phone_number : typing.Optional[str]
+            E.164 formatted phone number where non-agent calls will be forwarded. Required when `inbound_rollout < 1.0`, must be `null` when `inbound_rollout = 1.0`. Defaults to `null`.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -243,6 +251,8 @@ class AgentsClient:
             languages=languages,
             boosted_keywords=boosted_keywords,
             configuration_endpoint=configuration_endpoint,
+            inbound_rollout=inbound_rollout,
+            inbound_rollout_forward_phone_number=inbound_rollout_forward_phone_number,
             request_options=request_options,
         )
         return _response.data
@@ -273,6 +283,8 @@ class AgentsClient:
         languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
+        inbound_rollout: typing.Optional[float] = OMIT,
+        inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AgentsUpsertResponse:
         """
@@ -348,6 +360,12 @@ class AgentsClient:
         configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpointParams]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint when to get configuration options.
 
+        inbound_rollout : typing.Optional[float]
+            Float between 0.0 and 1.0 representing the percentage of inbound calls handled by Agent. Defaults to `1.0`. Requires `phone_number` to be set when less than 1.0.
+
+        inbound_rollout_forward_phone_number : typing.Optional[str]
+            E.164 formatted phone number where non-agent calls will be forwarded. Required when `inbound_rollout < 1.0`, must be `null` when `inbound_rollout = 1.0`. Defaults to `null`.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -414,6 +432,8 @@ class AgentsClient:
             languages=languages,
             boosted_keywords=boosted_keywords,
             configuration_endpoint=configuration_endpoint,
+            inbound_rollout=inbound_rollout,
+            inbound_rollout_forward_phone_number=inbound_rollout_forward_phone_number,
             request_options=request_options,
         )
         return _response.data
@@ -527,6 +547,8 @@ class AgentsClient:
         languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
         configuration_endpoint: typing.Optional[UpdateAgentRequestConfigurationEndpointParams] = OMIT,
+        inbound_rollout: typing.Optional[float] = OMIT,
+        inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AgentsUpdateResponse:
         """
@@ -605,6 +627,12 @@ class AgentsClient:
         configuration_endpoint : typing.Optional[UpdateAgentRequestConfigurationEndpointParams]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint when to get configuration options.
 
+        inbound_rollout : typing.Optional[float]
+            Float between 0.0 and 1.0 representing the percentage of inbound calls handled by Agent. Requires `phone_number` to be set when less than 1.0.
+
+        inbound_rollout_forward_phone_number : typing.Optional[str]
+            E.164 formatted phone number where non-agent calls will be forwarded. Required when `inbound_rollout < 1.0`, must be `null` when `inbound_rollout = 1.0`.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -673,6 +701,8 @@ class AgentsClient:
             languages=languages,
             boosted_keywords=boosted_keywords,
             configuration_endpoint=configuration_endpoint,
+            inbound_rollout=inbound_rollout,
+            inbound_rollout_forward_phone_number=inbound_rollout_forward_phone_number,
             request_options=request_options,
         )
         return _response.data
@@ -758,6 +788,8 @@ class AsyncAgentsClient:
         languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
+        inbound_rollout: typing.Optional[float] = OMIT,
+        inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AgentsCreateResponse:
         """
@@ -833,6 +865,12 @@ class AsyncAgentsClient:
         configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpointParams]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint when to get configuration options.
 
+        inbound_rollout : typing.Optional[float]
+            Float between 0.0 and 1.0 representing the percentage of inbound calls handled by Agent. Defaults to `1.0`. Requires `phone_number` to be set when less than 1.0.
+
+        inbound_rollout_forward_phone_number : typing.Optional[str]
+            E.164 formatted phone number where non-agent calls will be forwarded. Required when `inbound_rollout < 1.0`, must be `null` when `inbound_rollout = 1.0`. Defaults to `null`.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -907,6 +945,8 @@ class AsyncAgentsClient:
             languages=languages,
             boosted_keywords=boosted_keywords,
             configuration_endpoint=configuration_endpoint,
+            inbound_rollout=inbound_rollout,
+            inbound_rollout_forward_phone_number=inbound_rollout_forward_phone_number,
             request_options=request_options,
         )
         return _response.data
@@ -937,6 +977,8 @@ class AsyncAgentsClient:
         languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
+        inbound_rollout: typing.Optional[float] = OMIT,
+        inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AgentsUpsertResponse:
         """
@@ -1012,6 +1054,12 @@ class AsyncAgentsClient:
         configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpointParams]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint when to get configuration options.
 
+        inbound_rollout : typing.Optional[float]
+            Float between 0.0 and 1.0 representing the percentage of inbound calls handled by Agent. Defaults to `1.0`. Requires `phone_number` to be set when less than 1.0.
+
+        inbound_rollout_forward_phone_number : typing.Optional[str]
+            E.164 formatted phone number where non-agent calls will be forwarded. Required when `inbound_rollout < 1.0`, must be `null` when `inbound_rollout = 1.0`. Defaults to `null`.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -1086,6 +1134,8 @@ class AsyncAgentsClient:
             languages=languages,
             boosted_keywords=boosted_keywords,
             configuration_endpoint=configuration_endpoint,
+            inbound_rollout=inbound_rollout,
+            inbound_rollout_forward_phone_number=inbound_rollout_forward_phone_number,
             request_options=request_options,
         )
         return _response.data
@@ -1215,6 +1265,8 @@ class AsyncAgentsClient:
         languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
         configuration_endpoint: typing.Optional[UpdateAgentRequestConfigurationEndpointParams] = OMIT,
+        inbound_rollout: typing.Optional[float] = OMIT,
+        inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AgentsUpdateResponse:
         """
@@ -1293,6 +1345,12 @@ class AsyncAgentsClient:
         configuration_endpoint : typing.Optional[UpdateAgentRequestConfigurationEndpointParams]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint when to get configuration options.
 
+        inbound_rollout : typing.Optional[float]
+            Float between 0.0 and 1.0 representing the percentage of inbound calls handled by Agent. Requires `phone_number` to be set when less than 1.0.
+
+        inbound_rollout_forward_phone_number : typing.Optional[str]
+            E.164 formatted phone number where non-agent calls will be forwarded. Required when `inbound_rollout < 1.0`, must be `null` when `inbound_rollout = 1.0`.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -1369,6 +1427,8 @@ class AsyncAgentsClient:
             languages=languages,
             boosted_keywords=boosted_keywords,
             configuration_endpoint=configuration_endpoint,
+            inbound_rollout=inbound_rollout,
+            inbound_rollout_forward_phone_number=inbound_rollout_forward_phone_number,
             request_options=request_options,
         )
         return _response.data

@@ -327,6 +327,22 @@ client.agents.create(
 <dl>
 <dd>
 
+**inbound_rollout:** `typing.Optional[float]` — Float between 0.0 and 1.0 representing the percentage of inbound calls handled by Agent. Defaults to `1.0`. Requires `phone_number` to be set when less than 1.0.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**inbound_rollout_forward_phone_number:** `typing.Optional[str]` — E.164 formatted phone number where non-agent calls will be forwarded. Required when `inbound_rollout < 1.0`, must be `null` when `inbound_rollout = 1.0`. Defaults to `null`.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
     
 </dd>
@@ -591,6 +607,22 @@ client.agents.upsert(
 <dd>
 
 **configuration_endpoint:** `typing.Optional[CreateAgentRequestConfigurationEndpointParams]` — When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint when to get configuration options.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**inbound_rollout:** `typing.Optional[float]` — Float between 0.0 and 1.0 representing the percentage of inbound calls handled by Agent. Defaults to `1.0`. Requires `phone_number` to be set when less than 1.0.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**inbound_rollout_forward_phone_number:** `typing.Optional[str]` — E.164 formatted phone number where non-agent calls will be forwarded. Required when `inbound_rollout < 1.0`, must be `null` when `inbound_rollout = 1.0`. Defaults to `null`.
     
 </dd>
 </dl>
@@ -1036,6 +1068,22 @@ client.agents.update(
 <dl>
 <dd>
 
+**inbound_rollout:** `typing.Optional[float]` — Float between 0.0 and 1.0 representing the percentage of inbound calls handled by Agent. Requires `phone_number` to be set when less than 1.0.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**inbound_rollout_forward_phone_number:** `typing.Optional[str]` — E.164 formatted phone number where non-agent calls will be forwarded. Required when `inbound_rollout < 1.0`, must be `null` when `inbound_rollout = 1.0`.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
     
 </dd>
@@ -1333,6 +1381,14 @@ For `custom_websocket`, `built_in_transfer_to_phone_number`, and `built_in_trans
 <dd>
 
 **allow_tool_chaining:** `typing.Optional[bool]` — When true, allows the agent to chain and execute other tools after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**wait_for_response:** `typing.Optional[bool]` — The agent doesn't typically wait for the response of async custom_websocket tools. When true, makes the agent wait for a response, not call other tools and inform the user of the result. Only available for async custom_websocket tools.
     
 </dd>
 </dl>
@@ -1730,6 +1786,14 @@ For `custom_websocket`, `built_in_transfer_to_phone_number`, and `built_in_trans
 <dd>
 
 **allow_tool_chaining:** `typing.Optional[bool]` — When true, allows the agent to chain and execute other tools after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**wait_for_response:** `typing.Optional[bool]` — The agent doesn't typically wait for the response of async custom_websocket tools. When true, makes the agent wait for a response, not call other tools and inform the user of the result. Only available for async custom_websocket tools.
     
 </dd>
 </dl>

@@ -93,6 +93,7 @@ class ToolsClient:
         wait_for_speech_before_tool_call: typing.Optional[bool] = OMIT,
         forbid_speech_after_tool_call: typing.Optional[bool] = OMIT,
         allow_tool_chaining: typing.Optional[bool] = OMIT,
+        wait_for_response: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ToolsCreateResponse:
         """
@@ -163,6 +164,9 @@ class ToolsClient:
         allow_tool_chaining : typing.Optional[bool]
             When true, allows the agent to chain and execute other tools after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools.
 
+        wait_for_response : typing.Optional[bool]
+            The agent doesn't typically wait for the response of async custom_websocket tools. When true, makes the agent wait for a response, not call other tools and inform the user of the result. Only available for async custom_websocket tools.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -218,6 +222,7 @@ class ToolsClient:
             wait_for_speech_before_tool_call=wait_for_speech_before_tool_call,
             forbid_speech_after_tool_call=forbid_speech_after_tool_call,
             allow_tool_chaining=allow_tool_chaining,
+            wait_for_response=wait_for_response,
             request_options=request_options,
         )
         return _response.data
@@ -328,6 +333,7 @@ class ToolsClient:
         wait_for_speech_before_tool_call: typing.Optional[bool] = OMIT,
         forbid_speech_after_tool_call: typing.Optional[bool] = OMIT,
         allow_tool_chaining: typing.Optional[bool] = OMIT,
+        wait_for_response: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ToolsUpdateResponse:
         """
@@ -397,6 +403,9 @@ class ToolsClient:
         allow_tool_chaining : typing.Optional[bool]
             When true, allows the agent to chain and execute other tools after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools.
 
+        wait_for_response : typing.Optional[bool]
+            The agent doesn't typically wait for the response of async custom_websocket tools. When true, makes the agent wait for a response, not call other tools and inform the user of the result. Only available for async custom_websocket tools.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -442,6 +451,7 @@ class ToolsClient:
             wait_for_speech_before_tool_call=wait_for_speech_before_tool_call,
             forbid_speech_after_tool_call=forbid_speech_after_tool_call,
             allow_tool_chaining=allow_tool_chaining,
+            wait_for_response=wait_for_response,
             request_options=request_options,
         )
         return _response.data
@@ -526,6 +536,7 @@ class AsyncToolsClient:
         wait_for_speech_before_tool_call: typing.Optional[bool] = OMIT,
         forbid_speech_after_tool_call: typing.Optional[bool] = OMIT,
         allow_tool_chaining: typing.Optional[bool] = OMIT,
+        wait_for_response: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ToolsCreateResponse:
         """
@@ -596,6 +607,9 @@ class AsyncToolsClient:
         allow_tool_chaining : typing.Optional[bool]
             When true, allows the agent to chain and execute other tools after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools.
 
+        wait_for_response : typing.Optional[bool]
+            The agent doesn't typically wait for the response of async custom_websocket tools. When true, makes the agent wait for a response, not call other tools and inform the user of the result. Only available for async custom_websocket tools.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -659,6 +673,7 @@ class AsyncToolsClient:
             wait_for_speech_before_tool_call=wait_for_speech_before_tool_call,
             forbid_speech_after_tool_call=forbid_speech_after_tool_call,
             allow_tool_chaining=allow_tool_chaining,
+            wait_for_response=wait_for_response,
             request_options=request_options,
         )
         return _response.data
@@ -785,6 +800,7 @@ class AsyncToolsClient:
         wait_for_speech_before_tool_call: typing.Optional[bool] = OMIT,
         forbid_speech_after_tool_call: typing.Optional[bool] = OMIT,
         allow_tool_chaining: typing.Optional[bool] = OMIT,
+        wait_for_response: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ToolsUpdateResponse:
         """
@@ -854,6 +870,9 @@ class AsyncToolsClient:
         allow_tool_chaining : typing.Optional[bool]
             When true, allows the agent to chain and execute other tools after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools.
 
+        wait_for_response : typing.Optional[bool]
+            The agent doesn't typically wait for the response of async custom_websocket tools. When true, makes the agent wait for a response, not call other tools and inform the user of the result. Only available for async custom_websocket tools.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -907,6 +926,7 @@ class AsyncToolsClient:
             wait_for_speech_before_tool_call=wait_for_speech_before_tool_call,
             forbid_speech_after_tool_call=forbid_speech_after_tool_call,
             allow_tool_chaining=allow_tool_chaining,
+            wait_for_response=wait_for_response,
             request_options=request_options,
         )
         return _response.data
