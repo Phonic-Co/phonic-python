@@ -7,10 +7,12 @@ from importlib import import_module
 
 if typing.TYPE_CHECKING:
     from .types import (
+        AgentsAddCustomPhoneNumberResponse,
         AgentsCreateResponse,
         AgentsDeleteResponse,
         AgentsGetResponse,
         AgentsListResponse,
+        AgentsRemoveCustomPhoneNumberResponse,
         AgentsUpdateResponse,
         AgentsUpsertResponse,
         UpdateAgentRequestAudioFormat,
@@ -21,10 +23,12 @@ if typing.TYPE_CHECKING:
         UpdateAgentRequestToolsItem,
     )
     from .requests import (
+        AgentsAddCustomPhoneNumberResponseParams,
         AgentsCreateResponseParams,
         AgentsDeleteResponseParams,
         AgentsGetResponseParams,
         AgentsListResponseParams,
+        AgentsRemoveCustomPhoneNumberResponseParams,
         AgentsUpdateResponseParams,
         AgentsUpsertResponseParams,
         UpdateAgentRequestConfigurationEndpointParams,
@@ -32,6 +36,8 @@ if typing.TYPE_CHECKING:
         UpdateAgentRequestToolsItemParams,
     )
 _dynamic_imports: typing.Dict[str, str] = {
+    "AgentsAddCustomPhoneNumberResponse": ".types",
+    "AgentsAddCustomPhoneNumberResponseParams": ".requests",
     "AgentsCreateResponse": ".types",
     "AgentsCreateResponseParams": ".requests",
     "AgentsDeleteResponse": ".types",
@@ -40,6 +46,8 @@ _dynamic_imports: typing.Dict[str, str] = {
     "AgentsGetResponseParams": ".requests",
     "AgentsListResponse": ".types",
     "AgentsListResponseParams": ".requests",
+    "AgentsRemoveCustomPhoneNumberResponse": ".types",
+    "AgentsRemoveCustomPhoneNumberResponseParams": ".requests",
     "AgentsUpdateResponse": ".types",
     "AgentsUpdateResponseParams": ".requests",
     "AgentsUpsertResponse": ".types",
@@ -78,6 +86,8 @@ def __dir__():
 
 
 __all__ = [
+    "AgentsAddCustomPhoneNumberResponse",
+    "AgentsAddCustomPhoneNumberResponseParams",
     "AgentsCreateResponse",
     "AgentsCreateResponseParams",
     "AgentsDeleteResponse",
@@ -86,6 +96,8 @@ __all__ = [
     "AgentsGetResponseParams",
     "AgentsListResponse",
     "AgentsListResponseParams",
+    "AgentsRemoveCustomPhoneNumberResponse",
+    "AgentsRemoveCustomPhoneNumberResponseParams",
     "AgentsUpdateResponse",
     "AgentsUpdateResponseParams",
     "AgentsUpsertResponse",

@@ -11,6 +11,7 @@ from ..core.request_options import RequestOptions
 from ..core.serialization import convert_and_respect_annotation_metadata
 from ..core.unchecked_base_model import construct_type
 from ..errors.bad_request_error import BadRequestError
+from ..errors.conflict_error import ConflictError
 from ..errors.forbidden_error import ForbiddenError
 from ..errors.internal_server_error import InternalServerError
 from ..errors.not_found_error import NotFoundError
@@ -27,10 +28,12 @@ from ..types.language_code import LanguageCode
 from .requests.update_agent_request_configuration_endpoint import UpdateAgentRequestConfigurationEndpointParams
 from .requests.update_agent_request_template_variables_value import UpdateAgentRequestTemplateVariablesValueParams
 from .requests.update_agent_request_tools_item import UpdateAgentRequestToolsItemParams
+from .types.agents_add_custom_phone_number_response import AgentsAddCustomPhoneNumberResponse
 from .types.agents_create_response import AgentsCreateResponse
 from .types.agents_delete_response import AgentsDeleteResponse
 from .types.agents_get_response import AgentsGetResponse
 from .types.agents_list_response import AgentsListResponse
+from .types.agents_remove_custom_phone_number_response import AgentsRemoveCustomPhoneNumberResponse
 from .types.agents_update_response import AgentsUpdateResponse
 from .types.agents_upsert_response import AgentsUpsertResponse
 from .types.update_agent_request_audio_format import UpdateAgentRequestAudioFormat
@@ -906,6 +909,238 @@ class RawAgentsClient:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
+    def add_custom_phone_number(
+        self,
+        name_or_id: str,
+        *,
+        phone_number: str,
+        project: typing.Optional[str] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> HttpResponse[AgentsAddCustomPhoneNumberResponse]:
+        """
+        Adds a custom phone number to an agent. The user must configure their SIP trunk to point to Phonic's SIP server.
+
+        Parameters
+        ----------
+        name_or_id : str
+            The name or the ID of the agent.
+
+        phone_number : str
+            The E.164 formatted phone number to add (e.g., "+15551234567").
+
+        project : typing.Optional[str]
+            The name of the project containing the agent. Only used when `nameOrId` is a name.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[AgentsAddCustomPhoneNumberResponse]
+            Success response
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"agents/{jsonable_encoder(name_or_id)}/add-custom-phone-number",
+            base_url=self._client_wrapper.get_environment().base,
+            method="POST",
+            params={
+                "project": project,
+            },
+            json={
+                "phone_number": phone_number,
+            },
+            headers={
+                "content-type": "application/json",
+            },
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    AgentsAddCustomPhoneNumberResponse,
+                    construct_type(
+                        type_=AgentsAddCustomPhoneNumberResponse,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return HttpResponse(response=_response, data=_data)
+            if _response.status_code == 400:
+                raise BadRequestError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Optional[typing.Any],
+                        construct_type(
+                            type_=typing.Optional[typing.Any],  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 401:
+                raise UnauthorizedError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        BasicError,
+                        construct_type(
+                            type_=BasicError,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 403:
+                raise ForbiddenError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Optional[typing.Any],
+                        construct_type(
+                            type_=typing.Optional[typing.Any],  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 404:
+                raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Optional[typing.Any],
+                        construct_type(
+                            type_=typing.Optional[typing.Any],  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 409:
+                raise ConflictError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Optional[typing.Any],
+                        construct_type(
+                            type_=typing.Optional[typing.Any],  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    def remove_custom_phone_number(
+        self,
+        name_or_id: str,
+        *,
+        phone_number: str,
+        project: typing.Optional[str] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> HttpResponse[AgentsRemoveCustomPhoneNumberResponse]:
+        """
+        Removes a custom phone number from an agent.
+
+        Parameters
+        ----------
+        name_or_id : str
+            The name or the ID of the agent.
+
+        phone_number : str
+            The E.164 formatted phone number to remove (e.g., "+15551234567").
+
+        project : typing.Optional[str]
+            The name of the project containing the agent. Only used when `nameOrId` is a name.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[AgentsRemoveCustomPhoneNumberResponse]
+            Success response
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"agents/{jsonable_encoder(name_or_id)}/remove-custom-phone-number",
+            base_url=self._client_wrapper.get_environment().base,
+            method="POST",
+            params={
+                "project": project,
+            },
+            json={
+                "phone_number": phone_number,
+            },
+            headers={
+                "content-type": "application/json",
+            },
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    AgentsRemoveCustomPhoneNumberResponse,
+                    construct_type(
+                        type_=AgentsRemoveCustomPhoneNumberResponse,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return HttpResponse(response=_response, data=_data)
+            if _response.status_code == 400:
+                raise BadRequestError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Optional[typing.Any],
+                        construct_type(
+                            type_=typing.Optional[typing.Any],  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 401:
+                raise UnauthorizedError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        BasicError,
+                        construct_type(
+                            type_=BasicError,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 403:
+                raise ForbiddenError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Optional[typing.Any],
+                        construct_type(
+                            type_=typing.Optional[typing.Any],  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 404:
+                raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Optional[typing.Any],
+                        construct_type(
+                            type_=typing.Optional[typing.Any],  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 409:
+                raise ConflictError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Optional[typing.Any],
+                        construct_type(
+                            type_=typing.Optional[typing.Any],  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
 
 class AsyncRawAgentsClient:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
@@ -1758,6 +1993,238 @@ class AsyncRawAgentsClient:
                 )
             if _response.status_code == 404:
                 raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Optional[typing.Any],
+                        construct_type(
+                            type_=typing.Optional[typing.Any],  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def add_custom_phone_number(
+        self,
+        name_or_id: str,
+        *,
+        phone_number: str,
+        project: typing.Optional[str] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AsyncHttpResponse[AgentsAddCustomPhoneNumberResponse]:
+        """
+        Adds a custom phone number to an agent. The user must configure their SIP trunk to point to Phonic's SIP server.
+
+        Parameters
+        ----------
+        name_or_id : str
+            The name or the ID of the agent.
+
+        phone_number : str
+            The E.164 formatted phone number to add (e.g., "+15551234567").
+
+        project : typing.Optional[str]
+            The name of the project containing the agent. Only used when `nameOrId` is a name.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[AgentsAddCustomPhoneNumberResponse]
+            Success response
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"agents/{jsonable_encoder(name_or_id)}/add-custom-phone-number",
+            base_url=self._client_wrapper.get_environment().base,
+            method="POST",
+            params={
+                "project": project,
+            },
+            json={
+                "phone_number": phone_number,
+            },
+            headers={
+                "content-type": "application/json",
+            },
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    AgentsAddCustomPhoneNumberResponse,
+                    construct_type(
+                        type_=AgentsAddCustomPhoneNumberResponse,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return AsyncHttpResponse(response=_response, data=_data)
+            if _response.status_code == 400:
+                raise BadRequestError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Optional[typing.Any],
+                        construct_type(
+                            type_=typing.Optional[typing.Any],  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 401:
+                raise UnauthorizedError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        BasicError,
+                        construct_type(
+                            type_=BasicError,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 403:
+                raise ForbiddenError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Optional[typing.Any],
+                        construct_type(
+                            type_=typing.Optional[typing.Any],  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 404:
+                raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Optional[typing.Any],
+                        construct_type(
+                            type_=typing.Optional[typing.Any],  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 409:
+                raise ConflictError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Optional[typing.Any],
+                        construct_type(
+                            type_=typing.Optional[typing.Any],  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def remove_custom_phone_number(
+        self,
+        name_or_id: str,
+        *,
+        phone_number: str,
+        project: typing.Optional[str] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AsyncHttpResponse[AgentsRemoveCustomPhoneNumberResponse]:
+        """
+        Removes a custom phone number from an agent.
+
+        Parameters
+        ----------
+        name_or_id : str
+            The name or the ID of the agent.
+
+        phone_number : str
+            The E.164 formatted phone number to remove (e.g., "+15551234567").
+
+        project : typing.Optional[str]
+            The name of the project containing the agent. Only used when `nameOrId` is a name.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[AgentsRemoveCustomPhoneNumberResponse]
+            Success response
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"agents/{jsonable_encoder(name_or_id)}/remove-custom-phone-number",
+            base_url=self._client_wrapper.get_environment().base,
+            method="POST",
+            params={
+                "project": project,
+            },
+            json={
+                "phone_number": phone_number,
+            },
+            headers={
+                "content-type": "application/json",
+            },
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    AgentsRemoveCustomPhoneNumberResponse,
+                    construct_type(
+                        type_=AgentsRemoveCustomPhoneNumberResponse,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return AsyncHttpResponse(response=_response, data=_data)
+            if _response.status_code == 400:
+                raise BadRequestError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Optional[typing.Any],
+                        construct_type(
+                            type_=typing.Optional[typing.Any],  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 401:
+                raise UnauthorizedError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        BasicError,
+                        construct_type(
+                            type_=BasicError,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 403:
+                raise ForbiddenError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Optional[typing.Any],
+                        construct_type(
+                            type_=typing.Optional[typing.Any],  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 404:
+                raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Optional[typing.Any],
+                        construct_type(
+                            type_=typing.Optional[typing.Any],  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 409:
+                raise ConflictError(
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],

@@ -16,10 +16,12 @@ from .raw_client import AsyncRawAgentsClient, RawAgentsClient
 from .requests.update_agent_request_configuration_endpoint import UpdateAgentRequestConfigurationEndpointParams
 from .requests.update_agent_request_template_variables_value import UpdateAgentRequestTemplateVariablesValueParams
 from .requests.update_agent_request_tools_item import UpdateAgentRequestToolsItemParams
+from .types.agents_add_custom_phone_number_response import AgentsAddCustomPhoneNumberResponse
 from .types.agents_create_response import AgentsCreateResponse
 from .types.agents_delete_response import AgentsDeleteResponse
 from .types.agents_get_response import AgentsGetResponse
 from .types.agents_list_response import AgentsListResponse
+from .types.agents_remove_custom_phone_number_response import AgentsRemoveCustomPhoneNumberResponse
 from .types.agents_update_response import AgentsUpdateResponse
 from .types.agents_upsert_response import AgentsUpsertResponse
 from .types.update_agent_request_audio_format import UpdateAgentRequestAudioFormat
@@ -704,6 +706,102 @@ class AgentsClient:
             inbound_rollout=inbound_rollout,
             inbound_rollout_forward_phone_number=inbound_rollout_forward_phone_number,
             request_options=request_options,
+        )
+        return _response.data
+
+    def add_custom_phone_number(
+        self,
+        name_or_id: str,
+        *,
+        phone_number: str,
+        project: typing.Optional[str] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AgentsAddCustomPhoneNumberResponse:
+        """
+        Adds a custom phone number to an agent. The user must configure their SIP trunk to point to Phonic's SIP server.
+
+        Parameters
+        ----------
+        name_or_id : str
+            The name or the ID of the agent.
+
+        phone_number : str
+            The E.164 formatted phone number to add (e.g., "+15551234567").
+
+        project : typing.Optional[str]
+            The name of the project containing the agent. Only used when `nameOrId` is a name.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AgentsAddCustomPhoneNumberResponse
+            Success response
+
+        Examples
+        --------
+        from phonic import Phonic
+
+        client = Phonic(
+            api_key="YOUR_API_KEY",
+        )
+        client.agents.add_custom_phone_number(
+            name_or_id="nameOrId",
+            project="main",
+            phone_number="+15551234567",
+        )
+        """
+        _response = self._raw_client.add_custom_phone_number(
+            name_or_id, phone_number=phone_number, project=project, request_options=request_options
+        )
+        return _response.data
+
+    def remove_custom_phone_number(
+        self,
+        name_or_id: str,
+        *,
+        phone_number: str,
+        project: typing.Optional[str] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AgentsRemoveCustomPhoneNumberResponse:
+        """
+        Removes a custom phone number from an agent.
+
+        Parameters
+        ----------
+        name_or_id : str
+            The name or the ID of the agent.
+
+        phone_number : str
+            The E.164 formatted phone number to remove (e.g., "+15551234567").
+
+        project : typing.Optional[str]
+            The name of the project containing the agent. Only used when `nameOrId` is a name.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AgentsRemoveCustomPhoneNumberResponse
+            Success response
+
+        Examples
+        --------
+        from phonic import Phonic
+
+        client = Phonic(
+            api_key="YOUR_API_KEY",
+        )
+        client.agents.remove_custom_phone_number(
+            name_or_id="nameOrId",
+            project="main",
+            phone_number="+15551234567",
+        )
+        """
+        _response = self._raw_client.remove_custom_phone_number(
+            name_or_id, phone_number=phone_number, project=project, request_options=request_options
         )
         return _response.data
 
@@ -1430,5 +1528,117 @@ class AsyncAgentsClient:
             inbound_rollout=inbound_rollout,
             inbound_rollout_forward_phone_number=inbound_rollout_forward_phone_number,
             request_options=request_options,
+        )
+        return _response.data
+
+    async def add_custom_phone_number(
+        self,
+        name_or_id: str,
+        *,
+        phone_number: str,
+        project: typing.Optional[str] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AgentsAddCustomPhoneNumberResponse:
+        """
+        Adds a custom phone number to an agent. The user must configure their SIP trunk to point to Phonic's SIP server.
+
+        Parameters
+        ----------
+        name_or_id : str
+            The name or the ID of the agent.
+
+        phone_number : str
+            The E.164 formatted phone number to add (e.g., "+15551234567").
+
+        project : typing.Optional[str]
+            The name of the project containing the agent. Only used when `nameOrId` is a name.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AgentsAddCustomPhoneNumberResponse
+            Success response
+
+        Examples
+        --------
+        import asyncio
+
+        from phonic import AsyncPhonic
+
+        client = AsyncPhonic(
+            api_key="YOUR_API_KEY",
+        )
+
+
+        async def main() -> None:
+            await client.agents.add_custom_phone_number(
+                name_or_id="nameOrId",
+                project="main",
+                phone_number="+15551234567",
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.add_custom_phone_number(
+            name_or_id, phone_number=phone_number, project=project, request_options=request_options
+        )
+        return _response.data
+
+    async def remove_custom_phone_number(
+        self,
+        name_or_id: str,
+        *,
+        phone_number: str,
+        project: typing.Optional[str] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AgentsRemoveCustomPhoneNumberResponse:
+        """
+        Removes a custom phone number from an agent.
+
+        Parameters
+        ----------
+        name_or_id : str
+            The name or the ID of the agent.
+
+        phone_number : str
+            The E.164 formatted phone number to remove (e.g., "+15551234567").
+
+        project : typing.Optional[str]
+            The name of the project containing the agent. Only used when `nameOrId` is a name.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AgentsRemoveCustomPhoneNumberResponse
+            Success response
+
+        Examples
+        --------
+        import asyncio
+
+        from phonic import AsyncPhonic
+
+        client = AsyncPhonic(
+            api_key="YOUR_API_KEY",
+        )
+
+
+        async def main() -> None:
+            await client.agents.remove_custom_phone_number(
+                name_or_id="nameOrId",
+                project="main",
+                phone_number="+15551234567",
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.remove_custom_phone_number(
+            name_or_id, phone_number=phone_number, project=project, request_options=request_options
         )
         return _response.data

@@ -1096,6 +1096,182 @@ client.agents.update(
 </dl>
 </details>
 
+<details><summary><code>client.agents.<a href="src/phonic/agents/client.py">add_custom_phone_number</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Adds a custom phone number to an agent. The user must configure their SIP trunk to point to Phonic's SIP server.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from phonic import Phonic
+
+client = Phonic(
+    api_key="YOUR_API_KEY",
+)
+client.agents.add_custom_phone_number(
+    name_or_id="nameOrId",
+    project="main",
+    phone_number="+15551234567",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**name_or_id:** `str` — The name or the ID of the agent.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**phone_number:** `str` — The E.164 formatted phone number to add (e.g., "+15551234567").
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**project:** `typing.Optional[str]` — The name of the project containing the agent. Only used when `nameOrId` is a name.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.agents.<a href="src/phonic/agents/client.py">remove_custom_phone_number</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Removes a custom phone number from an agent.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from phonic import Phonic
+
+client = Phonic(
+    api_key="YOUR_API_KEY",
+)
+client.agents.remove_custom_phone_number(
+    name_or_id="nameOrId",
+    project="main",
+    phone_number="+15551234567",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**name_or_id:** `str` — The name or the ID of the agent.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**phone_number:** `str` — The E.164 formatted phone number to remove (e.g., "+15551234567").
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**project:** `typing.Optional[str]` — The name of the project containing the agent. Only used when `nameOrId` is a name.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 ## Tools
 <details><summary><code>client.tools.<a href="src/phonic/tools/client.py">list</a>(...)</code></summary>
 <dl>
