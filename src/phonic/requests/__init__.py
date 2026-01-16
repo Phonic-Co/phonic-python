@@ -51,6 +51,12 @@ if typing.TYPE_CHECKING:
     from .is_user_speaking_payload import IsUserSpeakingPayloadParams
     from .outbound_call_config import OutboundCallConfigParams
     from .outbound_call_config_tools_item import OutboundCallConfigToolsItemParams
+    from .post_agents_name_or_id_add_custom_phone_number_response import (
+        PostAgentsNameOrIdAddCustomPhoneNumberResponseParams,
+    )
+    from .post_agents_name_or_id_remove_custom_phone_number_response import (
+        PostAgentsNameOrIdRemoveCustomPhoneNumberResponseParams,
+    )
     from .project import ProjectParams
     from .project_default_agent import ProjectDefaultAgentParams
     from .ready_to_start_conversation_payload import ReadyToStartConversationPayloadParams
@@ -117,6 +123,8 @@ _dynamic_imports: typing.Dict[str, str] = {
     "IsUserSpeakingPayloadParams": ".is_user_speaking_payload",
     "OutboundCallConfigParams": ".outbound_call_config",
     "OutboundCallConfigToolsItemParams": ".outbound_call_config_tools_item",
+    "PostAgentsNameOrIdAddCustomPhoneNumberResponseParams": ".post_agents_name_or_id_add_custom_phone_number_response",
+    "PostAgentsNameOrIdRemoveCustomPhoneNumberResponseParams": ".post_agents_name_or_id_remove_custom_phone_number_response",
     "ProjectDefaultAgentParams": ".project_default_agent",
     "ProjectParams": ".project",
     "ReadyToStartConversationPayloadParams": ".ready_to_start_conversation_payload",
@@ -207,6 +215,8 @@ __all__ = [
     "IsUserSpeakingPayloadParams",
     "OutboundCallConfigParams",
     "OutboundCallConfigToolsItemParams",
+    "PostAgentsNameOrIdAddCustomPhoneNumberResponseParams",
+    "PostAgentsNameOrIdRemoveCustomPhoneNumberResponseParams",
     "ProjectDefaultAgentParams",
     "ProjectParams",
     "ReadyToStartConversationPayloadParams",

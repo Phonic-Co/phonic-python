@@ -66,6 +66,10 @@ if typing.TYPE_CHECKING:
     from .language_code import LanguageCode
     from .outbound_call_config import OutboundCallConfig
     from .outbound_call_config_tools_item import OutboundCallConfigToolsItem
+    from .post_agents_name_or_id_add_custom_phone_number_response import PostAgentsNameOrIdAddCustomPhoneNumberResponse
+    from .post_agents_name_or_id_remove_custom_phone_number_response import (
+        PostAgentsNameOrIdRemoveCustomPhoneNumberResponse,
+    )
     from .project import Project
     from .project_default_agent import ProjectDefaultAgent
     from .ready_to_start_conversation_payload import ReadyToStartConversationPayload
@@ -153,6 +157,8 @@ _dynamic_imports: typing.Dict[str, str] = {
     "LanguageCode": ".language_code",
     "OutboundCallConfig": ".outbound_call_config",
     "OutboundCallConfigToolsItem": ".outbound_call_config_tools_item",
+    "PostAgentsNameOrIdAddCustomPhoneNumberResponse": ".post_agents_name_or_id_add_custom_phone_number_response",
+    "PostAgentsNameOrIdRemoveCustomPhoneNumberResponse": ".post_agents_name_or_id_remove_custom_phone_number_response",
     "Project": ".project",
     "ProjectDefaultAgent": ".project_default_agent",
     "ReadyToStartConversationPayload": ".ready_to_start_conversation_payload",
@@ -264,6 +270,8 @@ __all__ = [
     "LanguageCode",
     "OutboundCallConfig",
     "OutboundCallConfigToolsItem",
+    "PostAgentsNameOrIdAddCustomPhoneNumberResponse",
+    "PostAgentsNameOrIdRemoveCustomPhoneNumberResponse",
     "Project",
     "ProjectDefaultAgent",
     "ReadyToStartConversationPayload",

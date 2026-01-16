@@ -7,7 +7,15 @@ import typing
 
 import httpx
 from .core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
+from .core.request_options import RequestOptions
 from .environment import PhonicEnvironment
+from .raw_client import AsyncRawPhonic, RawPhonic
+from .types.post_agents_name_or_id_add_custom_phone_number_response import (
+    PostAgentsNameOrIdAddCustomPhoneNumberResponse,
+)
+from .types.post_agents_name_or_id_remove_custom_phone_number_response import (
+    PostAgentsNameOrIdRemoveCustomPhoneNumberResponse,
+)
 
 if typing.TYPE_CHECKING:
     from .agents.client import AgentsClient, AsyncAgentsClient
@@ -17,6 +25,8 @@ if typing.TYPE_CHECKING:
     from .projects.client import AsyncProjectsClient, ProjectsClient
     from .tools.client import AsyncToolsClient, ToolsClient
     from .voices.client import AsyncVoicesClient, VoicesClient
+# this is used as the default value for optional parameters
+OMIT = typing.cast(typing.Any, ...)
 
 
 class Phonic:
@@ -80,6 +90,7 @@ class Phonic:
             else httpx.Client(timeout=_defaulted_timeout),
             timeout=_defaulted_timeout,
         )
+        self._raw_client = RawPhonic(client_wrapper=self._client_wrapper)
         self._agents: typing.Optional[AgentsClient] = None
         self._tools: typing.Optional[ToolsClient] = None
         self._extraction_schemas: typing.Optional[ExtractionSchemasClient] = None
@@ -87,6 +98,113 @@ class Phonic:
         self._conversations: typing.Optional[ConversationsClient] = None
         self._auth: typing.Optional[AuthClient] = None
         self._projects: typing.Optional[ProjectsClient] = None
+
+    @property
+    def with_raw_response(self) -> RawPhonic:
+        """
+        Retrieves a raw implementation of this client that returns raw responses.
+
+        Returns
+        -------
+        RawPhonic
+        """
+        return self._raw_client
+
+    def post_agents_name_or_id_add_custom_phone_number(
+        self,
+        name_or_id: str,
+        *,
+        phone_number: str,
+        project: typing.Optional[str] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> PostAgentsNameOrIdAddCustomPhoneNumberResponse:
+        """
+        Adds a custom phone number to an agent. The user must configure their SIP trunk to point to Phonic's SIP server.
+
+        Parameters
+        ----------
+        name_or_id : str
+            The name or the ID of the agent.
+
+        phone_number : str
+            The E.164 formatted phone number to add (e.g., "+15551234567").
+
+        project : typing.Optional[str]
+            The name of the project containing the agent. Only used when `nameOrId` is a name.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        PostAgentsNameOrIdAddCustomPhoneNumberResponse
+            Success response
+
+        Examples
+        --------
+        from phonic import Phonic
+
+        client = Phonic(
+            api_key="YOUR_API_KEY",
+        )
+        client.post_agents_name_or_id_add_custom_phone_number(
+            name_or_id="nameOrId",
+            project="main",
+            phone_number="+15551234567",
+        )
+        """
+        _response = self._raw_client.post_agents_name_or_id_add_custom_phone_number(
+            name_or_id, phone_number=phone_number, project=project, request_options=request_options
+        )
+        return _response.data
+
+    def post_agents_name_or_id_remove_custom_phone_number(
+        self,
+        name_or_id: str,
+        *,
+        phone_number: str,
+        project: typing.Optional[str] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> PostAgentsNameOrIdRemoveCustomPhoneNumberResponse:
+        """
+        Removes a custom phone number from an agent.
+
+        Parameters
+        ----------
+        name_or_id : str
+            The name or the ID of the agent.
+
+        phone_number : str
+            The E.164 formatted phone number to remove (e.g., "+15551234567").
+
+        project : typing.Optional[str]
+            The name of the project containing the agent. Only used when `nameOrId` is a name.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        PostAgentsNameOrIdRemoveCustomPhoneNumberResponse
+            Success response
+
+        Examples
+        --------
+        from phonic import Phonic
+
+        client = Phonic(
+            api_key="YOUR_API_KEY",
+        )
+        client.post_agents_name_or_id_remove_custom_phone_number(
+            name_or_id="nameOrId",
+            project="main",
+            phone_number="+15551234567",
+        )
+        """
+        _response = self._raw_client.post_agents_name_or_id_remove_custom_phone_number(
+            name_or_id, phone_number=phone_number, project=project, request_options=request_options
+        )
+        return _response.data
 
     @property
     def agents(self):
@@ -206,6 +324,7 @@ class AsyncPhonic:
             else httpx.AsyncClient(timeout=_defaulted_timeout),
             timeout=_defaulted_timeout,
         )
+        self._raw_client = AsyncRawPhonic(client_wrapper=self._client_wrapper)
         self._agents: typing.Optional[AsyncAgentsClient] = None
         self._tools: typing.Optional[AsyncToolsClient] = None
         self._extraction_schemas: typing.Optional[AsyncExtractionSchemasClient] = None
@@ -213,6 +332,129 @@ class AsyncPhonic:
         self._conversations: typing.Optional[AsyncConversationsClient] = None
         self._auth: typing.Optional[AsyncAuthClient] = None
         self._projects: typing.Optional[AsyncProjectsClient] = None
+
+    @property
+    def with_raw_response(self) -> AsyncRawPhonic:
+        """
+        Retrieves a raw implementation of this client that returns raw responses.
+
+        Returns
+        -------
+        AsyncRawPhonic
+        """
+        return self._raw_client
+
+    async def post_agents_name_or_id_add_custom_phone_number(
+        self,
+        name_or_id: str,
+        *,
+        phone_number: str,
+        project: typing.Optional[str] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> PostAgentsNameOrIdAddCustomPhoneNumberResponse:
+        """
+        Adds a custom phone number to an agent. The user must configure their SIP trunk to point to Phonic's SIP server.
+
+        Parameters
+        ----------
+        name_or_id : str
+            The name or the ID of the agent.
+
+        phone_number : str
+            The E.164 formatted phone number to add (e.g., "+15551234567").
+
+        project : typing.Optional[str]
+            The name of the project containing the agent. Only used when `nameOrId` is a name.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        PostAgentsNameOrIdAddCustomPhoneNumberResponse
+            Success response
+
+        Examples
+        --------
+        import asyncio
+
+        from phonic import AsyncPhonic
+
+        client = AsyncPhonic(
+            api_key="YOUR_API_KEY",
+        )
+
+
+        async def main() -> None:
+            await client.post_agents_name_or_id_add_custom_phone_number(
+                name_or_id="nameOrId",
+                project="main",
+                phone_number="+15551234567",
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.post_agents_name_or_id_add_custom_phone_number(
+            name_or_id, phone_number=phone_number, project=project, request_options=request_options
+        )
+        return _response.data
+
+    async def post_agents_name_or_id_remove_custom_phone_number(
+        self,
+        name_or_id: str,
+        *,
+        phone_number: str,
+        project: typing.Optional[str] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> PostAgentsNameOrIdRemoveCustomPhoneNumberResponse:
+        """
+        Removes a custom phone number from an agent.
+
+        Parameters
+        ----------
+        name_or_id : str
+            The name or the ID of the agent.
+
+        phone_number : str
+            The E.164 formatted phone number to remove (e.g., "+15551234567").
+
+        project : typing.Optional[str]
+            The name of the project containing the agent. Only used when `nameOrId` is a name.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        PostAgentsNameOrIdRemoveCustomPhoneNumberResponse
+            Success response
+
+        Examples
+        --------
+        import asyncio
+
+        from phonic import AsyncPhonic
+
+        client = AsyncPhonic(
+            api_key="YOUR_API_KEY",
+        )
+
+
+        async def main() -> None:
+            await client.post_agents_name_or_id_remove_custom_phone_number(
+                name_or_id="nameOrId",
+                project="main",
+                phone_number="+15551234567",
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.post_agents_name_or_id_remove_custom_phone_number(
+            name_or_id, phone_number=phone_number, project=project, request_options=request_options
+        )
+        return _response.data
 
     @property
     def agents(self):

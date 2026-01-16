@@ -40,31 +40,10 @@ from phonic import Phonic
 client = Phonic(
     api_key="YOUR_API_KEY",
 )
-client.agents.create(
+client.post_agents_name_or_id_add_custom_phone_number(
+    name_or_id="nameOrId",
     project="main",
-    name="support-agent",
-    phone_number="assign-automatically",
-    timezone="America/Los_Angeles",
-    voice_id="grant",
-    audio_speed=1.0,
-    background_noise_level=0.0,
-    generate_welcome_message=False,
-    welcome_message="Hi {{customer_name}}. How can I help you today?",
-    system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
-    template_variables={
-        "customer_name": {},
-        "subject": {"default_value": "Chess"},
-    },
-    tools=[],
-    no_input_poke_sec=30,
-    no_input_poke_text="Are you still there?",
-    languages=["en", "es"],
-    boosted_keywords=["Load ID", "dispatch"],
-    configuration_endpoint={
-        "url": "https://api.example.com/config",
-        "headers": {"Authorization": "Bearer token123"},
-        "timeout_ms": 7000,
-    },
+    phone_number="+15551234567",
 )
 ```
 
@@ -83,31 +62,10 @@ client = AsyncPhonic(
 
 
 async def main() -> None:
-    await client.agents.create(
+    await client.post_agents_name_or_id_add_custom_phone_number(
+        name_or_id="nameOrId",
         project="main",
-        name="support-agent",
-        phone_number="assign-automatically",
-        timezone="America/Los_Angeles",
-        voice_id="grant",
-        audio_speed=1.0,
-        background_noise_level=0.0,
-        generate_welcome_message=False,
-        welcome_message="Hi {{customer_name}}. How can I help you today?",
-        system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
-        template_variables={
-            "customer_name": {},
-            "subject": {"default_value": "Chess"},
-        },
-        tools=[],
-        no_input_poke_sec=30,
-        no_input_poke_text="Are you still there?",
-        languages=["en", "es"],
-        boosted_keywords=["Load ID", "dispatch"],
-        configuration_endpoint={
-            "url": "https://api.example.com/config",
-            "headers": {"Authorization": "Bearer token123"},
-            "timeout_ms": 7000,
-        },
+        phone_number="+15551234567",
     )
 
 
@@ -123,7 +81,7 @@ will be thrown.
 from phonic.core.api_error import ApiError
 
 try:
-    client.agents.create(...)
+    client.post_agents_name_or_id_add_custom_phone_number(...)
 except ApiError as e:
     print(e.status_code)
     print(e.body)
@@ -198,7 +156,9 @@ from phonic import Phonic
 client = Phonic(
     ...,
 )
-response = client.agents.with_raw_response.create(...)
+response = (
+    client.with_raw_response.post_agents_name_or_id_add_custom_phone_number(...)
+)
 print(response.headers)  # access the response headers
 print(response.data)  # access the underlying object
 ```
@@ -218,7 +178,7 @@ A request is deemed retryable when any of the following HTTP status codes is ret
 Use the `max_retries` request option to configure this behavior.
 
 ```python
-client.agents.create(..., request_options={
+client.post_agents_name_or_id_add_custom_phone_number(..., request_options={
     "max_retries": 1
 })
 ```
@@ -238,7 +198,7 @@ client = Phonic(
 
 
 # Override timeout for a specific method
-client.agents.create(..., request_options={
+client.post_agents_name_or_id_add_custom_phone_number(..., request_options={
     "timeout_in_seconds": 1
 })
 ```
