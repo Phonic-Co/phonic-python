@@ -157,7 +157,7 @@ class RawToolsClient:
             Timeout for WebSocket tool responses.
 
         phone_number : typing.Optional[str]
-            The E.164 formatted phone number to transfer calls to. Required for built_in_transfer_to_phone_number tools.
+            The E.164 formatted phone number to transfer calls to. Set to null if the agent should determine the phone number.
 
         dtmf : typing.Optional[str]
             DTMF digits to send after the transfer connects (e.g., "1234"). Defaults to null.
@@ -480,7 +480,7 @@ class RawToolsClient:
         tool_call_output_timeout_ms : typing.Optional[int]
 
         phone_number : typing.Optional[str]
-            The E.164 formatted phone number to transfer calls to. Required for built_in_transfer_to_phone_number tools.
+            The E.164 formatted phone number to transfer calls to. Set to null if the agent should determine the phone number.
 
         dtmf : typing.Optional[str]
             DTMF digits to send after the transfer connects (e.g., "1234"). Can be set to null to remove DTMF.
@@ -729,7 +729,7 @@ class AsyncRawToolsClient:
             Timeout for WebSocket tool responses.
 
         phone_number : typing.Optional[str]
-            The E.164 formatted phone number to transfer calls to. Required for built_in_transfer_to_phone_number tools.
+            The E.164 formatted phone number to transfer calls to. Set to null if the agent should determine the phone number.
 
         dtmf : typing.Optional[str]
             DTMF digits to send after the transfer connects (e.g., "1234"). Defaults to null.
@@ -1052,7 +1052,7 @@ class AsyncRawToolsClient:
         tool_call_output_timeout_ms : typing.Optional[int]
 
         phone_number : typing.Optional[str]
-            The E.164 formatted phone number to transfer calls to. Required for built_in_transfer_to_phone_number tools.
+            The E.164 formatted phone number to transfer calls to. Set to null if the agent should determine the phone number.
 
         dtmf : typing.Optional[str]
             DTMF digits to send after the transfer connects (e.g., "1234"). Can be set to null to remove DTMF.

@@ -71,7 +71,7 @@ class Tool(UncheckedBaseModel):
 
     phone_number: typing.Optional[str] = pydantic.Field(default=None)
     """
-    The E.164 formatted phone number to transfer calls to. Required for built_in_transfer_to_phone_number tools.
+    The E.164 formatted phone number to transfer calls to. Set to null if the agent should determine the phone number.
     """
 
     dtmf: typing.Optional[str] = pydantic.Field(default=None)
