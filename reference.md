@@ -1172,6 +1172,30 @@ client.agents.add_custom_phone_number(
 <dl>
 <dd>
 
+**sip_address:** `typing.Optional[str]` — SIP address of the user's SIP trunk. Optional, but if provided, all three SIP headers (X-Sip-Address, X-Sip-Auth-Username, X-Sip-Auth-Password) must be provided. When these headers are provided, call transfers from the agent will use the provided SIP details.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**sip_auth_username:** `typing.Optional[str]` — SIP auth username. Optional, but if provided, all three SIP headers (X-Sip-Address, X-Sip-Auth-Username, X-Sip-Auth-Password) must be provided. When these headers are provided, call transfers from the agent will use the provided SIP details.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**sip_auth_password:** `typing.Optional[str]` — SIP auth password. Optional, but if provided, all three SIP headers (X-Sip-Address, X-Sip-Auth-Username, X-Sip-Auth-Password) must be provided. When these headers are provided, call transfers from the agent will use the provided SIP details.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
     
 </dd>

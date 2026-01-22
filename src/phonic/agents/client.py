@@ -715,6 +715,9 @@ class AgentsClient:
         *,
         phone_number: str,
         project: typing.Optional[str] = None,
+        sip_address: typing.Optional[str] = None,
+        sip_auth_username: typing.Optional[str] = None,
+        sip_auth_password: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AgentsAddCustomPhoneNumberResponse:
         """
@@ -730,6 +733,15 @@ class AgentsClient:
 
         project : typing.Optional[str]
             The name of the project containing the agent. Only used when `nameOrId` is a name.
+
+        sip_address : typing.Optional[str]
+            SIP address of the user's SIP trunk. Optional, but if provided, all three SIP headers (X-Sip-Address, X-Sip-Auth-Username, X-Sip-Auth-Password) must be provided. When these headers are provided, call transfers from the agent will use the provided SIP details.
+
+        sip_auth_username : typing.Optional[str]
+            SIP auth username. Optional, but if provided, all three SIP headers (X-Sip-Address, X-Sip-Auth-Username, X-Sip-Auth-Password) must be provided. When these headers are provided, call transfers from the agent will use the provided SIP details.
+
+        sip_auth_password : typing.Optional[str]
+            SIP auth password. Optional, but if provided, all three SIP headers (X-Sip-Address, X-Sip-Auth-Username, X-Sip-Auth-Password) must be provided. When these headers are provided, call transfers from the agent will use the provided SIP details.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -753,7 +765,13 @@ class AgentsClient:
         )
         """
         _response = self._raw_client.add_custom_phone_number(
-            name_or_id, phone_number=phone_number, project=project, request_options=request_options
+            name_or_id,
+            phone_number=phone_number,
+            project=project,
+            sip_address=sip_address,
+            sip_auth_username=sip_auth_username,
+            sip_auth_password=sip_auth_password,
+            request_options=request_options,
         )
         return _response.data
 
@@ -1537,6 +1555,9 @@ class AsyncAgentsClient:
         *,
         phone_number: str,
         project: typing.Optional[str] = None,
+        sip_address: typing.Optional[str] = None,
+        sip_auth_username: typing.Optional[str] = None,
+        sip_auth_password: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AgentsAddCustomPhoneNumberResponse:
         """
@@ -1552,6 +1573,15 @@ class AsyncAgentsClient:
 
         project : typing.Optional[str]
             The name of the project containing the agent. Only used when `nameOrId` is a name.
+
+        sip_address : typing.Optional[str]
+            SIP address of the user's SIP trunk. Optional, but if provided, all three SIP headers (X-Sip-Address, X-Sip-Auth-Username, X-Sip-Auth-Password) must be provided. When these headers are provided, call transfers from the agent will use the provided SIP details.
+
+        sip_auth_username : typing.Optional[str]
+            SIP auth username. Optional, but if provided, all three SIP headers (X-Sip-Address, X-Sip-Auth-Username, X-Sip-Auth-Password) must be provided. When these headers are provided, call transfers from the agent will use the provided SIP details.
+
+        sip_auth_password : typing.Optional[str]
+            SIP auth password. Optional, but if provided, all three SIP headers (X-Sip-Address, X-Sip-Auth-Username, X-Sip-Auth-Password) must be provided. When these headers are provided, call transfers from the agent will use the provided SIP details.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1583,7 +1613,13 @@ class AsyncAgentsClient:
         asyncio.run(main())
         """
         _response = await self._raw_client.add_custom_phone_number(
-            name_or_id, phone_number=phone_number, project=project, request_options=request_options
+            name_or_id,
+            phone_number=phone_number,
+            project=project,
+            sip_address=sip_address,
+            sip_auth_username=sip_auth_username,
+            sip_auth_password=sip_auth_password,
+            request_options=request_options,
         )
         return _response.data
 

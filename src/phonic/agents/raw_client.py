@@ -915,6 +915,9 @@ class RawAgentsClient:
         *,
         phone_number: str,
         project: typing.Optional[str] = None,
+        sip_address: typing.Optional[str] = None,
+        sip_auth_username: typing.Optional[str] = None,
+        sip_auth_password: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[AgentsAddCustomPhoneNumberResponse]:
         """
@@ -930,6 +933,15 @@ class RawAgentsClient:
 
         project : typing.Optional[str]
             The name of the project containing the agent. Only used when `nameOrId` is a name.
+
+        sip_address : typing.Optional[str]
+            SIP address of the user's SIP trunk. Optional, but if provided, all three SIP headers (X-Sip-Address, X-Sip-Auth-Username, X-Sip-Auth-Password) must be provided. When these headers are provided, call transfers from the agent will use the provided SIP details.
+
+        sip_auth_username : typing.Optional[str]
+            SIP auth username. Optional, but if provided, all three SIP headers (X-Sip-Address, X-Sip-Auth-Username, X-Sip-Auth-Password) must be provided. When these headers are provided, call transfers from the agent will use the provided SIP details.
+
+        sip_auth_password : typing.Optional[str]
+            SIP auth password. Optional, but if provided, all three SIP headers (X-Sip-Address, X-Sip-Auth-Username, X-Sip-Auth-Password) must be provided. When these headers are provided, call transfers from the agent will use the provided SIP details.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -951,6 +963,9 @@ class RawAgentsClient:
             },
             headers={
                 "content-type": "application/json",
+                "X-Sip-Address": str(sip_address) if sip_address is not None else None,
+                "X-Sip-Auth-Username": str(sip_auth_username) if sip_auth_username is not None else None,
+                "X-Sip-Auth-Password": str(sip_auth_password) if sip_auth_password is not None else None,
             },
             request_options=request_options,
             omit=OMIT,
@@ -2013,6 +2028,9 @@ class AsyncRawAgentsClient:
         *,
         phone_number: str,
         project: typing.Optional[str] = None,
+        sip_address: typing.Optional[str] = None,
+        sip_auth_username: typing.Optional[str] = None,
+        sip_auth_password: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[AgentsAddCustomPhoneNumberResponse]:
         """
@@ -2028,6 +2046,15 @@ class AsyncRawAgentsClient:
 
         project : typing.Optional[str]
             The name of the project containing the agent. Only used when `nameOrId` is a name.
+
+        sip_address : typing.Optional[str]
+            SIP address of the user's SIP trunk. Optional, but if provided, all three SIP headers (X-Sip-Address, X-Sip-Auth-Username, X-Sip-Auth-Password) must be provided. When these headers are provided, call transfers from the agent will use the provided SIP details.
+
+        sip_auth_username : typing.Optional[str]
+            SIP auth username. Optional, but if provided, all three SIP headers (X-Sip-Address, X-Sip-Auth-Username, X-Sip-Auth-Password) must be provided. When these headers are provided, call transfers from the agent will use the provided SIP details.
+
+        sip_auth_password : typing.Optional[str]
+            SIP auth password. Optional, but if provided, all three SIP headers (X-Sip-Address, X-Sip-Auth-Username, X-Sip-Auth-Password) must be provided. When these headers are provided, call transfers from the agent will use the provided SIP details.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -2049,6 +2076,9 @@ class AsyncRawAgentsClient:
             },
             headers={
                 "content-type": "application/json",
+                "X-Sip-Address": str(sip_address) if sip_address is not None else None,
+                "X-Sip-Auth-Username": str(sip_auth_username) if sip_auth_username is not None else None,
+                "X-Sip-Auth-Password": str(sip_auth_password) if sip_auth_password is not None else None,
             },
             request_options=request_options,
             omit=OMIT,
