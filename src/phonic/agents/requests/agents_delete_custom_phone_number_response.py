@@ -3,5 +3,5 @@
 import typing_extensions
 
 
-class AgentsRemoveCustomPhoneNumberResponseParams(typing_extensions.TypedDict):
+class AgentsDeleteCustomPhoneNumberResponseParams(typing_extensions.TypedDict):
     success: bool

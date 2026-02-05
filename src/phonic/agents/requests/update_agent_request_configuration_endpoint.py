@@ -7,7 +7,7 @@ import typing_extensions
 
 class UpdateAgentRequestConfigurationEndpointParams(typing_extensions.TypedDict):
     """
-    When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint when to get configuration options.
+    When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
     """
 
     url: str

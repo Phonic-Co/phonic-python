@@ -13,15 +13,22 @@ from ..types.create_agent_request_background_noise import CreateAgentRequestBack
 from ..types.create_agent_request_phone_number import CreateAgentRequestPhoneNumber
 from ..types.language_code import LanguageCode
 from .raw_client import AsyncRawAgentsClient, RawAgentsClient
+from .requests.agents_add_custom_phone_number_request_configuration_endpoint import (
+    AgentsAddCustomPhoneNumberRequestConfigurationEndpointParams,
+)
+from .requests.agents_update_phone_number_request_configuration_endpoint import (
+    AgentsUpdatePhoneNumberRequestConfigurationEndpointParams,
+)
 from .requests.update_agent_request_configuration_endpoint import UpdateAgentRequestConfigurationEndpointParams
 from .requests.update_agent_request_template_variables_value import UpdateAgentRequestTemplateVariablesValueParams
 from .requests.update_agent_request_tools_item import UpdateAgentRequestToolsItemParams
 from .types.agents_add_custom_phone_number_response import AgentsAddCustomPhoneNumberResponse
 from .types.agents_create_response import AgentsCreateResponse
+from .types.agents_delete_custom_phone_number_response import AgentsDeleteCustomPhoneNumberResponse
 from .types.agents_delete_response import AgentsDeleteResponse
 from .types.agents_get_response import AgentsGetResponse
 from .types.agents_list_response import AgentsListResponse
-from .types.agents_remove_custom_phone_number_response import AgentsRemoveCustomPhoneNumberResponse
+from .types.agents_update_phone_number_response import AgentsUpdatePhoneNumberResponse
 from .types.agents_update_response import AgentsUpdateResponse
 from .types.agents_upsert_response import AgentsUpsertResponse
 from .types.update_agent_request_audio_format import UpdateAgentRequestAudioFormat
@@ -179,7 +186,7 @@ class AgentsClient:
             These words, or short phrases, will be more accurately recognized by the agent.
 
         configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpointParams]
-            When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint when to get configuration options.
+            When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
         inbound_rollout : typing.Optional[float]
             Float between 0.0 and 1.0 representing the percentage of inbound calls handled by Agent. Defaults to `1.0`. Requires `phone_number` to be set when less than 1.0.
@@ -207,14 +214,14 @@ class AgentsClient:
             name="support-agent",
             phone_number="assign-automatically",
             timezone="America/Los_Angeles",
-            voice_id="grant",
+            voice_id="sabrina",
             audio_speed=1.0,
             background_noise_level=0.0,
             generate_welcome_message=False,
             welcome_message="Hi {{customer_name}}. How can I help you today?",
             system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
             template_variables={
-                "customer_name": {},
+                "customer_name": {"default_value": "David"},
                 "subject": {"default_value": "Chess"},
             },
             tools=[],
@@ -360,7 +367,7 @@ class AgentsClient:
             These words, or short phrases, will be more accurately recognized by the agent.
 
         configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpointParams]
-            When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint when to get configuration options.
+            When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
         inbound_rollout : typing.Optional[float]
             Float between 0.0 and 1.0 representing the percentage of inbound calls handled by Agent. Defaults to `1.0`. Requires `phone_number` to be set when less than 1.0.
@@ -388,14 +395,14 @@ class AgentsClient:
             name="support-agent",
             phone_number="assign-automatically",
             timezone="America/Los_Angeles",
-            voice_id="grant",
+            voice_id="sabrina",
             audio_speed=1.0,
             background_noise_level=0.0,
             generate_welcome_message=False,
             welcome_message="Hi {{customer_name}}. How can I help you today?",
             system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
             template_variables={
-                "customer_name": {},
+                "customer_name": {"default_value": "David"},
                 "subject": {"default_value": "Chess"},
             },
             tools=[],
@@ -627,7 +634,7 @@ class AgentsClient:
             These words, or short phrases, will be more accurately recognized by the agent.
 
         configuration_endpoint : typing.Optional[UpdateAgentRequestConfigurationEndpointParams]
-            When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint when to get configuration options.
+            When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
         inbound_rollout : typing.Optional[float]
             Float between 0.0 and 1.0 representing the percentage of inbound calls handled by Agent. Requires `phone_number` to be set when less than 1.0.
@@ -656,14 +663,14 @@ class AgentsClient:
             name="updated-support-agent",
             phone_number="assign-automatically",
             timezone="America/Los_Angeles",
-            voice_id="grant",
+            voice_id="sabrina",
             audio_speed=1.0,
             background_noise_level=0.0,
             generate_welcome_message=False,
             welcome_message="Hi {{customer_name}}. How can I help you today?",
             system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
             template_variables={
-                "customer_name": {},
+                "customer_name": {"default_value": "David"},
                 "subject": {"default_value": "Chess"},
             },
             tools=[],
@@ -715,6 +722,10 @@ class AgentsClient:
         *,
         phone_number: str,
         project: typing.Optional[str] = None,
+        sip_address: typing.Optional[str] = None,
+        sip_auth_username: typing.Optional[str] = None,
+        sip_auth_password: typing.Optional[str] = None,
+        configuration_endpoint: typing.Optional[AgentsAddCustomPhoneNumberRequestConfigurationEndpointParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AgentsAddCustomPhoneNumberResponse:
         """
@@ -730,6 +741,18 @@ class AgentsClient:
 
         project : typing.Optional[str]
             The name of the project containing the agent. Only used when `nameOrId` is a name.
+
+        sip_address : typing.Optional[str]
+            SIP address of the user's SIP trunk. Optional, but if provided, all three SIP headers (X-Sip-Address, X-Sip-Auth-Username, X-Sip-Auth-Password) must be provided. When these headers are provided, call transfers from the agent will use the provided SIP details.
+
+        sip_auth_username : typing.Optional[str]
+            SIP auth username. Optional, but if provided, all three SIP headers (X-Sip-Address, X-Sip-Auth-Username, X-Sip-Auth-Password) must be provided. When these headers are provided, call transfers from the agent will use the provided SIP details.
+
+        sip_auth_password : typing.Optional[str]
+            SIP auth password. Optional, but if provided, all three SIP headers (X-Sip-Address, X-Sip-Auth-Username, X-Sip-Auth-Password) must be provided. When these headers are provided, call transfers from the agent will use the provided SIP details.
+
+        configuration_endpoint : typing.Optional[AgentsAddCustomPhoneNumberRequestConfigurationEndpointParams]
+            When not `null`, the agent will call this endpoint to get configuration options for calls on this phone number.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -750,23 +773,35 @@ class AgentsClient:
             name_or_id="nameOrId",
             project="main",
             phone_number="+15551234567",
+            configuration_endpoint={
+                "url": "https://api.example.com/config",
+                "headers": {"Authorization": "Bearer token123"},
+                "timeout_ms": 7000,
+            },
         )
         """
         _response = self._raw_client.add_custom_phone_number(
-            name_or_id, phone_number=phone_number, project=project, request_options=request_options
+            name_or_id,
+            phone_number=phone_number,
+            project=project,
+            sip_address=sip_address,
+            sip_auth_username=sip_auth_username,
+            sip_auth_password=sip_auth_password,
+            configuration_endpoint=configuration_endpoint,
+            request_options=request_options,
         )
         return _response.data
 
-    def remove_custom_phone_number(
+    def delete_custom_phone_number(
         self,
         name_or_id: str,
         *,
         phone_number: str,
         project: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> AgentsRemoveCustomPhoneNumberResponse:
+    ) -> AgentsDeleteCustomPhoneNumberResponse:
         """
-        Removes a custom phone number from an agent.
+        Deletes a custom phone number from an agent.
 
         Parameters
         ----------
@@ -784,7 +819,7 @@ class AgentsClient:
 
         Returns
         -------
-        AgentsRemoveCustomPhoneNumberResponse
+        AgentsDeleteCustomPhoneNumberResponse
             Success response
 
         Examples
@@ -794,14 +829,75 @@ class AgentsClient:
         client = Phonic(
             api_key="YOUR_API_KEY",
         )
-        client.agents.remove_custom_phone_number(
+        client.agents.delete_custom_phone_number(
             name_or_id="nameOrId",
             project="main",
             phone_number="+15551234567",
         )
         """
-        _response = self._raw_client.remove_custom_phone_number(
+        _response = self._raw_client.delete_custom_phone_number(
             name_or_id, phone_number=phone_number, project=project, request_options=request_options
+        )
+        return _response.data
+
+    def update_phone_number(
+        self,
+        name_or_id: str,
+        *,
+        phone_number: str,
+        project: typing.Optional[str] = None,
+        configuration_endpoint: typing.Optional[AgentsUpdatePhoneNumberRequestConfigurationEndpointParams] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AgentsUpdatePhoneNumberResponse:
+        """
+        Updates a phone number on an agent.
+
+        Parameters
+        ----------
+        name_or_id : str
+            The name or the ID of the agent.
+
+        phone_number : str
+            The E.164 formatted phone number to add (e.g., "+15551234567").
+
+        project : typing.Optional[str]
+            The name of the project containing the agent. Only used when `nameOrId` is a name.
+
+        configuration_endpoint : typing.Optional[AgentsUpdatePhoneNumberRequestConfigurationEndpointParams]
+            When not `null`, the agent will call this endpoint to get configuration options for calls on this phone number.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AgentsUpdatePhoneNumberResponse
+            Success response
+
+        Examples
+        --------
+        from phonic import Phonic
+
+        client = Phonic(
+            api_key="YOUR_API_KEY",
+        )
+        client.agents.update_phone_number(
+            name_or_id="nameOrId",
+            project="main",
+            phone_number="+15551234567",
+            configuration_endpoint={
+                "url": "https://api.example.com/config",
+                "headers": {"Authorization": "Bearer token123"},
+                "timeout_ms": 7000,
+            },
+        )
+        """
+        _response = self._raw_client.update_phone_number(
+            name_or_id,
+            phone_number=phone_number,
+            project=project,
+            configuration_endpoint=configuration_endpoint,
+            request_options=request_options,
         )
         return _response.data
 
@@ -961,7 +1057,7 @@ class AsyncAgentsClient:
             These words, or short phrases, will be more accurately recognized by the agent.
 
         configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpointParams]
-            When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint when to get configuration options.
+            When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
         inbound_rollout : typing.Optional[float]
             Float between 0.0 and 1.0 representing the percentage of inbound calls handled by Agent. Defaults to `1.0`. Requires `phone_number` to be set when less than 1.0.
@@ -994,14 +1090,14 @@ class AsyncAgentsClient:
                 name="support-agent",
                 phone_number="assign-automatically",
                 timezone="America/Los_Angeles",
-                voice_id="grant",
+                voice_id="sabrina",
                 audio_speed=1.0,
                 background_noise_level=0.0,
                 generate_welcome_message=False,
                 welcome_message="Hi {{customer_name}}. How can I help you today?",
                 system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
                 template_variables={
-                    "customer_name": {},
+                    "customer_name": {"default_value": "David"},
                     "subject": {"default_value": "Chess"},
                 },
                 tools=[],
@@ -1150,7 +1246,7 @@ class AsyncAgentsClient:
             These words, or short phrases, will be more accurately recognized by the agent.
 
         configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpointParams]
-            When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint when to get configuration options.
+            When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
         inbound_rollout : typing.Optional[float]
             Float between 0.0 and 1.0 representing the percentage of inbound calls handled by Agent. Defaults to `1.0`. Requires `phone_number` to be set when less than 1.0.
@@ -1183,14 +1279,14 @@ class AsyncAgentsClient:
                 name="support-agent",
                 phone_number="assign-automatically",
                 timezone="America/Los_Angeles",
-                voice_id="grant",
+                voice_id="sabrina",
                 audio_speed=1.0,
                 background_noise_level=0.0,
                 generate_welcome_message=False,
                 welcome_message="Hi {{customer_name}}. How can I help you today?",
                 system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
                 template_variables={
-                    "customer_name": {},
+                    "customer_name": {"default_value": "David"},
                     "subject": {"default_value": "Chess"},
                 },
                 tools=[],
@@ -1441,7 +1537,7 @@ class AsyncAgentsClient:
             These words, or short phrases, will be more accurately recognized by the agent.
 
         configuration_endpoint : typing.Optional[UpdateAgentRequestConfigurationEndpointParams]
-            When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint when to get configuration options.
+            When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
         inbound_rollout : typing.Optional[float]
             Float between 0.0 and 1.0 representing the percentage of inbound calls handled by Agent. Requires `phone_number` to be set when less than 1.0.
@@ -1475,14 +1571,14 @@ class AsyncAgentsClient:
                 name="updated-support-agent",
                 phone_number="assign-automatically",
                 timezone="America/Los_Angeles",
-                voice_id="grant",
+                voice_id="sabrina",
                 audio_speed=1.0,
                 background_noise_level=0.0,
                 generate_welcome_message=False,
                 welcome_message="Hi {{customer_name}}. How can I help you today?",
                 system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
                 template_variables={
-                    "customer_name": {},
+                    "customer_name": {"default_value": "David"},
                     "subject": {"default_value": "Chess"},
                 },
                 tools=[],
@@ -1537,6 +1633,10 @@ class AsyncAgentsClient:
         *,
         phone_number: str,
         project: typing.Optional[str] = None,
+        sip_address: typing.Optional[str] = None,
+        sip_auth_username: typing.Optional[str] = None,
+        sip_auth_password: typing.Optional[str] = None,
+        configuration_endpoint: typing.Optional[AgentsAddCustomPhoneNumberRequestConfigurationEndpointParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AgentsAddCustomPhoneNumberResponse:
         """
@@ -1552,6 +1652,18 @@ class AsyncAgentsClient:
 
         project : typing.Optional[str]
             The name of the project containing the agent. Only used when `nameOrId` is a name.
+
+        sip_address : typing.Optional[str]
+            SIP address of the user's SIP trunk. Optional, but if provided, all three SIP headers (X-Sip-Address, X-Sip-Auth-Username, X-Sip-Auth-Password) must be provided. When these headers are provided, call transfers from the agent will use the provided SIP details.
+
+        sip_auth_username : typing.Optional[str]
+            SIP auth username. Optional, but if provided, all three SIP headers (X-Sip-Address, X-Sip-Auth-Username, X-Sip-Auth-Password) must be provided. When these headers are provided, call transfers from the agent will use the provided SIP details.
+
+        sip_auth_password : typing.Optional[str]
+            SIP auth password. Optional, but if provided, all three SIP headers (X-Sip-Address, X-Sip-Auth-Username, X-Sip-Auth-Password) must be provided. When these headers are provided, call transfers from the agent will use the provided SIP details.
+
+        configuration_endpoint : typing.Optional[AgentsAddCustomPhoneNumberRequestConfigurationEndpointParams]
+            When not `null`, the agent will call this endpoint to get configuration options for calls on this phone number.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1577,26 +1689,38 @@ class AsyncAgentsClient:
                 name_or_id="nameOrId",
                 project="main",
                 phone_number="+15551234567",
+                configuration_endpoint={
+                    "url": "https://api.example.com/config",
+                    "headers": {"Authorization": "Bearer token123"},
+                    "timeout_ms": 7000,
+                },
             )
 
 
         asyncio.run(main())
         """
         _response = await self._raw_client.add_custom_phone_number(
-            name_or_id, phone_number=phone_number, project=project, request_options=request_options
+            name_or_id,
+            phone_number=phone_number,
+            project=project,
+            sip_address=sip_address,
+            sip_auth_username=sip_auth_username,
+            sip_auth_password=sip_auth_password,
+            configuration_endpoint=configuration_endpoint,
+            request_options=request_options,
         )
         return _response.data
 
-    async def remove_custom_phone_number(
+    async def delete_custom_phone_number(
         self,
         name_or_id: str,
         *,
         phone_number: str,
         project: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> AgentsRemoveCustomPhoneNumberResponse:
+    ) -> AgentsDeleteCustomPhoneNumberResponse:
         """
-        Removes a custom phone number from an agent.
+        Deletes a custom phone number from an agent.
 
         Parameters
         ----------
@@ -1614,7 +1738,7 @@ class AsyncAgentsClient:
 
         Returns
         -------
-        AgentsRemoveCustomPhoneNumberResponse
+        AgentsDeleteCustomPhoneNumberResponse
             Success response
 
         Examples
@@ -1629,7 +1753,7 @@ class AsyncAgentsClient:
 
 
         async def main() -> None:
-            await client.agents.remove_custom_phone_number(
+            await client.agents.delete_custom_phone_number(
                 name_or_id="nameOrId",
                 project="main",
                 phone_number="+15551234567",
@@ -1638,7 +1762,76 @@ class AsyncAgentsClient:
 
         asyncio.run(main())
         """
-        _response = await self._raw_client.remove_custom_phone_number(
+        _response = await self._raw_client.delete_custom_phone_number(
             name_or_id, phone_number=phone_number, project=project, request_options=request_options
+        )
+        return _response.data
+
+    async def update_phone_number(
+        self,
+        name_or_id: str,
+        *,
+        phone_number: str,
+        project: typing.Optional[str] = None,
+        configuration_endpoint: typing.Optional[AgentsUpdatePhoneNumberRequestConfigurationEndpointParams] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AgentsUpdatePhoneNumberResponse:
+        """
+        Updates a phone number on an agent.
+
+        Parameters
+        ----------
+        name_or_id : str
+            The name or the ID of the agent.
+
+        phone_number : str
+            The E.164 formatted phone number to add (e.g., "+15551234567").
+
+        project : typing.Optional[str]
+            The name of the project containing the agent. Only used when `nameOrId` is a name.
+
+        configuration_endpoint : typing.Optional[AgentsUpdatePhoneNumberRequestConfigurationEndpointParams]
+            When not `null`, the agent will call this endpoint to get configuration options for calls on this phone number.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AgentsUpdatePhoneNumberResponse
+            Success response
+
+        Examples
+        --------
+        import asyncio
+
+        from phonic import AsyncPhonic
+
+        client = AsyncPhonic(
+            api_key="YOUR_API_KEY",
+        )
+
+
+        async def main() -> None:
+            await client.agents.update_phone_number(
+                name_or_id="nameOrId",
+                project="main",
+                phone_number="+15551234567",
+                configuration_endpoint={
+                    "url": "https://api.example.com/config",
+                    "headers": {"Authorization": "Bearer token123"},
+                    "timeout_ms": 7000,
+                },
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.update_phone_number(
+            name_or_id,
+            phone_number=phone_number,
+            project=project,
+            configuration_endpoint=configuration_endpoint,
+            request_options=request_options,
         )
         return _response.data

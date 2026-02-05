@@ -105,14 +105,14 @@ client.agents.create(
     name="support-agent",
     phone_number="assign-automatically",
     timezone="America/Los_Angeles",
-    voice_id="grant",
+    voice_id="sabrina",
     audio_speed=1.0,
     background_noise_level=0.0,
     generate_welcome_message=False,
     welcome_message="Hi {{customer_name}}. How can I help you today?",
     system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
     template_variables={
-        "customer_name": {},
+        "customer_name": {"default_value": "David"},
         "subject": {"default_value": "Chess"},
     },
     tools=[],
@@ -319,7 +319,7 @@ client.agents.create(
 <dl>
 <dd>
 
-**configuration_endpoint:** `typing.Optional[CreateAgentRequestConfigurationEndpointParams]` — When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint when to get configuration options.
+**configuration_endpoint:** `typing.Optional[CreateAgentRequestConfigurationEndpointParams]` — When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
     
 </dd>
 </dl>
@@ -392,14 +392,14 @@ client.agents.upsert(
     name="support-agent",
     phone_number="assign-automatically",
     timezone="America/Los_Angeles",
-    voice_id="grant",
+    voice_id="sabrina",
     audio_speed=1.0,
     background_noise_level=0.0,
     generate_welcome_message=False,
     welcome_message="Hi {{customer_name}}. How can I help you today?",
     system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
     template_variables={
-        "customer_name": {},
+        "customer_name": {"default_value": "David"},
         "subject": {"default_value": "Chess"},
     },
     tools=[],
@@ -606,7 +606,7 @@ client.agents.upsert(
 <dl>
 <dd>
 
-**configuration_endpoint:** `typing.Optional[CreateAgentRequestConfigurationEndpointParams]` — When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint when to get configuration options.
+**configuration_endpoint:** `typing.Optional[CreateAgentRequestConfigurationEndpointParams]` — When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
     
 </dd>
 </dl>
@@ -838,14 +838,14 @@ client.agents.update(
     name="updated-support-agent",
     phone_number="assign-automatically",
     timezone="America/Los_Angeles",
-    voice_id="grant",
+    voice_id="sabrina",
     audio_speed=1.0,
     background_noise_level=0.0,
     generate_welcome_message=False,
     welcome_message="Hi {{customer_name}}. How can I help you today?",
     system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
     template_variables={
-        "customer_name": {},
+        "customer_name": {"default_value": "David"},
         "subject": {"default_value": "Chess"},
     },
     tools=[],
@@ -1060,7 +1060,7 @@ client.agents.update(
 <dl>
 <dd>
 
-**configuration_endpoint:** `typing.Optional[UpdateAgentRequestConfigurationEndpointParams]` — When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint when to get configuration options.
+**configuration_endpoint:** `typing.Optional[UpdateAgentRequestConfigurationEndpointParams]` — When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
     
 </dd>
 </dl>
@@ -1132,6 +1132,11 @@ client.agents.add_custom_phone_number(
     name_or_id="nameOrId",
     project="main",
     phone_number="+15551234567",
+    configuration_endpoint={
+        "url": "https://api.example.com/config",
+        "headers": {"Authorization": "Bearer token123"},
+        "timeout_ms": 7000,
+    },
 )
 
 ```
@@ -1172,6 +1177,38 @@ client.agents.add_custom_phone_number(
 <dl>
 <dd>
 
+**sip_address:** `typing.Optional[str]` — SIP address of the user's SIP trunk. Optional, but if provided, all three SIP headers (X-Sip-Address, X-Sip-Auth-Username, X-Sip-Auth-Password) must be provided. When these headers are provided, call transfers from the agent will use the provided SIP details.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**sip_auth_username:** `typing.Optional[str]` — SIP auth username. Optional, but if provided, all three SIP headers (X-Sip-Address, X-Sip-Auth-Username, X-Sip-Auth-Password) must be provided. When these headers are provided, call transfers from the agent will use the provided SIP details.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**sip_auth_password:** `typing.Optional[str]` — SIP auth password. Optional, but if provided, all three SIP headers (X-Sip-Address, X-Sip-Auth-Username, X-Sip-Auth-Password) must be provided. When these headers are provided, call transfers from the agent will use the provided SIP details.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**configuration_endpoint:** `typing.Optional[AgentsAddCustomPhoneNumberRequestConfigurationEndpointParams]` — When not `null`, the agent will call this endpoint to get configuration options for calls on this phone number.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
     
 </dd>
@@ -1184,7 +1221,7 @@ client.agents.add_custom_phone_number(
 </dl>
 </details>
 
-<details><summary><code>client.agents.<a href="src/phonic/agents/client.py">remove_custom_phone_number</a>(...)</code></summary>
+<details><summary><code>client.agents.<a href="src/phonic/agents/client.py">delete_custom_phone_number</a>(...)</code></summary>
 <dl>
 <dd>
 
@@ -1196,7 +1233,7 @@ client.agents.add_custom_phone_number(
 <dl>
 <dd>
 
-Removes a custom phone number from an agent.
+Deletes a custom phone number from an agent.
 </dd>
 </dl>
 </dd>
@@ -1216,7 +1253,7 @@ from phonic import Phonic
 client = Phonic(
     api_key="YOUR_API_KEY",
 )
-client.agents.remove_custom_phone_number(
+client.agents.delete_custom_phone_number(
     name_or_id="nameOrId",
     project="main",
     phone_number="+15551234567",
@@ -1253,6 +1290,107 @@ client.agents.remove_custom_phone_number(
 <dd>
 
 **project:** `typing.Optional[str]` — The name of the project containing the agent. Only used when `nameOrId` is a name.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.agents.<a href="src/phonic/agents/client.py">update_phone_number</a>(...)</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Updates a phone number on an agent.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from phonic import Phonic
+
+client = Phonic(
+    api_key="YOUR_API_KEY",
+)
+client.agents.update_phone_number(
+    name_or_id="nameOrId",
+    project="main",
+    phone_number="+15551234567",
+    configuration_endpoint={
+        "url": "https://api.example.com/config",
+        "headers": {"Authorization": "Bearer token123"},
+        "timeout_ms": 7000,
+    },
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**name_or_id:** `str` — The name or the ID of the agent.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**phone_number:** `str` — The E.164 formatted phone number to add (e.g., "+15551234567").
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**project:** `typing.Optional[str]` — The name of the project containing the agent. Only used when `nameOrId` is a name.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**configuration_endpoint:** `typing.Optional[AgentsUpdatePhoneNumberRequestConfigurationEndpointParams]` — When not `null`, the agent will call this endpoint to get configuration options for calls on this phone number.
     
 </dd>
 </dl>
@@ -3259,7 +3397,7 @@ client.conversations.outbound_call(
         "welcome_message": "Hi {{customer_name}}. How can I help you today?",
         "system_prompt": "You are an expert in {{subject}}. Be friendly, helpful and concise.",
         "template_variables": {"customer_name": "David", "subject": "Chess"},
-        "voice_id": "grant",
+        "voice_id": "sabrina",
         "no_input_poke_sec": 30,
         "no_input_poke_text": "Are you still there?",
         "no_input_end_conversation_sec": 180,

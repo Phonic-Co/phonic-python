@@ -7,9 +7,8 @@ from ...core.pydantic_utilities import IS_PYDANTIC_V2
 from ...core.unchecked_base_model import UncheckedBaseModel
 
 
-class UpdateAgentRequestTemplateVariablesValue(UncheckedBaseModel):
-    default_value: str
-    is_boosted_keyword: typing.Optional[bool] = None
+class AgentsDeleteCustomPhoneNumberResponse(UncheckedBaseModel):
+    success: bool
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

@@ -8,7 +8,7 @@ from ..core.unchecked_base_model import UncheckedBaseModel
 
 
 class CreateAgentRequestTemplateVariablesValue(UncheckedBaseModel):
-    default_value: typing.Optional[str] = None
+    default_value: str
     is_boosted_keyword: typing.Optional[bool] = None
 
     if IS_PYDANTIC_V2:

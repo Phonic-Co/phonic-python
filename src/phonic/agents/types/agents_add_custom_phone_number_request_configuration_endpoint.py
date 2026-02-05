@@ -7,9 +7,9 @@ from ...core.pydantic_utilities import IS_PYDANTIC_V2
 from ...core.unchecked_base_model import UncheckedBaseModel
 
 
-class UpdateAgentRequestConfigurationEndpoint(UncheckedBaseModel):
+class AgentsAddCustomPhoneNumberRequestConfigurationEndpoint(UncheckedBaseModel):
     """
-    When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
+    When not `null`, the agent will call this endpoint to get configuration options for calls on this phone number.
     """
 
     url: str = pydantic.Field()
