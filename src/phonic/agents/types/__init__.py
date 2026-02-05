@@ -6,12 +6,19 @@ import typing
 from importlib import import_module
 
 if typing.TYPE_CHECKING:
+    from .agents_add_custom_phone_number_request_configuration_endpoint import (
+        AgentsAddCustomPhoneNumberRequestConfigurationEndpoint,
+    )
     from .agents_add_custom_phone_number_response import AgentsAddCustomPhoneNumberResponse
     from .agents_create_response import AgentsCreateResponse
+    from .agents_delete_custom_phone_number_response import AgentsDeleteCustomPhoneNumberResponse
     from .agents_delete_response import AgentsDeleteResponse
     from .agents_get_response import AgentsGetResponse
     from .agents_list_response import AgentsListResponse
-    from .agents_remove_custom_phone_number_response import AgentsRemoveCustomPhoneNumberResponse
+    from .agents_update_phone_number_request_configuration_endpoint import (
+        AgentsUpdatePhoneNumberRequestConfigurationEndpoint,
+    )
+    from .agents_update_phone_number_response import AgentsUpdatePhoneNumberResponse
     from .agents_update_response import AgentsUpdateResponse
     from .agents_upsert_response import AgentsUpsertResponse
     from .update_agent_request_audio_format import UpdateAgentRequestAudioFormat
@@ -21,12 +28,15 @@ if typing.TYPE_CHECKING:
     from .update_agent_request_template_variables_value import UpdateAgentRequestTemplateVariablesValue
     from .update_agent_request_tools_item import UpdateAgentRequestToolsItem
 _dynamic_imports: typing.Dict[str, str] = {
+    "AgentsAddCustomPhoneNumberRequestConfigurationEndpoint": ".agents_add_custom_phone_number_request_configuration_endpoint",
     "AgentsAddCustomPhoneNumberResponse": ".agents_add_custom_phone_number_response",
     "AgentsCreateResponse": ".agents_create_response",
+    "AgentsDeleteCustomPhoneNumberResponse": ".agents_delete_custom_phone_number_response",
     "AgentsDeleteResponse": ".agents_delete_response",
     "AgentsGetResponse": ".agents_get_response",
     "AgentsListResponse": ".agents_list_response",
-    "AgentsRemoveCustomPhoneNumberResponse": ".agents_remove_custom_phone_number_response",
+    "AgentsUpdatePhoneNumberRequestConfigurationEndpoint": ".agents_update_phone_number_request_configuration_endpoint",
+    "AgentsUpdatePhoneNumberResponse": ".agents_update_phone_number_response",
     "AgentsUpdateResponse": ".agents_update_response",
     "AgentsUpsertResponse": ".agents_upsert_response",
     "UpdateAgentRequestAudioFormat": ".update_agent_request_audio_format",
@@ -60,12 +70,15 @@ def __dir__():
 
 
 __all__ = [
+    "AgentsAddCustomPhoneNumberRequestConfigurationEndpoint",
     "AgentsAddCustomPhoneNumberResponse",
     "AgentsCreateResponse",
+    "AgentsDeleteCustomPhoneNumberResponse",
     "AgentsDeleteResponse",
     "AgentsGetResponse",
     "AgentsListResponse",
-    "AgentsRemoveCustomPhoneNumberResponse",
+    "AgentsUpdatePhoneNumberRequestConfigurationEndpoint",
+    "AgentsUpdatePhoneNumberResponse",
     "AgentsUpdateResponse",
     "AgentsUpsertResponse",
     "UpdateAgentRequestAudioFormat",

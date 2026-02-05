@@ -25,15 +25,22 @@ from ..types.create_agent_request_audio_format import CreateAgentRequestAudioFor
 from ..types.create_agent_request_background_noise import CreateAgentRequestBackgroundNoise
 from ..types.create_agent_request_phone_number import CreateAgentRequestPhoneNumber
 from ..types.language_code import LanguageCode
+from .requests.agents_add_custom_phone_number_request_configuration_endpoint import (
+    AgentsAddCustomPhoneNumberRequestConfigurationEndpointParams,
+)
+from .requests.agents_update_phone_number_request_configuration_endpoint import (
+    AgentsUpdatePhoneNumberRequestConfigurationEndpointParams,
+)
 from .requests.update_agent_request_configuration_endpoint import UpdateAgentRequestConfigurationEndpointParams
 from .requests.update_agent_request_template_variables_value import UpdateAgentRequestTemplateVariablesValueParams
 from .requests.update_agent_request_tools_item import UpdateAgentRequestToolsItemParams
 from .types.agents_add_custom_phone_number_response import AgentsAddCustomPhoneNumberResponse
 from .types.agents_create_response import AgentsCreateResponse
+from .types.agents_delete_custom_phone_number_response import AgentsDeleteCustomPhoneNumberResponse
 from .types.agents_delete_response import AgentsDeleteResponse
 from .types.agents_get_response import AgentsGetResponse
 from .types.agents_list_response import AgentsListResponse
-from .types.agents_remove_custom_phone_number_response import AgentsRemoveCustomPhoneNumberResponse
+from .types.agents_update_phone_number_response import AgentsUpdatePhoneNumberResponse
 from .types.agents_update_response import AgentsUpdateResponse
 from .types.agents_upsert_response import AgentsUpsertResponse
 from .types.update_agent_request_audio_format import UpdateAgentRequestAudioFormat
@@ -214,7 +221,7 @@ class RawAgentsClient:
             These words, or short phrases, will be more accurately recognized by the agent.
 
         configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpointParams]
-            When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint when to get configuration options.
+            When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
         inbound_rollout : typing.Optional[float]
             Float between 0.0 and 1.0 representing the percentage of inbound calls handled by Agent. Defaults to `1.0`. Requires `phone_number` to be set when less than 1.0.
@@ -441,7 +448,7 @@ class RawAgentsClient:
             These words, or short phrases, will be more accurately recognized by the agent.
 
         configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpointParams]
-            When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint when to get configuration options.
+            When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
         inbound_rollout : typing.Optional[float]
             Float between 0.0 and 1.0 representing the percentage of inbound calls handled by Agent. Defaults to `1.0`. Requires `phone_number` to be set when less than 1.0.
@@ -794,7 +801,7 @@ class RawAgentsClient:
             These words, or short phrases, will be more accurately recognized by the agent.
 
         configuration_endpoint : typing.Optional[UpdateAgentRequestConfigurationEndpointParams]
-            When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint when to get configuration options.
+            When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
         inbound_rollout : typing.Optional[float]
             Float between 0.0 and 1.0 representing the percentage of inbound calls handled by Agent. Requires `phone_number` to be set when less than 1.0.
@@ -915,6 +922,10 @@ class RawAgentsClient:
         *,
         phone_number: str,
         project: typing.Optional[str] = None,
+        sip_address: typing.Optional[str] = None,
+        sip_auth_username: typing.Optional[str] = None,
+        sip_auth_password: typing.Optional[str] = None,
+        configuration_endpoint: typing.Optional[AgentsAddCustomPhoneNumberRequestConfigurationEndpointParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[AgentsAddCustomPhoneNumberResponse]:
         """
@@ -931,6 +942,18 @@ class RawAgentsClient:
         project : typing.Optional[str]
             The name of the project containing the agent. Only used when `nameOrId` is a name.
 
+        sip_address : typing.Optional[str]
+            SIP address of the user's SIP trunk. Optional, but if provided, all three SIP headers (X-Sip-Address, X-Sip-Auth-Username, X-Sip-Auth-Password) must be provided. When these headers are provided, call transfers from the agent will use the provided SIP details.
+
+        sip_auth_username : typing.Optional[str]
+            SIP auth username. Optional, but if provided, all three SIP headers (X-Sip-Address, X-Sip-Auth-Username, X-Sip-Auth-Password) must be provided. When these headers are provided, call transfers from the agent will use the provided SIP details.
+
+        sip_auth_password : typing.Optional[str]
+            SIP auth password. Optional, but if provided, all three SIP headers (X-Sip-Address, X-Sip-Auth-Username, X-Sip-Auth-Password) must be provided. When these headers are provided, call transfers from the agent will use the provided SIP details.
+
+        configuration_endpoint : typing.Optional[AgentsAddCustomPhoneNumberRequestConfigurationEndpointParams]
+            When not `null`, the agent will call this endpoint to get configuration options for calls on this phone number.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -940,7 +963,7 @@ class RawAgentsClient:
             Success response
         """
         _response = self._client_wrapper.httpx_client.request(
-            f"agents/{jsonable_encoder(name_or_id)}/add-custom-phone-number",
+            f"agents/{jsonable_encoder(name_or_id)}/custom-phone-numbers",
             base_url=self._client_wrapper.get_environment().base,
             method="POST",
             params={
@@ -948,9 +971,17 @@ class RawAgentsClient:
             },
             json={
                 "phone_number": phone_number,
+                "configuration_endpoint": convert_and_respect_annotation_metadata(
+                    object_=configuration_endpoint,
+                    annotation=typing.Optional[AgentsAddCustomPhoneNumberRequestConfigurationEndpointParams],
+                    direction="write",
+                ),
             },
             headers={
                 "content-type": "application/json",
+                "X-Sip-Address": str(sip_address) if sip_address is not None else None,
+                "X-Sip-Auth-Username": str(sip_auth_username) if sip_auth_username is not None else None,
+                "X-Sip-Auth-Password": str(sip_auth_password) if sip_auth_password is not None else None,
             },
             request_options=request_options,
             omit=OMIT,
@@ -1025,16 +1056,16 @@ class RawAgentsClient:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
-    def remove_custom_phone_number(
+    def delete_custom_phone_number(
         self,
         name_or_id: str,
         *,
         phone_number: str,
         project: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> HttpResponse[AgentsRemoveCustomPhoneNumberResponse]:
+    ) -> HttpResponse[AgentsDeleteCustomPhoneNumberResponse]:
         """
-        Removes a custom phone number from an agent.
+        Deletes a custom phone number from an agent.
 
         Parameters
         ----------
@@ -1052,13 +1083,13 @@ class RawAgentsClient:
 
         Returns
         -------
-        HttpResponse[AgentsRemoveCustomPhoneNumberResponse]
+        HttpResponse[AgentsDeleteCustomPhoneNumberResponse]
             Success response
         """
         _response = self._client_wrapper.httpx_client.request(
-            f"agents/{jsonable_encoder(name_or_id)}/remove-custom-phone-number",
+            f"agents/{jsonable_encoder(name_or_id)}/custom-phone-numbers",
             base_url=self._client_wrapper.get_environment().base,
-            method="POST",
+            method="DELETE",
             params={
                 "project": project,
             },
@@ -1074,9 +1105,134 @@ class RawAgentsClient:
         try:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
-                    AgentsRemoveCustomPhoneNumberResponse,
+                    AgentsDeleteCustomPhoneNumberResponse,
                     construct_type(
-                        type_=AgentsRemoveCustomPhoneNumberResponse,  # type: ignore
+                        type_=AgentsDeleteCustomPhoneNumberResponse,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return HttpResponse(response=_response, data=_data)
+            if _response.status_code == 400:
+                raise BadRequestError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Optional[typing.Any],
+                        construct_type(
+                            type_=typing.Optional[typing.Any],  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 401:
+                raise UnauthorizedError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        BasicError,
+                        construct_type(
+                            type_=BasicError,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 403:
+                raise ForbiddenError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Optional[typing.Any],
+                        construct_type(
+                            type_=typing.Optional[typing.Any],  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 404:
+                raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Optional[typing.Any],
+                        construct_type(
+                            type_=typing.Optional[typing.Any],  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 409:
+                raise ConflictError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Optional[typing.Any],
+                        construct_type(
+                            type_=typing.Optional[typing.Any],  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    def update_phone_number(
+        self,
+        name_or_id: str,
+        *,
+        phone_number: str,
+        project: typing.Optional[str] = None,
+        configuration_endpoint: typing.Optional[AgentsUpdatePhoneNumberRequestConfigurationEndpointParams] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> HttpResponse[AgentsUpdatePhoneNumberResponse]:
+        """
+        Updates a phone number on an agent.
+
+        Parameters
+        ----------
+        name_or_id : str
+            The name or the ID of the agent.
+
+        phone_number : str
+            The E.164 formatted phone number to add (e.g., "+15551234567").
+
+        project : typing.Optional[str]
+            The name of the project containing the agent. Only used when `nameOrId` is a name.
+
+        configuration_endpoint : typing.Optional[AgentsUpdatePhoneNumberRequestConfigurationEndpointParams]
+            When not `null`, the agent will call this endpoint to get configuration options for calls on this phone number.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[AgentsUpdatePhoneNumberResponse]
+            Success response
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"agents/{jsonable_encoder(name_or_id)}/phone-numbers",
+            base_url=self._client_wrapper.get_environment().base,
+            method="PATCH",
+            params={
+                "project": project,
+            },
+            json={
+                "phone_number": phone_number,
+                "configuration_endpoint": convert_and_respect_annotation_metadata(
+                    object_=configuration_endpoint,
+                    annotation=typing.Optional[AgentsUpdatePhoneNumberRequestConfigurationEndpointParams],
+                    direction="write",
+                ),
+            },
+            headers={
+                "content-type": "application/json",
+            },
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    AgentsUpdatePhoneNumberResponse,
+                    construct_type(
+                        type_=AgentsUpdatePhoneNumberResponse,  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -1312,7 +1468,7 @@ class AsyncRawAgentsClient:
             These words, or short phrases, will be more accurately recognized by the agent.
 
         configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpointParams]
-            When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint when to get configuration options.
+            When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
         inbound_rollout : typing.Optional[float]
             Float between 0.0 and 1.0 representing the percentage of inbound calls handled by Agent. Defaults to `1.0`. Requires `phone_number` to be set when less than 1.0.
@@ -1539,7 +1695,7 @@ class AsyncRawAgentsClient:
             These words, or short phrases, will be more accurately recognized by the agent.
 
         configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpointParams]
-            When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint when to get configuration options.
+            When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
         inbound_rollout : typing.Optional[float]
             Float between 0.0 and 1.0 representing the percentage of inbound calls handled by Agent. Defaults to `1.0`. Requires `phone_number` to be set when less than 1.0.
@@ -1892,7 +2048,7 @@ class AsyncRawAgentsClient:
             These words, or short phrases, will be more accurately recognized by the agent.
 
         configuration_endpoint : typing.Optional[UpdateAgentRequestConfigurationEndpointParams]
-            When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint when to get configuration options.
+            When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
         inbound_rollout : typing.Optional[float]
             Float between 0.0 and 1.0 representing the percentage of inbound calls handled by Agent. Requires `phone_number` to be set when less than 1.0.
@@ -2013,6 +2169,10 @@ class AsyncRawAgentsClient:
         *,
         phone_number: str,
         project: typing.Optional[str] = None,
+        sip_address: typing.Optional[str] = None,
+        sip_auth_username: typing.Optional[str] = None,
+        sip_auth_password: typing.Optional[str] = None,
+        configuration_endpoint: typing.Optional[AgentsAddCustomPhoneNumberRequestConfigurationEndpointParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[AgentsAddCustomPhoneNumberResponse]:
         """
@@ -2029,6 +2189,18 @@ class AsyncRawAgentsClient:
         project : typing.Optional[str]
             The name of the project containing the agent. Only used when `nameOrId` is a name.
 
+        sip_address : typing.Optional[str]
+            SIP address of the user's SIP trunk. Optional, but if provided, all three SIP headers (X-Sip-Address, X-Sip-Auth-Username, X-Sip-Auth-Password) must be provided. When these headers are provided, call transfers from the agent will use the provided SIP details.
+
+        sip_auth_username : typing.Optional[str]
+            SIP auth username. Optional, but if provided, all three SIP headers (X-Sip-Address, X-Sip-Auth-Username, X-Sip-Auth-Password) must be provided. When these headers are provided, call transfers from the agent will use the provided SIP details.
+
+        sip_auth_password : typing.Optional[str]
+            SIP auth password. Optional, but if provided, all three SIP headers (X-Sip-Address, X-Sip-Auth-Username, X-Sip-Auth-Password) must be provided. When these headers are provided, call transfers from the agent will use the provided SIP details.
+
+        configuration_endpoint : typing.Optional[AgentsAddCustomPhoneNumberRequestConfigurationEndpointParams]
+            When not `null`, the agent will call this endpoint to get configuration options for calls on this phone number.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -2038,7 +2210,7 @@ class AsyncRawAgentsClient:
             Success response
         """
         _response = await self._client_wrapper.httpx_client.request(
-            f"agents/{jsonable_encoder(name_or_id)}/add-custom-phone-number",
+            f"agents/{jsonable_encoder(name_or_id)}/custom-phone-numbers",
             base_url=self._client_wrapper.get_environment().base,
             method="POST",
             params={
@@ -2046,9 +2218,17 @@ class AsyncRawAgentsClient:
             },
             json={
                 "phone_number": phone_number,
+                "configuration_endpoint": convert_and_respect_annotation_metadata(
+                    object_=configuration_endpoint,
+                    annotation=typing.Optional[AgentsAddCustomPhoneNumberRequestConfigurationEndpointParams],
+                    direction="write",
+                ),
             },
             headers={
                 "content-type": "application/json",
+                "X-Sip-Address": str(sip_address) if sip_address is not None else None,
+                "X-Sip-Auth-Username": str(sip_auth_username) if sip_auth_username is not None else None,
+                "X-Sip-Auth-Password": str(sip_auth_password) if sip_auth_password is not None else None,
             },
             request_options=request_options,
             omit=OMIT,
@@ -2123,16 +2303,16 @@ class AsyncRawAgentsClient:
             raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
-    async def remove_custom_phone_number(
+    async def delete_custom_phone_number(
         self,
         name_or_id: str,
         *,
         phone_number: str,
         project: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> AsyncHttpResponse[AgentsRemoveCustomPhoneNumberResponse]:
+    ) -> AsyncHttpResponse[AgentsDeleteCustomPhoneNumberResponse]:
         """
-        Removes a custom phone number from an agent.
+        Deletes a custom phone number from an agent.
 
         Parameters
         ----------
@@ -2150,13 +2330,13 @@ class AsyncRawAgentsClient:
 
         Returns
         -------
-        AsyncHttpResponse[AgentsRemoveCustomPhoneNumberResponse]
+        AsyncHttpResponse[AgentsDeleteCustomPhoneNumberResponse]
             Success response
         """
         _response = await self._client_wrapper.httpx_client.request(
-            f"agents/{jsonable_encoder(name_or_id)}/remove-custom-phone-number",
+            f"agents/{jsonable_encoder(name_or_id)}/custom-phone-numbers",
             base_url=self._client_wrapper.get_environment().base,
-            method="POST",
+            method="DELETE",
             params={
                 "project": project,
             },
@@ -2172,9 +2352,134 @@ class AsyncRawAgentsClient:
         try:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
-                    AgentsRemoveCustomPhoneNumberResponse,
+                    AgentsDeleteCustomPhoneNumberResponse,
                     construct_type(
-                        type_=AgentsRemoveCustomPhoneNumberResponse,  # type: ignore
+                        type_=AgentsDeleteCustomPhoneNumberResponse,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return AsyncHttpResponse(response=_response, data=_data)
+            if _response.status_code == 400:
+                raise BadRequestError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Optional[typing.Any],
+                        construct_type(
+                            type_=typing.Optional[typing.Any],  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 401:
+                raise UnauthorizedError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        BasicError,
+                        construct_type(
+                            type_=BasicError,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 403:
+                raise ForbiddenError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Optional[typing.Any],
+                        construct_type(
+                            type_=typing.Optional[typing.Any],  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 404:
+                raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Optional[typing.Any],
+                        construct_type(
+                            type_=typing.Optional[typing.Any],  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 409:
+                raise ConflictError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Optional[typing.Any],
+                        construct_type(
+                            type_=typing.Optional[typing.Any],  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def update_phone_number(
+        self,
+        name_or_id: str,
+        *,
+        phone_number: str,
+        project: typing.Optional[str] = None,
+        configuration_endpoint: typing.Optional[AgentsUpdatePhoneNumberRequestConfigurationEndpointParams] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AsyncHttpResponse[AgentsUpdatePhoneNumberResponse]:
+        """
+        Updates a phone number on an agent.
+
+        Parameters
+        ----------
+        name_or_id : str
+            The name or the ID of the agent.
+
+        phone_number : str
+            The E.164 formatted phone number to add (e.g., "+15551234567").
+
+        project : typing.Optional[str]
+            The name of the project containing the agent. Only used when `nameOrId` is a name.
+
+        configuration_endpoint : typing.Optional[AgentsUpdatePhoneNumberRequestConfigurationEndpointParams]
+            When not `null`, the agent will call this endpoint to get configuration options for calls on this phone number.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[AgentsUpdatePhoneNumberResponse]
+            Success response
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"agents/{jsonable_encoder(name_or_id)}/phone-numbers",
+            base_url=self._client_wrapper.get_environment().base,
+            method="PATCH",
+            params={
+                "project": project,
+            },
+            json={
+                "phone_number": phone_number,
+                "configuration_endpoint": convert_and_respect_annotation_metadata(
+                    object_=configuration_endpoint,
+                    annotation=typing.Optional[AgentsUpdatePhoneNumberRequestConfigurationEndpointParams],
+                    direction="write",
+                ),
+            },
+            headers={
+                "content-type": "application/json",
+            },
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    AgentsUpdatePhoneNumberResponse,
+                    construct_type(
+                        type_=AgentsUpdatePhoneNumberResponse,  # type: ignore
                         object_=_response.json(),
                     ),
                 )

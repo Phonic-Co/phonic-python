@@ -9,7 +9,7 @@ from ..core.unchecked_base_model import UncheckedBaseModel
 
 class CreateAgentRequestConfigurationEndpoint(UncheckedBaseModel):
     """
-    When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint when to get configuration options.
+    When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
     """
 
     url: str = pydantic.Field()

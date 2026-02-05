@@ -119,7 +119,7 @@ class CreateAgentRequestParams(typing_extensions.TypedDict):
         typing.Optional[CreateAgentRequestConfigurationEndpointParams]
     ]
     """
-    When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint when to get configuration options.
+    When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
     """
 
     inbound_rollout: typing_extensions.NotRequired[float]

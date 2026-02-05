@@ -121,7 +121,7 @@ class CreateAgentRequest(UncheckedBaseModel):
 
     configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpoint] = pydantic.Field(default=None)
     """
-    When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint when to get configuration options.
+    When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
     """
 
     inbound_rollout: typing.Optional[float] = pydantic.Field(default=None)
