@@ -131,3 +131,23 @@ class CreateAgentRequestParams(typing_extensions.TypedDict):
     """
     E.164 formatted phone number where non-agent calls will be forwarded. Required when `inbound_rollout < 1.0`, must be `null` when `inbound_rollout = 1.0`. Defaults to `null`.
     """
+
+    vad_prebuffer_duration_ms: typing_extensions.NotRequired[float]
+    """
+    Voice activity detection prebuffer duration in milliseconds.
+    """
+
+    vad_min_speech_duration_ms: typing_extensions.NotRequired[float]
+    """
+    Minimum speech duration for voice activity detection in milliseconds.
+    """
+
+    vad_min_silence_duration_ms: typing_extensions.NotRequired[float]
+    """
+    Minimum silence duration for voice activity detection in milliseconds.
+    """
+
+    vad_threshold: typing_extensions.NotRequired[float]
+    """
+    Voice activity detection threshold.
+    """

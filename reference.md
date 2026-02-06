@@ -343,6 +343,38 @@ client.agents.create(
 <dl>
 <dd>
 
+**vad_prebuffer_duration_ms:** `typing.Optional[float]` — Voice activity detection prebuffer duration in milliseconds.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**vad_min_speech_duration_ms:** `typing.Optional[float]` — Minimum speech duration for voice activity detection in milliseconds.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**vad_min_silence_duration_ms:** `typing.Optional[float]` — Minimum silence duration for voice activity detection in milliseconds.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**vad_threshold:** `typing.Optional[float]` — Voice activity detection threshold.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
     
 </dd>
@@ -623,6 +655,38 @@ client.agents.upsert(
 <dd>
 
 **inbound_rollout_forward_phone_number:** `typing.Optional[str]` — E.164 formatted phone number where non-agent calls will be forwarded. Required when `inbound_rollout < 1.0`, must be `null` when `inbound_rollout = 1.0`. Defaults to `null`.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**vad_prebuffer_duration_ms:** `typing.Optional[float]` — Voice activity detection prebuffer duration in milliseconds.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**vad_min_speech_duration_ms:** `typing.Optional[float]` — Minimum speech duration for voice activity detection in milliseconds.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**vad_min_silence_duration_ms:** `typing.Optional[float]` — Minimum silence duration for voice activity detection in milliseconds.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**vad_threshold:** `typing.Optional[float]` — Voice activity detection threshold.
     
 </dd>
 </dl>
@@ -1077,6 +1141,38 @@ client.agents.update(
 <dd>
 
 **inbound_rollout_forward_phone_number:** `typing.Optional[str]` — E.164 formatted phone number where non-agent calls will be forwarded. Required when `inbound_rollout < 1.0`, must be `null` when `inbound_rollout = 1.0`.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**vad_prebuffer_duration_ms:** `typing.Optional[float]` — Voice activity detection prebuffer duration in milliseconds.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**vad_min_speech_duration_ms:** `typing.Optional[float]` — Minimum speech duration for voice activity detection in milliseconds.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**vad_min_silence_duration_ms:** `typing.Optional[float]` — Minimum silence duration for voice activity detection in milliseconds.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**vad_threshold:** `typing.Optional[float]` — Voice activity detection threshold.
     
 </dd>
 </dl>

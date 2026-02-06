@@ -113,6 +113,10 @@ class AgentsClient:
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
+        vad_prebuffer_duration_ms: typing.Optional[float] = OMIT,
+        vad_min_speech_duration_ms: typing.Optional[float] = OMIT,
+        vad_min_silence_duration_ms: typing.Optional[float] = OMIT,
+        vad_threshold: typing.Optional[float] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AgentsCreateResponse:
         """
@@ -194,6 +198,18 @@ class AgentsClient:
         inbound_rollout_forward_phone_number : typing.Optional[str]
             E.164 formatted phone number where non-agent calls will be forwarded. Required when `inbound_rollout < 1.0`, must be `null` when `inbound_rollout = 1.0`. Defaults to `null`.
 
+        vad_prebuffer_duration_ms : typing.Optional[float]
+            Voice activity detection prebuffer duration in milliseconds.
+
+        vad_min_speech_duration_ms : typing.Optional[float]
+            Minimum speech duration for voice activity detection in milliseconds.
+
+        vad_min_silence_duration_ms : typing.Optional[float]
+            Minimum silence duration for voice activity detection in milliseconds.
+
+        vad_threshold : typing.Optional[float]
+            Voice activity detection threshold.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -262,6 +278,10 @@ class AgentsClient:
             configuration_endpoint=configuration_endpoint,
             inbound_rollout=inbound_rollout,
             inbound_rollout_forward_phone_number=inbound_rollout_forward_phone_number,
+            vad_prebuffer_duration_ms=vad_prebuffer_duration_ms,
+            vad_min_speech_duration_ms=vad_min_speech_duration_ms,
+            vad_min_silence_duration_ms=vad_min_silence_duration_ms,
+            vad_threshold=vad_threshold,
             request_options=request_options,
         )
         return _response.data
@@ -294,6 +314,10 @@ class AgentsClient:
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
+        vad_prebuffer_duration_ms: typing.Optional[float] = OMIT,
+        vad_min_speech_duration_ms: typing.Optional[float] = OMIT,
+        vad_min_silence_duration_ms: typing.Optional[float] = OMIT,
+        vad_threshold: typing.Optional[float] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AgentsUpsertResponse:
         """
@@ -375,6 +399,18 @@ class AgentsClient:
         inbound_rollout_forward_phone_number : typing.Optional[str]
             E.164 formatted phone number where non-agent calls will be forwarded. Required when `inbound_rollout < 1.0`, must be `null` when `inbound_rollout = 1.0`. Defaults to `null`.
 
+        vad_prebuffer_duration_ms : typing.Optional[float]
+            Voice activity detection prebuffer duration in milliseconds.
+
+        vad_min_speech_duration_ms : typing.Optional[float]
+            Minimum speech duration for voice activity detection in milliseconds.
+
+        vad_min_silence_duration_ms : typing.Optional[float]
+            Minimum silence duration for voice activity detection in milliseconds.
+
+        vad_threshold : typing.Optional[float]
+            Voice activity detection threshold.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -443,6 +479,10 @@ class AgentsClient:
             configuration_endpoint=configuration_endpoint,
             inbound_rollout=inbound_rollout,
             inbound_rollout_forward_phone_number=inbound_rollout_forward_phone_number,
+            vad_prebuffer_duration_ms=vad_prebuffer_duration_ms,
+            vad_min_speech_duration_ms=vad_min_speech_duration_ms,
+            vad_min_silence_duration_ms=vad_min_silence_duration_ms,
+            vad_threshold=vad_threshold,
             request_options=request_options,
         )
         return _response.data
@@ -558,6 +598,10 @@ class AgentsClient:
         configuration_endpoint: typing.Optional[UpdateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
+        vad_prebuffer_duration_ms: typing.Optional[float] = OMIT,
+        vad_min_speech_duration_ms: typing.Optional[float] = OMIT,
+        vad_min_silence_duration_ms: typing.Optional[float] = OMIT,
+        vad_threshold: typing.Optional[float] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AgentsUpdateResponse:
         """
@@ -642,6 +686,18 @@ class AgentsClient:
         inbound_rollout_forward_phone_number : typing.Optional[str]
             E.164 formatted phone number where non-agent calls will be forwarded. Required when `inbound_rollout < 1.0`, must be `null` when `inbound_rollout = 1.0`.
 
+        vad_prebuffer_duration_ms : typing.Optional[float]
+            Voice activity detection prebuffer duration in milliseconds.
+
+        vad_min_speech_duration_ms : typing.Optional[float]
+            Minimum speech duration for voice activity detection in milliseconds.
+
+        vad_min_silence_duration_ms : typing.Optional[float]
+            Minimum silence duration for voice activity detection in milliseconds.
+
+        vad_threshold : typing.Optional[float]
+            Voice activity detection threshold.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -712,6 +768,10 @@ class AgentsClient:
             configuration_endpoint=configuration_endpoint,
             inbound_rollout=inbound_rollout,
             inbound_rollout_forward_phone_number=inbound_rollout_forward_phone_number,
+            vad_prebuffer_duration_ms=vad_prebuffer_duration_ms,
+            vad_min_speech_duration_ms=vad_min_speech_duration_ms,
+            vad_min_silence_duration_ms=vad_min_silence_duration_ms,
+            vad_threshold=vad_threshold,
             request_options=request_options,
         )
         return _response.data
@@ -984,6 +1044,10 @@ class AsyncAgentsClient:
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
+        vad_prebuffer_duration_ms: typing.Optional[float] = OMIT,
+        vad_min_speech_duration_ms: typing.Optional[float] = OMIT,
+        vad_min_silence_duration_ms: typing.Optional[float] = OMIT,
+        vad_threshold: typing.Optional[float] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AgentsCreateResponse:
         """
@@ -1065,6 +1129,18 @@ class AsyncAgentsClient:
         inbound_rollout_forward_phone_number : typing.Optional[str]
             E.164 formatted phone number where non-agent calls will be forwarded. Required when `inbound_rollout < 1.0`, must be `null` when `inbound_rollout = 1.0`. Defaults to `null`.
 
+        vad_prebuffer_duration_ms : typing.Optional[float]
+            Voice activity detection prebuffer duration in milliseconds.
+
+        vad_min_speech_duration_ms : typing.Optional[float]
+            Minimum speech duration for voice activity detection in milliseconds.
+
+        vad_min_silence_duration_ms : typing.Optional[float]
+            Minimum silence duration for voice activity detection in milliseconds.
+
+        vad_threshold : typing.Optional[float]
+            Voice activity detection threshold.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -1141,6 +1217,10 @@ class AsyncAgentsClient:
             configuration_endpoint=configuration_endpoint,
             inbound_rollout=inbound_rollout,
             inbound_rollout_forward_phone_number=inbound_rollout_forward_phone_number,
+            vad_prebuffer_duration_ms=vad_prebuffer_duration_ms,
+            vad_min_speech_duration_ms=vad_min_speech_duration_ms,
+            vad_min_silence_duration_ms=vad_min_silence_duration_ms,
+            vad_threshold=vad_threshold,
             request_options=request_options,
         )
         return _response.data
@@ -1173,6 +1253,10 @@ class AsyncAgentsClient:
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
+        vad_prebuffer_duration_ms: typing.Optional[float] = OMIT,
+        vad_min_speech_duration_ms: typing.Optional[float] = OMIT,
+        vad_min_silence_duration_ms: typing.Optional[float] = OMIT,
+        vad_threshold: typing.Optional[float] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AgentsUpsertResponse:
         """
@@ -1254,6 +1338,18 @@ class AsyncAgentsClient:
         inbound_rollout_forward_phone_number : typing.Optional[str]
             E.164 formatted phone number where non-agent calls will be forwarded. Required when `inbound_rollout < 1.0`, must be `null` when `inbound_rollout = 1.0`. Defaults to `null`.
 
+        vad_prebuffer_duration_ms : typing.Optional[float]
+            Voice activity detection prebuffer duration in milliseconds.
+
+        vad_min_speech_duration_ms : typing.Optional[float]
+            Minimum speech duration for voice activity detection in milliseconds.
+
+        vad_min_silence_duration_ms : typing.Optional[float]
+            Minimum silence duration for voice activity detection in milliseconds.
+
+        vad_threshold : typing.Optional[float]
+            Voice activity detection threshold.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -1330,6 +1426,10 @@ class AsyncAgentsClient:
             configuration_endpoint=configuration_endpoint,
             inbound_rollout=inbound_rollout,
             inbound_rollout_forward_phone_number=inbound_rollout_forward_phone_number,
+            vad_prebuffer_duration_ms=vad_prebuffer_duration_ms,
+            vad_min_speech_duration_ms=vad_min_speech_duration_ms,
+            vad_min_silence_duration_ms=vad_min_silence_duration_ms,
+            vad_threshold=vad_threshold,
             request_options=request_options,
         )
         return _response.data
@@ -1461,6 +1561,10 @@ class AsyncAgentsClient:
         configuration_endpoint: typing.Optional[UpdateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
+        vad_prebuffer_duration_ms: typing.Optional[float] = OMIT,
+        vad_min_speech_duration_ms: typing.Optional[float] = OMIT,
+        vad_min_silence_duration_ms: typing.Optional[float] = OMIT,
+        vad_threshold: typing.Optional[float] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AgentsUpdateResponse:
         """
@@ -1545,6 +1649,18 @@ class AsyncAgentsClient:
         inbound_rollout_forward_phone_number : typing.Optional[str]
             E.164 formatted phone number where non-agent calls will be forwarded. Required when `inbound_rollout < 1.0`, must be `null` when `inbound_rollout = 1.0`.
 
+        vad_prebuffer_duration_ms : typing.Optional[float]
+            Voice activity detection prebuffer duration in milliseconds.
+
+        vad_min_speech_duration_ms : typing.Optional[float]
+            Minimum speech duration for voice activity detection in milliseconds.
+
+        vad_min_silence_duration_ms : typing.Optional[float]
+            Minimum silence duration for voice activity detection in milliseconds.
+
+        vad_threshold : typing.Optional[float]
+            Voice activity detection threshold.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -1623,6 +1739,10 @@ class AsyncAgentsClient:
             configuration_endpoint=configuration_endpoint,
             inbound_rollout=inbound_rollout,
             inbound_rollout_forward_phone_number=inbound_rollout_forward_phone_number,
+            vad_prebuffer_duration_ms=vad_prebuffer_duration_ms,
+            vad_min_speech_duration_ms=vad_min_speech_duration_ms,
+            vad_min_silence_duration_ms=vad_min_silence_duration_ms,
+            vad_threshold=vad_threshold,
             request_options=request_options,
         )
         return _response.data
