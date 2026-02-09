@@ -11,6 +11,8 @@ from ..core.pydantic_utilities import parse_obj_as
 from ..types.add_system_message_payload import AddSystemMessagePayload
 from ..types.assistant_chose_not_to_respond_payload import AssistantChoseNotToRespondPayload
 from ..types.assistant_ended_conversation_payload import AssistantEndedConversationPayload
+from ..types.assistant_finished_speaking_payload import AssistantFinishedSpeakingPayload
+from ..types.assistant_started_speaking_payload import AssistantStartedSpeakingPayload
 from ..types.audio_chunk_payload import AudioChunkPayload
 from ..types.audio_chunk_response_payload import AudioChunkResponsePayload
 from ..types.config_payload import ConfigPayload
@@ -45,6 +47,8 @@ ConversationsSocketClientResponse = typing.Union[
     IsUserSpeakingPayload,
     UserStartedSpeakingPayload,
     UserFinishedSpeakingPayload,
+    AssistantStartedSpeakingPayload,
+    AssistantFinishedSpeakingPayload,
     DtmfPayload,
     ToolCallPayload,
     ToolCallOutputProcessedPayload,
