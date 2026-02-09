@@ -16,6 +16,8 @@ if typing.TYPE_CHECKING:
     from .agent_tools_item import AgentToolsItem
     from .assistant_chose_not_to_respond_payload import AssistantChoseNotToRespondPayload
     from .assistant_ended_conversation_payload import AssistantEndedConversationPayload
+    from .assistant_finished_speaking_payload import AssistantFinishedSpeakingPayload
+    from .assistant_started_speaking_payload import AssistantStartedSpeakingPayload
     from .audio_chunk_payload import AudioChunkPayload
     from .audio_chunk_response_payload import AudioChunkResponsePayload
     from .bad_request_error_body import BadRequestErrorBody
@@ -103,6 +105,8 @@ _dynamic_imports: typing.Dict[str, str] = {
     "AgentToolsItem": ".agent_tools_item",
     "AssistantChoseNotToRespondPayload": ".assistant_chose_not_to_respond_payload",
     "AssistantEndedConversationPayload": ".assistant_ended_conversation_payload",
+    "AssistantFinishedSpeakingPayload": ".assistant_finished_speaking_payload",
+    "AssistantStartedSpeakingPayload": ".assistant_started_speaking_payload",
     "AudioChunkPayload": ".audio_chunk_payload",
     "AudioChunkResponsePayload": ".audio_chunk_response_payload",
     "BadRequestErrorBody": ".bad_request_error_body",
@@ -214,6 +218,8 @@ __all__ = [
     "AgentToolsItem",
     "AssistantChoseNotToRespondPayload",
     "AssistantEndedConversationPayload",
+    "AssistantFinishedSpeakingPayload",
+    "AssistantStartedSpeakingPayload",
     "AudioChunkPayload",
     "AudioChunkResponsePayload",
     "BadRequestErrorBody",
