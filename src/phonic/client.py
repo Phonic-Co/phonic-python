@@ -6,6 +6,7 @@ import os
 import typing
 
 import httpx
+from .core.api_error import ApiError
 from .core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .environment import PhonicEnvironment
 
@@ -69,6 +70,10 @@ class Phonic:
         _defaulted_timeout = (
             timeout if timeout is not None else 60 if httpx_client is None else httpx_client.timeout.read
         )
+        if api_key is None:
+            raise ApiError(
+                body="The client must be instantiated be either passing in api_key or setting PHONIC_API_KEY"
+            )
         self._client_wrapper = SyncClientWrapper(
             environment=environment,
             api_key=api_key,
@@ -195,6 +200,10 @@ class AsyncPhonic:
         _defaulted_timeout = (
             timeout if timeout is not None else 60 if httpx_client is None else httpx_client.timeout.read
         )
+        if api_key is None:
+            raise ApiError(
+                body="The client must be instantiated be either passing in api_key or setting PHONIC_API_KEY"
+            )
         self._client_wrapper = AsyncClientWrapper(
             environment=environment,
             api_key=api_key,

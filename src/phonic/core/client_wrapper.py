@@ -11,7 +11,7 @@ class BaseClientWrapper:
     def __init__(
         self,
         *,
-        api_key: typing.Optional[typing.Union[str, typing.Callable[[], str]]] = None,
+        api_key: typing.Union[str, typing.Callable[[], str]],
         headers: typing.Optional[typing.Dict[str, str]] = None,
         environment: PhonicEnvironment,
         timeout: typing.Optional[float] = None,
@@ -23,19 +23,17 @@ class BaseClientWrapper:
 
     def get_headers(self) -> typing.Dict[str, str]:
         headers: typing.Dict[str, str] = {
-            "User-Agent": "phonic/0.30.27",
+            "User-Agent": "phonic/0.30.28",
             "X-Fern-Language": "Python",
             "X-Fern-SDK-Name": "phonic",
-            "X-Fern-SDK-Version": "0.30.27",
+            "X-Fern-SDK-Version": "0.30.28",
             **(self.get_custom_headers() or {}),
         }
-        api_key = self._get_api_key()
-        if api_key is not None:
-            headers["Authorization"] = f"Bearer {api_key}"
+        headers["Authorization"] = f"Bearer {self._get_api_key()}"
         return headers
 
-    def _get_api_key(self) -> typing.Optional[str]:
-        if isinstance(self._api_key, str) or self._api_key is None:
+    def _get_api_key(self) -> str:
+        if isinstance(self._api_key, str):
             return self._api_key
         else:
             return self._api_key()
@@ -54,7 +52,7 @@ class SyncClientWrapper(BaseClientWrapper):
     def __init__(
         self,
         *,
-        api_key: typing.Optional[typing.Union[str, typing.Callable[[], str]]] = None,
+        api_key: typing.Union[str, typing.Callable[[], str]],
         headers: typing.Optional[typing.Dict[str, str]] = None,
         environment: PhonicEnvironment,
         timeout: typing.Optional[float] = None,
@@ -70,7 +68,7 @@ class AsyncClientWrapper(BaseClientWrapper):
     def __init__(
         self,
         *,
-        api_key: typing.Optional[typing.Union[str, typing.Callable[[], str]]] = None,
+        api_key: typing.Union[str, typing.Callable[[], str]],
         headers: typing.Optional[typing.Dict[str, str]] = None,
         environment: PhonicEnvironment,
         timeout: typing.Optional[float] = None,
