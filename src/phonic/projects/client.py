@@ -173,6 +173,7 @@ class ProjectsClient:
             The name of the project. Can only contain lowercase letters, numbers and hyphens. Must be unique within the workspace.
 
         default_agent : typing.Optional[str]
+            The name of the new project's default agent. Set to `null` to remove the default agent.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -467,6 +468,7 @@ class AsyncProjectsClient:
             The name of the project. Can only contain lowercase letters, numbers and hyphens. Must be unique within the workspace.
 
         default_agent : typing.Optional[str]
+            The name of the new project's default agent. Set to `null` to remove the default agent.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
