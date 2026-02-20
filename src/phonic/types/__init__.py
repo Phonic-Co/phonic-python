@@ -72,7 +72,6 @@ if typing.TYPE_CHECKING:
     from .project_default_agent import ProjectDefaultAgent
     from .ready_to_start_conversation_payload import ReadyToStartConversationPayload
     from .set_external_id_payload import SetExternalIdPayload
-    from .set_twilio_call_sid_payload import SetTwilioCallSidPayload
     from .task import Task
     from .tool import Tool
     from .tool_call_interrupted_payload import ToolCallInterruptedPayload
@@ -161,7 +160,6 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ProjectDefaultAgent": ".project_default_agent",
     "ReadyToStartConversationPayload": ".ready_to_start_conversation_payload",
     "SetExternalIdPayload": ".set_external_id_payload",
-    "SetTwilioCallSidPayload": ".set_twilio_call_sid_payload",
     "Task": ".task",
     "Tool": ".tool",
     "ToolCallInterruptedPayload": ".tool_call_interrupted_payload",
@@ -274,7 +272,6 @@ __all__ = [
     "ProjectDefaultAgent",
     "ReadyToStartConversationPayload",
     "SetExternalIdPayload",
-    "SetTwilioCallSidPayload",
     "Task",
     "Tool",
     "ToolCallInterruptedPayload",
