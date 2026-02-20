@@ -3,12 +3,11 @@
 import typing
 
 import pydantic
-from ..core.pydantic_utilities import IS_PYDANTIC_V2
-from ..core.unchecked_base_model import UncheckedBaseModel
+from ..core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .project_default_agent import ProjectDefaultAgent
 
 
-class Project(UncheckedBaseModel):
+class Project(UniversalBaseModel):
     id: str = pydantic.Field()
     """
     The ID of the project.

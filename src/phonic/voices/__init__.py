@@ -7,13 +7,7 @@ from importlib import import_module
 
 if typing.TYPE_CHECKING:
     from .types import VoicesGetResponse, VoicesListResponse
-    from .requests import VoicesGetResponseParams, VoicesListResponseParams
-_dynamic_imports: typing.Dict[str, str] = {
-    "VoicesGetResponse": ".types",
-    "VoicesGetResponseParams": ".requests",
-    "VoicesListResponse": ".types",
-    "VoicesListResponseParams": ".requests",
-}
+_dynamic_imports: typing.Dict[str, str] = {"VoicesGetResponse": ".types", "VoicesListResponse": ".types"}
 
 
 def __getattr__(attr_name: str) -> typing.Any:
@@ -37,4 +31,4 @@ def __dir__():
     return sorted(lazy_attrs)
 
 
-__all__ = ["VoicesGetResponse", "VoicesGetResponseParams", "VoicesListResponse", "VoicesListResponseParams"]
+__all__ = ["VoicesGetResponse", "VoicesListResponse"]

@@ -3,14 +3,13 @@
 import typing
 
 import pydantic
-from ..core.pydantic_utilities import IS_PYDANTIC_V2
-from ..core.unchecked_base_model import UncheckedBaseModel
+from ..core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .config_payload_background_noise import ConfigPayloadBackgroundNoise
 from .config_payload_input_format import ConfigPayloadInputFormat
 from .config_payload_output_format import ConfigPayloadOutputFormat
 
 
-class ConfigPayload(UncheckedBaseModel):
+class ConfigPayload(UniversalBaseModel):
     type: typing.Literal["config"] = "config"
     agent: typing.Optional[str] = pydantic.Field(default=None)
     """

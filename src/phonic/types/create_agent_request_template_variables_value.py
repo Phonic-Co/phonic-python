@@ -3,11 +3,10 @@
 import typing
 
 import pydantic
-from ..core.pydantic_utilities import IS_PYDANTIC_V2
-from ..core.unchecked_base_model import UncheckedBaseModel
+from ..core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 
 
-class CreateAgentRequestTemplateVariablesValue(UncheckedBaseModel):
+class CreateAgentRequestTemplateVariablesValue(UniversalBaseModel):
     default_value: str
     is_boosted_keyword: typing.Optional[bool] = None
 

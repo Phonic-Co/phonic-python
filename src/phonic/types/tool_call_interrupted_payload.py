@@ -3,11 +3,10 @@
 import typing
 
 import pydantic
-from ..core.pydantic_utilities import IS_PYDANTIC_V2
-from ..core.unchecked_base_model import UncheckedBaseModel
+from ..core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 
 
-class ToolCallInterruptedPayload(UncheckedBaseModel):
+class ToolCallInterruptedPayload(UniversalBaseModel):
     type: typing.Literal["tool_call_interrupted"] = "tool_call_interrupted"
     tool_call_id: str = pydantic.Field()
     """

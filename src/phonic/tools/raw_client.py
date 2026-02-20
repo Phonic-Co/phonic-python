@@ -7,14 +7,14 @@ from ..core.api_error import ApiError
 from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.http_response import AsyncHttpResponse, HttpResponse
 from ..core.jsonable_encoder import jsonable_encoder
+from ..core.pydantic_utilities import parse_obj_as
 from ..core.request_options import RequestOptions
 from ..core.serialization import convert_and_respect_annotation_metadata
-from ..core.unchecked_base_model import construct_type
 from ..errors.bad_request_error import BadRequestError
 from ..errors.conflict_error import ConflictError
 from ..errors.forbidden_error import ForbiddenError
 from ..errors.not_found_error import NotFoundError
-from ..requests.tool_parameter import ToolParameterParams
+from ..types.tool_parameter import ToolParameter
 from .types.create_tool_request_endpoint_method import CreateToolRequestEndpointMethod
 from .types.create_tool_request_execution_mode import CreateToolRequestExecutionMode
 from .types.create_tool_request_type import CreateToolRequestType
@@ -67,7 +67,7 @@ class RawToolsClient:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
                     ToolsListResponse,
-                    construct_type(
+                    parse_obj_as(
                         type_=ToolsListResponse,  # type: ignore
                         object_=_response.json(),
                     ),
@@ -78,7 +78,7 @@ class RawToolsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -97,7 +97,7 @@ class RawToolsClient:
         type: CreateToolRequestType,
         execution_mode: CreateToolRequestExecutionMode,
         project: typing.Optional[str] = None,
-        parameters: typing.Optional[typing.Sequence[ToolParameterParams]] = OMIT,
+        parameters: typing.Optional[typing.Sequence[ToolParameter]] = OMIT,
         endpoint_method: typing.Optional[CreateToolRequestEndpointMethod] = OMIT,
         endpoint_url: typing.Optional[str] = OMIT,
         endpoint_headers: typing.Optional[typing.Dict[str, str]] = OMIT,
@@ -135,7 +135,7 @@ class RawToolsClient:
         project : typing.Optional[str]
             The name of the project to create the tool in.
 
-        parameters : typing.Optional[typing.Sequence[ToolParameterParams]]
+        parameters : typing.Optional[typing.Sequence[ToolParameter]]
             Array of parameter definitions.
             For `custom_webhook` tools with POST method, each parameter must include a `location` field.
             For `custom_webhook` tools with GET method, `location` defaults to `"query_string"` if not specified.
@@ -207,7 +207,7 @@ class RawToolsClient:
                 "type": type,
                 "execution_mode": execution_mode,
                 "parameters": convert_and_respect_annotation_metadata(
-                    object_=parameters, annotation=typing.Sequence[ToolParameterParams], direction="write"
+                    object_=parameters, annotation=typing.Sequence[ToolParameter], direction="write"
                 ),
                 "endpoint_method": endpoint_method,
                 "endpoint_url": endpoint_url,
@@ -235,7 +235,7 @@ class RawToolsClient:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
                     ToolsCreateResponse,
-                    construct_type(
+                    parse_obj_as(
                         type_=ToolsCreateResponse,  # type: ignore
                         object_=_response.json(),
                     ),
@@ -246,7 +246,7 @@ class RawToolsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -257,7 +257,7 @@ class RawToolsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -268,7 +268,7 @@ class RawToolsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -318,7 +318,7 @@ class RawToolsClient:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
                     ToolsGetResponse,
-                    construct_type(
+                    parse_obj_as(
                         type_=ToolsGetResponse,  # type: ignore
                         object_=_response.json(),
                     ),
@@ -329,7 +329,7 @@ class RawToolsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -340,7 +340,7 @@ class RawToolsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -390,7 +390,7 @@ class RawToolsClient:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
                     ToolsDeleteResponse,
-                    construct_type(
+                    parse_obj_as(
                         type_=ToolsDeleteResponse,  # type: ignore
                         object_=_response.json(),
                     ),
@@ -401,7 +401,7 @@ class RawToolsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -421,7 +421,7 @@ class RawToolsClient:
         description: typing.Optional[str] = OMIT,
         type: typing.Optional[UpdateToolRequestType] = OMIT,
         execution_mode: typing.Optional[UpdateToolRequestExecutionMode] = OMIT,
-        parameters: typing.Optional[typing.Sequence[ToolParameterParams]] = OMIT,
+        parameters: typing.Optional[typing.Sequence[ToolParameter]] = OMIT,
         endpoint_method: typing.Optional[UpdateToolRequestEndpointMethod] = OMIT,
         endpoint_url: typing.Optional[str] = OMIT,
         endpoint_headers: typing.Optional[typing.Dict[str, str]] = OMIT,
@@ -462,7 +462,7 @@ class RawToolsClient:
         execution_mode : typing.Optional[UpdateToolRequestExecutionMode]
             Mode of operation.
 
-        parameters : typing.Optional[typing.Sequence[ToolParameterParams]]
+        parameters : typing.Optional[typing.Sequence[ToolParameter]]
             Array of parameter definitions.
             When updating `type` or `endpoint_method`, all parameters must include explicit `location` values.
             For `custom_webhook` tools: `location` is required for POST, defaults to `"query_string"` for GET.
@@ -530,7 +530,7 @@ class RawToolsClient:
                 "type": type,
                 "execution_mode": execution_mode,
                 "parameters": convert_and_respect_annotation_metadata(
-                    object_=parameters, annotation=typing.Sequence[ToolParameterParams], direction="write"
+                    object_=parameters, annotation=typing.Sequence[ToolParameter], direction="write"
                 ),
                 "endpoint_method": endpoint_method,
                 "endpoint_url": endpoint_url,
@@ -558,7 +558,7 @@ class RawToolsClient:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
                     ToolsUpdateResponse,
-                    construct_type(
+                    parse_obj_as(
                         type_=ToolsUpdateResponse,  # type: ignore
                         object_=_response.json(),
                     ),
@@ -569,7 +569,7 @@ class RawToolsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -580,7 +580,7 @@ class RawToolsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -591,7 +591,7 @@ class RawToolsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -639,7 +639,7 @@ class AsyncRawToolsClient:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
                     ToolsListResponse,
-                    construct_type(
+                    parse_obj_as(
                         type_=ToolsListResponse,  # type: ignore
                         object_=_response.json(),
                     ),
@@ -650,7 +650,7 @@ class AsyncRawToolsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -669,7 +669,7 @@ class AsyncRawToolsClient:
         type: CreateToolRequestType,
         execution_mode: CreateToolRequestExecutionMode,
         project: typing.Optional[str] = None,
-        parameters: typing.Optional[typing.Sequence[ToolParameterParams]] = OMIT,
+        parameters: typing.Optional[typing.Sequence[ToolParameter]] = OMIT,
         endpoint_method: typing.Optional[CreateToolRequestEndpointMethod] = OMIT,
         endpoint_url: typing.Optional[str] = OMIT,
         endpoint_headers: typing.Optional[typing.Dict[str, str]] = OMIT,
@@ -707,7 +707,7 @@ class AsyncRawToolsClient:
         project : typing.Optional[str]
             The name of the project to create the tool in.
 
-        parameters : typing.Optional[typing.Sequence[ToolParameterParams]]
+        parameters : typing.Optional[typing.Sequence[ToolParameter]]
             Array of parameter definitions.
             For `custom_webhook` tools with POST method, each parameter must include a `location` field.
             For `custom_webhook` tools with GET method, `location` defaults to `"query_string"` if not specified.
@@ -779,7 +779,7 @@ class AsyncRawToolsClient:
                 "type": type,
                 "execution_mode": execution_mode,
                 "parameters": convert_and_respect_annotation_metadata(
-                    object_=parameters, annotation=typing.Sequence[ToolParameterParams], direction="write"
+                    object_=parameters, annotation=typing.Sequence[ToolParameter], direction="write"
                 ),
                 "endpoint_method": endpoint_method,
                 "endpoint_url": endpoint_url,
@@ -807,7 +807,7 @@ class AsyncRawToolsClient:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
                     ToolsCreateResponse,
-                    construct_type(
+                    parse_obj_as(
                         type_=ToolsCreateResponse,  # type: ignore
                         object_=_response.json(),
                     ),
@@ -818,7 +818,7 @@ class AsyncRawToolsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -829,7 +829,7 @@ class AsyncRawToolsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -840,7 +840,7 @@ class AsyncRawToolsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -890,7 +890,7 @@ class AsyncRawToolsClient:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
                     ToolsGetResponse,
-                    construct_type(
+                    parse_obj_as(
                         type_=ToolsGetResponse,  # type: ignore
                         object_=_response.json(),
                     ),
@@ -901,7 +901,7 @@ class AsyncRawToolsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -912,7 +912,7 @@ class AsyncRawToolsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -962,7 +962,7 @@ class AsyncRawToolsClient:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
                     ToolsDeleteResponse,
-                    construct_type(
+                    parse_obj_as(
                         type_=ToolsDeleteResponse,  # type: ignore
                         object_=_response.json(),
                     ),
@@ -973,7 +973,7 @@ class AsyncRawToolsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -993,7 +993,7 @@ class AsyncRawToolsClient:
         description: typing.Optional[str] = OMIT,
         type: typing.Optional[UpdateToolRequestType] = OMIT,
         execution_mode: typing.Optional[UpdateToolRequestExecutionMode] = OMIT,
-        parameters: typing.Optional[typing.Sequence[ToolParameterParams]] = OMIT,
+        parameters: typing.Optional[typing.Sequence[ToolParameter]] = OMIT,
         endpoint_method: typing.Optional[UpdateToolRequestEndpointMethod] = OMIT,
         endpoint_url: typing.Optional[str] = OMIT,
         endpoint_headers: typing.Optional[typing.Dict[str, str]] = OMIT,
@@ -1034,7 +1034,7 @@ class AsyncRawToolsClient:
         execution_mode : typing.Optional[UpdateToolRequestExecutionMode]
             Mode of operation.
 
-        parameters : typing.Optional[typing.Sequence[ToolParameterParams]]
+        parameters : typing.Optional[typing.Sequence[ToolParameter]]
             Array of parameter definitions.
             When updating `type` or `endpoint_method`, all parameters must include explicit `location` values.
             For `custom_webhook` tools: `location` is required for POST, defaults to `"query_string"` for GET.
@@ -1102,7 +1102,7 @@ class AsyncRawToolsClient:
                 "type": type,
                 "execution_mode": execution_mode,
                 "parameters": convert_and_respect_annotation_metadata(
-                    object_=parameters, annotation=typing.Sequence[ToolParameterParams], direction="write"
+                    object_=parameters, annotation=typing.Sequence[ToolParameter], direction="write"
                 ),
                 "endpoint_method": endpoint_method,
                 "endpoint_url": endpoint_url,
@@ -1130,7 +1130,7 @@ class AsyncRawToolsClient:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
                     ToolsUpdateResponse,
-                    construct_type(
+                    parse_obj_as(
                         type_=ToolsUpdateResponse,  # type: ignore
                         object_=_response.json(),
                     ),
@@ -1141,7 +1141,7 @@ class AsyncRawToolsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -1152,7 +1152,7 @@ class AsyncRawToolsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -1163,7 +1163,7 @@ class AsyncRawToolsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),

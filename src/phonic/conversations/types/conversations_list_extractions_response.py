@@ -3,12 +3,11 @@
 import typing
 
 import pydantic
-from ...core.pydantic_utilities import IS_PYDANTIC_V2
-from ...core.unchecked_base_model import UncheckedBaseModel
+from ...core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from ...types.conversation_extraction import ConversationExtraction
 
 
-class ConversationsListExtractionsResponse(UncheckedBaseModel):
+class ConversationsListExtractionsResponse(UniversalBaseModel):
     extractions: typing.List[ConversationExtraction]
 
     if IS_PYDANTIC_V2:

@@ -35,7 +35,11 @@ A full reference for this library is available [here](https://github.com/Phonic-
 Instantiate and use the client with the following:
 
 ```python
-from phonic import Phonic
+from phonic import (
+    CreateAgentRequestConfigurationEndpoint,
+    CreateAgentRequestTemplateVariablesValue,
+    Phonic,
+)
 
 client = Phonic(
     api_key="YOUR_API_KEY",
@@ -52,8 +56,12 @@ client.agents.create(
     welcome_message="Hi {{customer_name}}. How can I help you today?",
     system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
     template_variables={
-        "customer_name": {"default_value": "David"},
-        "subject": {"default_value": "Chess"},
+        "customer_name": CreateAgentRequestTemplateVariablesValue(
+            default_value="David",
+        ),
+        "subject": CreateAgentRequestTemplateVariablesValue(
+            default_value="Chess",
+        ),
     },
     tools=[],
     generate_no_input_poke_text=False,
@@ -61,11 +69,11 @@ client.agents.create(
     no_input_poke_text="Are you still there?",
     languages=["en", "es"],
     boosted_keywords=["Load ID", "dispatch"],
-    configuration_endpoint={
-        "url": "https://api.example.com/config",
-        "headers": {"Authorization": "Bearer token123"},
-        "timeout_ms": 7000,
-    },
+    configuration_endpoint=CreateAgentRequestConfigurationEndpoint(
+        url="https://api.example.com/config",
+        headers={"Authorization": "Bearer token123"},
+        timeout_ms=7000,
+    ),
 )
 ```
 
@@ -76,7 +84,11 @@ The SDK also exports an `async` client so that you can make non-blocking calls t
 ```python
 import asyncio
 
-from phonic import AsyncPhonic
+from phonic import (
+    AsyncPhonic,
+    CreateAgentRequestConfigurationEndpoint,
+    CreateAgentRequestTemplateVariablesValue,
+)
 
 client = AsyncPhonic(
     api_key="YOUR_API_KEY",
@@ -96,8 +108,12 @@ async def main() -> None:
         welcome_message="Hi {{customer_name}}. How can I help you today?",
         system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
         template_variables={
-            "customer_name": {"default_value": "David"},
-            "subject": {"default_value": "Chess"},
+            "customer_name": CreateAgentRequestTemplateVariablesValue(
+                default_value="David",
+            ),
+            "subject": CreateAgentRequestTemplateVariablesValue(
+                default_value="Chess",
+            ),
         },
         tools=[],
         generate_no_input_poke_text=False,
@@ -105,11 +121,11 @@ async def main() -> None:
         no_input_poke_text="Are you still there?",
         languages=["en", "es"],
         boosted_keywords=["Load ID", "dispatch"],
-        configuration_endpoint={
-            "url": "https://api.example.com/config",
-            "headers": {"Authorization": "Bearer token123"},
-            "timeout_ms": 7000,
-        },
+        configuration_endpoint=CreateAgentRequestConfigurationEndpoint(
+            url="https://api.example.com/config",
+            headers={"Authorization": "Bearer token123"},
+            timeout_ms=7000,
+        ),
     )
 
 
@@ -145,7 +161,7 @@ from phonic import Phonic
 
 client = Phonic(...)
 
-with client.conversations.connect(...) as socket:
+with client.conversations.connect() as socket:
     # Iterate over the messages as they arrive
     for message in socket
         print(message)
@@ -171,7 +187,7 @@ from phonic import AsyncPhonic
 
 client = AsyncPhonic(...)
 
-async with client.conversations.connect(...) as socket:
+async with client.conversations.connect() as socket:
     # Iterate over the messages as they arrive
     async for message in socket
         print(message)

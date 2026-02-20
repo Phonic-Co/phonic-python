@@ -3,14 +3,13 @@
 import typing
 from contextlib import asynccontextmanager, contextmanager
 
-import httpx
 import websockets.exceptions
 import websockets.sync.client as websockets_sync_client
 from ..core.api_error import ApiError
 from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.request_options import RequestOptions
-from ..requests.outbound_call_config import OutboundCallConfigParams
 from ..types.conversation_evaluation_result import ConversationEvaluationResult
+from ..types.outbound_call_config import OutboundCallConfig
 from .raw_client import AsyncRawConversationsClient, RawConversationsClient
 from .socket_client import AsyncConversationsSocketClient, ConversationsSocketClient
 from .types.conversations_cancel_response import ConversationsCancelResponse
@@ -108,7 +107,17 @@ class ConversationsClient:
         client = Phonic(
             api_key="YOUR_API_KEY",
         )
-        client.conversations.list()
+        client.conversations.list(
+            project="project",
+            external_id="external_id",
+            duration_min=1,
+            duration_max=1,
+            started_at_min="started_at_min",
+            started_at_max="started_at_max",
+            before="before",
+            after="after",
+            limit=1,
+        )
         """
         _response = self._raw_client.list(
             project=project,
@@ -365,7 +374,7 @@ class ConversationsClient:
         self,
         *,
         to_phone_number: str,
-        config: typing.Optional[OutboundCallConfigParams] = OMIT,
+        config: typing.Optional[OutboundCallConfig] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ConversationsOutboundCallResponse:
         """
@@ -376,7 +385,7 @@ class ConversationsClient:
         to_phone_number : str
             The phone number to call in E.164 format.
 
-        config : typing.Optional[OutboundCallConfigParams]
+        config : typing.Optional[OutboundCallConfig]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -388,27 +397,27 @@ class ConversationsClient:
 
         Examples
         --------
-        from phonic import Phonic
+        from phonic import OutboundCallConfig, Phonic
 
         client = Phonic(
             api_key="YOUR_API_KEY",
         )
         client.conversations.outbound_call(
             to_phone_number="+19189397081",
-            config={
-                "agent": "support-agent",
-                "welcome_message": "Hi {{customer_name}}. How can I help you today?",
-                "system_prompt": "You are an expert in {{subject}}. Be friendly, helpful and concise.",
-                "template_variables": {"customer_name": "David", "subject": "Chess"},
-                "voice_id": "sabrina",
-                "generate_no_input_poke_text": False,
-                "no_input_poke_sec": 30,
-                "no_input_poke_text": "Are you still there?",
-                "no_input_end_conversation_sec": 180,
-                "languages": ["en", "es"],
-                "boosted_keywords": ["Load ID", "dispatch"],
-                "tools": [],
-            },
+            config=OutboundCallConfig(
+                agent="support-agent",
+                welcome_message="Hi {{customer_name}}. How can I help you today?",
+                system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
+                template_variables={"customer_name": "David", "subject": "Chess"},
+                voice_id="sabrina",
+                generate_no_input_poke_text=False,
+                no_input_poke_sec=30,
+                no_input_poke_text="Are you still there?",
+                no_input_end_conversation_sec=180,
+                languages=["en", "es"],
+                boosted_keywords=["Load ID", "dispatch"],
+                tools=[],
+            ),
         )
         """
         _response = self._raw_client.outbound_call(
@@ -424,7 +433,7 @@ class ConversationsClient:
         to_phone_number: str,
         sip_auth_username: typing.Optional[str] = None,
         sip_auth_password: typing.Optional[str] = None,
-        config: typing.Optional[OutboundCallConfigParams] = OMIT,
+        config: typing.Optional[OutboundCallConfig] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ConversationsSipOutboundCallResponse:
         """
@@ -447,7 +456,7 @@ class ConversationsClient:
         sip_auth_password : typing.Optional[str]
             SIP auth password, if your provider requires it.
 
-        config : typing.Optional[OutboundCallConfigParams]
+        config : typing.Optional[OutboundCallConfig]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -466,6 +475,8 @@ class ConversationsClient:
         )
         client.conversations.sip_outbound_call(
             sip_address="X-Sip-Address",
+            sip_auth_username="X-Sip-Auth-Username",
+            sip_auth_password="X-Sip-Auth-Password",
             from_phone_number="from_phone_number",
             to_phone_number="to_phone_number",
         )
@@ -483,18 +494,27 @@ class ConversationsClient:
 
     @contextmanager
     def connect(
-        self,
-        *,
-        downstream_websocket_url: typing.Optional[str] = None,
-        request_options: typing.Optional[RequestOptions] = None,
+        self, *, authorization: typing.Optional[str] = None, request_options: typing.Optional[RequestOptions] = None
     ) -> typing.Iterator[ConversationsSocketClient]:
         """
-        Main STS WebSocket channel for real-time voice conversations
+        Real-time speech-to-speech (STS) communication WebSocket API for Phonic's AI voice conversation platform.
+
+        All connections require authentication using one of the following methods:
+
+        #### Option 1: API Key (Server-side)
+        Use your Phonic API key in the Authorization header:
+        `Authorization: Bearer PHONIC_API_KEY`
+
+        #### Option 2: Session Token (Client-side)
+        For client-side applications where you don't want to expose your API key, first create a short-lived session token via the REST API: `POST /v1/auth/session_token`
+
+        Then connect to the WebSocket with the session token as a query parameter:
+        `wss://api.phonic.co/v1/sts/ws?session_token=psession_abc123...`
 
         Parameters
         ----------
-        downstream_websocket_url : typing.Optional[str]
-            Custom downstream WebSocket URL
+        authorization : typing.Optional[str]
+            API key for authentication. Format: "Bearer PHONIC_API_KEY"
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -504,11 +524,9 @@ class ConversationsClient:
         ConversationsSocketClient
         """
         ws_url = self._raw_client._client_wrapper.get_environment().production + "/v1/sts/ws"
-        query_params = httpx.QueryParams()
-        if downstream_websocket_url is not None:
-            query_params = query_params.add("downstream_websocket_url", downstream_websocket_url)
-        ws_url = ws_url + f"?{query_params}"
         headers = self._raw_client._client_wrapper.get_headers()
+        if authorization is not None:
+            headers["Authorization"] = str(authorization)
         if request_options and "additional_headers" in request_options:
             headers.update(request_options["additional_headers"])
         try:
@@ -610,7 +628,17 @@ class AsyncConversationsClient:
 
 
         async def main() -> None:
-            await client.conversations.list()
+            await client.conversations.list(
+                project="project",
+                external_id="external_id",
+                duration_min=1,
+                duration_max=1,
+                started_at_min="started_at_min",
+                started_at_max="started_at_max",
+                before="before",
+                after="after",
+                limit=1,
+            )
 
 
         asyncio.run(main())
@@ -928,7 +956,7 @@ class AsyncConversationsClient:
         self,
         *,
         to_phone_number: str,
-        config: typing.Optional[OutboundCallConfigParams] = OMIT,
+        config: typing.Optional[OutboundCallConfig] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ConversationsOutboundCallResponse:
         """
@@ -939,7 +967,7 @@ class AsyncConversationsClient:
         to_phone_number : str
             The phone number to call in E.164 format.
 
-        config : typing.Optional[OutboundCallConfigParams]
+        config : typing.Optional[OutboundCallConfig]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -953,7 +981,7 @@ class AsyncConversationsClient:
         --------
         import asyncio
 
-        from phonic import AsyncPhonic
+        from phonic import AsyncPhonic, OutboundCallConfig
 
         client = AsyncPhonic(
             api_key="YOUR_API_KEY",
@@ -963,23 +991,20 @@ class AsyncConversationsClient:
         async def main() -> None:
             await client.conversations.outbound_call(
                 to_phone_number="+19189397081",
-                config={
-                    "agent": "support-agent",
-                    "welcome_message": "Hi {{customer_name}}. How can I help you today?",
-                    "system_prompt": "You are an expert in {{subject}}. Be friendly, helpful and concise.",
-                    "template_variables": {
-                        "customer_name": "David",
-                        "subject": "Chess",
-                    },
-                    "voice_id": "sabrina",
-                    "generate_no_input_poke_text": False,
-                    "no_input_poke_sec": 30,
-                    "no_input_poke_text": "Are you still there?",
-                    "no_input_end_conversation_sec": 180,
-                    "languages": ["en", "es"],
-                    "boosted_keywords": ["Load ID", "dispatch"],
-                    "tools": [],
-                },
+                config=OutboundCallConfig(
+                    agent="support-agent",
+                    welcome_message="Hi {{customer_name}}. How can I help you today?",
+                    system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
+                    template_variables={"customer_name": "David", "subject": "Chess"},
+                    voice_id="sabrina",
+                    generate_no_input_poke_text=False,
+                    no_input_poke_sec=30,
+                    no_input_poke_text="Are you still there?",
+                    no_input_end_conversation_sec=180,
+                    languages=["en", "es"],
+                    boosted_keywords=["Load ID", "dispatch"],
+                    tools=[],
+                ),
             )
 
 
@@ -998,7 +1023,7 @@ class AsyncConversationsClient:
         to_phone_number: str,
         sip_auth_username: typing.Optional[str] = None,
         sip_auth_password: typing.Optional[str] = None,
-        config: typing.Optional[OutboundCallConfigParams] = OMIT,
+        config: typing.Optional[OutboundCallConfig] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ConversationsSipOutboundCallResponse:
         """
@@ -1021,7 +1046,7 @@ class AsyncConversationsClient:
         sip_auth_password : typing.Optional[str]
             SIP auth password, if your provider requires it.
 
-        config : typing.Optional[OutboundCallConfigParams]
+        config : typing.Optional[OutboundCallConfig]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1045,6 +1070,8 @@ class AsyncConversationsClient:
         async def main() -> None:
             await client.conversations.sip_outbound_call(
                 sip_address="X-Sip-Address",
+                sip_auth_username="X-Sip-Auth-Username",
+                sip_auth_password="X-Sip-Auth-Password",
                 from_phone_number="from_phone_number",
                 to_phone_number="to_phone_number",
             )
@@ -1065,18 +1092,27 @@ class AsyncConversationsClient:
 
     @asynccontextmanager
     async def connect(
-        self,
-        *,
-        downstream_websocket_url: typing.Optional[str] = None,
-        request_options: typing.Optional[RequestOptions] = None,
+        self, *, authorization: typing.Optional[str] = None, request_options: typing.Optional[RequestOptions] = None
     ) -> typing.AsyncIterator[AsyncConversationsSocketClient]:
         """
-        Main STS WebSocket channel for real-time voice conversations
+        Real-time speech-to-speech (STS) communication WebSocket API for Phonic's AI voice conversation platform.
+
+        All connections require authentication using one of the following methods:
+
+        #### Option 1: API Key (Server-side)
+        Use your Phonic API key in the Authorization header:
+        `Authorization: Bearer PHONIC_API_KEY`
+
+        #### Option 2: Session Token (Client-side)
+        For client-side applications where you don't want to expose your API key, first create a short-lived session token via the REST API: `POST /v1/auth/session_token`
+
+        Then connect to the WebSocket with the session token as a query parameter:
+        `wss://api.phonic.co/v1/sts/ws?session_token=psession_abc123...`
 
         Parameters
         ----------
-        downstream_websocket_url : typing.Optional[str]
-            Custom downstream WebSocket URL
+        authorization : typing.Optional[str]
+            API key for authentication. Format: "Bearer PHONIC_API_KEY"
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1086,11 +1122,9 @@ class AsyncConversationsClient:
         AsyncConversationsSocketClient
         """
         ws_url = self._raw_client._client_wrapper.get_environment().production + "/v1/sts/ws"
-        query_params = httpx.QueryParams()
-        if downstream_websocket_url is not None:
-            query_params = query_params.add("downstream_websocket_url", downstream_websocket_url)
-        ws_url = ws_url + f"?{query_params}"
         headers = self._raw_client._client_wrapper.get_headers()
+        if authorization is not None:
+            headers["Authorization"] = str(authorization)
         if request_options and "additional_headers" in request_options:
             headers.update(request_options["additional_headers"])
         try:

@@ -3,12 +3,11 @@
 import typing
 
 import pydantic
-from ...core.pydantic_utilities import IS_PYDANTIC_V2
-from ...core.unchecked_base_model import UncheckedBaseModel
+from ...core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from ...types.tool import Tool
 
 
-class ToolsListResponse(UncheckedBaseModel):
+class ToolsListResponse(UniversalBaseModel):
     tools: typing.List[Tool]
 
     if IS_PYDANTIC_V2:

@@ -4,16 +4,15 @@ import typing
 from contextlib import asynccontextmanager, contextmanager
 from json.decoder import JSONDecodeError
 
-import httpx
 import websockets.exceptions
 import websockets.sync.client as websockets_sync_client
 from ..core.api_error import ApiError
 from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.http_response import AsyncHttpResponse, HttpResponse
 from ..core.jsonable_encoder import jsonable_encoder
+from ..core.pydantic_utilities import parse_obj_as
 from ..core.request_options import RequestOptions
 from ..core.serialization import convert_and_respect_annotation_metadata
-from ..core.unchecked_base_model import construct_type
 from ..errors.bad_request_error import BadRequestError
 from ..errors.conflict_error import ConflictError
 from ..errors.forbidden_error import ForbiddenError
@@ -21,10 +20,10 @@ from ..errors.gateway_timeout_error import GatewayTimeoutError
 from ..errors.internal_server_error import InternalServerError
 from ..errors.not_found_error import NotFoundError
 from ..errors.unauthorized_error import UnauthorizedError
-from ..requests.outbound_call_config import OutboundCallConfigParams
 from ..types.basic_error import BasicError
 from ..types.conversation_evaluation_result import ConversationEvaluationResult
 from ..types.error import Error
+from ..types.outbound_call_config import OutboundCallConfig
 from .socket_client import AsyncConversationsSocketClient, ConversationsSocketClient
 from .types.conversations_cancel_response import ConversationsCancelResponse
 from .types.conversations_extract_data_response import ConversationsExtractDataResponse
@@ -124,7 +123,7 @@ class RawConversationsClient:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
                     ConversationsListResponse,
-                    construct_type(
+                    parse_obj_as(
                         type_=ConversationsListResponse,  # type: ignore
                         object_=_response.json(),
                     ),
@@ -135,7 +134,7 @@ class RawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -146,7 +145,7 @@ class RawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         BasicError,
-                        construct_type(
+                        parse_obj_as(
                             type_=BasicError,  # type: ignore
                             object_=_response.json(),
                         ),
@@ -157,7 +156,7 @@ class RawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -168,7 +167,7 @@ class RawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -179,7 +178,7 @@ class RawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         BasicError,
-                        construct_type(
+                        parse_obj_as(
                             type_=BasicError,  # type: ignore
                             object_=_response.json(),
                         ),
@@ -219,7 +218,7 @@ class RawConversationsClient:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
                     ConversationsGetResponse,
-                    construct_type(
+                    parse_obj_as(
                         type_=ConversationsGetResponse,  # type: ignore
                         object_=_response.json(),
                     ),
@@ -230,7 +229,7 @@ class RawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         BasicError,
-                        construct_type(
+                        parse_obj_as(
                             type_=BasicError,  # type: ignore
                             object_=_response.json(),
                         ),
@@ -241,7 +240,7 @@ class RawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -252,7 +251,7 @@ class RawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -263,7 +262,7 @@ class RawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         BasicError,
-                        construct_type(
+                        parse_obj_as(
                             type_=BasicError,  # type: ignore
                             object_=_response.json(),
                         ),
@@ -303,7 +302,7 @@ class RawConversationsClient:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
                     ConversationsCancelResponse,
-                    construct_type(
+                    parse_obj_as(
                         type_=ConversationsCancelResponse,  # type: ignore
                         object_=_response.json(),
                     ),
@@ -314,7 +313,7 @@ class RawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         BasicError,
-                        construct_type(
+                        parse_obj_as(
                             type_=BasicError,  # type: ignore
                             object_=_response.json(),
                         ),
@@ -325,7 +324,7 @@ class RawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -336,7 +335,7 @@ class RawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -347,7 +346,7 @@ class RawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -358,7 +357,7 @@ class RawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         BasicError,
-                        construct_type(
+                        parse_obj_as(
                             type_=BasicError,  # type: ignore
                             object_=_response.json(),
                         ),
@@ -369,7 +368,7 @@ class RawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         Error,
-                        construct_type(
+                        parse_obj_as(
                             type_=Error,  # type: ignore
                             object_=_response.json(),
                         ),
@@ -409,7 +408,7 @@ class RawConversationsClient:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
                     ConversationsGetAnalysisResponse,
-                    construct_type(
+                    parse_obj_as(
                         type_=ConversationsGetAnalysisResponse,  # type: ignore
                         object_=_response.json(),
                     ),
@@ -420,7 +419,7 @@ class RawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         BasicError,
-                        construct_type(
+                        parse_obj_as(
                             type_=BasicError,  # type: ignore
                             object_=_response.json(),
                         ),
@@ -431,7 +430,7 @@ class RawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -442,7 +441,7 @@ class RawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -453,7 +452,7 @@ class RawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         BasicError,
-                        construct_type(
+                        parse_obj_as(
                             type_=BasicError,  # type: ignore
                             object_=_response.json(),
                         ),
@@ -493,7 +492,7 @@ class RawConversationsClient:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
                     ConversationsListExtractionsResponse,
-                    construct_type(
+                    parse_obj_as(
                         type_=ConversationsListExtractionsResponse,  # type: ignore
                         object_=_response.json(),
                     ),
@@ -504,7 +503,7 @@ class RawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         BasicError,
-                        construct_type(
+                        parse_obj_as(
                             type_=BasicError,  # type: ignore
                             object_=_response.json(),
                         ),
@@ -515,7 +514,7 @@ class RawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -526,7 +525,7 @@ class RawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -537,7 +536,7 @@ class RawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         BasicError,
-                        construct_type(
+                        parse_obj_as(
                             type_=BasicError,  # type: ignore
                             object_=_response.json(),
                         ),
@@ -587,7 +586,7 @@ class RawConversationsClient:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
                     ConversationsExtractDataResponse,
-                    construct_type(
+                    parse_obj_as(
                         type_=ConversationsExtractDataResponse,  # type: ignore
                         object_=_response.json(),
                     ),
@@ -598,7 +597,7 @@ class RawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -609,7 +608,7 @@ class RawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         BasicError,
-                        construct_type(
+                        parse_obj_as(
                             type_=BasicError,  # type: ignore
                             object_=_response.json(),
                         ),
@@ -620,7 +619,7 @@ class RawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -631,7 +630,7 @@ class RawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -642,7 +641,7 @@ class RawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         BasicError,
-                        construct_type(
+                        parse_obj_as(
                             type_=BasicError,  # type: ignore
                             object_=_response.json(),
                         ),
@@ -682,7 +681,7 @@ class RawConversationsClient:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
                     ConversationsListEvaluationsResponse,
-                    construct_type(
+                    parse_obj_as(
                         type_=ConversationsListEvaluationsResponse,  # type: ignore
                         object_=_response.json(),
                     ),
@@ -693,7 +692,7 @@ class RawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         BasicError,
-                        construct_type(
+                        parse_obj_as(
                             type_=BasicError,  # type: ignore
                             object_=_response.json(),
                         ),
@@ -704,7 +703,7 @@ class RawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -715,7 +714,7 @@ class RawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -726,7 +725,7 @@ class RawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         BasicError,
-                        construct_type(
+                        parse_obj_as(
                             type_=BasicError,  # type: ignore
                             object_=_response.json(),
                         ),
@@ -776,7 +775,7 @@ class RawConversationsClient:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
                     ConversationEvaluationResult,
-                    construct_type(
+                    parse_obj_as(
                         type_=ConversationEvaluationResult,  # type: ignore
                         object_=_response.json(),
                     ),
@@ -787,7 +786,7 @@ class RawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -798,7 +797,7 @@ class RawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         BasicError,
-                        construct_type(
+                        parse_obj_as(
                             type_=BasicError,  # type: ignore
                             object_=_response.json(),
                         ),
@@ -809,7 +808,7 @@ class RawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -820,7 +819,7 @@ class RawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -831,7 +830,7 @@ class RawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         BasicError,
-                        construct_type(
+                        parse_obj_as(
                             type_=BasicError,  # type: ignore
                             object_=_response.json(),
                         ),
@@ -846,7 +845,7 @@ class RawConversationsClient:
         self,
         *,
         to_phone_number: str,
-        config: typing.Optional[OutboundCallConfigParams] = OMIT,
+        config: typing.Optional[OutboundCallConfig] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[ConversationsOutboundCallResponse]:
         """
@@ -857,7 +856,7 @@ class RawConversationsClient:
         to_phone_number : str
             The phone number to call in E.164 format.
 
-        config : typing.Optional[OutboundCallConfigParams]
+        config : typing.Optional[OutboundCallConfig]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -874,7 +873,7 @@ class RawConversationsClient:
             json={
                 "to_phone_number": to_phone_number,
                 "config": convert_and_respect_annotation_metadata(
-                    object_=config, annotation=OutboundCallConfigParams, direction="write"
+                    object_=config, annotation=OutboundCallConfig, direction="write"
                 ),
             },
             headers={
@@ -887,7 +886,7 @@ class RawConversationsClient:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
                     ConversationsOutboundCallResponse,
-                    construct_type(
+                    parse_obj_as(
                         type_=ConversationsOutboundCallResponse,  # type: ignore
                         object_=_response.json(),
                     ),
@@ -898,7 +897,7 @@ class RawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -909,7 +908,7 @@ class RawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         BasicError,
-                        construct_type(
+                        parse_obj_as(
                             type_=BasicError,  # type: ignore
                             object_=_response.json(),
                         ),
@@ -920,7 +919,7 @@ class RawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -931,7 +930,7 @@ class RawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         BasicError,
-                        construct_type(
+                        parse_obj_as(
                             type_=BasicError,  # type: ignore
                             object_=_response.json(),
                         ),
@@ -950,7 +949,7 @@ class RawConversationsClient:
         to_phone_number: str,
         sip_auth_username: typing.Optional[str] = None,
         sip_auth_password: typing.Optional[str] = None,
-        config: typing.Optional[OutboundCallConfigParams] = OMIT,
+        config: typing.Optional[OutboundCallConfig] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[ConversationsSipOutboundCallResponse]:
         """
@@ -973,7 +972,7 @@ class RawConversationsClient:
         sip_auth_password : typing.Optional[str]
             SIP auth password, if your provider requires it.
 
-        config : typing.Optional[OutboundCallConfigParams]
+        config : typing.Optional[OutboundCallConfig]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -991,7 +990,7 @@ class RawConversationsClient:
                 "from_phone_number": from_phone_number,
                 "to_phone_number": to_phone_number,
                 "config": convert_and_respect_annotation_metadata(
-                    object_=config, annotation=OutboundCallConfigParams, direction="write"
+                    object_=config, annotation=OutboundCallConfig, direction="write"
                 ),
             },
             headers={
@@ -1007,7 +1006,7 @@ class RawConversationsClient:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
                     ConversationsSipOutboundCallResponse,
-                    construct_type(
+                    parse_obj_as(
                         type_=ConversationsSipOutboundCallResponse,  # type: ignore
                         object_=_response.json(),
                     ),
@@ -1018,7 +1017,7 @@ class RawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -1029,7 +1028,7 @@ class RawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         BasicError,
-                        construct_type(
+                        parse_obj_as(
                             type_=BasicError,  # type: ignore
                             object_=_response.json(),
                         ),
@@ -1040,7 +1039,7 @@ class RawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         BasicError,
-                        construct_type(
+                        parse_obj_as(
                             type_=BasicError,  # type: ignore
                             object_=_response.json(),
                         ),
@@ -1053,18 +1052,27 @@ class RawConversationsClient:
 
     @contextmanager
     def connect(
-        self,
-        *,
-        downstream_websocket_url: typing.Optional[str] = None,
-        request_options: typing.Optional[RequestOptions] = None,
+        self, *, authorization: typing.Optional[str] = None, request_options: typing.Optional[RequestOptions] = None
     ) -> typing.Iterator[ConversationsSocketClient]:
         """
-        Main STS WebSocket channel for real-time voice conversations
+        Real-time speech-to-speech (STS) communication WebSocket API for Phonic's AI voice conversation platform.
+
+        All connections require authentication using one of the following methods:
+
+        #### Option 1: API Key (Server-side)
+        Use your Phonic API key in the Authorization header:
+        `Authorization: Bearer PHONIC_API_KEY`
+
+        #### Option 2: Session Token (Client-side)
+        For client-side applications where you don't want to expose your API key, first create a short-lived session token via the REST API: `POST /v1/auth/session_token`
+
+        Then connect to the WebSocket with the session token as a query parameter:
+        `wss://api.phonic.co/v1/sts/ws?session_token=psession_abc123...`
 
         Parameters
         ----------
-        downstream_websocket_url : typing.Optional[str]
-            Custom downstream WebSocket URL
+        authorization : typing.Optional[str]
+            API key for authentication. Format: "Bearer PHONIC_API_KEY"
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1074,11 +1082,9 @@ class RawConversationsClient:
         ConversationsSocketClient
         """
         ws_url = self._client_wrapper.get_environment().production + "/v1/sts/ws"
-        query_params = httpx.QueryParams()
-        if downstream_websocket_url is not None:
-            query_params = query_params.add("downstream_websocket_url", downstream_websocket_url)
-        ws_url = ws_url + f"?{query_params}"
         headers = self._client_wrapper.get_headers()
+        if authorization is not None:
+            headers["Authorization"] = str(authorization)
         if request_options and "additional_headers" in request_options:
             headers.update(request_options["additional_headers"])
         try:
@@ -1178,7 +1184,7 @@ class AsyncRawConversationsClient:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
                     ConversationsListResponse,
-                    construct_type(
+                    parse_obj_as(
                         type_=ConversationsListResponse,  # type: ignore
                         object_=_response.json(),
                     ),
@@ -1189,7 +1195,7 @@ class AsyncRawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -1200,7 +1206,7 @@ class AsyncRawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         BasicError,
-                        construct_type(
+                        parse_obj_as(
                             type_=BasicError,  # type: ignore
                             object_=_response.json(),
                         ),
@@ -1211,7 +1217,7 @@ class AsyncRawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -1222,7 +1228,7 @@ class AsyncRawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -1233,7 +1239,7 @@ class AsyncRawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         BasicError,
-                        construct_type(
+                        parse_obj_as(
                             type_=BasicError,  # type: ignore
                             object_=_response.json(),
                         ),
@@ -1273,7 +1279,7 @@ class AsyncRawConversationsClient:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
                     ConversationsGetResponse,
-                    construct_type(
+                    parse_obj_as(
                         type_=ConversationsGetResponse,  # type: ignore
                         object_=_response.json(),
                     ),
@@ -1284,7 +1290,7 @@ class AsyncRawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         BasicError,
-                        construct_type(
+                        parse_obj_as(
                             type_=BasicError,  # type: ignore
                             object_=_response.json(),
                         ),
@@ -1295,7 +1301,7 @@ class AsyncRawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -1306,7 +1312,7 @@ class AsyncRawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -1317,7 +1323,7 @@ class AsyncRawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         BasicError,
-                        construct_type(
+                        parse_obj_as(
                             type_=BasicError,  # type: ignore
                             object_=_response.json(),
                         ),
@@ -1357,7 +1363,7 @@ class AsyncRawConversationsClient:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
                     ConversationsCancelResponse,
-                    construct_type(
+                    parse_obj_as(
                         type_=ConversationsCancelResponse,  # type: ignore
                         object_=_response.json(),
                     ),
@@ -1368,7 +1374,7 @@ class AsyncRawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         BasicError,
-                        construct_type(
+                        parse_obj_as(
                             type_=BasicError,  # type: ignore
                             object_=_response.json(),
                         ),
@@ -1379,7 +1385,7 @@ class AsyncRawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -1390,7 +1396,7 @@ class AsyncRawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -1401,7 +1407,7 @@ class AsyncRawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -1412,7 +1418,7 @@ class AsyncRawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         BasicError,
-                        construct_type(
+                        parse_obj_as(
                             type_=BasicError,  # type: ignore
                             object_=_response.json(),
                         ),
@@ -1423,7 +1429,7 @@ class AsyncRawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         Error,
-                        construct_type(
+                        parse_obj_as(
                             type_=Error,  # type: ignore
                             object_=_response.json(),
                         ),
@@ -1463,7 +1469,7 @@ class AsyncRawConversationsClient:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
                     ConversationsGetAnalysisResponse,
-                    construct_type(
+                    parse_obj_as(
                         type_=ConversationsGetAnalysisResponse,  # type: ignore
                         object_=_response.json(),
                     ),
@@ -1474,7 +1480,7 @@ class AsyncRawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         BasicError,
-                        construct_type(
+                        parse_obj_as(
                             type_=BasicError,  # type: ignore
                             object_=_response.json(),
                         ),
@@ -1485,7 +1491,7 @@ class AsyncRawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -1496,7 +1502,7 @@ class AsyncRawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -1507,7 +1513,7 @@ class AsyncRawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         BasicError,
-                        construct_type(
+                        parse_obj_as(
                             type_=BasicError,  # type: ignore
                             object_=_response.json(),
                         ),
@@ -1547,7 +1553,7 @@ class AsyncRawConversationsClient:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
                     ConversationsListExtractionsResponse,
-                    construct_type(
+                    parse_obj_as(
                         type_=ConversationsListExtractionsResponse,  # type: ignore
                         object_=_response.json(),
                     ),
@@ -1558,7 +1564,7 @@ class AsyncRawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         BasicError,
-                        construct_type(
+                        parse_obj_as(
                             type_=BasicError,  # type: ignore
                             object_=_response.json(),
                         ),
@@ -1569,7 +1575,7 @@ class AsyncRawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -1580,7 +1586,7 @@ class AsyncRawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -1591,7 +1597,7 @@ class AsyncRawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         BasicError,
-                        construct_type(
+                        parse_obj_as(
                             type_=BasicError,  # type: ignore
                             object_=_response.json(),
                         ),
@@ -1641,7 +1647,7 @@ class AsyncRawConversationsClient:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
                     ConversationsExtractDataResponse,
-                    construct_type(
+                    parse_obj_as(
                         type_=ConversationsExtractDataResponse,  # type: ignore
                         object_=_response.json(),
                     ),
@@ -1652,7 +1658,7 @@ class AsyncRawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -1663,7 +1669,7 @@ class AsyncRawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         BasicError,
-                        construct_type(
+                        parse_obj_as(
                             type_=BasicError,  # type: ignore
                             object_=_response.json(),
                         ),
@@ -1674,7 +1680,7 @@ class AsyncRawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -1685,7 +1691,7 @@ class AsyncRawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -1696,7 +1702,7 @@ class AsyncRawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         BasicError,
-                        construct_type(
+                        parse_obj_as(
                             type_=BasicError,  # type: ignore
                             object_=_response.json(),
                         ),
@@ -1736,7 +1742,7 @@ class AsyncRawConversationsClient:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
                     ConversationsListEvaluationsResponse,
-                    construct_type(
+                    parse_obj_as(
                         type_=ConversationsListEvaluationsResponse,  # type: ignore
                         object_=_response.json(),
                     ),
@@ -1747,7 +1753,7 @@ class AsyncRawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         BasicError,
-                        construct_type(
+                        parse_obj_as(
                             type_=BasicError,  # type: ignore
                             object_=_response.json(),
                         ),
@@ -1758,7 +1764,7 @@ class AsyncRawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -1769,7 +1775,7 @@ class AsyncRawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -1780,7 +1786,7 @@ class AsyncRawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         BasicError,
-                        construct_type(
+                        parse_obj_as(
                             type_=BasicError,  # type: ignore
                             object_=_response.json(),
                         ),
@@ -1830,7 +1836,7 @@ class AsyncRawConversationsClient:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
                     ConversationEvaluationResult,
-                    construct_type(
+                    parse_obj_as(
                         type_=ConversationEvaluationResult,  # type: ignore
                         object_=_response.json(),
                     ),
@@ -1841,7 +1847,7 @@ class AsyncRawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -1852,7 +1858,7 @@ class AsyncRawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         BasicError,
-                        construct_type(
+                        parse_obj_as(
                             type_=BasicError,  # type: ignore
                             object_=_response.json(),
                         ),
@@ -1863,7 +1869,7 @@ class AsyncRawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -1874,7 +1880,7 @@ class AsyncRawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -1885,7 +1891,7 @@ class AsyncRawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         BasicError,
-                        construct_type(
+                        parse_obj_as(
                             type_=BasicError,  # type: ignore
                             object_=_response.json(),
                         ),
@@ -1900,7 +1906,7 @@ class AsyncRawConversationsClient:
         self,
         *,
         to_phone_number: str,
-        config: typing.Optional[OutboundCallConfigParams] = OMIT,
+        config: typing.Optional[OutboundCallConfig] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[ConversationsOutboundCallResponse]:
         """
@@ -1911,7 +1917,7 @@ class AsyncRawConversationsClient:
         to_phone_number : str
             The phone number to call in E.164 format.
 
-        config : typing.Optional[OutboundCallConfigParams]
+        config : typing.Optional[OutboundCallConfig]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1928,7 +1934,7 @@ class AsyncRawConversationsClient:
             json={
                 "to_phone_number": to_phone_number,
                 "config": convert_and_respect_annotation_metadata(
-                    object_=config, annotation=OutboundCallConfigParams, direction="write"
+                    object_=config, annotation=OutboundCallConfig, direction="write"
                 ),
             },
             headers={
@@ -1941,7 +1947,7 @@ class AsyncRawConversationsClient:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
                     ConversationsOutboundCallResponse,
-                    construct_type(
+                    parse_obj_as(
                         type_=ConversationsOutboundCallResponse,  # type: ignore
                         object_=_response.json(),
                     ),
@@ -1952,7 +1958,7 @@ class AsyncRawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -1963,7 +1969,7 @@ class AsyncRawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         BasicError,
-                        construct_type(
+                        parse_obj_as(
                             type_=BasicError,  # type: ignore
                             object_=_response.json(),
                         ),
@@ -1974,7 +1980,7 @@ class AsyncRawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -1985,7 +1991,7 @@ class AsyncRawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         BasicError,
-                        construct_type(
+                        parse_obj_as(
                             type_=BasicError,  # type: ignore
                             object_=_response.json(),
                         ),
@@ -2004,7 +2010,7 @@ class AsyncRawConversationsClient:
         to_phone_number: str,
         sip_auth_username: typing.Optional[str] = None,
         sip_auth_password: typing.Optional[str] = None,
-        config: typing.Optional[OutboundCallConfigParams] = OMIT,
+        config: typing.Optional[OutboundCallConfig] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[ConversationsSipOutboundCallResponse]:
         """
@@ -2027,7 +2033,7 @@ class AsyncRawConversationsClient:
         sip_auth_password : typing.Optional[str]
             SIP auth password, if your provider requires it.
 
-        config : typing.Optional[OutboundCallConfigParams]
+        config : typing.Optional[OutboundCallConfig]
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -2045,7 +2051,7 @@ class AsyncRawConversationsClient:
                 "from_phone_number": from_phone_number,
                 "to_phone_number": to_phone_number,
                 "config": convert_and_respect_annotation_metadata(
-                    object_=config, annotation=OutboundCallConfigParams, direction="write"
+                    object_=config, annotation=OutboundCallConfig, direction="write"
                 ),
             },
             headers={
@@ -2061,7 +2067,7 @@ class AsyncRawConversationsClient:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
                     ConversationsSipOutboundCallResponse,
-                    construct_type(
+                    parse_obj_as(
                         type_=ConversationsSipOutboundCallResponse,  # type: ignore
                         object_=_response.json(),
                     ),
@@ -2072,7 +2078,7 @@ class AsyncRawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -2083,7 +2089,7 @@ class AsyncRawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         BasicError,
-                        construct_type(
+                        parse_obj_as(
                             type_=BasicError,  # type: ignore
                             object_=_response.json(),
                         ),
@@ -2094,7 +2100,7 @@ class AsyncRawConversationsClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         BasicError,
-                        construct_type(
+                        parse_obj_as(
                             type_=BasicError,  # type: ignore
                             object_=_response.json(),
                         ),
@@ -2107,18 +2113,27 @@ class AsyncRawConversationsClient:
 
     @asynccontextmanager
     async def connect(
-        self,
-        *,
-        downstream_websocket_url: typing.Optional[str] = None,
-        request_options: typing.Optional[RequestOptions] = None,
+        self, *, authorization: typing.Optional[str] = None, request_options: typing.Optional[RequestOptions] = None
     ) -> typing.AsyncIterator[AsyncConversationsSocketClient]:
         """
-        Main STS WebSocket channel for real-time voice conversations
+        Real-time speech-to-speech (STS) communication WebSocket API for Phonic's AI voice conversation platform.
+
+        All connections require authentication using one of the following methods:
+
+        #### Option 1: API Key (Server-side)
+        Use your Phonic API key in the Authorization header:
+        `Authorization: Bearer PHONIC_API_KEY`
+
+        #### Option 2: Session Token (Client-side)
+        For client-side applications where you don't want to expose your API key, first create a short-lived session token via the REST API: `POST /v1/auth/session_token`
+
+        Then connect to the WebSocket with the session token as a query parameter:
+        `wss://api.phonic.co/v1/sts/ws?session_token=psession_abc123...`
 
         Parameters
         ----------
-        downstream_websocket_url : typing.Optional[str]
-            Custom downstream WebSocket URL
+        authorization : typing.Optional[str]
+            API key for authentication. Format: "Bearer PHONIC_API_KEY"
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -2128,11 +2143,9 @@ class AsyncRawConversationsClient:
         AsyncConversationsSocketClient
         """
         ws_url = self._client_wrapper.get_environment().production + "/v1/sts/ws"
-        query_params = httpx.QueryParams()
-        if downstream_websocket_url is not None:
-            query_params = query_params.add("downstream_websocket_url", downstream_websocket_url)
-        ws_url = ws_url + f"?{query_params}"
         headers = self._client_wrapper.get_headers()
+        if authorization is not None:
+            headers["Authorization"] = str(authorization)
         if request_options and "additional_headers" in request_options:
             headers.update(request_options["additional_headers"])
         try:

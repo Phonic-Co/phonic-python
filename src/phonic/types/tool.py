@@ -3,8 +3,7 @@
 import typing
 
 import pydantic
-from ..core.pydantic_utilities import IS_PYDANTIC_V2
-from ..core.unchecked_base_model import UncheckedBaseModel
+from ..core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .tool_endpoint_method import ToolEndpointMethod
 from .tool_execution_mode import ToolExecutionMode
 from .tool_parameter import ToolParameter
@@ -12,7 +11,7 @@ from .tool_project import ToolProject
 from .tool_type import ToolType
 
 
-class Tool(UncheckedBaseModel):
+class Tool(UniversalBaseModel):
     id: str = pydantic.Field()
     """
     The ID of the tool.

@@ -4,11 +4,10 @@ import datetime as dt
 import typing
 
 import pydantic
-from ...core.pydantic_utilities import IS_PYDANTIC_V2
-from ...core.unchecked_base_model import UncheckedBaseModel
+from ...core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 
 
-class AuthCreateSessionTokenResponse(UncheckedBaseModel):
+class AuthCreateSessionTokenResponse(UniversalBaseModel):
     session_token: str = pydantic.Field()
     """
     The session token to use for authentication.

@@ -3,11 +3,10 @@
 import typing
 
 import pydantic
-from ..core.pydantic_utilities import IS_PYDANTIC_V2
-from ..core.unchecked_base_model import UncheckedBaseModel
+from ..core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 
 
-class SetTwilioCallSidPayload(UncheckedBaseModel):
+class SetTwilioCallSidPayload(UniversalBaseModel):
     type: typing.Literal["set_twilio_call_sid"] = "set_twilio_call_sid"
     encrypted_data: str = pydantic.Field()
     """

@@ -15,30 +15,14 @@ if typing.TYPE_CHECKING:
         ProjectsListResponse,
         ProjectsUpdateResponse,
     )
-    from .requests import (
-        ProjectsCreateEvalPromptResponseParams,
-        ProjectsCreateResponseParams,
-        ProjectsDeleteResponseParams,
-        ProjectsGetResponseParams,
-        ProjectsListEvalPromptsResponseParams,
-        ProjectsListResponseParams,
-        ProjectsUpdateResponseParams,
-    )
 _dynamic_imports: typing.Dict[str, str] = {
     "ProjectsCreateEvalPromptResponse": ".types",
-    "ProjectsCreateEvalPromptResponseParams": ".requests",
     "ProjectsCreateResponse": ".types",
-    "ProjectsCreateResponseParams": ".requests",
     "ProjectsDeleteResponse": ".types",
-    "ProjectsDeleteResponseParams": ".requests",
     "ProjectsGetResponse": ".types",
-    "ProjectsGetResponseParams": ".requests",
     "ProjectsListEvalPromptsResponse": ".types",
-    "ProjectsListEvalPromptsResponseParams": ".requests",
     "ProjectsListResponse": ".types",
-    "ProjectsListResponseParams": ".requests",
     "ProjectsUpdateResponse": ".types",
-    "ProjectsUpdateResponseParams": ".requests",
 }
 
 
@@ -65,17 +49,10 @@ def __dir__():
 
 __all__ = [
     "ProjectsCreateEvalPromptResponse",
-    "ProjectsCreateEvalPromptResponseParams",
     "ProjectsCreateResponse",
-    "ProjectsCreateResponseParams",
     "ProjectsDeleteResponse",
-    "ProjectsDeleteResponseParams",
     "ProjectsGetResponse",
-    "ProjectsGetResponseParams",
     "ProjectsListEvalPromptsResponse",
-    "ProjectsListEvalPromptsResponseParams",
     "ProjectsListResponse",
-    "ProjectsListResponseParams",
     "ProjectsUpdateResponse",
-    "ProjectsUpdateResponseParams",
 ]

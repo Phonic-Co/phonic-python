@@ -3,11 +3,10 @@
 import typing
 
 import pydantic
-from ..core.pydantic_utilities import IS_PYDANTIC_V2
-from ..core.unchecked_base_model import UncheckedBaseModel
+from ..core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 
 
-class AddSystemMessagePayload(UncheckedBaseModel):
+class AddSystemMessagePayload(UniversalBaseModel):
     type: typing.Literal["add_system_message"] = "add_system_message"
     system_message: str = pydantic.Field()
     """

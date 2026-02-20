@@ -3,11 +3,10 @@
 import typing
 
 import pydantic
-from ..core.pydantic_utilities import IS_PYDANTIC_V2
-from ..core.unchecked_base_model import UncheckedBaseModel
+from ..core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 
 
-class ReadyToStartConversationPayload(UncheckedBaseModel):
+class ReadyToStartConversationPayload(UniversalBaseModel):
     type: typing.Literal["ready_to_start_conversation"] = "ready_to_start_conversation"
 
     if IS_PYDANTIC_V2:

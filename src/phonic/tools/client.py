@@ -4,7 +4,7 @@ import typing
 
 from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.request_options import RequestOptions
-from ..requests.tool_parameter import ToolParameterParams
+from ..types.tool_parameter import ToolParameter
 from .raw_client import AsyncRawToolsClient, RawToolsClient
 from .types.create_tool_request_endpoint_method import CreateToolRequestEndpointMethod
 from .types.create_tool_request_execution_mode import CreateToolRequestExecutionMode
@@ -78,7 +78,7 @@ class ToolsClient:
         type: CreateToolRequestType,
         execution_mode: CreateToolRequestExecutionMode,
         project: typing.Optional[str] = None,
-        parameters: typing.Optional[typing.Sequence[ToolParameterParams]] = OMIT,
+        parameters: typing.Optional[typing.Sequence[ToolParameter]] = OMIT,
         endpoint_method: typing.Optional[CreateToolRequestEndpointMethod] = OMIT,
         endpoint_url: typing.Optional[str] = OMIT,
         endpoint_headers: typing.Optional[typing.Dict[str, str]] = OMIT,
@@ -116,7 +116,7 @@ class ToolsClient:
         project : typing.Optional[str]
             The name of the project to create the tool in.
 
-        parameters : typing.Optional[typing.Sequence[ToolParameterParams]]
+        parameters : typing.Optional[typing.Sequence[ToolParameter]]
             Array of parameter definitions.
             For `custom_webhook` tools with POST method, each parameter must include a `location` field.
             For `custom_webhook` tools with GET method, `location` defaults to `"query_string"` if not specified.
@@ -177,7 +177,7 @@ class ToolsClient:
 
         Examples
         --------
-        from phonic import Phonic
+        from phonic import Phonic, ToolParameter
 
         client = Phonic(
             api_key="YOUR_API_KEY",
@@ -189,12 +189,12 @@ class ToolsClient:
             type="custom_context",
             execution_mode="sync",
             parameters=[
-                {
-                    "type": "string",
-                    "name": "name",
-                    "description": "description",
-                    "is_required": True,
-                }
+                ToolParameter(
+                    type="string",
+                    name="name",
+                    description="description",
+                    is_required=True,
+                )
             ],
             require_speech_before_tool_call=False,
             forbid_speech_after_tool_call=False,
@@ -318,7 +318,7 @@ class ToolsClient:
         description: typing.Optional[str] = OMIT,
         type: typing.Optional[UpdateToolRequestType] = OMIT,
         execution_mode: typing.Optional[UpdateToolRequestExecutionMode] = OMIT,
-        parameters: typing.Optional[typing.Sequence[ToolParameterParams]] = OMIT,
+        parameters: typing.Optional[typing.Sequence[ToolParameter]] = OMIT,
         endpoint_method: typing.Optional[UpdateToolRequestEndpointMethod] = OMIT,
         endpoint_url: typing.Optional[str] = OMIT,
         endpoint_headers: typing.Optional[typing.Dict[str, str]] = OMIT,
@@ -359,7 +359,7 @@ class ToolsClient:
         execution_mode : typing.Optional[UpdateToolRequestExecutionMode]
             Mode of operation.
 
-        parameters : typing.Optional[typing.Sequence[ToolParameterParams]]
+        parameters : typing.Optional[typing.Sequence[ToolParameter]]
             Array of parameter definitions.
             When updating `type` or `endpoint_method`, all parameters must include explicit `location` values.
             For `custom_webhook` tools: `location` is required for POST, defaults to `"query_string"` for GET.
@@ -521,7 +521,7 @@ class AsyncToolsClient:
         type: CreateToolRequestType,
         execution_mode: CreateToolRequestExecutionMode,
         project: typing.Optional[str] = None,
-        parameters: typing.Optional[typing.Sequence[ToolParameterParams]] = OMIT,
+        parameters: typing.Optional[typing.Sequence[ToolParameter]] = OMIT,
         endpoint_method: typing.Optional[CreateToolRequestEndpointMethod] = OMIT,
         endpoint_url: typing.Optional[str] = OMIT,
         endpoint_headers: typing.Optional[typing.Dict[str, str]] = OMIT,
@@ -559,7 +559,7 @@ class AsyncToolsClient:
         project : typing.Optional[str]
             The name of the project to create the tool in.
 
-        parameters : typing.Optional[typing.Sequence[ToolParameterParams]]
+        parameters : typing.Optional[typing.Sequence[ToolParameter]]
             Array of parameter definitions.
             For `custom_webhook` tools with POST method, each parameter must include a `location` field.
             For `custom_webhook` tools with GET method, `location` defaults to `"query_string"` if not specified.
@@ -622,7 +622,7 @@ class AsyncToolsClient:
         --------
         import asyncio
 
-        from phonic import AsyncPhonic
+        from phonic import AsyncPhonic, ToolParameter
 
         client = AsyncPhonic(
             api_key="YOUR_API_KEY",
@@ -637,12 +637,12 @@ class AsyncToolsClient:
                 type="custom_context",
                 execution_mode="sync",
                 parameters=[
-                    {
-                        "type": "string",
-                        "name": "name",
-                        "description": "description",
-                        "is_required": True,
-                    }
+                    ToolParameter(
+                        type="string",
+                        name="name",
+                        description="description",
+                        is_required=True,
+                    )
                 ],
                 require_speech_before_tool_call=False,
                 forbid_speech_after_tool_call=False,
@@ -785,7 +785,7 @@ class AsyncToolsClient:
         description: typing.Optional[str] = OMIT,
         type: typing.Optional[UpdateToolRequestType] = OMIT,
         execution_mode: typing.Optional[UpdateToolRequestExecutionMode] = OMIT,
-        parameters: typing.Optional[typing.Sequence[ToolParameterParams]] = OMIT,
+        parameters: typing.Optional[typing.Sequence[ToolParameter]] = OMIT,
         endpoint_method: typing.Optional[UpdateToolRequestEndpointMethod] = OMIT,
         endpoint_url: typing.Optional[str] = OMIT,
         endpoint_headers: typing.Optional[typing.Dict[str, str]] = OMIT,
@@ -826,7 +826,7 @@ class AsyncToolsClient:
         execution_mode : typing.Optional[UpdateToolRequestExecutionMode]
             Mode of operation.
 
-        parameters : typing.Optional[typing.Sequence[ToolParameterParams]]
+        parameters : typing.Optional[typing.Sequence[ToolParameter]]
             Array of parameter definitions.
             When updating `type` or `endpoint_method`, all parameters must include explicit `location` values.
             For `custom_webhook` tools: `location` is required for POST, defaults to `"query_string"` for GET.
