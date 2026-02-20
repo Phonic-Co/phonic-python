@@ -98,10 +98,10 @@ class Conversation(UncheckedBaseModel):
 
     audio_url: typing.Optional[str] = pydantic.Field(default=None)
     """
-    Presigned URL to the conversation audio file.
+    Presigned URL to the conversation audio file. Expires in 1 day.
     """
 
-    started_at: dt.datetime = pydantic.Field()
+    started_at: typing.Optional[dt.datetime] = pydantic.Field(default=None)
     """
     When the conversation started.
     """

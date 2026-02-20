@@ -96,10 +96,10 @@ class ConversationParams(typing_extensions.TypedDict):
 
     audio_url: typing.Optional[str]
     """
-    Presigned URL to the conversation audio file.
+    Presigned URL to the conversation audio file. Expires in 1 day.
     """
 
-    started_at: dt.datetime
+    started_at: typing.Optional[dt.datetime]
     """
     When the conversation started.
     """
