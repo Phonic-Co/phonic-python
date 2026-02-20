@@ -3,11 +3,10 @@
 import typing
 
 import pydantic
-from ...core.pydantic_utilities import IS_PYDANTIC_V2
-from ...core.unchecked_base_model import UncheckedBaseModel
+from ...core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 
 
-class ConversationsListResponseConversationsPagination(UncheckedBaseModel):
+class ConversationsListResponseConversationsPagination(UniversalBaseModel):
     prev_cursor: typing.Optional[str] = pydantic.Field(default=None)
     """
     Cursor to fetch the previous page of conversations (newer). Use this value in the `before` query parameter. `null` if there is no previous page.

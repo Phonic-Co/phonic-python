@@ -3,11 +3,10 @@
 import typing
 
 import pydantic
-from ..core.pydantic_utilities import IS_PYDANTIC_V2
-from ..core.unchecked_base_model import UncheckedBaseModel
+from ..core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 
 
-class Voice(UncheckedBaseModel):
+class Voice(UniversalBaseModel):
     id: str = pydantic.Field()
     """
     The voice ID.
@@ -21,6 +20,11 @@ class Voice(UncheckedBaseModel):
     description: typing.Optional[str] = pydantic.Field(default=None)
     """
     The voice description.
+    """
+
+    audio_url: str = pydantic.Field()
+    """
+    Presigned URL to the voice sample audio file. Expires in 7 days.
     """
 
     if IS_PYDANTIC_V2:

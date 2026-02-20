@@ -7,11 +7,7 @@ from importlib import import_module
 
 if typing.TYPE_CHECKING:
     from .types import AuthCreateSessionTokenResponse
-    from .requests import AuthCreateSessionTokenResponseParams
-_dynamic_imports: typing.Dict[str, str] = {
-    "AuthCreateSessionTokenResponse": ".types",
-    "AuthCreateSessionTokenResponseParams": ".requests",
-}
+_dynamic_imports: typing.Dict[str, str] = {"AuthCreateSessionTokenResponse": ".types"}
 
 
 def __getattr__(attr_name: str) -> typing.Any:
@@ -35,4 +31,4 @@ def __dir__():
     return sorted(lazy_attrs)
 
 
-__all__ = ["AuthCreateSessionTokenResponse", "AuthCreateSessionTokenResponseParams"]
+__all__ = ["AuthCreateSessionTokenResponse"]

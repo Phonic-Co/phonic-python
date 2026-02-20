@@ -4,36 +4,36 @@ import typing
 
 from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.request_options import RequestOptions
-from ..requests.create_agent_request_configuration_endpoint import CreateAgentRequestConfigurationEndpointParams
-from ..requests.create_agent_request_template_variables_value import CreateAgentRequestTemplateVariablesValueParams
-from ..requests.create_agent_request_tools_item import CreateAgentRequestToolsItemParams
-from ..requests.task import TaskParams
 from ..types.create_agent_request_audio_format import CreateAgentRequestAudioFormat
 from ..types.create_agent_request_background_noise import CreateAgentRequestBackgroundNoise
+from ..types.create_agent_request_configuration_endpoint import CreateAgentRequestConfigurationEndpoint
 from ..types.create_agent_request_phone_number import CreateAgentRequestPhoneNumber
+from ..types.create_agent_request_template_variables_value import CreateAgentRequestTemplateVariablesValue
+from ..types.create_agent_request_tools_item import CreateAgentRequestToolsItem
 from ..types.language_code import LanguageCode
+from ..types.task import Task
 from .raw_client import AsyncRawAgentsClient, RawAgentsClient
-from .requests.agents_add_custom_phone_number_request_configuration_endpoint import (
-    AgentsAddCustomPhoneNumberRequestConfigurationEndpointParams,
+from .types.agents_add_custom_phone_number_request_configuration_endpoint import (
+    AgentsAddCustomPhoneNumberRequestConfigurationEndpoint,
 )
-from .requests.agents_update_phone_number_request_configuration_endpoint import (
-    AgentsUpdatePhoneNumberRequestConfigurationEndpointParams,
-)
-from .requests.update_agent_request_configuration_endpoint import UpdateAgentRequestConfigurationEndpointParams
-from .requests.update_agent_request_template_variables_value import UpdateAgentRequestTemplateVariablesValueParams
-from .requests.update_agent_request_tools_item import UpdateAgentRequestToolsItemParams
 from .types.agents_add_custom_phone_number_response import AgentsAddCustomPhoneNumberResponse
 from .types.agents_create_response import AgentsCreateResponse
 from .types.agents_delete_custom_phone_number_response import AgentsDeleteCustomPhoneNumberResponse
 from .types.agents_delete_response import AgentsDeleteResponse
 from .types.agents_get_response import AgentsGetResponse
 from .types.agents_list_response import AgentsListResponse
+from .types.agents_update_phone_number_request_configuration_endpoint import (
+    AgentsUpdatePhoneNumberRequestConfigurationEndpoint,
+)
 from .types.agents_update_phone_number_response import AgentsUpdatePhoneNumberResponse
 from .types.agents_update_response import AgentsUpdateResponse
 from .types.agents_upsert_response import AgentsUpsertResponse
 from .types.update_agent_request_audio_format import UpdateAgentRequestAudioFormat
 from .types.update_agent_request_background_noise import UpdateAgentRequestBackgroundNoise
+from .types.update_agent_request_configuration_endpoint import UpdateAgentRequestConfigurationEndpoint
 from .types.update_agent_request_phone_number import UpdateAgentRequestPhoneNumber
+from .types.update_agent_request_template_variables_value import UpdateAgentRequestTemplateVariablesValue
+from .types.update_agent_request_tools_item import UpdateAgentRequestToolsItem
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -80,7 +80,9 @@ class AgentsClient:
         client = Phonic(
             api_key="YOUR_API_KEY",
         )
-        client.agents.list()
+        client.agents.list(
+            project="project",
+        )
         """
         _response = self._raw_client.list(project=project, request_options=request_options)
         return _response.data
@@ -102,16 +104,16 @@ class AgentsClient:
         generate_welcome_message: typing.Optional[bool] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
-        template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValueParams]] = OMIT,
-        tools: typing.Optional[typing.Sequence[CreateAgentRequestToolsItemParams]] = OMIT,
-        tasks: typing.Optional[typing.Sequence[TaskParams]] = OMIT,
+        template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValue]] = OMIT,
+        tools: typing.Optional[typing.Sequence[CreateAgentRequestToolsItem]] = OMIT,
+        tasks: typing.Optional[typing.Sequence[Task]] = OMIT,
         generate_no_input_poke_text: typing.Optional[bool] = OMIT,
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
         languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
-        configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
+        configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpoint] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
         vad_prebuffer_duration_ms: typing.Optional[float] = OMIT,
@@ -167,13 +169,13 @@ class AgentsClient:
         system_prompt : typing.Optional[str]
             Instructions for the conversation. Can contain template variables like `{{subject}}`.
 
-        template_variables : typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValueParams]]
+        template_variables : typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValue]]
             Variables that can be used in the welcome message and the system prompt.
 
-        tools : typing.Optional[typing.Sequence[CreateAgentRequestToolsItemParams]]
+        tools : typing.Optional[typing.Sequence[CreateAgentRequestToolsItem]]
             Array of built-in or custom tool names to use.
 
-        tasks : typing.Optional[typing.Sequence[TaskParams]]
+        tasks : typing.Optional[typing.Sequence[Task]]
             Array of task objects with `name` and `description` fields.
 
         generate_no_input_poke_text : typing.Optional[bool]
@@ -194,7 +196,7 @@ class AgentsClient:
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
 
-        configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpointParams]
+        configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpoint]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
         inbound_rollout : typing.Optional[float]
@@ -225,7 +227,11 @@ class AgentsClient:
 
         Examples
         --------
-        from phonic import Phonic
+        from phonic import (
+            CreateAgentRequestConfigurationEndpoint,
+            CreateAgentRequestTemplateVariablesValue,
+            Phonic,
+        )
 
         client = Phonic(
             api_key="YOUR_API_KEY",
@@ -242,8 +248,12 @@ class AgentsClient:
             welcome_message="Hi {{customer_name}}. How can I help you today?",
             system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
             template_variables={
-                "customer_name": {"default_value": "David"},
-                "subject": {"default_value": "Chess"},
+                "customer_name": CreateAgentRequestTemplateVariablesValue(
+                    default_value="David",
+                ),
+                "subject": CreateAgentRequestTemplateVariablesValue(
+                    default_value="Chess",
+                ),
             },
             tools=[],
             generate_no_input_poke_text=False,
@@ -251,11 +261,11 @@ class AgentsClient:
             no_input_poke_text="Are you still there?",
             languages=["en", "es"],
             boosted_keywords=["Load ID", "dispatch"],
-            configuration_endpoint={
-                "url": "https://api.example.com/config",
-                "headers": {"Authorization": "Bearer token123"},
-                "timeout_ms": 7000,
-            },
+            configuration_endpoint=CreateAgentRequestConfigurationEndpoint(
+                url="https://api.example.com/config",
+                headers={"Authorization": "Bearer token123"},
+                timeout_ms=7000,
+            ),
         )
         """
         _response = self._raw_client.create(
@@ -310,16 +320,16 @@ class AgentsClient:
         generate_welcome_message: typing.Optional[bool] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
-        template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValueParams]] = OMIT,
-        tools: typing.Optional[typing.Sequence[CreateAgentRequestToolsItemParams]] = OMIT,
-        tasks: typing.Optional[typing.Sequence[TaskParams]] = OMIT,
+        template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValue]] = OMIT,
+        tools: typing.Optional[typing.Sequence[CreateAgentRequestToolsItem]] = OMIT,
+        tasks: typing.Optional[typing.Sequence[Task]] = OMIT,
         generate_no_input_poke_text: typing.Optional[bool] = OMIT,
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
         languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
-        configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
+        configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpoint] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
         vad_prebuffer_duration_ms: typing.Optional[float] = OMIT,
@@ -375,13 +385,13 @@ class AgentsClient:
         system_prompt : typing.Optional[str]
             Instructions for the conversation. Can contain template variables like `{{subject}}`.
 
-        template_variables : typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValueParams]]
+        template_variables : typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValue]]
             Variables that can be used in the welcome message and the system prompt.
 
-        tools : typing.Optional[typing.Sequence[CreateAgentRequestToolsItemParams]]
+        tools : typing.Optional[typing.Sequence[CreateAgentRequestToolsItem]]
             Array of built-in or custom tool names to use.
 
-        tasks : typing.Optional[typing.Sequence[TaskParams]]
+        tasks : typing.Optional[typing.Sequence[Task]]
             Array of task objects with `name` and `description` fields.
 
         generate_no_input_poke_text : typing.Optional[bool]
@@ -402,7 +412,7 @@ class AgentsClient:
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
 
-        configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpointParams]
+        configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpoint]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
         inbound_rollout : typing.Optional[float]
@@ -433,7 +443,11 @@ class AgentsClient:
 
         Examples
         --------
-        from phonic import Phonic
+        from phonic import (
+            CreateAgentRequestConfigurationEndpoint,
+            CreateAgentRequestTemplateVariablesValue,
+            Phonic,
+        )
 
         client = Phonic(
             api_key="YOUR_API_KEY",
@@ -450,8 +464,12 @@ class AgentsClient:
             welcome_message="Hi {{customer_name}}. How can I help you today?",
             system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
             template_variables={
-                "customer_name": {"default_value": "David"},
-                "subject": {"default_value": "Chess"},
+                "customer_name": CreateAgentRequestTemplateVariablesValue(
+                    default_value="David",
+                ),
+                "subject": CreateAgentRequestTemplateVariablesValue(
+                    default_value="Chess",
+                ),
             },
             tools=[],
             generate_no_input_poke_text=False,
@@ -459,11 +477,11 @@ class AgentsClient:
             no_input_poke_text="Are you still there?",
             languages=["en", "es"],
             boosted_keywords=["Load ID", "dispatch"],
-            configuration_endpoint={
-                "url": "https://api.example.com/config",
-                "headers": {"Authorization": "Bearer token123"},
-                "timeout_ms": 7000,
-            },
+            configuration_endpoint=CreateAgentRequestConfigurationEndpoint(
+                url="https://api.example.com/config",
+                headers={"Authorization": "Bearer token123"},
+                timeout_ms=7000,
+            ),
         )
         """
         _response = self._raw_client.upsert(
@@ -601,16 +619,16 @@ class AgentsClient:
         generate_welcome_message: typing.Optional[bool] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
-        template_variables: typing.Optional[typing.Dict[str, UpdateAgentRequestTemplateVariablesValueParams]] = OMIT,
-        tools: typing.Optional[typing.Sequence[UpdateAgentRequestToolsItemParams]] = OMIT,
-        tasks: typing.Optional[typing.Sequence[TaskParams]] = OMIT,
+        template_variables: typing.Optional[typing.Dict[str, UpdateAgentRequestTemplateVariablesValue]] = OMIT,
+        tools: typing.Optional[typing.Sequence[UpdateAgentRequestToolsItem]] = OMIT,
+        tasks: typing.Optional[typing.Sequence[Task]] = OMIT,
         generate_no_input_poke_text: typing.Optional[bool] = OMIT,
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
         languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
-        configuration_endpoint: typing.Optional[UpdateAgentRequestConfigurationEndpointParams] = OMIT,
+        configuration_endpoint: typing.Optional[UpdateAgentRequestConfigurationEndpoint] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
         vad_prebuffer_duration_ms: typing.Optional[float] = OMIT,
@@ -669,13 +687,13 @@ class AgentsClient:
         system_prompt : typing.Optional[str]
             Instructions for the conversation. Can contain template variables like `{{subject}}`.
 
-        template_variables : typing.Optional[typing.Dict[str, UpdateAgentRequestTemplateVariablesValueParams]]
+        template_variables : typing.Optional[typing.Dict[str, UpdateAgentRequestTemplateVariablesValue]]
             Variables that can be used in the welcome message and the system prompt.
 
-        tools : typing.Optional[typing.Sequence[UpdateAgentRequestToolsItemParams]]
+        tools : typing.Optional[typing.Sequence[UpdateAgentRequestToolsItem]]
             Array of built-in or custom tool names to use.
 
-        tasks : typing.Optional[typing.Sequence[TaskParams]]
+        tasks : typing.Optional[typing.Sequence[Task]]
             Array of task objects with `name` and `description` fields.
 
         generate_no_input_poke_text : typing.Optional[bool]
@@ -696,7 +714,7 @@ class AgentsClient:
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
 
-        configuration_endpoint : typing.Optional[UpdateAgentRequestConfigurationEndpointParams]
+        configuration_endpoint : typing.Optional[UpdateAgentRequestConfigurationEndpoint]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
         inbound_rollout : typing.Optional[float]
@@ -728,6 +746,10 @@ class AgentsClient:
         Examples
         --------
         from phonic import Phonic
+        from phonic.agents import (
+            UpdateAgentRequestConfigurationEndpoint,
+            UpdateAgentRequestTemplateVariablesValue,
+        )
 
         client = Phonic(
             api_key="YOUR_API_KEY",
@@ -745,8 +767,12 @@ class AgentsClient:
             welcome_message="Hi {{customer_name}}. How can I help you today?",
             system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
             template_variables={
-                "customer_name": {"default_value": "David"},
-                "subject": {"default_value": "Chess"},
+                "customer_name": UpdateAgentRequestTemplateVariablesValue(
+                    default_value="David",
+                ),
+                "subject": UpdateAgentRequestTemplateVariablesValue(
+                    default_value="Chess",
+                ),
             },
             tools=[],
             generate_no_input_poke_text=False,
@@ -754,11 +780,11 @@ class AgentsClient:
             no_input_poke_text="Are you still there?",
             languages=["en", "es"],
             boosted_keywords=["Load ID", "dispatch"],
-            configuration_endpoint={
-                "url": "https://api.example.com/config",
-                "headers": {"Authorization": "Bearer token123"},
-                "timeout_ms": 7000,
-            },
+            configuration_endpoint=UpdateAgentRequestConfigurationEndpoint(
+                url="https://api.example.com/config",
+                headers={"Authorization": "Bearer token123"},
+                timeout_ms=7000,
+            ),
         )
         """
         _response = self._raw_client.update(
@@ -806,7 +832,7 @@ class AgentsClient:
         sip_address: typing.Optional[str] = None,
         sip_auth_username: typing.Optional[str] = None,
         sip_auth_password: typing.Optional[str] = None,
-        configuration_endpoint: typing.Optional[AgentsAddCustomPhoneNumberRequestConfigurationEndpointParams] = OMIT,
+        configuration_endpoint: typing.Optional[AgentsAddCustomPhoneNumberRequestConfigurationEndpoint] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AgentsAddCustomPhoneNumberResponse:
         """
@@ -832,7 +858,7 @@ class AgentsClient:
         sip_auth_password : typing.Optional[str]
             SIP auth password. Optional, but if provided, all three SIP headers (X-Sip-Address, X-Sip-Auth-Username, X-Sip-Auth-Password) must be provided. When these headers are provided, call transfers from the agent will use the provided SIP details.
 
-        configuration_endpoint : typing.Optional[AgentsAddCustomPhoneNumberRequestConfigurationEndpointParams]
+        configuration_endpoint : typing.Optional[AgentsAddCustomPhoneNumberRequestConfigurationEndpoint]
             When not `null`, the agent will call this endpoint to get configuration options for calls on this phone number.
 
         request_options : typing.Optional[RequestOptions]
@@ -846,19 +872,23 @@ class AgentsClient:
         Examples
         --------
         from phonic import Phonic
+        from phonic.agents import AgentsAddCustomPhoneNumberRequestConfigurationEndpoint
 
         client = Phonic(
             api_key="YOUR_API_KEY",
         )
         client.agents.add_custom_phone_number(
             name_or_id="nameOrId",
+            sip_address="X-Sip-Address",
+            sip_auth_username="X-Sip-Auth-Username",
+            sip_auth_password="X-Sip-Auth-Password",
             project="main",
             phone_number="+15551234567",
-            configuration_endpoint={
-                "url": "https://api.example.com/config",
-                "headers": {"Authorization": "Bearer token123"},
-                "timeout_ms": 7000,
-            },
+            configuration_endpoint=AgentsAddCustomPhoneNumberRequestConfigurationEndpoint(
+                url="https://api.example.com/config",
+                headers={"Authorization": "Bearer token123"},
+                timeout_ms=7000,
+            ),
         )
         """
         _response = self._raw_client.add_custom_phone_number(
@@ -927,7 +957,7 @@ class AgentsClient:
         *,
         phone_number: str,
         project: typing.Optional[str] = None,
-        configuration_endpoint: typing.Optional[AgentsUpdatePhoneNumberRequestConfigurationEndpointParams] = OMIT,
+        configuration_endpoint: typing.Optional[AgentsUpdatePhoneNumberRequestConfigurationEndpoint] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AgentsUpdatePhoneNumberResponse:
         """
@@ -944,7 +974,7 @@ class AgentsClient:
         project : typing.Optional[str]
             The name of the project containing the agent. Only used when `nameOrId` is a name.
 
-        configuration_endpoint : typing.Optional[AgentsUpdatePhoneNumberRequestConfigurationEndpointParams]
+        configuration_endpoint : typing.Optional[AgentsUpdatePhoneNumberRequestConfigurationEndpoint]
             When not `null`, the agent will call this endpoint to get configuration options for calls on this phone number.
 
         request_options : typing.Optional[RequestOptions]
@@ -958,6 +988,7 @@ class AgentsClient:
         Examples
         --------
         from phonic import Phonic
+        from phonic.agents import AgentsUpdatePhoneNumberRequestConfigurationEndpoint
 
         client = Phonic(
             api_key="YOUR_API_KEY",
@@ -966,11 +997,11 @@ class AgentsClient:
             name_or_id="nameOrId",
             project="main",
             phone_number="+15551234567",
-            configuration_endpoint={
-                "url": "https://api.example.com/config",
-                "headers": {"Authorization": "Bearer token123"},
-                "timeout_ms": 7000,
-            },
+            configuration_endpoint=AgentsUpdatePhoneNumberRequestConfigurationEndpoint(
+                url="https://api.example.com/config",
+                headers={"Authorization": "Bearer token123"},
+                timeout_ms=7000,
+            ),
         )
         """
         _response = self._raw_client.update_phone_number(
@@ -1029,7 +1060,9 @@ class AsyncAgentsClient:
 
 
         async def main() -> None:
-            await client.agents.list()
+            await client.agents.list(
+                project="project",
+            )
 
 
         asyncio.run(main())
@@ -1054,16 +1087,16 @@ class AsyncAgentsClient:
         generate_welcome_message: typing.Optional[bool] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
-        template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValueParams]] = OMIT,
-        tools: typing.Optional[typing.Sequence[CreateAgentRequestToolsItemParams]] = OMIT,
-        tasks: typing.Optional[typing.Sequence[TaskParams]] = OMIT,
+        template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValue]] = OMIT,
+        tools: typing.Optional[typing.Sequence[CreateAgentRequestToolsItem]] = OMIT,
+        tasks: typing.Optional[typing.Sequence[Task]] = OMIT,
         generate_no_input_poke_text: typing.Optional[bool] = OMIT,
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
         languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
-        configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
+        configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpoint] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
         vad_prebuffer_duration_ms: typing.Optional[float] = OMIT,
@@ -1119,13 +1152,13 @@ class AsyncAgentsClient:
         system_prompt : typing.Optional[str]
             Instructions for the conversation. Can contain template variables like `{{subject}}`.
 
-        template_variables : typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValueParams]]
+        template_variables : typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValue]]
             Variables that can be used in the welcome message and the system prompt.
 
-        tools : typing.Optional[typing.Sequence[CreateAgentRequestToolsItemParams]]
+        tools : typing.Optional[typing.Sequence[CreateAgentRequestToolsItem]]
             Array of built-in or custom tool names to use.
 
-        tasks : typing.Optional[typing.Sequence[TaskParams]]
+        tasks : typing.Optional[typing.Sequence[Task]]
             Array of task objects with `name` and `description` fields.
 
         generate_no_input_poke_text : typing.Optional[bool]
@@ -1146,7 +1179,7 @@ class AsyncAgentsClient:
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
 
-        configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpointParams]
+        configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpoint]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
         inbound_rollout : typing.Optional[float]
@@ -1179,7 +1212,11 @@ class AsyncAgentsClient:
         --------
         import asyncio
 
-        from phonic import AsyncPhonic
+        from phonic import (
+            AsyncPhonic,
+            CreateAgentRequestConfigurationEndpoint,
+            CreateAgentRequestTemplateVariablesValue,
+        )
 
         client = AsyncPhonic(
             api_key="YOUR_API_KEY",
@@ -1199,8 +1236,12 @@ class AsyncAgentsClient:
                 welcome_message="Hi {{customer_name}}. How can I help you today?",
                 system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
                 template_variables={
-                    "customer_name": {"default_value": "David"},
-                    "subject": {"default_value": "Chess"},
+                    "customer_name": CreateAgentRequestTemplateVariablesValue(
+                        default_value="David",
+                    ),
+                    "subject": CreateAgentRequestTemplateVariablesValue(
+                        default_value="Chess",
+                    ),
                 },
                 tools=[],
                 generate_no_input_poke_text=False,
@@ -1208,11 +1249,11 @@ class AsyncAgentsClient:
                 no_input_poke_text="Are you still there?",
                 languages=["en", "es"],
                 boosted_keywords=["Load ID", "dispatch"],
-                configuration_endpoint={
-                    "url": "https://api.example.com/config",
-                    "headers": {"Authorization": "Bearer token123"},
-                    "timeout_ms": 7000,
-                },
+                configuration_endpoint=CreateAgentRequestConfigurationEndpoint(
+                    url="https://api.example.com/config",
+                    headers={"Authorization": "Bearer token123"},
+                    timeout_ms=7000,
+                ),
             )
 
 
@@ -1270,16 +1311,16 @@ class AsyncAgentsClient:
         generate_welcome_message: typing.Optional[bool] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
-        template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValueParams]] = OMIT,
-        tools: typing.Optional[typing.Sequence[CreateAgentRequestToolsItemParams]] = OMIT,
-        tasks: typing.Optional[typing.Sequence[TaskParams]] = OMIT,
+        template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValue]] = OMIT,
+        tools: typing.Optional[typing.Sequence[CreateAgentRequestToolsItem]] = OMIT,
+        tasks: typing.Optional[typing.Sequence[Task]] = OMIT,
         generate_no_input_poke_text: typing.Optional[bool] = OMIT,
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
         languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
-        configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
+        configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpoint] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
         vad_prebuffer_duration_ms: typing.Optional[float] = OMIT,
@@ -1335,13 +1376,13 @@ class AsyncAgentsClient:
         system_prompt : typing.Optional[str]
             Instructions for the conversation. Can contain template variables like `{{subject}}`.
 
-        template_variables : typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValueParams]]
+        template_variables : typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValue]]
             Variables that can be used in the welcome message and the system prompt.
 
-        tools : typing.Optional[typing.Sequence[CreateAgentRequestToolsItemParams]]
+        tools : typing.Optional[typing.Sequence[CreateAgentRequestToolsItem]]
             Array of built-in or custom tool names to use.
 
-        tasks : typing.Optional[typing.Sequence[TaskParams]]
+        tasks : typing.Optional[typing.Sequence[Task]]
             Array of task objects with `name` and `description` fields.
 
         generate_no_input_poke_text : typing.Optional[bool]
@@ -1362,7 +1403,7 @@ class AsyncAgentsClient:
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
 
-        configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpointParams]
+        configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpoint]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
         inbound_rollout : typing.Optional[float]
@@ -1395,7 +1436,11 @@ class AsyncAgentsClient:
         --------
         import asyncio
 
-        from phonic import AsyncPhonic
+        from phonic import (
+            AsyncPhonic,
+            CreateAgentRequestConfigurationEndpoint,
+            CreateAgentRequestTemplateVariablesValue,
+        )
 
         client = AsyncPhonic(
             api_key="YOUR_API_KEY",
@@ -1415,8 +1460,12 @@ class AsyncAgentsClient:
                 welcome_message="Hi {{customer_name}}. How can I help you today?",
                 system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
                 template_variables={
-                    "customer_name": {"default_value": "David"},
-                    "subject": {"default_value": "Chess"},
+                    "customer_name": CreateAgentRequestTemplateVariablesValue(
+                        default_value="David",
+                    ),
+                    "subject": CreateAgentRequestTemplateVariablesValue(
+                        default_value="Chess",
+                    ),
                 },
                 tools=[],
                 generate_no_input_poke_text=False,
@@ -1424,11 +1473,11 @@ class AsyncAgentsClient:
                 no_input_poke_text="Are you still there?",
                 languages=["en", "es"],
                 boosted_keywords=["Load ID", "dispatch"],
-                configuration_endpoint={
-                    "url": "https://api.example.com/config",
-                    "headers": {"Authorization": "Bearer token123"},
-                    "timeout_ms": 7000,
-                },
+                configuration_endpoint=CreateAgentRequestConfigurationEndpoint(
+                    url="https://api.example.com/config",
+                    headers={"Authorization": "Bearer token123"},
+                    timeout_ms=7000,
+                ),
             )
 
 
@@ -1585,16 +1634,16 @@ class AsyncAgentsClient:
         generate_welcome_message: typing.Optional[bool] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
-        template_variables: typing.Optional[typing.Dict[str, UpdateAgentRequestTemplateVariablesValueParams]] = OMIT,
-        tools: typing.Optional[typing.Sequence[UpdateAgentRequestToolsItemParams]] = OMIT,
-        tasks: typing.Optional[typing.Sequence[TaskParams]] = OMIT,
+        template_variables: typing.Optional[typing.Dict[str, UpdateAgentRequestTemplateVariablesValue]] = OMIT,
+        tools: typing.Optional[typing.Sequence[UpdateAgentRequestToolsItem]] = OMIT,
+        tasks: typing.Optional[typing.Sequence[Task]] = OMIT,
         generate_no_input_poke_text: typing.Optional[bool] = OMIT,
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
         languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
-        configuration_endpoint: typing.Optional[UpdateAgentRequestConfigurationEndpointParams] = OMIT,
+        configuration_endpoint: typing.Optional[UpdateAgentRequestConfigurationEndpoint] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
         vad_prebuffer_duration_ms: typing.Optional[float] = OMIT,
@@ -1653,13 +1702,13 @@ class AsyncAgentsClient:
         system_prompt : typing.Optional[str]
             Instructions for the conversation. Can contain template variables like `{{subject}}`.
 
-        template_variables : typing.Optional[typing.Dict[str, UpdateAgentRequestTemplateVariablesValueParams]]
+        template_variables : typing.Optional[typing.Dict[str, UpdateAgentRequestTemplateVariablesValue]]
             Variables that can be used in the welcome message and the system prompt.
 
-        tools : typing.Optional[typing.Sequence[UpdateAgentRequestToolsItemParams]]
+        tools : typing.Optional[typing.Sequence[UpdateAgentRequestToolsItem]]
             Array of built-in or custom tool names to use.
 
-        tasks : typing.Optional[typing.Sequence[TaskParams]]
+        tasks : typing.Optional[typing.Sequence[Task]]
             Array of task objects with `name` and `description` fields.
 
         generate_no_input_poke_text : typing.Optional[bool]
@@ -1680,7 +1729,7 @@ class AsyncAgentsClient:
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
 
-        configuration_endpoint : typing.Optional[UpdateAgentRequestConfigurationEndpointParams]
+        configuration_endpoint : typing.Optional[UpdateAgentRequestConfigurationEndpoint]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
         inbound_rollout : typing.Optional[float]
@@ -1714,6 +1763,10 @@ class AsyncAgentsClient:
         import asyncio
 
         from phonic import AsyncPhonic
+        from phonic.agents import (
+            UpdateAgentRequestConfigurationEndpoint,
+            UpdateAgentRequestTemplateVariablesValue,
+        )
 
         client = AsyncPhonic(
             api_key="YOUR_API_KEY",
@@ -1734,8 +1787,12 @@ class AsyncAgentsClient:
                 welcome_message="Hi {{customer_name}}. How can I help you today?",
                 system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
                 template_variables={
-                    "customer_name": {"default_value": "David"},
-                    "subject": {"default_value": "Chess"},
+                    "customer_name": UpdateAgentRequestTemplateVariablesValue(
+                        default_value="David",
+                    ),
+                    "subject": UpdateAgentRequestTemplateVariablesValue(
+                        default_value="Chess",
+                    ),
                 },
                 tools=[],
                 generate_no_input_poke_text=False,
@@ -1743,11 +1800,11 @@ class AsyncAgentsClient:
                 no_input_poke_text="Are you still there?",
                 languages=["en", "es"],
                 boosted_keywords=["Load ID", "dispatch"],
-                configuration_endpoint={
-                    "url": "https://api.example.com/config",
-                    "headers": {"Authorization": "Bearer token123"},
-                    "timeout_ms": 7000,
-                },
+                configuration_endpoint=UpdateAgentRequestConfigurationEndpoint(
+                    url="https://api.example.com/config",
+                    headers={"Authorization": "Bearer token123"},
+                    timeout_ms=7000,
+                ),
             )
 
 
@@ -1798,7 +1855,7 @@ class AsyncAgentsClient:
         sip_address: typing.Optional[str] = None,
         sip_auth_username: typing.Optional[str] = None,
         sip_auth_password: typing.Optional[str] = None,
-        configuration_endpoint: typing.Optional[AgentsAddCustomPhoneNumberRequestConfigurationEndpointParams] = OMIT,
+        configuration_endpoint: typing.Optional[AgentsAddCustomPhoneNumberRequestConfigurationEndpoint] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AgentsAddCustomPhoneNumberResponse:
         """
@@ -1824,7 +1881,7 @@ class AsyncAgentsClient:
         sip_auth_password : typing.Optional[str]
             SIP auth password. Optional, but if provided, all three SIP headers (X-Sip-Address, X-Sip-Auth-Username, X-Sip-Auth-Password) must be provided. When these headers are provided, call transfers from the agent will use the provided SIP details.
 
-        configuration_endpoint : typing.Optional[AgentsAddCustomPhoneNumberRequestConfigurationEndpointParams]
+        configuration_endpoint : typing.Optional[AgentsAddCustomPhoneNumberRequestConfigurationEndpoint]
             When not `null`, the agent will call this endpoint to get configuration options for calls on this phone number.
 
         request_options : typing.Optional[RequestOptions]
@@ -1840,6 +1897,7 @@ class AsyncAgentsClient:
         import asyncio
 
         from phonic import AsyncPhonic
+        from phonic.agents import AgentsAddCustomPhoneNumberRequestConfigurationEndpoint
 
         client = AsyncPhonic(
             api_key="YOUR_API_KEY",
@@ -1849,13 +1907,16 @@ class AsyncAgentsClient:
         async def main() -> None:
             await client.agents.add_custom_phone_number(
                 name_or_id="nameOrId",
+                sip_address="X-Sip-Address",
+                sip_auth_username="X-Sip-Auth-Username",
+                sip_auth_password="X-Sip-Auth-Password",
                 project="main",
                 phone_number="+15551234567",
-                configuration_endpoint={
-                    "url": "https://api.example.com/config",
-                    "headers": {"Authorization": "Bearer token123"},
-                    "timeout_ms": 7000,
-                },
+                configuration_endpoint=AgentsAddCustomPhoneNumberRequestConfigurationEndpoint(
+                    url="https://api.example.com/config",
+                    headers={"Authorization": "Bearer token123"},
+                    timeout_ms=7000,
+                ),
             )
 
 
@@ -1935,7 +1996,7 @@ class AsyncAgentsClient:
         *,
         phone_number: str,
         project: typing.Optional[str] = None,
-        configuration_endpoint: typing.Optional[AgentsUpdatePhoneNumberRequestConfigurationEndpointParams] = OMIT,
+        configuration_endpoint: typing.Optional[AgentsUpdatePhoneNumberRequestConfigurationEndpoint] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AgentsUpdatePhoneNumberResponse:
         """
@@ -1952,7 +2013,7 @@ class AsyncAgentsClient:
         project : typing.Optional[str]
             The name of the project containing the agent. Only used when `nameOrId` is a name.
 
-        configuration_endpoint : typing.Optional[AgentsUpdatePhoneNumberRequestConfigurationEndpointParams]
+        configuration_endpoint : typing.Optional[AgentsUpdatePhoneNumberRequestConfigurationEndpoint]
             When not `null`, the agent will call this endpoint to get configuration options for calls on this phone number.
 
         request_options : typing.Optional[RequestOptions]
@@ -1968,6 +2029,7 @@ class AsyncAgentsClient:
         import asyncio
 
         from phonic import AsyncPhonic
+        from phonic.agents import AgentsUpdatePhoneNumberRequestConfigurationEndpoint
 
         client = AsyncPhonic(
             api_key="YOUR_API_KEY",
@@ -1979,11 +2041,11 @@ class AsyncAgentsClient:
                 name_or_id="nameOrId",
                 project="main",
                 phone_number="+15551234567",
-                configuration_endpoint={
-                    "url": "https://api.example.com/config",
-                    "headers": {"Authorization": "Bearer token123"},
-                    "timeout_ms": 7000,
-                },
+                configuration_endpoint=AgentsUpdatePhoneNumberRequestConfigurationEndpoint(
+                    url="https://api.example.com/config",
+                    headers={"Authorization": "Bearer token123"},
+                    timeout_ms=7000,
+                ),
             )
 
 

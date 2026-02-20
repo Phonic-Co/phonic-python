@@ -3,14 +3,13 @@
 import typing
 
 import pydantic
-from ..core.pydantic_utilities import IS_PYDANTIC_V2
-from ..core.unchecked_base_model import UncheckedBaseModel
+from ..core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .tool_parameter_item_type import ToolParameterItemType
 from .tool_parameter_location import ToolParameterLocation
 from .tool_parameter_type import ToolParameterType
 
 
-class ToolParameter(UncheckedBaseModel):
+class ToolParameter(UniversalBaseModel):
     type: ToolParameterType = pydantic.Field()
     """
     The parameter type.

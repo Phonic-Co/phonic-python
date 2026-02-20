@@ -3,11 +3,10 @@
 import typing
 
 import pydantic
-from ..core.pydantic_utilities import IS_PYDANTIC_V2
-from ..core.unchecked_base_model import UncheckedBaseModel
+from ..core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 
 
-class ConversationCreatedPayload(UncheckedBaseModel):
+class ConversationCreatedPayload(UniversalBaseModel):
     type: typing.Literal["conversation_created"] = "conversation_created"
     conversation_id: str = pydantic.Field()
     """

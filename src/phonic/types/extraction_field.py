@@ -3,12 +3,11 @@
 import typing
 
 import pydantic
-from ..core.pydantic_utilities import IS_PYDANTIC_V2
-from ..core.unchecked_base_model import UncheckedBaseModel
+from ..core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .extraction_field_type import ExtractionFieldType
 
 
-class ExtractionField(UncheckedBaseModel):
+class ExtractionField(UniversalBaseModel):
     name: str = pydantic.Field()
     """
     The field name.

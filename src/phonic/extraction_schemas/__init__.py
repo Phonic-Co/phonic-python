@@ -13,24 +13,12 @@ if typing.TYPE_CHECKING:
         ExtractionSchemasListResponse,
         ExtractionSchemasUpdateResponse,
     )
-    from .requests import (
-        ExtractionSchemasCreateResponseParams,
-        ExtractionSchemasDeleteResponseParams,
-        ExtractionSchemasGetResponseParams,
-        ExtractionSchemasListResponseParams,
-        ExtractionSchemasUpdateResponseParams,
-    )
 _dynamic_imports: typing.Dict[str, str] = {
     "ExtractionSchemasCreateResponse": ".types",
-    "ExtractionSchemasCreateResponseParams": ".requests",
     "ExtractionSchemasDeleteResponse": ".types",
-    "ExtractionSchemasDeleteResponseParams": ".requests",
     "ExtractionSchemasGetResponse": ".types",
-    "ExtractionSchemasGetResponseParams": ".requests",
     "ExtractionSchemasListResponse": ".types",
-    "ExtractionSchemasListResponseParams": ".requests",
     "ExtractionSchemasUpdateResponse": ".types",
-    "ExtractionSchemasUpdateResponseParams": ".requests",
 }
 
 
@@ -57,13 +45,8 @@ def __dir__():
 
 __all__ = [
     "ExtractionSchemasCreateResponse",
-    "ExtractionSchemasCreateResponseParams",
     "ExtractionSchemasDeleteResponse",
-    "ExtractionSchemasDeleteResponseParams",
     "ExtractionSchemasGetResponse",
-    "ExtractionSchemasGetResponseParams",
     "ExtractionSchemasListResponse",
-    "ExtractionSchemasListResponseParams",
     "ExtractionSchemasUpdateResponse",
-    "ExtractionSchemasUpdateResponseParams",
 ]

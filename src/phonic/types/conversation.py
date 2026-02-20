@@ -4,8 +4,7 @@ import datetime as dt
 import typing
 
 import pydantic
-from ..core.pydantic_utilities import IS_PYDANTIC_V2
-from ..core.unchecked_base_model import UncheckedBaseModel
+from ..core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from .conversation_agent import ConversationAgent
 from .conversation_analysis import ConversationAnalysis
 from .conversation_background_noise import ConversationBackgroundNoise
@@ -15,7 +14,7 @@ from .conversation_item import ConversationItem
 from .conversation_project import ConversationProject
 
 
-class Conversation(UncheckedBaseModel):
+class Conversation(UniversalBaseModel):
     id: str = pydantic.Field()
     """
     The conversation ID.
@@ -98,10 +97,10 @@ class Conversation(UncheckedBaseModel):
 
     audio_url: typing.Optional[str] = pydantic.Field(default=None)
     """
-    Presigned URL to the conversation audio file.
+    Presigned URL to the conversation audio file. Expires in 1 day.
     """
 
-    started_at: dt.datetime = pydantic.Field()
+    started_at: typing.Optional[dt.datetime] = pydantic.Field(default=None)
     """
     When the conversation started.
     """

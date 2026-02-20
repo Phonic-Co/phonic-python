@@ -3,11 +3,10 @@
 import typing
 
 import pydantic
-from ..core.pydantic_utilities import IS_PYDANTIC_V2
-from ..core.unchecked_base_model import UncheckedBaseModel
+from ..core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 
 
-class SetExternalIdPayload(UncheckedBaseModel):
+class SetExternalIdPayload(UniversalBaseModel):
     type: typing.Literal["set_external_id"] = "set_external_id"
     external_id: str = pydantic.Field()
     """

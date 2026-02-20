@@ -3,11 +3,10 @@
 import typing
 
 import pydantic
-from ..core.pydantic_utilities import IS_PYDANTIC_V2
-from ..core.unchecked_base_model import UncheckedBaseModel
+from ..core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 
 
-class ConversationAnalysis(UncheckedBaseModel):
+class ConversationAnalysis(UniversalBaseModel):
     latencies_ms: typing.List[float] = pydantic.Field()
     """
     Latencies between turns in milliseconds.

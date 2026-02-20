@@ -3,12 +3,11 @@
 import typing
 
 import pydantic
-from ...core.pydantic_utilities import IS_PYDANTIC_V2
-from ...core.unchecked_base_model import UncheckedBaseModel
+from ...core.pydantic_utilities import IS_PYDANTIC_V2, UniversalBaseModel
 from ...types.conversation_eval_prompt import ConversationEvalPrompt
 
 
-class ProjectsListEvalPromptsResponse(UncheckedBaseModel):
+class ProjectsListEvalPromptsResponse(UniversalBaseModel):
     conversation_eval_prompts: typing.List[ConversationEvalPrompt]
 
     if IS_PYDANTIC_V2:

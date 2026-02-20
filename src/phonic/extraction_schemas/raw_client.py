@@ -7,13 +7,13 @@ from ..core.api_error import ApiError
 from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.http_response import AsyncHttpResponse, HttpResponse
 from ..core.jsonable_encoder import jsonable_encoder
+from ..core.pydantic_utilities import parse_obj_as
 from ..core.request_options import RequestOptions
 from ..core.serialization import convert_and_respect_annotation_metadata
-from ..core.unchecked_base_model import construct_type
 from ..errors.bad_request_error import BadRequestError
 from ..errors.conflict_error import ConflictError
 from ..errors.not_found_error import NotFoundError
-from ..requests.extraction_field import ExtractionFieldParams
+from ..types.extraction_field import ExtractionField
 from .types.extraction_schemas_create_response import ExtractionSchemasCreateResponse
 from .types.extraction_schemas_delete_response import ExtractionSchemasDeleteResponse
 from .types.extraction_schemas_get_response import ExtractionSchemasGetResponse
@@ -60,7 +60,7 @@ class RawExtractionSchemasClient:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
                     ExtractionSchemasListResponse,
-                    construct_type(
+                    parse_obj_as(
                         type_=ExtractionSchemasListResponse,  # type: ignore
                         object_=_response.json(),
                     ),
@@ -71,7 +71,7 @@ class RawExtractionSchemasClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -87,7 +87,7 @@ class RawExtractionSchemasClient:
         *,
         name: str,
         prompt: str,
-        fields: typing.Sequence[ExtractionFieldParams],
+        fields: typing.Sequence[ExtractionField],
         project: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[ExtractionSchemasCreateResponse]:
@@ -102,7 +102,7 @@ class RawExtractionSchemasClient:
         prompt : str
             Instructions for how to extract data from conversations.
 
-        fields : typing.Sequence[ExtractionFieldParams]
+        fields : typing.Sequence[ExtractionField]
             Array of field definitions.
 
         project : typing.Optional[str]
@@ -127,7 +127,7 @@ class RawExtractionSchemasClient:
                 "name": name,
                 "prompt": prompt,
                 "fields": convert_and_respect_annotation_metadata(
-                    object_=fields, annotation=typing.Sequence[ExtractionFieldParams], direction="write"
+                    object_=fields, annotation=typing.Sequence[ExtractionField], direction="write"
                 ),
             },
             headers={
@@ -140,7 +140,7 @@ class RawExtractionSchemasClient:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
                     ExtractionSchemasCreateResponse,
-                    construct_type(
+                    parse_obj_as(
                         type_=ExtractionSchemasCreateResponse,  # type: ignore
                         object_=_response.json(),
                     ),
@@ -151,7 +151,7 @@ class RawExtractionSchemasClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -162,7 +162,7 @@ class RawExtractionSchemasClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -173,7 +173,7 @@ class RawExtractionSchemasClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -223,7 +223,7 @@ class RawExtractionSchemasClient:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
                     ExtractionSchemasGetResponse,
-                    construct_type(
+                    parse_obj_as(
                         type_=ExtractionSchemasGetResponse,  # type: ignore
                         object_=_response.json(),
                     ),
@@ -234,7 +234,7 @@ class RawExtractionSchemasClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -284,7 +284,7 @@ class RawExtractionSchemasClient:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
                     ExtractionSchemasDeleteResponse,
-                    construct_type(
+                    parse_obj_as(
                         type_=ExtractionSchemasDeleteResponse,  # type: ignore
                         object_=_response.json(),
                     ),
@@ -295,7 +295,7 @@ class RawExtractionSchemasClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -313,7 +313,7 @@ class RawExtractionSchemasClient:
         project: typing.Optional[str] = None,
         name: typing.Optional[str] = OMIT,
         prompt: typing.Optional[str] = OMIT,
-        fields: typing.Optional[typing.Sequence[ExtractionFieldParams]] = OMIT,
+        fields: typing.Optional[typing.Sequence[ExtractionField]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[ExtractionSchemasUpdateResponse]:
         """
@@ -333,7 +333,7 @@ class RawExtractionSchemasClient:
         prompt : typing.Optional[str]
             Instructions for how to extract data from conversations.
 
-        fields : typing.Optional[typing.Sequence[ExtractionFieldParams]]
+        fields : typing.Optional[typing.Sequence[ExtractionField]]
             Array of field definitions.
 
         request_options : typing.Optional[RequestOptions]
@@ -355,7 +355,7 @@ class RawExtractionSchemasClient:
                 "name": name,
                 "prompt": prompt,
                 "fields": convert_and_respect_annotation_metadata(
-                    object_=fields, annotation=typing.Sequence[ExtractionFieldParams], direction="write"
+                    object_=fields, annotation=typing.Sequence[ExtractionField], direction="write"
                 ),
             },
             headers={
@@ -368,7 +368,7 @@ class RawExtractionSchemasClient:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
                     ExtractionSchemasUpdateResponse,
-                    construct_type(
+                    parse_obj_as(
                         type_=ExtractionSchemasUpdateResponse,  # type: ignore
                         object_=_response.json(),
                     ),
@@ -379,7 +379,7 @@ class RawExtractionSchemasClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -390,7 +390,7 @@ class RawExtractionSchemasClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -401,7 +401,7 @@ class RawExtractionSchemasClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -449,7 +449,7 @@ class AsyncRawExtractionSchemasClient:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
                     ExtractionSchemasListResponse,
-                    construct_type(
+                    parse_obj_as(
                         type_=ExtractionSchemasListResponse,  # type: ignore
                         object_=_response.json(),
                     ),
@@ -460,7 +460,7 @@ class AsyncRawExtractionSchemasClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -476,7 +476,7 @@ class AsyncRawExtractionSchemasClient:
         *,
         name: str,
         prompt: str,
-        fields: typing.Sequence[ExtractionFieldParams],
+        fields: typing.Sequence[ExtractionField],
         project: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[ExtractionSchemasCreateResponse]:
@@ -491,7 +491,7 @@ class AsyncRawExtractionSchemasClient:
         prompt : str
             Instructions for how to extract data from conversations.
 
-        fields : typing.Sequence[ExtractionFieldParams]
+        fields : typing.Sequence[ExtractionField]
             Array of field definitions.
 
         project : typing.Optional[str]
@@ -516,7 +516,7 @@ class AsyncRawExtractionSchemasClient:
                 "name": name,
                 "prompt": prompt,
                 "fields": convert_and_respect_annotation_metadata(
-                    object_=fields, annotation=typing.Sequence[ExtractionFieldParams], direction="write"
+                    object_=fields, annotation=typing.Sequence[ExtractionField], direction="write"
                 ),
             },
             headers={
@@ -529,7 +529,7 @@ class AsyncRawExtractionSchemasClient:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
                     ExtractionSchemasCreateResponse,
-                    construct_type(
+                    parse_obj_as(
                         type_=ExtractionSchemasCreateResponse,  # type: ignore
                         object_=_response.json(),
                     ),
@@ -540,7 +540,7 @@ class AsyncRawExtractionSchemasClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -551,7 +551,7 @@ class AsyncRawExtractionSchemasClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -562,7 +562,7 @@ class AsyncRawExtractionSchemasClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -612,7 +612,7 @@ class AsyncRawExtractionSchemasClient:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
                     ExtractionSchemasGetResponse,
-                    construct_type(
+                    parse_obj_as(
                         type_=ExtractionSchemasGetResponse,  # type: ignore
                         object_=_response.json(),
                     ),
@@ -623,7 +623,7 @@ class AsyncRawExtractionSchemasClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -673,7 +673,7 @@ class AsyncRawExtractionSchemasClient:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
                     ExtractionSchemasDeleteResponse,
-                    construct_type(
+                    parse_obj_as(
                         type_=ExtractionSchemasDeleteResponse,  # type: ignore
                         object_=_response.json(),
                     ),
@@ -684,7 +684,7 @@ class AsyncRawExtractionSchemasClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -702,7 +702,7 @@ class AsyncRawExtractionSchemasClient:
         project: typing.Optional[str] = None,
         name: typing.Optional[str] = OMIT,
         prompt: typing.Optional[str] = OMIT,
-        fields: typing.Optional[typing.Sequence[ExtractionFieldParams]] = OMIT,
+        fields: typing.Optional[typing.Sequence[ExtractionField]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[ExtractionSchemasUpdateResponse]:
         """
@@ -722,7 +722,7 @@ class AsyncRawExtractionSchemasClient:
         prompt : typing.Optional[str]
             Instructions for how to extract data from conversations.
 
-        fields : typing.Optional[typing.Sequence[ExtractionFieldParams]]
+        fields : typing.Optional[typing.Sequence[ExtractionField]]
             Array of field definitions.
 
         request_options : typing.Optional[RequestOptions]
@@ -744,7 +744,7 @@ class AsyncRawExtractionSchemasClient:
                 "name": name,
                 "prompt": prompt,
                 "fields": convert_and_respect_annotation_metadata(
-                    object_=fields, annotation=typing.Sequence[ExtractionFieldParams], direction="write"
+                    object_=fields, annotation=typing.Sequence[ExtractionField], direction="write"
                 ),
             },
             headers={
@@ -757,7 +757,7 @@ class AsyncRawExtractionSchemasClient:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
                     ExtractionSchemasUpdateResponse,
-                    construct_type(
+                    parse_obj_as(
                         type_=ExtractionSchemasUpdateResponse,  # type: ignore
                         object_=_response.json(),
                     ),
@@ -768,7 +768,7 @@ class AsyncRawExtractionSchemasClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -779,7 +779,7 @@ class AsyncRawExtractionSchemasClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
@@ -790,7 +790,7 @@ class AsyncRawExtractionSchemasClient:
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Optional[typing.Any],
-                        construct_type(
+                        parse_obj_as(
                             type_=typing.Optional[typing.Any],  # type: ignore
                             object_=_response.json(),
                         ),
