@@ -6,6 +6,7 @@ import typing_extensions
 from ..types.config_payload_background_noise import ConfigPayloadBackgroundNoise
 from ..types.config_payload_input_format import ConfigPayloadInputFormat
 from ..types.config_payload_output_format import ConfigPayloadOutputFormat
+from .config_payload_tools_item import ConfigPayloadToolsItemParams
 
 
 class ConfigPayloadParams(typing_extensions.TypedDict):
@@ -130,9 +131,9 @@ class ConfigPayloadParams(typing_extensions.TypedDict):
     Keywords to boost in speech recognition
     """
 
-    tools: typing_extensions.NotRequired[typing.Sequence[str]]
+    tools: typing_extensions.NotRequired[typing.Sequence[ConfigPayloadToolsItemParams]]
     """
-    Tools available to the assistant
+    Names of tools available to the assistant.
     """
 
     template_variables: typing_extensions.NotRequired[typing.Dict[str, str]]

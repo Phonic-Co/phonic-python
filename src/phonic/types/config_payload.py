@@ -8,6 +8,7 @@ from ..core.unchecked_base_model import UncheckedBaseModel
 from .config_payload_background_noise import ConfigPayloadBackgroundNoise
 from .config_payload_input_format import ConfigPayloadInputFormat
 from .config_payload_output_format import ConfigPayloadOutputFormat
+from .config_payload_tools_item import ConfigPayloadToolsItem
 
 
 class ConfigPayload(UncheckedBaseModel):
@@ -132,9 +133,9 @@ class ConfigPayload(UncheckedBaseModel):
     Keywords to boost in speech recognition
     """
 
-    tools: typing.Optional[typing.List[str]] = pydantic.Field(default=None)
+    tools: typing.Optional[typing.List[ConfigPayloadToolsItem]] = pydantic.Field(default=None)
     """
-    Tools available to the assistant
+    Names of tools available to the assistant.
     """
 
     template_variables: typing.Optional[typing.Dict[str, str]] = pydantic.Field(default=None)
