@@ -6,6 +6,7 @@ import typing
 import typing_extensions
 from ..types.conversation_background_noise import ConversationBackgroundNoise
 from ..types.conversation_ended_by import ConversationEndedBy
+from ..types.conversation_origin import ConversationOrigin
 from .conversation_agent import ConversationAgentParams
 from .conversation_analysis import ConversationAnalysisParams
 from .conversation_call_info import ConversationCallInfoParams
@@ -37,6 +38,11 @@ class ConversationParams(typing_extensions.TypedDict):
     external_id: typing.Optional[str]
     """
     External ID for conversation tracking.
+    """
+
+    origin: ConversationOrigin
+    """
+    The origin of the conversation.
     """
 
     model: str
@@ -96,10 +102,10 @@ class ConversationParams(typing_extensions.TypedDict):
 
     audio_url: typing.Optional[str]
     """
-    Presigned URL to the conversation audio file.
+    Presigned URL to the conversation audio file. Expires in 1 day.
     """
 
-    started_at: dt.datetime
+    started_at: typing.Optional[dt.datetime]
     """
     When the conversation started.
     """
