@@ -47,6 +47,7 @@ if typing.TYPE_CHECKING:
     from .conversation_item_tool_calls_item import ConversationItemToolCallsItem
     from .conversation_item_tool_calls_item_request_body import ConversationItemToolCallsItemRequestBody
     from .conversation_item_tool_calls_item_tool import ConversationItemToolCallsItemTool
+    from .conversation_origin import ConversationOrigin
     from .conversation_project import ConversationProject
     from .create_agent_request import CreateAgentRequest
     from .create_agent_request_audio_format import CreateAgentRequestAudioFormat
@@ -136,6 +137,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ConversationItemToolCallsItem": ".conversation_item_tool_calls_item",
     "ConversationItemToolCallsItemRequestBody": ".conversation_item_tool_calls_item_request_body",
     "ConversationItemToolCallsItemTool": ".conversation_item_tool_calls_item_tool",
+    "ConversationOrigin": ".conversation_origin",
     "ConversationProject": ".conversation_project",
     "CreateAgentRequest": ".create_agent_request",
     "CreateAgentRequestAudioFormat": ".create_agent_request_audio_format",
@@ -249,6 +251,7 @@ __all__ = [
     "ConversationItemToolCallsItem",
     "ConversationItemToolCallsItemRequestBody",
     "ConversationItemToolCallsItemTool",
+    "ConversationOrigin",
     "ConversationProject",
     "CreateAgentRequest",
     "CreateAgentRequestAudioFormat",

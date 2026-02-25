@@ -20,3 +20,8 @@ class VoiceParams(typing_extensions.TypedDict):
     """
     The voice description.
     """
+
+    audio_url: str
+    """
+    Presigned URL to the voice sample audio file. Expires in 7 days.
+    """
