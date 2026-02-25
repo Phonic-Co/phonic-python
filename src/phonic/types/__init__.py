@@ -27,6 +27,7 @@ if typing.TYPE_CHECKING:
     from .config_payload_background_noise import ConfigPayloadBackgroundNoise
     from .config_payload_input_format import ConfigPayloadInputFormat
     from .config_payload_output_format import ConfigPayloadOutputFormat
+    from .config_payload_tools_item import ConfigPayloadToolsItem
     from .conversation import Conversation
     from .conversation_agent import ConversationAgent
     from .conversation_analysis import ConversationAnalysis
@@ -117,6 +118,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ConfigPayloadBackgroundNoise": ".config_payload_background_noise",
     "ConfigPayloadInputFormat": ".config_payload_input_format",
     "ConfigPayloadOutputFormat": ".config_payload_output_format",
+    "ConfigPayloadToolsItem": ".config_payload_tools_item",
     "Conversation": ".conversation",
     "ConversationAgent": ".conversation_agent",
     "ConversationAnalysis": ".conversation_analysis",
@@ -231,6 +233,7 @@ __all__ = [
     "ConfigPayloadBackgroundNoise",
     "ConfigPayloadInputFormat",
     "ConfigPayloadOutputFormat",
+    "ConfigPayloadToolsItem",
     "Conversation",
     "ConversationAgent",
     "ConversationAnalysis",

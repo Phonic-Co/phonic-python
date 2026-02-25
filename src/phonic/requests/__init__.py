@@ -22,6 +22,7 @@ if typing.TYPE_CHECKING:
     from .basic_error import BasicErrorParams
     from .basic_error_error import BasicErrorErrorParams
     from .config_payload import ConfigPayloadParams
+    from .config_payload_tools_item import ConfigPayloadToolsItemParams
     from .conversation import ConversationParams
     from .conversation_agent import ConversationAgentParams
     from .conversation_analysis import ConversationAnalysisParams
@@ -90,6 +91,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "BasicErrorErrorParams": ".basic_error_error",
     "BasicErrorParams": ".basic_error",
     "ConfigPayloadParams": ".config_payload",
+    "ConfigPayloadToolsItemParams": ".config_payload_tools_item",
     "ConversationAgentParams": ".conversation_agent",
     "ConversationAnalysisParams": ".conversation_analysis",
     "ConversationCallInfoParams": ".conversation_call_info",
@@ -182,6 +184,7 @@ __all__ = [
     "BasicErrorErrorParams",
     "BasicErrorParams",
     "ConfigPayloadParams",
+    "ConfigPayloadToolsItemParams",
     "ConversationAgentParams",
     "ConversationAnalysisParams",
     "ConversationCallInfoParams",
