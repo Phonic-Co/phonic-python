@@ -12,6 +12,7 @@ from .conversation_background_noise import ConversationBackgroundNoise
 from .conversation_call_info import ConversationCallInfo
 from .conversation_ended_by import ConversationEndedBy
 from .conversation_item import ConversationItem
+from .conversation_origin import ConversationOrigin
 from .conversation_project import ConversationProject
 
 
@@ -39,6 +40,11 @@ class Conversation(UncheckedBaseModel):
     external_id: typing.Optional[str] = pydantic.Field(default=None)
     """
     External ID for conversation tracking.
+    """
+
+    origin: ConversationOrigin = pydantic.Field()
+    """
+    The origin of the conversation.
     """
 
     model: str = pydantic.Field()
@@ -98,10 +104,10 @@ class Conversation(UncheckedBaseModel):
 
     audio_url: typing.Optional[str] = pydantic.Field(default=None)
     """
-    Presigned URL to the conversation audio file.
+    Presigned URL to the conversation audio file. Expires in 1 day.
     """
 
-    started_at: dt.datetime = pydantic.Field()
+    started_at: typing.Optional[dt.datetime] = pydantic.Field(default=None)
     """
     When the conversation started.
     """
