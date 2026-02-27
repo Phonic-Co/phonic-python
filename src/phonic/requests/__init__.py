@@ -51,14 +51,12 @@ if typing.TYPE_CHECKING:
     from .extraction_schema import ExtractionSchemaParams
     from .input_cancelled_payload import InputCancelledPayloadParams
     from .input_text_payload import InputTextPayloadParams
-    from .is_user_speaking_payload import IsUserSpeakingPayloadParams
     from .outbound_call_config import OutboundCallConfigParams
     from .outbound_call_config_tools_item import OutboundCallConfigToolsItemParams
     from .project import ProjectParams
     from .project_default_agent import ProjectDefaultAgentParams
     from .ready_to_start_conversation_payload import ReadyToStartConversationPayloadParams
     from .set_external_id_payload import SetExternalIdPayloadParams
-    from .set_twilio_call_sid_payload import SetTwilioCallSidPayloadParams
     from .task import TaskParams
     from .tool import ToolParams
     from .tool_call_interrupted_payload import ToolCallInterruptedPayloadParams
@@ -120,14 +118,12 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ExtractionSchemaParams": ".extraction_schema",
     "InputCancelledPayloadParams": ".input_cancelled_payload",
     "InputTextPayloadParams": ".input_text_payload",
-    "IsUserSpeakingPayloadParams": ".is_user_speaking_payload",
     "OutboundCallConfigParams": ".outbound_call_config",
     "OutboundCallConfigToolsItemParams": ".outbound_call_config_tools_item",
     "ProjectDefaultAgentParams": ".project_default_agent",
     "ProjectParams": ".project",
     "ReadyToStartConversationPayloadParams": ".ready_to_start_conversation_payload",
     "SetExternalIdPayloadParams": ".set_external_id_payload",
-    "SetTwilioCallSidPayloadParams": ".set_twilio_call_sid_payload",
     "TaskParams": ".task",
     "ToolCallInterruptedPayloadParams": ".tool_call_interrupted_payload",
     "ToolCallOutputPayloadParams": ".tool_call_output_payload",
@@ -213,14 +209,12 @@ __all__ = [
     "ExtractionSchemaParams",
     "InputCancelledPayloadParams",
     "InputTextPayloadParams",
-    "IsUserSpeakingPayloadParams",
     "OutboundCallConfigParams",
     "OutboundCallConfigToolsItemParams",
     "ProjectDefaultAgentParams",
     "ProjectParams",
     "ReadyToStartConversationPayloadParams",
     "SetExternalIdPayloadParams",
-    "SetTwilioCallSidPayloadParams",
     "TaskParams",
     "ToolCallInterruptedPayloadParams",
     "ToolCallOutputPayloadParams",
