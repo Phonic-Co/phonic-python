@@ -66,7 +66,6 @@ if typing.TYPE_CHECKING:
     from .extraction_schema import ExtractionSchema
     from .input_cancelled_payload import InputCancelledPayload
     from .input_text_payload import InputTextPayload
-    from .is_user_speaking_payload import IsUserSpeakingPayload
     from .language_code import LanguageCode
     from .outbound_call_config import OutboundCallConfig
     from .outbound_call_config_tools_item import OutboundCallConfigToolsItem
@@ -74,7 +73,6 @@ if typing.TYPE_CHECKING:
     from .project_default_agent import ProjectDefaultAgent
     from .ready_to_start_conversation_payload import ReadyToStartConversationPayload
     from .set_external_id_payload import SetExternalIdPayload
-    from .set_twilio_call_sid_payload import SetTwilioCallSidPayload
     from .task import Task
     from .tool import Tool
     from .tool_call_interrupted_payload import ToolCallInterruptedPayload
@@ -157,7 +155,6 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ExtractionSchema": ".extraction_schema",
     "InputCancelledPayload": ".input_cancelled_payload",
     "InputTextPayload": ".input_text_payload",
-    "IsUserSpeakingPayload": ".is_user_speaking_payload",
     "LanguageCode": ".language_code",
     "OutboundCallConfig": ".outbound_call_config",
     "OutboundCallConfigToolsItem": ".outbound_call_config_tools_item",
@@ -165,7 +162,6 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ProjectDefaultAgent": ".project_default_agent",
     "ReadyToStartConversationPayload": ".ready_to_start_conversation_payload",
     "SetExternalIdPayload": ".set_external_id_payload",
-    "SetTwilioCallSidPayload": ".set_twilio_call_sid_payload",
     "Task": ".task",
     "Tool": ".tool",
     "ToolCallInterruptedPayload": ".tool_call_interrupted_payload",
@@ -272,7 +268,6 @@ __all__ = [
     "ExtractionSchema",
     "InputCancelledPayload",
     "InputTextPayload",
-    "IsUserSpeakingPayload",
     "LanguageCode",
     "OutboundCallConfig",
     "OutboundCallConfigToolsItem",
@@ -280,7 +275,6 @@ __all__ = [
     "ProjectDefaultAgent",
     "ReadyToStartConversationPayload",
     "SetExternalIdPayload",
-    "SetTwilioCallSidPayload",
     "Task",
     "Tool",
     "ToolCallInterruptedPayload",

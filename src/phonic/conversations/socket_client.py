@@ -21,10 +21,8 @@ from ..types.dtmf_payload import DtmfPayload
 from ..types.error_payload import ErrorPayload
 from ..types.input_cancelled_payload import InputCancelledPayload
 from ..types.input_text_payload import InputTextPayload
-from ..types.is_user_speaking_payload import IsUserSpeakingPayload
 from ..types.ready_to_start_conversation_payload import ReadyToStartConversationPayload
 from ..types.set_external_id_payload import SetExternalIdPayload
-from ..types.set_twilio_call_sid_payload import SetTwilioCallSidPayload
 from ..types.tool_call_interrupted_payload import ToolCallInterruptedPayload
 from ..types.tool_call_output_payload import ToolCallOutputPayload
 from ..types.tool_call_output_processed_payload import ToolCallOutputProcessedPayload
@@ -44,7 +42,6 @@ ConversationsSocketClientResponse = typing.Union[
     InputTextPayload,
     InputCancelledPayload,
     AudioChunkResponsePayload,
-    IsUserSpeakingPayload,
     UserStartedSpeakingPayload,
     UserFinishedSpeakingPayload,
     AssistantStartedSpeakingPayload,
@@ -121,13 +118,6 @@ class AsyncConversationsSocketClient(EventEmitterMixin):
         """
         Send a message to the websocket connection.
         The message will be sent as a SetExternalIdPayload.
-        """
-        await self._send_model(message)
-
-    async def send_set_twilio_call_sid(self, message: SetTwilioCallSidPayload) -> None:
-        """
-        Send a message to the websocket connection.
-        The message will be sent as a SetTwilioCallSidPayload.
         """
         await self._send_model(message)
 
@@ -223,13 +213,6 @@ class ConversationsSocketClient(EventEmitterMixin):
         """
         Send a message to the websocket connection.
         The message will be sent as a SetExternalIdPayload.
-        """
-        self._send_model(message)
-
-    def send_set_twilio_call_sid(self, message: SetTwilioCallSidPayload) -> None:
-        """
-        Send a message to the websocket connection.
-        The message will be sent as a SetTwilioCallSidPayload.
         """
         self._send_model(message)
 
