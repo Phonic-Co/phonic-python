@@ -67,6 +67,11 @@ class Conversation(UncheckedBaseModel):
     Template variables used in the conversation.
     """
 
+    system_prompt: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    System prompt used in the conversation.
+    """
+
     input_format: str = pydantic.Field()
     """
     Audio input format.

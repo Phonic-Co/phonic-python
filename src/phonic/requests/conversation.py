@@ -65,6 +65,11 @@ class ConversationParams(typing_extensions.TypedDict):
     Template variables used in the conversation.
     """
 
+    system_prompt: typing_extensions.NotRequired[str]
+    """
+    System prompt used in the conversation.
+    """
+
     input_format: str
     """
     Audio input format.
