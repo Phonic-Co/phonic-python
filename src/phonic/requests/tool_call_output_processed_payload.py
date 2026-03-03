@@ -15,6 +15,16 @@ class ToolCallOutputProcessedPayloadParams(typing_extensions.TypedDict):
     """
 
     tool: ToolCallOutputProcessedPayloadToolParams
+    tool_config: typing_extensions.NotRequired[typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]]]
+    """
+    Configuration of the tool that was called
+    """
+
+    endpoint_method: typing_extensions.NotRequired[typing.Optional[str]]
+    """
+    HTTP method used for webhook endpoint (null for WebSocket tools)
+    """
+
     endpoint_url: typing_extensions.NotRequired[typing.Optional[str]]
     """
     Webhook endpoint URL (null for WebSocket tools)
@@ -28,6 +38,11 @@ class ToolCallOutputProcessedPayloadParams(typing_extensions.TypedDict):
     endpoint_called_at: typing_extensions.NotRequired[typing.Optional[dt.datetime]]
     """
     When webhook was called (null for WebSocket tools)
+    """
+
+    query_params: typing_extensions.NotRequired[typing.Optional[typing.Dict[str, typing.Optional[str]]]]
+    """
+    Query string parameters sent to webhook endpoint (null for WebSocket tools)
     """
 
     request_body: typing_extensions.NotRequired[typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]]]
@@ -53,6 +68,11 @@ class ToolCallOutputProcessedPayloadParams(typing_extensions.TypedDict):
     response_status_code: typing_extensions.NotRequired[typing.Optional[float]]
     """
     Webhook HTTP status code (null for WebSocket tools)
+    """
+
+    duration_ms: typing_extensions.NotRequired[typing.Optional[float]]
+    """
+    Duration of the tool call in milliseconds
     """
 
     timed_out: typing_extensions.NotRequired[typing.Optional[bool]]

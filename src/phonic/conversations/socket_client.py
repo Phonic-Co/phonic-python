@@ -30,6 +30,7 @@ from ..types.tool_call_payload import ToolCallPayload
 from ..types.update_system_prompt_payload import UpdateSystemPromptPayload
 from ..types.user_finished_speaking_payload import UserFinishedSpeakingPayload
 from ..types.user_started_speaking_payload import UserStartedSpeakingPayload
+from ..types.warning_payload import WarningPayload
 
 try:
     from websockets.legacy.client import WebSocketClientProtocol  # type: ignore
@@ -53,6 +54,7 @@ ConversationsSocketClientResponse = typing.Union[
     AssistantChoseNotToRespondPayload,
     AssistantEndedConversationPayload,
     ErrorPayload,
+    WarningPayload,
 ]
 
 
