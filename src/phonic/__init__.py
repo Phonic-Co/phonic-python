@@ -95,6 +95,8 @@ if typing.TYPE_CHECKING:
         ValidationError,
         ValidationErrorError,
         Voice,
+        WarningPayload,
+        WarningPayloadWarning,
     )
     from .errors import (
         BadRequestError,
@@ -263,6 +265,8 @@ if typing.TYPE_CHECKING:
         ValidationErrorErrorParams,
         ValidationErrorParams,
         VoiceParams,
+        WarningPayloadParams,
+        WarningPayloadWarningParams,
     )
     from .tools import (
         CreateToolRequestEndpointMethod,
@@ -550,6 +554,10 @@ _dynamic_imports: typing.Dict[str, str] = {
     "VoicesGetResponseParams": ".voices",
     "VoicesListResponse": ".voices",
     "VoicesListResponseParams": ".voices",
+    "WarningPayload": ".types",
+    "WarningPayloadParams": ".requests",
+    "WarningPayloadWarning": ".types",
+    "WarningPayloadWarningParams": ".requests",
     "__version__": ".version",
     "agents": ".agents",
     "auth": ".auth",
@@ -848,6 +856,10 @@ __all__ = [
     "VoicesGetResponseParams",
     "VoicesListResponse",
     "VoicesListResponseParams",
+    "WarningPayload",
+    "WarningPayloadParams",
+    "WarningPayloadWarning",
+    "WarningPayloadWarningParams",
     "__version__",
     "agents",
     "auth",

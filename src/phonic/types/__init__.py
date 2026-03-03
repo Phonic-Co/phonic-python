@@ -94,6 +94,8 @@ if typing.TYPE_CHECKING:
     from .validation_error import ValidationError
     from .validation_error_error import ValidationErrorError
     from .voice import Voice
+    from .warning_payload import WarningPayload
+    from .warning_payload_warning import WarningPayloadWarning
 _dynamic_imports: typing.Dict[str, str] = {
     "AddSystemMessagePayload": ".add_system_message_payload",
     "Agent": ".agent",
@@ -183,6 +185,8 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ValidationError": ".validation_error",
     "ValidationErrorError": ".validation_error_error",
     "Voice": ".voice",
+    "WarningPayload": ".warning_payload",
+    "WarningPayloadWarning": ".warning_payload_warning",
 }
 
 
@@ -296,4 +300,6 @@ __all__ = [
     "ValidationError",
     "ValidationErrorError",
     "Voice",
+    "WarningPayload",
+    "WarningPayloadWarning",
 ]
