@@ -4,6 +4,7 @@ import json
 import typing
 from json.decoder import JSONDecodeError
 
+import pydantic
 import websockets
 import websockets.sync.connection as websockets_sync_connection
 from ..core.events import EventEmitterMixin, EventType
@@ -58,6 +59,18 @@ ConversationsSocketClientResponse = typing.Union[
 ]
 
 
+def _parse_response(json_data: typing.Any) -> typing.Union[ConversationsSocketClientResponse, typing.Dict[str, typing.Any]]:
+    """
+    Attempt to parse a websocket message into a known response type.
+    Falls back to returning the raw dict for forward compatibility
+    with unknown message types.
+    """
+    try:
+        return parse_obj_as(ConversationsSocketClientResponse, json_data)  # type: ignore
+    except pydantic.ValidationError:
+        return json_data
+
+
 class AsyncConversationsSocketClient(EventEmitterMixin):
     def __init__(self, *, websocket: WebSocketClientProtocol):
         super().__init__()
@@ -65,7 +78,7 @@ class AsyncConversationsSocketClient(EventEmitterMixin):
 
     async def __aiter__(self):
         async for message in self._websocket:
-            yield parse_obj_as(ConversationsSocketClientResponse, json.loads(message))  # type: ignore
+            yield _parse_response(json.loads(message))
 
     async def start_listening(self):
         """
@@ -81,7 +94,7 @@ class AsyncConversationsSocketClient(EventEmitterMixin):
         try:
             async for raw_message in self._websocket:
                 json_data = json.loads(raw_message)
-                parsed = parse_obj_as(ConversationsSocketClientResponse, json_data)  # type: ignore
+                parsed = _parse_response(json_data)
                 await self._emit_async(EventType.MESSAGE, parsed)
         except (websockets.WebSocketException, JSONDecodeError) as exc:
             await self._emit_async(EventType.ERROR, exc)
@@ -130,13 +143,13 @@ class AsyncConversationsSocketClient(EventEmitterMixin):
         """
         await self._send_model(message)
 
-    async def recv(self) -> ConversationsSocketClientResponse:
+    async def recv(self) -> typing.Union[ConversationsSocketClientResponse, typing.Dict[str, typing.Any]]:
         """
         Receive a message from the websocket connection.
         """
         data = await self._websocket.recv()
         json_data = json.loads(data)
-        return parse_obj_as(ConversationsSocketClientResponse, json_data)  # type: ignore
+        return _parse_response(json_data)
 
     async def _send(self, data: typing.Any) -> None:
         """
@@ -160,7 +173,7 @@ class ConversationsSocketClient(EventEmitterMixin):
 
     def __iter__(self):
         for message in self._websocket:
-            yield parse_obj_as(ConversationsSocketClientResponse, json.loads(message))  # type: ignore
+            yield _parse_response(json.loads(message))
 
     def start_listening(self):
         """
@@ -176,7 +189,7 @@ class ConversationsSocketClient(EventEmitterMixin):
         try:
             for raw_message in self._websocket:
                 json_data = json.loads(raw_message)
-                parsed = parse_obj_as(ConversationsSocketClientResponse, json_data)  # type: ignore
+                parsed = _parse_response(json_data)
                 self._emit(EventType.MESSAGE, parsed)
         except (websockets.WebSocketException, JSONDecodeError) as exc:
             self._emit(EventType.ERROR, exc)
@@ -225,13 +238,13 @@ class ConversationsSocketClient(EventEmitterMixin):
         """
         self._send_model(message)
 
-    def recv(self) -> ConversationsSocketClientResponse:
+    def recv(self) -> typing.Union[ConversationsSocketClientResponse, typing.Dict[str, typing.Any]]:
         """
         Receive a message from the websocket connection.
         """
         data = self._websocket.recv()
         json_data = json.loads(data)
-        return parse_obj_as(ConversationsSocketClientResponse, json_data)  # type: ignore
+        return _parse_response(json_data)
 
     def _send(self, data: typing.Any) -> None:
         """
