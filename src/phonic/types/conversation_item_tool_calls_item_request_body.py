@@ -3,5 +3,5 @@
 import typing
 
 ConversationItemToolCallsItemRequestBody = typing.Union[
-    typing.Dict[str, typing.Optional[typing.Any]], typing.List[typing.Optional[typing.Any]], str, float, bool
+    typing.Dict[str, typing.Any], typing.List[typing.Any], str, float, bool
 ]

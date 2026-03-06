@@ -19,7 +19,7 @@ class ConversationExtractionParams(typing_extensions.TypedDict):
     """
 
     schema: ConversationExtractionSchemaParams
-    result: typing.Dict[str, typing.Optional[typing.Any]]
+    result: typing.Dict[str, typing.Any]
     """
     The extracted data.
     """

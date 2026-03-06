@@ -19,7 +19,7 @@ class ToolCallPayload(UncheckedBaseModel):
     Name of the tool to execute
     """
 
-    parameters: typing.Dict[str, typing.Optional[typing.Any]] = pydantic.Field()
+    parameters: typing.Dict[str, typing.Any] = pydantic.Field()
     """
     Parameters for tool execution
     """

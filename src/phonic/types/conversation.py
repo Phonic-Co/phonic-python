@@ -157,7 +157,7 @@ class Conversation(UncheckedBaseModel):
     Seconds of silence before the conversation is ended.
     """
 
-    task_results: typing.Dict[str, typing.Optional[typing.Any]] = pydantic.Field()
+    task_results: typing.Dict[str, typing.Any] = pydantic.Field()
     """
     Results from conversation evaluations and extractions.
     """

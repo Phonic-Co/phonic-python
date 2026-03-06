@@ -40,7 +40,7 @@ class ConversationItemToolCallsItemParams(typing_extensions.TypedDict):
     When the webhook endpoint was called (null on error).
     """
 
-    query_params: typing_extensions.NotRequired[typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]]]
+    query_params: typing_extensions.NotRequired[typing.Optional[typing.Dict[str, typing.Any]]]
     """
     Query parameters for webhook tool calls (null on error or when no params).
     """
@@ -60,7 +60,7 @@ class ConversationItemToolCallsItemParams(typing_extensions.TypedDict):
     The request body sent to the tool. Can be any JSON-serializable value.
     """
 
-    response_body: typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]]
+    response_body: typing.Optional[typing.Dict[str, typing.Any]]
     """
     The response body received from the tool.
     """

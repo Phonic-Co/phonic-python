@@ -12,4 +12,4 @@ class ToolCallOutputPayloadParams(typing_extensions.TypedDict):
     ID of the tool call being responded to
     """
 
-    output: typing.Optional[typing.Any]
+    output: typing.Any

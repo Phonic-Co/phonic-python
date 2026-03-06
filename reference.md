@@ -1,6 +1,6 @@
 # Reference
 ## Agents
-<details><summary><code>client.agents.<a href="src/phonic/agents/client.py">list</a>(...)</code></summary>
+<details><summary><code>client.agents.<a href="src/phonic/agents/client.py">list</a>(...) -&gt; AsyncHttpResponse[AgentsListResponse]</code></summary>
 <dl>
 <dd>
 
@@ -68,7 +68,7 @@ client.agents.list()
 </dl>
 </details>
 
-<details><summary><code>client.agents.<a href="src/phonic/agents/client.py">create</a>(...)</code></summary>
+<details><summary><code>client.agents.<a href="src/phonic/agents/client.py">create</a>(...) -&gt; AsyncHttpResponse[AgentsCreateResponse]</code></summary>
 <dl>
 <dd>
 
@@ -396,7 +396,7 @@ client.agents.create(
 </dl>
 </details>
 
-<details><summary><code>client.agents.<a href="src/phonic/agents/client.py">upsert</a>(...)</code></summary>
+<details><summary><code>client.agents.<a href="src/phonic/agents/client.py">upsert</a>(...) -&gt; AsyncHttpResponse[AgentsUpsertResponse]</code></summary>
 <dl>
 <dd>
 
@@ -724,7 +724,7 @@ client.agents.upsert(
 </dl>
 </details>
 
-<details><summary><code>client.agents.<a href="src/phonic/agents/client.py">get</a>(...)</code></summary>
+<details><summary><code>client.agents.<a href="src/phonic/agents/client.py">get</a>(...) -&gt; AsyncHttpResponse[AgentsGetResponse]</code></summary>
 <dl>
 <dd>
 
@@ -803,7 +803,7 @@ client.agents.get(
 </dl>
 </details>
 
-<details><summary><code>client.agents.<a href="src/phonic/agents/client.py">delete</a>(...)</code></summary>
+<details><summary><code>client.agents.<a href="src/phonic/agents/client.py">delete</a>(...) -&gt; AsyncHttpResponse[AgentsDeleteResponse]</code></summary>
 <dl>
 <dd>
 
@@ -882,7 +882,7 @@ client.agents.delete(
 </dl>
 </details>
 
-<details><summary><code>client.agents.<a href="src/phonic/agents/client.py">update</a>(...)</code></summary>
+<details><summary><code>client.agents.<a href="src/phonic/agents/client.py">update</a>(...) -&gt; AsyncHttpResponse[AgentsUpdateResponse]</code></summary>
 <dl>
 <dd>
 
@@ -1219,7 +1219,7 @@ client.agents.update(
 </dl>
 </details>
 
-<details><summary><code>client.agents.<a href="src/phonic/agents/client.py">add_custom_phone_number</a>(...)</code></summary>
+<details><summary><code>client.agents.<a href="src/phonic/agents/client.py">add_custom_phone_number</a>(...) -&gt; AsyncHttpResponse[AgentsAddCustomPhoneNumberResponse]</code></summary>
 <dl>
 <dd>
 
@@ -1344,7 +1344,7 @@ client.agents.add_custom_phone_number(
 </dl>
 </details>
 
-<details><summary><code>client.agents.<a href="src/phonic/agents/client.py">delete_custom_phone_number</a>(...)</code></summary>
+<details><summary><code>client.agents.<a href="src/phonic/agents/client.py">delete_custom_phone_number</a>(...) -&gt; AsyncHttpResponse[AgentsDeleteCustomPhoneNumberResponse]</code></summary>
 <dl>
 <dd>
 
@@ -1432,7 +1432,7 @@ client.agents.delete_custom_phone_number(
 </dl>
 </details>
 
-<details><summary><code>client.agents.<a href="src/phonic/agents/client.py">update_phone_number</a>(...)</code></summary>
+<details><summary><code>client.agents.<a href="src/phonic/agents/client.py">update_phone_number</a>(...) -&gt; AsyncHttpResponse[AgentsUpdatePhoneNumberResponse]</code></summary>
 <dl>
 <dd>
 
@@ -1534,7 +1534,7 @@ client.agents.update_phone_number(
 </details>
 
 ## Tools
-<details><summary><code>client.tools.<a href="src/phonic/tools/client.py">list</a>(...)</code></summary>
+<details><summary><code>client.tools.<a href="src/phonic/tools/client.py">list</a>(...) -&gt; AsyncHttpResponse[ToolsListResponse]</code></summary>
 <dl>
 <dd>
 
@@ -1604,7 +1604,7 @@ client.tools.list(
 </dl>
 </details>
 
-<details><summary><code>client.tools.<a href="src/phonic/tools/client.py">create</a>(...)</code></summary>
+<details><summary><code>client.tools.<a href="src/phonic/tools/client.py">create</a>(...) -&gt; AsyncHttpResponse[ToolsCreateResponse]</code></summary>
 <dl>
 <dd>
 
@@ -1845,7 +1845,7 @@ For `custom_websocket`, `built_in_transfer_to_phone_number`, and `built_in_trans
 </dl>
 </details>
 
-<details><summary><code>client.tools.<a href="src/phonic/tools/client.py">get</a>(...)</code></summary>
+<details><summary><code>client.tools.<a href="src/phonic/tools/client.py">get</a>(...) -&gt; AsyncHttpResponse[ToolsGetResponse]</code></summary>
 <dl>
 <dd>
 
@@ -1924,7 +1924,7 @@ client.tools.get(
 </dl>
 </details>
 
-<details><summary><code>client.tools.<a href="src/phonic/tools/client.py">delete</a>(...)</code></summary>
+<details><summary><code>client.tools.<a href="src/phonic/tools/client.py">delete</a>(...) -&gt; AsyncHttpResponse[ToolsDeleteResponse]</code></summary>
 <dl>
 <dd>
 
@@ -2003,7 +2003,7 @@ client.tools.delete(
 </dl>
 </details>
 
-<details><summary><code>client.tools.<a href="src/phonic/tools/client.py">update</a>(...)</code></summary>
+<details><summary><code>client.tools.<a href="src/phonic/tools/client.py">update</a>(...) -&gt; AsyncHttpResponse[ToolsUpdateResponse]</code></summary>
 <dl>
 <dd>
 
@@ -2251,7 +2251,7 @@ For `custom_websocket`, `built_in_transfer_to_phone_number`, and `built_in_trans
 </details>
 
 ## ExtractionSchemas
-<details><summary><code>client.extraction_schemas.<a href="src/phonic/extraction_schemas/client.py">list</a>(...)</code></summary>
+<details><summary><code>client.extraction_schemas.<a href="src/phonic/extraction_schemas/client.py">list</a>(...) -&gt; AsyncHttpResponse[ExtractionSchemasListResponse]</code></summary>
 <dl>
 <dd>
 
@@ -2321,7 +2321,7 @@ client.extraction_schemas.list(
 </dl>
 </details>
 
-<details><summary><code>client.extraction_schemas.<a href="src/phonic/extraction_schemas/client.py">create</a>(...)</code></summary>
+<details><summary><code>client.extraction_schemas.<a href="src/phonic/extraction_schemas/client.py">create</a>(...) -&gt; AsyncHttpResponse[ExtractionSchemasCreateResponse]</code></summary>
 <dl>
 <dd>
 
@@ -2434,7 +2434,7 @@ client.extraction_schemas.create(
 </dl>
 </details>
 
-<details><summary><code>client.extraction_schemas.<a href="src/phonic/extraction_schemas/client.py">get</a>(...)</code></summary>
+<details><summary><code>client.extraction_schemas.<a href="src/phonic/extraction_schemas/client.py">get</a>(...) -&gt; AsyncHttpResponse[ExtractionSchemasGetResponse]</code></summary>
 <dl>
 <dd>
 
@@ -2513,7 +2513,7 @@ client.extraction_schemas.get(
 </dl>
 </details>
 
-<details><summary><code>client.extraction_schemas.<a href="src/phonic/extraction_schemas/client.py">delete</a>(...)</code></summary>
+<details><summary><code>client.extraction_schemas.<a href="src/phonic/extraction_schemas/client.py">delete</a>(...) -&gt; AsyncHttpResponse[ExtractionSchemasDeleteResponse]</code></summary>
 <dl>
 <dd>
 
@@ -2592,7 +2592,7 @@ client.extraction_schemas.delete(
 </dl>
 </details>
 
-<details><summary><code>client.extraction_schemas.<a href="src/phonic/extraction_schemas/client.py">update</a>(...)</code></summary>
+<details><summary><code>client.extraction_schemas.<a href="src/phonic/extraction_schemas/client.py">update</a>(...) -&gt; AsyncHttpResponse[ExtractionSchemasUpdateResponse]</code></summary>
 <dl>
 <dd>
 
@@ -2710,7 +2710,7 @@ client.extraction_schemas.update(
 </details>
 
 ## Voices
-<details><summary><code>client.voices.<a href="src/phonic/voices/client.py">list</a>()</code></summary>
+<details><summary><code>client.voices.<a href="src/phonic/voices/client.py">list</a>() -&gt; AsyncHttpResponse[VoicesListResponse]</code></summary>
 <dl>
 <dd>
 
@@ -2770,7 +2770,7 @@ client.voices.list()
 </dl>
 </details>
 
-<details><summary><code>client.voices.<a href="src/phonic/voices/client.py">get</a>(...)</code></summary>
+<details><summary><code>client.voices.<a href="src/phonic/voices/client.py">get</a>(...) -&gt; AsyncHttpResponse[VoicesGetResponse]</code></summary>
 <dl>
 <dd>
 
@@ -2841,7 +2841,7 @@ client.voices.get(
 </details>
 
 ## Conversations
-<details><summary><code>client.conversations.<a href="src/phonic/conversations/client.py">list</a>(...)</code></summary>
+<details><summary><code>client.conversations.<a href="src/phonic/conversations/client.py">list</a>(...) -&gt; AsyncHttpResponse[ConversationsListResponse]</code></summary>
 <dl>
 <dd>
 
@@ -2973,7 +2973,7 @@ client.conversations.list()
 </dl>
 </details>
 
-<details><summary><code>client.conversations.<a href="src/phonic/conversations/client.py">get</a>(...)</code></summary>
+<details><summary><code>client.conversations.<a href="src/phonic/conversations/client.py">get</a>(...) -&gt; AsyncHttpResponse[ConversationsGetResponse]</code></summary>
 <dl>
 <dd>
 
@@ -3043,7 +3043,7 @@ client.conversations.get(
 </dl>
 </details>
 
-<details><summary><code>client.conversations.<a href="src/phonic/conversations/client.py">cancel</a>(...)</code></summary>
+<details><summary><code>client.conversations.<a href="src/phonic/conversations/client.py">cancel</a>(...) -&gt; AsyncHttpResponse[ConversationsCancelResponse]</code></summary>
 <dl>
 <dd>
 
@@ -3113,7 +3113,7 @@ client.conversations.cancel(
 </dl>
 </details>
 
-<details><summary><code>client.conversations.<a href="src/phonic/conversations/client.py">get_analysis</a>(...)</code></summary>
+<details><summary><code>client.conversations.<a href="src/phonic/conversations/client.py">get_analysis</a>(...) -&gt; AsyncHttpResponse[ConversationsGetAnalysisResponse]</code></summary>
 <dl>
 <dd>
 
@@ -3183,7 +3183,7 @@ client.conversations.get_analysis(
 </dl>
 </details>
 
-<details><summary><code>client.conversations.<a href="src/phonic/conversations/client.py">list_extractions</a>(...)</code></summary>
+<details><summary><code>client.conversations.<a href="src/phonic/conversations/client.py">list_extractions</a>(...) -&gt; AsyncHttpResponse[ConversationsListExtractionsResponse]</code></summary>
 <dl>
 <dd>
 
@@ -3253,7 +3253,7 @@ client.conversations.list_extractions(
 </dl>
 </details>
 
-<details><summary><code>client.conversations.<a href="src/phonic/conversations/client.py">extract_data</a>(...)</code></summary>
+<details><summary><code>client.conversations.<a href="src/phonic/conversations/client.py">extract_data</a>(...) -&gt; AsyncHttpResponse[ConversationsExtractDataResponse]</code></summary>
 <dl>
 <dd>
 
@@ -3332,7 +3332,7 @@ client.conversations.extract_data(
 </dl>
 </details>
 
-<details><summary><code>client.conversations.<a href="src/phonic/conversations/client.py">list_evaluations</a>(...)</code></summary>
+<details><summary><code>client.conversations.<a href="src/phonic/conversations/client.py">list_evaluations</a>(...) -&gt; AsyncHttpResponse[ConversationsListEvaluationsResponse]</code></summary>
 <dl>
 <dd>
 
@@ -3402,7 +3402,7 @@ client.conversations.list_evaluations(
 </dl>
 </details>
 
-<details><summary><code>client.conversations.<a href="src/phonic/conversations/client.py">evaluate</a>(...)</code></summary>
+<details><summary><code>client.conversations.<a href="src/phonic/conversations/client.py">evaluate</a>(...) -&gt; AsyncHttpResponse[ConversationEvaluationResult]</code></summary>
 <dl>
 <dd>
 
@@ -3481,7 +3481,7 @@ client.conversations.evaluate(
 </dl>
 </details>
 
-<details><summary><code>client.conversations.<a href="src/phonic/conversations/client.py">outbound_call</a>(...)</code></summary>
+<details><summary><code>client.conversations.<a href="src/phonic/conversations/client.py">outbound_call</a>(...) -&gt; AsyncHttpResponse[ConversationsOutboundCallResponse]</code></summary>
 <dl>
 <dd>
 
@@ -3573,7 +3573,7 @@ client.conversations.outbound_call(
 </dl>
 </details>
 
-<details><summary><code>client.conversations.<a href="src/phonic/conversations/client.py">sip_outbound_call</a>(...)</code></summary>
+<details><summary><code>client.conversations.<a href="src/phonic/conversations/client.py">sip_outbound_call</a>(...) -&gt; AsyncHttpResponse[ConversationsSipOutboundCallResponse]</code></summary>
 <dl>
 <dd>
 
@@ -3686,7 +3686,7 @@ client.conversations.sip_outbound_call(
 </details>
 
 ## Auth
-<details><summary><code>client.auth.<a href="src/phonic/auth/client.py">create_session_token</a>(...)</code></summary>
+<details><summary><code>client.auth.<a href="src/phonic/auth/client.py">create_session_token</a>(...) -&gt; AsyncHttpResponse[AuthCreateSessionTokenResponse]</code></summary>
 <dl>
 <dd>
 
@@ -3757,7 +3757,7 @@ client.auth.create_session_token(
 </details>
 
 ## Projects
-<details><summary><code>client.projects.<a href="src/phonic/projects/client.py">list</a>()</code></summary>
+<details><summary><code>client.projects.<a href="src/phonic/projects/client.py">list</a>() -&gt; AsyncHttpResponse[ProjectsListResponse]</code></summary>
 <dl>
 <dd>
 
@@ -3817,7 +3817,7 @@ client.projects.list()
 </dl>
 </details>
 
-<details><summary><code>client.projects.<a href="src/phonic/projects/client.py">create</a>(...)</code></summary>
+<details><summary><code>client.projects.<a href="src/phonic/projects/client.py">create</a>(...) -&gt; AsyncHttpResponse[ProjectsCreateResponse]</code></summary>
 <dl>
 <dd>
 
@@ -3887,7 +3887,7 @@ client.projects.create(
 </dl>
 </details>
 
-<details><summary><code>client.projects.<a href="src/phonic/projects/client.py">get</a>(...)</code></summary>
+<details><summary><code>client.projects.<a href="src/phonic/projects/client.py">get</a>(...) -&gt; AsyncHttpResponse[ProjectsGetResponse]</code></summary>
 <dl>
 <dd>
 
@@ -3957,7 +3957,7 @@ client.projects.get(
 </dl>
 </details>
 
-<details><summary><code>client.projects.<a href="src/phonic/projects/client.py">delete</a>(...)</code></summary>
+<details><summary><code>client.projects.<a href="src/phonic/projects/client.py">delete</a>(...) -&gt; AsyncHttpResponse[ProjectsDeleteResponse]</code></summary>
 <dl>
 <dd>
 
@@ -4027,7 +4027,7 @@ client.projects.delete(
 </dl>
 </details>
 
-<details><summary><code>client.projects.<a href="src/phonic/projects/client.py">update</a>(...)</code></summary>
+<details><summary><code>client.projects.<a href="src/phonic/projects/client.py">update</a>(...) -&gt; AsyncHttpResponse[ProjectsUpdateResponse]</code></summary>
 <dl>
 <dd>
 
@@ -4115,7 +4115,7 @@ client.projects.update(
 </dl>
 </details>
 
-<details><summary><code>client.projects.<a href="src/phonic/projects/client.py">list_eval_prompts</a>(...)</code></summary>
+<details><summary><code>client.projects.<a href="src/phonic/projects/client.py">list_eval_prompts</a>(...) -&gt; AsyncHttpResponse[ProjectsListEvalPromptsResponse]</code></summary>
 <dl>
 <dd>
 
@@ -4185,7 +4185,7 @@ client.projects.list_eval_prompts(
 </dl>
 </details>
 
-<details><summary><code>client.projects.<a href="src/phonic/projects/client.py">create_eval_prompt</a>(...)</code></summary>
+<details><summary><code>client.projects.<a href="src/phonic/projects/client.py">create_eval_prompt</a>(...) -&gt; AsyncHttpResponse[ProjectsCreateEvalPromptResponse]</code></summary>
 <dl>
 <dd>
 

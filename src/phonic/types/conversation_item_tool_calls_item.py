@@ -42,7 +42,7 @@ class ConversationItemToolCallsItem(UncheckedBaseModel):
     When the webhook endpoint was called (null on error).
     """
 
-    query_params: typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]] = pydantic.Field(default=None)
+    query_params: typing.Optional[typing.Dict[str, typing.Any]] = pydantic.Field(default=None)
     """
     Query parameters for webhook tool calls (null on error or when no params).
     """
@@ -62,7 +62,7 @@ class ConversationItemToolCallsItem(UncheckedBaseModel):
     The request body sent to the tool. Can be any JSON-serializable value.
     """
 
-    response_body: typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]] = pydantic.Field(default=None)
+    response_body: typing.Optional[typing.Dict[str, typing.Any]] = pydantic.Field(default=None)
     """
     The response body received from the tool.
     """

@@ -17,7 +17,7 @@ class ToolCallPayloadParams(typing_extensions.TypedDict):
     Name of the tool to execute
     """
 
-    parameters: typing.Dict[str, typing.Optional[typing.Any]]
+    parameters: typing.Dict[str, typing.Any]
     """
     Parameters for tool execution
     """

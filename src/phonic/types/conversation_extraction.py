@@ -22,8 +22,10 @@ class ConversationExtraction(UncheckedBaseModel):
     The conversation ID.
     """
 
-    schema_: typing_extensions.Annotated[ConversationExtractionSchema, FieldMetadata(alias="schema")]
-    result: typing.Dict[str, typing.Optional[typing.Any]] = pydantic.Field()
+    schema_: typing_extensions.Annotated[
+        ConversationExtractionSchema, FieldMetadata(alias="schema"), pydantic.Field(alias="schema")
+    ]
+    result: typing.Dict[str, typing.Any] = pydantic.Field()
     """
     The extracted data.
     """
