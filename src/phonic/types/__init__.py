@@ -64,6 +64,7 @@ if typing.TYPE_CHECKING:
     from .extraction_field import ExtractionField
     from .extraction_field_type import ExtractionFieldType
     from .extraction_schema import ExtractionSchema
+    from .generate_reply_payload import GenerateReplyPayload
     from .input_cancelled_payload import InputCancelledPayload
     from .input_text_payload import InputTextPayload
     from .language_code import LanguageCode
@@ -155,6 +156,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ExtractionField": ".extraction_field",
     "ExtractionFieldType": ".extraction_field_type",
     "ExtractionSchema": ".extraction_schema",
+    "GenerateReplyPayload": ".generate_reply_payload",
     "InputCancelledPayload": ".input_cancelled_payload",
     "InputTextPayload": ".input_text_payload",
     "LanguageCode": ".language_code",
@@ -270,6 +272,7 @@ __all__ = [
     "ExtractionField",
     "ExtractionFieldType",
     "ExtractionSchema",
+    "GenerateReplyPayload",
     "InputCancelledPayload",
     "InputTextPayload",
     "LanguageCode",

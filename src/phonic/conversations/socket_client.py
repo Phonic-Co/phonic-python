@@ -19,6 +19,7 @@ from ..types.config_payload import ConfigPayload
 from ..types.conversation_created_payload import ConversationCreatedPayload
 from ..types.dtmf_payload import DtmfPayload
 from ..types.error_payload import ErrorPayload
+from ..types.generate_reply_payload import GenerateReplyPayload
 from ..types.input_cancelled_payload import InputCancelledPayload
 from ..types.input_text_payload import InputTextPayload
 from ..types.ready_to_start_conversation_payload import ReadyToStartConversationPayload
@@ -130,6 +131,13 @@ class AsyncConversationsSocketClient(EventEmitterMixin):
         """
         await self._send_model(message)
 
+    async def send_generate_reply(self, message: GenerateReplyPayload) -> None:
+        """
+        Send a message to the websocket connection.
+        The message will be sent as a GenerateReplyPayload.
+        """
+        await self._send_model(message)
+
     async def recv(self) -> ConversationsSocketClientResponse:
         """
         Receive a message from the websocket connection.
@@ -222,6 +230,13 @@ class ConversationsSocketClient(EventEmitterMixin):
         """
         Send a message to the websocket connection.
         The message will be sent as a ToolCallOutputPayload.
+        """
+        self._send_model(message)
+
+    def send_generate_reply(self, message: GenerateReplyPayload) -> None:
+        """
+        Send a message to the websocket connection.
+        The message will be sent as a GenerateReplyPayload.
         """
         self._send_model(message)
 
