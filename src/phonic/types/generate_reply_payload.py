@@ -7,14 +7,12 @@ from ..core.pydantic_utilities import IS_PYDANTIC_V2
 from ..core.unchecked_base_model import UncheckedBaseModel
 
 
-class ToolCallOutputPayload(UncheckedBaseModel):
-    type: typing.Literal["tool_call_output"] = "tool_call_output"
-    tool_call_id: str = pydantic.Field()
+class GenerateReplyPayload(UncheckedBaseModel):
+    type: typing.Literal["generate_reply"] = "generate_reply"
+    system_message: typing.Optional[str] = pydantic.Field(default=None)
     """
-    ID of the tool call being responded to
+    Optional system message to guide the assistant's reply
     """
-
-    output: typing.Any
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

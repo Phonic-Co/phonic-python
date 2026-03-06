@@ -17,7 +17,7 @@ class ToolCallOutputProcessedPayload(UncheckedBaseModel):
     """
 
     tool: ToolCallOutputProcessedPayloadTool
-    tool_config: typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]] = pydantic.Field(default=None)
+    tool_config: typing.Optional[typing.Dict[str, typing.Any]] = pydantic.Field(default=None)
     """
     Configuration of the tool that was called
     """
@@ -47,22 +47,22 @@ class ToolCallOutputProcessedPayload(UncheckedBaseModel):
     Query string parameters sent to webhook endpoint (null for WebSocket tools)
     """
 
-    request_body: typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]] = pydantic.Field(default=None)
+    request_body: typing.Optional[typing.Dict[str, typing.Any]] = pydantic.Field(default=None)
     """
     Webhook request body (null for WebSocket tools)
     """
 
-    response_body: typing.Optional[typing.Optional[typing.Any]] = pydantic.Field(default=None)
+    response_body: typing.Optional[typing.Any] = pydantic.Field(default=None)
     """
     Webhook response body (null for WebSocket tools)
     """
 
-    parameters: typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]] = pydantic.Field(default=None)
+    parameters: typing.Optional[typing.Dict[str, typing.Any]] = pydantic.Field(default=None)
     """
     WebSocket tool parameters (null for webhook tools)
     """
 
-    output: typing.Optional[typing.Optional[typing.Any]] = pydantic.Field(default=None)
+    output: typing.Optional[typing.Any] = pydantic.Field(default=None)
     """
     WebSocket tool output (null for webhook tools)
     """

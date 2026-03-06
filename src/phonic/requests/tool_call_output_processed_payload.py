@@ -15,7 +15,7 @@ class ToolCallOutputProcessedPayloadParams(typing_extensions.TypedDict):
     """
 
     tool: ToolCallOutputProcessedPayloadToolParams
-    tool_config: typing_extensions.NotRequired[typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]]]
+    tool_config: typing_extensions.NotRequired[typing.Optional[typing.Dict[str, typing.Any]]]
     """
     Configuration of the tool that was called
     """
@@ -45,22 +45,22 @@ class ToolCallOutputProcessedPayloadParams(typing_extensions.TypedDict):
     Query string parameters sent to webhook endpoint (null for WebSocket tools)
     """
 
-    request_body: typing_extensions.NotRequired[typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]]]
+    request_body: typing_extensions.NotRequired[typing.Optional[typing.Dict[str, typing.Any]]]
     """
     Webhook request body (null for WebSocket tools)
     """
 
-    response_body: typing_extensions.NotRequired[typing.Optional[typing.Optional[typing.Any]]]
+    response_body: typing_extensions.NotRequired[typing.Optional[typing.Any]]
     """
     Webhook response body (null for WebSocket tools)
     """
 
-    parameters: typing_extensions.NotRequired[typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]]]
+    parameters: typing_extensions.NotRequired[typing.Optional[typing.Dict[str, typing.Any]]]
     """
     WebSocket tool parameters (null for webhook tools)
     """
 
-    output: typing_extensions.NotRequired[typing.Optional[typing.Optional[typing.Any]]]
+    output: typing_extensions.NotRequired[typing.Optional[typing.Any]]
     """
     WebSocket tool output (null for webhook tools)
     """

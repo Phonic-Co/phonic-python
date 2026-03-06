@@ -2,4 +2,4 @@
 
 import typing
 
-ConversationEval = typing.Optional[typing.Any]
+ConversationEval = typing.Any

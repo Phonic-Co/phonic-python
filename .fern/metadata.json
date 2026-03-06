@@ -1,0 +1,14 @@
+{
+  "cliVersion": "4.9.0",
+  "generatorName": "fernapi/fern-python-sdk",
+  "generatorVersion": "4.61.5",
+  "generatorConfig": {
+    "client_class_name": "Phonic",
+    "use_typeddict_requests": true,
+    "should_generate_websocket_clients": true,
+    "pydantic_config": {
+      "skip_validation": true
+    }
+  },
+  "sdkVersion": "0.31.2"
+}

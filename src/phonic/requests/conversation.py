@@ -155,7 +155,7 @@ class ConversationParams(typing_extensions.TypedDict):
     Seconds of silence before the conversation is ended.
     """
 
-    task_results: typing.Dict[str, typing.Optional[typing.Any]]
+    task_results: typing.Dict[str, typing.Any]
     """
     Results from conversation evaluations and extractions.
     """

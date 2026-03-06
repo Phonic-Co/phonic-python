@@ -8,7 +8,7 @@ from ...core.unchecked_base_model import UncheckedBaseModel
 
 
 class ConversationsExtractDataResponse(UncheckedBaseModel):
-    result: typing.Dict[str, typing.Optional[typing.Any]] = pydantic.Field()
+    result: typing.Dict[str, typing.Any] = pydantic.Field()
     """
     The extracted data according to the schema.
     """

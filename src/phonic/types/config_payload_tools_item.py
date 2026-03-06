@@ -2,4 +2,4 @@
 
 import typing
 
-ConfigPayloadToolsItem = typing.Union[str, typing.Dict[str, typing.Optional[typing.Any]]]
+ConfigPayloadToolsItem = typing.Union[str, typing.Dict[str, typing.Any]]

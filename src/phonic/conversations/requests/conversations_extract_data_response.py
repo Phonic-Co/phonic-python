@@ -6,7 +6,7 @@ import typing_extensions
 
 
 class ConversationsExtractDataResponseParams(typing_extensions.TypedDict):
-    result: typing.Dict[str, typing.Optional[typing.Any]]
+    result: typing.Dict[str, typing.Any]
     """
     The extracted data according to the schema.
     """

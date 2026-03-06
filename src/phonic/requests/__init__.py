@@ -49,6 +49,7 @@ if typing.TYPE_CHECKING:
     from .error_payload_error import ErrorPayloadErrorParams
     from .extraction_field import ExtractionFieldParams
     from .extraction_schema import ExtractionSchemaParams
+    from .generate_reply_payload import GenerateReplyPayloadParams
     from .input_cancelled_payload import InputCancelledPayloadParams
     from .input_text_payload import InputTextPayloadParams
     from .outbound_call_config import OutboundCallConfigParams
@@ -118,6 +119,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ErrorPayloadParams": ".error_payload",
     "ExtractionFieldParams": ".extraction_field",
     "ExtractionSchemaParams": ".extraction_schema",
+    "GenerateReplyPayloadParams": ".generate_reply_payload",
     "InputCancelledPayloadParams": ".input_cancelled_payload",
     "InputTextPayloadParams": ".input_text_payload",
     "OutboundCallConfigParams": ".outbound_call_config",
@@ -211,6 +213,7 @@ __all__ = [
     "ErrorPayloadParams",
     "ExtractionFieldParams",
     "ExtractionSchemaParams",
+    "GenerateReplyPayloadParams",
     "InputCancelledPayloadParams",
     "InputTextPayloadParams",
     "OutboundCallConfigParams",
