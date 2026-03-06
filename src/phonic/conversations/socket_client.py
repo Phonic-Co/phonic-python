@@ -19,6 +19,7 @@ from ..types.config_payload import ConfigPayload
 from ..types.conversation_created_payload import ConversationCreatedPayload
 from ..types.dtmf_payload import DtmfPayload
 from ..types.error_payload import ErrorPayload
+from ..types.generate_reply_payload import GenerateReplyPayload
 from ..types.input_cancelled_payload import InputCancelledPayload
 from ..types.input_text_payload import InputTextPayload
 from ..types.ready_to_start_conversation_payload import ReadyToStartConversationPayload
@@ -30,7 +31,6 @@ from ..types.tool_call_payload import ToolCallPayload
 from ..types.update_system_prompt_payload import UpdateSystemPromptPayload
 from ..types.user_finished_speaking_payload import UserFinishedSpeakingPayload
 from ..types.user_started_speaking_payload import UserStartedSpeakingPayload
-from ..types.warning_payload import WarningPayload
 
 try:
     from websockets.legacy.client import WebSocketClientProtocol  # type: ignore
@@ -54,7 +54,6 @@ ConversationsSocketClientResponse = typing.Union[
     AssistantChoseNotToRespondPayload,
     AssistantEndedConversationPayload,
     ErrorPayload,
-    WarningPayload,
 ]
 
 
@@ -127,6 +126,13 @@ class AsyncConversationsSocketClient(EventEmitterMixin):
         """
         Send a message to the websocket connection.
         The message will be sent as a ToolCallOutputPayload.
+        """
+        await self._send_model(message)
+
+    async def send_generate_reply(self, message: GenerateReplyPayload) -> None:
+        """
+        Send a message to the websocket connection.
+        The message will be sent as a GenerateReplyPayload.
         """
         await self._send_model(message)
 
@@ -222,6 +228,13 @@ class ConversationsSocketClient(EventEmitterMixin):
         """
         Send a message to the websocket connection.
         The message will be sent as a ToolCallOutputPayload.
+        """
+        self._send_model(message)
+
+    def send_generate_reply(self, message: GenerateReplyPayload) -> None:
+        """
+        Send a message to the websocket connection.
+        The message will be sent as a GenerateReplyPayload.
         """
         self._send_model(message)
 

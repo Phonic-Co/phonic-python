@@ -64,6 +64,7 @@ if typing.TYPE_CHECKING:
     from .extraction_field import ExtractionField
     from .extraction_field_type import ExtractionFieldType
     from .extraction_schema import ExtractionSchema
+    from .generate_reply_payload import GenerateReplyPayload
     from .input_cancelled_payload import InputCancelledPayload
     from .input_text_payload import InputTextPayload
     from .language_code import LanguageCode
@@ -94,8 +95,6 @@ if typing.TYPE_CHECKING:
     from .validation_error import ValidationError
     from .validation_error_error import ValidationErrorError
     from .voice import Voice
-    from .warning_payload import WarningPayload
-    from .warning_payload_warning import WarningPayloadWarning
 _dynamic_imports: typing.Dict[str, str] = {
     "AddSystemMessagePayload": ".add_system_message_payload",
     "Agent": ".agent",
@@ -155,6 +154,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ExtractionField": ".extraction_field",
     "ExtractionFieldType": ".extraction_field_type",
     "ExtractionSchema": ".extraction_schema",
+    "GenerateReplyPayload": ".generate_reply_payload",
     "InputCancelledPayload": ".input_cancelled_payload",
     "InputTextPayload": ".input_text_payload",
     "LanguageCode": ".language_code",
@@ -185,8 +185,6 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ValidationError": ".validation_error",
     "ValidationErrorError": ".validation_error_error",
     "Voice": ".voice",
-    "WarningPayload": ".warning_payload",
-    "WarningPayloadWarning": ".warning_payload_warning",
 }
 
 
@@ -270,6 +268,7 @@ __all__ = [
     "ExtractionField",
     "ExtractionFieldType",
     "ExtractionSchema",
+    "GenerateReplyPayload",
     "InputCancelledPayload",
     "InputTextPayload",
     "LanguageCode",
@@ -300,6 +299,4 @@ __all__ = [
     "ValidationError",
     "ValidationErrorError",
     "Voice",
-    "WarningPayload",
-    "WarningPayloadWarning",
 ]

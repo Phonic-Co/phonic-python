@@ -49,6 +49,7 @@ if typing.TYPE_CHECKING:
     from .error_payload_error import ErrorPayloadErrorParams
     from .extraction_field import ExtractionFieldParams
     from .extraction_schema import ExtractionSchemaParams
+    from .generate_reply_payload import GenerateReplyPayloadParams
     from .input_cancelled_payload import InputCancelledPayloadParams
     from .input_text_payload import InputTextPayloadParams
     from .outbound_call_config import OutboundCallConfigParams
@@ -72,8 +73,6 @@ if typing.TYPE_CHECKING:
     from .validation_error import ValidationErrorParams
     from .validation_error_error import ValidationErrorErrorParams
     from .voice import VoiceParams
-    from .warning_payload import WarningPayloadParams
-    from .warning_payload_warning import WarningPayloadWarningParams
 _dynamic_imports: typing.Dict[str, str] = {
     "AddSystemMessagePayloadParams": ".add_system_message_payload",
     "AgentConfigurationEndpointParams": ".agent_configuration_endpoint",
@@ -118,6 +117,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ErrorPayloadParams": ".error_payload",
     "ExtractionFieldParams": ".extraction_field",
     "ExtractionSchemaParams": ".extraction_schema",
+    "GenerateReplyPayloadParams": ".generate_reply_payload",
     "InputCancelledPayloadParams": ".input_cancelled_payload",
     "InputTextPayloadParams": ".input_text_payload",
     "OutboundCallConfigParams": ".outbound_call_config",
@@ -141,8 +141,6 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ValidationErrorErrorParams": ".validation_error_error",
     "ValidationErrorParams": ".validation_error",
     "VoiceParams": ".voice",
-    "WarningPayloadParams": ".warning_payload",
-    "WarningPayloadWarningParams": ".warning_payload_warning",
 }
 
 
@@ -211,6 +209,7 @@ __all__ = [
     "ErrorPayloadParams",
     "ExtractionFieldParams",
     "ExtractionSchemaParams",
+    "GenerateReplyPayloadParams",
     "InputCancelledPayloadParams",
     "InputTextPayloadParams",
     "OutboundCallConfigParams",
@@ -234,6 +233,4 @@ __all__ = [
     "ValidationErrorErrorParams",
     "ValidationErrorParams",
     "VoiceParams",
-    "WarningPayloadParams",
-    "WarningPayloadWarningParams",
 ]

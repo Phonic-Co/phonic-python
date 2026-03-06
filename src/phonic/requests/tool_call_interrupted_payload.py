@@ -16,3 +16,8 @@ class ToolCallInterruptedPayloadParams(typing_extensions.TypedDict):
     """
     Name of the interrupted tool
     """
+
+    error_message: str
+    """
+    Description of why the tool call was interrupted
+    """

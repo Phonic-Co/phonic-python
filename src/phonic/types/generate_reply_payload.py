@@ -7,15 +7,11 @@ from ..core.pydantic_utilities import IS_PYDANTIC_V2
 from ..core.unchecked_base_model import UncheckedBaseModel
 
 
-class WarningPayloadWarning(UncheckedBaseModel):
-    message: str = pydantic.Field()
+class GenerateReplyPayload(UncheckedBaseModel):
+    type: typing.Literal["generate_reply"] = "generate_reply"
+    system_message: typing.Optional[str] = pydantic.Field(default=None)
     """
-    Warning message
-    """
-
-    code: typing.Optional[str] = pydantic.Field(default=None)
-    """
-    Warning code
+    Optional system message to guide the assistant's reply
     """
 
     if IS_PYDANTIC_V2:

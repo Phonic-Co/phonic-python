@@ -17,16 +17,6 @@ class ToolCallOutputProcessedPayload(UncheckedBaseModel):
     """
 
     tool: ToolCallOutputProcessedPayloadTool
-    tool_config: typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]] = pydantic.Field(default=None)
-    """
-    Configuration of the tool that was called
-    """
-
-    endpoint_method: typing.Optional[str] = pydantic.Field(default=None)
-    """
-    HTTP method used for webhook endpoint (null for WebSocket tools)
-    """
-
     endpoint_url: typing.Optional[str] = pydantic.Field(default=None)
     """
     Webhook endpoint URL (null for WebSocket tools)
@@ -40,11 +30,6 @@ class ToolCallOutputProcessedPayload(UncheckedBaseModel):
     endpoint_called_at: typing.Optional[dt.datetime] = pydantic.Field(default=None)
     """
     When webhook was called (null for WebSocket tools)
-    """
-
-    query_params: typing.Optional[typing.Dict[str, typing.Optional[str]]] = pydantic.Field(default=None)
-    """
-    Query string parameters sent to webhook endpoint (null for WebSocket tools)
     """
 
     request_body: typing.Optional[typing.Dict[str, typing.Optional[typing.Any]]] = pydantic.Field(default=None)
@@ -70,11 +55,6 @@ class ToolCallOutputProcessedPayload(UncheckedBaseModel):
     response_status_code: typing.Optional[float] = pydantic.Field(default=None)
     """
     Webhook HTTP status code (null for WebSocket tools)
-    """
-
-    duration_ms: typing.Optional[float] = pydantic.Field(default=None)
-    """
-    Duration of the tool call in milliseconds
     """
 
     timed_out: typing.Optional[bool] = pydantic.Field(default=None)

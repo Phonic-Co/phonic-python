@@ -19,6 +19,11 @@ class ToolCallInterruptedPayload(UncheckedBaseModel):
     Name of the interrupted tool
     """
 
+    error_message: str = pydantic.Field()
+    """
+    Description of why the tool call was interrupted
+    """
+
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
     else:
