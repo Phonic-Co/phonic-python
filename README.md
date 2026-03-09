@@ -35,37 +35,52 @@ A full reference for this library is available [here](https://github.com/Phonic-
 Instantiate and use the client with the following:
 
 ```python
-from phonic import Phonic
+from phonic import Phonic, CreateAgentRequestTemplateVariablesValue, CreateAgentRequestConfigurationEndpoint
 
 client = Phonic(
-    api_key="YOUR_API_KEY",
+    api_key="<token>",
 )
+
 client.agents.create(
     project="main",
     name="support-agent",
     phone_number="assign-automatically",
     timezone="America/Los_Angeles",
     voice_id="sabrina",
-    audio_speed=1.0,
-    background_noise_level=0.0,
+    audio_speed=1,
+    background_noise_level=0,
     generate_welcome_message=False,
     welcome_message="Hi {{customer_name}}. How can I help you today?",
     system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
     template_variables={
-        "customer_name": {"default_value": "David"},
-        "subject": {"default_value": "Chess"},
+        "customer_name": CreateAgentRequestTemplateVariablesValue(
+            default_value="David",
+        ),
+        "subject": CreateAgentRequestTemplateVariablesValue(
+            default_value="Chess",
+        )
     },
-    tools=[],
+    tools=[
+        "keypad_input"
+    ],
     generate_no_input_poke_text=False,
     no_input_poke_sec=30,
     no_input_poke_text="Are you still there?",
-    languages=["en", "es"],
-    boosted_keywords=["Load ID", "dispatch"],
-    configuration_endpoint={
-        "url": "https://api.example.com/config",
-        "headers": {"Authorization": "Bearer token123"},
-        "timeout_ms": 7000,
-    },
+    languages=[
+        "en",
+        "es"
+    ],
+    boosted_keywords=[
+        "Load ID",
+        "dispatch"
+    ],
+    configuration_endpoint=CreateAgentRequestConfigurationEndpoint(
+        url="https://api.example.com/config",
+        headers={
+            "Authorization": "Bearer token123"
+        },
+        timeout_ms=7000,
+    ),
 )
 ```
 
@@ -79,7 +94,7 @@ import asyncio
 from phonic import AsyncPhonic
 
 client = AsyncPhonic(
-    api_key="YOUR_API_KEY",
+    api_key="<token>",
 )
 
 
@@ -90,26 +105,40 @@ async def main() -> None:
         phone_number="assign-automatically",
         timezone="America/Los_Angeles",
         voice_id="sabrina",
-        audio_speed=1.0,
-        background_noise_level=0.0,
+        audio_speed=1,
+        background_noise_level=0,
         generate_welcome_message=False,
         welcome_message="Hi {{customer_name}}. How can I help you today?",
         system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
         template_variables={
-            "customer_name": {"default_value": "David"},
-            "subject": {"default_value": "Chess"},
+            "customer_name": CreateAgentRequestTemplateVariablesValue(
+                default_value="David",
+            ),
+            "subject": CreateAgentRequestTemplateVariablesValue(
+                default_value="Chess",
+            )
         },
-        tools=[],
+        tools=[
+            "keypad_input"
+        ],
         generate_no_input_poke_text=False,
         no_input_poke_sec=30,
         no_input_poke_text="Are you still there?",
-        languages=["en", "es"],
-        boosted_keywords=["Load ID", "dispatch"],
-        configuration_endpoint={
-            "url": "https://api.example.com/config",
-            "headers": {"Authorization": "Bearer token123"},
-            "timeout_ms": 7000,
-        },
+        languages=[
+            "en",
+            "es"
+        ],
+        boosted_keywords=[
+            "Load ID",
+            "dispatch"
+        ],
+        configuration_endpoint=CreateAgentRequestConfigurationEndpoint(
+            url="https://api.example.com/config",
+            headers={
+                "Authorization": "Bearer token123"
+            },
+            timeout_ms=7000,
+        ),
     )
 
 
@@ -137,54 +166,28 @@ The SDK supports both sync and async websocket connections for real-time, low-la
 You can either iterate through the returned `SocketClient` to process messages as they arrive, or attach handlers to respond to specific events.
 
 ```python
-
-# Connect to the websocket (Sync)
-import threading
-
 from phonic import Phonic
 
 client = Phonic(...)
 
+# Connect to the websocket (Sync)
 with client.conversations.connect(...) as socket:
     # Iterate over the messages as they arrive
-    for message in socket
+    for message in socket:
         print(message)
 
     # Or, attach handlers to specific events
-    socket.on(EventType.OPEN, lambda _: print("open"))
     socket.on(EventType.MESSAGE, lambda message: print("received message", message))
-    socket.on(EventType.CLOSE, lambda _: print("close"))
-    socket.on(EventType.ERROR, lambda error: print("error", error))
 
-
-    # Start the listening loop in a background thread
-    listener_thread = threading.Thread(target=socket.start_listening, daemon=True)
-    listener_thread.start()
-```
-
-```python
-
-# Connect to the websocket (Async)
 import asyncio
-
 from phonic import AsyncPhonic
 
 client = AsyncPhonic(...)
 
+# Connect to the websocket (Async)
 async with client.conversations.connect(...) as socket:
-    # Iterate over the messages as they arrive
-    async for message in socket
+    async for message in socket:
         print(message)
-
-    # Or, attach handlers to specific events
-    socket.on(EventType.OPEN, lambda _: print("open"))
-    socket.on(EventType.MESSAGE, lambda message: print("received message", message))
-    socket.on(EventType.CLOSE, lambda _: print("close"))
-    socket.on(EventType.ERROR, lambda error: print("error", error))
-
-
-    # Start listening for events in an asyncio task
-    listen_task = asyncio.create_task(socket.start_listening())
 ```
 
 ## Advanced
@@ -197,9 +200,7 @@ The `.with_raw_response` property returns a "raw" client that can be used to acc
 ```python
 from phonic import Phonic
 
-client = Phonic(
-    ...,
-)
+client = Phonic(...)
 response = client.agents.with_raw_response.create(...)
 print(response.headers)  # access the response headers
 print(response.status_code)  # access the response status code
@@ -231,14 +232,9 @@ client.agents.create(..., request_options={
 The SDK defaults to a 60 second timeout. You can configure this with a timeout option at the client or request level.
 
 ```python
-
 from phonic import Phonic
 
-client = Phonic(
-    ...,
-    timeout=20.0,
-)
-
+client = Phonic(..., timeout=20.0)
 
 # Override timeout for a specific method
 client.agents.create(..., request_options={
