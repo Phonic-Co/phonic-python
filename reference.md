@@ -1,6 +1,6 @@
 # Reference
 ## Agents
-<details><summary><code>client.agents.<a href="src/phonic/agents/client.py">list</a>(...) -&gt; AsyncHttpResponse[AgentsListResponse]</code></summary>
+<details><summary><code>client.agents.<a href="src/phonic/agents/client.py">list</a>(...) -> AgentsListResponse</code></summary>
 <dl>
 <dd>
 
@@ -28,10 +28,13 @@ Returns all agents in a project.
 
 ```python
 from phonic import Phonic
+from phonic.environment import PhonicEnvironment
 
 client = Phonic(
-    api_key="YOUR_API_KEY",
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
 )
+
 client.agents.list()
 
 ```
@@ -68,7 +71,7 @@ client.agents.list()
 </dl>
 </details>
 
-<details><summary><code>client.agents.<a href="src/phonic/agents/client.py">create</a>(...) -&gt; AsyncHttpResponse[AgentsCreateResponse]</code></summary>
+<details><summary><code>client.agents.<a href="src/phonic/agents/client.py">create</a>(...) -> AgentsCreateResponse</code></summary>
 <dl>
 <dd>
 
@@ -95,37 +98,54 @@ Creates a new agent in a project.
 <dd>
 
 ```python
-from phonic import Phonic
+from phonic import Phonic, CreateAgentRequestTemplateVariablesValue, CreateAgentRequestConfigurationEndpoint
+from phonic.environment import PhonicEnvironment
 
 client = Phonic(
-    api_key="YOUR_API_KEY",
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
 )
+
 client.agents.create(
     project="main",
     name="support-agent",
     phone_number="assign-automatically",
     timezone="America/Los_Angeles",
     voice_id="sabrina",
-    audio_speed=1.0,
-    background_noise_level=0.0,
+    audio_speed=1,
+    background_noise_level=0,
     generate_welcome_message=False,
     welcome_message="Hi {{customer_name}}. How can I help you today?",
     system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
     template_variables={
-        "customer_name": {"default_value": "David"},
-        "subject": {"default_value": "Chess"},
+        "customer_name": CreateAgentRequestTemplateVariablesValue(
+            default_value="David",
+        ),
+        "subject": CreateAgentRequestTemplateVariablesValue(
+            default_value="Chess",
+        )
     },
-    tools=[],
+    tools=[
+        "keypad_input"
+    ],
     generate_no_input_poke_text=False,
     no_input_poke_sec=30,
     no_input_poke_text="Are you still there?",
-    languages=["en", "es"],
-    boosted_keywords=["Load ID", "dispatch"],
-    configuration_endpoint={
-        "url": "https://api.example.com/config",
-        "headers": {"Authorization": "Bearer token123"},
-        "timeout_ms": 7000,
-    },
+    languages=[
+        "en",
+        "es"
+    ],
+    boosted_keywords=[
+        "Load ID",
+        "dispatch"
+    ],
+    configuration_endpoint=CreateAgentRequestConfigurationEndpoint(
+        url="https://api.example.com/config",
+        headers={
+            "Authorization": "Bearer token123"
+        },
+        timeout_ms=7000,
+    ),
 )
 
 ```
@@ -142,7 +162,7 @@ client.agents.create(
 <dl>
 <dd>
 
-**name:** `str` — The name of the agent. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
+**request:** `CreateAgentRequest` 
     
 </dd>
 </dl>
@@ -151,232 +171,6 @@ client.agents.create(
 <dd>
 
 **project:** `typing.Optional[str]` — The name of the project to create the agent in.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**phone_number:** `typing.Optional[CreateAgentRequestPhoneNumber]` — When set to `null`, the agent will not be associated with a phone number. When set to `"assign-automatically"`, the agent will be assigned a random phone number. When set to `"custom"`, you must provide `custom_phone_numbers`.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**custom_phone_number:** `typing.Optional[str]` — The custom phone number to use for the agent in E.164 format (e.g., +1234567890). This field is deprecated. Use `custom_phone_numbers` instead.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**custom_phone_numbers:** `typing.Optional[typing.Sequence[str]]` — Array of custom phone numbers in E.164 format (e.g., ["+1234567890", "+0987654321"]). The agent will be able to receive phone calls on any of these numbers. Required when `phone_number` is set to `"custom"`. All phone numbers must be unique.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**timezone:** `typing.Optional[str]` — The timezone of the agent. Used to format system variables like `{{system_time}}`.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**voice_id:** `typing.Optional[str]` — The voice ID to use.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**audio_format:** `typing.Optional[CreateAgentRequestAudioFormat]` — The audio format of the agent.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**audio_speed:** `typing.Optional[float]` — The audio speed of the agent.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**background_noise_level:** `typing.Optional[float]` — The background noise level of the agent.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**background_noise:** `typing.Optional[CreateAgentRequestBackgroundNoise]` — The background noise type. Can be "office", "call-center", "coffee-shop", or null.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**generate_welcome_message:** `typing.Optional[bool]` — When `true`, the welcome message will be automatically generated and the `welcome_message` field will be ignored.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**welcome_message:** `typing.Optional[str]` — Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. Ignored when `generate_welcome_message` is `true`.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**system_prompt:** `typing.Optional[str]` — Instructions for the conversation. Can contain template variables like `{{subject}}`.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**template_variables:** `typing.Optional[
-    typing.Dict[str, CreateAgentRequestTemplateVariablesValueParams]
-]` — Variables that can be used in the welcome message and the system prompt.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**tools:** `typing.Optional[typing.Sequence[CreateAgentRequestToolsItemParams]]` — Array of built-in or custom tool names to use.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**tasks:** `typing.Optional[typing.Sequence[TaskParams]]` — Array of task objects with `name` and `description` fields.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**generate_no_input_poke_text:** `typing.Optional[bool]` — Whether to have the no-input poke text be generated by AI.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**no_input_poke_sec:** `typing.Optional[int]` — Number of seconds of silence before sending a poke message. `null` disables the poke message.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**no_input_poke_text:** `typing.Optional[str]` — The message to send after the specified silence. Ignored when generate_no_input_poke_text is true.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**no_input_end_conversation_sec:** `typing.Optional[int]` — Seconds of silence before ending the conversation.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**languages:** `typing.Optional[typing.Sequence[LanguageCode]]` — Array of ISO 639-1 language codes that the agent should be able to recognize
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**boosted_keywords:** `typing.Optional[typing.Sequence[str]]` — These words, or short phrases, will be more accurately recognized by the agent.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**configuration_endpoint:** `typing.Optional[CreateAgentRequestConfigurationEndpointParams]` — When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**inbound_rollout:** `typing.Optional[float]` — Float between 0.0 and 1.0 representing the percentage of inbound calls handled by Agent. Defaults to `1.0`. Requires `phone_number` to be set when less than 1.0.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**inbound_rollout_forward_phone_number:** `typing.Optional[str]` — E.164 formatted phone number where non-agent calls will be forwarded. Required when `inbound_rollout < 1.0`, must be `null` when `inbound_rollout = 1.0`. Defaults to `null`.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**vad_prebuffer_duration_ms:** `typing.Optional[float]` — Voice activity detection prebuffer duration in milliseconds.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**vad_min_speech_duration_ms:** `typing.Optional[float]` — Minimum speech duration for voice activity detection in milliseconds.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**vad_min_silence_duration_ms:** `typing.Optional[float]` — Minimum silence duration for voice activity detection in milliseconds.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**vad_threshold:** `typing.Optional[float]` — Voice activity detection threshold.
     
 </dd>
 </dl>
@@ -396,7 +190,7 @@ client.agents.create(
 </dl>
 </details>
 
-<details><summary><code>client.agents.<a href="src/phonic/agents/client.py">upsert</a>(...) -&gt; AsyncHttpResponse[AgentsUpsertResponse]</code></summary>
+<details><summary><code>client.agents.<a href="src/phonic/agents/client.py">upsert</a>(...) -> AgentsUpsertResponse</code></summary>
 <dl>
 <dd>
 
@@ -423,37 +217,54 @@ Upserts an agent by name. If an agent with the same name already exists, it will
 <dd>
 
 ```python
-from phonic import Phonic
+from phonic import Phonic, CreateAgentRequestTemplateVariablesValue, CreateAgentRequestConfigurationEndpoint
+from phonic.environment import PhonicEnvironment
 
 client = Phonic(
-    api_key="YOUR_API_KEY",
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
 )
+
 client.agents.upsert(
     project="main",
     name="support-agent",
     phone_number="assign-automatically",
     timezone="America/Los_Angeles",
     voice_id="sabrina",
-    audio_speed=1.0,
-    background_noise_level=0.0,
+    audio_speed=1,
+    background_noise_level=0,
     generate_welcome_message=False,
     welcome_message="Hi {{customer_name}}. How can I help you today?",
     system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
     template_variables={
-        "customer_name": {"default_value": "David"},
-        "subject": {"default_value": "Chess"},
+        "customer_name": CreateAgentRequestTemplateVariablesValue(
+            default_value="David",
+        ),
+        "subject": CreateAgentRequestTemplateVariablesValue(
+            default_value="Chess",
+        )
     },
-    tools=[],
+    tools=[
+        "keypad_input"
+    ],
     generate_no_input_poke_text=False,
     no_input_poke_sec=30,
     no_input_poke_text="Are you still there?",
-    languages=["en", "es"],
-    boosted_keywords=["Load ID", "dispatch"],
-    configuration_endpoint={
-        "url": "https://api.example.com/config",
-        "headers": {"Authorization": "Bearer token123"},
-        "timeout_ms": 7000,
-    },
+    languages=[
+        "en",
+        "es"
+    ],
+    boosted_keywords=[
+        "Load ID",
+        "dispatch"
+    ],
+    configuration_endpoint=CreateAgentRequestConfigurationEndpoint(
+        url="https://api.example.com/config",
+        headers={
+            "Authorization": "Bearer token123"
+        },
+        timeout_ms=7000,
+    ),
 )
 
 ```
@@ -502,7 +313,7 @@ client.agents.upsert(
 <dl>
 <dd>
 
-**custom_phone_numbers:** `typing.Optional[typing.Sequence[str]]` — Array of custom phone numbers in E.164 format (e.g., ["+1234567890", "+0987654321"]). The agent will be able to receive phone calls on any of these numbers. Required when `phone_number` is set to `"custom"`. All phone numbers must be unique.
+**custom_phone_numbers:** `typing.Optional[typing.List[str]]` — Array of custom phone numbers in E.164 format (e.g., ["+1234567890", "+0987654321"]). The agent will be able to receive phone calls on any of these numbers. Required when `phone_number` is set to `"custom"`. All phone numbers must be unique.
     
 </dd>
 </dl>
@@ -582,9 +393,7 @@ client.agents.upsert(
 <dl>
 <dd>
 
-**template_variables:** `typing.Optional[
-    typing.Dict[str, CreateAgentRequestTemplateVariablesValueParams]
-]` — Variables that can be used in the welcome message and the system prompt.
+**template_variables:** `typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValue]]` — Variables that can be used in the welcome message and the system prompt.
     
 </dd>
 </dl>
@@ -592,7 +401,7 @@ client.agents.upsert(
 <dl>
 <dd>
 
-**tools:** `typing.Optional[typing.Sequence[CreateAgentRequestToolsItemParams]]` — Array of built-in or custom tool names to use.
+**tools:** `typing.Optional[typing.List[CreateAgentRequestToolsItem]]` — Array of built-in or custom tool names to use.
     
 </dd>
 </dl>
@@ -600,7 +409,7 @@ client.agents.upsert(
 <dl>
 <dd>
 
-**tasks:** `typing.Optional[typing.Sequence[TaskParams]]` — Array of task objects with `name` and `description` fields.
+**tasks:** `typing.Optional[typing.List[Task]]` — Array of task objects with `name` and `description` fields.
     
 </dd>
 </dl>
@@ -640,7 +449,7 @@ client.agents.upsert(
 <dl>
 <dd>
 
-**languages:** `typing.Optional[typing.Sequence[LanguageCode]]` — Array of ISO 639-1 language codes that the agent should be able to recognize
+**languages:** `typing.Optional[typing.List[LanguageCode]]` — Array of ISO 639-1 language codes that the agent should be able to recognize
     
 </dd>
 </dl>
@@ -648,7 +457,7 @@ client.agents.upsert(
 <dl>
 <dd>
 
-**boosted_keywords:** `typing.Optional[typing.Sequence[str]]` — These words, or short phrases, will be more accurately recognized by the agent.
+**boosted_keywords:** `typing.Optional[typing.List[str]]` — These words, or short phrases, will be more accurately recognized by the agent.
     
 </dd>
 </dl>
@@ -656,7 +465,7 @@ client.agents.upsert(
 <dl>
 <dd>
 
-**configuration_endpoint:** `typing.Optional[CreateAgentRequestConfigurationEndpointParams]` — When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
+**configuration_endpoint:** `typing.Optional[CreateAgentRequestConfigurationEndpoint]` — When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
     
 </dd>
 </dl>
@@ -724,7 +533,7 @@ client.agents.upsert(
 </dl>
 </details>
 
-<details><summary><code>client.agents.<a href="src/phonic/agents/client.py">get</a>(...) -&gt; AsyncHttpResponse[AgentsGetResponse]</code></summary>
+<details><summary><code>client.agents.<a href="src/phonic/agents/client.py">get</a>(...) -> AgentsGetResponse</code></summary>
 <dl>
 <dd>
 
@@ -752,10 +561,13 @@ Returns an agent by name or ID.
 
 ```python
 from phonic import Phonic
+from phonic.environment import PhonicEnvironment
 
 client = Phonic(
-    api_key="YOUR_API_KEY",
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
 )
+
 client.agents.get(
     name_or_id="nameOrId",
     project="main",
@@ -803,7 +615,7 @@ client.agents.get(
 </dl>
 </details>
 
-<details><summary><code>client.agents.<a href="src/phonic/agents/client.py">delete</a>(...) -&gt; AsyncHttpResponse[AgentsDeleteResponse]</code></summary>
+<details><summary><code>client.agents.<a href="src/phonic/agents/client.py">delete</a>(...) -> AgentsDeleteResponse</code></summary>
 <dl>
 <dd>
 
@@ -831,10 +643,13 @@ Deletes an agent by name or ID.
 
 ```python
 from phonic import Phonic
+from phonic.environment import PhonicEnvironment
 
 client = Phonic(
-    api_key="YOUR_API_KEY",
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
 )
+
 client.agents.delete(
     name_or_id="nameOrId",
     project="main",
@@ -882,7 +697,7 @@ client.agents.delete(
 </dl>
 </details>
 
-<details><summary><code>client.agents.<a href="src/phonic/agents/client.py">update</a>(...) -&gt; AsyncHttpResponse[AgentsUpdateResponse]</code></summary>
+<details><summary><code>client.agents.<a href="src/phonic/agents/client.py">update</a>(...) -> AgentsUpdateResponse</code></summary>
 <dl>
 <dd>
 
@@ -910,10 +725,14 @@ Updates an agent by name or ID.
 
 ```python
 from phonic import Phonic
+from phonic.environment import PhonicEnvironment
+from phonic.agents import UpdateAgentRequestTemplateVariablesValue, UpdateAgentRequestConfigurationEndpoint
 
 client = Phonic(
-    api_key="YOUR_API_KEY",
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
 )
+
 client.agents.update(
     name_or_id="nameOrId",
     project="main",
@@ -921,26 +740,40 @@ client.agents.update(
     phone_number="assign-automatically",
     timezone="America/Los_Angeles",
     voice_id="sabrina",
-    audio_speed=1.0,
-    background_noise_level=0.0,
+    audio_speed=1,
+    background_noise_level=0,
     generate_welcome_message=False,
     welcome_message="Hi {{customer_name}}. How can I help you today?",
     system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
     template_variables={
-        "customer_name": {"default_value": "David"},
-        "subject": {"default_value": "Chess"},
+        "customer_name": UpdateAgentRequestTemplateVariablesValue(
+            default_value="David",
+        ),
+        "subject": UpdateAgentRequestTemplateVariablesValue(
+            default_value="Chess",
+        )
     },
-    tools=[],
+    tools=[
+        "keypad_input"
+    ],
     generate_no_input_poke_text=False,
     no_input_poke_sec=30,
     no_input_poke_text="Are you still there?",
-    languages=["en", "es"],
-    boosted_keywords=["Load ID", "dispatch"],
-    configuration_endpoint={
-        "url": "https://api.example.com/config",
-        "headers": {"Authorization": "Bearer token123"},
-        "timeout_ms": 7000,
-    },
+    languages=[
+        "en",
+        "es"
+    ],
+    boosted_keywords=[
+        "Load ID",
+        "dispatch"
+    ],
+    configuration_endpoint=UpdateAgentRequestConfigurationEndpoint(
+        url="https://api.example.com/config",
+        headers={
+            "Authorization": "Bearer token123"
+        },
+        timeout_ms=7000,
+    ),
 )
 
 ```
@@ -997,7 +830,7 @@ client.agents.update(
 <dl>
 <dd>
 
-**custom_phone_numbers:** `typing.Optional[typing.Sequence[str]]` — Array of custom phone numbers in E.164 format (e.g., ["+1234567890", "+0987654321"]). The agent will be able to receive phone calls on any of these numbers. Required when `phone_number` is set to `"custom"`. All phone numbers must be unique.
+**custom_phone_numbers:** `typing.Optional[typing.List[str]]` — Array of custom phone numbers in E.164 format (e.g., ["+1234567890", "+0987654321"]). The agent will be able to receive phone calls on any of these numbers. Required when `phone_number` is set to `"custom"`. All phone numbers must be unique.
     
 </dd>
 </dl>
@@ -1077,9 +910,7 @@ client.agents.update(
 <dl>
 <dd>
 
-**template_variables:** `typing.Optional[
-    typing.Dict[str, UpdateAgentRequestTemplateVariablesValueParams]
-]` — Variables that can be used in the welcome message and the system prompt.
+**template_variables:** `typing.Optional[typing.Dict[str, UpdateAgentRequestTemplateVariablesValue]]` — Variables that can be used in the welcome message and the system prompt.
     
 </dd>
 </dl>
@@ -1087,7 +918,7 @@ client.agents.update(
 <dl>
 <dd>
 
-**tools:** `typing.Optional[typing.Sequence[UpdateAgentRequestToolsItemParams]]` — Array of built-in or custom tool names to use.
+**tools:** `typing.Optional[typing.List[UpdateAgentRequestToolsItem]]` — Array of built-in or custom tool names to use.
     
 </dd>
 </dl>
@@ -1095,7 +926,7 @@ client.agents.update(
 <dl>
 <dd>
 
-**tasks:** `typing.Optional[typing.Sequence[TaskParams]]` — Array of task objects with `name` and `description` fields.
+**tasks:** `typing.Optional[typing.List[Task]]` — Array of task objects with `name` and `description` fields.
     
 </dd>
 </dl>
@@ -1135,7 +966,7 @@ client.agents.update(
 <dl>
 <dd>
 
-**languages:** `typing.Optional[typing.Sequence[LanguageCode]]` — Array of ISO 639-1 language codes that the agent should be able to recognize
+**languages:** `typing.Optional[typing.List[LanguageCode]]` — Array of ISO 639-1 language codes that the agent should be able to recognize
     
 </dd>
 </dl>
@@ -1143,7 +974,7 @@ client.agents.update(
 <dl>
 <dd>
 
-**boosted_keywords:** `typing.Optional[typing.Sequence[str]]` — These words, or short phrases, will be more accurately recognized by the agent.
+**boosted_keywords:** `typing.Optional[typing.List[str]]` — These words, or short phrases, will be more accurately recognized by the agent.
     
 </dd>
 </dl>
@@ -1151,7 +982,7 @@ client.agents.update(
 <dl>
 <dd>
 
-**configuration_endpoint:** `typing.Optional[UpdateAgentRequestConfigurationEndpointParams]` — When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
+**configuration_endpoint:** `typing.Optional[UpdateAgentRequestConfigurationEndpoint]` — When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
     
 </dd>
 </dl>
@@ -1219,7 +1050,7 @@ client.agents.update(
 </dl>
 </details>
 
-<details><summary><code>client.agents.<a href="src/phonic/agents/client.py">add_custom_phone_number</a>(...) -&gt; AsyncHttpResponse[AgentsAddCustomPhoneNumberResponse]</code></summary>
+<details><summary><code>client.agents.<a href="src/phonic/agents/client.py">add_custom_phone_number</a>(...) -> AgentsAddCustomPhoneNumberResponse</code></summary>
 <dl>
 <dd>
 
@@ -1247,19 +1078,25 @@ Adds a custom phone number to an agent. The user must configure their SIP trunk 
 
 ```python
 from phonic import Phonic
+from phonic.environment import PhonicEnvironment
+from phonic.agents import AgentsAddCustomPhoneNumberRequestConfigurationEndpoint
 
 client = Phonic(
-    api_key="YOUR_API_KEY",
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
 )
+
 client.agents.add_custom_phone_number(
     name_or_id="nameOrId",
     project="main",
     phone_number="+15551234567",
-    configuration_endpoint={
-        "url": "https://api.example.com/config",
-        "headers": {"Authorization": "Bearer token123"},
-        "timeout_ms": 7000,
-    },
+    configuration_endpoint=AgentsAddCustomPhoneNumberRequestConfigurationEndpoint(
+        url="https://api.example.com/config",
+        headers={
+            "Authorization": "Bearer token123"
+        },
+        timeout_ms=7000,
+    ),
 )
 
 ```
@@ -1324,7 +1161,7 @@ client.agents.add_custom_phone_number(
 <dl>
 <dd>
 
-**configuration_endpoint:** `typing.Optional[AgentsAddCustomPhoneNumberRequestConfigurationEndpointParams]` — When not `null`, the agent will call this endpoint to get configuration options for calls on this phone number.
+**configuration_endpoint:** `typing.Optional[AgentsAddCustomPhoneNumberRequestConfigurationEndpoint]` — When not `null`, the agent will call this endpoint to get configuration options for calls on this phone number.
     
 </dd>
 </dl>
@@ -1344,7 +1181,7 @@ client.agents.add_custom_phone_number(
 </dl>
 </details>
 
-<details><summary><code>client.agents.<a href="src/phonic/agents/client.py">delete_custom_phone_number</a>(...) -&gt; AsyncHttpResponse[AgentsDeleteCustomPhoneNumberResponse]</code></summary>
+<details><summary><code>client.agents.<a href="src/phonic/agents/client.py">delete_custom_phone_number</a>(...) -> AgentsDeleteCustomPhoneNumberResponse</code></summary>
 <dl>
 <dd>
 
@@ -1372,10 +1209,13 @@ Deletes a custom phone number from an agent.
 
 ```python
 from phonic import Phonic
+from phonic.environment import PhonicEnvironment
 
 client = Phonic(
-    api_key="YOUR_API_KEY",
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
 )
+
 client.agents.delete_custom_phone_number(
     name_or_id="nameOrId",
     project="main",
@@ -1432,7 +1272,7 @@ client.agents.delete_custom_phone_number(
 </dl>
 </details>
 
-<details><summary><code>client.agents.<a href="src/phonic/agents/client.py">update_phone_number</a>(...) -&gt; AsyncHttpResponse[AgentsUpdatePhoneNumberResponse]</code></summary>
+<details><summary><code>client.agents.<a href="src/phonic/agents/client.py">update_phone_number</a>(...) -> AgentsUpdatePhoneNumberResponse</code></summary>
 <dl>
 <dd>
 
@@ -1460,19 +1300,25 @@ Updates a phone number on an agent.
 
 ```python
 from phonic import Phonic
+from phonic.environment import PhonicEnvironment
+from phonic.agents import AgentsUpdatePhoneNumberRequestConfigurationEndpoint
 
 client = Phonic(
-    api_key="YOUR_API_KEY",
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
 )
+
 client.agents.update_phone_number(
     name_or_id="nameOrId",
     project="main",
     phone_number="+15551234567",
-    configuration_endpoint={
-        "url": "https://api.example.com/config",
-        "headers": {"Authorization": "Bearer token123"},
-        "timeout_ms": 7000,
-    },
+    configuration_endpoint=AgentsUpdatePhoneNumberRequestConfigurationEndpoint(
+        url="https://api.example.com/config",
+        headers={
+            "Authorization": "Bearer token123"
+        },
+        timeout_ms=7000,
+    ),
 )
 
 ```
@@ -1513,7 +1359,7 @@ client.agents.update_phone_number(
 <dl>
 <dd>
 
-**configuration_endpoint:** `typing.Optional[AgentsUpdatePhoneNumberRequestConfigurationEndpointParams]` — When not `null`, the agent will call this endpoint to get configuration options for calls on this phone number.
+**configuration_endpoint:** `typing.Optional[AgentsUpdatePhoneNumberRequestConfigurationEndpoint]` — When not `null`, the agent will call this endpoint to get configuration options for calls on this phone number.
     
 </dd>
 </dl>
@@ -1534,7 +1380,7 @@ client.agents.update_phone_number(
 </details>
 
 ## Tools
-<details><summary><code>client.tools.<a href="src/phonic/tools/client.py">list</a>(...) -&gt; AsyncHttpResponse[ToolsListResponse]</code></summary>
+<details><summary><code>client.tools.<a href="src/phonic/tools/client.py">list</a>(...) -> ToolsListResponse</code></summary>
 <dl>
 <dd>
 
@@ -1562,10 +1408,13 @@ Returns all custom tools for the organization.
 
 ```python
 from phonic import Phonic
+from phonic.environment import PhonicEnvironment
 
 client = Phonic(
-    api_key="YOUR_API_KEY",
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
 )
+
 client.tools.list(
     project="main",
 )
@@ -1604,7 +1453,7 @@ client.tools.list(
 </dl>
 </details>
 
-<details><summary><code>client.tools.<a href="src/phonic/tools/client.py">create</a>(...) -&gt; AsyncHttpResponse[ToolsCreateResponse]</code></summary>
+<details><summary><code>client.tools.<a href="src/phonic/tools/client.py">create</a>(...) -> ToolsCreateResponse</code></summary>
 <dl>
 <dd>
 
@@ -1631,19 +1480,31 @@ Creates a new tool in a project.
 <dd>
 
 ```python
-from phonic import Phonic
+from phonic import Phonic, ToolParameter
+from phonic.environment import PhonicEnvironment
 
 client = Phonic(
-    api_key="YOUR_API_KEY",
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
 )
+
 client.tools.create(
     project="main",
-    name="transfer_to_specialist",
-    description="Transfers the caller to a specialist agent",
-    type="built_in_transfer_to_agent",
+    name="context_printer",
+    description="Gets the specific context for fixing our printer",
+    type="custom_context",
     execution_mode="sync",
-    agents_to_transfer_to=["sales-agent", "support-agent", "technical-agent"],
+    parameters=[
+        ToolParameter(
+            type="string",
+            name="name",
+            description="description",
+            is_required=True,
+        )
+    ],
     require_speech_before_tool_call=False,
+    forbid_speech_after_tool_call=False,
+    allow_tool_chaining=True,
 )
 
 ```
@@ -1700,7 +1561,7 @@ client.tools.create(
 <dl>
 <dd>
 
-**parameters:** `typing.Optional[typing.Sequence[ToolParameterParams]]` 
+**parameters:** `typing.Optional[typing.List[ToolParameter]]` 
 
 Array of parameter definitions.
 For `custom_webhook` tools with POST method, each parameter must include a `location` field.
@@ -1785,7 +1646,7 @@ For `custom_websocket`, `built_in_transfer_to_phone_number`, and `built_in_trans
 <dl>
 <dd>
 
-**agents_to_transfer_to:** `typing.Optional[typing.Sequence[str]]` — Array of agent names that the LLM can choose from when transferring. Required for built_in_transfer_to_agent tools. All agents must exist in the same project as the tool.
+**agents_to_transfer_to:** `typing.Optional[typing.List[str]]` — Array of agent names that the LLM can choose from when transferring. Required for built_in_transfer_to_agent tools. All agents must exist in the same project as the tool.
     
 </dd>
 </dl>
@@ -1845,7 +1706,7 @@ For `custom_websocket`, `built_in_transfer_to_phone_number`, and `built_in_trans
 </dl>
 </details>
 
-<details><summary><code>client.tools.<a href="src/phonic/tools/client.py">get</a>(...) -&gt; AsyncHttpResponse[ToolsGetResponse]</code></summary>
+<details><summary><code>client.tools.<a href="src/phonic/tools/client.py">get</a>(...) -> ToolsGetResponse</code></summary>
 <dl>
 <dd>
 
@@ -1873,10 +1734,13 @@ Returns a tool by name or ID.
 
 ```python
 from phonic import Phonic
+from phonic.environment import PhonicEnvironment
 
 client = Phonic(
-    api_key="YOUR_API_KEY",
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
 )
+
 client.tools.get(
     name_or_id="nameOrId",
     project="main",
@@ -1924,7 +1788,7 @@ client.tools.get(
 </dl>
 </details>
 
-<details><summary><code>client.tools.<a href="src/phonic/tools/client.py">delete</a>(...) -&gt; AsyncHttpResponse[ToolsDeleteResponse]</code></summary>
+<details><summary><code>client.tools.<a href="src/phonic/tools/client.py">delete</a>(...) -> ToolsDeleteResponse</code></summary>
 <dl>
 <dd>
 
@@ -1952,10 +1816,13 @@ Deletes a tool by name or ID.
 
 ```python
 from phonic import Phonic
+from phonic.environment import PhonicEnvironment
 
 client = Phonic(
-    api_key="YOUR_API_KEY",
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
 )
+
 client.tools.delete(
     name_or_id="nameOrId",
     project="main",
@@ -2003,7 +1870,7 @@ client.tools.delete(
 </dl>
 </details>
 
-<details><summary><code>client.tools.<a href="src/phonic/tools/client.py">update</a>(...) -&gt; AsyncHttpResponse[ToolsUpdateResponse]</code></summary>
+<details><summary><code>client.tools.<a href="src/phonic/tools/client.py">update</a>(...) -> ToolsUpdateResponse</code></summary>
 <dl>
 <dd>
 
@@ -2031,15 +1898,20 @@ Updates a tool by name or ID.
 
 ```python
 from phonic import Phonic
+from phonic.environment import PhonicEnvironment
 
 client = Phonic(
-    api_key="YOUR_API_KEY",
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
 )
+
 client.tools.update(
     name_or_id="nameOrId",
     project="main",
     description="Updated description for booking appointments with enhanced features",
-    endpoint_headers={"Authorization": "Bearer updated_token456"},
+    endpoint_headers={
+        "Authorization": "Bearer updated_token456"
+    },
     endpoint_timeout_ms=7000,
 )
 
@@ -2105,7 +1977,7 @@ client.tools.update(
 <dl>
 <dd>
 
-**parameters:** `typing.Optional[typing.Sequence[ToolParameterParams]]` 
+**parameters:** `typing.Optional[typing.List[ToolParameter]]` 
 
 Array of parameter definitions.
 When updating `type` or `endpoint_method`, all parameters must include explicit `location` values.
@@ -2190,7 +2062,7 @@ For `custom_websocket`, `built_in_transfer_to_phone_number`, and `built_in_trans
 <dl>
 <dd>
 
-**agents_to_transfer_to:** `typing.Optional[typing.Sequence[str]]` — Array of agent names that the LLM can choose from when transferring. All agents must exist in the same project as the tool.
+**agents_to_transfer_to:** `typing.Optional[typing.List[str]]` — Array of agent names that the LLM can choose from when transferring. All agents must exist in the same project as the tool.
     
 </dd>
 </dl>
@@ -2251,7 +2123,7 @@ For `custom_websocket`, `built_in_transfer_to_phone_number`, and `built_in_trans
 </details>
 
 ## ExtractionSchemas
-<details><summary><code>client.extraction_schemas.<a href="src/phonic/extraction_schemas/client.py">list</a>(...) -&gt; AsyncHttpResponse[ExtractionSchemasListResponse]</code></summary>
+<details><summary><code>client.extraction_schemas.<a href="src/phonic/extraction_schemas/client.py">list</a>(...) -> ExtractionSchemasListResponse</code></summary>
 <dl>
 <dd>
 
@@ -2279,10 +2151,13 @@ Returns all extraction schemas in a project.
 
 ```python
 from phonic import Phonic
+from phonic.environment import PhonicEnvironment
 
 client = Phonic(
-    api_key="YOUR_API_KEY",
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
 )
+
 client.extraction_schemas.list(
     project="main",
 )
@@ -2321,7 +2196,7 @@ client.extraction_schemas.list(
 </dl>
 </details>
 
-<details><summary><code>client.extraction_schemas.<a href="src/phonic/extraction_schemas/client.py">create</a>(...) -&gt; AsyncHttpResponse[ExtractionSchemasCreateResponse]</code></summary>
+<details><summary><code>client.extraction_schemas.<a href="src/phonic/extraction_schemas/client.py">create</a>(...) -> ExtractionSchemasCreateResponse</code></summary>
 <dl>
 <dd>
 
@@ -2348,31 +2223,34 @@ Creates a new extraction schema in a project.
 <dd>
 
 ```python
-from phonic import Phonic
+from phonic import Phonic, ExtractionField
+from phonic.environment import PhonicEnvironment
 
 client = Phonic(
-    api_key="YOUR_API_KEY",
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
 )
+
 client.extraction_schemas.create(
     project="main",
     name="Appointment details",
     prompt="Dates should be in `9 Apr 2025` format. Prices should be in $150.00 format.",
     fields=[
-        {
-            "name": "Date",
-            "type": "string",
-            "description": "The date of the appointment",
-        },
-        {
-            "name": "Copay",
-            "type": "string",
-            "description": "Amount of money the patient pays for the appointment",
-        },
-        {
-            "name": "Confirmed as booked",
-            "type": "bool",
-            "description": "Is the appointment confirmed as booked?",
-        },
+        ExtractionField(
+            name="Date",
+            type="string",
+            description="The date of the appointment",
+        ),
+        ExtractionField(
+            name="Copay",
+            type="string",
+            description="Amount of money the patient pays for the appointment",
+        ),
+        ExtractionField(
+            name="Confirmed as booked",
+            type="bool",
+            description="Is the appointment confirmed as booked?",
+        )
     ],
 )
 
@@ -2406,7 +2284,7 @@ client.extraction_schemas.create(
 <dl>
 <dd>
 
-**fields:** `typing.Sequence[ExtractionFieldParams]` — Array of field definitions.
+**fields:** `typing.List[ExtractionField]` — Array of field definitions.
     
 </dd>
 </dl>
@@ -2434,7 +2312,7 @@ client.extraction_schemas.create(
 </dl>
 </details>
 
-<details><summary><code>client.extraction_schemas.<a href="src/phonic/extraction_schemas/client.py">get</a>(...) -&gt; AsyncHttpResponse[ExtractionSchemasGetResponse]</code></summary>
+<details><summary><code>client.extraction_schemas.<a href="src/phonic/extraction_schemas/client.py">get</a>(...) -> ExtractionSchemasGetResponse</code></summary>
 <dl>
 <dd>
 
@@ -2462,10 +2340,13 @@ Returns an extraction schema by name or ID.
 
 ```python
 from phonic import Phonic
+from phonic.environment import PhonicEnvironment
 
 client = Phonic(
-    api_key="YOUR_API_KEY",
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
 )
+
 client.extraction_schemas.get(
     name_or_id="nameOrId",
     project="main",
@@ -2513,7 +2394,7 @@ client.extraction_schemas.get(
 </dl>
 </details>
 
-<details><summary><code>client.extraction_schemas.<a href="src/phonic/extraction_schemas/client.py">delete</a>(...) -&gt; AsyncHttpResponse[ExtractionSchemasDeleteResponse]</code></summary>
+<details><summary><code>client.extraction_schemas.<a href="src/phonic/extraction_schemas/client.py">delete</a>(...) -> ExtractionSchemasDeleteResponse</code></summary>
 <dl>
 <dd>
 
@@ -2541,10 +2422,13 @@ Deletes an extraction schema by name or ID.
 
 ```python
 from phonic import Phonic
+from phonic.environment import PhonicEnvironment
 
 client = Phonic(
-    api_key="YOUR_API_KEY",
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
 )
+
 client.extraction_schemas.delete(
     name_or_id="nameOrId",
     project="main",
@@ -2592,7 +2476,7 @@ client.extraction_schemas.delete(
 </dl>
 </details>
 
-<details><summary><code>client.extraction_schemas.<a href="src/phonic/extraction_schemas/client.py">update</a>(...) -&gt; AsyncHttpResponse[ExtractionSchemasUpdateResponse]</code></summary>
+<details><summary><code>client.extraction_schemas.<a href="src/phonic/extraction_schemas/client.py">update</a>(...) -> ExtractionSchemasUpdateResponse</code></summary>
 <dl>
 <dd>
 
@@ -2619,27 +2503,30 @@ Updates an extraction schema by name or ID.
 <dd>
 
 ```python
-from phonic import Phonic
+from phonic import Phonic, ExtractionField
+from phonic.environment import PhonicEnvironment
 
 client = Phonic(
-    api_key="YOUR_API_KEY",
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
 )
+
 client.extraction_schemas.update(
     name_or_id="nameOrId",
     project="main",
     name="Updated appointment details",
     prompt="Updated extraction instructions. Dates should be in `9 Apr 2025` format.",
     fields=[
-        {
-            "name": "Date",
-            "type": "string",
-            "description": "The date of the appointment",
-        },
-        {
-            "name": "Time",
-            "type": "string",
-            "description": "The time of the appointment",
-        },
+        ExtractionField(
+            name="Date",
+            type="string",
+            description="The date of the appointment",
+        ),
+        ExtractionField(
+            name="Time",
+            type="string",
+            description="The time of the appointment",
+        )
     ],
 )
 
@@ -2689,7 +2576,7 @@ client.extraction_schemas.update(
 <dl>
 <dd>
 
-**fields:** `typing.Optional[typing.Sequence[ExtractionFieldParams]]` — Array of field definitions.
+**fields:** `typing.Optional[typing.List[ExtractionField]]` — Array of field definitions.
     
 </dd>
 </dl>
@@ -2710,7 +2597,7 @@ client.extraction_schemas.update(
 </details>
 
 ## Voices
-<details><summary><code>client.voices.<a href="src/phonic/voices/client.py">list</a>() -&gt; AsyncHttpResponse[VoicesListResponse]</code></summary>
+<details><summary><code>client.voices.<a href="src/phonic/voices/client.py">list</a>(...) -> VoicesListResponse</code></summary>
 <dl>
 <dd>
 
@@ -2738,11 +2625,16 @@ Returns all available voices for a model.
 
 ```python
 from phonic import Phonic
+from phonic.environment import PhonicEnvironment
 
 client = Phonic(
-    api_key="YOUR_API_KEY",
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
 )
-client.voices.list()
+
+client.voices.list(
+    model="merritt",
+)
 
 ```
 </dd>
@@ -2754,6 +2646,14 @@ client.voices.list()
 
 <dl>
 <dd>
+
+<dl>
+<dd>
+
+**model:** `typing.Literal` — The model to get voices for.
+    
+</dd>
+</dl>
 
 <dl>
 <dd>
@@ -2770,7 +2670,7 @@ client.voices.list()
 </dl>
 </details>
 
-<details><summary><code>client.voices.<a href="src/phonic/voices/client.py">get</a>(...) -&gt; AsyncHttpResponse[VoicesGetResponse]</code></summary>
+<details><summary><code>client.voices.<a href="src/phonic/voices/client.py">get</a>(...) -> VoicesGetResponse</code></summary>
 <dl>
 <dd>
 
@@ -2798,10 +2698,13 @@ Returns a voice by ID.
 
 ```python
 from phonic import Phonic
+from phonic.environment import PhonicEnvironment
 
 client = Phonic(
-    api_key="YOUR_API_KEY",
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
 )
+
 client.voices.get(
     id="id",
 )
@@ -2841,7 +2744,7 @@ client.voices.get(
 </details>
 
 ## Conversations
-<details><summary><code>client.conversations.<a href="src/phonic/conversations/client.py">list</a>(...) -&gt; AsyncHttpResponse[ConversationsListResponse]</code></summary>
+<details><summary><code>client.conversations.<a href="src/phonic/conversations/client.py">list</a>(...) -> ConversationsListResponse</code></summary>
 <dl>
 <dd>
 
@@ -2869,10 +2772,13 @@ Returns conversations with optional filtering.
 
 ```python
 from phonic import Phonic
+from phonic.environment import PhonicEnvironment
 
 client = Phonic(
-    api_key="YOUR_API_KEY",
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
 )
+
 client.conversations.list()
 
 ```
@@ -2973,7 +2879,7 @@ client.conversations.list()
 </dl>
 </details>
 
-<details><summary><code>client.conversations.<a href="src/phonic/conversations/client.py">get</a>(...) -&gt; AsyncHttpResponse[ConversationsGetResponse]</code></summary>
+<details><summary><code>client.conversations.<a href="src/phonic/conversations/client.py">get</a>(...) -> ConversationsGetResponse</code></summary>
 <dl>
 <dd>
 
@@ -3001,10 +2907,13 @@ Returns a conversation by ID.
 
 ```python
 from phonic import Phonic
+from phonic.environment import PhonicEnvironment
 
 client = Phonic(
-    api_key="YOUR_API_KEY",
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
 )
+
 client.conversations.get(
     id="id",
 )
@@ -3043,7 +2952,7 @@ client.conversations.get(
 </dl>
 </details>
 
-<details><summary><code>client.conversations.<a href="src/phonic/conversations/client.py">cancel</a>(...) -&gt; AsyncHttpResponse[ConversationsCancelResponse]</code></summary>
+<details><summary><code>client.conversations.<a href="src/phonic/conversations/client.py">cancel</a>(...) -> ConversationsCancelResponse</code></summary>
 <dl>
 <dd>
 
@@ -3071,10 +2980,13 @@ Cancels an active conversation.
 
 ```python
 from phonic import Phonic
+from phonic.environment import PhonicEnvironment
 
 client = Phonic(
-    api_key="YOUR_API_KEY",
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
 )
+
 client.conversations.cancel(
     id="id",
 )
@@ -3113,7 +3025,7 @@ client.conversations.cancel(
 </dl>
 </details>
 
-<details><summary><code>client.conversations.<a href="src/phonic/conversations/client.py">get_analysis</a>(...) -&gt; AsyncHttpResponse[ConversationsGetAnalysisResponse]</code></summary>
+<details><summary><code>client.conversations.<a href="src/phonic/conversations/client.py">get_analysis</a>(...) -> ConversationsGetAnalysisResponse</code></summary>
 <dl>
 <dd>
 
@@ -3141,10 +3053,13 @@ Returns an analysis of the specified conversation.
 
 ```python
 from phonic import Phonic
+from phonic.environment import PhonicEnvironment
 
 client = Phonic(
-    api_key="YOUR_API_KEY",
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
 )
+
 client.conversations.get_analysis(
     id="id",
 )
@@ -3183,7 +3098,7 @@ client.conversations.get_analysis(
 </dl>
 </details>
 
-<details><summary><code>client.conversations.<a href="src/phonic/conversations/client.py">list_extractions</a>(...) -&gt; AsyncHttpResponse[ConversationsListExtractionsResponse]</code></summary>
+<details><summary><code>client.conversations.<a href="src/phonic/conversations/client.py">list_extractions</a>(...) -> ConversationsListExtractionsResponse</code></summary>
 <dl>
 <dd>
 
@@ -3211,10 +3126,13 @@ Returns all extractions for a conversation.
 
 ```python
 from phonic import Phonic
+from phonic.environment import PhonicEnvironment
 
 client = Phonic(
-    api_key="YOUR_API_KEY",
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
 )
+
 client.conversations.list_extractions(
     id="id",
 )
@@ -3253,7 +3171,7 @@ client.conversations.list_extractions(
 </dl>
 </details>
 
-<details><summary><code>client.conversations.<a href="src/phonic/conversations/client.py">extract_data</a>(...) -&gt; AsyncHttpResponse[ConversationsExtractDataResponse]</code></summary>
+<details><summary><code>client.conversations.<a href="src/phonic/conversations/client.py">extract_data</a>(...) -> ConversationsExtractDataResponse</code></summary>
 <dl>
 <dd>
 
@@ -3281,10 +3199,13 @@ Extracts data from a conversation using a schema.
 
 ```python
 from phonic import Phonic
+from phonic.environment import PhonicEnvironment
 
 client = Phonic(
-    api_key="YOUR_API_KEY",
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
 )
+
 client.conversations.extract_data(
     id="id",
     schema_id="conv_extract_schema_6458e4ac-533c-4bdf-8e6d-c2f06f87fd5c",
@@ -3332,7 +3253,7 @@ client.conversations.extract_data(
 </dl>
 </details>
 
-<details><summary><code>client.conversations.<a href="src/phonic/conversations/client.py">list_evaluations</a>(...) -&gt; AsyncHttpResponse[ConversationsListEvaluationsResponse]</code></summary>
+<details><summary><code>client.conversations.<a href="src/phonic/conversations/client.py">list_evaluations</a>(...) -> ConversationsListEvaluationsResponse</code></summary>
 <dl>
 <dd>
 
@@ -3360,10 +3281,13 @@ Returns all evaluations for a conversation.
 
 ```python
 from phonic import Phonic
+from phonic.environment import PhonicEnvironment
 
 client = Phonic(
-    api_key="YOUR_API_KEY",
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
 )
+
 client.conversations.list_evaluations(
     id="id",
 )
@@ -3402,7 +3326,7 @@ client.conversations.list_evaluations(
 </dl>
 </details>
 
-<details><summary><code>client.conversations.<a href="src/phonic/conversations/client.py">evaluate</a>(...) -&gt; AsyncHttpResponse[ConversationEvaluationResult]</code></summary>
+<details><summary><code>client.conversations.<a href="src/phonic/conversations/client.py">evaluate</a>(...) -> ConversationEvaluationResult</code></summary>
 <dl>
 <dd>
 
@@ -3430,10 +3354,13 @@ Evaluates a conversation using an evaluation prompt.
 
 ```python
 from phonic import Phonic
+from phonic.environment import PhonicEnvironment
 
 client = Phonic(
-    api_key="YOUR_API_KEY",
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
 )
+
 client.conversations.evaluate(
     id="id",
     prompt_id="conv_eval_prompt_d7cfe45d-35db-4ef6-a254-81ab1da76ce0",
@@ -3481,7 +3408,7 @@ client.conversations.evaluate(
 </dl>
 </details>
 
-<details><summary><code>client.conversations.<a href="src/phonic/conversations/client.py">outbound_call</a>(...) -&gt; AsyncHttpResponse[ConversationsOutboundCallResponse]</code></summary>
+<details><summary><code>client.conversations.<a href="src/phonic/conversations/client.py">outbound_call</a>(...) -> ConversationsOutboundCallResponse</code></summary>
 <dl>
 <dd>
 
@@ -3508,27 +3435,41 @@ Initiates a call to a given phone number using Phonic's Twilio account.
 <dd>
 
 ```python
-from phonic import Phonic
+from phonic import Phonic, OutboundCallConfig
+from phonic.environment import PhonicEnvironment
 
 client = Phonic(
-    api_key="YOUR_API_KEY",
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
 )
+
 client.conversations.outbound_call(
     to_phone_number="+19189397081",
-    config={
-        "agent": "support-agent",
-        "welcome_message": "Hi {{customer_name}}. How can I help you today?",
-        "system_prompt": "You are an expert in {{subject}}. Be friendly, helpful and concise.",
-        "template_variables": {"customer_name": "David", "subject": "Chess"},
-        "voice_id": "sabrina",
-        "generate_no_input_poke_text": False,
-        "no_input_poke_sec": 30,
-        "no_input_poke_text": "Are you still there?",
-        "no_input_end_conversation_sec": 180,
-        "languages": ["en", "es"],
-        "boosted_keywords": ["Load ID", "dispatch"],
-        "tools": [],
-    },
+    config=OutboundCallConfig(
+        agent="support-agent",
+        welcome_message="Hi {{customer_name}}. How can I help you today?",
+        system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
+        template_variables={
+            "customer_name": "David",
+            "subject": "Chess"
+        },
+        voice_id="sabrina",
+        generate_no_input_poke_text=False,
+        no_input_poke_sec=30,
+        no_input_poke_text="Are you still there?",
+        no_input_end_conversation_sec=180,
+        languages=[
+            "en",
+            "es"
+        ],
+        boosted_keywords=[
+            "Load ID",
+            "dispatch"
+        ],
+        tools=[
+            "keypad_input"
+        ],
+    ),
 )
 
 ```
@@ -3553,7 +3494,7 @@ client.conversations.outbound_call(
 <dl>
 <dd>
 
-**config:** `typing.Optional[OutboundCallConfigParams]` 
+**config:** `typing.Optional[OutboundCallConfig]` 
     
 </dd>
 </dl>
@@ -3573,7 +3514,7 @@ client.conversations.outbound_call(
 </dl>
 </details>
 
-<details><summary><code>client.conversations.<a href="src/phonic/conversations/client.py">sip_outbound_call</a>(...) -&gt; AsyncHttpResponse[ConversationsSipOutboundCallResponse]</code></summary>
+<details><summary><code>client.conversations.<a href="src/phonic/conversations/client.py">sip_outbound_call</a>(...) -> ConversationsSipOutboundCallResponse</code></summary>
 <dl>
 <dd>
 
@@ -3601,10 +3542,13 @@ Initiates a SIP outbound call using user-supplied SIP credentials in headers.
 
 ```python
 from phonic import Phonic
+from phonic.environment import PhonicEnvironment
 
 client = Phonic(
-    api_key="YOUR_API_KEY",
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
 )
+
 client.conversations.sip_outbound_call(
     sip_address="X-Sip-Address",
     from_phone_number="from_phone_number",
@@ -3665,7 +3609,7 @@ client.conversations.sip_outbound_call(
 <dl>
 <dd>
 
-**config:** `typing.Optional[OutboundCallConfigParams]` 
+**config:** `typing.Optional[OutboundCallConfig]` 
     
 </dd>
 </dl>
@@ -3686,7 +3630,7 @@ client.conversations.sip_outbound_call(
 </details>
 
 ## Auth
-<details><summary><code>client.auth.<a href="src/phonic/auth/client.py">create_session_token</a>(...) -&gt; AsyncHttpResponse[AuthCreateSessionTokenResponse]</code></summary>
+<details><summary><code>client.auth.<a href="src/phonic/auth/client.py">create_session_token</a>(...) -> AuthCreateSessionTokenResponse</code></summary>
 <dl>
 <dd>
 
@@ -3714,10 +3658,13 @@ Creates a short-lived session token that can be used to authenticate WebSocket c
 
 ```python
 from phonic import Phonic
+from phonic.environment import PhonicEnvironment
 
 client = Phonic(
-    api_key="YOUR_API_KEY",
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
 )
+
 client.auth.create_session_token(
     ttl_seconds=300,
 )
@@ -3757,7 +3704,7 @@ client.auth.create_session_token(
 </details>
 
 ## Projects
-<details><summary><code>client.projects.<a href="src/phonic/projects/client.py">list</a>() -&gt; AsyncHttpResponse[ProjectsListResponse]</code></summary>
+<details><summary><code>client.projects.<a href="src/phonic/projects/client.py">list</a>() -> ProjectsListResponse</code></summary>
 <dl>
 <dd>
 
@@ -3785,10 +3732,13 @@ Returns all projects in a workspace.
 
 ```python
 from phonic import Phonic
+from phonic.environment import PhonicEnvironment
 
 client = Phonic(
-    api_key="YOUR_API_KEY",
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
 )
+
 client.projects.list()
 
 ```
@@ -3817,7 +3767,7 @@ client.projects.list()
 </dl>
 </details>
 
-<details><summary><code>client.projects.<a href="src/phonic/projects/client.py">create</a>(...) -&gt; AsyncHttpResponse[ProjectsCreateResponse]</code></summary>
+<details><summary><code>client.projects.<a href="src/phonic/projects/client.py">create</a>(...) -> ProjectsCreateResponse</code></summary>
 <dl>
 <dd>
 
@@ -3845,10 +3795,13 @@ Creates a new project in a workspace.
 
 ```python
 from phonic import Phonic
+from phonic.environment import PhonicEnvironment
 
 client = Phonic(
-    api_key="YOUR_API_KEY",
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
 )
+
 client.projects.create(
     name="customer-support",
 )
@@ -3887,7 +3840,7 @@ client.projects.create(
 </dl>
 </details>
 
-<details><summary><code>client.projects.<a href="src/phonic/projects/client.py">get</a>(...) -&gt; AsyncHttpResponse[ProjectsGetResponse]</code></summary>
+<details><summary><code>client.projects.<a href="src/phonic/projects/client.py">get</a>(...) -> ProjectsGetResponse</code></summary>
 <dl>
 <dd>
 
@@ -3915,10 +3868,13 @@ Returns a project by name or ID.
 
 ```python
 from phonic import Phonic
+from phonic.environment import PhonicEnvironment
 
 client = Phonic(
-    api_key="YOUR_API_KEY",
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
 )
+
 client.projects.get(
     name_or_id="nameOrId",
 )
@@ -3957,7 +3913,7 @@ client.projects.get(
 </dl>
 </details>
 
-<details><summary><code>client.projects.<a href="src/phonic/projects/client.py">delete</a>(...) -&gt; AsyncHttpResponse[ProjectsDeleteResponse]</code></summary>
+<details><summary><code>client.projects.<a href="src/phonic/projects/client.py">delete</a>(...) -> ProjectsDeleteResponse</code></summary>
 <dl>
 <dd>
 
@@ -3985,10 +3941,13 @@ Deletes a project by name or ID.
 
 ```python
 from phonic import Phonic
+from phonic.environment import PhonicEnvironment
 
 client = Phonic(
-    api_key="YOUR_API_KEY",
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
 )
+
 client.projects.delete(
     name_or_id="nameOrId",
 )
@@ -4027,7 +3986,7 @@ client.projects.delete(
 </dl>
 </details>
 
-<details><summary><code>client.projects.<a href="src/phonic/projects/client.py">update</a>(...) -&gt; AsyncHttpResponse[ProjectsUpdateResponse]</code></summary>
+<details><summary><code>client.projects.<a href="src/phonic/projects/client.py">update</a>(...) -> ProjectsUpdateResponse</code></summary>
 <dl>
 <dd>
 
@@ -4055,10 +4014,13 @@ Updates a project by name or ID.
 
 ```python
 from phonic import Phonic
+from phonic.environment import PhonicEnvironment
 
 client = Phonic(
-    api_key="YOUR_API_KEY",
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
 )
+
 client.projects.update(
     name_or_id="nameOrId",
     name="updated-customer-support",
@@ -4115,7 +4077,7 @@ client.projects.update(
 </dl>
 </details>
 
-<details><summary><code>client.projects.<a href="src/phonic/projects/client.py">list_eval_prompts</a>(...) -&gt; AsyncHttpResponse[ProjectsListEvalPromptsResponse]</code></summary>
+<details><summary><code>client.projects.<a href="src/phonic/projects/client.py">list_eval_prompts</a>(...) -> ProjectsListEvalPromptsResponse</code></summary>
 <dl>
 <dd>
 
@@ -4143,10 +4105,13 @@ Returns all conversation evaluation prompts for a project.
 
 ```python
 from phonic import Phonic
+from phonic.environment import PhonicEnvironment
 
 client = Phonic(
-    api_key="YOUR_API_KEY",
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
 )
+
 client.projects.list_eval_prompts(
     id="id",
 )
@@ -4185,7 +4150,7 @@ client.projects.list_eval_prompts(
 </dl>
 </details>
 
-<details><summary><code>client.projects.<a href="src/phonic/projects/client.py">create_eval_prompt</a>(...) -&gt; AsyncHttpResponse[ProjectsCreateEvalPromptResponse]</code></summary>
+<details><summary><code>client.projects.<a href="src/phonic/projects/client.py">create_eval_prompt</a>(...) -> ProjectsCreateEvalPromptResponse</code></summary>
 <dl>
 <dd>
 
@@ -4213,10 +4178,13 @@ Creates a new conversation evaluation prompt for a project.
 
 ```python
 from phonic import Phonic
+from phonic.environment import PhonicEnvironment
 
 client = Phonic(
-    api_key="YOUR_API_KEY",
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
 )
+
 client.projects.create_eval_prompt(
     id="id",
     name="test_prompt",
