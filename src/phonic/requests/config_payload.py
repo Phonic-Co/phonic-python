@@ -5,6 +5,7 @@ import typing
 import typing_extensions
 from ..types.config_payload_background_noise import ConfigPayloadBackgroundNoise
 from ..types.config_payload_input_format import ConfigPayloadInputFormat
+from ..types.config_payload_multilingual_mode import ConfigPayloadMultilingualMode
 from ..types.config_payload_output_format import ConfigPayloadOutputFormat
 from .config_payload_tools_item import ConfigPayloadToolsItemParams
 
@@ -111,9 +112,19 @@ class ConfigPayloadParams(typing_extensions.TypedDict):
     Seconds of silence before ending conversation
     """
 
-    recognized_languages: typing_extensions.NotRequired[typing.Sequence[str]]
+    default_language: typing_extensions.NotRequired[str]
     """
-    Array of ISO 639-1 language codes that the agent should be able to recognize
+    ISO 639-1 language code that sets the agent's default language to recognize and speak. Welcome message and no input poke text should be in this language.
+    """
+
+    additional_languages: typing_extensions.NotRequired[typing.Sequence[str]]
+    """
+    Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`.
+    """
+
+    multilingual_mode: typing_extensions.NotRequired[ConfigPayloadMultilingualMode]
+    """
+    If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended).
     """
 
     boosted_keywords: typing_extensions.NotRequired[typing.Sequence[str]]

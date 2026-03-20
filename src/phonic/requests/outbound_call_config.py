@@ -4,6 +4,7 @@ import typing
 
 import typing_extensions
 from ..types.language_code import LanguageCode
+from ..types.outbound_call_config_multilingual_mode import OutboundCallConfigMultilingualMode
 from .outbound_call_config_tools_item import OutboundCallConfigToolsItemParams
 
 
@@ -62,9 +63,24 @@ class OutboundCallConfigParams(typing_extensions.TypedDict):
     Seconds of silence before ending the conversation.
     """
 
+    default_language: typing_extensions.NotRequired[LanguageCode]
+    """
+    ISO 639-1 language code that sets the agent's default language to recognize and speak. Welcome message and no input poke text should be in this language.
+    """
+
+    additional_languages: typing_extensions.NotRequired[typing.Sequence[LanguageCode]]
+    """
+    Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`.
+    """
+
     languages: typing_extensions.NotRequired[typing.Sequence[LanguageCode]]
     """
-    Array of ISO 639-1 language codes that the agent should be able to recognize
+    Array of ISO 639-1 language codes that the agent should be able to recognize. This field is deprecated. Use `default_language` and `additional_languages` instead.
+    """
+
+    multilingual_mode: typing_extensions.NotRequired[OutboundCallConfigMultilingualMode]
+    """
+    If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended).
     """
 
     boosted_keywords: typing_extensions.NotRequired[typing.Sequence[str]]

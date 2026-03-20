@@ -6,6 +6,7 @@ import pydantic
 from ..core.pydantic_utilities import IS_PYDANTIC_V2
 from ..core.unchecked_base_model import UncheckedBaseModel
 from .language_code import LanguageCode
+from .outbound_call_config_multilingual_mode import OutboundCallConfigMultilingualMode
 from .outbound_call_config_tools_item import OutboundCallConfigToolsItem
 
 
@@ -64,9 +65,24 @@ class OutboundCallConfig(UncheckedBaseModel):
     Seconds of silence before ending the conversation.
     """
 
+    default_language: typing.Optional[LanguageCode] = pydantic.Field(default=None)
+    """
+    ISO 639-1 language code that sets the agent's default language to recognize and speak. Welcome message and no input poke text should be in this language.
+    """
+
+    additional_languages: typing.Optional[typing.List[LanguageCode]] = pydantic.Field(default=None)
+    """
+    Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`.
+    """
+
     languages: typing.Optional[typing.List[LanguageCode]] = pydantic.Field(default=None)
     """
-    Array of ISO 639-1 language codes that the agent should be able to recognize
+    Array of ISO 639-1 language codes that the agent should be able to recognize. This field is deprecated. Use `default_language` and `additional_languages` instead.
+    """
+
+    multilingual_mode: typing.Optional[OutboundCallConfigMultilingualMode] = pydantic.Field(default=None)
+    """
+    If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended).
     """
 
     boosted_keywords: typing.Optional[typing.List[str]] = pydantic.Field(default=None)

@@ -131,10 +131,11 @@ client.agents.create(
     generate_no_input_poke_text=False,
     no_input_poke_sec=30,
     no_input_poke_text="Are you still there?",
-    languages=[
-        "en",
+    default_language="en",
+    additional_languages=[
         "es"
     ],
+    multilingual_mode="request",
     boosted_keywords=[
         "Load ID",
         "dispatch"
@@ -250,10 +251,11 @@ client.agents.upsert(
     generate_no_input_poke_text=False,
     no_input_poke_sec=30,
     no_input_poke_text="Are you still there?",
-    languages=[
-        "en",
+    default_language="en",
+    additional_languages=[
         "es"
     ],
+    multilingual_mode="request",
     boosted_keywords=[
         "Load ID",
         "dispatch"
@@ -449,7 +451,31 @@ client.agents.upsert(
 <dl>
 <dd>
 
-**languages:** `typing.Optional[typing.List[LanguageCode]]` — Array of ISO 639-1 language codes that the agent should be able to recognize
+**default_language:** `typing.Optional[LanguageCode]` — ISO 639-1 language code that sets the agent's default language to recognize and speak. Welcome message and no input poke text should be in this language.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**additional_languages:** `typing.Optional[typing.List[LanguageCode]]` — Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**languages:** `typing.Optional[typing.List[LanguageCode]]` — Array of ISO 639-1 language codes that the agent should be able to recognize. This field is deprecated. Use `default_language` and `additional_languages` instead.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**multilingual_mode:** `typing.Optional[CreateAgentRequestMultilingualMode]` — If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended).
     
 </dd>
 </dl>
@@ -759,10 +785,11 @@ client.agents.update(
     generate_no_input_poke_text=False,
     no_input_poke_sec=30,
     no_input_poke_text="Are you still there?",
-    languages=[
-        "en",
+    default_language="en",
+    additional_languages=[
         "es"
     ],
+    multilingual_mode="request",
     boosted_keywords=[
         "Load ID",
         "dispatch"
@@ -966,7 +993,31 @@ client.agents.update(
 <dl>
 <dd>
 
-**languages:** `typing.Optional[typing.List[LanguageCode]]` — Array of ISO 639-1 language codes that the agent should be able to recognize
+**default_language:** `typing.Optional[LanguageCode]` — ISO 639-1 language code that sets the agent's default language to recognize and speak. Welcome message and no input poke text should be in this language.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**additional_languages:** `typing.Optional[typing.List[LanguageCode]]` — Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**languages:** `typing.Optional[typing.List[LanguageCode]]` — Array of ISO 639-1 language codes that the agent should be able to recognize. This field is deprecated. Use `default_language` and `additional_languages` instead.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**multilingual_mode:** `typing.Optional[UpdateAgentRequestMultilingualMode]` — If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended).
     
 </dd>
 </dl>
@@ -3458,10 +3509,11 @@ client.conversations.outbound_call(
         no_input_poke_sec=30,
         no_input_poke_text="Are you still there?",
         no_input_end_conversation_sec=180,
-        languages=[
-            "en",
+        default_language="en",
+        additional_languages=[
             "es"
         ],
+        multilingual_mode="request",
         boosted_keywords=[
             "Load ID",
             "dispatch"

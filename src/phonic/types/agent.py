@@ -8,6 +8,7 @@ from ..core.unchecked_base_model import UncheckedBaseModel
 from .agent_audio_format import AgentAudioFormat
 from .agent_background_noise import AgentBackgroundNoise
 from .agent_configuration_endpoint import AgentConfigurationEndpoint
+from .agent_multilingual_mode import AgentMultilingualMode
 from .agent_project import AgentProject
 from .agent_template_variables_value import AgentTemplateVariablesValue
 from .agent_tools_item import AgentToolsItem
@@ -121,9 +122,24 @@ class Agent(UncheckedBaseModel):
     Seconds of silence before ending the conversation.
     """
 
-    languages: typing.List[LanguageCode] = pydantic.Field()
+    default_language: LanguageCode = pydantic.Field()
     """
-    Array of ISO 639-1 language codes that the agent should be able to recognize
+    ISO 639-1 language code that sets the agent's default language to recognize and speak. Welcome message and no input poke text should be in this language.
+    """
+
+    additional_languages: typing.List[LanguageCode] = pydantic.Field()
+    """
+    Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`.
+    """
+
+    languages: typing.Optional[typing.List[LanguageCode]] = pydantic.Field(default=None)
+    """
+    Array of ISO 639-1 language codes that the agent should be able to recognize. This field is deprecated. Use `default_language` and `additional_languages` instead.
+    """
+
+    multilingual_mode: AgentMultilingualMode = pydantic.Field()
+    """
+    If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended).
     """
 
     boosted_keywords: typing.List[str] = pydantic.Field()

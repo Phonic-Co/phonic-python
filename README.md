@@ -66,10 +66,11 @@ client.agents.create(
     generate_no_input_poke_text=False,
     no_input_poke_sec=30,
     no_input_poke_text="Are you still there?",
-    languages=[
-        "en",
+    default_language="en",
+    additional_languages=[
         "es"
     ],
+    multilingual_mode="request",
     boosted_keywords=[
         "Load ID",
         "dispatch"
@@ -124,10 +125,11 @@ async def main() -> None:
         generate_no_input_poke_text=False,
         no_input_poke_sec=30,
         no_input_poke_text="Are you still there?",
-        languages=[
-            "en",
+        default_language="en",
+        additional_languages=[
             "es"
         ],
+        multilingual_mode="request",
         boosted_keywords=[
             "Load ID",
             "dispatch"
