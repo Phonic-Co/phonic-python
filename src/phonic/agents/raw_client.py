@@ -24,6 +24,7 @@ from ..requests.task import TaskParams
 from ..types.basic_error import BasicError
 from ..types.create_agent_request_audio_format import CreateAgentRequestAudioFormat
 from ..types.create_agent_request_background_noise import CreateAgentRequestBackgroundNoise
+from ..types.create_agent_request_multilingual_mode import CreateAgentRequestMultilingualMode
 from ..types.create_agent_request_phone_number import CreateAgentRequestPhoneNumber
 from ..types.language_code import LanguageCode
 from .requests.agents_add_custom_phone_number_request_configuration_endpoint import (
@@ -46,6 +47,7 @@ from .types.agents_update_response import AgentsUpdateResponse
 from .types.agents_upsert_response import AgentsUpsertResponse
 from .types.update_agent_request_audio_format import UpdateAgentRequestAudioFormat
 from .types.update_agent_request_background_noise import UpdateAgentRequestBackgroundNoise
+from .types.update_agent_request_multilingual_mode import UpdateAgentRequestMultilingualMode
 from .types.update_agent_request_phone_number import UpdateAgentRequestPhoneNumber
 from pydantic import ValidationError
 
@@ -150,7 +152,10 @@ class RawAgentsClient:
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
+        default_language: typing.Optional[LanguageCode] = OMIT,
+        additional_languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
+        multilingual_mode: typing.Optional[CreateAgentRequestMultilingualMode] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
@@ -229,8 +234,17 @@ class RawAgentsClient:
         no_input_end_conversation_sec : typing.Optional[int]
             Seconds of silence before ending the conversation.
 
+        default_language : typing.Optional[LanguageCode]
+            ISO 639-1 language code that sets the agent's default language to recognize and speak. Welcome message and no input poke text should be in this language.
+
+        additional_languages : typing.Optional[typing.Sequence[LanguageCode]]
+            Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`.
+
         languages : typing.Optional[typing.Sequence[LanguageCode]]
-            Array of ISO 639-1 language codes that the agent should be able to recognize
+            Array of ISO 639-1 language codes that the agent should be able to recognize. This field is deprecated. Use `default_language` and `additional_languages` instead.
+
+        multilingual_mode : typing.Optional[CreateAgentRequestMultilingualMode]
+            If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended).
 
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
@@ -300,7 +314,10 @@ class RawAgentsClient:
                 "no_input_poke_sec": no_input_poke_sec,
                 "no_input_poke_text": no_input_poke_text,
                 "no_input_end_conversation_sec": no_input_end_conversation_sec,
+                "default_language": default_language,
+                "additional_languages": additional_languages,
                 "languages": languages,
+                "multilingual_mode": multilingual_mode,
                 "boosted_keywords": boosted_keywords,
                 "configuration_endpoint": convert_and_respect_annotation_metadata(
                     object_=configuration_endpoint,
@@ -407,7 +424,10 @@ class RawAgentsClient:
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
+        default_language: typing.Optional[LanguageCode] = OMIT,
+        additional_languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
+        multilingual_mode: typing.Optional[CreateAgentRequestMultilingualMode] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
@@ -486,8 +506,17 @@ class RawAgentsClient:
         no_input_end_conversation_sec : typing.Optional[int]
             Seconds of silence before ending the conversation.
 
+        default_language : typing.Optional[LanguageCode]
+            ISO 639-1 language code that sets the agent's default language to recognize and speak. Welcome message and no input poke text should be in this language.
+
+        additional_languages : typing.Optional[typing.Sequence[LanguageCode]]
+            Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`.
+
         languages : typing.Optional[typing.Sequence[LanguageCode]]
-            Array of ISO 639-1 language codes that the agent should be able to recognize
+            Array of ISO 639-1 language codes that the agent should be able to recognize. This field is deprecated. Use `default_language` and `additional_languages` instead.
+
+        multilingual_mode : typing.Optional[CreateAgentRequestMultilingualMode]
+            If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended).
 
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
@@ -557,7 +586,10 @@ class RawAgentsClient:
                 "no_input_poke_sec": no_input_poke_sec,
                 "no_input_poke_text": no_input_poke_text,
                 "no_input_end_conversation_sec": no_input_end_conversation_sec,
+                "default_language": default_language,
+                "additional_languages": additional_languages,
                 "languages": languages,
+                "multilingual_mode": multilingual_mode,
                 "boosted_keywords": boosted_keywords,
                 "configuration_endpoint": convert_and_respect_annotation_metadata(
                     object_=configuration_endpoint,
@@ -795,7 +827,10 @@ class RawAgentsClient:
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
+        default_language: typing.Optional[LanguageCode] = OMIT,
+        additional_languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
+        multilingual_mode: typing.Optional[UpdateAgentRequestMultilingualMode] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
         configuration_endpoint: typing.Optional[UpdateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
@@ -877,8 +912,17 @@ class RawAgentsClient:
         no_input_end_conversation_sec : typing.Optional[int]
             Seconds of silence before ending the conversation.
 
+        default_language : typing.Optional[LanguageCode]
+            ISO 639-1 language code that sets the agent's default language to recognize and speak. Welcome message and no input poke text should be in this language.
+
+        additional_languages : typing.Optional[typing.Sequence[LanguageCode]]
+            Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`.
+
         languages : typing.Optional[typing.Sequence[LanguageCode]]
-            Array of ISO 639-1 language codes that the agent should be able to recognize
+            Array of ISO 639-1 language codes that the agent should be able to recognize. This field is deprecated. Use `default_language` and `additional_languages` instead.
+
+        multilingual_mode : typing.Optional[UpdateAgentRequestMultilingualMode]
+            If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended).
 
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
@@ -948,7 +992,10 @@ class RawAgentsClient:
                 "no_input_poke_sec": no_input_poke_sec,
                 "no_input_poke_text": no_input_poke_text,
                 "no_input_end_conversation_sec": no_input_end_conversation_sec,
+                "default_language": default_language,
+                "additional_languages": additional_languages,
                 "languages": languages,
+                "multilingual_mode": multilingual_mode,
                 "boosted_keywords": boosted_keywords,
                 "configuration_endpoint": convert_and_respect_annotation_metadata(
                     object_=configuration_endpoint,
@@ -1511,7 +1558,10 @@ class AsyncRawAgentsClient:
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
+        default_language: typing.Optional[LanguageCode] = OMIT,
+        additional_languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
+        multilingual_mode: typing.Optional[CreateAgentRequestMultilingualMode] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
@@ -1590,8 +1640,17 @@ class AsyncRawAgentsClient:
         no_input_end_conversation_sec : typing.Optional[int]
             Seconds of silence before ending the conversation.
 
+        default_language : typing.Optional[LanguageCode]
+            ISO 639-1 language code that sets the agent's default language to recognize and speak. Welcome message and no input poke text should be in this language.
+
+        additional_languages : typing.Optional[typing.Sequence[LanguageCode]]
+            Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`.
+
         languages : typing.Optional[typing.Sequence[LanguageCode]]
-            Array of ISO 639-1 language codes that the agent should be able to recognize
+            Array of ISO 639-1 language codes that the agent should be able to recognize. This field is deprecated. Use `default_language` and `additional_languages` instead.
+
+        multilingual_mode : typing.Optional[CreateAgentRequestMultilingualMode]
+            If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended).
 
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
@@ -1661,7 +1720,10 @@ class AsyncRawAgentsClient:
                 "no_input_poke_sec": no_input_poke_sec,
                 "no_input_poke_text": no_input_poke_text,
                 "no_input_end_conversation_sec": no_input_end_conversation_sec,
+                "default_language": default_language,
+                "additional_languages": additional_languages,
                 "languages": languages,
+                "multilingual_mode": multilingual_mode,
                 "boosted_keywords": boosted_keywords,
                 "configuration_endpoint": convert_and_respect_annotation_metadata(
                     object_=configuration_endpoint,
@@ -1768,7 +1830,10 @@ class AsyncRawAgentsClient:
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
+        default_language: typing.Optional[LanguageCode] = OMIT,
+        additional_languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
+        multilingual_mode: typing.Optional[CreateAgentRequestMultilingualMode] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
@@ -1847,8 +1912,17 @@ class AsyncRawAgentsClient:
         no_input_end_conversation_sec : typing.Optional[int]
             Seconds of silence before ending the conversation.
 
+        default_language : typing.Optional[LanguageCode]
+            ISO 639-1 language code that sets the agent's default language to recognize and speak. Welcome message and no input poke text should be in this language.
+
+        additional_languages : typing.Optional[typing.Sequence[LanguageCode]]
+            Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`.
+
         languages : typing.Optional[typing.Sequence[LanguageCode]]
-            Array of ISO 639-1 language codes that the agent should be able to recognize
+            Array of ISO 639-1 language codes that the agent should be able to recognize. This field is deprecated. Use `default_language` and `additional_languages` instead.
+
+        multilingual_mode : typing.Optional[CreateAgentRequestMultilingualMode]
+            If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended).
 
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
@@ -1918,7 +1992,10 @@ class AsyncRawAgentsClient:
                 "no_input_poke_sec": no_input_poke_sec,
                 "no_input_poke_text": no_input_poke_text,
                 "no_input_end_conversation_sec": no_input_end_conversation_sec,
+                "default_language": default_language,
+                "additional_languages": additional_languages,
                 "languages": languages,
+                "multilingual_mode": multilingual_mode,
                 "boosted_keywords": boosted_keywords,
                 "configuration_endpoint": convert_and_respect_annotation_metadata(
                     object_=configuration_endpoint,
@@ -2156,7 +2233,10 @@ class AsyncRawAgentsClient:
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
+        default_language: typing.Optional[LanguageCode] = OMIT,
+        additional_languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
+        multilingual_mode: typing.Optional[UpdateAgentRequestMultilingualMode] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
         configuration_endpoint: typing.Optional[UpdateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
@@ -2238,8 +2318,17 @@ class AsyncRawAgentsClient:
         no_input_end_conversation_sec : typing.Optional[int]
             Seconds of silence before ending the conversation.
 
+        default_language : typing.Optional[LanguageCode]
+            ISO 639-1 language code that sets the agent's default language to recognize and speak. Welcome message and no input poke text should be in this language.
+
+        additional_languages : typing.Optional[typing.Sequence[LanguageCode]]
+            Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`.
+
         languages : typing.Optional[typing.Sequence[LanguageCode]]
-            Array of ISO 639-1 language codes that the agent should be able to recognize
+            Array of ISO 639-1 language codes that the agent should be able to recognize. This field is deprecated. Use `default_language` and `additional_languages` instead.
+
+        multilingual_mode : typing.Optional[UpdateAgentRequestMultilingualMode]
+            If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended).
 
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
@@ -2309,7 +2398,10 @@ class AsyncRawAgentsClient:
                 "no_input_poke_sec": no_input_poke_sec,
                 "no_input_poke_text": no_input_poke_text,
                 "no_input_end_conversation_sec": no_input_end_conversation_sec,
+                "default_language": default_language,
+                "additional_languages": additional_languages,
                 "languages": languages,
+                "multilingual_mode": multilingual_mode,
                 "boosted_keywords": boosted_keywords,
                 "configuration_endpoint": convert_and_respect_annotation_metadata(
                     object_=configuration_endpoint,

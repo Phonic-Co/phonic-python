@@ -7,6 +7,7 @@ from ..core.pydantic_utilities import IS_PYDANTIC_V2
 from ..core.unchecked_base_model import UncheckedBaseModel
 from .config_payload_background_noise import ConfigPayloadBackgroundNoise
 from .config_payload_input_format import ConfigPayloadInputFormat
+from .config_payload_multilingual_mode import ConfigPayloadMultilingualMode
 from .config_payload_output_format import ConfigPayloadOutputFormat
 from .config_payload_tools_item import ConfigPayloadToolsItem
 
@@ -113,9 +114,19 @@ class ConfigPayload(UncheckedBaseModel):
     Seconds of silence before ending conversation
     """
 
-    recognized_languages: typing.Optional[typing.List[str]] = pydantic.Field(default=None)
+    default_language: typing.Optional[str] = pydantic.Field(default=None)
     """
-    Array of ISO 639-1 language codes that the agent should be able to recognize
+    ISO 639-1 language code that sets the agent's default language to recognize and speak. Welcome message and no input poke text should be in this language.
+    """
+
+    additional_languages: typing.Optional[typing.List[str]] = pydantic.Field(default=None)
+    """
+    Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`.
+    """
+
+    multilingual_mode: typing.Optional[ConfigPayloadMultilingualMode] = pydantic.Field(default=None)
+    """
+    If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended).
     """
 
     boosted_keywords: typing.Optional[typing.List[str]] = pydantic.Field(default=None)

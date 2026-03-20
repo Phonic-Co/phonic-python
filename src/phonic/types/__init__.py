@@ -11,6 +11,7 @@ if typing.TYPE_CHECKING:
     from .agent_audio_format import AgentAudioFormat
     from .agent_background_noise import AgentBackgroundNoise
     from .agent_configuration_endpoint import AgentConfigurationEndpoint
+    from .agent_multilingual_mode import AgentMultilingualMode
     from .agent_project import AgentProject
     from .agent_template_variables_value import AgentTemplateVariablesValue
     from .agent_tools_item import AgentToolsItem
@@ -26,6 +27,7 @@ if typing.TYPE_CHECKING:
     from .config_payload import ConfigPayload
     from .config_payload_background_noise import ConfigPayloadBackgroundNoise
     from .config_payload_input_format import ConfigPayloadInputFormat
+    from .config_payload_multilingual_mode import ConfigPayloadMultilingualMode
     from .config_payload_output_format import ConfigPayloadOutputFormat
     from .config_payload_tools_item import ConfigPayloadToolsItem
     from .conversation import Conversation
@@ -48,12 +50,14 @@ if typing.TYPE_CHECKING:
     from .conversation_item_tool_calls_item import ConversationItemToolCallsItem
     from .conversation_item_tool_calls_item_request_body import ConversationItemToolCallsItemRequestBody
     from .conversation_item_tool_calls_item_tool import ConversationItemToolCallsItemTool
+    from .conversation_multilingual_mode import ConversationMultilingualMode
     from .conversation_origin import ConversationOrigin
     from .conversation_project import ConversationProject
     from .create_agent_request import CreateAgentRequest
     from .create_agent_request_audio_format import CreateAgentRequestAudioFormat
     from .create_agent_request_background_noise import CreateAgentRequestBackgroundNoise
     from .create_agent_request_configuration_endpoint import CreateAgentRequestConfigurationEndpoint
+    from .create_agent_request_multilingual_mode import CreateAgentRequestMultilingualMode
     from .create_agent_request_phone_number import CreateAgentRequestPhoneNumber
     from .create_agent_request_template_variables_value import CreateAgentRequestTemplateVariablesValue
     from .create_agent_request_tools_item import CreateAgentRequestToolsItem
@@ -69,6 +73,7 @@ if typing.TYPE_CHECKING:
     from .input_text_payload import InputTextPayload
     from .language_code import LanguageCode
     from .outbound_call_config import OutboundCallConfig
+    from .outbound_call_config_multilingual_mode import OutboundCallConfigMultilingualMode
     from .outbound_call_config_tools_item import OutboundCallConfigToolsItem
     from .project import Project
     from .project_default_agent import ProjectDefaultAgent
@@ -103,6 +108,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "AgentAudioFormat": ".agent_audio_format",
     "AgentBackgroundNoise": ".agent_background_noise",
     "AgentConfigurationEndpoint": ".agent_configuration_endpoint",
+    "AgentMultilingualMode": ".agent_multilingual_mode",
     "AgentProject": ".agent_project",
     "AgentTemplateVariablesValue": ".agent_template_variables_value",
     "AgentToolsItem": ".agent_tools_item",
@@ -118,6 +124,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ConfigPayload": ".config_payload",
     "ConfigPayloadBackgroundNoise": ".config_payload_background_noise",
     "ConfigPayloadInputFormat": ".config_payload_input_format",
+    "ConfigPayloadMultilingualMode": ".config_payload_multilingual_mode",
     "ConfigPayloadOutputFormat": ".config_payload_output_format",
     "ConfigPayloadToolsItem": ".config_payload_tools_item",
     "Conversation": ".conversation",
@@ -140,12 +147,14 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ConversationItemToolCallsItem": ".conversation_item_tool_calls_item",
     "ConversationItemToolCallsItemRequestBody": ".conversation_item_tool_calls_item_request_body",
     "ConversationItemToolCallsItemTool": ".conversation_item_tool_calls_item_tool",
+    "ConversationMultilingualMode": ".conversation_multilingual_mode",
     "ConversationOrigin": ".conversation_origin",
     "ConversationProject": ".conversation_project",
     "CreateAgentRequest": ".create_agent_request",
     "CreateAgentRequestAudioFormat": ".create_agent_request_audio_format",
     "CreateAgentRequestBackgroundNoise": ".create_agent_request_background_noise",
     "CreateAgentRequestConfigurationEndpoint": ".create_agent_request_configuration_endpoint",
+    "CreateAgentRequestMultilingualMode": ".create_agent_request_multilingual_mode",
     "CreateAgentRequestPhoneNumber": ".create_agent_request_phone_number",
     "CreateAgentRequestTemplateVariablesValue": ".create_agent_request_template_variables_value",
     "CreateAgentRequestToolsItem": ".create_agent_request_tools_item",
@@ -161,6 +170,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "InputTextPayload": ".input_text_payload",
     "LanguageCode": ".language_code",
     "OutboundCallConfig": ".outbound_call_config",
+    "OutboundCallConfigMultilingualMode": ".outbound_call_config_multilingual_mode",
     "OutboundCallConfigToolsItem": ".outbound_call_config_tools_item",
     "Project": ".project",
     "ProjectDefaultAgent": ".project_default_agent",
@@ -219,6 +229,7 @@ __all__ = [
     "AgentAudioFormat",
     "AgentBackgroundNoise",
     "AgentConfigurationEndpoint",
+    "AgentMultilingualMode",
     "AgentProject",
     "AgentTemplateVariablesValue",
     "AgentToolsItem",
@@ -234,6 +245,7 @@ __all__ = [
     "ConfigPayload",
     "ConfigPayloadBackgroundNoise",
     "ConfigPayloadInputFormat",
+    "ConfigPayloadMultilingualMode",
     "ConfigPayloadOutputFormat",
     "ConfigPayloadToolsItem",
     "Conversation",
@@ -256,12 +268,14 @@ __all__ = [
     "ConversationItemToolCallsItem",
     "ConversationItemToolCallsItemRequestBody",
     "ConversationItemToolCallsItemTool",
+    "ConversationMultilingualMode",
     "ConversationOrigin",
     "ConversationProject",
     "CreateAgentRequest",
     "CreateAgentRequestAudioFormat",
     "CreateAgentRequestBackgroundNoise",
     "CreateAgentRequestConfigurationEndpoint",
+    "CreateAgentRequestMultilingualMode",
     "CreateAgentRequestPhoneNumber",
     "CreateAgentRequestTemplateVariablesValue",
     "CreateAgentRequestToolsItem",
@@ -277,6 +291,7 @@ __all__ = [
     "InputTextPayload",
     "LanguageCode",
     "OutboundCallConfig",
+    "OutboundCallConfigMultilingualMode",
     "OutboundCallConfigToolsItem",
     "Project",
     "ProjectDefaultAgent",

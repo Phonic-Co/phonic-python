@@ -6,6 +6,7 @@ import typing
 import typing_extensions
 from ..types.conversation_background_noise import ConversationBackgroundNoise
 from ..types.conversation_ended_by import ConversationEndedBy
+from ..types.conversation_multilingual_mode import ConversationMultilingualMode
 from ..types.conversation_origin import ConversationOrigin
 from .conversation_agent import ConversationAgentParams
 from .conversation_analysis import ConversationAnalysisParams
@@ -130,9 +131,24 @@ class ConversationParams(typing_extensions.TypedDict):
     These words, or short phrases, are more accurately recognized by the model.
     """
 
-    languages: typing.Optional[typing.Sequence[str]]
+    default_language: str
     """
-    Array of ISO 639-1 language codes recognized by the model.
+    ISO 639-1 language code that sets the agent's default language to recognize and speak. Welcome message and no input poke text should be in this language.
+    """
+
+    additional_languages: typing.Optional[typing.Sequence[str]]
+    """
+    Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`.
+    """
+
+    multilingual_mode: ConversationMultilingualMode
+    """
+    If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended).
+    """
+
+    languages: typing_extensions.NotRequired[typing.Optional[typing.Sequence[str]]]
+    """
+    Array of ISO 639-1 language codes recognized by the model. This field is deprecated. Use `default_language` and `additional_languages` instead.
     """
 
     generate_no_input_poke_text: typing_extensions.NotRequired[typing.Optional[bool]]

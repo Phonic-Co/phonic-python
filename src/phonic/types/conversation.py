@@ -12,6 +12,7 @@ from .conversation_background_noise import ConversationBackgroundNoise
 from .conversation_call_info import ConversationCallInfo
 from .conversation_ended_by import ConversationEndedBy
 from .conversation_item import ConversationItem
+from .conversation_multilingual_mode import ConversationMultilingualMode
 from .conversation_origin import ConversationOrigin
 from .conversation_project import ConversationProject
 
@@ -132,9 +133,24 @@ class Conversation(UncheckedBaseModel):
     These words, or short phrases, are more accurately recognized by the model.
     """
 
+    default_language: str = pydantic.Field()
+    """
+    ISO 639-1 language code that sets the agent's default language to recognize and speak. Welcome message and no input poke text should be in this language.
+    """
+
+    additional_languages: typing.Optional[typing.List[str]] = pydantic.Field(default=None)
+    """
+    Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`.
+    """
+
+    multilingual_mode: ConversationMultilingualMode = pydantic.Field()
+    """
+    If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended).
+    """
+
     languages: typing.Optional[typing.List[str]] = pydantic.Field(default=None)
     """
-    Array of ISO 639-1 language codes recognized by the model.
+    Array of ISO 639-1 language codes recognized by the model. This field is deprecated. Use `default_language` and `additional_languages` instead.
     """
 
     generate_no_input_poke_text: typing.Optional[bool] = pydantic.Field(default=None)
