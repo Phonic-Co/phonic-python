@@ -72,7 +72,7 @@ class AsyncConversationsSocketClient(EventEmitterMixin):
                 yield message
             else:
                 try:
-                    yield construct_type(ConversationsSocketClientResponse, json.loads(message))  # type: ignore
+                    yield construct_type(type_=ConversationsSocketClientResponse, object_=json.loads(message))  # type: ignore
                 except Exception:
                     _logger.warning(
                         "Skipping unknown WebSocket message; update your SDK version to support new message types."
@@ -97,7 +97,7 @@ class AsyncConversationsSocketClient(EventEmitterMixin):
                 else:
                     json_data = json.loads(raw_message)
                     try:
-                        parsed = construct_type(ConversationsSocketClientResponse, json_data)  # type: ignore
+                        parsed = construct_type(type_=ConversationsSocketClientResponse, object_=json_data)  # type: ignore
                     except Exception:
                         _logger.warning(
                             "Skipping unknown WebSocket message; update your SDK version to support new message types."
@@ -167,7 +167,7 @@ class AsyncConversationsSocketClient(EventEmitterMixin):
             return data  # type: ignore
         json_data = json.loads(data)
         try:
-            return construct_type(ConversationsSocketClientResponse, json_data)  # type: ignore
+            return construct_type(type_=ConversationsSocketClientResponse, object_=json_data)  # type: ignore
         except Exception:
             _logger.warning("Skipping unknown WebSocket message; update your SDK version to support new message types.")
             return json_data  # type: ignore
@@ -198,7 +198,7 @@ class ConversationsSocketClient(EventEmitterMixin):
                 yield message
             else:
                 try:
-                    yield construct_type(ConversationsSocketClientResponse, json.loads(message))  # type: ignore
+                    yield construct_type(type_=ConversationsSocketClientResponse, object_=json.loads(message))  # type: ignore
                 except Exception:
                     _logger.warning(
                         "Skipping unknown WebSocket message; update your SDK version to support new message types."
@@ -223,7 +223,7 @@ class ConversationsSocketClient(EventEmitterMixin):
                 else:
                     json_data = json.loads(raw_message)
                     try:
-                        parsed = construct_type(ConversationsSocketClientResponse, json_data)  # type: ignore
+                        parsed = construct_type(type_=ConversationsSocketClientResponse, object_=json_data)  # type: ignore
                     except Exception:
                         _logger.warning(
                             "Skipping unknown WebSocket message; update your SDK version to support new message types."
@@ -293,7 +293,7 @@ class ConversationsSocketClient(EventEmitterMixin):
             return data  # type: ignore
         json_data = json.loads(data)
         try:
-            return construct_type(ConversationsSocketClientResponse, json_data)  # type: ignore
+            return construct_type(type_=ConversationsSocketClientResponse, object_=json_data)  # type: ignore
         except Exception:
             _logger.warning("Skipping unknown WebSocket message; update your SDK version to support new message types.")
             return json_data  # type: ignore
