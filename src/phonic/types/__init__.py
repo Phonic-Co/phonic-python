@@ -78,6 +78,7 @@ if typing.TYPE_CHECKING:
     from .project import Project
     from .project_default_agent import ProjectDefaultAgent
     from .ready_to_start_conversation_payload import ReadyToStartConversationPayload
+    from .say_payload import SayPayload
     from .set_external_id_payload import SetExternalIdPayload
     from .task import Task
     from .tool import Tool
@@ -175,6 +176,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "Project": ".project",
     "ProjectDefaultAgent": ".project_default_agent",
     "ReadyToStartConversationPayload": ".ready_to_start_conversation_payload",
+    "SayPayload": ".say_payload",
     "SetExternalIdPayload": ".set_external_id_payload",
     "Task": ".task",
     "Tool": ".tool",
@@ -296,6 +298,7 @@ __all__ = [
     "Project",
     "ProjectDefaultAgent",
     "ReadyToStartConversationPayload",
+    "SayPayload",
     "SetExternalIdPayload",
     "Task",
     "Tool",
