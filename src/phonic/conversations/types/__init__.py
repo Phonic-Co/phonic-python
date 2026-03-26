@@ -9,9 +9,11 @@ if typing.TYPE_CHECKING:
     from .conversations_cancel_response import ConversationsCancelResponse
     from .conversations_extract_data_response import ConversationsExtractDataResponse
     from .conversations_get_analysis_response import ConversationsGetAnalysisResponse
+    from .conversations_get_request_audio_container import ConversationsGetRequestAudioContainer
     from .conversations_get_response import ConversationsGetResponse
     from .conversations_list_evaluations_response import ConversationsListEvaluationsResponse
     from .conversations_list_extractions_response import ConversationsListExtractionsResponse
+    from .conversations_list_request_audio_container import ConversationsListRequestAudioContainer
     from .conversations_list_response import ConversationsListResponse
     from .conversations_list_response_conversation import ConversationsListResponseConversation
     from .conversations_list_response_conversations import ConversationsListResponseConversations
@@ -22,9 +24,11 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ConversationsCancelResponse": ".conversations_cancel_response",
     "ConversationsExtractDataResponse": ".conversations_extract_data_response",
     "ConversationsGetAnalysisResponse": ".conversations_get_analysis_response",
+    "ConversationsGetRequestAudioContainer": ".conversations_get_request_audio_container",
     "ConversationsGetResponse": ".conversations_get_response",
     "ConversationsListEvaluationsResponse": ".conversations_list_evaluations_response",
     "ConversationsListExtractionsResponse": ".conversations_list_extractions_response",
+    "ConversationsListRequestAudioContainer": ".conversations_list_request_audio_container",
     "ConversationsListResponse": ".conversations_list_response",
     "ConversationsListResponseConversation": ".conversations_list_response_conversation",
     "ConversationsListResponseConversations": ".conversations_list_response_conversations",
@@ -59,9 +63,11 @@ __all__ = [
     "ConversationsCancelResponse",
     "ConversationsExtractDataResponse",
     "ConversationsGetAnalysisResponse",
+    "ConversationsGetRequestAudioContainer",
     "ConversationsGetResponse",
     "ConversationsListEvaluationsResponse",
     "ConversationsListExtractionsResponse",
+    "ConversationsListRequestAudioContainer",
     "ConversationsListResponse",
     "ConversationsListResponseConversation",
     "ConversationsListResponseConversations",
