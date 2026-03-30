@@ -2918,6 +2918,14 @@ client.conversations.list()
 <dl>
 <dd>
 
+**audio_container:** `typing.Optional[ConversationsListRequestAudioContainer]` — Format of the presigned `audio_url` in each conversation in the response.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
     
 </dd>
@@ -2984,6 +2992,14 @@ client.conversations.get(
 <dd>
 
 **id:** `str` — The ID of the conversation to get.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**audio_container:** `typing.Optional[ConversationsGetRequestAudioContainer]` — Format of the presigned `audio_url` in the response.
     
 </dd>
 </dl>

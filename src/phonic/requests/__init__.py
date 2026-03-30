@@ -57,6 +57,7 @@ if typing.TYPE_CHECKING:
     from .project import ProjectParams
     from .project_default_agent import ProjectDefaultAgentParams
     from .ready_to_start_conversation_payload import ReadyToStartConversationPayloadParams
+    from .say_payload import SayPayloadParams
     from .set_external_id_payload import SetExternalIdPayloadParams
     from .task import TaskParams
     from .tool import ToolParams
@@ -127,6 +128,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ProjectDefaultAgentParams": ".project_default_agent",
     "ProjectParams": ".project",
     "ReadyToStartConversationPayloadParams": ".ready_to_start_conversation_payload",
+    "SayPayloadParams": ".say_payload",
     "SetExternalIdPayloadParams": ".set_external_id_payload",
     "TaskParams": ".task",
     "ToolCallInterruptedPayloadParams": ".tool_call_interrupted_payload",
@@ -221,6 +223,7 @@ __all__ = [
     "ProjectDefaultAgentParams",
     "ProjectParams",
     "ReadyToStartConversationPayloadParams",
+    "SayPayloadParams",
     "SetExternalIdPayloadParams",
     "TaskParams",
     "ToolCallInterruptedPayloadParams",

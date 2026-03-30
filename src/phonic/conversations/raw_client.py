@@ -36,9 +36,11 @@ from .websocket_connect import (
 from .types.conversations_cancel_response import ConversationsCancelResponse
 from .types.conversations_extract_data_response import ConversationsExtractDataResponse
 from .types.conversations_get_analysis_response import ConversationsGetAnalysisResponse
+from .types.conversations_get_request_audio_container import ConversationsGetRequestAudioContainer
 from .types.conversations_get_response import ConversationsGetResponse
 from .types.conversations_list_evaluations_response import ConversationsListEvaluationsResponse
 from .types.conversations_list_extractions_response import ConversationsListExtractionsResponse
+from .types.conversations_list_request_audio_container import ConversationsListRequestAudioContainer
 from .types.conversations_list_response import ConversationsListResponse
 from .types.conversations_outbound_call_response import ConversationsOutboundCallResponse
 from .types.conversations_sip_outbound_call_response import ConversationsSipOutboundCallResponse
@@ -64,6 +66,7 @@ class RawConversationsClient:
         before: typing.Optional[str] = None,
         after: typing.Optional[str] = None,
         limit: typing.Optional[int] = None,
+        audio_container: typing.Optional[ConversationsListRequestAudioContainer] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[ConversationsListResponse]:
         """
@@ -98,6 +101,9 @@ class RawConversationsClient:
         limit : typing.Optional[int]
             Maximum number of conversations to return per page.
 
+        audio_container : typing.Optional[ConversationsListRequestAudioContainer]
+            Format of the presigned `audio_url` in each conversation in the response.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -120,6 +126,7 @@ class RawConversationsClient:
                 "before": before,
                 "after": after,
                 "limit": limit,
+                "audio_container": audio_container,
             },
             request_options=request_options,
         )
@@ -198,7 +205,11 @@ class RawConversationsClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def get(
-        self, id: str, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        id: str,
+        *,
+        audio_container: typing.Optional[ConversationsGetRequestAudioContainer] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[ConversationsGetResponse]:
         """
         Returns a conversation by ID.
@@ -207,6 +218,9 @@ class RawConversationsClient:
         ----------
         id : str
             The ID of the conversation to get.
+
+        audio_container : typing.Optional[ConversationsGetRequestAudioContainer]
+            Format of the presigned `audio_url` in the response.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -220,6 +234,9 @@ class RawConversationsClient:
             f"conversations/{jsonable_encoder(id)}",
             base_url=self._client_wrapper.get_environment().base,
             method="GET",
+            params={
+                "audio_container": audio_container,
+            },
             request_options=request_options,
         )
         try:
@@ -1155,6 +1172,7 @@ class AsyncRawConversationsClient:
         before: typing.Optional[str] = None,
         after: typing.Optional[str] = None,
         limit: typing.Optional[int] = None,
+        audio_container: typing.Optional[ConversationsListRequestAudioContainer] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[ConversationsListResponse]:
         """
@@ -1189,6 +1207,9 @@ class AsyncRawConversationsClient:
         limit : typing.Optional[int]
             Maximum number of conversations to return per page.
 
+        audio_container : typing.Optional[ConversationsListRequestAudioContainer]
+            Format of the presigned `audio_url` in each conversation in the response.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -1211,6 +1232,7 @@ class AsyncRawConversationsClient:
                 "before": before,
                 "after": after,
                 "limit": limit,
+                "audio_container": audio_container,
             },
             request_options=request_options,
         )
@@ -1289,7 +1311,11 @@ class AsyncRawConversationsClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def get(
-        self, id: str, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        id: str,
+        *,
+        audio_container: typing.Optional[ConversationsGetRequestAudioContainer] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[ConversationsGetResponse]:
         """
         Returns a conversation by ID.
@@ -1298,6 +1324,9 @@ class AsyncRawConversationsClient:
         ----------
         id : str
             The ID of the conversation to get.
+
+        audio_container : typing.Optional[ConversationsGetRequestAudioContainer]
+            Format of the presigned `audio_url` in the response.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1311,6 +1340,9 @@ class AsyncRawConversationsClient:
             f"conversations/{jsonable_encoder(id)}",
             base_url=self._client_wrapper.get_environment().base,
             method="GET",
+            params={
+                "audio_container": audio_container,
+            },
             request_options=request_options,
         )
         try:

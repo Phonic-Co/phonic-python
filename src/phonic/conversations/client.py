@@ -19,9 +19,11 @@ from .websocket_connect import (
 from .types.conversations_cancel_response import ConversationsCancelResponse
 from .types.conversations_extract_data_response import ConversationsExtractDataResponse
 from .types.conversations_get_analysis_response import ConversationsGetAnalysisResponse
+from .types.conversations_get_request_audio_container import ConversationsGetRequestAudioContainer
 from .types.conversations_get_response import ConversationsGetResponse
 from .types.conversations_list_evaluations_response import ConversationsListEvaluationsResponse
 from .types.conversations_list_extractions_response import ConversationsListExtractionsResponse
+from .types.conversations_list_request_audio_container import ConversationsListRequestAudioContainer
 from .types.conversations_list_response import ConversationsListResponse
 from .types.conversations_outbound_call_response import ConversationsOutboundCallResponse
 from .types.conversations_sip_outbound_call_response import ConversationsSipOutboundCallResponse
@@ -57,6 +59,7 @@ class ConversationsClient:
         before: typing.Optional[str] = None,
         after: typing.Optional[str] = None,
         limit: typing.Optional[int] = None,
+        audio_container: typing.Optional[ConversationsListRequestAudioContainer] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ConversationsListResponse:
         """
@@ -91,6 +94,9 @@ class ConversationsClient:
         limit : typing.Optional[int]
             Maximum number of conversations to return per page.
 
+        audio_container : typing.Optional[ConversationsListRequestAudioContainer]
+            Format of the presigned `audio_url` in each conversation in the response.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -118,11 +124,18 @@ class ConversationsClient:
             before=before,
             after=after,
             limit=limit,
+            audio_container=audio_container,
             request_options=request_options,
         )
         return _response.data
 
-    def get(self, id: str, *, request_options: typing.Optional[RequestOptions] = None) -> ConversationsGetResponse:
+    def get(
+        self,
+        id: str,
+        *,
+        audio_container: typing.Optional[ConversationsGetRequestAudioContainer] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> ConversationsGetResponse:
         """
         Returns a conversation by ID.
 
@@ -130,6 +143,9 @@ class ConversationsClient:
         ----------
         id : str
             The ID of the conversation to get.
+
+        audio_container : typing.Optional[ConversationsGetRequestAudioContainer]
+            Format of the presigned `audio_url` in the response.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -150,7 +166,7 @@ class ConversationsClient:
             id="id",
         )
         """
-        _response = self._raw_client.get(id, request_options=request_options)
+        _response = self._raw_client.get(id, audio_container=audio_container, request_options=request_options)
         return _response.data
 
     def cancel(
@@ -553,6 +569,7 @@ class AsyncConversationsClient:
         before: typing.Optional[str] = None,
         after: typing.Optional[str] = None,
         limit: typing.Optional[int] = None,
+        audio_container: typing.Optional[ConversationsListRequestAudioContainer] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ConversationsListResponse:
         """
@@ -586,6 +603,9 @@ class AsyncConversationsClient:
 
         limit : typing.Optional[int]
             Maximum number of conversations to return per page.
+
+        audio_container : typing.Optional[ConversationsListRequestAudioContainer]
+            Format of the presigned `audio_url` in each conversation in the response.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -622,12 +642,17 @@ class AsyncConversationsClient:
             before=before,
             after=after,
             limit=limit,
+            audio_container=audio_container,
             request_options=request_options,
         )
         return _response.data
 
     async def get(
-        self, id: str, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        id: str,
+        *,
+        audio_container: typing.Optional[ConversationsGetRequestAudioContainer] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> ConversationsGetResponse:
         """
         Returns a conversation by ID.
@@ -636,6 +661,9 @@ class AsyncConversationsClient:
         ----------
         id : str
             The ID of the conversation to get.
+
+        audio_container : typing.Optional[ConversationsGetRequestAudioContainer]
+            Format of the presigned `audio_url` in the response.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -664,7 +692,7 @@ class AsyncConversationsClient:
 
         asyncio.run(main())
         """
-        _response = await self._raw_client.get(id, request_options=request_options)
+        _response = await self._raw_client.get(id, audio_container=audio_container, request_options=request_options)
         return _response.data
 
     async def cancel(
