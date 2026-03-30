@@ -191,6 +191,9 @@ class ReconnectableAsyncConversationsSocketClient(EventEmitterMixin):
     async def send_generate_reply(self, message: typing.Any) -> None:
         await self._inner.send_generate_reply(message)
 
+    async def send_say(self, message: typing.Any) -> None:
+        await self._inner.send_say(message)
+
 
 class ReconnectableConversationsSocketClient(EventEmitterMixin):
     """Sync conversations socket with automatic reconnect after close code 1006."""
@@ -333,3 +336,6 @@ class ReconnectableConversationsSocketClient(EventEmitterMixin):
 
     def send_generate_reply(self, message: typing.Any) -> None:
         self._inner.send_generate_reply(message)
+
+    def send_say(self, message: typing.Any) -> None:
+        self._inner.send_say(message)
