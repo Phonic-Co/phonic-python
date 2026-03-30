@@ -4,12 +4,7 @@ import typing_extensions
 
 
 class ConversationsSipOutboundCallResponseParams(typing_extensions.TypedDict):
-    conversation_id: str
+    dry_run: bool
     """
-    The ID of the created conversation.
-    """
-
-    twilio_call_sid: str
-    """
-    The Twilio Call SID.
+    Always true for this response.
     """

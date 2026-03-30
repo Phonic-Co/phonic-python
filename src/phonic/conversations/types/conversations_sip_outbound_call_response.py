@@ -8,14 +8,9 @@ from ...core.unchecked_base_model import UncheckedBaseModel
 
 
 class ConversationsSipOutboundCallResponse(UncheckedBaseModel):
-    conversation_id: str = pydantic.Field()
+    dry_run: bool = pydantic.Field()
     """
-    The ID of the created conversation.
-    """
-
-    twilio_call_sid: str = pydantic.Field()
-    """
-    The Twilio Call SID.
+    Always true for this response.
     """
 
     if IS_PYDANTIC_V2:

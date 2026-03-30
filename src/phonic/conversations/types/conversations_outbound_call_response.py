@@ -8,9 +8,9 @@ from ...core.unchecked_base_model import UncheckedBaseModel
 
 
 class ConversationsOutboundCallResponse(UncheckedBaseModel):
-    conversation_id: str = pydantic.Field()
+    dry_run: bool = pydantic.Field()
     """
-    The ID of the created conversation.
+    Always true for this response.
     """
 
     if IS_PYDANTIC_V2:

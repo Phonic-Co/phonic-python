@@ -4,7 +4,7 @@ import typing_extensions
 
 
 class ConversationsOutboundCallResponseParams(typing_extensions.TypedDict):
-    conversation_id: str
+    dry_run: bool
     """
-    The ID of the created conversation.
+    Always true for this response.
     """
