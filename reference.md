@@ -3538,6 +3538,7 @@ client.conversations.outbound_call(
             "keypad_input"
         ],
     ),
+    dry_run=False,
 )
 
 ```
@@ -3563,6 +3564,14 @@ client.conversations.outbound_call(
 <dd>
 
 **config:** `typing.Optional[OutboundCallConfig]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**dry_run:** `typing.Optional[bool]` — If true, validates the outbound call setup without placing a call. Returns HTTP 200 with `conversation_id` set to null.
     
 </dd>
 </dl>
@@ -3678,6 +3687,14 @@ client.conversations.sip_outbound_call(
 <dd>
 
 **config:** `typing.Optional[OutboundCallConfig]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**dry_run:** `typing.Optional[bool]` — If true, validates the outbound call setup without placing a call. Returns HTTP 200 with `conversation_id` and `twilio_call_sid` set to null.
     
 </dd>
 </dl>
