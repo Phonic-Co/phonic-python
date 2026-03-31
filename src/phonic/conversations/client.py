@@ -503,7 +503,6 @@ class ConversationsClient:
         *,
         downstream_websocket_url: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
-        websocket_reconnect_attempts: typing.Optional[int] = None,
     ) -> typing.Iterator[typing.Union[ConversationsSocketClient, ReconnectableConversationsSocketClient]]:
         """
         Main STS WebSocket channel for real-time voice conversations
@@ -516,21 +515,17 @@ class ConversationsClient:
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
-        websocket_reconnect_attempts : typing.Optional[int]
-            Max session reconnect attempts when reconnect_conversation_on_abnormal_disconnect is enabled. Defaults to 30.
 
         Returns
         -------
         ConversationsSocketClient
         """
         cw = self._raw_client._client_wrapper
-        max_attempts = 30 if websocket_reconnect_attempts is None else websocket_reconnect_attempts
         if cw._reconnect_conversation_on_abnormal_disconnect:
             with open_reconnectable_conversations_socket_sync(
                 cw,
                 downstream_websocket_url=downstream_websocket_url,
                 request_options=request_options,
-                max_reconnect_attempts=max_attempts,
             ) as socket:
                 yield socket
         else:
@@ -1096,7 +1091,6 @@ class AsyncConversationsClient:
         *,
         downstream_websocket_url: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
-        websocket_reconnect_attempts: typing.Optional[int] = None,
     ) -> typing.AsyncIterator[typing.Union[AsyncConversationsSocketClient, ReconnectableAsyncConversationsSocketClient]]:
         """
         Main STS WebSocket channel for real-time voice conversations
@@ -1109,21 +1103,17 @@ class AsyncConversationsClient:
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
-        websocket_reconnect_attempts : typing.Optional[int]
-            Max session reconnect attempts when reconnect_conversation_on_abnormal_disconnect is enabled. Defaults to 30.
 
         Returns
         -------
         AsyncConversationsSocketClient
         """
         cw = self._raw_client._client_wrapper
-        max_attempts = 30 if websocket_reconnect_attempts is None else websocket_reconnect_attempts
         if cw._reconnect_conversation_on_abnormal_disconnect:
             async with open_reconnectable_conversations_socket_async(
                 cw,
                 downstream_websocket_url=downstream_websocket_url,
                 request_options=request_options,
-                max_reconnect_attempts=max_attempts,
             ) as socket:
                 yield socket
         else:

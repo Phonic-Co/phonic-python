@@ -24,6 +24,8 @@ from ..core.request_options import RequestOptions
 from .socket_client import AsyncConversationsSocketClient, ConversationsSocketClient
 
 ABNORMAL_CLOSURE = 1006
+# Server close codes that mean the session is gone — stop retrying.
+TERMINAL_RECONNECT_CODES = {4800, 4801}
 BASE_RECONNECT_DELAY_SEC = 0.5
 MAX_RECONNECT_DELAY_SEC = 5.0
 
@@ -56,7 +58,6 @@ class ReconnectableAsyncConversationsSocketClient(EventEmitterMixin):
         client_wrapper: BaseClientWrapper,
         downstream_websocket_url: typing.Optional[str],
         request_options: typing.Optional[RequestOptions],
-        max_reconnect_attempts: int = 30,
     ) -> None:
         super().__init__()
         self._cm = initial_cm
@@ -64,7 +65,6 @@ class ReconnectableAsyncConversationsSocketClient(EventEmitterMixin):
         self._client_wrapper = client_wrapper
         self._downstream_websocket_url = downstream_websocket_url
         self._request_options = request_options
-        self._max_reconnect_attempts = max_reconnect_attempts
         self._conversation_id: typing.Optional[str] = None
         self._reconnect_attempts = 0
         self._user_closed = False
@@ -125,11 +125,12 @@ class ReconnectableAsyncConversationsSocketClient(EventEmitterMixin):
     async def _should_reconnect(self, exc: BaseException) -> bool:
         if self._user_closed:
             return False
-        if _close_code(exc) != ABNORMAL_CLOSURE:
+        code = _close_code(exc)
+        if code in TERMINAL_RECONNECT_CODES:
+            return False
+        if code != ABNORMAL_CLOSURE:
             return False
         if not self._conversation_id:
-            return False
-        if self._reconnect_attempts >= self._max_reconnect_attempts:
             return False
         return True
 
@@ -213,7 +214,6 @@ class ReconnectableConversationsSocketClient(EventEmitterMixin):
         client_wrapper: BaseClientWrapper,
         downstream_websocket_url: typing.Optional[str],
         request_options: typing.Optional[RequestOptions],
-        max_reconnect_attempts: int = 30,
     ) -> None:
         super().__init__()
         self._cm = initial_cm
@@ -221,7 +221,6 @@ class ReconnectableConversationsSocketClient(EventEmitterMixin):
         self._client_wrapper = client_wrapper
         self._downstream_websocket_url = downstream_websocket_url
         self._request_options = request_options
-        self._max_reconnect_attempts = max_reconnect_attempts
         self._conversation_id: typing.Optional[str] = None
         self._reconnect_attempts = 0
         self._user_closed = False
@@ -280,11 +279,12 @@ class ReconnectableConversationsSocketClient(EventEmitterMixin):
     def _should_reconnect(self, exc: BaseException) -> bool:
         if self._user_closed:
             return False
-        if _close_code(exc) != ABNORMAL_CLOSURE:
+        code = _close_code(exc)
+        if code in TERMINAL_RECONNECT_CODES:
+            return False
+        if code != ABNORMAL_CLOSURE:
             return False
         if not self._conversation_id:
-            return False
-        if self._reconnect_attempts >= self._max_reconnect_attempts:
             return False
         return True
 

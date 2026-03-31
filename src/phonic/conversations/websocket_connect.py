@@ -117,7 +117,6 @@ def open_reconnectable_conversations_socket_sync(
     *,
     downstream_websocket_url: typing.Optional[str] = None,
     request_options: typing.Optional[RequestOptions] = None,
-    max_reconnect_attempts: int = 30,
 ) -> typing.Iterator["ReconnectableConversationsSocketClient"]:
     from .reconnectable_socket_client import ReconnectableConversationsSocketClient
 
@@ -137,7 +136,6 @@ def open_reconnectable_conversations_socket_sync(
         client_wrapper=client_wrapper,
         downstream_websocket_url=downstream_websocket_url,
         request_options=request_options,
-        max_reconnect_attempts=max_reconnect_attempts,
     )
     try:
         yield client
@@ -151,7 +149,6 @@ async def open_reconnectable_conversations_socket_async(
     *,
     downstream_websocket_url: typing.Optional[str] = None,
     request_options: typing.Optional[RequestOptions] = None,
-    max_reconnect_attempts: int = 30,
 ) -> typing.AsyncIterator["ReconnectableAsyncConversationsSocketClient"]:
     from .reconnectable_socket_client import ReconnectableAsyncConversationsSocketClient
 
@@ -171,7 +168,6 @@ async def open_reconnectable_conversations_socket_async(
         client_wrapper=client_wrapper,
         downstream_websocket_url=downstream_websocket_url,
         request_options=request_options,
-        max_reconnect_attempts=max_reconnect_attempts,
     )
     try:
         yield client
