@@ -147,7 +147,14 @@ class ReconnectableAsyncConversationsSocketClient(EventEmitterMixin):
                 async with self._lock:
                     if self._user_closed:
                         raise exc
-                    await self._reconnect()
+                    try:
+                        await self._reconnect()
+                    except Exception:
+                        # Reconnection failed (e.g. network error, refused).
+                        # Loop will retry recv() on the (dead) inner socket,
+                        # which raises ConnectionClosed again, triggering
+                        # another reconnect attempt.
+                        pass
 
     async def __aiter__(self) -> typing.AsyncIterator[typing.Any]:
         while not self._user_closed:
@@ -294,7 +301,14 @@ class ReconnectableConversationsSocketClient(EventEmitterMixin):
                 time.sleep(_reconnect_delay_sec(self._reconnect_attempts))
                 if self._user_closed:
                     raise exc
-                self._reconnect()
+                try:
+                    self._reconnect()
+                except Exception:
+                    # Reconnection failed (e.g. network error, refused).
+                    # Loop will retry recv() on the (dead) inner socket,
+                    # which raises ConnectionClosed again, triggering
+                    # another reconnect attempt.
+                    pass
 
     def __iter__(self) -> typing.Iterator[typing.Any]:
         while not self._user_closed:
