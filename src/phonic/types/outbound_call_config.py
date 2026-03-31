@@ -90,6 +90,11 @@ class OutboundCallConfig(UncheckedBaseModel):
     These words, or short phrases, will be more accurately recognized by the agent.
     """
 
+    min_words_to_interrupt: typing.Optional[float] = pydantic.Field(default=None)
+    """
+    Minimum number of words required to interrupt the assistant.
+    """
+
     tools: typing.Optional[typing.List[OutboundCallConfigToolsItem]] = pydantic.Field(default=None)
     """
     Array of built-in or custom tool names to use.

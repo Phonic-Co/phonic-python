@@ -3,19 +3,19 @@
 import typing
 
 import pydantic
-from ...core.pydantic_utilities import IS_PYDANTIC_V2
-from ...core.unchecked_base_model import UncheckedBaseModel
+from ..core.pydantic_utilities import IS_PYDANTIC_V2
+from ..core.unchecked_base_model import UncheckedBaseModel
 
 
-class ConversationsSipOutboundCallResponse(UncheckedBaseModel):
-    conversation_id: str = pydantic.Field()
+class OutboundDryRunResponse(UncheckedBaseModel):
+    conversation_id: typing.Optional[typing.Any] = pydantic.Field(default=None)
     """
-    The ID of the created conversation.
+    Always null when `dry_run` is true.
     """
 
-    twilio_call_sid: str = pydantic.Field()
+    dry_run: typing.Literal[True] = pydantic.Field(default=True)
     """
-    The Twilio Call SID.
+    Always true for this response.
     """
 
     if IS_PYDANTIC_V2:

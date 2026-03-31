@@ -140,6 +140,7 @@ client.agents.create(
         "Load ID",
         "dispatch"
     ],
+    min_words_to_interrupt=1,
     configuration_endpoint=CreateAgentRequestConfigurationEndpoint(
         url="https://api.example.com/config",
         headers={
@@ -260,6 +261,7 @@ client.agents.upsert(
         "Load ID",
         "dispatch"
     ],
+    min_words_to_interrupt=1,
     configuration_endpoint=CreateAgentRequestConfigurationEndpoint(
         url="https://api.example.com/config",
         headers={
@@ -484,6 +486,14 @@ client.agents.upsert(
 <dd>
 
 **boosted_keywords:** `typing.Optional[typing.List[str]]` — These words, or short phrases, will be more accurately recognized by the agent.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**min_words_to_interrupt:** `typing.Optional[float]` — Minimum number of words required to interrupt the assistant.
     
 </dd>
 </dl>
@@ -794,6 +804,7 @@ client.agents.update(
         "Load ID",
         "dispatch"
     ],
+    min_words_to_interrupt=1,
     configuration_endpoint=UpdateAgentRequestConfigurationEndpoint(
         url="https://api.example.com/config",
         headers={
@@ -1026,6 +1037,14 @@ client.agents.update(
 <dd>
 
 **boosted_keywords:** `typing.Optional[typing.List[str]]` — These words, or short phrases, will be more accurately recognized by the agent.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**min_words_to_interrupt:** `typing.Optional[float]` — Minimum number of words required to interrupt the assistant.
     
 </dd>
 </dl>
@@ -3534,10 +3553,12 @@ client.conversations.outbound_call(
             "Load ID",
             "dispatch"
         ],
+        min_words_to_interrupt=1,
         tools=[
             "keypad_input"
         ],
     ),
+    dry_run=False,
 )
 
 ```
@@ -3570,6 +3591,14 @@ client.conversations.outbound_call(
 <dl>
 <dd>
 
+**dry_run:** `typing.Optional[bool]` — If true, validates the outbound call setup without placing a call. Returns HTTP 200 with `conversation_id` set to null.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
     
 </dd>
@@ -3582,7 +3611,7 @@ client.conversations.outbound_call(
 </dl>
 </details>
 
-<details><summary><code>client.conversations.<a href="src/phonic/conversations/client.py">sip_outbound_call</a>(...) -> ConversationsSipOutboundCallResponse</code></summary>
+<details><summary><code>client.conversations.<a href="src/phonic/conversations/client.py">sip_outbound_call</a>(...) -> SipOutboundDryRunResponse</code></summary>
 <dl>
 <dd>
 
@@ -3678,6 +3707,14 @@ client.conversations.sip_outbound_call(
 <dd>
 
 **config:** `typing.Optional[OutboundCallConfig]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**dry_run:** `typing.Optional[bool]` — If true, validates the outbound call setup without placing a call. Returns HTTP 200 with `conversation_id` and `twilio_call_sid` set to null.
     
 </dd>
 </dl>

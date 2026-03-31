@@ -14,6 +14,7 @@ from ..core.request_options import RequestOptions
 from ..core.websocket_compat import InvalidWebSocketStatus, get_status_code
 from ..requests.outbound_call_config import OutboundCallConfigParams
 from ..types.conversation_evaluation_result import ConversationEvaluationResult
+from ..types.sip_outbound_dry_run_response import SipOutboundDryRunResponse
 from .raw_client import AsyncRawConversationsClient, RawConversationsClient
 from .socket_client import AsyncConversationsSocketClient, ConversationsSocketClient
 from .types.conversations_cancel_response import ConversationsCancelResponse
@@ -26,7 +27,6 @@ from .types.conversations_list_extractions_response import ConversationsListExtr
 from .types.conversations_list_request_audio_container import ConversationsListRequestAudioContainer
 from .types.conversations_list_response import ConversationsListResponse
 from .types.conversations_outbound_call_response import ConversationsOutboundCallResponse
-from .types.conversations_sip_outbound_call_response import ConversationsSipOutboundCallResponse
 
 try:
     from websockets.legacy.client import connect as websockets_client_connect  # type: ignore
@@ -385,6 +385,7 @@ class ConversationsClient:
         *,
         to_phone_number: str,
         config: typing.Optional[OutboundCallConfigParams] = OMIT,
+        dry_run: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ConversationsOutboundCallResponse:
         """
@@ -397,13 +398,16 @@ class ConversationsClient:
 
         config : typing.Optional[OutboundCallConfigParams]
 
+        dry_run : typing.Optional[bool]
+            If true, validates the outbound call setup without placing a call. Returns HTTP 200 with `conversation_id` set to null.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
         ConversationsOutboundCallResponse
-            Success response
+            Dry run succeeded — configuration validated without placing a call
 
         Examples
         --------
@@ -428,12 +432,14 @@ class ConversationsClient:
                 "additional_languages": ["es"],
                 "multilingual_mode": "request",
                 "boosted_keywords": ["Load ID", "dispatch"],
+                "min_words_to_interrupt": 1.0,
                 "tools": [],
             },
+            dry_run=False,
         )
         """
         _response = self._raw_client.outbound_call(
-            to_phone_number=to_phone_number, config=config, request_options=request_options
+            to_phone_number=to_phone_number, config=config, dry_run=dry_run, request_options=request_options
         )
         return _response.data
 
@@ -446,8 +452,9 @@ class ConversationsClient:
         sip_auth_username: typing.Optional[str] = None,
         sip_auth_password: typing.Optional[str] = None,
         config: typing.Optional[OutboundCallConfigParams] = OMIT,
+        dry_run: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> ConversationsSipOutboundCallResponse:
+    ) -> SipOutboundDryRunResponse:
         """
         Initiates a SIP outbound call using user-supplied SIP credentials in headers.
 
@@ -470,13 +477,16 @@ class ConversationsClient:
 
         config : typing.Optional[OutboundCallConfigParams]
 
+        dry_run : typing.Optional[bool]
+            If true, validates the outbound call setup without placing a call. Returns HTTP 200 with `conversation_id` and `twilio_call_sid` set to null.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        ConversationsSipOutboundCallResponse
-            Success response
+        SipOutboundDryRunResponse
+            Dry run succeeded — configuration validated without placing a call
 
         Examples
         --------
@@ -498,6 +508,7 @@ class ConversationsClient:
             sip_auth_username=sip_auth_username,
             sip_auth_password=sip_auth_password,
             config=config,
+            dry_run=dry_run,
             request_options=request_options,
         )
         return _response.data
@@ -974,6 +985,7 @@ class AsyncConversationsClient:
         *,
         to_phone_number: str,
         config: typing.Optional[OutboundCallConfigParams] = OMIT,
+        dry_run: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ConversationsOutboundCallResponse:
         """
@@ -986,13 +998,16 @@ class AsyncConversationsClient:
 
         config : typing.Optional[OutboundCallConfigParams]
 
+        dry_run : typing.Optional[bool]
+            If true, validates the outbound call setup without placing a call. Returns HTTP 200 with `conversation_id` set to null.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
         ConversationsOutboundCallResponse
-            Success response
+            Dry run succeeded — configuration validated without placing a call
 
         Examples
         --------
@@ -1025,15 +1040,17 @@ class AsyncConversationsClient:
                     "additional_languages": ["es"],
                     "multilingual_mode": "request",
                     "boosted_keywords": ["Load ID", "dispatch"],
+                    "min_words_to_interrupt": 1.0,
                     "tools": [],
                 },
+                dry_run=False,
             )
 
 
         asyncio.run(main())
         """
         _response = await self._raw_client.outbound_call(
-            to_phone_number=to_phone_number, config=config, request_options=request_options
+            to_phone_number=to_phone_number, config=config, dry_run=dry_run, request_options=request_options
         )
         return _response.data
 
@@ -1046,8 +1063,9 @@ class AsyncConversationsClient:
         sip_auth_username: typing.Optional[str] = None,
         sip_auth_password: typing.Optional[str] = None,
         config: typing.Optional[OutboundCallConfigParams] = OMIT,
+        dry_run: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> ConversationsSipOutboundCallResponse:
+    ) -> SipOutboundDryRunResponse:
         """
         Initiates a SIP outbound call using user-supplied SIP credentials in headers.
 
@@ -1070,13 +1088,16 @@ class AsyncConversationsClient:
 
         config : typing.Optional[OutboundCallConfigParams]
 
+        dry_run : typing.Optional[bool]
+            If true, validates the outbound call setup without placing a call. Returns HTTP 200 with `conversation_id` and `twilio_call_sid` set to null.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        ConversationsSipOutboundCallResponse
-            Success response
+        SipOutboundDryRunResponse
+            Dry run succeeded — configuration validated without placing a call
 
         Examples
         --------
@@ -1106,6 +1127,7 @@ class AsyncConversationsClient:
             sip_auth_username=sip_auth_username,
             sip_auth_password=sip_auth_password,
             config=config,
+            dry_run=dry_run,
             request_options=request_options,
         )
         return _response.data

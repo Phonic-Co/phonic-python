@@ -19,7 +19,6 @@ if typing.TYPE_CHECKING:
         ConversationsListResponseConversationsPaginationParams,
     )
     from .conversations_outbound_call_response import ConversationsOutboundCallResponseParams
-    from .conversations_sip_outbound_call_response import ConversationsSipOutboundCallResponseParams
 _dynamic_imports: typing.Dict[str, str] = {
     "ConversationsCancelResponseParams": ".conversations_cancel_response",
     "ConversationsExtractDataResponseParams": ".conversations_extract_data_response",
@@ -32,7 +31,6 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ConversationsListResponseConversationsParams": ".conversations_list_response_conversations",
     "ConversationsListResponseParams": ".conversations_list_response",
     "ConversationsOutboundCallResponseParams": ".conversations_outbound_call_response",
-    "ConversationsSipOutboundCallResponseParams": ".conversations_sip_outbound_call_response",
 }
 
 
@@ -69,5 +67,4 @@ __all__ = [
     "ConversationsListResponseConversationsParams",
     "ConversationsListResponseParams",
     "ConversationsOutboundCallResponseParams",
-    "ConversationsSipOutboundCallResponseParams",
 ]

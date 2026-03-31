@@ -140,6 +140,11 @@ class CreateAgentRequestParams(typing_extensions.TypedDict):
     These words, or short phrases, will be more accurately recognized by the agent.
     """
 
+    min_words_to_interrupt: typing_extensions.NotRequired[float]
+    """
+    Minimum number of words required to interrupt the assistant.
+    """
+
     configuration_endpoint: typing_extensions.NotRequired[
         typing.Optional[CreateAgentRequestConfigurationEndpointParams]
     ]
