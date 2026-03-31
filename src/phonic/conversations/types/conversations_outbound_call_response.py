@@ -2,22 +2,7 @@
 
 import typing
 
-import pydantic
-from ...core.pydantic_utilities import IS_PYDANTIC_V2
-from ...core.unchecked_base_model import UncheckedBaseModel
+from ...types.outbound_call_initiated_response import OutboundCallInitiatedResponse
+from ...types.outbound_dry_run_response import OutboundDryRunResponse
 
-
-class ConversationsOutboundCallResponse(UncheckedBaseModel):
-    conversation_id: str = pydantic.Field()
-    """
-    The ID of the created conversation.
-    """
-
-    if IS_PYDANTIC_V2:
-        model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
-    else:
-
-        class Config:
-            frozen = True
-            smart_union = True
-            extra = pydantic.Extra.allow
+ConversationsOutboundCallResponse = typing.Union[OutboundDryRunResponse, OutboundCallInitiatedResponse]

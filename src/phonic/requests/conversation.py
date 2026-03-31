@@ -131,6 +131,11 @@ class ConversationParams(typing_extensions.TypedDict):
     These words, or short phrases, are more accurately recognized by the model.
     """
 
+    min_words_to_interrupt: float
+    """
+    Minimum number of words required to interrupt the assistant.
+    """
+
     default_language: str
     """
     ISO 639-1 language code that sets the agent's default language to recognize and speak. Welcome message and no input poke text should be in this language.

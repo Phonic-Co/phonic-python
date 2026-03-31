@@ -75,11 +75,15 @@ if typing.TYPE_CHECKING:
     from .outbound_call_config import OutboundCallConfig
     from .outbound_call_config_multilingual_mode import OutboundCallConfigMultilingualMode
     from .outbound_call_config_tools_item import OutboundCallConfigToolsItem
+    from .outbound_call_initiated_response import OutboundCallInitiatedResponse
+    from .outbound_dry_run_response import OutboundDryRunResponse
     from .project import Project
     from .project_default_agent import ProjectDefaultAgent
     from .ready_to_start_conversation_payload import ReadyToStartConversationPayload
     from .say_payload import SayPayload
     from .set_external_id_payload import SetExternalIdPayload
+    from .sip_outbound_call_initiated_response import SipOutboundCallInitiatedResponse
+    from .sip_outbound_dry_run_response import SipOutboundDryRunResponse
     from .task import Task
     from .tool import Tool
     from .tool_call_interrupted_payload import ToolCallInterruptedPayload
@@ -173,11 +177,15 @@ _dynamic_imports: typing.Dict[str, str] = {
     "OutboundCallConfig": ".outbound_call_config",
     "OutboundCallConfigMultilingualMode": ".outbound_call_config_multilingual_mode",
     "OutboundCallConfigToolsItem": ".outbound_call_config_tools_item",
+    "OutboundCallInitiatedResponse": ".outbound_call_initiated_response",
+    "OutboundDryRunResponse": ".outbound_dry_run_response",
     "Project": ".project",
     "ProjectDefaultAgent": ".project_default_agent",
     "ReadyToStartConversationPayload": ".ready_to_start_conversation_payload",
     "SayPayload": ".say_payload",
     "SetExternalIdPayload": ".set_external_id_payload",
+    "SipOutboundCallInitiatedResponse": ".sip_outbound_call_initiated_response",
+    "SipOutboundDryRunResponse": ".sip_outbound_dry_run_response",
     "Task": ".task",
     "Tool": ".tool",
     "ToolCallInterruptedPayload": ".tool_call_interrupted_payload",
@@ -295,11 +303,15 @@ __all__ = [
     "OutboundCallConfig",
     "OutboundCallConfigMultilingualMode",
     "OutboundCallConfigToolsItem",
+    "OutboundCallInitiatedResponse",
+    "OutboundDryRunResponse",
     "Project",
     "ProjectDefaultAgent",
     "ReadyToStartConversationPayload",
     "SayPayload",
     "SetExternalIdPayload",
+    "SipOutboundCallInitiatedResponse",
+    "SipOutboundDryRunResponse",
     "Task",
     "Tool",
     "ToolCallInterruptedPayload",
