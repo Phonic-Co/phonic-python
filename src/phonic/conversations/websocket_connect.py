@@ -126,8 +126,11 @@ def open_reconnectable_conversations_socket_sync(
         downstream_websocket_url=downstream_websocket_url,
         request_options=request_options,
     )
-    cm = websockets_sync_client.connect(ws_url, additional_headers=headers)
-    protocol = cm.__enter__()
+    try:
+        cm = websockets_sync_client.connect(ws_url, additional_headers=headers)
+        protocol = cm.__enter__()
+    except InvalidWebSocketStatus as exc:
+        _raise_api_error_for_invalid_websocket_status(exc, headers)
     client = ReconnectableConversationsSocketClient(
         initial_cm=cm,
         initial_protocol=protocol,
@@ -157,8 +160,11 @@ async def open_reconnectable_conversations_socket_async(
         downstream_websocket_url=downstream_websocket_url,
         request_options=request_options,
     )
-    cm = websockets_client_connect(ws_url, extra_headers=headers)
-    protocol = await cm.__aenter__()
+    try:
+        cm = websockets_client_connect(ws_url, extra_headers=headers)
+        protocol = await cm.__aenter__()
+    except InvalidWebSocketStatus as exc:
+        _raise_api_error_for_invalid_websocket_status(exc, headers)
     client = ReconnectableAsyncConversationsSocketClient(
         initial_cm=cm,
         initial_protocol=protocol,
