@@ -28,6 +28,10 @@ ABNORMAL_CLOSURE = 1006
 TERMINAL_RECONNECT_CODES = {4800, 4801}
 BASE_RECONNECT_DELAY_SEC = 0.5
 MAX_RECONNECT_DELAY_SEC = 5.0
+# Safety cap: stop retrying if the server is completely unreachable.
+# In normal operation the server's terminal codes (4800/4801) stop
+# retries much sooner (within the 10s grace period).
+_MAX_RECONNECT_ATTEMPTS = 30
 
 def _close_code(exc: BaseException) -> typing.Optional[int]:
     if isinstance(exc, ConnectionClosed):
@@ -131,6 +135,8 @@ class ReconnectableAsyncConversationsSocketClient(EventEmitterMixin):
         if code != ABNORMAL_CLOSURE:
             return False
         if not self._conversation_id:
+            return False
+        if self._reconnect_attempts >= _MAX_RECONNECT_ATTEMPTS:
             return False
         return True
 
@@ -285,6 +291,8 @@ class ReconnectableConversationsSocketClient(EventEmitterMixin):
         if code != ABNORMAL_CLOSURE:
             return False
         if not self._conversation_id:
+            return False
+        if self._reconnect_attempts >= _MAX_RECONNECT_ATTEMPTS:
             return False
         return True
 
