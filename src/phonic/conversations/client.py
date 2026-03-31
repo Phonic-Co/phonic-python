@@ -385,6 +385,7 @@ class ConversationsClient:
         *,
         to_phone_number: str,
         config: typing.Optional[OutboundCallConfigParams] = OMIT,
+        dry_run: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ConversationsOutboundCallResponse:
         """
@@ -396,6 +397,9 @@ class ConversationsClient:
             The phone number to call in E.164 format.
 
         config : typing.Optional[OutboundCallConfigParams]
+
+        dry_run : typing.Optional[bool]
+            If true, validates the outbound call setup without placing a call. Returns HTTP 200 with `conversation_id` set to null.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -428,12 +432,14 @@ class ConversationsClient:
                 "additional_languages": ["es"],
                 "multilingual_mode": "request",
                 "boosted_keywords": ["Load ID", "dispatch"],
+                "min_words_to_interrupt": 1.0,
                 "tools": [],
             },
+            dry_run=False,
         )
         """
         _response = self._raw_client.outbound_call(
-            to_phone_number=to_phone_number, config=config, request_options=request_options
+            to_phone_number=to_phone_number, config=config, dry_run=dry_run, request_options=request_options
         )
         return _response.data
 
@@ -446,6 +452,7 @@ class ConversationsClient:
         sip_auth_username: typing.Optional[str] = None,
         sip_auth_password: typing.Optional[str] = None,
         config: typing.Optional[OutboundCallConfigParams] = OMIT,
+        dry_run: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ConversationsSipOutboundCallResponse:
         """
@@ -469,6 +476,9 @@ class ConversationsClient:
             SIP auth password, if your provider requires it.
 
         config : typing.Optional[OutboundCallConfigParams]
+
+        dry_run : typing.Optional[bool]
+            If true, validates the outbound call setup without placing a call. Returns HTTP 200 with `conversation_id` and `twilio_call_sid` set to null.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -498,6 +508,7 @@ class ConversationsClient:
             sip_auth_username=sip_auth_username,
             sip_auth_password=sip_auth_password,
             config=config,
+            dry_run=dry_run,
             request_options=request_options,
         )
         return _response.data
@@ -974,6 +985,7 @@ class AsyncConversationsClient:
         *,
         to_phone_number: str,
         config: typing.Optional[OutboundCallConfigParams] = OMIT,
+        dry_run: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ConversationsOutboundCallResponse:
         """
@@ -985,6 +997,9 @@ class AsyncConversationsClient:
             The phone number to call in E.164 format.
 
         config : typing.Optional[OutboundCallConfigParams]
+
+        dry_run : typing.Optional[bool]
+            If true, validates the outbound call setup without placing a call. Returns HTTP 200 with `conversation_id` set to null.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1025,15 +1040,17 @@ class AsyncConversationsClient:
                     "additional_languages": ["es"],
                     "multilingual_mode": "request",
                     "boosted_keywords": ["Load ID", "dispatch"],
+                    "min_words_to_interrupt": 1.0,
                     "tools": [],
                 },
+                dry_run=False,
             )
 
 
         asyncio.run(main())
         """
         _response = await self._raw_client.outbound_call(
-            to_phone_number=to_phone_number, config=config, request_options=request_options
+            to_phone_number=to_phone_number, config=config, dry_run=dry_run, request_options=request_options
         )
         return _response.data
 
@@ -1046,6 +1063,7 @@ class AsyncConversationsClient:
         sip_auth_username: typing.Optional[str] = None,
         sip_auth_password: typing.Optional[str] = None,
         config: typing.Optional[OutboundCallConfigParams] = OMIT,
+        dry_run: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ConversationsSipOutboundCallResponse:
         """
@@ -1069,6 +1087,9 @@ class AsyncConversationsClient:
             SIP auth password, if your provider requires it.
 
         config : typing.Optional[OutboundCallConfigParams]
+
+        dry_run : typing.Optional[bool]
+            If true, validates the outbound call setup without placing a call. Returns HTTP 200 with `conversation_id` and `twilio_call_sid` set to null.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1106,6 +1127,7 @@ class AsyncConversationsClient:
             sip_auth_username=sip_auth_username,
             sip_auth_password=sip_auth_password,
             config=config,
+            dry_run=dry_run,
             request_options=request_options,
         )
         return _response.data

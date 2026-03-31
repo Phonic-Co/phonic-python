@@ -147,6 +147,11 @@ class Agent(UncheckedBaseModel):
     These words, or short phrases, will be more accurately recognized by the agent.
     """
 
+    min_words_to_interrupt: float = pydantic.Field()
+    """
+    Minimum number of words required to interrupt the assistant.
+    """
+
     configuration_endpoint: typing.Optional[AgentConfigurationEndpoint] = pydantic.Field(default=None)
     """
     When not `null`, the agent will call this endpoint to get configuration options.

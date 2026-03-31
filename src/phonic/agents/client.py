@@ -116,6 +116,7 @@ class AgentsClient:
         languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         multilingual_mode: typing.Optional[CreateAgentRequestMultilingualMode] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
+        min_words_to_interrupt: typing.Optional[float] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
@@ -208,6 +209,9 @@ class AgentsClient:
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
 
+        min_words_to_interrupt : typing.Optional[float]
+            Minimum number of words required to interrupt the assistant.
+
         configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpointParams]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
@@ -267,6 +271,7 @@ class AgentsClient:
             additional_languages=["es"],
             multilingual_mode="request",
             boosted_keywords=["Load ID", "dispatch"],
+            min_words_to_interrupt=1.0,
             configuration_endpoint={
                 "url": "https://api.example.com/config",
                 "headers": {"Authorization": "Bearer token123"},
@@ -301,6 +306,7 @@ class AgentsClient:
             languages=languages,
             multilingual_mode=multilingual_mode,
             boosted_keywords=boosted_keywords,
+            min_words_to_interrupt=min_words_to_interrupt,
             configuration_endpoint=configuration_endpoint,
             inbound_rollout=inbound_rollout,
             inbound_rollout_forward_phone_number=inbound_rollout_forward_phone_number,
@@ -341,6 +347,7 @@ class AgentsClient:
         languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         multilingual_mode: typing.Optional[CreateAgentRequestMultilingualMode] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
+        min_words_to_interrupt: typing.Optional[float] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
@@ -433,6 +440,9 @@ class AgentsClient:
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
 
+        min_words_to_interrupt : typing.Optional[float]
+            Minimum number of words required to interrupt the assistant.
+
         configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpointParams]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
@@ -492,6 +502,7 @@ class AgentsClient:
             additional_languages=["es"],
             multilingual_mode="request",
             boosted_keywords=["Load ID", "dispatch"],
+            min_words_to_interrupt=1.0,
             configuration_endpoint={
                 "url": "https://api.example.com/config",
                 "headers": {"Authorization": "Bearer token123"},
@@ -526,6 +537,7 @@ class AgentsClient:
             languages=languages,
             multilingual_mode=multilingual_mode,
             boosted_keywords=boosted_keywords,
+            min_words_to_interrupt=min_words_to_interrupt,
             configuration_endpoint=configuration_endpoint,
             inbound_rollout=inbound_rollout,
             inbound_rollout_forward_phone_number=inbound_rollout_forward_phone_number,
@@ -649,6 +661,7 @@ class AgentsClient:
         languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         multilingual_mode: typing.Optional[UpdateAgentRequestMultilingualMode] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
+        min_words_to_interrupt: typing.Optional[float] = OMIT,
         configuration_endpoint: typing.Optional[UpdateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
@@ -744,6 +757,9 @@ class AgentsClient:
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
 
+        min_words_to_interrupt : typing.Optional[float]
+            Minimum number of words required to interrupt the assistant.
+
         configuration_endpoint : typing.Optional[UpdateAgentRequestConfigurationEndpointParams]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
@@ -804,6 +820,7 @@ class AgentsClient:
             additional_languages=["es"],
             multilingual_mode="request",
             boosted_keywords=["Load ID", "dispatch"],
+            min_words_to_interrupt=1.0,
             configuration_endpoint={
                 "url": "https://api.example.com/config",
                 "headers": {"Authorization": "Bearer token123"},
@@ -839,6 +856,7 @@ class AgentsClient:
             languages=languages,
             multilingual_mode=multilingual_mode,
             boosted_keywords=boosted_keywords,
+            min_words_to_interrupt=min_words_to_interrupt,
             configuration_endpoint=configuration_endpoint,
             inbound_rollout=inbound_rollout,
             inbound_rollout_forward_phone_number=inbound_rollout_forward_phone_number,
@@ -1119,6 +1137,7 @@ class AsyncAgentsClient:
         languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         multilingual_mode: typing.Optional[CreateAgentRequestMultilingualMode] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
+        min_words_to_interrupt: typing.Optional[float] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
@@ -1211,6 +1230,9 @@ class AsyncAgentsClient:
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
 
+        min_words_to_interrupt : typing.Optional[float]
+            Minimum number of words required to interrupt the assistant.
+
         configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpointParams]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
@@ -1275,6 +1297,7 @@ class AsyncAgentsClient:
                 additional_languages=["es"],
                 multilingual_mode="request",
                 boosted_keywords=["Load ID", "dispatch"],
+                min_words_to_interrupt=1.0,
                 configuration_endpoint={
                     "url": "https://api.example.com/config",
                     "headers": {"Authorization": "Bearer token123"},
@@ -1312,6 +1335,7 @@ class AsyncAgentsClient:
             languages=languages,
             multilingual_mode=multilingual_mode,
             boosted_keywords=boosted_keywords,
+            min_words_to_interrupt=min_words_to_interrupt,
             configuration_endpoint=configuration_endpoint,
             inbound_rollout=inbound_rollout,
             inbound_rollout_forward_phone_number=inbound_rollout_forward_phone_number,
@@ -1352,6 +1376,7 @@ class AsyncAgentsClient:
         languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         multilingual_mode: typing.Optional[CreateAgentRequestMultilingualMode] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
+        min_words_to_interrupt: typing.Optional[float] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
@@ -1444,6 +1469,9 @@ class AsyncAgentsClient:
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
 
+        min_words_to_interrupt : typing.Optional[float]
+            Minimum number of words required to interrupt the assistant.
+
         configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpointParams]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
@@ -1508,6 +1536,7 @@ class AsyncAgentsClient:
                 additional_languages=["es"],
                 multilingual_mode="request",
                 boosted_keywords=["Load ID", "dispatch"],
+                min_words_to_interrupt=1.0,
                 configuration_endpoint={
                     "url": "https://api.example.com/config",
                     "headers": {"Authorization": "Bearer token123"},
@@ -1545,6 +1574,7 @@ class AsyncAgentsClient:
             languages=languages,
             multilingual_mode=multilingual_mode,
             boosted_keywords=boosted_keywords,
+            min_words_to_interrupt=min_words_to_interrupt,
             configuration_endpoint=configuration_endpoint,
             inbound_rollout=inbound_rollout,
             inbound_rollout_forward_phone_number=inbound_rollout_forward_phone_number,
@@ -1684,6 +1714,7 @@ class AsyncAgentsClient:
         languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         multilingual_mode: typing.Optional[UpdateAgentRequestMultilingualMode] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
+        min_words_to_interrupt: typing.Optional[float] = OMIT,
         configuration_endpoint: typing.Optional[UpdateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
@@ -1779,6 +1810,9 @@ class AsyncAgentsClient:
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
 
+        min_words_to_interrupt : typing.Optional[float]
+            Minimum number of words required to interrupt the assistant.
+
         configuration_endpoint : typing.Optional[UpdateAgentRequestConfigurationEndpointParams]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
@@ -1844,6 +1878,7 @@ class AsyncAgentsClient:
                 additional_languages=["es"],
                 multilingual_mode="request",
                 boosted_keywords=["Load ID", "dispatch"],
+                min_words_to_interrupt=1.0,
                 configuration_endpoint={
                     "url": "https://api.example.com/config",
                     "headers": {"Authorization": "Bearer token123"},
@@ -1882,6 +1917,7 @@ class AsyncAgentsClient:
             languages=languages,
             multilingual_mode=multilingual_mode,
             boosted_keywords=boosted_keywords,
+            min_words_to_interrupt=min_words_to_interrupt,
             configuration_endpoint=configuration_endpoint,
             inbound_rollout=inbound_rollout,
             inbound_rollout_forward_phone_number=inbound_rollout_forward_phone_number,

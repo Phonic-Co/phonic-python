@@ -157,6 +157,7 @@ class RawAgentsClient:
         languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         multilingual_mode: typing.Optional[CreateAgentRequestMultilingualMode] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
+        min_words_to_interrupt: typing.Optional[float] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
@@ -249,6 +250,9 @@ class RawAgentsClient:
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
 
+        min_words_to_interrupt : typing.Optional[float]
+            Minimum number of words required to interrupt the assistant.
+
         configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpointParams]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
@@ -319,6 +323,7 @@ class RawAgentsClient:
                 "languages": languages,
                 "multilingual_mode": multilingual_mode,
                 "boosted_keywords": boosted_keywords,
+                "min_words_to_interrupt": min_words_to_interrupt,
                 "configuration_endpoint": convert_and_respect_annotation_metadata(
                     object_=configuration_endpoint,
                     annotation=typing.Optional[CreateAgentRequestConfigurationEndpointParams],
@@ -429,6 +434,7 @@ class RawAgentsClient:
         languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         multilingual_mode: typing.Optional[CreateAgentRequestMultilingualMode] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
+        min_words_to_interrupt: typing.Optional[float] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
@@ -521,6 +527,9 @@ class RawAgentsClient:
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
 
+        min_words_to_interrupt : typing.Optional[float]
+            Minimum number of words required to interrupt the assistant.
+
         configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpointParams]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
@@ -591,6 +600,7 @@ class RawAgentsClient:
                 "languages": languages,
                 "multilingual_mode": multilingual_mode,
                 "boosted_keywords": boosted_keywords,
+                "min_words_to_interrupt": min_words_to_interrupt,
                 "configuration_endpoint": convert_and_respect_annotation_metadata(
                     object_=configuration_endpoint,
                     annotation=typing.Optional[CreateAgentRequestConfigurationEndpointParams],
@@ -832,6 +842,7 @@ class RawAgentsClient:
         languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         multilingual_mode: typing.Optional[UpdateAgentRequestMultilingualMode] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
+        min_words_to_interrupt: typing.Optional[float] = OMIT,
         configuration_endpoint: typing.Optional[UpdateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
@@ -927,6 +938,9 @@ class RawAgentsClient:
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
 
+        min_words_to_interrupt : typing.Optional[float]
+            Minimum number of words required to interrupt the assistant.
+
         configuration_endpoint : typing.Optional[UpdateAgentRequestConfigurationEndpointParams]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
@@ -997,6 +1011,7 @@ class RawAgentsClient:
                 "languages": languages,
                 "multilingual_mode": multilingual_mode,
                 "boosted_keywords": boosted_keywords,
+                "min_words_to_interrupt": min_words_to_interrupt,
                 "configuration_endpoint": convert_and_respect_annotation_metadata(
                     object_=configuration_endpoint,
                     annotation=typing.Optional[UpdateAgentRequestConfigurationEndpointParams],
@@ -1563,6 +1578,7 @@ class AsyncRawAgentsClient:
         languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         multilingual_mode: typing.Optional[CreateAgentRequestMultilingualMode] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
+        min_words_to_interrupt: typing.Optional[float] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
@@ -1655,6 +1671,9 @@ class AsyncRawAgentsClient:
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
 
+        min_words_to_interrupt : typing.Optional[float]
+            Minimum number of words required to interrupt the assistant.
+
         configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpointParams]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
@@ -1725,6 +1744,7 @@ class AsyncRawAgentsClient:
                 "languages": languages,
                 "multilingual_mode": multilingual_mode,
                 "boosted_keywords": boosted_keywords,
+                "min_words_to_interrupt": min_words_to_interrupt,
                 "configuration_endpoint": convert_and_respect_annotation_metadata(
                     object_=configuration_endpoint,
                     annotation=typing.Optional[CreateAgentRequestConfigurationEndpointParams],
@@ -1835,6 +1855,7 @@ class AsyncRawAgentsClient:
         languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         multilingual_mode: typing.Optional[CreateAgentRequestMultilingualMode] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
+        min_words_to_interrupt: typing.Optional[float] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
@@ -1927,6 +1948,9 @@ class AsyncRawAgentsClient:
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
 
+        min_words_to_interrupt : typing.Optional[float]
+            Minimum number of words required to interrupt the assistant.
+
         configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpointParams]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
@@ -1997,6 +2021,7 @@ class AsyncRawAgentsClient:
                 "languages": languages,
                 "multilingual_mode": multilingual_mode,
                 "boosted_keywords": boosted_keywords,
+                "min_words_to_interrupt": min_words_to_interrupt,
                 "configuration_endpoint": convert_and_respect_annotation_metadata(
                     object_=configuration_endpoint,
                     annotation=typing.Optional[CreateAgentRequestConfigurationEndpointParams],
@@ -2238,6 +2263,7 @@ class AsyncRawAgentsClient:
         languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         multilingual_mode: typing.Optional[UpdateAgentRequestMultilingualMode] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
+        min_words_to_interrupt: typing.Optional[float] = OMIT,
         configuration_endpoint: typing.Optional[UpdateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
@@ -2333,6 +2359,9 @@ class AsyncRawAgentsClient:
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
 
+        min_words_to_interrupt : typing.Optional[float]
+            Minimum number of words required to interrupt the assistant.
+
         configuration_endpoint : typing.Optional[UpdateAgentRequestConfigurationEndpointParams]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
@@ -2403,6 +2432,7 @@ class AsyncRawAgentsClient:
                 "languages": languages,
                 "multilingual_mode": multilingual_mode,
                 "boosted_keywords": boosted_keywords,
+                "min_words_to_interrupt": min_words_to_interrupt,
                 "configuration_endpoint": convert_and_respect_annotation_metadata(
                     object_=configuration_endpoint,
                     annotation=typing.Optional[UpdateAgentRequestConfigurationEndpointParams],
