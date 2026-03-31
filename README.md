@@ -75,6 +75,7 @@ client.agents.create(
         "Load ID",
         "dispatch"
     ],
+    min_words_to_interrupt=1,
     configuration_endpoint=CreateAgentRequestConfigurationEndpoint(
         url="https://api.example.com/config",
         headers={
@@ -134,6 +135,7 @@ async def main() -> None:
             "Load ID",
             "dispatch"
         ],
+        min_words_to_interrupt=1,
         configuration_endpoint=CreateAgentRequestConfigurationEndpoint(
             url="https://api.example.com/config",
             headers={

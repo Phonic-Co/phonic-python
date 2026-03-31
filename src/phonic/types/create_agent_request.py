@@ -144,6 +144,11 @@ class CreateAgentRequest(UncheckedBaseModel):
     These words, or short phrases, will be more accurately recognized by the agent.
     """
 
+    min_words_to_interrupt: typing.Optional[float] = pydantic.Field(default=None)
+    """
+    Minimum number of words required to interrupt the assistant.
+    """
+
     configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpoint] = pydantic.Field(default=None)
     """
     When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
