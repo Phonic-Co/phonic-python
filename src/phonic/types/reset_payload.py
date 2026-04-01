@@ -4,11 +4,13 @@ import typing
 
 import pydantic
 from ..core.pydantic_utilities import IS_PYDANTIC_V2
+from ..core.unchecked_base_model import UncheckedBaseModel
 from .config_options import ConfigOptions
 
 
-class ConfigPayload(ConfigOptions):
-    type: typing.Literal["config"] = "config"
+class ResetPayload(UncheckedBaseModel):
+    type: typing.Literal["reset"] = "reset"
+    config: ConfigOptions
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

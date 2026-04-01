@@ -116,13 +116,13 @@ class AgentsClient:
         languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         multilingual_mode: typing.Optional[CreateAgentRequestMultilingualMode] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
-        min_words_to_interrupt: typing.Optional[float] = OMIT,
+        min_words_to_interrupt: typing.Optional[int] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
-        vad_prebuffer_duration_ms: typing.Optional[float] = OMIT,
-        vad_min_speech_duration_ms: typing.Optional[float] = OMIT,
-        vad_min_silence_duration_ms: typing.Optional[float] = OMIT,
+        vad_prebuffer_duration_ms: typing.Optional[int] = OMIT,
+        vad_min_speech_duration_ms: typing.Optional[int] = OMIT,
+        vad_min_silence_duration_ms: typing.Optional[int] = OMIT,
         vad_threshold: typing.Optional[float] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AgentsCreateResponse:
@@ -209,7 +209,7 @@ class AgentsClient:
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
 
-        min_words_to_interrupt : typing.Optional[float]
+        min_words_to_interrupt : typing.Optional[int]
             Minimum number of words required to interrupt the assistant.
 
         configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpointParams]
@@ -221,13 +221,13 @@ class AgentsClient:
         inbound_rollout_forward_phone_number : typing.Optional[str]
             E.164 formatted phone number where non-agent calls will be forwarded. Required when `inbound_rollout < 1.0`, must be `null` when `inbound_rollout = 1.0`. Defaults to `null`.
 
-        vad_prebuffer_duration_ms : typing.Optional[float]
+        vad_prebuffer_duration_ms : typing.Optional[int]
             Voice activity detection prebuffer duration in milliseconds.
 
-        vad_min_speech_duration_ms : typing.Optional[float]
+        vad_min_speech_duration_ms : typing.Optional[int]
             Minimum speech duration for voice activity detection in milliseconds.
 
-        vad_min_silence_duration_ms : typing.Optional[float]
+        vad_min_silence_duration_ms : typing.Optional[int]
             Minimum silence duration for voice activity detection in milliseconds.
 
         vad_threshold : typing.Optional[float]
@@ -271,7 +271,7 @@ class AgentsClient:
             additional_languages=["es"],
             multilingual_mode="request",
             boosted_keywords=["Load ID", "dispatch"],
-            min_words_to_interrupt=1.0,
+            min_words_to_interrupt=1,
             configuration_endpoint={
                 "url": "https://api.example.com/config",
                 "headers": {"Authorization": "Bearer token123"},
@@ -347,13 +347,13 @@ class AgentsClient:
         languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         multilingual_mode: typing.Optional[CreateAgentRequestMultilingualMode] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
-        min_words_to_interrupt: typing.Optional[float] = OMIT,
+        min_words_to_interrupt: typing.Optional[int] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
-        vad_prebuffer_duration_ms: typing.Optional[float] = OMIT,
-        vad_min_speech_duration_ms: typing.Optional[float] = OMIT,
-        vad_min_silence_duration_ms: typing.Optional[float] = OMIT,
+        vad_prebuffer_duration_ms: typing.Optional[int] = OMIT,
+        vad_min_speech_duration_ms: typing.Optional[int] = OMIT,
+        vad_min_silence_duration_ms: typing.Optional[int] = OMIT,
         vad_threshold: typing.Optional[float] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AgentsUpsertResponse:
@@ -440,7 +440,7 @@ class AgentsClient:
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
 
-        min_words_to_interrupt : typing.Optional[float]
+        min_words_to_interrupt : typing.Optional[int]
             Minimum number of words required to interrupt the assistant.
 
         configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpointParams]
@@ -452,13 +452,13 @@ class AgentsClient:
         inbound_rollout_forward_phone_number : typing.Optional[str]
             E.164 formatted phone number where non-agent calls will be forwarded. Required when `inbound_rollout < 1.0`, must be `null` when `inbound_rollout = 1.0`. Defaults to `null`.
 
-        vad_prebuffer_duration_ms : typing.Optional[float]
+        vad_prebuffer_duration_ms : typing.Optional[int]
             Voice activity detection prebuffer duration in milliseconds.
 
-        vad_min_speech_duration_ms : typing.Optional[float]
+        vad_min_speech_duration_ms : typing.Optional[int]
             Minimum speech duration for voice activity detection in milliseconds.
 
-        vad_min_silence_duration_ms : typing.Optional[float]
+        vad_min_silence_duration_ms : typing.Optional[int]
             Minimum silence duration for voice activity detection in milliseconds.
 
         vad_threshold : typing.Optional[float]
@@ -502,7 +502,7 @@ class AgentsClient:
             additional_languages=["es"],
             multilingual_mode="request",
             boosted_keywords=["Load ID", "dispatch"],
-            min_words_to_interrupt=1.0,
+            min_words_to_interrupt=1,
             configuration_endpoint={
                 "url": "https://api.example.com/config",
                 "headers": {"Authorization": "Bearer token123"},
@@ -661,13 +661,13 @@ class AgentsClient:
         languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         multilingual_mode: typing.Optional[UpdateAgentRequestMultilingualMode] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
-        min_words_to_interrupt: typing.Optional[float] = OMIT,
+        min_words_to_interrupt: typing.Optional[int] = OMIT,
         configuration_endpoint: typing.Optional[UpdateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
-        vad_prebuffer_duration_ms: typing.Optional[float] = OMIT,
-        vad_min_speech_duration_ms: typing.Optional[float] = OMIT,
-        vad_min_silence_duration_ms: typing.Optional[float] = OMIT,
+        vad_prebuffer_duration_ms: typing.Optional[int] = OMIT,
+        vad_min_speech_duration_ms: typing.Optional[int] = OMIT,
+        vad_min_silence_duration_ms: typing.Optional[int] = OMIT,
         vad_threshold: typing.Optional[float] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AgentsUpdateResponse:
@@ -757,7 +757,7 @@ class AgentsClient:
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
 
-        min_words_to_interrupt : typing.Optional[float]
+        min_words_to_interrupt : typing.Optional[int]
             Minimum number of words required to interrupt the assistant.
 
         configuration_endpoint : typing.Optional[UpdateAgentRequestConfigurationEndpointParams]
@@ -769,13 +769,13 @@ class AgentsClient:
         inbound_rollout_forward_phone_number : typing.Optional[str]
             E.164 formatted phone number where non-agent calls will be forwarded. Required when `inbound_rollout < 1.0`, must be `null` when `inbound_rollout = 1.0`.
 
-        vad_prebuffer_duration_ms : typing.Optional[float]
+        vad_prebuffer_duration_ms : typing.Optional[int]
             Voice activity detection prebuffer duration in milliseconds.
 
-        vad_min_speech_duration_ms : typing.Optional[float]
+        vad_min_speech_duration_ms : typing.Optional[int]
             Minimum speech duration for voice activity detection in milliseconds.
 
-        vad_min_silence_duration_ms : typing.Optional[float]
+        vad_min_silence_duration_ms : typing.Optional[int]
             Minimum silence duration for voice activity detection in milliseconds.
 
         vad_threshold : typing.Optional[float]
@@ -820,7 +820,7 @@ class AgentsClient:
             additional_languages=["es"],
             multilingual_mode="request",
             boosted_keywords=["Load ID", "dispatch"],
-            min_words_to_interrupt=1.0,
+            min_words_to_interrupt=1,
             configuration_endpoint={
                 "url": "https://api.example.com/config",
                 "headers": {"Authorization": "Bearer token123"},
@@ -1137,13 +1137,13 @@ class AsyncAgentsClient:
         languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         multilingual_mode: typing.Optional[CreateAgentRequestMultilingualMode] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
-        min_words_to_interrupt: typing.Optional[float] = OMIT,
+        min_words_to_interrupt: typing.Optional[int] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
-        vad_prebuffer_duration_ms: typing.Optional[float] = OMIT,
-        vad_min_speech_duration_ms: typing.Optional[float] = OMIT,
-        vad_min_silence_duration_ms: typing.Optional[float] = OMIT,
+        vad_prebuffer_duration_ms: typing.Optional[int] = OMIT,
+        vad_min_speech_duration_ms: typing.Optional[int] = OMIT,
+        vad_min_silence_duration_ms: typing.Optional[int] = OMIT,
         vad_threshold: typing.Optional[float] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AgentsCreateResponse:
@@ -1230,7 +1230,7 @@ class AsyncAgentsClient:
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
 
-        min_words_to_interrupt : typing.Optional[float]
+        min_words_to_interrupt : typing.Optional[int]
             Minimum number of words required to interrupt the assistant.
 
         configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpointParams]
@@ -1242,13 +1242,13 @@ class AsyncAgentsClient:
         inbound_rollout_forward_phone_number : typing.Optional[str]
             E.164 formatted phone number where non-agent calls will be forwarded. Required when `inbound_rollout < 1.0`, must be `null` when `inbound_rollout = 1.0`. Defaults to `null`.
 
-        vad_prebuffer_duration_ms : typing.Optional[float]
+        vad_prebuffer_duration_ms : typing.Optional[int]
             Voice activity detection prebuffer duration in milliseconds.
 
-        vad_min_speech_duration_ms : typing.Optional[float]
+        vad_min_speech_duration_ms : typing.Optional[int]
             Minimum speech duration for voice activity detection in milliseconds.
 
-        vad_min_silence_duration_ms : typing.Optional[float]
+        vad_min_silence_duration_ms : typing.Optional[int]
             Minimum silence duration for voice activity detection in milliseconds.
 
         vad_threshold : typing.Optional[float]
@@ -1297,7 +1297,7 @@ class AsyncAgentsClient:
                 additional_languages=["es"],
                 multilingual_mode="request",
                 boosted_keywords=["Load ID", "dispatch"],
-                min_words_to_interrupt=1.0,
+                min_words_to_interrupt=1,
                 configuration_endpoint={
                     "url": "https://api.example.com/config",
                     "headers": {"Authorization": "Bearer token123"},
@@ -1376,13 +1376,13 @@ class AsyncAgentsClient:
         languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         multilingual_mode: typing.Optional[CreateAgentRequestMultilingualMode] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
-        min_words_to_interrupt: typing.Optional[float] = OMIT,
+        min_words_to_interrupt: typing.Optional[int] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
-        vad_prebuffer_duration_ms: typing.Optional[float] = OMIT,
-        vad_min_speech_duration_ms: typing.Optional[float] = OMIT,
-        vad_min_silence_duration_ms: typing.Optional[float] = OMIT,
+        vad_prebuffer_duration_ms: typing.Optional[int] = OMIT,
+        vad_min_speech_duration_ms: typing.Optional[int] = OMIT,
+        vad_min_silence_duration_ms: typing.Optional[int] = OMIT,
         vad_threshold: typing.Optional[float] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AgentsUpsertResponse:
@@ -1469,7 +1469,7 @@ class AsyncAgentsClient:
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
 
-        min_words_to_interrupt : typing.Optional[float]
+        min_words_to_interrupt : typing.Optional[int]
             Minimum number of words required to interrupt the assistant.
 
         configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpointParams]
@@ -1481,13 +1481,13 @@ class AsyncAgentsClient:
         inbound_rollout_forward_phone_number : typing.Optional[str]
             E.164 formatted phone number where non-agent calls will be forwarded. Required when `inbound_rollout < 1.0`, must be `null` when `inbound_rollout = 1.0`. Defaults to `null`.
 
-        vad_prebuffer_duration_ms : typing.Optional[float]
+        vad_prebuffer_duration_ms : typing.Optional[int]
             Voice activity detection prebuffer duration in milliseconds.
 
-        vad_min_speech_duration_ms : typing.Optional[float]
+        vad_min_speech_duration_ms : typing.Optional[int]
             Minimum speech duration for voice activity detection in milliseconds.
 
-        vad_min_silence_duration_ms : typing.Optional[float]
+        vad_min_silence_duration_ms : typing.Optional[int]
             Minimum silence duration for voice activity detection in milliseconds.
 
         vad_threshold : typing.Optional[float]
@@ -1536,7 +1536,7 @@ class AsyncAgentsClient:
                 additional_languages=["es"],
                 multilingual_mode="request",
                 boosted_keywords=["Load ID", "dispatch"],
-                min_words_to_interrupt=1.0,
+                min_words_to_interrupt=1,
                 configuration_endpoint={
                     "url": "https://api.example.com/config",
                     "headers": {"Authorization": "Bearer token123"},
@@ -1714,13 +1714,13 @@ class AsyncAgentsClient:
         languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         multilingual_mode: typing.Optional[UpdateAgentRequestMultilingualMode] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
-        min_words_to_interrupt: typing.Optional[float] = OMIT,
+        min_words_to_interrupt: typing.Optional[int] = OMIT,
         configuration_endpoint: typing.Optional[UpdateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
-        vad_prebuffer_duration_ms: typing.Optional[float] = OMIT,
-        vad_min_speech_duration_ms: typing.Optional[float] = OMIT,
-        vad_min_silence_duration_ms: typing.Optional[float] = OMIT,
+        vad_prebuffer_duration_ms: typing.Optional[int] = OMIT,
+        vad_min_speech_duration_ms: typing.Optional[int] = OMIT,
+        vad_min_silence_duration_ms: typing.Optional[int] = OMIT,
         vad_threshold: typing.Optional[float] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AgentsUpdateResponse:
@@ -1810,7 +1810,7 @@ class AsyncAgentsClient:
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
 
-        min_words_to_interrupt : typing.Optional[float]
+        min_words_to_interrupt : typing.Optional[int]
             Minimum number of words required to interrupt the assistant.
 
         configuration_endpoint : typing.Optional[UpdateAgentRequestConfigurationEndpointParams]
@@ -1822,13 +1822,13 @@ class AsyncAgentsClient:
         inbound_rollout_forward_phone_number : typing.Optional[str]
             E.164 formatted phone number where non-agent calls will be forwarded. Required when `inbound_rollout < 1.0`, must be `null` when `inbound_rollout = 1.0`.
 
-        vad_prebuffer_duration_ms : typing.Optional[float]
+        vad_prebuffer_duration_ms : typing.Optional[int]
             Voice activity detection prebuffer duration in milliseconds.
 
-        vad_min_speech_duration_ms : typing.Optional[float]
+        vad_min_speech_duration_ms : typing.Optional[int]
             Minimum speech duration for voice activity detection in milliseconds.
 
-        vad_min_silence_duration_ms : typing.Optional[float]
+        vad_min_silence_duration_ms : typing.Optional[int]
             Minimum silence duration for voice activity detection in milliseconds.
 
         vad_threshold : typing.Optional[float]
@@ -1878,7 +1878,7 @@ class AsyncAgentsClient:
                 additional_languages=["es"],
                 multilingual_mode="request",
                 boosted_keywords=["Load ID", "dispatch"],
-                min_words_to_interrupt=1.0,
+                min_words_to_interrupt=1,
                 configuration_endpoint={
                     "url": "https://api.example.com/config",
                     "headers": {"Authorization": "Bearer token123"},
