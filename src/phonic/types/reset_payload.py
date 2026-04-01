@@ -5,23 +5,12 @@ import typing
 import pydantic
 from ..core.pydantic_utilities import IS_PYDANTIC_V2
 from ..core.unchecked_base_model import UncheckedBaseModel
+from .config_options import ConfigOptions
 
 
-class SipOutboundDryRunResponse(UncheckedBaseModel):
-    conversation_id: typing.Optional[typing.Any] = pydantic.Field(default=None)
-    """
-    Always null when `dry_run` is true.
-    """
-
-    twilio_call_sid: typing.Optional[typing.Any] = pydantic.Field(default=None)
-    """
-    Always null when `dry_run` is true.
-    """
-
-    dry_run: typing.Literal[True] = pydantic.Field(default=True)
-    """
-    Always true for this response.
-    """
+class ResetPayload(UncheckedBaseModel):
+    type: typing.Literal["reset"] = "reset"
+    config: ConfigOptions
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

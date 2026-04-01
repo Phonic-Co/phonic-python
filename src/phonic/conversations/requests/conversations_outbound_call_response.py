@@ -2,9 +2,16 @@
 
 import typing
 
-from ...requests.outbound_call_initiated_response import OutboundCallInitiatedResponseParams
-from ...requests.outbound_dry_run_response import OutboundDryRunResponseParams
+import typing_extensions
 
-ConversationsOutboundCallResponseParams = typing.Union[
-    OutboundDryRunResponseParams, OutboundCallInitiatedResponseParams
-]
+
+class ConversationsOutboundCallResponseParams(typing_extensions.TypedDict):
+    conversation_id: typing.Optional[typing.Any]
+    """
+    Always null when `dry_run` is true.
+    """
+
+    dry_run: typing.Literal[True]
+    """
+    Always true for this response.
+    """

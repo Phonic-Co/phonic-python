@@ -24,6 +24,7 @@ from ..types.generate_reply_payload import GenerateReplyPayload
 from ..types.input_cancelled_payload import InputCancelledPayload
 from ..types.input_text_payload import InputTextPayload
 from ..types.ready_to_start_conversation_payload import ReadyToStartConversationPayload
+from ..types.reset_payload import ResetPayload
 from ..types.say_payload import SayPayload
 from ..types.set_external_id_payload import SetExternalIdPayload
 from ..types.tool_call_interrupted_payload import ToolCallInterruptedPayload
@@ -166,6 +167,13 @@ class AsyncConversationsSocketClient(EventEmitterMixin):
         """
         await self._send_model(message)
 
+    async def send_reset(self, message: ResetPayload) -> None:
+        """
+        Send a message to the websocket connection.
+        The message will be sent as a ResetPayload.
+        """
+        await self._send_model(message)
+
     async def recv(self) -> ConversationsSocketClientResponse:
         """
         Receive a message from the websocket connection.
@@ -296,6 +304,13 @@ class ConversationsSocketClient(EventEmitterMixin):
         """
         Send a message to the websocket connection.
         The message will be sent as a SayPayload.
+        """
+        self._send_model(message)
+
+    def send_reset(self, message: ResetPayload) -> None:
+        """
+        Send a message to the websocket connection.
+        The message will be sent as a ResetPayload.
         """
         self._send_model(message)
 

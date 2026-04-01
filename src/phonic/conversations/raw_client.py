@@ -922,7 +922,7 @@ class RawConversationsClient:
         Returns
         -------
         HttpResponse[ConversationsOutboundCallResponse]
-            Success response
+            Dry run succeeded — configuration validated without placing a call
         """
         _response = self._client_wrapper.httpx_client.request(
             "conversations/outbound_call",
@@ -1047,7 +1047,7 @@ class RawConversationsClient:
         Returns
         -------
         HttpResponse[ConversationsSipOutboundCallResponse]
-            Success response
+            Dry run succeeded — configuration validated without placing a call
         """
         _response = self._client_wrapper.httpx_client.request(
             "conversations/sip/outbound_call",
@@ -2053,7 +2053,7 @@ class AsyncRawConversationsClient:
         Returns
         -------
         AsyncHttpResponse[ConversationsOutboundCallResponse]
-            Success response
+            Dry run succeeded — configuration validated without placing a call
         """
         _response = await self._client_wrapper.httpx_client.request(
             "conversations/outbound_call",
@@ -2178,7 +2178,7 @@ class AsyncRawConversationsClient:
         Returns
         -------
         AsyncHttpResponse[ConversationsSipOutboundCallResponse]
-            Success response
+            Dry run succeeded — configuration validated without placing a call
         """
         _response = await self._client_wrapper.httpx_client.request(
             "conversations/sip/outbound_call",

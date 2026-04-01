@@ -2,9 +2,21 @@
 
 import typing
 
-from ...requests.sip_outbound_call_initiated_response import SipOutboundCallInitiatedResponseParams
-from ...requests.sip_outbound_dry_run_response import SipOutboundDryRunResponseParams
+import typing_extensions
 
-ConversationsSipOutboundCallResponseParams = typing.Union[
-    SipOutboundDryRunResponseParams, SipOutboundCallInitiatedResponseParams
-]
+
+class ConversationsSipOutboundCallResponseParams(typing_extensions.TypedDict):
+    conversation_id: typing.Optional[typing.Any]
+    """
+    Always null when `dry_run` is true.
+    """
+
+    twilio_call_sid: typing.Optional[typing.Any]
+    """
+    Always null when `dry_run` is true.
+    """
+
+    dry_run: typing.Literal[True]
+    """
+    Always true for this response.
+    """
