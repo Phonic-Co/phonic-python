@@ -131,7 +131,7 @@ class ConversationParams(typing_extensions.TypedDict):
     These words, or short phrases, are more accurately recognized by the model.
     """
 
-    min_words_to_interrupt: float
+    min_words_to_interrupt: int
     """
     Minimum number of words required to interrupt the assistant.
     """

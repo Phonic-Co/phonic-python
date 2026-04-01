@@ -24,12 +24,13 @@ if typing.TYPE_CHECKING:
     from .bad_request_error_body import BadRequestErrorBody
     from .basic_error import BasicError
     from .basic_error_error import BasicErrorError
+    from .config_options import ConfigOptions
+    from .config_options_background_noise import ConfigOptionsBackgroundNoise
+    from .config_options_input_format import ConfigOptionsInputFormat
+    from .config_options_multilingual_mode import ConfigOptionsMultilingualMode
+    from .config_options_output_format import ConfigOptionsOutputFormat
+    from .config_options_tools_item import ConfigOptionsToolsItem
     from .config_payload import ConfigPayload
-    from .config_payload_background_noise import ConfigPayloadBackgroundNoise
-    from .config_payload_input_format import ConfigPayloadInputFormat
-    from .config_payload_multilingual_mode import ConfigPayloadMultilingualMode
-    from .config_payload_output_format import ConfigPayloadOutputFormat
-    from .config_payload_tools_item import ConfigPayloadToolsItem
     from .conversation import Conversation
     from .conversation_agent import ConversationAgent
     from .conversation_analysis import ConversationAnalysis
@@ -80,6 +81,7 @@ if typing.TYPE_CHECKING:
     from .project import Project
     from .project_default_agent import ProjectDefaultAgent
     from .ready_to_start_conversation_payload import ReadyToStartConversationPayload
+    from .reset_payload import ResetPayload
     from .say_payload import SayPayload
     from .set_external_id_payload import SetExternalIdPayload
     from .sip_outbound_call_initiated_response import SipOutboundCallInitiatedResponse
@@ -126,12 +128,13 @@ _dynamic_imports: typing.Dict[str, str] = {
     "BadRequestErrorBody": ".bad_request_error_body",
     "BasicError": ".basic_error",
     "BasicErrorError": ".basic_error_error",
+    "ConfigOptions": ".config_options",
+    "ConfigOptionsBackgroundNoise": ".config_options_background_noise",
+    "ConfigOptionsInputFormat": ".config_options_input_format",
+    "ConfigOptionsMultilingualMode": ".config_options_multilingual_mode",
+    "ConfigOptionsOutputFormat": ".config_options_output_format",
+    "ConfigOptionsToolsItem": ".config_options_tools_item",
     "ConfigPayload": ".config_payload",
-    "ConfigPayloadBackgroundNoise": ".config_payload_background_noise",
-    "ConfigPayloadInputFormat": ".config_payload_input_format",
-    "ConfigPayloadMultilingualMode": ".config_payload_multilingual_mode",
-    "ConfigPayloadOutputFormat": ".config_payload_output_format",
-    "ConfigPayloadToolsItem": ".config_payload_tools_item",
     "Conversation": ".conversation",
     "ConversationAgent": ".conversation_agent",
     "ConversationAnalysis": ".conversation_analysis",
@@ -182,6 +185,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "Project": ".project",
     "ProjectDefaultAgent": ".project_default_agent",
     "ReadyToStartConversationPayload": ".ready_to_start_conversation_payload",
+    "ResetPayload": ".reset_payload",
     "SayPayload": ".say_payload",
     "SetExternalIdPayload": ".set_external_id_payload",
     "SipOutboundCallInitiatedResponse": ".sip_outbound_call_initiated_response",
@@ -252,12 +256,13 @@ __all__ = [
     "BadRequestErrorBody",
     "BasicError",
     "BasicErrorError",
+    "ConfigOptions",
+    "ConfigOptionsBackgroundNoise",
+    "ConfigOptionsInputFormat",
+    "ConfigOptionsMultilingualMode",
+    "ConfigOptionsOutputFormat",
+    "ConfigOptionsToolsItem",
     "ConfigPayload",
-    "ConfigPayloadBackgroundNoise",
-    "ConfigPayloadInputFormat",
-    "ConfigPayloadMultilingualMode",
-    "ConfigPayloadOutputFormat",
-    "ConfigPayloadToolsItem",
     "Conversation",
     "ConversationAgent",
     "ConversationAnalysis",
@@ -308,6 +313,7 @@ __all__ = [
     "Project",
     "ProjectDefaultAgent",
     "ReadyToStartConversationPayload",
+    "ResetPayload",
     "SayPayload",
     "SetExternalIdPayload",
     "SipOutboundCallInitiatedResponse",

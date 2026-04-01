@@ -21,8 +21,9 @@ if typing.TYPE_CHECKING:
     from .bad_request_error_body import BadRequestErrorBodyParams
     from .basic_error import BasicErrorParams
     from .basic_error_error import BasicErrorErrorParams
+    from .config_options import ConfigOptionsParams
+    from .config_options_tools_item import ConfigOptionsToolsItemParams
     from .config_payload import ConfigPayloadParams
-    from .config_payload_tools_item import ConfigPayloadToolsItemParams
     from .conversation import ConversationParams
     from .conversation_agent import ConversationAgentParams
     from .conversation_analysis import ConversationAnalysisParams
@@ -59,6 +60,7 @@ if typing.TYPE_CHECKING:
     from .project import ProjectParams
     from .project_default_agent import ProjectDefaultAgentParams
     from .ready_to_start_conversation_payload import ReadyToStartConversationPayloadParams
+    from .reset_payload import ResetPayloadParams
     from .say_payload import SayPayloadParams
     from .set_external_id_payload import SetExternalIdPayloadParams
     from .sip_outbound_call_initiated_response import SipOutboundCallInitiatedResponseParams
@@ -96,8 +98,9 @@ _dynamic_imports: typing.Dict[str, str] = {
     "BadRequestErrorBodyParams": ".bad_request_error_body",
     "BasicErrorErrorParams": ".basic_error_error",
     "BasicErrorParams": ".basic_error",
+    "ConfigOptionsParams": ".config_options",
+    "ConfigOptionsToolsItemParams": ".config_options_tools_item",
     "ConfigPayloadParams": ".config_payload",
-    "ConfigPayloadToolsItemParams": ".config_payload_tools_item",
     "ConversationAgentParams": ".conversation_agent",
     "ConversationAnalysisParams": ".conversation_analysis",
     "ConversationCallInfoParams": ".conversation_call_info",
@@ -134,6 +137,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ProjectDefaultAgentParams": ".project_default_agent",
     "ProjectParams": ".project",
     "ReadyToStartConversationPayloadParams": ".ready_to_start_conversation_payload",
+    "ResetPayloadParams": ".reset_payload",
     "SayPayloadParams": ".say_payload",
     "SetExternalIdPayloadParams": ".set_external_id_payload",
     "SipOutboundCallInitiatedResponseParams": ".sip_outbound_call_initiated_response",
@@ -195,8 +199,9 @@ __all__ = [
     "BadRequestErrorBodyParams",
     "BasicErrorErrorParams",
     "BasicErrorParams",
+    "ConfigOptionsParams",
+    "ConfigOptionsToolsItemParams",
     "ConfigPayloadParams",
-    "ConfigPayloadToolsItemParams",
     "ConversationAgentParams",
     "ConversationAnalysisParams",
     "ConversationCallInfoParams",
@@ -233,6 +238,7 @@ __all__ = [
     "ProjectDefaultAgentParams",
     "ProjectParams",
     "ReadyToStartConversationPayloadParams",
+    "ResetPayloadParams",
     "SayPayloadParams",
     "SetExternalIdPayloadParams",
     "SipOutboundCallInitiatedResponseParams",
