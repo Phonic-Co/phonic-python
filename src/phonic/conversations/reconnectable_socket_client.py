@@ -96,6 +96,7 @@ class ReconnectableAsyncConversationsSocketClient(EventEmitterMixin):
 
     async def close(self) -> None:
         self._user_closed = True
+        self._reconnecting = False
         await self._close_current_connection()
 
     async def _close_current_connection(self) -> None:
