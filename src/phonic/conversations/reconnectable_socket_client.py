@@ -68,11 +68,15 @@ class ReconnectableAsyncConversationsSocketClient(EventEmitterMixin):
         self._conversation_id: typing.Optional[str] = None
         self._reconnect_attempts = 0
         self._user_closed = False
+        self._reconnecting = False
         self._lock = asyncio.Lock()
 
     @property
     def conversation_id(self) -> typing.Optional[str]:
         return self._conversation_id
+
+    def _is_send_safe(self) -> bool:
+        return not self._user_closed and not self._reconnecting
 
     def _observe_json(self, json_data: typing.Any) -> None:
         if not isinstance(json_data, dict):
@@ -142,14 +146,18 @@ class ReconnectableAsyncConversationsSocketClient(EventEmitterMixin):
 
     async def _recv_with_reconnect(self, exc: ConnectionClosed) -> typing.Any:
         if not self._should_reconnect(exc):
+            self._reconnecting = False
             raise exc
+        self._reconnecting = True
         self._reconnect_attempts += 1
         await asyncio.sleep(_reconnect_delay_sec(self._reconnect_attempts))
         async with self._lock:
             if self._user_closed:
+                self._reconnecting = False
                 raise exc
             try:
                 await self._reconnect()
+                self._reconnecting = False
             except ConnectionClosed as reconnect_exc:
                 return await self._recv_with_reconnect(reconnect_exc)
             except Exception:
@@ -183,28 +191,36 @@ class ReconnectableAsyncConversationsSocketClient(EventEmitterMixin):
             await self._emit_async(EventType.CLOSE, None)
 
     async def send_config(self, message: typing.Any) -> None:
-        await self._inner.send_config(message)
+        if self._is_send_safe():
+            await self._inner.send_config(message)
 
     async def send_audio_chunk(self, message: typing.Any) -> None:
-        await self._inner.send_audio_chunk(message)
+        if self._is_send_safe():
+            await self._inner.send_audio_chunk(message)
 
     async def send_update_system_prompt(self, message: typing.Any) -> None:
-        await self._inner.send_update_system_prompt(message)
+        if self._is_send_safe():
+            await self._inner.send_update_system_prompt(message)
 
     async def send_add_system_message(self, message: typing.Any) -> None:
-        await self._inner.send_add_system_message(message)
+        if self._is_send_safe():
+            await self._inner.send_add_system_message(message)
 
     async def send_set_external_id(self, message: typing.Any) -> None:
-        await self._inner.send_set_external_id(message)
+        if self._is_send_safe():
+            await self._inner.send_set_external_id(message)
 
     async def send_tool_call_output(self, message: typing.Any) -> None:
-        await self._inner.send_tool_call_output(message)
+        if self._is_send_safe():
+            await self._inner.send_tool_call_output(message)
 
     async def send_generate_reply(self, message: typing.Any) -> None:
-        await self._inner.send_generate_reply(message)
+        if self._is_send_safe():
+            await self._inner.send_generate_reply(message)
 
     async def send_say(self, message: typing.Any) -> None:
-        await self._inner.send_say(message)
+        if self._is_send_safe():
+            await self._inner.send_say(message)
 
 
 class ReconnectableConversationsSocketClient(EventEmitterMixin):
@@ -228,10 +244,14 @@ class ReconnectableConversationsSocketClient(EventEmitterMixin):
         self._conversation_id: typing.Optional[str] = None
         self._reconnect_attempts = 0
         self._user_closed = False
+        self._reconnecting = False
 
     @property
     def conversation_id(self) -> typing.Optional[str]:
         return self._conversation_id
+
+    def _is_send_safe(self) -> bool:
+        return not self._user_closed and not self._reconnecting
 
     def _observe_json(self, json_data: typing.Any) -> None:
         if not isinstance(json_data, dict):
@@ -253,6 +273,7 @@ class ReconnectableConversationsSocketClient(EventEmitterMixin):
 
     def close(self) -> None:
         self._user_closed = True
+        self._reconnecting = False
         self._close_current_connection()
 
     def _close_current_connection(self) -> None:
@@ -300,13 +321,17 @@ class ReconnectableConversationsSocketClient(EventEmitterMixin):
 
     def _recv_with_reconnect(self, exc: ConnectionClosed) -> typing.Any:
         if not self._should_reconnect(exc):
+            self._reconnecting = False
             raise exc
+        self._reconnecting = True
         self._reconnect_attempts += 1
         time.sleep(_reconnect_delay_sec(self._reconnect_attempts))
         if self._user_closed:
+            self._reconnecting = False
             raise exc
         try:
             self._reconnect()
+            self._reconnecting = False
         except ConnectionClosed as reconnect_exc:
             return self._recv_with_reconnect(reconnect_exc)
         except Exception:
@@ -339,25 +364,33 @@ class ReconnectableConversationsSocketClient(EventEmitterMixin):
             self._emit(EventType.CLOSE, None)
 
     def send_config(self, message: typing.Any) -> None:
-        self._inner.send_config(message)
+        if self._is_send_safe():
+            self._inner.send_config(message)
 
     def send_audio_chunk(self, message: typing.Any) -> None:
-        self._inner.send_audio_chunk(message)
+        if self._is_send_safe():
+            self._inner.send_audio_chunk(message)
 
     def send_update_system_prompt(self, message: typing.Any) -> None:
-        self._inner.send_update_system_prompt(message)
+        if self._is_send_safe():
+            self._inner.send_update_system_prompt(message)
 
     def send_add_system_message(self, message: typing.Any) -> None:
-        self._inner.send_add_system_message(message)
+        if self._is_send_safe():
+            self._inner.send_add_system_message(message)
 
     def send_set_external_id(self, message: typing.Any) -> None:
-        self._inner.send_set_external_id(message)
+        if self._is_send_safe():
+            self._inner.send_set_external_id(message)
 
     def send_tool_call_output(self, message: typing.Any) -> None:
-        self._inner.send_tool_call_output(message)
+        if self._is_send_safe():
+            self._inner.send_tool_call_output(message)
 
     def send_generate_reply(self, message: typing.Any) -> None:
-        self._inner.send_generate_reply(message)
+        if self._is_send_safe():
+            self._inner.send_generate_reply(message)
 
     def send_say(self, message: typing.Any) -> None:
-        self._inner.send_say(message)
+        if self._is_send_safe():
+            self._inner.send_say(message)
