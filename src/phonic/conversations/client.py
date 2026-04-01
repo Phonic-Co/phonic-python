@@ -407,7 +407,7 @@ class ConversationsClient:
         Returns
         -------
         ConversationsOutboundCallResponse
-            Success response
+            Dry run succeeded — configuration validated without placing a call
 
         Examples
         --------
@@ -486,7 +486,7 @@ class ConversationsClient:
         Returns
         -------
         ConversationsSipOutboundCallResponse
-            Success response
+            Dry run succeeded — configuration validated without placing a call
 
         Examples
         --------
@@ -1007,7 +1007,7 @@ class AsyncConversationsClient:
         Returns
         -------
         ConversationsOutboundCallResponse
-            Success response
+            Dry run succeeded — configuration validated without placing a call
 
         Examples
         --------
@@ -1097,7 +1097,7 @@ class AsyncConversationsClient:
         Returns
         -------
         ConversationsSipOutboundCallResponse
-            Success response
+            Dry run succeeded — configuration validated without placing a call
 
         Examples
         --------
