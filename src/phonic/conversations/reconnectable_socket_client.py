@@ -25,8 +25,6 @@ from .socket_client import AsyncConversationsSocketClient, ConversationsSocketCl
 from .websocket_connect import build_sts_websocket_url_and_headers
 
 ABNORMAL_CLOSURE = 1006
-# Server close codes that mean the session is gone — stop retrying.
-TERMINAL_RECONNECT_CODES = {4800, 4801}
 BASE_RECONNECT_DELAY_SEC = 0.5
 MAX_RECONNECT_DELAY_SEC = 5.0
 # Safety cap: stop retrying if the server is completely unreachable.
@@ -70,7 +68,6 @@ class ReconnectableAsyncConversationsSocketClient(EventEmitterMixin):
         self._reconnect_attempts = 0
         self._user_closed = False
         self._reconnecting = False
-        self._lock = asyncio.Lock()
 
     @property
     def conversation_id(self) -> typing.Optional[str]:
@@ -99,8 +96,7 @@ class ReconnectableAsyncConversationsSocketClient(EventEmitterMixin):
 
     async def close(self) -> None:
         self._user_closed = True
-        async with self._lock:
-            await self._close_current_connection()
+        await self._close_current_connection()
 
     async def _close_current_connection(self) -> None:
         if self._cm is not None:
@@ -152,23 +148,17 @@ class ReconnectableAsyncConversationsSocketClient(EventEmitterMixin):
         self._reconnecting = True
         self._reconnect_attempts += 1
         await asyncio.sleep(_reconnect_delay_sec(self._reconnect_attempts))
-        async with self._lock:
-            if self._user_closed:
-                self._reconnecting = False
-                raise exc
-            try:
-                await self._reconnect()
-                self._reconnecting = False
-            except ConnectionClosed as reconnect_exc:
-                return await self._recv_with_reconnect(reconnect_exc)
-            except Exception:
-                return await self._recv_with_reconnect(exc)
+        if self._user_closed:
+            self._reconnecting = False
+            raise exc
         try:
-            msg = await self._inner.recv()
-            self._observe_message(msg)
-            return msg
-        except ConnectionClosed as retry_exc:
-            return await self._recv_with_reconnect(retry_exc)
+            await self._reconnect()
+            self._reconnecting = False
+        except ConnectionClosed as reconnect_exc:
+            return await self._recv_with_reconnect(reconnect_exc)
+        except Exception:
+            return await self._recv_with_reconnect(exc)
+        return await self.recv()
 
     async def __aiter__(self) -> typing.AsyncIterator[typing.Any]:
         while not self._user_closed:
@@ -337,12 +327,7 @@ class ReconnectableConversationsSocketClient(EventEmitterMixin):
             return self._recv_with_reconnect(reconnect_exc)
         except Exception:
             return self._recv_with_reconnect(exc)
-        try:
-            msg = self._inner.recv()
-            self._observe_message(msg)
-            return msg
-        except ConnectionClosed as retry_exc:
-            return self._recv_with_reconnect(retry_exc)
+        return self.recv()
 
     def __iter__(self) -> typing.Iterator[typing.Any]:
         while not self._user_closed:
