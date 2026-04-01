@@ -407,7 +407,7 @@ class ConversationsClient:
         Returns
         -------
         ConversationsOutboundCallResponse
-            Success response
+            Dry run succeeded — configuration validated without placing a call
 
         Examples
         --------
@@ -432,7 +432,7 @@ class ConversationsClient:
                 "additional_languages": ["es"],
                 "multilingual_mode": "request",
                 "boosted_keywords": ["Load ID", "dispatch"],
-                "min_words_to_interrupt": 1.0,
+                "min_words_to_interrupt": 1,
                 "tools": [],
             },
             dry_run=False,
@@ -486,7 +486,7 @@ class ConversationsClient:
         Returns
         -------
         ConversationsSipOutboundCallResponse
-            Success response
+            Dry run succeeded — configuration validated without placing a call
 
         Examples
         --------
@@ -1007,7 +1007,7 @@ class AsyncConversationsClient:
         Returns
         -------
         ConversationsOutboundCallResponse
-            Success response
+            Dry run succeeded — configuration validated without placing a call
 
         Examples
         --------
@@ -1040,7 +1040,7 @@ class AsyncConversationsClient:
                     "additional_languages": ["es"],
                     "multilingual_mode": "request",
                     "boosted_keywords": ["Load ID", "dispatch"],
-                    "min_words_to_interrupt": 1.0,
+                    "min_words_to_interrupt": 1,
                     "tools": [],
                 },
                 dry_run=False,
@@ -1097,7 +1097,7 @@ class AsyncConversationsClient:
         Returns
         -------
         ConversationsSipOutboundCallResponse
-            Success response
+            Dry run succeeded — configuration validated without placing a call
 
         Examples
         --------

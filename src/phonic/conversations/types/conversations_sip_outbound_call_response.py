@@ -2,7 +2,32 @@
 
 import typing
 
-from ...types.sip_outbound_call_initiated_response import SipOutboundCallInitiatedResponse
-from ...types.sip_outbound_dry_run_response import SipOutboundDryRunResponse
+import pydantic
+from ...core.pydantic_utilities import IS_PYDANTIC_V2
+from ...core.unchecked_base_model import UncheckedBaseModel
 
-ConversationsSipOutboundCallResponse = typing.Union[SipOutboundDryRunResponse, SipOutboundCallInitiatedResponse]
+
+class ConversationsSipOutboundCallResponse(UncheckedBaseModel):
+    conversation_id: typing.Optional[typing.Any] = pydantic.Field(default=None)
+    """
+    Always null when `dry_run` is true.
+    """
+
+    twilio_call_sid: typing.Optional[typing.Any] = pydantic.Field(default=None)
+    """
+    Always null when `dry_run` is true.
+    """
+
+    dry_run: typing.Literal[True] = pydantic.Field(default=True)
+    """
+    Always true for this response.
+    """
+
+    if IS_PYDANTIC_V2:
+        model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
+    else:
+
+        class Config:
+            frozen = True
+            smart_union = True
+            extra = pydantic.Extra.allow

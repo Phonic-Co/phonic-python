@@ -32,7 +32,7 @@ class ToolCallOutputProcessedPayload(UncheckedBaseModel):
     Webhook endpoint URL (null for WebSocket tools)
     """
 
-    endpoint_timeout_ms: typing.Optional[float] = pydantic.Field(default=None)
+    endpoint_timeout_ms: typing.Optional[int] = pydantic.Field(default=None)
     """
     Webhook timeout in milliseconds (null for WebSocket tools)
     """
@@ -67,7 +67,7 @@ class ToolCallOutputProcessedPayload(UncheckedBaseModel):
     WebSocket tool output (null for webhook tools)
     """
 
-    response_status_code: typing.Optional[float] = pydantic.Field(default=None)
+    response_status_code: typing.Optional[int] = pydantic.Field(default=None)
     """
     Webhook HTTP status code (null for WebSocket tools)
     """
