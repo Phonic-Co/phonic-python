@@ -22,6 +22,7 @@ from ..core.client_wrapper import BaseClientWrapper
 from ..core.events import EventEmitterMixin, EventType
 from ..core.request_options import RequestOptions
 from .socket_client import AsyncConversationsSocketClient, ConversationsSocketClient
+from .websocket_connect import build_sts_websocket_url_and_headers
 
 ABNORMAL_CLOSURE = 1006
 # Server close codes that mean the session is gone — stop retrying.
@@ -31,17 +32,12 @@ MAX_RECONNECT_DELAY_SEC = 5.0
 # Safety cap: stop retrying if the server is completely unreachable.
 # In normal operation the server's terminal codes (4800/4801) stop
 # retries much sooner (within the 10s grace period).
-_MAX_RECONNECT_ATTEMPTS = 30
+_MAX_RECONNECT_ATTEMPTS = 10
+
 
 def _close_code(exc: BaseException) -> typing.Optional[int]:
-    if isinstance(exc, ConnectionClosed):
-        # websockets: .code or .rcvd.code depending on version
-        code = getattr(exc, "code", None)
-        if code is not None:
-            return int(code)
-        rcvd = getattr(exc, "rcvd", None)
-        if rcvd is not None and getattr(rcvd, "code", None) is not None:
-            return int(rcvd.code)
+    if isinstance(exc, ConnectionClosed) and exc.rcvd is not None:
+        return exc.rcvd.code
     return None
 
 
@@ -60,14 +56,14 @@ class ReconnectableAsyncConversationsSocketClient(EventEmitterMixin):
         initial_cm: typing.Any,
         initial_protocol: typing.Any,
         client_wrapper: BaseClientWrapper,
-        downstream_websocket_url: typing.Optional[str],
+        websocket_url: typing.Optional[str],
         request_options: typing.Optional[RequestOptions],
     ) -> None:
         super().__init__()
         self._cm = initial_cm
         self._inner = AsyncConversationsSocketClient(websocket=initial_protocol)
         self._client_wrapper = client_wrapper
-        self._downstream_websocket_url = downstream_websocket_url
+        self._websocket_url = websocket_url
         self._request_options = request_options
         self._conversation_id: typing.Optional[str] = None
         self._reconnect_attempts = 0
@@ -112,11 +108,10 @@ class ReconnectableAsyncConversationsSocketClient(EventEmitterMixin):
     async def _reconnect(self) -> None:
         if self._conversation_id is None:
             raise RuntimeError("reconnect requested without conversation_id")
-        from .websocket_connect import build_sts_websocket_url_and_headers
 
         ws_url, headers = build_sts_websocket_url_and_headers(
             self._client_wrapper,
-            downstream_websocket_url=self._downstream_websocket_url,
+            websocket_url=self._websocket_url,
             request_options=self._request_options,
             reconnect_conv_id=self._conversation_id,
         )
@@ -126,13 +121,10 @@ class ReconnectableAsyncConversationsSocketClient(EventEmitterMixin):
         self._cm = new_cm
         self._inner = AsyncConversationsSocketClient(websocket=new_protocol)
 
-    async def _should_reconnect(self, exc: BaseException) -> bool:
+    def _should_reconnect(self, exc: BaseException) -> bool:
         if self._user_closed:
             return False
-        code = _close_code(exc)
-        if code in TERMINAL_RECONNECT_CODES:
-            return False
-        if code != ABNORMAL_CLOSURE:
+        if _close_code(exc) != ABNORMAL_CLOSURE:
             return False
         if not self._conversation_id:
             return False
@@ -141,27 +133,33 @@ class ReconnectableAsyncConversationsSocketClient(EventEmitterMixin):
         return True
 
     async def recv(self) -> typing.Any:
-        while True:
+        try:
+            msg = await self._inner.recv()
+            self._observe_message(msg)
+            return msg
+        except ConnectionClosed as exc:
+            return await self._recv_with_reconnect(exc)
+
+    async def _recv_with_reconnect(self, exc: ConnectionClosed) -> typing.Any:
+        if not self._should_reconnect(exc):
+            raise exc
+        self._reconnect_attempts += 1
+        await asyncio.sleep(_reconnect_delay_sec(self._reconnect_attempts))
+        async with self._lock:
+            if self._user_closed:
+                raise exc
             try:
-                msg = await self._inner.recv()
-                self._observe_message(msg)
-                return msg
-            except ConnectionClosed as exc:
-                if not await self._should_reconnect(exc):
-                    raise
-                self._reconnect_attempts += 1
-                await asyncio.sleep(_reconnect_delay_sec(self._reconnect_attempts))
-                async with self._lock:
-                    if self._user_closed:
-                        raise exc
-                    try:
-                        await self._reconnect()
-                    except Exception:
-                        # Reconnection failed (e.g. network error, refused).
-                        # Loop will retry recv() on the (dead) inner socket,
-                        # which raises ConnectionClosed again, triggering
-                        # another reconnect attempt.
-                        pass
+                await self._reconnect()
+            except ConnectionClosed as reconnect_exc:
+                return await self._recv_with_reconnect(reconnect_exc)
+            except Exception:
+                return await self._recv_with_reconnect(exc)
+        try:
+            msg = await self._inner.recv()
+            self._observe_message(msg)
+            return msg
+        except ConnectionClosed as retry_exc:
+            return await self._recv_with_reconnect(retry_exc)
 
     async def __aiter__(self) -> typing.AsyncIterator[typing.Any]:
         while not self._user_closed:
@@ -218,14 +216,14 @@ class ReconnectableConversationsSocketClient(EventEmitterMixin):
         initial_cm: typing.Any,
         initial_protocol: typing.Any,
         client_wrapper: BaseClientWrapper,
-        downstream_websocket_url: typing.Optional[str],
+        websocket_url: typing.Optional[str],
         request_options: typing.Optional[RequestOptions],
     ) -> None:
         super().__init__()
         self._cm = initial_cm
         self._inner = ConversationsSocketClient(websocket=initial_protocol)
         self._client_wrapper = client_wrapper
-        self._downstream_websocket_url = downstream_websocket_url
+        self._websocket_url = websocket_url
         self._request_options = request_options
         self._conversation_id: typing.Optional[str] = None
         self._reconnect_attempts = 0
@@ -268,11 +266,10 @@ class ReconnectableConversationsSocketClient(EventEmitterMixin):
     def _reconnect(self) -> None:
         if self._conversation_id is None:
             raise RuntimeError("reconnect requested without conversation_id")
-        from .websocket_connect import build_sts_websocket_url_and_headers
 
         ws_url, headers = build_sts_websocket_url_and_headers(
             self._client_wrapper,
-            downstream_websocket_url=self._downstream_websocket_url,
+            websocket_url=self._websocket_url,
             request_options=self._request_options,
             reconnect_conv_id=self._conversation_id,
         )
@@ -285,10 +282,7 @@ class ReconnectableConversationsSocketClient(EventEmitterMixin):
     def _should_reconnect(self, exc: BaseException) -> bool:
         if self._user_closed:
             return False
-        code = _close_code(exc)
-        if code in TERMINAL_RECONNECT_CODES:
-            return False
-        if code != ABNORMAL_CLOSURE:
+        if _close_code(exc) != ABNORMAL_CLOSURE:
             return False
         if not self._conversation_id:
             return False
@@ -297,26 +291,32 @@ class ReconnectableConversationsSocketClient(EventEmitterMixin):
         return True
 
     def recv(self) -> typing.Any:
-        while True:
-            try:
-                msg = self._inner.recv()
-                self._observe_message(msg)
-                return msg
-            except ConnectionClosed as exc:
-                if not self._should_reconnect(exc):
-                    raise
-                self._reconnect_attempts += 1
-                time.sleep(_reconnect_delay_sec(self._reconnect_attempts))
-                if self._user_closed:
-                    raise exc
-                try:
-                    self._reconnect()
-                except Exception:
-                    # Reconnection failed (e.g. network error, refused).
-                    # Loop will retry recv() on the (dead) inner socket,
-                    # which raises ConnectionClosed again, triggering
-                    # another reconnect attempt.
-                    pass
+        try:
+            msg = self._inner.recv()
+            self._observe_message(msg)
+            return msg
+        except ConnectionClosed as exc:
+            return self._recv_with_reconnect(exc)
+
+    def _recv_with_reconnect(self, exc: ConnectionClosed) -> typing.Any:
+        if not self._should_reconnect(exc):
+            raise exc
+        self._reconnect_attempts += 1
+        time.sleep(_reconnect_delay_sec(self._reconnect_attempts))
+        if self._user_closed:
+            raise exc
+        try:
+            self._reconnect()
+        except ConnectionClosed as reconnect_exc:
+            return self._recv_with_reconnect(reconnect_exc)
+        except Exception:
+            return self._recv_with_reconnect(exc)
+        try:
+            msg = self._inner.recv()
+            self._observe_message(msg)
+            return msg
+        except ConnectionClosed as retry_exc:
+            return self._recv_with_reconnect(retry_exc)
 
     def __iter__(self) -> typing.Iterator[typing.Any]:
         while not self._user_closed:
