@@ -493,7 +493,7 @@ client.agents.upsert(
 <dl>
 <dd>
 
-**min_words_to_interrupt:** `typing.Optional[float]` — Minimum number of words required to interrupt the assistant.
+**min_words_to_interrupt:** `typing.Optional[int]` — Minimum number of words required to interrupt the assistant.
     
 </dd>
 </dl>
@@ -525,7 +525,7 @@ client.agents.upsert(
 <dl>
 <dd>
 
-**vad_prebuffer_duration_ms:** `typing.Optional[float]` — Voice activity detection prebuffer duration in milliseconds.
+**vad_prebuffer_duration_ms:** `typing.Optional[int]` — Voice activity detection prebuffer duration in milliseconds.
     
 </dd>
 </dl>
@@ -533,7 +533,7 @@ client.agents.upsert(
 <dl>
 <dd>
 
-**vad_min_speech_duration_ms:** `typing.Optional[float]` — Minimum speech duration for voice activity detection in milliseconds.
+**vad_min_speech_duration_ms:** `typing.Optional[int]` — Minimum speech duration for voice activity detection in milliseconds.
     
 </dd>
 </dl>
@@ -541,7 +541,7 @@ client.agents.upsert(
 <dl>
 <dd>
 
-**vad_min_silence_duration_ms:** `typing.Optional[float]` — Minimum silence duration for voice activity detection in milliseconds.
+**vad_min_silence_duration_ms:** `typing.Optional[int]` — Minimum silence duration for voice activity detection in milliseconds.
     
 </dd>
 </dl>
@@ -1044,7 +1044,7 @@ client.agents.update(
 <dl>
 <dd>
 
-**min_words_to_interrupt:** `typing.Optional[float]` — Minimum number of words required to interrupt the assistant.
+**min_words_to_interrupt:** `typing.Optional[int]` — Minimum number of words required to interrupt the assistant.
     
 </dd>
 </dl>
@@ -1076,7 +1076,7 @@ client.agents.update(
 <dl>
 <dd>
 
-**vad_prebuffer_duration_ms:** `typing.Optional[float]` — Voice activity detection prebuffer duration in milliseconds.
+**vad_prebuffer_duration_ms:** `typing.Optional[int]` — Voice activity detection prebuffer duration in milliseconds.
     
 </dd>
 </dl>
@@ -1084,7 +1084,7 @@ client.agents.update(
 <dl>
 <dd>
 
-**vad_min_speech_duration_ms:** `typing.Optional[float]` — Minimum speech duration for voice activity detection in milliseconds.
+**vad_min_speech_duration_ms:** `typing.Optional[int]` — Minimum speech duration for voice activity detection in milliseconds.
     
 </dd>
 </dl>
@@ -1092,7 +1092,7 @@ client.agents.update(
 <dl>
 <dd>
 
-**vad_min_silence_duration_ms:** `typing.Optional[float]` — Minimum silence duration for voice activity detection in milliseconds.
+**vad_min_silence_duration_ms:** `typing.Optional[int]` — Minimum silence duration for voice activity detection in milliseconds.
     
 </dd>
 </dl>

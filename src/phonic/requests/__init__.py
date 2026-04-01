@@ -54,15 +54,11 @@ if typing.TYPE_CHECKING:
     from .input_text_payload import InputTextPayloadParams
     from .outbound_call_config import OutboundCallConfigParams
     from .outbound_call_config_tools_item import OutboundCallConfigToolsItemParams
-    from .outbound_call_initiated_response import OutboundCallInitiatedResponseParams
-    from .outbound_dry_run_response import OutboundDryRunResponseParams
     from .project import ProjectParams
     from .project_default_agent import ProjectDefaultAgentParams
     from .ready_to_start_conversation_payload import ReadyToStartConversationPayloadParams
     from .say_payload import SayPayloadParams
     from .set_external_id_payload import SetExternalIdPayloadParams
-    from .sip_outbound_call_initiated_response import SipOutboundCallInitiatedResponseParams
-    from .sip_outbound_dry_run_response import SipOutboundDryRunResponseParams
     from .task import TaskParams
     from .tool import ToolParams
     from .tool_call_interrupted_payload import ToolCallInterruptedPayloadParams
@@ -129,15 +125,11 @@ _dynamic_imports: typing.Dict[str, str] = {
     "InputTextPayloadParams": ".input_text_payload",
     "OutboundCallConfigParams": ".outbound_call_config",
     "OutboundCallConfigToolsItemParams": ".outbound_call_config_tools_item",
-    "OutboundCallInitiatedResponseParams": ".outbound_call_initiated_response",
-    "OutboundDryRunResponseParams": ".outbound_dry_run_response",
     "ProjectDefaultAgentParams": ".project_default_agent",
     "ProjectParams": ".project",
     "ReadyToStartConversationPayloadParams": ".ready_to_start_conversation_payload",
     "SayPayloadParams": ".say_payload",
     "SetExternalIdPayloadParams": ".set_external_id_payload",
-    "SipOutboundCallInitiatedResponseParams": ".sip_outbound_call_initiated_response",
-    "SipOutboundDryRunResponseParams": ".sip_outbound_dry_run_response",
     "TaskParams": ".task",
     "ToolCallInterruptedPayloadParams": ".tool_call_interrupted_payload",
     "ToolCallOutputPayloadParams": ".tool_call_output_payload",
@@ -228,15 +220,11 @@ __all__ = [
     "InputTextPayloadParams",
     "OutboundCallConfigParams",
     "OutboundCallConfigToolsItemParams",
-    "OutboundCallInitiatedResponseParams",
-    "OutboundDryRunResponseParams",
     "ProjectDefaultAgentParams",
     "ProjectParams",
     "ReadyToStartConversationPayloadParams",
     "SayPayloadParams",
     "SetExternalIdPayloadParams",
-    "SipOutboundCallInitiatedResponseParams",
-    "SipOutboundDryRunResponseParams",
     "TaskParams",
     "ToolCallInterruptedPayloadParams",
     "ToolCallOutputPayloadParams",
