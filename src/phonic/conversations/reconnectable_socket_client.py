@@ -36,8 +36,11 @@ _MAX_RECONNECT_ATTEMPTS = 10
 
 
 def _close_code(exc: BaseException) -> typing.Optional[int]:
-    if isinstance(exc, ConnectionClosed) and exc.rcvd is not None:
-        return exc.rcvd.code
+    if isinstance(exc, ConnectionClosed):
+        if exc.rcvd is not None:
+            return exc.rcvd.code
+        # No close frame received — this is an abnormal closure (1006).
+        return ABNORMAL_CLOSURE
     return None
 
 
