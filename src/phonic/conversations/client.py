@@ -515,19 +515,13 @@ class ConversationsClient:
 
     @contextmanager
     def connect(
-        self,
-        *,
-        downstream_websocket_url: typing.Optional[str] = None,
-        request_options: typing.Optional[RequestOptions] = None,
+        self, *, request_options: typing.Optional[RequestOptions] = None
     ) -> typing.Iterator[ConversationsSocketClient]:
         """
         Main STS WebSocket channel for real-time voice conversations
 
         Parameters
         ----------
-        downstream_websocket_url : typing.Optional[str]
-            Custom downstream WebSocket URL
-
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -540,7 +534,6 @@ class ConversationsClient:
             jsonable_encoder(
                 remove_none_from_dict(
                     {
-                        "downstream_websocket_url": downstream_websocket_url,
                         **(
                             request_options.get("additional_query_parameters", {}) or {}
                             if request_options is not None
@@ -1134,19 +1127,13 @@ class AsyncConversationsClient:
 
     @asynccontextmanager
     async def connect(
-        self,
-        *,
-        downstream_websocket_url: typing.Optional[str] = None,
-        request_options: typing.Optional[RequestOptions] = None,
+        self, *, request_options: typing.Optional[RequestOptions] = None
     ) -> typing.AsyncIterator[AsyncConversationsSocketClient]:
         """
         Main STS WebSocket channel for real-time voice conversations
 
         Parameters
         ----------
-        downstream_websocket_url : typing.Optional[str]
-            Custom downstream WebSocket URL
-
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -1159,7 +1146,6 @@ class AsyncConversationsClient:
             jsonable_encoder(
                 remove_none_from_dict(
                     {
-                        "downstream_websocket_url": downstream_websocket_url,
                         **(
                             request_options.get("additional_query_parameters", {}) or {}
                             if request_options is not None
