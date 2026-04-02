@@ -1123,9 +1123,7 @@ class RawConversationsClient:
 
     @contextmanager
     def connect(
-        self,
-        *,
-        request_options: typing.Optional[RequestOptions] = None,
+        self, *, request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.Iterator[typing.Union[ConversationsSocketClient, ReconnectableConversationsSocketClient]]:
         """
         Main STS WebSocket channel for real-time voice conversations
@@ -2228,9 +2226,7 @@ class AsyncRawConversationsClient:
 
     @asynccontextmanager
     async def connect(
-        self,
-        *,
-        request_options: typing.Optional[RequestOptions] = None,
+        self, *, request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.AsyncIterator[typing.Union[AsyncConversationsSocketClient, ReconnectableAsyncConversationsSocketClient]]:
         """
         Main STS WebSocket channel for real-time voice conversations
