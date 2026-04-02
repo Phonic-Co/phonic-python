@@ -55,14 +55,12 @@ class ReconnectableAsyncConversationsSocketClient(EventEmitterMixin):
         initial_cm: typing.Any,
         initial_protocol: typing.Any,
         client_wrapper: BaseClientWrapper,
-        websocket_url: typing.Optional[str],
         request_options: typing.Optional[RequestOptions],
     ) -> None:
         super().__init__()
         self._cm = initial_cm
         self._inner = AsyncConversationsSocketClient(websocket=initial_protocol)
         self._client_wrapper = client_wrapper
-        self._websocket_url = websocket_url
         self._request_options = request_options
         self._conversation_id: typing.Optional[str] = None
         self._reconnect_attempts = 0
@@ -113,7 +111,6 @@ class ReconnectableAsyncConversationsSocketClient(EventEmitterMixin):
 
         ws_url, headers = build_sts_websocket_url_and_headers(
             self._client_wrapper,
-            websocket_url=self._websocket_url,
             request_options=self._request_options,
             reconnect_conv_id=self._conversation_id,
         )
@@ -224,14 +221,12 @@ class ReconnectableConversationsSocketClient(EventEmitterMixin):
         initial_cm: typing.Any,
         initial_protocol: typing.Any,
         client_wrapper: BaseClientWrapper,
-        websocket_url: typing.Optional[str],
         request_options: typing.Optional[RequestOptions],
     ) -> None:
         super().__init__()
         self._cm = initial_cm
         self._inner = ConversationsSocketClient(websocket=initial_protocol)
         self._client_wrapper = client_wrapper
-        self._websocket_url = websocket_url
         self._request_options = request_options
         self._conversation_id: typing.Optional[str] = None
         self._reconnect_attempts = 0
@@ -282,7 +277,6 @@ class ReconnectableConversationsSocketClient(EventEmitterMixin):
 
         ws_url, headers = build_sts_websocket_url_and_headers(
             self._client_wrapper,
-            websocket_url=self._websocket_url,
             request_options=self._request_options,
             reconnect_conv_id=self._conversation_id,
         )

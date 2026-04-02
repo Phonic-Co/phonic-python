@@ -33,13 +33,11 @@ if TYPE_CHECKING:
 def build_sts_websocket_url_and_headers(
     client_wrapper: BaseClientWrapper,
     *,
-    websocket_url: Optional[str] = None,
     request_options: Optional[RequestOptions] = None,
     reconnect_conv_id: Optional[str] = None,
 ) -> Tuple[str, Dict[str, str]]:
     ws_url = client_wrapper.get_environment().production + "/v1/sts/ws"
     query: Dict[str, Any] = {
-        "downstream_websocket_url": websocket_url,
         **(
             request_options.get("additional_query_parameters", {}) or {}
             if request_options is not None
@@ -78,12 +76,10 @@ def _raise_api_error_for_invalid_websocket_status(
 def open_conversations_socket_sync(
     client_wrapper: BaseClientWrapper,
     *,
-    websocket_url: Optional[str] = None,
     request_options: Optional[RequestOptions] = None,
 ) -> Iterator[ConversationsSocketClient]:
     ws_url, headers = build_sts_websocket_url_and_headers(
         client_wrapper,
-        websocket_url=websocket_url,
         request_options=request_options,
     )
     try:
@@ -97,12 +93,10 @@ def open_conversations_socket_sync(
 async def open_conversations_socket_async(
     client_wrapper: BaseClientWrapper,
     *,
-    websocket_url: Optional[str] = None,
     request_options: Optional[RequestOptions] = None,
 ) -> AsyncIterator[AsyncConversationsSocketClient]:
     ws_url, headers = build_sts_websocket_url_and_headers(
         client_wrapper,
-        websocket_url=websocket_url,
         request_options=request_options,
     )
     try:
@@ -116,14 +110,12 @@ async def open_conversations_socket_async(
 def open_reconnectable_conversations_socket_sync(
     client_wrapper: BaseClientWrapper,
     *,
-    websocket_url: Optional[str] = None,
     request_options: Optional[RequestOptions] = None,
 ) -> Iterator["ReconnectableConversationsSocketClient"]:
     from .reconnectable_socket_client import ReconnectableConversationsSocketClient
 
     ws_url, headers = build_sts_websocket_url_and_headers(
         client_wrapper,
-        websocket_url=websocket_url,
         request_options=request_options,
     )
     try:
@@ -135,7 +127,6 @@ def open_reconnectable_conversations_socket_sync(
         initial_cm=cm,
         initial_protocol=protocol,
         client_wrapper=client_wrapper,
-        websocket_url=websocket_url,
         request_options=request_options,
     )
     try:
@@ -148,14 +139,12 @@ def open_reconnectable_conversations_socket_sync(
 async def open_reconnectable_conversations_socket_async(
     client_wrapper: BaseClientWrapper,
     *,
-    websocket_url: Optional[str] = None,
     request_options: Optional[RequestOptions] = None,
 ) -> AsyncIterator["ReconnectableAsyncConversationsSocketClient"]:
     from .reconnectable_socket_client import ReconnectableAsyncConversationsSocketClient
 
     ws_url, headers = build_sts_websocket_url_and_headers(
         client_wrapper,
-        websocket_url=websocket_url,
         request_options=request_options,
     )
     try:
@@ -167,7 +156,6 @@ async def open_reconnectable_conversations_socket_async(
         initial_cm=cm,
         initial_protocol=protocol,
         client_wrapper=client_wrapper,
-        websocket_url=websocket_url,
         request_options=request_options,
     )
     try:

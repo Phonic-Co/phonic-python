@@ -512,7 +512,6 @@ class ConversationsClient:
     def connect(
         self,
         *,
-        websocket_url: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.Iterator[typing.Union[ConversationsSocketClient, ReconnectableConversationsSocketClient]]:
         """
@@ -520,9 +519,6 @@ class ConversationsClient:
 
         Parameters
         ----------
-        websocket_url : typing.Optional[str]
-            Custom WebSocket URL
-
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -535,14 +531,12 @@ class ConversationsClient:
         if cw._reconnect_conversation_on_abnormal_disconnect:
             with open_reconnectable_conversations_socket_sync(
                 cw,
-                websocket_url=websocket_url,
                 request_options=request_options,
             ) as socket:
                 yield socket
         else:
             with open_conversations_socket_sync(
                 cw,
-                websocket_url=websocket_url,
                 request_options=request_options,
             ) as socket:
                 yield socket
@@ -1111,7 +1105,6 @@ class AsyncConversationsClient:
     async def connect(
         self,
         *,
-        websocket_url: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.AsyncIterator[typing.Union[AsyncConversationsSocketClient, ReconnectableAsyncConversationsSocketClient]]:
         """
@@ -1119,9 +1112,6 @@ class AsyncConversationsClient:
 
         Parameters
         ----------
-        websocket_url : typing.Optional[str]
-            Custom WebSocket URL
-
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -1134,14 +1124,12 @@ class AsyncConversationsClient:
         if cw._reconnect_conversation_on_abnormal_disconnect:
             async with open_reconnectable_conversations_socket_async(
                 cw,
-                websocket_url=websocket_url,
                 request_options=request_options,
             ) as socket:
                 yield socket
         else:
             async with open_conversations_socket_async(
                 cw,
-                websocket_url=websocket_url,
                 request_options=request_options,
             ) as socket:
                 yield socket
