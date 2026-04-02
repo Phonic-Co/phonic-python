@@ -163,7 +163,10 @@ class ReconnectableAsyncConversationsSocketClient(EventEmitterMixin):
             try:
                 msg = await self.recv()
                 yield msg
-            except ConnectionClosed:
+            except ConnectionClosed as exc:
+                code = _close_code(exc)
+                if code is not None and code != ABNORMAL_CLOSURE and code != 1000:
+                    raise
                 break
 
     async def start_listening(self) -> None:
@@ -332,7 +335,10 @@ class ReconnectableConversationsSocketClient(EventEmitterMixin):
         while not self._user_closed:
             try:
                 yield self.recv()
-            except ConnectionClosed:
+            except ConnectionClosed as exc:
+                code = _close_code(exc)
+                if code is not None and code != ABNORMAL_CLOSURE and code != 1000:
+                    raise
                 break
 
     def start_listening(self) -> None:
