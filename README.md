@@ -75,6 +75,7 @@ client.agents.create(
         "Load ID",
         "dispatch"
     ],
+    min_words_to_interrupt=1,
     configuration_endpoint=CreateAgentRequestConfigurationEndpoint(
         url="https://api.example.com/config",
         headers={
@@ -134,6 +135,7 @@ async def main() -> None:
             "Load ID",
             "dispatch"
         ],
+        min_words_to_interrupt=1,
         configuration_endpoint=CreateAgentRequestConfigurationEndpoint(
             url="https://api.example.com/config",
             headers={
@@ -173,7 +175,7 @@ from phonic import Phonic
 client = Phonic(...)
 
 # Connect to the websocket (Sync)
-with client.conversations.connect(...) as socket:
+with client.conversations.connect() as socket:
     # Iterate over the messages as they arrive
     for message in socket:
         print(message)
@@ -187,7 +189,7 @@ from phonic import AsyncPhonic
 client = AsyncPhonic(...)
 
 # Connect to the websocket (Async)
-async with client.conversations.connect(...) as socket:
+async with client.conversations.connect() as socket:
     async for message in socket:
         print(message)
 ```

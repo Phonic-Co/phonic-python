@@ -88,6 +88,11 @@ class OutboundCallConfigParams(typing_extensions.TypedDict):
     These words, or short phrases, will be more accurately recognized by the agent.
     """
 
+    min_words_to_interrupt: typing_extensions.NotRequired[int]
+    """
+    Minimum number of words required to interrupt the assistant.
+    """
+
     tools: typing_extensions.NotRequired[typing.Sequence[OutboundCallConfigToolsItemParams]]
     """
     Array of built-in or custom tool names to use.

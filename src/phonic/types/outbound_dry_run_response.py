@@ -4,11 +4,19 @@ import typing
 
 import pydantic
 from ..core.pydantic_utilities import IS_PYDANTIC_V2
-from .config_options import ConfigOptions
+from ..core.unchecked_base_model import UncheckedBaseModel
 
 
-class ConfigPayload(ConfigOptions):
-    type: typing.Literal["config"] = "config"
+class OutboundDryRunResponse(UncheckedBaseModel):
+    conversation_id: typing.Optional[typing.Any] = pydantic.Field(default=None)
+    """
+    Always null when `dry_run` is true.
+    """
+
+    dry_run: typing.Literal[True] = pydantic.Field(default=True)
+    """
+    Always true for this response.
+    """
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

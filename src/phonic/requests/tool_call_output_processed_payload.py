@@ -30,7 +30,7 @@ class ToolCallOutputProcessedPayloadParams(typing_extensions.TypedDict):
     Webhook endpoint URL (null for WebSocket tools)
     """
 
-    endpoint_timeout_ms: typing_extensions.NotRequired[typing.Optional[float]]
+    endpoint_timeout_ms: typing_extensions.NotRequired[typing.Optional[int]]
     """
     Webhook timeout in milliseconds (null for WebSocket tools)
     """
@@ -65,7 +65,7 @@ class ToolCallOutputProcessedPayloadParams(typing_extensions.TypedDict):
     WebSocket tool output (null for webhook tools)
     """
 
-    response_status_code: typing_extensions.NotRequired[typing.Optional[float]]
+    response_status_code: typing_extensions.NotRequired[typing.Optional[int]]
     """
     Webhook HTTP status code (null for WebSocket tools)
     """

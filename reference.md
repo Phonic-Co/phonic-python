@@ -140,6 +140,7 @@ client.agents.create(
         "Load ID",
         "dispatch"
     ],
+    min_words_to_interrupt=1,
     configuration_endpoint=CreateAgentRequestConfigurationEndpoint(
         url="https://api.example.com/config",
         headers={
@@ -260,6 +261,7 @@ client.agents.upsert(
         "Load ID",
         "dispatch"
     ],
+    min_words_to_interrupt=1,
     configuration_endpoint=CreateAgentRequestConfigurationEndpoint(
         url="https://api.example.com/config",
         headers={
@@ -491,6 +493,14 @@ client.agents.upsert(
 <dl>
 <dd>
 
+**min_words_to_interrupt:** `typing.Optional[int]` — Minimum number of words required to interrupt the assistant.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **configuration_endpoint:** `typing.Optional[CreateAgentRequestConfigurationEndpoint]` — When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
     
 </dd>
@@ -515,7 +525,7 @@ client.agents.upsert(
 <dl>
 <dd>
 
-**vad_prebuffer_duration_ms:** `typing.Optional[float]` — Voice activity detection prebuffer duration in milliseconds.
+**vad_prebuffer_duration_ms:** `typing.Optional[int]` — Voice activity detection prebuffer duration in milliseconds.
     
 </dd>
 </dl>
@@ -523,7 +533,7 @@ client.agents.upsert(
 <dl>
 <dd>
 
-**vad_min_speech_duration_ms:** `typing.Optional[float]` — Minimum speech duration for voice activity detection in milliseconds.
+**vad_min_speech_duration_ms:** `typing.Optional[int]` — Minimum speech duration for voice activity detection in milliseconds.
     
 </dd>
 </dl>
@@ -531,7 +541,7 @@ client.agents.upsert(
 <dl>
 <dd>
 
-**vad_min_silence_duration_ms:** `typing.Optional[float]` — Minimum silence duration for voice activity detection in milliseconds.
+**vad_min_silence_duration_ms:** `typing.Optional[int]` — Minimum silence duration for voice activity detection in milliseconds.
     
 </dd>
 </dl>
@@ -794,6 +804,7 @@ client.agents.update(
         "Load ID",
         "dispatch"
     ],
+    min_words_to_interrupt=1,
     configuration_endpoint=UpdateAgentRequestConfigurationEndpoint(
         url="https://api.example.com/config",
         headers={
@@ -1033,6 +1044,14 @@ client.agents.update(
 <dl>
 <dd>
 
+**min_words_to_interrupt:** `typing.Optional[int]` — Minimum number of words required to interrupt the assistant.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **configuration_endpoint:** `typing.Optional[UpdateAgentRequestConfigurationEndpoint]` — When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
     
 </dd>
@@ -1057,7 +1076,7 @@ client.agents.update(
 <dl>
 <dd>
 
-**vad_prebuffer_duration_ms:** `typing.Optional[float]` — Voice activity detection prebuffer duration in milliseconds.
+**vad_prebuffer_duration_ms:** `typing.Optional[int]` — Voice activity detection prebuffer duration in milliseconds.
     
 </dd>
 </dl>
@@ -1065,7 +1084,7 @@ client.agents.update(
 <dl>
 <dd>
 
-**vad_min_speech_duration_ms:** `typing.Optional[float]` — Minimum speech duration for voice activity detection in milliseconds.
+**vad_min_speech_duration_ms:** `typing.Optional[int]` — Minimum speech duration for voice activity detection in milliseconds.
     
 </dd>
 </dl>
@@ -1073,7 +1092,7 @@ client.agents.update(
 <dl>
 <dd>
 
-**vad_min_silence_duration_ms:** `typing.Optional[float]` — Minimum silence duration for voice activity detection in milliseconds.
+**vad_min_silence_duration_ms:** `typing.Optional[int]` — Minimum silence duration for voice activity detection in milliseconds.
     
 </dd>
 </dl>
@@ -3534,10 +3553,12 @@ client.conversations.outbound_call(
             "Load ID",
             "dispatch"
         ],
+        min_words_to_interrupt=1,
         tools=[
             "keypad_input"
         ],
     ),
+    dry_run=False,
 )
 
 ```
@@ -3563,6 +3584,14 @@ client.conversations.outbound_call(
 <dd>
 
 **config:** `typing.Optional[OutboundCallConfig]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**dry_run:** `typing.Optional[bool]` — If true, validates the outbound call setup without placing a call. Returns HTTP 200 with `conversation_id` set to null.
     
 </dd>
 </dl>
@@ -3678,6 +3707,14 @@ client.conversations.sip_outbound_call(
 <dd>
 
 **config:** `typing.Optional[OutboundCallConfig]` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**dry_run:** `typing.Optional[bool]` — If true, validates the outbound call setup without placing a call. Returns HTTP 200 with `conversation_id` and `twilio_call_sid` set to null.
     
 </dd>
 </dl>

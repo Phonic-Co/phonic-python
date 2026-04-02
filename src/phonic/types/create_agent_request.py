@@ -144,6 +144,11 @@ class CreateAgentRequest(UncheckedBaseModel):
     These words, or short phrases, will be more accurately recognized by the agent.
     """
 
+    min_words_to_interrupt: typing.Optional[int] = pydantic.Field(default=None)
+    """
+    Minimum number of words required to interrupt the assistant.
+    """
+
     configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpoint] = pydantic.Field(default=None)
     """
     When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
@@ -159,17 +164,17 @@ class CreateAgentRequest(UncheckedBaseModel):
     E.164 formatted phone number where non-agent calls will be forwarded. Required when `inbound_rollout < 1.0`, must be `null` when `inbound_rollout = 1.0`. Defaults to `null`.
     """
 
-    vad_prebuffer_duration_ms: typing.Optional[float] = pydantic.Field(default=None)
+    vad_prebuffer_duration_ms: typing.Optional[int] = pydantic.Field(default=None)
     """
     Voice activity detection prebuffer duration in milliseconds.
     """
 
-    vad_min_speech_duration_ms: typing.Optional[float] = pydantic.Field(default=None)
+    vad_min_speech_duration_ms: typing.Optional[int] = pydantic.Field(default=None)
     """
     Minimum speech duration for voice activity detection in milliseconds.
     """
 
-    vad_min_silence_duration_ms: typing.Optional[float] = pydantic.Field(default=None)
+    vad_min_silence_duration_ms: typing.Optional[int] = pydantic.Field(default=None)
     """
     Minimum silence duration for voice activity detection in milliseconds.
     """

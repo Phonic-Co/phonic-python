@@ -4,11 +4,19 @@ import typing
 
 import pydantic
 from ..core.pydantic_utilities import IS_PYDANTIC_V2
-from .config_options import ConfigOptions
+from ..core.unchecked_base_model import UncheckedBaseModel
 
 
-class ConfigPayload(ConfigOptions):
-    type: typing.Literal["config"] = "config"
+class OutboundCallInitiatedResponse(UncheckedBaseModel):
+    conversation_id: str = pydantic.Field()
+    """
+    The ID of the created conversation.
+    """
+
+    dry_run: typing.Literal[False] = pydantic.Field(default=False)
+    """
+    Always false when a call was placed.
+    """
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
