@@ -17,12 +17,14 @@ class BaseClientWrapper:
         environment: PhonicEnvironment,
         timeout: typing.Optional[float] = None,
         logging: typing.Optional[typing.Union[LogConfig, Logger]] = None,
+        reconnect_conversation_on_abnormal_disconnect: bool = False,
     ):
         self._api_key = api_key
         self._headers = headers
         self._environment = environment
         self._timeout = timeout
         self._logging = logging
+        self._reconnect_conversation_on_abnormal_disconnect = reconnect_conversation_on_abnormal_disconnect
 
     def get_headers(self) -> typing.Dict[str, str]:
         import platform
@@ -65,8 +67,16 @@ class SyncClientWrapper(BaseClientWrapper):
         timeout: typing.Optional[float] = None,
         logging: typing.Optional[typing.Union[LogConfig, Logger]] = None,
         httpx_client: httpx.Client,
+        reconnect_conversation_on_abnormal_disconnect: bool = False,
     ):
-        super().__init__(api_key=api_key, headers=headers, environment=environment, timeout=timeout, logging=logging)
+        super().__init__(
+            api_key=api_key,
+            headers=headers,
+            environment=environment,
+            timeout=timeout,
+            logging=logging,
+            reconnect_conversation_on_abnormal_disconnect=reconnect_conversation_on_abnormal_disconnect,
+        )
         self.httpx_client = HttpClient(
             httpx_client=httpx_client,
             base_headers=self.get_headers,
@@ -86,8 +96,16 @@ class AsyncClientWrapper(BaseClientWrapper):
         logging: typing.Optional[typing.Union[LogConfig, Logger]] = None,
         async_token: typing.Optional[typing.Callable[[], typing.Awaitable[str]]] = None,
         httpx_client: httpx.AsyncClient,
+        reconnect_conversation_on_abnormal_disconnect: bool = False,
     ):
-        super().__init__(api_key=api_key, headers=headers, environment=environment, timeout=timeout, logging=logging)
+        super().__init__(
+            api_key=api_key,
+            headers=headers,
+            environment=environment,
+            timeout=timeout,
+            logging=logging,
+            reconnect_conversation_on_abnormal_disconnect=reconnect_conversation_on_abnormal_disconnect,
+        )
         self._async_token = async_token
         self.httpx_client = AsyncHttpClient(
             httpx_client=httpx_client,

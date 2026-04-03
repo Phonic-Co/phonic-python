@@ -52,6 +52,9 @@ class Phonic:
     logging : typing.Optional[typing.Union[LogConfig, Logger]]
         Configure logging for the SDK. Accepts a LogConfig dict with 'level' (debug/info/warn/error), 'logger' (custom logger implementation), and 'silent' (boolean, defaults to True) fields. You can also pass a pre-configured Logger instance.
 
+    reconnect_conversation_on_abnormal_disconnect : typing.Optional[bool]
+        When True, the conversations WebSocket automatically reconnects after an abnormal close (code 1006) using reconnect_conv_id. Defaults to False until stable in production.
+
     Examples
     --------
     from phonic import Phonic
@@ -71,6 +74,7 @@ class Phonic:
         follow_redirects: typing.Optional[bool] = True,
         httpx_client: typing.Optional[httpx.Client] = None,
         logging: typing.Optional[typing.Union[LogConfig, Logger]] = None,
+        reconnect_conversation_on_abnormal_disconnect: bool = False,
     ):
         _defaulted_timeout = (
             timeout if timeout is not None else 60 if httpx_client is None else httpx_client.timeout.read
@@ -90,6 +94,7 @@ class Phonic:
             else httpx.Client(timeout=_defaulted_timeout),
             timeout=_defaulted_timeout,
             logging=logging,
+            reconnect_conversation_on_abnormal_disconnect=reconnect_conversation_on_abnormal_disconnect,
         )
         self._agents: typing.Optional[AgentsClient] = None
         self._tools: typing.Optional[ToolsClient] = None
@@ -187,6 +192,9 @@ class AsyncPhonic:
     logging : typing.Optional[typing.Union[LogConfig, Logger]]
         Configure logging for the SDK. Accepts a LogConfig dict with 'level' (debug/info/warn/error), 'logger' (custom logger implementation), and 'silent' (boolean, defaults to True) fields. You can also pass a pre-configured Logger instance.
 
+    reconnect_conversation_on_abnormal_disconnect : typing.Optional[bool]
+        When True, the conversations WebSocket automatically reconnects after an abnormal close (code 1006) using reconnect_conv_id. Defaults to False until stable in production.
+
     Examples
     --------
     from phonic import AsyncPhonic
@@ -206,6 +214,7 @@ class AsyncPhonic:
         follow_redirects: typing.Optional[bool] = True,
         httpx_client: typing.Optional[httpx.AsyncClient] = None,
         logging: typing.Optional[typing.Union[LogConfig, Logger]] = None,
+        reconnect_conversation_on_abnormal_disconnect: bool = False,
     ):
         _defaulted_timeout = (
             timeout if timeout is not None else 60 if httpx_client is None else httpx_client.timeout.read
@@ -225,6 +234,7 @@ class AsyncPhonic:
             else httpx.AsyncClient(timeout=_defaulted_timeout),
             timeout=_defaulted_timeout,
             logging=logging,
+            reconnect_conversation_on_abnormal_disconnect=reconnect_conversation_on_abnormal_disconnect,
         )
         self._agents: typing.Optional[AsyncAgentsClient] = None
         self._tools: typing.Optional[AsyncToolsClient] = None

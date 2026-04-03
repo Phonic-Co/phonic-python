@@ -1,1 +1,7 @@
 # Specify files that shouldn't be modified by Fern
+src/phonic/client.py
+src/phonic/core/client_wrapper.py
+src/phonic/conversations/client.py
+src/phonic/conversations/raw_client.py
+src/phonic/conversations/websocket_connect.py
+src/phonic/conversations/reconnectable_socket_client.py
