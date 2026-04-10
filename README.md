@@ -175,7 +175,7 @@ from phonic import Phonic
 client = Phonic(...)
 
 # Connect to the websocket (Sync)
-with client.conversations.connect() as socket:
+with client.conversations.connect(...) as socket:
     # Iterate over the messages as they arrive
     for message in socket:
         print(message)
@@ -189,7 +189,7 @@ from phonic import AsyncPhonic
 client = AsyncPhonic(...)
 
 # Connect to the websocket (Async)
-async with client.conversations.connect() as socket:
+async with client.conversations.connect(...) as socket:
     async for message in socket:
         print(message)
 ```
