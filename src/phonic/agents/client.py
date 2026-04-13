@@ -115,6 +115,7 @@ class AgentsClient:
         additional_languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         multilingual_mode: typing.Optional[CreateAgentRequestMultilingualMode] = OMIT,
+        push_to_talk: typing.Optional[bool] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
         min_words_to_interrupt: typing.Optional[int] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
@@ -206,6 +207,9 @@ class AgentsClient:
         multilingual_mode : typing.Optional[CreateAgentRequestMultilingualMode]
             If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended).
 
+        push_to_talk : typing.Optional[bool]
+            Push to talk mode. User must send mute/unmute messages to turn on/off listening to audio. Defaults to false.
+
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
 
@@ -270,6 +274,7 @@ class AgentsClient:
             default_language="en",
             additional_languages=["es"],
             multilingual_mode="request",
+            push_to_talk=False,
             boosted_keywords=["Load ID", "dispatch"],
             min_words_to_interrupt=1,
             configuration_endpoint={
@@ -305,6 +310,7 @@ class AgentsClient:
             additional_languages=additional_languages,
             languages=languages,
             multilingual_mode=multilingual_mode,
+            push_to_talk=push_to_talk,
             boosted_keywords=boosted_keywords,
             min_words_to_interrupt=min_words_to_interrupt,
             configuration_endpoint=configuration_endpoint,
@@ -346,6 +352,7 @@ class AgentsClient:
         additional_languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         multilingual_mode: typing.Optional[CreateAgentRequestMultilingualMode] = OMIT,
+        push_to_talk: typing.Optional[bool] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
         min_words_to_interrupt: typing.Optional[int] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
@@ -437,6 +444,9 @@ class AgentsClient:
         multilingual_mode : typing.Optional[CreateAgentRequestMultilingualMode]
             If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended).
 
+        push_to_talk : typing.Optional[bool]
+            Push to talk mode. User must send mute/unmute messages to turn on/off listening to audio. Defaults to false.
+
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
 
@@ -501,6 +511,7 @@ class AgentsClient:
             default_language="en",
             additional_languages=["es"],
             multilingual_mode="request",
+            push_to_talk=False,
             boosted_keywords=["Load ID", "dispatch"],
             min_words_to_interrupt=1,
             configuration_endpoint={
@@ -536,6 +547,7 @@ class AgentsClient:
             additional_languages=additional_languages,
             languages=languages,
             multilingual_mode=multilingual_mode,
+            push_to_talk=push_to_talk,
             boosted_keywords=boosted_keywords,
             min_words_to_interrupt=min_words_to_interrupt,
             configuration_endpoint=configuration_endpoint,
@@ -660,6 +672,7 @@ class AgentsClient:
         additional_languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         multilingual_mode: typing.Optional[UpdateAgentRequestMultilingualMode] = OMIT,
+        push_to_talk: typing.Optional[bool] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
         min_words_to_interrupt: typing.Optional[int] = OMIT,
         configuration_endpoint: typing.Optional[UpdateAgentRequestConfigurationEndpointParams] = OMIT,
@@ -754,6 +767,9 @@ class AgentsClient:
         multilingual_mode : typing.Optional[UpdateAgentRequestMultilingualMode]
             If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended).
 
+        push_to_talk : typing.Optional[bool]
+            Push to talk mode. User must send mute/unmute messages to turn on/off listening to audio. Defaults to false.
+
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
 
@@ -819,6 +835,7 @@ class AgentsClient:
             default_language="en",
             additional_languages=["es"],
             multilingual_mode="request",
+            push_to_talk=False,
             boosted_keywords=["Load ID", "dispatch"],
             min_words_to_interrupt=1,
             configuration_endpoint={
@@ -855,6 +872,7 @@ class AgentsClient:
             additional_languages=additional_languages,
             languages=languages,
             multilingual_mode=multilingual_mode,
+            push_to_talk=push_to_talk,
             boosted_keywords=boosted_keywords,
             min_words_to_interrupt=min_words_to_interrupt,
             configuration_endpoint=configuration_endpoint,
@@ -1136,6 +1154,7 @@ class AsyncAgentsClient:
         additional_languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         multilingual_mode: typing.Optional[CreateAgentRequestMultilingualMode] = OMIT,
+        push_to_talk: typing.Optional[bool] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
         min_words_to_interrupt: typing.Optional[int] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
@@ -1227,6 +1246,9 @@ class AsyncAgentsClient:
         multilingual_mode : typing.Optional[CreateAgentRequestMultilingualMode]
             If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended).
 
+        push_to_talk : typing.Optional[bool]
+            Push to talk mode. User must send mute/unmute messages to turn on/off listening to audio. Defaults to false.
+
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
 
@@ -1296,6 +1318,7 @@ class AsyncAgentsClient:
                 default_language="en",
                 additional_languages=["es"],
                 multilingual_mode="request",
+                push_to_talk=False,
                 boosted_keywords=["Load ID", "dispatch"],
                 min_words_to_interrupt=1,
                 configuration_endpoint={
@@ -1334,6 +1357,7 @@ class AsyncAgentsClient:
             additional_languages=additional_languages,
             languages=languages,
             multilingual_mode=multilingual_mode,
+            push_to_talk=push_to_talk,
             boosted_keywords=boosted_keywords,
             min_words_to_interrupt=min_words_to_interrupt,
             configuration_endpoint=configuration_endpoint,
@@ -1375,6 +1399,7 @@ class AsyncAgentsClient:
         additional_languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         multilingual_mode: typing.Optional[CreateAgentRequestMultilingualMode] = OMIT,
+        push_to_talk: typing.Optional[bool] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
         min_words_to_interrupt: typing.Optional[int] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
@@ -1466,6 +1491,9 @@ class AsyncAgentsClient:
         multilingual_mode : typing.Optional[CreateAgentRequestMultilingualMode]
             If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended).
 
+        push_to_talk : typing.Optional[bool]
+            Push to talk mode. User must send mute/unmute messages to turn on/off listening to audio. Defaults to false.
+
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
 
@@ -1535,6 +1563,7 @@ class AsyncAgentsClient:
                 default_language="en",
                 additional_languages=["es"],
                 multilingual_mode="request",
+                push_to_talk=False,
                 boosted_keywords=["Load ID", "dispatch"],
                 min_words_to_interrupt=1,
                 configuration_endpoint={
@@ -1573,6 +1602,7 @@ class AsyncAgentsClient:
             additional_languages=additional_languages,
             languages=languages,
             multilingual_mode=multilingual_mode,
+            push_to_talk=push_to_talk,
             boosted_keywords=boosted_keywords,
             min_words_to_interrupt=min_words_to_interrupt,
             configuration_endpoint=configuration_endpoint,
@@ -1713,6 +1743,7 @@ class AsyncAgentsClient:
         additional_languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         multilingual_mode: typing.Optional[UpdateAgentRequestMultilingualMode] = OMIT,
+        push_to_talk: typing.Optional[bool] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
         min_words_to_interrupt: typing.Optional[int] = OMIT,
         configuration_endpoint: typing.Optional[UpdateAgentRequestConfigurationEndpointParams] = OMIT,
@@ -1807,6 +1838,9 @@ class AsyncAgentsClient:
         multilingual_mode : typing.Optional[UpdateAgentRequestMultilingualMode]
             If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended).
 
+        push_to_talk : typing.Optional[bool]
+            Push to talk mode. User must send mute/unmute messages to turn on/off listening to audio. Defaults to false.
+
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
 
@@ -1877,6 +1911,7 @@ class AsyncAgentsClient:
                 default_language="en",
                 additional_languages=["es"],
                 multilingual_mode="request",
+                push_to_talk=False,
                 boosted_keywords=["Load ID", "dispatch"],
                 min_words_to_interrupt=1,
                 configuration_endpoint={
@@ -1916,6 +1951,7 @@ class AsyncAgentsClient:
             additional_languages=additional_languages,
             languages=languages,
             multilingual_mode=multilingual_mode,
+            push_to_talk=push_to_talk,
             boosted_keywords=boosted_keywords,
             min_words_to_interrupt=min_words_to_interrupt,
             configuration_endpoint=configuration_endpoint,

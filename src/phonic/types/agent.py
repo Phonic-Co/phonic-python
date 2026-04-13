@@ -142,6 +142,11 @@ class Agent(UncheckedBaseModel):
     If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended).
     """
 
+    push_to_talk: bool = pydantic.Field()
+    """
+    Push to talk mode. User must send mute/unmute messages to turn on/off listening to audio. Defaults to false.
+    """
+
     boosted_keywords: typing.List[str] = pydantic.Field()
     """
     These words, or short phrases, will be more accurately recognized by the agent.

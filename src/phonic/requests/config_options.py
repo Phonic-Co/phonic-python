@@ -135,6 +135,11 @@ class ConfigOptionsParams(typing_extensions.TypedDict):
     If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended).
     """
 
+    push_to_talk: typing_extensions.NotRequired[bool]
+    """
+    Push to talk mode. User must send mute/unmute messages to turn on/off listening to audio. Defaults to false.
+    """
+
     boosted_keywords: typing_extensions.NotRequired[typing.Sequence[str]]
     """
     Keywords to boost in speech recognition

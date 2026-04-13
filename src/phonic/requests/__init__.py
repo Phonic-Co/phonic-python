@@ -53,6 +53,7 @@ if typing.TYPE_CHECKING:
     from .generate_reply_payload import GenerateReplyPayloadParams
     from .input_cancelled_payload import InputCancelledPayloadParams
     from .input_text_payload import InputTextPayloadParams
+    from .mute_payload import MutePayloadParams
     from .outbound_call_config import OutboundCallConfigParams
     from .outbound_call_config_tools_item import OutboundCallConfigToolsItemParams
     from .outbound_call_initiated_response import OutboundCallInitiatedResponseParams
@@ -74,6 +75,7 @@ if typing.TYPE_CHECKING:
     from .tool_call_payload import ToolCallPayloadParams
     from .tool_parameter import ToolParameterParams
     from .tool_project import ToolProjectParams
+    from .unmute_payload import UnmutePayloadParams
     from .update_system_prompt_payload import UpdateSystemPromptPayloadParams
     from .user_finished_speaking_payload import UserFinishedSpeakingPayloadParams
     from .user_started_speaking_payload import UserStartedSpeakingPayloadParams
@@ -130,6 +132,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "GenerateReplyPayloadParams": ".generate_reply_payload",
     "InputCancelledPayloadParams": ".input_cancelled_payload",
     "InputTextPayloadParams": ".input_text_payload",
+    "MutePayloadParams": ".mute_payload",
     "OutboundCallConfigParams": ".outbound_call_config",
     "OutboundCallConfigToolsItemParams": ".outbound_call_config_tools_item",
     "OutboundCallInitiatedResponseParams": ".outbound_call_initiated_response",
@@ -151,6 +154,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ToolParameterParams": ".tool_parameter",
     "ToolParams": ".tool",
     "ToolProjectParams": ".tool_project",
+    "UnmutePayloadParams": ".unmute_payload",
     "UpdateSystemPromptPayloadParams": ".update_system_prompt_payload",
     "UserFinishedSpeakingPayloadParams": ".user_finished_speaking_payload",
     "UserStartedSpeakingPayloadParams": ".user_started_speaking_payload",
@@ -231,6 +235,7 @@ __all__ = [
     "GenerateReplyPayloadParams",
     "InputCancelledPayloadParams",
     "InputTextPayloadParams",
+    "MutePayloadParams",
     "OutboundCallConfigParams",
     "OutboundCallConfigToolsItemParams",
     "OutboundCallInitiatedResponseParams",
@@ -252,6 +257,7 @@ __all__ = [
     "ToolParameterParams",
     "ToolParams",
     "ToolProjectParams",
+    "UnmutePayloadParams",
     "UpdateSystemPromptPayloadParams",
     "UserFinishedSpeakingPayloadParams",
     "UserStartedSpeakingPayloadParams",

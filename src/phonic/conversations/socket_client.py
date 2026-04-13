@@ -23,6 +23,7 @@ from ..types.error_payload import ErrorPayload
 from ..types.generate_reply_payload import GenerateReplyPayload
 from ..types.input_cancelled_payload import InputCancelledPayload
 from ..types.input_text_payload import InputTextPayload
+from ..types.mute_payload import MutePayload
 from ..types.ready_to_start_conversation_payload import ReadyToStartConversationPayload
 from ..types.reset_payload import ResetPayload
 from ..types.say_payload import SayPayload
@@ -31,6 +32,7 @@ from ..types.tool_call_interrupted_payload import ToolCallInterruptedPayload
 from ..types.tool_call_output_payload import ToolCallOutputPayload
 from ..types.tool_call_output_processed_payload import ToolCallOutputProcessedPayload
 from ..types.tool_call_payload import ToolCallPayload
+from ..types.unmute_payload import UnmutePayload
 from ..types.update_system_prompt_payload import UpdateSystemPromptPayload
 from ..types.user_finished_speaking_payload import UserFinishedSpeakingPayload
 from ..types.user_started_speaking_payload import UserStartedSpeakingPayload
@@ -150,6 +152,20 @@ class AsyncConversationsSocketClient(EventEmitterMixin):
         """
         Send a message to the websocket connection.
         The message will be sent as a ToolCallOutputPayload.
+        """
+        await self._send_model(message)
+
+    async def send_unmute(self, message: UnmutePayload) -> None:
+        """
+        Send a message to the websocket connection.
+        The message will be sent as a UnmutePayload.
+        """
+        await self._send_model(message)
+
+    async def send_mute(self, message: MutePayload) -> None:
+        """
+        Send a message to the websocket connection.
+        The message will be sent as a MutePayload.
         """
         await self._send_model(message)
 
@@ -290,6 +306,20 @@ class ConversationsSocketClient(EventEmitterMixin):
         """
         Send a message to the websocket connection.
         The message will be sent as a ToolCallOutputPayload.
+        """
+        self._send_model(message)
+
+    def send_unmute(self, message: UnmutePayload) -> None:
+        """
+        Send a message to the websocket connection.
+        The message will be sent as a UnmutePayload.
+        """
+        self._send_model(message)
+
+    def send_mute(self, message: MutePayload) -> None:
+        """
+        Send a message to the websocket connection.
+        The message will be sent as a MutePayload.
         """
         self._send_model(message)
 
