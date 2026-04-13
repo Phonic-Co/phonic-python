@@ -153,6 +153,11 @@ class Conversation(UncheckedBaseModel):
     If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended).
     """
 
+    push_to_talk: bool = pydantic.Field()
+    """
+    Push to talk mode. User must send mute/unmute messages to turn on/off listening to audio. Defaults to false.
+    """
+
     languages: typing.Optional[typing.List[str]] = pydantic.Field(default=None)
     """
     Array of ISO 639-1 language codes recognized by the model. This field is deprecated. Use `default_language` and `additional_languages` instead.

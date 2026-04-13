@@ -136,6 +136,7 @@ client.agents.create(
         "es"
     ],
     multilingual_mode="request",
+    push_to_talk=False,
     boosted_keywords=[
         "Load ID",
         "dispatch"
@@ -257,6 +258,7 @@ client.agents.upsert(
         "es"
     ],
     multilingual_mode="request",
+    push_to_talk=False,
     boosted_keywords=[
         "Load ID",
         "dispatch"
@@ -478,6 +480,14 @@ client.agents.upsert(
 <dd>
 
 **multilingual_mode:** `typing.Optional[CreateAgentRequestMultilingualMode]` — If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended).
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**push_to_talk:** `typing.Optional[bool]` — Push to talk mode. User must send mute/unmute messages to turn on/off listening to audio. Defaults to false.
     
 </dd>
 </dl>
@@ -800,6 +810,7 @@ client.agents.update(
         "es"
     ],
     multilingual_mode="request",
+    push_to_talk=False,
     boosted_keywords=[
         "Load ID",
         "dispatch"
@@ -1029,6 +1040,14 @@ client.agents.update(
 <dd>
 
 **multilingual_mode:** `typing.Optional[UpdateAgentRequestMultilingualMode]` — If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended).
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**push_to_talk:** `typing.Optional[bool]` — Push to talk mode. User must send mute/unmute messages to turn on/off listening to audio. Defaults to false.
     
 </dd>
 </dl>
@@ -3549,6 +3568,7 @@ client.conversations.outbound_call(
             "es"
         ],
         multilingual_mode="request",
+        push_to_talk=False,
         boosted_keywords=[
             "Load ID",
             "dispatch"
