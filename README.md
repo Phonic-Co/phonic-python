@@ -71,6 +71,7 @@ client.agents.create(
         "es"
     ],
     multilingual_mode="request",
+    push_to_talk=False,
     boosted_keywords=[
         "Load ID",
         "dispatch"
@@ -131,6 +132,7 @@ async def main() -> None:
             "es"
         ],
         multilingual_mode="request",
+        push_to_talk=False,
         boosted_keywords=[
             "Load ID",
             "dispatch"

@@ -73,6 +73,7 @@ if typing.TYPE_CHECKING:
     from .input_cancelled_payload import InputCancelledPayload
     from .input_text_payload import InputTextPayload
     from .language_code import LanguageCode
+    from .mute_payload import MutePayload
     from .outbound_call_config import OutboundCallConfig
     from .outbound_call_config_multilingual_mode import OutboundCallConfigMultilingualMode
     from .outbound_call_config_tools_item import OutboundCallConfigToolsItem
@@ -101,6 +102,7 @@ if typing.TYPE_CHECKING:
     from .tool_parameter_type import ToolParameterType
     from .tool_project import ToolProject
     from .tool_type import ToolType
+    from .unmute_payload import UnmutePayload
     from .update_system_prompt_payload import UpdateSystemPromptPayload
     from .user_finished_speaking_payload import UserFinishedSpeakingPayload
     from .user_started_speaking_payload import UserStartedSpeakingPayload
@@ -177,6 +179,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "InputCancelledPayload": ".input_cancelled_payload",
     "InputTextPayload": ".input_text_payload",
     "LanguageCode": ".language_code",
+    "MutePayload": ".mute_payload",
     "OutboundCallConfig": ".outbound_call_config",
     "OutboundCallConfigMultilingualMode": ".outbound_call_config_multilingual_mode",
     "OutboundCallConfigToolsItem": ".outbound_call_config_tools_item",
@@ -205,6 +208,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ToolParameterType": ".tool_parameter_type",
     "ToolProject": ".tool_project",
     "ToolType": ".tool_type",
+    "UnmutePayload": ".unmute_payload",
     "UpdateSystemPromptPayload": ".update_system_prompt_payload",
     "UserFinishedSpeakingPayload": ".user_finished_speaking_payload",
     "UserStartedSpeakingPayload": ".user_started_speaking_payload",
@@ -305,6 +309,7 @@ __all__ = [
     "InputCancelledPayload",
     "InputTextPayload",
     "LanguageCode",
+    "MutePayload",
     "OutboundCallConfig",
     "OutboundCallConfigMultilingualMode",
     "OutboundCallConfigToolsItem",
@@ -333,6 +338,7 @@ __all__ = [
     "ToolParameterType",
     "ToolProject",
     "ToolType",
+    "UnmutePayload",
     "UpdateSystemPromptPayload",
     "UserFinishedSpeakingPayload",
     "UserStartedSpeakingPayload",
