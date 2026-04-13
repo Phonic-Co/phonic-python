@@ -218,6 +218,14 @@ class ReconnectableAsyncConversationsSocketClient(EventEmitterMixin):
         if self._is_send_safe():
             await self._inner.send_reset(message)
 
+    async def send_mute(self, message: typing.Any) -> None:
+        if self._is_send_safe():
+            await self._inner.send_mute(message)
+
+    async def send_unmute(self, message: typing.Any) -> None:
+        if self._is_send_safe():
+            await self._inner.send_unmute(message)
+
 
 class ReconnectableConversationsSocketClient(EventEmitterMixin):
     """Sync conversations socket with automatic reconnect after close code 1006."""
@@ -389,3 +397,11 @@ class ReconnectableConversationsSocketClient(EventEmitterMixin):
     def send_reset(self, message: typing.Any) -> None:
         if self._is_send_safe():
             self._inner.send_reset(message)
+
+    def send_mute(self, message: typing.Any) -> None:
+        if self._is_send_safe():
+            self._inner.send_mute(message)
+
+    def send_unmute(self, message: typing.Any) -> None:
+        if self._is_send_safe():
+            self._inner.send_unmute(message)
