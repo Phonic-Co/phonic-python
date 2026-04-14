@@ -40,6 +40,11 @@ if typing.TYPE_CHECKING:
     from .conversation_item_tool_calls_item_request_body import ConversationItemToolCallsItemRequestBodyParams
     from .conversation_item_tool_calls_item_tool import ConversationItemToolCallsItemToolParams
     from .conversation_project import ConversationProjectParams
+    from .conversations_list_response_conversation import ConversationsListResponseConversationParams
+    from .conversations_list_response_conversations import ConversationsListResponseConversationsParams
+    from .conversations_list_response_conversations_pagination import (
+        ConversationsListResponseConversationsPaginationParams,
+    )
     from .create_agent_request import CreateAgentRequestParams
     from .create_agent_request_configuration_endpoint import CreateAgentRequestConfigurationEndpointParams
     from .create_agent_request_template_variables_value import CreateAgentRequestTemplateVariablesValueParams
@@ -64,6 +69,8 @@ if typing.TYPE_CHECKING:
     from .reset_payload import ResetPayloadParams
     from .say_payload import SayPayloadParams
     from .set_external_id_payload import SetExternalIdPayloadParams
+    from .sip_call_error import SipCallErrorParams
+    from .sip_call_error_error import SipCallErrorErrorParams
     from .sip_outbound_call_initiated_response import SipOutboundCallInitiatedResponseParams
     from .sip_outbound_dry_run_response import SipOutboundDryRunResponseParams
     from .task import TaskParams
@@ -119,6 +126,9 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ConversationItemToolCallsItemToolParams": ".conversation_item_tool_calls_item_tool",
     "ConversationParams": ".conversation",
     "ConversationProjectParams": ".conversation_project",
+    "ConversationsListResponseConversationParams": ".conversations_list_response_conversation",
+    "ConversationsListResponseConversationsPaginationParams": ".conversations_list_response_conversations_pagination",
+    "ConversationsListResponseConversationsParams": ".conversations_list_response_conversations",
     "CreateAgentRequestConfigurationEndpointParams": ".create_agent_request_configuration_endpoint",
     "CreateAgentRequestParams": ".create_agent_request",
     "CreateAgentRequestTemplateVariablesValueParams": ".create_agent_request_template_variables_value",
@@ -143,6 +153,8 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ResetPayloadParams": ".reset_payload",
     "SayPayloadParams": ".say_payload",
     "SetExternalIdPayloadParams": ".set_external_id_payload",
+    "SipCallErrorErrorParams": ".sip_call_error_error",
+    "SipCallErrorParams": ".sip_call_error",
     "SipOutboundCallInitiatedResponseParams": ".sip_outbound_call_initiated_response",
     "SipOutboundDryRunResponseParams": ".sip_outbound_dry_run_response",
     "TaskParams": ".task",
@@ -222,6 +234,9 @@ __all__ = [
     "ConversationItemToolCallsItemToolParams",
     "ConversationParams",
     "ConversationProjectParams",
+    "ConversationsListResponseConversationParams",
+    "ConversationsListResponseConversationsPaginationParams",
+    "ConversationsListResponseConversationsParams",
     "CreateAgentRequestConfigurationEndpointParams",
     "CreateAgentRequestParams",
     "CreateAgentRequestTemplateVariablesValueParams",
@@ -246,6 +261,8 @@ __all__ = [
     "ResetPayloadParams",
     "SayPayloadParams",
     "SetExternalIdPayloadParams",
+    "SipCallErrorErrorParams",
+    "SipCallErrorParams",
     "SipOutboundCallInitiatedResponseParams",
     "SipOutboundDryRunResponseParams",
     "TaskParams",

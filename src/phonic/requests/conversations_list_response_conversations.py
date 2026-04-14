@@ -3,7 +3,7 @@
 import typing
 
 import typing_extensions
-from ...requests.conversation import ConversationParams
+from .conversation import ConversationParams
 from .conversations_list_response_conversations_pagination import ConversationsListResponseConversationsPaginationParams
 
 

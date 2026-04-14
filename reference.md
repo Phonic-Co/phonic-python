@@ -2832,6 +2832,70 @@ client.voices.get(
 </dl>
 </details>
 
+## Workspace
+<details><summary><code>client.workspace.<a href="src/phonic/workspace/client.py">get</a>() -> WorkspaceGetResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Returns information about the workspace.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from phonic import Phonic
+from phonic.environment import PhonicEnvironment
+
+client = Phonic(
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
+)
+
+client.workspace.get()
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 ## Conversations
 <details><summary><code>client.conversations.<a href="src/phonic/conversations/client.py">list</a>(...) -> ConversationsListResponse</code></summary>
 <dl>
