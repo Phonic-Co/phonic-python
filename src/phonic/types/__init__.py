@@ -54,6 +54,9 @@ if typing.TYPE_CHECKING:
     from .conversation_multilingual_mode import ConversationMultilingualMode
     from .conversation_origin import ConversationOrigin
     from .conversation_project import ConversationProject
+    from .conversations_list_response_conversation import ConversationsListResponseConversation
+    from .conversations_list_response_conversations import ConversationsListResponseConversations
+    from .conversations_list_response_conversations_pagination import ConversationsListResponseConversationsPagination
     from .create_agent_request import CreateAgentRequest
     from .create_agent_request_audio_format import CreateAgentRequestAudioFormat
     from .create_agent_request_background_noise import CreateAgentRequestBackgroundNoise
@@ -85,6 +88,9 @@ if typing.TYPE_CHECKING:
     from .reset_payload import ResetPayload
     from .say_payload import SayPayload
     from .set_external_id_payload import SetExternalIdPayload
+    from .sip_call_error import SipCallError
+    from .sip_call_error_error import SipCallErrorError
+    from .sip_call_error_error_code import SipCallErrorErrorCode
     from .sip_outbound_call_initiated_response import SipOutboundCallInitiatedResponse
     from .sip_outbound_dry_run_response import SipOutboundDryRunResponse
     from .task import Task
@@ -160,6 +166,9 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ConversationMultilingualMode": ".conversation_multilingual_mode",
     "ConversationOrigin": ".conversation_origin",
     "ConversationProject": ".conversation_project",
+    "ConversationsListResponseConversation": ".conversations_list_response_conversation",
+    "ConversationsListResponseConversations": ".conversations_list_response_conversations",
+    "ConversationsListResponseConversationsPagination": ".conversations_list_response_conversations_pagination",
     "CreateAgentRequest": ".create_agent_request",
     "CreateAgentRequestAudioFormat": ".create_agent_request_audio_format",
     "CreateAgentRequestBackgroundNoise": ".create_agent_request_background_noise",
@@ -191,6 +200,9 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ResetPayload": ".reset_payload",
     "SayPayload": ".say_payload",
     "SetExternalIdPayload": ".set_external_id_payload",
+    "SipCallError": ".sip_call_error",
+    "SipCallErrorError": ".sip_call_error_error",
+    "SipCallErrorErrorCode": ".sip_call_error_error_code",
     "SipOutboundCallInitiatedResponse": ".sip_outbound_call_initiated_response",
     "SipOutboundDryRunResponse": ".sip_outbound_dry_run_response",
     "Task": ".task",
@@ -290,6 +302,9 @@ __all__ = [
     "ConversationMultilingualMode",
     "ConversationOrigin",
     "ConversationProject",
+    "ConversationsListResponseConversation",
+    "ConversationsListResponseConversations",
+    "ConversationsListResponseConversationsPagination",
     "CreateAgentRequest",
     "CreateAgentRequestAudioFormat",
     "CreateAgentRequestBackgroundNoise",
@@ -321,6 +336,9 @@ __all__ = [
     "ResetPayload",
     "SayPayload",
     "SetExternalIdPayload",
+    "SipCallError",
+    "SipCallErrorError",
+    "SipCallErrorErrorCode",
     "SipOutboundCallInitiatedResponse",
     "SipOutboundDryRunResponse",
     "Task",

@@ -2,7 +2,7 @@
 
 import typing
 
-from .conversations_list_response_conversation import ConversationsListResponseConversation
-from .conversations_list_response_conversations import ConversationsListResponseConversations
+from ...types.conversations_list_response_conversation import ConversationsListResponseConversation
+from ...types.conversations_list_response_conversations import ConversationsListResponseConversations
 
 ConversationsListResponse = typing.Union[ConversationsListResponseConversations, ConversationsListResponseConversation]

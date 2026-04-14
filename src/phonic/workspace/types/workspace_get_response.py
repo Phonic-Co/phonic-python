@@ -7,15 +7,15 @@ from ...core.pydantic_utilities import IS_PYDANTIC_V2
 from ...core.unchecked_base_model import UncheckedBaseModel
 
 
-class ConversationsListResponseConversationsPagination(UncheckedBaseModel):
-    prev_cursor: typing.Optional[str] = pydantic.Field(default=None)
+class WorkspaceGetResponse(UncheckedBaseModel):
+    active_conversations: int = pydantic.Field()
     """
-    Cursor to fetch the previous page of conversations (newer). Use this value in the `before` query parameter. `null` if there is no previous page.
+    Number of conversations currently in progress for this workspace.
     """
 
-    next_cursor: typing.Optional[str] = pydantic.Field(default=None)
+    max_active_conversations: int = pydantic.Field()
     """
-    Cursor to fetch the next page of conversations (older). Use this value in the `after` query parameter. `null` if there is no next page.
+    Maximum number of concurrent conversations allowed for this workspace.
     """
 
     if IS_PYDANTIC_V2:

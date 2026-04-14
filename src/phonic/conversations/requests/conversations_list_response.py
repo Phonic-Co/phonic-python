@@ -2,8 +2,8 @@
 
 import typing
 
-from .conversations_list_response_conversation import ConversationsListResponseConversationParams
-from .conversations_list_response_conversations import ConversationsListResponseConversationsParams
+from ...requests.conversations_list_response_conversation import ConversationsListResponseConversationParams
+from ...requests.conversations_list_response_conversations import ConversationsListResponseConversationsParams
 
 ConversationsListResponseParams = typing.Union[
     ConversationsListResponseConversationsParams, ConversationsListResponseConversationParams
