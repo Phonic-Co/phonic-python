@@ -70,9 +70,12 @@ if typing.TYPE_CHECKING:
     from .extraction_field_type import ExtractionFieldType
     from .extraction_schema import ExtractionSchema
     from .generate_reply_payload import GenerateReplyPayload
+    from .get_conversation_by_external_id_response import GetConversationByExternalIdResponse
     from .input_cancelled_payload import InputCancelledPayload
     from .input_text_payload import InputTextPayload
     from .language_code import LanguageCode
+    from .list_conversations_response import ListConversationsResponse
+    from .list_conversations_response_pagination import ListConversationsResponsePagination
     from .mute_payload import MutePayload
     from .outbound_call_config import OutboundCallConfig
     from .outbound_call_config_multilingual_mode import OutboundCallConfigMultilingualMode
@@ -85,6 +88,9 @@ if typing.TYPE_CHECKING:
     from .reset_payload import ResetPayload
     from .say_payload import SayPayload
     from .set_external_id_payload import SetExternalIdPayload
+    from .sip_call_error import SipCallError
+    from .sip_call_error_error import SipCallErrorError
+    from .sip_call_error_error_code import SipCallErrorErrorCode
     from .sip_outbound_call_initiated_response import SipOutboundCallInitiatedResponse
     from .sip_outbound_dry_run_response import SipOutboundDryRunResponse
     from .task import Task
@@ -176,9 +182,12 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ExtractionFieldType": ".extraction_field_type",
     "ExtractionSchema": ".extraction_schema",
     "GenerateReplyPayload": ".generate_reply_payload",
+    "GetConversationByExternalIdResponse": ".get_conversation_by_external_id_response",
     "InputCancelledPayload": ".input_cancelled_payload",
     "InputTextPayload": ".input_text_payload",
     "LanguageCode": ".language_code",
+    "ListConversationsResponse": ".list_conversations_response",
+    "ListConversationsResponsePagination": ".list_conversations_response_pagination",
     "MutePayload": ".mute_payload",
     "OutboundCallConfig": ".outbound_call_config",
     "OutboundCallConfigMultilingualMode": ".outbound_call_config_multilingual_mode",
@@ -191,6 +200,9 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ResetPayload": ".reset_payload",
     "SayPayload": ".say_payload",
     "SetExternalIdPayload": ".set_external_id_payload",
+    "SipCallError": ".sip_call_error",
+    "SipCallErrorError": ".sip_call_error_error",
+    "SipCallErrorErrorCode": ".sip_call_error_error_code",
     "SipOutboundCallInitiatedResponse": ".sip_outbound_call_initiated_response",
     "SipOutboundDryRunResponse": ".sip_outbound_dry_run_response",
     "Task": ".task",
@@ -306,9 +318,12 @@ __all__ = [
     "ExtractionFieldType",
     "ExtractionSchema",
     "GenerateReplyPayload",
+    "GetConversationByExternalIdResponse",
     "InputCancelledPayload",
     "InputTextPayload",
     "LanguageCode",
+    "ListConversationsResponse",
+    "ListConversationsResponsePagination",
     "MutePayload",
     "OutboundCallConfig",
     "OutboundCallConfigMultilingualMode",
@@ -321,6 +336,9 @@ __all__ = [
     "ResetPayload",
     "SayPayload",
     "SetExternalIdPayload",
+    "SipCallError",
+    "SipCallErrorError",
+    "SipCallErrorErrorCode",
     "SipOutboundCallInitiatedResponse",
     "SipOutboundDryRunResponse",
     "Task",

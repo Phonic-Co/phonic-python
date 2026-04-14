@@ -2,9 +2,9 @@
 
 import typing
 
-from .conversations_list_response_conversation import ConversationsListResponseConversationParams
-from .conversations_list_response_conversations import ConversationsListResponseConversationsParams
+from ...requests.get_conversation_by_external_id_response import GetConversationByExternalIdResponseParams
+from ...requests.list_conversations_response import ListConversationsResponseParams
 
 ConversationsListResponseParams = typing.Union[
-    ConversationsListResponseConversationsParams, ConversationsListResponseConversationParams
+    ListConversationsResponseParams, GetConversationByExternalIdResponseParams
 ]

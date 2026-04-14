@@ -3,15 +3,15 @@
 import typing
 
 import pydantic
-from ...core.pydantic_utilities import IS_PYDANTIC_V2
-from ...core.unchecked_base_model import UncheckedBaseModel
-from ...types.conversation import Conversation
-from .conversations_list_response_conversations_pagination import ConversationsListResponseConversationsPagination
+from ..core.pydantic_utilities import IS_PYDANTIC_V2
+from ..core.unchecked_base_model import UncheckedBaseModel
+from .conversation import Conversation
+from .list_conversations_response_pagination import ListConversationsResponsePagination
 
 
-class ConversationsListResponseConversations(UncheckedBaseModel):
+class ListConversationsResponse(UncheckedBaseModel):
     conversations: typing.List[Conversation]
-    pagination: ConversationsListResponseConversationsPagination
+    pagination: ListConversationsResponsePagination
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

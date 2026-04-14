@@ -3,6 +3,7 @@
 import typing
 
 from .basic_error import BasicError
+from .sip_call_error import SipCallError
 from .validation_error import ValidationError
 
-BadRequestErrorBody = typing.Union[ValidationError, BasicError]
+BadRequestErrorBody = typing.Union[ValidationError, BasicError, SipCallError]

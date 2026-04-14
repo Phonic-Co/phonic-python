@@ -2,7 +2,7 @@
 
 import typing
 
-from .conversations_list_response_conversation import ConversationsListResponseConversation
-from .conversations_list_response_conversations import ConversationsListResponseConversations
+from ...types.get_conversation_by_external_id_response import GetConversationByExternalIdResponse
+from ...types.list_conversations_response import ListConversationsResponse
 
-ConversationsListResponse = typing.Union[ConversationsListResponseConversations, ConversationsListResponseConversation]
+ConversationsListResponse = typing.Union[ListConversationsResponse, GetConversationByExternalIdResponse]

@@ -5,7 +5,7 @@ import typing
 import typing_extensions
 
 
-class ConversationsListResponseConversationsPaginationParams(typing_extensions.TypedDict):
+class ListConversationsResponsePaginationParams(typing_extensions.TypedDict):
     prev_cursor: typing.Optional[str]
     """
     Cursor to fetch the previous page of conversations (newer). Use this value in the `before` query parameter. `null` if there is no previous page.
