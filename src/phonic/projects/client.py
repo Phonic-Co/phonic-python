@@ -159,6 +159,7 @@ class ProjectsClient:
         *,
         name: typing.Optional[str] = OMIT,
         default_agent: typing.Optional[str] = OMIT,
+        max_active_conversations: typing.Optional[int] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ProjectsUpdateResponse:
         """
@@ -174,6 +175,9 @@ class ProjectsClient:
 
         default_agent : typing.Optional[str]
             The name of the new project's default agent. Set to `null` to remove the default agent.
+
+        max_active_conversations : typing.Optional[int]
+            Maximum number of concurrent conversations allowed for this project. When `null`, the workspace `max_active_conversations` limit is used.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -197,7 +201,11 @@ class ProjectsClient:
         )
         """
         _response = self._raw_client.update(
-            name_or_id, name=name, default_agent=default_agent, request_options=request_options
+            name_or_id,
+            name=name,
+            default_agent=default_agent,
+            max_active_conversations=max_active_conversations,
+            request_options=request_options,
         )
         return _response.data
 
@@ -454,6 +462,7 @@ class AsyncProjectsClient:
         *,
         name: typing.Optional[str] = OMIT,
         default_agent: typing.Optional[str] = OMIT,
+        max_active_conversations: typing.Optional[int] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ProjectsUpdateResponse:
         """
@@ -469,6 +478,9 @@ class AsyncProjectsClient:
 
         default_agent : typing.Optional[str]
             The name of the new project's default agent. Set to `null` to remove the default agent.
+
+        max_active_conversations : typing.Optional[int]
+            Maximum number of concurrent conversations allowed for this project. When `null`, the workspace `max_active_conversations` limit is used.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -500,7 +512,11 @@ class AsyncProjectsClient:
         asyncio.run(main())
         """
         _response = await self._raw_client.update(
-            name_or_id, name=name, default_agent=default_agent, request_options=request_options
+            name_or_id,
+            name=name,
+            default_agent=default_agent,
+            max_active_conversations=max_active_conversations,
+            request_options=request_options,
         )
         return _response.data
 
