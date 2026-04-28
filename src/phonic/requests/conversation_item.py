@@ -9,6 +9,11 @@ from .conversation_item_tool_calls_item import ConversationItemToolCallsItemPara
 
 
 class ConversationItemParams(typing_extensions.TypedDict):
+    id: str
+    """
+    The conversation item ID.
+    """
+
     item_idx: int
     """
     Index of the item in the conversation.
