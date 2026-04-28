@@ -21,3 +21,13 @@ class ProjectParams(typing_extensions.TypedDict):
     """
     The project's default agent.
     """
+
+    active_conversations: int
+    """
+    Number of conversations currently in progress for this project.
+    """
+
+    max_active_conversations: typing.Optional[int]
+    """
+    Maximum number of concurrent conversations allowed for this project. When `null`, the workspace `max_active_conversations` limit is used.
+    """

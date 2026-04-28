@@ -4254,6 +4254,14 @@ client.projects.update(
 <dl>
 <dd>
 
+**max_active_conversations:** `typing.Optional[int]` — Maximum number of concurrent conversations allowed for this project. When `null`, the workspace `max_active_conversations` limit is used.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
     
 </dd>

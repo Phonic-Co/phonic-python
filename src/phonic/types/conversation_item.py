@@ -11,6 +11,11 @@ from .conversation_item_tool_calls_item import ConversationItemToolCallsItem
 
 
 class ConversationItem(UncheckedBaseModel):
+    id: str = pydantic.Field()
+    """
+    The conversation item ID.
+    """
+
     item_idx: int = pydantic.Field()
     """
     Index of the item in the conversation.

@@ -372,6 +372,7 @@ class RawProjectsClient:
         *,
         name: typing.Optional[str] = OMIT,
         default_agent: typing.Optional[str] = OMIT,
+        max_active_conversations: typing.Optional[int] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[ProjectsUpdateResponse]:
         """
@@ -388,6 +389,9 @@ class RawProjectsClient:
         default_agent : typing.Optional[str]
             The name of the new project's default agent. Set to `null` to remove the default agent.
 
+        max_active_conversations : typing.Optional[int]
+            Maximum number of concurrent conversations allowed for this project. When `null`, the workspace `max_active_conversations` limit is used.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -403,6 +407,7 @@ class RawProjectsClient:
             json={
                 "name": name,
                 "default_agent": default_agent,
+                "max_active_conversations": max_active_conversations,
             },
             headers={
                 "content-type": "application/json",
@@ -1052,6 +1057,7 @@ class AsyncRawProjectsClient:
         *,
         name: typing.Optional[str] = OMIT,
         default_agent: typing.Optional[str] = OMIT,
+        max_active_conversations: typing.Optional[int] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[ProjectsUpdateResponse]:
         """
@@ -1068,6 +1074,9 @@ class AsyncRawProjectsClient:
         default_agent : typing.Optional[str]
             The name of the new project's default agent. Set to `null` to remove the default agent.
 
+        max_active_conversations : typing.Optional[int]
+            Maximum number of concurrent conversations allowed for this project. When `null`, the workspace `max_active_conversations` limit is used.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -1083,6 +1092,7 @@ class AsyncRawProjectsClient:
             json={
                 "name": name,
                 "default_agent": default_agent,
+                "max_active_conversations": max_active_conversations,
             },
             headers={
                 "content-type": "application/json",
