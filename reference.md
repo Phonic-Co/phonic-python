@@ -2896,6 +2896,101 @@ client.workspace.get()
 </dl>
 </details>
 
+## ConversationItems
+<details><summary><code>client.conversation_items.<a href="src/phonic/conversation_items/client.py">replay</a>(...) -> ReplayConversationItemResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Returns the alternative response(s) the assistant would have
+produced for this conversation turn given changes to the agent system prompt.
+
+Only assistant items from ended conversations can be replayed. The
+conversation must have an associated agent.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from phonic import Phonic
+from phonic.environment import PhonicEnvironment
+
+client = Phonic(
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
+)
+
+client.conversation_items.replay(
+    id="id",
+    system_prompt="system_prompt",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `str` — The ID of the conversation item to replay.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**system_prompt:** `str` — The system prompt to use when generating replay responses. Use this to test prompt changes against this conversation turn.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**num_responses:** `typing.Optional[int]` — Number of alternative responses to generate.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 ## Conversations
 <details><summary><code>client.conversations.<a href="src/phonic/conversations/client.py">list</a>(...) -> ConversationsListResponse</code></summary>
 <dl>

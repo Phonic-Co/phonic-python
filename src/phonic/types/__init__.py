@@ -85,6 +85,11 @@ if typing.TYPE_CHECKING:
     from .project import Project
     from .project_default_agent import ProjectDefaultAgent
     from .ready_to_start_conversation_payload import ReadyToStartConversationPayload
+    from .replay_conversation_item_response import ReplayConversationItemResponse
+    from .replay_conversation_item_response_responses_item import ReplayConversationItemResponseResponsesItem
+    from .replay_tool_call import ReplayToolCall
+    from .replay_tool_call_endpoint_method import ReplayToolCallEndpointMethod
+    from .replay_tool_call_tool import ReplayToolCallTool
     from .reset_payload import ResetPayload
     from .say_payload import SayPayload
     from .set_external_id_payload import SetExternalIdPayload
@@ -197,6 +202,11 @@ _dynamic_imports: typing.Dict[str, str] = {
     "Project": ".project",
     "ProjectDefaultAgent": ".project_default_agent",
     "ReadyToStartConversationPayload": ".ready_to_start_conversation_payload",
+    "ReplayConversationItemResponse": ".replay_conversation_item_response",
+    "ReplayConversationItemResponseResponsesItem": ".replay_conversation_item_response_responses_item",
+    "ReplayToolCall": ".replay_tool_call",
+    "ReplayToolCallEndpointMethod": ".replay_tool_call_endpoint_method",
+    "ReplayToolCallTool": ".replay_tool_call_tool",
     "ResetPayload": ".reset_payload",
     "SayPayload": ".say_payload",
     "SetExternalIdPayload": ".set_external_id_payload",
@@ -333,6 +343,11 @@ __all__ = [
     "Project",
     "ProjectDefaultAgent",
     "ReadyToStartConversationPayload",
+    "ReplayConversationItemResponse",
+    "ReplayConversationItemResponseResponsesItem",
+    "ReplayToolCall",
+    "ReplayToolCallEndpointMethod",
+    "ReplayToolCallTool",
     "ResetPayload",
     "SayPayload",
     "SetExternalIdPayload",
