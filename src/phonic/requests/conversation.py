@@ -181,6 +181,26 @@ class ConversationParams(typing_extensions.TypedDict):
     Seconds of silence before the conversation is ended.
     """
 
+    vad_prebuffer_duration_ms: typing_extensions.NotRequired[typing.Optional[int]]
+    """
+    Voice activity detection prebuffer duration in milliseconds. `null` when not applicable or unknown (e.g. push-to-talk, or legacy stored conversations).
+    """
+
+    vad_min_speech_duration_ms: typing_extensions.NotRequired[typing.Optional[int]]
+    """
+    Minimum speech duration for voice activity detection in milliseconds. `null` when not applicable or unknown.
+    """
+
+    vad_min_silence_duration_ms: typing_extensions.NotRequired[typing.Optional[int]]
+    """
+    Minimum silence duration for voice activity detection in milliseconds. `null` when not applicable or unknown.
+    """
+
+    vad_threshold: typing_extensions.NotRequired[typing.Optional[float]]
+    """
+    Voice activity detection threshold. `null` when not applicable or unknown.
+    """
+
     task_results: typing.Dict[str, typing.Any]
     """
     Results from conversation evaluations and extractions.
