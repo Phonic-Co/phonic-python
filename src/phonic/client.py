@@ -14,6 +14,7 @@ from .environment import PhonicEnvironment
 if typing.TYPE_CHECKING:
     from .agents.client import AgentsClient, AsyncAgentsClient
     from .auth.client import AsyncAuthClient, AuthClient
+    from .conversation_items.client import AsyncConversationItemsClient, ConversationItemsClient
     from .conversations.client import AsyncConversationsClient, ConversationsClient
     from .extraction_schemas.client import AsyncExtractionSchemasClient, ExtractionSchemasClient
     from .projects.client import AsyncProjectsClient, ProjectsClient
@@ -101,6 +102,7 @@ class Phonic:
         self._extraction_schemas: typing.Optional[ExtractionSchemasClient] = None
         self._voices: typing.Optional[VoicesClient] = None
         self._conversations: typing.Optional[ConversationsClient] = None
+        self._conversation_items: typing.Optional[ConversationItemsClient] = None
         self._auth: typing.Optional[AuthClient] = None
         self._projects: typing.Optional[ProjectsClient] = None
 
@@ -143,6 +145,14 @@ class Phonic:
 
             self._conversations = ConversationsClient(client_wrapper=self._client_wrapper)
         return self._conversations
+
+    @property
+    def conversation_items(self):
+        if self._conversation_items is None:
+            from .conversation_items.client import ConversationItemsClient  # noqa: E402
+
+            self._conversation_items = ConversationItemsClient(client_wrapper=self._client_wrapper)
+        return self._conversation_items
 
     @property
     def auth(self):
@@ -241,6 +251,7 @@ class AsyncPhonic:
         self._extraction_schemas: typing.Optional[AsyncExtractionSchemasClient] = None
         self._voices: typing.Optional[AsyncVoicesClient] = None
         self._conversations: typing.Optional[AsyncConversationsClient] = None
+        self._conversation_items: typing.Optional[AsyncConversationItemsClient] = None
         self._auth: typing.Optional[AsyncAuthClient] = None
         self._projects: typing.Optional[AsyncProjectsClient] = None
 
@@ -283,6 +294,14 @@ class AsyncPhonic:
 
             self._conversations = AsyncConversationsClient(client_wrapper=self._client_wrapper)
         return self._conversations
+
+    @property
+    def conversation_items(self):
+        if self._conversation_items is None:
+            from .conversation_items.client import AsyncConversationItemsClient  # noqa: E402
+
+            self._conversation_items = AsyncConversationItemsClient(client_wrapper=self._client_wrapper)
+        return self._conversation_items
 
     @property
     def auth(self):

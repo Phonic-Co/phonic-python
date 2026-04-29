@@ -66,6 +66,10 @@ if typing.TYPE_CHECKING:
     from .project import ProjectParams
     from .project_default_agent import ProjectDefaultAgentParams
     from .ready_to_start_conversation_payload import ReadyToStartConversationPayloadParams
+    from .replay_conversation_item_response import ReplayConversationItemResponseParams
+    from .replay_conversation_item_response_responses_item import ReplayConversationItemResponseResponsesItemParams
+    from .replay_tool_call import ReplayToolCallParams
+    from .replay_tool_call_tool import ReplayToolCallToolParams
     from .reset_payload import ResetPayloadParams
     from .say_payload import SayPayloadParams
     from .set_external_id_payload import SetExternalIdPayloadParams
@@ -150,6 +154,10 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ProjectDefaultAgentParams": ".project_default_agent",
     "ProjectParams": ".project",
     "ReadyToStartConversationPayloadParams": ".ready_to_start_conversation_payload",
+    "ReplayConversationItemResponseParams": ".replay_conversation_item_response",
+    "ReplayConversationItemResponseResponsesItemParams": ".replay_conversation_item_response_responses_item",
+    "ReplayToolCallParams": ".replay_tool_call",
+    "ReplayToolCallToolParams": ".replay_tool_call_tool",
     "ResetPayloadParams": ".reset_payload",
     "SayPayloadParams": ".say_payload",
     "SetExternalIdPayloadParams": ".set_external_id_payload",
@@ -258,6 +266,10 @@ __all__ = [
     "ProjectDefaultAgentParams",
     "ProjectParams",
     "ReadyToStartConversationPayloadParams",
+    "ReplayConversationItemResponseParams",
+    "ReplayConversationItemResponseResponsesItemParams",
+    "ReplayToolCallParams",
+    "ReplayToolCallToolParams",
     "ResetPayloadParams",
     "SayPayloadParams",
     "SetExternalIdPayloadParams",
