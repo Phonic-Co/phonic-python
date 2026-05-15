@@ -19,6 +19,7 @@ if typing.TYPE_CHECKING:
     from .extraction_schemas.client import AsyncExtractionSchemasClient, ExtractionSchemasClient
     from .projects.client import AsyncProjectsClient, ProjectsClient
     from .tools.client import AsyncToolsClient, ToolsClient
+    from .tts.client import AsyncTtsClient, TtsClient
     from .voices.client import AsyncVoicesClient, VoicesClient
 
 
@@ -100,6 +101,7 @@ class Phonic:
         self._agents: typing.Optional[AgentsClient] = None
         self._tools: typing.Optional[ToolsClient] = None
         self._extraction_schemas: typing.Optional[ExtractionSchemasClient] = None
+        self._tts: typing.Optional[TtsClient] = None
         self._voices: typing.Optional[VoicesClient] = None
         self._conversations: typing.Optional[ConversationsClient] = None
         self._conversation_items: typing.Optional[ConversationItemsClient] = None
@@ -129,6 +131,14 @@ class Phonic:
 
             self._extraction_schemas = ExtractionSchemasClient(client_wrapper=self._client_wrapper)
         return self._extraction_schemas
+
+    @property
+    def tts(self):
+        if self._tts is None:
+            from .tts.client import TtsClient  # noqa: E402
+
+            self._tts = TtsClient(client_wrapper=self._client_wrapper)
+        return self._tts
 
     @property
     def voices(self):
@@ -249,6 +259,7 @@ class AsyncPhonic:
         self._agents: typing.Optional[AsyncAgentsClient] = None
         self._tools: typing.Optional[AsyncToolsClient] = None
         self._extraction_schemas: typing.Optional[AsyncExtractionSchemasClient] = None
+        self._tts: typing.Optional[AsyncTtsClient] = None
         self._voices: typing.Optional[AsyncVoicesClient] = None
         self._conversations: typing.Optional[AsyncConversationsClient] = None
         self._conversation_items: typing.Optional[AsyncConversationItemsClient] = None
@@ -278,6 +289,14 @@ class AsyncPhonic:
 
             self._extraction_schemas = AsyncExtractionSchemasClient(client_wrapper=self._client_wrapper)
         return self._extraction_schemas
+
+    @property
+    def tts(self):
+        if self._tts is None:
+            from .tts.client import AsyncTtsClient  # noqa: E402
+
+            self._tts = AsyncTtsClient(client_wrapper=self._client_wrapper)
+        return self._tts
 
     @property
     def voices(self):
