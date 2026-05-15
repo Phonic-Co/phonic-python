@@ -5,6 +5,7 @@ import typing
 import typing_extensions
 from ..types.language_code import LanguageCode
 from ..types.outbound_call_config_multilingual_mode import OutboundCallConfigMultilingualMode
+from .outbound_call_config_pronunciation_dictionary_item import OutboundCallConfigPronunciationDictionaryItemParams
 from .outbound_call_config_tools_item import OutboundCallConfigToolsItemParams
 
 
@@ -91,6 +92,13 @@ class OutboundCallConfigParams(typing_extensions.TypedDict):
     boosted_keywords: typing_extensions.NotRequired[typing.Sequence[str]]
     """
     These words, or short phrases, will be more accurately recognized by the agent.
+    """
+
+    pronunciation_dictionary: typing_extensions.NotRequired[
+        typing.Sequence[OutboundCallConfigPronunciationDictionaryItemParams]
+    ]
+    """
+    Array of `{ word, pronunciation }` entries. Words must be unique.
     """
 
     min_words_to_interrupt: typing_extensions.NotRequired[int]

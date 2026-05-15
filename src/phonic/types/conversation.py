@@ -15,6 +15,7 @@ from .conversation_item import ConversationItem
 from .conversation_multilingual_mode import ConversationMultilingualMode
 from .conversation_origin import ConversationOrigin
 from .conversation_project import ConversationProject
+from .conversation_pronunciation_dictionary_item import ConversationPronunciationDictionaryItem
 
 
 class Conversation(UncheckedBaseModel):
@@ -131,6 +132,11 @@ class Conversation(UncheckedBaseModel):
     boosted_keywords: typing.Optional[typing.List[str]] = pydantic.Field(default=None)
     """
     These words, or short phrases, are more accurately recognized by the model.
+    """
+
+    pronunciation_dictionary: typing.List[ConversationPronunciationDictionaryItem] = pydantic.Field()
+    """
+    Array of `{ word, pronunciation }` entries. Words must be unique.
     """
 
     min_words_to_interrupt: int = pydantic.Field()

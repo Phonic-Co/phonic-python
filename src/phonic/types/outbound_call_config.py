@@ -7,6 +7,7 @@ from ..core.pydantic_utilities import IS_PYDANTIC_V2
 from ..core.unchecked_base_model import UncheckedBaseModel
 from .language_code import LanguageCode
 from .outbound_call_config_multilingual_mode import OutboundCallConfigMultilingualMode
+from .outbound_call_config_pronunciation_dictionary_item import OutboundCallConfigPronunciationDictionaryItem
 from .outbound_call_config_tools_item import OutboundCallConfigToolsItem
 
 
@@ -93,6 +94,13 @@ class OutboundCallConfig(UncheckedBaseModel):
     boosted_keywords: typing.Optional[typing.List[str]] = pydantic.Field(default=None)
     """
     These words, or short phrases, will be more accurately recognized by the agent.
+    """
+
+    pronunciation_dictionary: typing.Optional[typing.List[OutboundCallConfigPronunciationDictionaryItem]] = (
+        pydantic.Field(default=None)
+    )
+    """
+    Array of `{ word, pronunciation }` entries. Words must be unique.
     """
 
     min_words_to_interrupt: typing.Optional[int] = pydantic.Field(default=None)

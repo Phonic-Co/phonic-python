@@ -98,7 +98,7 @@ Creates a new agent in a project.
 <dd>
 
 ```python
-from phonic import Phonic, CreateAgentRequestTemplateVariablesValue, CreateAgentRequestConfigurationEndpoint
+from phonic import Phonic, CreateAgentRequestTemplateVariablesValue, CreateAgentRequestPronunciationDictionaryItem, CreateAgentRequestConfigurationEndpoint
 from phonic.environment import PhonicEnvironment
 
 client = Phonic(
@@ -140,6 +140,12 @@ client.agents.create(
     boosted_keywords=[
         "Load ID",
         "dispatch"
+    ],
+    pronunciation_dictionary=[
+        CreateAgentRequestPronunciationDictionaryItem(
+            word="Phuket",
+            pronunciation="Poo-ket",
+        )
     ],
     min_words_to_interrupt=1,
     configuration_endpoint=CreateAgentRequestConfigurationEndpoint(
@@ -220,7 +226,7 @@ Upserts an agent by name. If an agent with the same name already exists, it will
 <dd>
 
 ```python
-from phonic import Phonic, CreateAgentRequestTemplateVariablesValue, CreateAgentRequestConfigurationEndpoint
+from phonic import Phonic, CreateAgentRequestTemplateVariablesValue, CreateAgentRequestPronunciationDictionaryItem, CreateAgentRequestConfigurationEndpoint
 from phonic.environment import PhonicEnvironment
 
 client = Phonic(
@@ -262,6 +268,12 @@ client.agents.upsert(
     boosted_keywords=[
         "Load ID",
         "dispatch"
+    ],
+    pronunciation_dictionary=[
+        CreateAgentRequestPronunciationDictionaryItem(
+            word="Phuket",
+            pronunciation="Poo-ket",
+        )
     ],
     min_words_to_interrupt=1,
     configuration_endpoint=CreateAgentRequestConfigurationEndpoint(
@@ -496,6 +508,14 @@ client.agents.upsert(
 <dd>
 
 **boosted_keywords:** `typing.Optional[typing.List[str]]` — These words, or short phrases, will be more accurately recognized by the agent.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**pronunciation_dictionary:** `typing.Optional[typing.List[CreateAgentRequestPronunciationDictionaryItem]]` — Array of `{ word, pronunciation }` entries. Words must be unique.
     
 </dd>
 </dl>
@@ -772,7 +792,7 @@ Updates an agent by name or ID.
 ```python
 from phonic import Phonic
 from phonic.environment import PhonicEnvironment
-from phonic.agents import UpdateAgentRequestTemplateVariablesValue, UpdateAgentRequestConfigurationEndpoint
+from phonic.agents import UpdateAgentRequestTemplateVariablesValue, UpdateAgentRequestPronunciationDictionaryItem, UpdateAgentRequestConfigurationEndpoint
 
 client = Phonic(
     api_key="<token>",
@@ -814,6 +834,12 @@ client.agents.update(
     boosted_keywords=[
         "Load ID",
         "dispatch"
+    ],
+    pronunciation_dictionary=[
+        UpdateAgentRequestPronunciationDictionaryItem(
+            word="Phuket",
+            pronunciation="Poo-ket",
+        )
     ],
     min_words_to_interrupt=1,
     configuration_endpoint=UpdateAgentRequestConfigurationEndpoint(
@@ -1056,6 +1082,14 @@ client.agents.update(
 <dd>
 
 **boosted_keywords:** `typing.Optional[typing.List[str]]` — These words, or short phrases, will be more accurately recognized by the agent.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**pronunciation_dictionary:** `typing.Optional[typing.List[UpdateAgentRequestPronunciationDictionaryItem]]` — Array of `{ word, pronunciation }` entries. Words must be unique.
     
 </dd>
 </dl>
@@ -3699,7 +3733,7 @@ Initiates a call to a given phone number using Phonic's Twilio account.
 <dd>
 
 ```python
-from phonic import Phonic, OutboundCallConfig
+from phonic import Phonic, OutboundCallConfig, OutboundCallConfigPronunciationDictionaryItem
 from phonic.environment import PhonicEnvironment
 
 client = Phonic(
@@ -3731,6 +3765,12 @@ client.conversations.outbound_call(
         boosted_keywords=[
             "Load ID",
             "dispatch"
+        ],
+        pronunciation_dictionary=[
+            OutboundCallConfigPronunciationDictionaryItem(
+                word="Phuket",
+                pronunciation="Poo-ket",
+            )
         ],
         min_words_to_interrupt=1,
         tools=[
@@ -3968,6 +4008,112 @@ client.auth.create_session_token(
 <dd>
 
 **ttl_seconds:** `typing.Optional[int]` — Time-to-live for the session token in seconds.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## Tts
+<details><summary><code>client.tts.<a href="src/phonic/tts/client.py">stream</a>(...) -> typing.Iterator[bytes]</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Streams generated speech audio for the provided text.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from phonic import Phonic
+from phonic.environment import PhonicEnvironment
+
+client = Phonic(
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
+)
+
+client.tts.stream(
+    text="x",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**text:** `str` — The text to convert to speech.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**model:** `typing.Optional[typing.Literal]` — The TTS model to use.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**speed:** `typing.Optional[float]` — The speech speed.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**voice_id:** `typing.Optional[str]` — The voice ID to use.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**output_format:** `typing.Optional[StreamTtsRequestOutputFormat]` — The audio format to stream.
     
 </dd>
 </dl>

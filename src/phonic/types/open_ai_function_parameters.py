@@ -2,4 +2,4 @@
 
 import typing
 
-ConfigOptionsToolsItem = typing.Union[str, typing.Dict[str, typing.Any]]
+OpenAiFunctionParameters = typing.Dict[str, typing.Any]

@@ -35,7 +35,7 @@ A full reference for this library is available [here](https://github.com/Phonic-
 Instantiate and use the client with the following:
 
 ```python
-from phonic import Phonic, CreateAgentRequestTemplateVariablesValue, CreateAgentRequestConfigurationEndpoint
+from phonic import Phonic, CreateAgentRequestTemplateVariablesValue, CreateAgentRequestPronunciationDictionaryItem, CreateAgentRequestConfigurationEndpoint
 
 client = Phonic(
     api_key="<token>",
@@ -75,6 +75,12 @@ client.agents.create(
     boosted_keywords=[
         "Load ID",
         "dispatch"
+    ],
+    pronunciation_dictionary=[
+        CreateAgentRequestPronunciationDictionaryItem(
+            word="Phuket",
+            pronunciation="Poo-ket",
+        )
     ],
     min_words_to_interrupt=1,
     configuration_endpoint=CreateAgentRequestConfigurationEndpoint(
@@ -136,6 +142,12 @@ async def main() -> None:
         boosted_keywords=[
             "Load ID",
             "dispatch"
+        ],
+        pronunciation_dictionary=[
+            CreateAgentRequestPronunciationDictionaryItem(
+                word="Phuket",
+                pronunciation="Poo-ket",
+            )
         ],
         min_words_to_interrupt=1,
         configuration_endpoint=CreateAgentRequestConfigurationEndpoint(
