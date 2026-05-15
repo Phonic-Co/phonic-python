@@ -5,6 +5,9 @@ import typing
 from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.request_options import RequestOptions
 from ..requests.create_agent_request_configuration_endpoint import CreateAgentRequestConfigurationEndpointParams
+from ..requests.create_agent_request_pronunciation_dictionary_item import (
+    CreateAgentRequestPronunciationDictionaryItemParams,
+)
 from ..requests.create_agent_request_template_variables_value import CreateAgentRequestTemplateVariablesValueParams
 from ..requests.create_agent_request_tools_item import CreateAgentRequestToolsItemParams
 from ..requests.task import TaskParams
@@ -21,6 +24,9 @@ from .requests.agents_update_phone_number_request_configuration_endpoint import 
     AgentsUpdatePhoneNumberRequestConfigurationEndpointParams,
 )
 from .requests.update_agent_request_configuration_endpoint import UpdateAgentRequestConfigurationEndpointParams
+from .requests.update_agent_request_pronunciation_dictionary_item import (
+    UpdateAgentRequestPronunciationDictionaryItemParams,
+)
 from .requests.update_agent_request_template_variables_value import UpdateAgentRequestTemplateVariablesValueParams
 from .requests.update_agent_request_tools_item import UpdateAgentRequestToolsItemParams
 from .types.agents_add_custom_phone_number_response import AgentsAddCustomPhoneNumberResponse
@@ -117,6 +123,9 @@ class AgentsClient:
         multilingual_mode: typing.Optional[CreateAgentRequestMultilingualMode] = OMIT,
         push_to_talk: typing.Optional[bool] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
+        pronunciation_dictionary: typing.Optional[
+            typing.Sequence[CreateAgentRequestPronunciationDictionaryItemParams]
+        ] = OMIT,
         min_words_to_interrupt: typing.Optional[int] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
@@ -213,6 +222,9 @@ class AgentsClient:
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
 
+        pronunciation_dictionary : typing.Optional[typing.Sequence[CreateAgentRequestPronunciationDictionaryItemParams]]
+            Array of `{ word, pronunciation }` entries. Words must be unique.
+
         min_words_to_interrupt : typing.Optional[int]
             Minimum number of words required to interrupt the assistant.
 
@@ -276,6 +288,7 @@ class AgentsClient:
             multilingual_mode="request",
             push_to_talk=False,
             boosted_keywords=["Load ID", "dispatch"],
+            pronunciation_dictionary=[{"word": "Phuket", "pronunciation": "Poo-ket"}],
             min_words_to_interrupt=1,
             configuration_endpoint={
                 "url": "https://api.example.com/config",
@@ -312,6 +325,7 @@ class AgentsClient:
             multilingual_mode=multilingual_mode,
             push_to_talk=push_to_talk,
             boosted_keywords=boosted_keywords,
+            pronunciation_dictionary=pronunciation_dictionary,
             min_words_to_interrupt=min_words_to_interrupt,
             configuration_endpoint=configuration_endpoint,
             inbound_rollout=inbound_rollout,
@@ -354,6 +368,9 @@ class AgentsClient:
         multilingual_mode: typing.Optional[CreateAgentRequestMultilingualMode] = OMIT,
         push_to_talk: typing.Optional[bool] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
+        pronunciation_dictionary: typing.Optional[
+            typing.Sequence[CreateAgentRequestPronunciationDictionaryItemParams]
+        ] = OMIT,
         min_words_to_interrupt: typing.Optional[int] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
@@ -450,6 +467,9 @@ class AgentsClient:
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
 
+        pronunciation_dictionary : typing.Optional[typing.Sequence[CreateAgentRequestPronunciationDictionaryItemParams]]
+            Array of `{ word, pronunciation }` entries. Words must be unique.
+
         min_words_to_interrupt : typing.Optional[int]
             Minimum number of words required to interrupt the assistant.
 
@@ -513,6 +533,7 @@ class AgentsClient:
             multilingual_mode="request",
             push_to_talk=False,
             boosted_keywords=["Load ID", "dispatch"],
+            pronunciation_dictionary=[{"word": "Phuket", "pronunciation": "Poo-ket"}],
             min_words_to_interrupt=1,
             configuration_endpoint={
                 "url": "https://api.example.com/config",
@@ -549,6 +570,7 @@ class AgentsClient:
             multilingual_mode=multilingual_mode,
             push_to_talk=push_to_talk,
             boosted_keywords=boosted_keywords,
+            pronunciation_dictionary=pronunciation_dictionary,
             min_words_to_interrupt=min_words_to_interrupt,
             configuration_endpoint=configuration_endpoint,
             inbound_rollout=inbound_rollout,
@@ -674,6 +696,9 @@ class AgentsClient:
         multilingual_mode: typing.Optional[UpdateAgentRequestMultilingualMode] = OMIT,
         push_to_talk: typing.Optional[bool] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
+        pronunciation_dictionary: typing.Optional[
+            typing.Sequence[UpdateAgentRequestPronunciationDictionaryItemParams]
+        ] = OMIT,
         min_words_to_interrupt: typing.Optional[int] = OMIT,
         configuration_endpoint: typing.Optional[UpdateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
@@ -773,6 +798,9 @@ class AgentsClient:
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
 
+        pronunciation_dictionary : typing.Optional[typing.Sequence[UpdateAgentRequestPronunciationDictionaryItemParams]]
+            Array of `{ word, pronunciation }` entries. Words must be unique.
+
         min_words_to_interrupt : typing.Optional[int]
             Minimum number of words required to interrupt the assistant.
 
@@ -837,6 +865,7 @@ class AgentsClient:
             multilingual_mode="request",
             push_to_talk=False,
             boosted_keywords=["Load ID", "dispatch"],
+            pronunciation_dictionary=[{"word": "Phuket", "pronunciation": "Poo-ket"}],
             min_words_to_interrupt=1,
             configuration_endpoint={
                 "url": "https://api.example.com/config",
@@ -874,6 +903,7 @@ class AgentsClient:
             multilingual_mode=multilingual_mode,
             push_to_talk=push_to_talk,
             boosted_keywords=boosted_keywords,
+            pronunciation_dictionary=pronunciation_dictionary,
             min_words_to_interrupt=min_words_to_interrupt,
             configuration_endpoint=configuration_endpoint,
             inbound_rollout=inbound_rollout,
@@ -1156,6 +1186,9 @@ class AsyncAgentsClient:
         multilingual_mode: typing.Optional[CreateAgentRequestMultilingualMode] = OMIT,
         push_to_talk: typing.Optional[bool] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
+        pronunciation_dictionary: typing.Optional[
+            typing.Sequence[CreateAgentRequestPronunciationDictionaryItemParams]
+        ] = OMIT,
         min_words_to_interrupt: typing.Optional[int] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
@@ -1252,6 +1285,9 @@ class AsyncAgentsClient:
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
 
+        pronunciation_dictionary : typing.Optional[typing.Sequence[CreateAgentRequestPronunciationDictionaryItemParams]]
+            Array of `{ word, pronunciation }` entries. Words must be unique.
+
         min_words_to_interrupt : typing.Optional[int]
             Minimum number of words required to interrupt the assistant.
 
@@ -1320,6 +1356,9 @@ class AsyncAgentsClient:
                 multilingual_mode="request",
                 push_to_talk=False,
                 boosted_keywords=["Load ID", "dispatch"],
+                pronunciation_dictionary=[
+                    {"word": "Phuket", "pronunciation": "Poo-ket"}
+                ],
                 min_words_to_interrupt=1,
                 configuration_endpoint={
                     "url": "https://api.example.com/config",
@@ -1359,6 +1398,7 @@ class AsyncAgentsClient:
             multilingual_mode=multilingual_mode,
             push_to_talk=push_to_talk,
             boosted_keywords=boosted_keywords,
+            pronunciation_dictionary=pronunciation_dictionary,
             min_words_to_interrupt=min_words_to_interrupt,
             configuration_endpoint=configuration_endpoint,
             inbound_rollout=inbound_rollout,
@@ -1401,6 +1441,9 @@ class AsyncAgentsClient:
         multilingual_mode: typing.Optional[CreateAgentRequestMultilingualMode] = OMIT,
         push_to_talk: typing.Optional[bool] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
+        pronunciation_dictionary: typing.Optional[
+            typing.Sequence[CreateAgentRequestPronunciationDictionaryItemParams]
+        ] = OMIT,
         min_words_to_interrupt: typing.Optional[int] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
@@ -1497,6 +1540,9 @@ class AsyncAgentsClient:
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
 
+        pronunciation_dictionary : typing.Optional[typing.Sequence[CreateAgentRequestPronunciationDictionaryItemParams]]
+            Array of `{ word, pronunciation }` entries. Words must be unique.
+
         min_words_to_interrupt : typing.Optional[int]
             Minimum number of words required to interrupt the assistant.
 
@@ -1565,6 +1611,9 @@ class AsyncAgentsClient:
                 multilingual_mode="request",
                 push_to_talk=False,
                 boosted_keywords=["Load ID", "dispatch"],
+                pronunciation_dictionary=[
+                    {"word": "Phuket", "pronunciation": "Poo-ket"}
+                ],
                 min_words_to_interrupt=1,
                 configuration_endpoint={
                     "url": "https://api.example.com/config",
@@ -1604,6 +1653,7 @@ class AsyncAgentsClient:
             multilingual_mode=multilingual_mode,
             push_to_talk=push_to_talk,
             boosted_keywords=boosted_keywords,
+            pronunciation_dictionary=pronunciation_dictionary,
             min_words_to_interrupt=min_words_to_interrupt,
             configuration_endpoint=configuration_endpoint,
             inbound_rollout=inbound_rollout,
@@ -1745,6 +1795,9 @@ class AsyncAgentsClient:
         multilingual_mode: typing.Optional[UpdateAgentRequestMultilingualMode] = OMIT,
         push_to_talk: typing.Optional[bool] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
+        pronunciation_dictionary: typing.Optional[
+            typing.Sequence[UpdateAgentRequestPronunciationDictionaryItemParams]
+        ] = OMIT,
         min_words_to_interrupt: typing.Optional[int] = OMIT,
         configuration_endpoint: typing.Optional[UpdateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
@@ -1844,6 +1897,9 @@ class AsyncAgentsClient:
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
 
+        pronunciation_dictionary : typing.Optional[typing.Sequence[UpdateAgentRequestPronunciationDictionaryItemParams]]
+            Array of `{ word, pronunciation }` entries. Words must be unique.
+
         min_words_to_interrupt : typing.Optional[int]
             Minimum number of words required to interrupt the assistant.
 
@@ -1913,6 +1969,9 @@ class AsyncAgentsClient:
                 multilingual_mode="request",
                 push_to_talk=False,
                 boosted_keywords=["Load ID", "dispatch"],
+                pronunciation_dictionary=[
+                    {"word": "Phuket", "pronunciation": "Poo-ket"}
+                ],
                 min_words_to_interrupt=1,
                 configuration_endpoint={
                     "url": "https://api.example.com/config",
@@ -1953,6 +2012,7 @@ class AsyncAgentsClient:
             multilingual_mode=multilingual_mode,
             push_to_talk=push_to_talk,
             boosted_keywords=boosted_keywords,
+            pronunciation_dictionary=pronunciation_dictionary,
             min_words_to_interrupt=min_words_to_interrupt,
             configuration_endpoint=configuration_endpoint,
             inbound_rollout=inbound_rollout,

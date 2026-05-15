@@ -7,7 +7,8 @@ from ..types.config_options_background_noise import ConfigOptionsBackgroundNoise
 from ..types.config_options_input_format import ConfigOptionsInputFormat
 from ..types.config_options_multilingual_mode import ConfigOptionsMultilingualMode
 from ..types.config_options_output_format import ConfigOptionsOutputFormat
-from .config_options_tools_item import ConfigOptionsToolsItemParams
+from .config_options_pronunciation_dictionary_item import ConfigOptionsPronunciationDictionaryItemParams
+from .tool_definition import ToolDefinitionParams
 
 
 class ConfigOptionsParams(typing_extensions.TypedDict):
@@ -145,9 +146,16 @@ class ConfigOptionsParams(typing_extensions.TypedDict):
     Keywords to boost in speech recognition
     """
 
-    tools: typing_extensions.NotRequired[typing.Sequence[ConfigOptionsToolsItemParams]]
+    pronunciation_dictionary: typing_extensions.NotRequired[
+        typing.Sequence[ConfigOptionsPronunciationDictionaryItemParams]
+    ]
     """
-    Names of tools available to the assistant.
+    Array of `{ word, pronunciation }` entries. Words must be unique.
+    """
+
+    tools: typing_extensions.NotRequired[typing.Sequence[ToolDefinitionParams]]
+    """
+    Tools available to the assistant. Use a string to reference a pre-defined tool by name, or define an inline WebSocket tool for this conversation.
     """
 
     template_variables: typing_extensions.NotRequired[typing.Dict[str, str]]

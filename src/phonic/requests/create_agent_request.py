@@ -9,6 +9,7 @@ from ..types.create_agent_request_multilingual_mode import CreateAgentRequestMul
 from ..types.create_agent_request_phone_number import CreateAgentRequestPhoneNumber
 from ..types.language_code import LanguageCode
 from .create_agent_request_configuration_endpoint import CreateAgentRequestConfigurationEndpointParams
+from .create_agent_request_pronunciation_dictionary_item import CreateAgentRequestPronunciationDictionaryItemParams
 from .create_agent_request_template_variables_value import CreateAgentRequestTemplateVariablesValueParams
 from .create_agent_request_tools_item import CreateAgentRequestToolsItemParams
 from .task import TaskParams
@@ -143,6 +144,13 @@ class CreateAgentRequestParams(typing_extensions.TypedDict):
     boosted_keywords: typing_extensions.NotRequired[typing.Sequence[str]]
     """
     These words, or short phrases, will be more accurately recognized by the agent.
+    """
+
+    pronunciation_dictionary: typing_extensions.NotRequired[
+        typing.Sequence[CreateAgentRequestPronunciationDictionaryItemParams]
+    ]
+    """
+    Array of `{ word, pronunciation }` entries. Words must be unique.
     """
 
     min_words_to_interrupt: typing_extensions.NotRequired[int]

@@ -26,6 +26,7 @@ if typing.TYPE_CHECKING:
     from .update_agent_request_configuration_endpoint import UpdateAgentRequestConfigurationEndpoint
     from .update_agent_request_multilingual_mode import UpdateAgentRequestMultilingualMode
     from .update_agent_request_phone_number import UpdateAgentRequestPhoneNumber
+    from .update_agent_request_pronunciation_dictionary_item import UpdateAgentRequestPronunciationDictionaryItem
     from .update_agent_request_template_variables_value import UpdateAgentRequestTemplateVariablesValue
     from .update_agent_request_tools_item import UpdateAgentRequestToolsItem
 _dynamic_imports: typing.Dict[str, str] = {
@@ -45,6 +46,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "UpdateAgentRequestConfigurationEndpoint": ".update_agent_request_configuration_endpoint",
     "UpdateAgentRequestMultilingualMode": ".update_agent_request_multilingual_mode",
     "UpdateAgentRequestPhoneNumber": ".update_agent_request_phone_number",
+    "UpdateAgentRequestPronunciationDictionaryItem": ".update_agent_request_pronunciation_dictionary_item",
     "UpdateAgentRequestTemplateVariablesValue": ".update_agent_request_template_variables_value",
     "UpdateAgentRequestToolsItem": ".update_agent_request_tools_item",
 }
@@ -88,6 +90,7 @@ __all__ = [
     "UpdateAgentRequestConfigurationEndpoint",
     "UpdateAgentRequestMultilingualMode",
     "UpdateAgentRequestPhoneNumber",
+    "UpdateAgentRequestPronunciationDictionaryItem",
     "UpdateAgentRequestTemplateVariablesValue",
     "UpdateAgentRequestToolsItem",
 ]

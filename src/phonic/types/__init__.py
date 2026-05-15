@@ -13,6 +13,7 @@ if typing.TYPE_CHECKING:
     from .agent_configuration_endpoint import AgentConfigurationEndpoint
     from .agent_multilingual_mode import AgentMultilingualMode
     from .agent_project import AgentProject
+    from .agent_pronunciation_dictionary_item import AgentPronunciationDictionaryItem
     from .agent_template_variables_value import AgentTemplateVariablesValue
     from .agent_tools_item import AgentToolsItem
     from .assistant_chose_not_to_respond_payload import AssistantChoseNotToRespondPayload
@@ -29,7 +30,7 @@ if typing.TYPE_CHECKING:
     from .config_options_input_format import ConfigOptionsInputFormat
     from .config_options_multilingual_mode import ConfigOptionsMultilingualMode
     from .config_options_output_format import ConfigOptionsOutputFormat
-    from .config_options_tools_item import ConfigOptionsToolsItem
+    from .config_options_pronunciation_dictionary_item import ConfigOptionsPronunciationDictionaryItem
     from .config_payload import ConfigPayload
     from .conversation import Conversation
     from .conversation_agent import ConversationAgent
@@ -54,6 +55,7 @@ if typing.TYPE_CHECKING:
     from .conversation_multilingual_mode import ConversationMultilingualMode
     from .conversation_origin import ConversationOrigin
     from .conversation_project import ConversationProject
+    from .conversation_pronunciation_dictionary_item import ConversationPronunciationDictionaryItem
     from .conversations_list_response_conversation import ConversationsListResponseConversation
     from .conversations_list_response_conversations import ConversationsListResponseConversations
     from .conversations_list_response_conversations_pagination import ConversationsListResponseConversationsPagination
@@ -63,6 +65,7 @@ if typing.TYPE_CHECKING:
     from .create_agent_request_configuration_endpoint import CreateAgentRequestConfigurationEndpoint
     from .create_agent_request_multilingual_mode import CreateAgentRequestMultilingualMode
     from .create_agent_request_phone_number import CreateAgentRequestPhoneNumber
+    from .create_agent_request_pronunciation_dictionary_item import CreateAgentRequestPronunciationDictionaryItem
     from .create_agent_request_template_variables_value import CreateAgentRequestTemplateVariablesValue
     from .create_agent_request_tools_item import CreateAgentRequestToolsItem
     from .dtmf_payload import DtmfPayload
@@ -73,12 +76,18 @@ if typing.TYPE_CHECKING:
     from .extraction_field_type import ExtractionFieldType
     from .extraction_schema import ExtractionSchema
     from .generate_reply_payload import GenerateReplyPayload
+    from .inline_web_socket_tool import InlineWebSocketTool
+    from .inline_web_socket_tool_execution_mode import InlineWebSocketToolExecutionMode
     from .input_cancelled_payload import InputCancelledPayload
     from .input_text_payload import InputTextPayload
     from .language_code import LanguageCode
     from .mute_payload import MutePayload
+    from .open_ai_function import OpenAiFunction
+    from .open_ai_function_parameters import OpenAiFunctionParameters
+    from .open_ai_tool import OpenAiTool
     from .outbound_call_config import OutboundCallConfig
     from .outbound_call_config_multilingual_mode import OutboundCallConfigMultilingualMode
+    from .outbound_call_config_pronunciation_dictionary_item import OutboundCallConfigPronunciationDictionaryItem
     from .outbound_call_config_tools_item import OutboundCallConfigToolsItem
     from .outbound_call_initiated_response import OutboundCallInitiatedResponse
     from .outbound_dry_run_response import OutboundDryRunResponse
@@ -105,8 +114,10 @@ if typing.TYPE_CHECKING:
     from .tool_call_output_processed_payload import ToolCallOutputProcessedPayload
     from .tool_call_output_processed_payload_tool import ToolCallOutputProcessedPayloadTool
     from .tool_call_payload import ToolCallPayload
+    from .tool_definition import ToolDefinition
     from .tool_endpoint_method import ToolEndpointMethod
     from .tool_execution_mode import ToolExecutionMode
+    from .tool_name import ToolName
     from .tool_parameter import ToolParameter
     from .tool_parameter_item_type import ToolParameterItemType
     from .tool_parameter_location import ToolParameterLocation
@@ -130,6 +141,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "AgentConfigurationEndpoint": ".agent_configuration_endpoint",
     "AgentMultilingualMode": ".agent_multilingual_mode",
     "AgentProject": ".agent_project",
+    "AgentPronunciationDictionaryItem": ".agent_pronunciation_dictionary_item",
     "AgentTemplateVariablesValue": ".agent_template_variables_value",
     "AgentToolsItem": ".agent_tools_item",
     "AssistantChoseNotToRespondPayload": ".assistant_chose_not_to_respond_payload",
@@ -146,7 +158,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ConfigOptionsInputFormat": ".config_options_input_format",
     "ConfigOptionsMultilingualMode": ".config_options_multilingual_mode",
     "ConfigOptionsOutputFormat": ".config_options_output_format",
-    "ConfigOptionsToolsItem": ".config_options_tools_item",
+    "ConfigOptionsPronunciationDictionaryItem": ".config_options_pronunciation_dictionary_item",
     "ConfigPayload": ".config_payload",
     "Conversation": ".conversation",
     "ConversationAgent": ".conversation_agent",
@@ -171,6 +183,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ConversationMultilingualMode": ".conversation_multilingual_mode",
     "ConversationOrigin": ".conversation_origin",
     "ConversationProject": ".conversation_project",
+    "ConversationPronunciationDictionaryItem": ".conversation_pronunciation_dictionary_item",
     "ConversationsListResponseConversation": ".conversations_list_response_conversation",
     "ConversationsListResponseConversations": ".conversations_list_response_conversations",
     "ConversationsListResponseConversationsPagination": ".conversations_list_response_conversations_pagination",
@@ -180,6 +193,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "CreateAgentRequestConfigurationEndpoint": ".create_agent_request_configuration_endpoint",
     "CreateAgentRequestMultilingualMode": ".create_agent_request_multilingual_mode",
     "CreateAgentRequestPhoneNumber": ".create_agent_request_phone_number",
+    "CreateAgentRequestPronunciationDictionaryItem": ".create_agent_request_pronunciation_dictionary_item",
     "CreateAgentRequestTemplateVariablesValue": ".create_agent_request_template_variables_value",
     "CreateAgentRequestToolsItem": ".create_agent_request_tools_item",
     "DtmfPayload": ".dtmf_payload",
@@ -190,12 +204,18 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ExtractionFieldType": ".extraction_field_type",
     "ExtractionSchema": ".extraction_schema",
     "GenerateReplyPayload": ".generate_reply_payload",
+    "InlineWebSocketTool": ".inline_web_socket_tool",
+    "InlineWebSocketToolExecutionMode": ".inline_web_socket_tool_execution_mode",
     "InputCancelledPayload": ".input_cancelled_payload",
     "InputTextPayload": ".input_text_payload",
     "LanguageCode": ".language_code",
     "MutePayload": ".mute_payload",
+    "OpenAiFunction": ".open_ai_function",
+    "OpenAiFunctionParameters": ".open_ai_function_parameters",
+    "OpenAiTool": ".open_ai_tool",
     "OutboundCallConfig": ".outbound_call_config",
     "OutboundCallConfigMultilingualMode": ".outbound_call_config_multilingual_mode",
+    "OutboundCallConfigPronunciationDictionaryItem": ".outbound_call_config_pronunciation_dictionary_item",
     "OutboundCallConfigToolsItem": ".outbound_call_config_tools_item",
     "OutboundCallInitiatedResponse": ".outbound_call_initiated_response",
     "OutboundDryRunResponse": ".outbound_dry_run_response",
@@ -222,8 +242,10 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ToolCallOutputProcessedPayload": ".tool_call_output_processed_payload",
     "ToolCallOutputProcessedPayloadTool": ".tool_call_output_processed_payload_tool",
     "ToolCallPayload": ".tool_call_payload",
+    "ToolDefinition": ".tool_definition",
     "ToolEndpointMethod": ".tool_endpoint_method",
     "ToolExecutionMode": ".tool_execution_mode",
+    "ToolName": ".tool_name",
     "ToolParameter": ".tool_parameter",
     "ToolParameterItemType": ".tool_parameter_item_type",
     "ToolParameterLocation": ".tool_parameter_location",
@@ -271,6 +293,7 @@ __all__ = [
     "AgentConfigurationEndpoint",
     "AgentMultilingualMode",
     "AgentProject",
+    "AgentPronunciationDictionaryItem",
     "AgentTemplateVariablesValue",
     "AgentToolsItem",
     "AssistantChoseNotToRespondPayload",
@@ -287,7 +310,7 @@ __all__ = [
     "ConfigOptionsInputFormat",
     "ConfigOptionsMultilingualMode",
     "ConfigOptionsOutputFormat",
-    "ConfigOptionsToolsItem",
+    "ConfigOptionsPronunciationDictionaryItem",
     "ConfigPayload",
     "Conversation",
     "ConversationAgent",
@@ -312,6 +335,7 @@ __all__ = [
     "ConversationMultilingualMode",
     "ConversationOrigin",
     "ConversationProject",
+    "ConversationPronunciationDictionaryItem",
     "ConversationsListResponseConversation",
     "ConversationsListResponseConversations",
     "ConversationsListResponseConversationsPagination",
@@ -321,6 +345,7 @@ __all__ = [
     "CreateAgentRequestConfigurationEndpoint",
     "CreateAgentRequestMultilingualMode",
     "CreateAgentRequestPhoneNumber",
+    "CreateAgentRequestPronunciationDictionaryItem",
     "CreateAgentRequestTemplateVariablesValue",
     "CreateAgentRequestToolsItem",
     "DtmfPayload",
@@ -331,12 +356,18 @@ __all__ = [
     "ExtractionFieldType",
     "ExtractionSchema",
     "GenerateReplyPayload",
+    "InlineWebSocketTool",
+    "InlineWebSocketToolExecutionMode",
     "InputCancelledPayload",
     "InputTextPayload",
     "LanguageCode",
     "MutePayload",
+    "OpenAiFunction",
+    "OpenAiFunctionParameters",
+    "OpenAiTool",
     "OutboundCallConfig",
     "OutboundCallConfigMultilingualMode",
+    "OutboundCallConfigPronunciationDictionaryItem",
     "OutboundCallConfigToolsItem",
     "OutboundCallInitiatedResponse",
     "OutboundDryRunResponse",
@@ -363,8 +394,10 @@ __all__ = [
     "ToolCallOutputProcessedPayload",
     "ToolCallOutputProcessedPayloadTool",
     "ToolCallPayload",
+    "ToolDefinition",
     "ToolEndpointMethod",
     "ToolExecutionMode",
+    "ToolName",
     "ToolParameter",
     "ToolParameterItemType",
     "ToolParameterLocation",

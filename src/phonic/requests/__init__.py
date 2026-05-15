@@ -10,6 +10,7 @@ if typing.TYPE_CHECKING:
     from .agent import AgentParams
     from .agent_configuration_endpoint import AgentConfigurationEndpointParams
     from .agent_project import AgentProjectParams
+    from .agent_pronunciation_dictionary_item import AgentPronunciationDictionaryItemParams
     from .agent_template_variables_value import AgentTemplateVariablesValueParams
     from .agent_tools_item import AgentToolsItemParams
     from .assistant_chose_not_to_respond_payload import AssistantChoseNotToRespondPayloadParams
@@ -22,7 +23,7 @@ if typing.TYPE_CHECKING:
     from .basic_error import BasicErrorParams
     from .basic_error_error import BasicErrorErrorParams
     from .config_options import ConfigOptionsParams
-    from .config_options_tools_item import ConfigOptionsToolsItemParams
+    from .config_options_pronunciation_dictionary_item import ConfigOptionsPronunciationDictionaryItemParams
     from .config_payload import ConfigPayloadParams
     from .conversation import ConversationParams
     from .conversation_agent import ConversationAgentParams
@@ -40,6 +41,7 @@ if typing.TYPE_CHECKING:
     from .conversation_item_tool_calls_item_request_body import ConversationItemToolCallsItemRequestBodyParams
     from .conversation_item_tool_calls_item_tool import ConversationItemToolCallsItemToolParams
     from .conversation_project import ConversationProjectParams
+    from .conversation_pronunciation_dictionary_item import ConversationPronunciationDictionaryItemParams
     from .conversations_list_response_conversation import ConversationsListResponseConversationParams
     from .conversations_list_response_conversations import ConversationsListResponseConversationsParams
     from .conversations_list_response_conversations_pagination import (
@@ -47,6 +49,7 @@ if typing.TYPE_CHECKING:
     )
     from .create_agent_request import CreateAgentRequestParams
     from .create_agent_request_configuration_endpoint import CreateAgentRequestConfigurationEndpointParams
+    from .create_agent_request_pronunciation_dictionary_item import CreateAgentRequestPronunciationDictionaryItemParams
     from .create_agent_request_template_variables_value import CreateAgentRequestTemplateVariablesValueParams
     from .create_agent_request_tools_item import CreateAgentRequestToolsItemParams
     from .dtmf_payload import DtmfPayloadParams
@@ -56,10 +59,14 @@ if typing.TYPE_CHECKING:
     from .extraction_field import ExtractionFieldParams
     from .extraction_schema import ExtractionSchemaParams
     from .generate_reply_payload import GenerateReplyPayloadParams
+    from .inline_web_socket_tool import InlineWebSocketToolParams
     from .input_cancelled_payload import InputCancelledPayloadParams
     from .input_text_payload import InputTextPayloadParams
     from .mute_payload import MutePayloadParams
+    from .open_ai_function import OpenAiFunctionParams
+    from .open_ai_tool import OpenAiToolParams
     from .outbound_call_config import OutboundCallConfigParams
+    from .outbound_call_config_pronunciation_dictionary_item import OutboundCallConfigPronunciationDictionaryItemParams
     from .outbound_call_config_tools_item import OutboundCallConfigToolsItemParams
     from .outbound_call_initiated_response import OutboundCallInitiatedResponseParams
     from .outbound_dry_run_response import OutboundDryRunResponseParams
@@ -84,6 +91,7 @@ if typing.TYPE_CHECKING:
     from .tool_call_output_processed_payload import ToolCallOutputProcessedPayloadParams
     from .tool_call_output_processed_payload_tool import ToolCallOutputProcessedPayloadToolParams
     from .tool_call_payload import ToolCallPayloadParams
+    from .tool_definition import ToolDefinitionParams
     from .tool_parameter import ToolParameterParams
     from .tool_project import ToolProjectParams
     from .unmute_payload import UnmutePayloadParams
@@ -100,6 +108,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "AgentConfigurationEndpointParams": ".agent_configuration_endpoint",
     "AgentParams": ".agent",
     "AgentProjectParams": ".agent_project",
+    "AgentPronunciationDictionaryItemParams": ".agent_pronunciation_dictionary_item",
     "AgentTemplateVariablesValueParams": ".agent_template_variables_value",
     "AgentToolsItemParams": ".agent_tools_item",
     "AssistantChoseNotToRespondPayloadParams": ".assistant_chose_not_to_respond_payload",
@@ -112,7 +121,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "BasicErrorErrorParams": ".basic_error_error",
     "BasicErrorParams": ".basic_error",
     "ConfigOptionsParams": ".config_options",
-    "ConfigOptionsToolsItemParams": ".config_options_tools_item",
+    "ConfigOptionsPronunciationDictionaryItemParams": ".config_options_pronunciation_dictionary_item",
     "ConfigPayloadParams": ".config_payload",
     "ConversationAgentParams": ".conversation_agent",
     "ConversationAnalysisParams": ".conversation_analysis",
@@ -130,11 +139,13 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ConversationItemToolCallsItemToolParams": ".conversation_item_tool_calls_item_tool",
     "ConversationParams": ".conversation",
     "ConversationProjectParams": ".conversation_project",
+    "ConversationPronunciationDictionaryItemParams": ".conversation_pronunciation_dictionary_item",
     "ConversationsListResponseConversationParams": ".conversations_list_response_conversation",
     "ConversationsListResponseConversationsPaginationParams": ".conversations_list_response_conversations_pagination",
     "ConversationsListResponseConversationsParams": ".conversations_list_response_conversations",
     "CreateAgentRequestConfigurationEndpointParams": ".create_agent_request_configuration_endpoint",
     "CreateAgentRequestParams": ".create_agent_request",
+    "CreateAgentRequestPronunciationDictionaryItemParams": ".create_agent_request_pronunciation_dictionary_item",
     "CreateAgentRequestTemplateVariablesValueParams": ".create_agent_request_template_variables_value",
     "CreateAgentRequestToolsItemParams": ".create_agent_request_tools_item",
     "DtmfPayloadParams": ".dtmf_payload",
@@ -144,10 +155,14 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ExtractionFieldParams": ".extraction_field",
     "ExtractionSchemaParams": ".extraction_schema",
     "GenerateReplyPayloadParams": ".generate_reply_payload",
+    "InlineWebSocketToolParams": ".inline_web_socket_tool",
     "InputCancelledPayloadParams": ".input_cancelled_payload",
     "InputTextPayloadParams": ".input_text_payload",
     "MutePayloadParams": ".mute_payload",
+    "OpenAiFunctionParams": ".open_ai_function",
+    "OpenAiToolParams": ".open_ai_tool",
     "OutboundCallConfigParams": ".outbound_call_config",
+    "OutboundCallConfigPronunciationDictionaryItemParams": ".outbound_call_config_pronunciation_dictionary_item",
     "OutboundCallConfigToolsItemParams": ".outbound_call_config_tools_item",
     "OutboundCallInitiatedResponseParams": ".outbound_call_initiated_response",
     "OutboundDryRunResponseParams": ".outbound_dry_run_response",
@@ -171,6 +186,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ToolCallOutputProcessedPayloadParams": ".tool_call_output_processed_payload",
     "ToolCallOutputProcessedPayloadToolParams": ".tool_call_output_processed_payload_tool",
     "ToolCallPayloadParams": ".tool_call_payload",
+    "ToolDefinitionParams": ".tool_definition",
     "ToolParameterParams": ".tool_parameter",
     "ToolParams": ".tool",
     "ToolProjectParams": ".tool_project",
@@ -212,6 +228,7 @@ __all__ = [
     "AgentConfigurationEndpointParams",
     "AgentParams",
     "AgentProjectParams",
+    "AgentPronunciationDictionaryItemParams",
     "AgentTemplateVariablesValueParams",
     "AgentToolsItemParams",
     "AssistantChoseNotToRespondPayloadParams",
@@ -224,7 +241,7 @@ __all__ = [
     "BasicErrorErrorParams",
     "BasicErrorParams",
     "ConfigOptionsParams",
-    "ConfigOptionsToolsItemParams",
+    "ConfigOptionsPronunciationDictionaryItemParams",
     "ConfigPayloadParams",
     "ConversationAgentParams",
     "ConversationAnalysisParams",
@@ -242,11 +259,13 @@ __all__ = [
     "ConversationItemToolCallsItemToolParams",
     "ConversationParams",
     "ConversationProjectParams",
+    "ConversationPronunciationDictionaryItemParams",
     "ConversationsListResponseConversationParams",
     "ConversationsListResponseConversationsPaginationParams",
     "ConversationsListResponseConversationsParams",
     "CreateAgentRequestConfigurationEndpointParams",
     "CreateAgentRequestParams",
+    "CreateAgentRequestPronunciationDictionaryItemParams",
     "CreateAgentRequestTemplateVariablesValueParams",
     "CreateAgentRequestToolsItemParams",
     "DtmfPayloadParams",
@@ -256,10 +275,14 @@ __all__ = [
     "ExtractionFieldParams",
     "ExtractionSchemaParams",
     "GenerateReplyPayloadParams",
+    "InlineWebSocketToolParams",
     "InputCancelledPayloadParams",
     "InputTextPayloadParams",
     "MutePayloadParams",
+    "OpenAiFunctionParams",
+    "OpenAiToolParams",
     "OutboundCallConfigParams",
+    "OutboundCallConfigPronunciationDictionaryItemParams",
     "OutboundCallConfigToolsItemParams",
     "OutboundCallInitiatedResponseParams",
     "OutboundDryRunResponseParams",
@@ -283,6 +306,7 @@ __all__ = [
     "ToolCallOutputProcessedPayloadParams",
     "ToolCallOutputProcessedPayloadToolParams",
     "ToolCallPayloadParams",
+    "ToolDefinitionParams",
     "ToolParameterParams",
     "ToolParams",
     "ToolProjectParams",

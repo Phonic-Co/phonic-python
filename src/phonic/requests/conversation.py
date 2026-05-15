@@ -13,6 +13,7 @@ from .conversation_analysis import ConversationAnalysisParams
 from .conversation_call_info import ConversationCallInfoParams
 from .conversation_item import ConversationItemParams
 from .conversation_project import ConversationProjectParams
+from .conversation_pronunciation_dictionary_item import ConversationPronunciationDictionaryItemParams
 
 
 class ConversationParams(typing_extensions.TypedDict):
@@ -129,6 +130,11 @@ class ConversationParams(typing_extensions.TypedDict):
     boosted_keywords: typing.Optional[typing.Sequence[str]]
     """
     These words, or short phrases, are more accurately recognized by the model.
+    """
+
+    pronunciation_dictionary: typing.Sequence[ConversationPronunciationDictionaryItemParams]
+    """
+    Array of `{ word, pronunciation }` entries. Words must be unique.
     """
 
     min_words_to_interrupt: int

@@ -10,6 +10,7 @@ from .agent_background_noise import AgentBackgroundNoise
 from .agent_configuration_endpoint import AgentConfigurationEndpoint
 from .agent_multilingual_mode import AgentMultilingualMode
 from .agent_project import AgentProject
+from .agent_pronunciation_dictionary_item import AgentPronunciationDictionaryItem
 from .agent_template_variables_value import AgentTemplateVariablesValue
 from .agent_tools_item import AgentToolsItem
 from .language_code import LanguageCode
@@ -150,6 +151,11 @@ class Agent(UncheckedBaseModel):
     boosted_keywords: typing.List[str] = pydantic.Field()
     """
     These words, or short phrases, will be more accurately recognized by the agent.
+    """
+
+    pronunciation_dictionary: typing.List[AgentPronunciationDictionaryItem] = pydantic.Field()
+    """
+    Array of `{ word, pronunciation }` entries. Words must be unique.
     """
 
     min_words_to_interrupt: int = pydantic.Field()

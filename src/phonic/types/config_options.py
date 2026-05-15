@@ -9,7 +9,8 @@ from .config_options_background_noise import ConfigOptionsBackgroundNoise
 from .config_options_input_format import ConfigOptionsInputFormat
 from .config_options_multilingual_mode import ConfigOptionsMultilingualMode
 from .config_options_output_format import ConfigOptionsOutputFormat
-from .config_options_tools_item import ConfigOptionsToolsItem
+from .config_options_pronunciation_dictionary_item import ConfigOptionsPronunciationDictionaryItem
+from .tool_definition import ToolDefinition
 
 
 class ConfigOptions(UncheckedBaseModel):
@@ -147,9 +148,16 @@ class ConfigOptions(UncheckedBaseModel):
     Keywords to boost in speech recognition
     """
 
-    tools: typing.Optional[typing.List[ConfigOptionsToolsItem]] = pydantic.Field(default=None)
+    pronunciation_dictionary: typing.Optional[typing.List[ConfigOptionsPronunciationDictionaryItem]] = pydantic.Field(
+        default=None
+    )
     """
-    Names of tools available to the assistant.
+    Array of `{ word, pronunciation }` entries. Words must be unique.
+    """
+
+    tools: typing.Optional[typing.List[ToolDefinition]] = pydantic.Field(default=None)
+    """
+    Tools available to the assistant. Use a string to reference a pre-defined tool by name, or define an inline WebSocket tool for this conversation.
     """
 
     template_variables: typing.Optional[typing.Dict[str, str]] = pydantic.Field(default=None)

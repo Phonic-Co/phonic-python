@@ -23,6 +23,7 @@ if typing.TYPE_CHECKING:
         UpdateAgentRequestConfigurationEndpoint,
         UpdateAgentRequestMultilingualMode,
         UpdateAgentRequestPhoneNumber,
+        UpdateAgentRequestPronunciationDictionaryItem,
         UpdateAgentRequestTemplateVariablesValue,
         UpdateAgentRequestToolsItem,
     )
@@ -39,6 +40,7 @@ if typing.TYPE_CHECKING:
         AgentsUpdateResponseParams,
         AgentsUpsertResponseParams,
         UpdateAgentRequestConfigurationEndpointParams,
+        UpdateAgentRequestPronunciationDictionaryItemParams,
         UpdateAgentRequestTemplateVariablesValueParams,
         UpdateAgentRequestToolsItemParams,
     )
@@ -71,6 +73,8 @@ _dynamic_imports: typing.Dict[str, str] = {
     "UpdateAgentRequestConfigurationEndpointParams": ".requests",
     "UpdateAgentRequestMultilingualMode": ".types",
     "UpdateAgentRequestPhoneNumber": ".types",
+    "UpdateAgentRequestPronunciationDictionaryItem": ".types",
+    "UpdateAgentRequestPronunciationDictionaryItemParams": ".requests",
     "UpdateAgentRequestTemplateVariablesValue": ".types",
     "UpdateAgentRequestTemplateVariablesValueParams": ".requests",
     "UpdateAgentRequestToolsItem": ".types",
@@ -128,6 +132,8 @@ __all__ = [
     "UpdateAgentRequestConfigurationEndpointParams",
     "UpdateAgentRequestMultilingualMode",
     "UpdateAgentRequestPhoneNumber",
+    "UpdateAgentRequestPronunciationDictionaryItem",
+    "UpdateAgentRequestPronunciationDictionaryItemParams",
     "UpdateAgentRequestTemplateVariablesValue",
     "UpdateAgentRequestTemplateVariablesValueParams",
     "UpdateAgentRequestToolsItem",

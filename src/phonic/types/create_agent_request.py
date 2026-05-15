@@ -10,6 +10,7 @@ from .create_agent_request_background_noise import CreateAgentRequestBackgroundN
 from .create_agent_request_configuration_endpoint import CreateAgentRequestConfigurationEndpoint
 from .create_agent_request_multilingual_mode import CreateAgentRequestMultilingualMode
 from .create_agent_request_phone_number import CreateAgentRequestPhoneNumber
+from .create_agent_request_pronunciation_dictionary_item import CreateAgentRequestPronunciationDictionaryItem
 from .create_agent_request_template_variables_value import CreateAgentRequestTemplateVariablesValue
 from .create_agent_request_tools_item import CreateAgentRequestToolsItem
 from .language_code import LanguageCode
@@ -147,6 +148,13 @@ class CreateAgentRequest(UncheckedBaseModel):
     boosted_keywords: typing.Optional[typing.List[str]] = pydantic.Field(default=None)
     """
     These words, or short phrases, will be more accurately recognized by the agent.
+    """
+
+    pronunciation_dictionary: typing.Optional[typing.List[CreateAgentRequestPronunciationDictionaryItem]] = (
+        pydantic.Field(default=None)
+    )
+    """
+    Array of `{ word, pronunciation }` entries. Words must be unique.
     """
 
     min_words_to_interrupt: typing.Optional[int] = pydantic.Field(default=None)

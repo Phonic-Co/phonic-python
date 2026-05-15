@@ -9,6 +9,7 @@ from ..types.agent_multilingual_mode import AgentMultilingualMode
 from ..types.language_code import LanguageCode
 from .agent_configuration_endpoint import AgentConfigurationEndpointParams
 from .agent_project import AgentProjectParams
+from .agent_pronunciation_dictionary_item import AgentPronunciationDictionaryItemParams
 from .agent_template_variables_value import AgentTemplateVariablesValueParams
 from .agent_tools_item import AgentToolsItemParams
 from .task import TaskParams
@@ -148,6 +149,11 @@ class AgentParams(typing_extensions.TypedDict):
     boosted_keywords: typing.Sequence[str]
     """
     These words, or short phrases, will be more accurately recognized by the agent.
+    """
+
+    pronunciation_dictionary: typing.Sequence[AgentPronunciationDictionaryItemParams]
+    """
+    Array of `{ word, pronunciation }` entries. Words must be unique.
     """
 
     min_words_to_interrupt: int
