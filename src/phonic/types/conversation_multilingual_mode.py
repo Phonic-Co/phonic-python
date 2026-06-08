@@ -2,4 +2,4 @@
 
 import typing
 
-ConversationMultilingualMode = typing.Union[typing.Literal["auto", "request"], typing.Any]
+ConversationMultilingualMode = typing.Union[typing.Literal["auto", "request", "initial"], typing.Any]

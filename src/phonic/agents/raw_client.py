@@ -149,6 +149,7 @@ class RawAgentsClient:
         background_noise_level: typing.Optional[float] = OMIT,
         background_noise: typing.Optional[CreateAgentRequestBackgroundNoise] = OMIT,
         generate_welcome_message: typing.Optional[bool] = OMIT,
+        is_welcome_message_interruptible: typing.Optional[bool] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValueParams]] = OMIT,
@@ -175,6 +176,7 @@ class RawAgentsClient:
         vad_min_speech_duration_ms: typing.Optional[int] = OMIT,
         vad_min_silence_duration_ms: typing.Optional[int] = OMIT,
         vad_threshold: typing.Optional[float] = OMIT,
+        enable_redaction: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[AgentsCreateResponse]:
         """
@@ -218,6 +220,9 @@ class RawAgentsClient:
         generate_welcome_message : typing.Optional[bool]
             When `true`, the welcome message will be automatically generated and the `welcome_message` field will be ignored.
 
+        is_welcome_message_interruptible : typing.Optional[bool]
+            When `false`, the welcome message will not be interruptible by the user.
+
         welcome_message : typing.Optional[str]
             Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. Ignored when `generate_welcome_message` is `true`.
 
@@ -255,7 +260,7 @@ class RawAgentsClient:
             Array of ISO 639-1 language codes that the agent should be able to recognize. This field is deprecated. Use `default_language` and `additional_languages` instead.
 
         multilingual_mode : typing.Optional[CreateAgentRequestMultilingualMode]
-            If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended).
+            If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended). If `"initial"` the first turn user audio determines the language for the rest of the conversation.
 
         push_to_talk : typing.Optional[bool]
             Push to talk mode. User must send mute/unmute messages to turn on/off listening to audio. Defaults to false.
@@ -290,6 +295,9 @@ class RawAgentsClient:
         vad_threshold : typing.Optional[float]
             Voice activity detection threshold.
 
+        enable_redaction : typing.Optional[bool]
+            When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE NUMBER]`) and bleeped from audio recordings after the conversation ends.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -317,6 +325,7 @@ class RawAgentsClient:
                 "background_noise_level": background_noise_level,
                 "background_noise": background_noise,
                 "generate_welcome_message": generate_welcome_message,
+                "is_welcome_message_interruptible": is_welcome_message_interruptible,
                 "welcome_message": welcome_message,
                 "system_prompt": system_prompt,
                 "template_variables": convert_and_respect_annotation_metadata(
@@ -357,6 +366,7 @@ class RawAgentsClient:
                 "vad_min_speech_duration_ms": vad_min_speech_duration_ms,
                 "vad_min_silence_duration_ms": vad_min_silence_duration_ms,
                 "vad_threshold": vad_threshold,
+                "enable_redaction": enable_redaction,
             },
             headers={
                 "content-type": "application/json",
@@ -442,6 +452,7 @@ class RawAgentsClient:
         background_noise_level: typing.Optional[float] = OMIT,
         background_noise: typing.Optional[CreateAgentRequestBackgroundNoise] = OMIT,
         generate_welcome_message: typing.Optional[bool] = OMIT,
+        is_welcome_message_interruptible: typing.Optional[bool] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValueParams]] = OMIT,
@@ -468,6 +479,7 @@ class RawAgentsClient:
         vad_min_speech_duration_ms: typing.Optional[int] = OMIT,
         vad_min_silence_duration_ms: typing.Optional[int] = OMIT,
         vad_threshold: typing.Optional[float] = OMIT,
+        enable_redaction: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[AgentsUpsertResponse]:
         """
@@ -511,6 +523,9 @@ class RawAgentsClient:
         generate_welcome_message : typing.Optional[bool]
             When `true`, the welcome message will be automatically generated and the `welcome_message` field will be ignored.
 
+        is_welcome_message_interruptible : typing.Optional[bool]
+            When `false`, the welcome message will not be interruptible by the user.
+
         welcome_message : typing.Optional[str]
             Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. Ignored when `generate_welcome_message` is `true`.
 
@@ -548,7 +563,7 @@ class RawAgentsClient:
             Array of ISO 639-1 language codes that the agent should be able to recognize. This field is deprecated. Use `default_language` and `additional_languages` instead.
 
         multilingual_mode : typing.Optional[CreateAgentRequestMultilingualMode]
-            If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended).
+            If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended). If `"initial"` the first turn user audio determines the language for the rest of the conversation.
 
         push_to_talk : typing.Optional[bool]
             Push to talk mode. User must send mute/unmute messages to turn on/off listening to audio. Defaults to false.
@@ -583,6 +598,9 @@ class RawAgentsClient:
         vad_threshold : typing.Optional[float]
             Voice activity detection threshold.
 
+        enable_redaction : typing.Optional[bool]
+            When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE NUMBER]`) and bleeped from audio recordings after the conversation ends.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -610,6 +628,7 @@ class RawAgentsClient:
                 "background_noise_level": background_noise_level,
                 "background_noise": background_noise,
                 "generate_welcome_message": generate_welcome_message,
+                "is_welcome_message_interruptible": is_welcome_message_interruptible,
                 "welcome_message": welcome_message,
                 "system_prompt": system_prompt,
                 "template_variables": convert_and_respect_annotation_metadata(
@@ -650,6 +669,7 @@ class RawAgentsClient:
                 "vad_min_speech_duration_ms": vad_min_speech_duration_ms,
                 "vad_min_silence_duration_ms": vad_min_silence_duration_ms,
                 "vad_threshold": vad_threshold,
+                "enable_redaction": enable_redaction,
             },
             headers={
                 "content-type": "application/json",
@@ -866,6 +886,7 @@ class RawAgentsClient:
         background_noise_level: typing.Optional[float] = OMIT,
         background_noise: typing.Optional[UpdateAgentRequestBackgroundNoise] = OMIT,
         generate_welcome_message: typing.Optional[bool] = OMIT,
+        is_welcome_message_interruptible: typing.Optional[bool] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, UpdateAgentRequestTemplateVariablesValueParams]] = OMIT,
@@ -892,6 +913,7 @@ class RawAgentsClient:
         vad_min_speech_duration_ms: typing.Optional[int] = OMIT,
         vad_min_silence_duration_ms: typing.Optional[int] = OMIT,
         vad_threshold: typing.Optional[float] = OMIT,
+        enable_redaction: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[AgentsUpdateResponse]:
         """
@@ -938,6 +960,9 @@ class RawAgentsClient:
         generate_welcome_message : typing.Optional[bool]
             When `true`, the welcome message will be automatically generated and the `welcome_message` field will be ignored.
 
+        is_welcome_message_interruptible : typing.Optional[bool]
+            When `false`, the welcome message will not be interruptible by the user.
+
         welcome_message : typing.Optional[str]
             Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. Ignored when `generate_welcome_message` is `true`.
 
@@ -975,7 +1000,7 @@ class RawAgentsClient:
             Array of ISO 639-1 language codes that the agent should be able to recognize. This field is deprecated. Use `default_language` and `additional_languages` instead.
 
         multilingual_mode : typing.Optional[UpdateAgentRequestMultilingualMode]
-            If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended).
+            If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended). If `"initial"` the first turn user audio determines the language for the rest of the conversation.
 
         push_to_talk : typing.Optional[bool]
             Push to talk mode. User must send mute/unmute messages to turn on/off listening to audio. Defaults to false.
@@ -1010,6 +1035,9 @@ class RawAgentsClient:
         vad_threshold : typing.Optional[float]
             Voice activity detection threshold.
 
+        enable_redaction : typing.Optional[bool]
+            When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE NUMBER]`) and bleeped from audio recordings after the conversation ends.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -1037,6 +1065,7 @@ class RawAgentsClient:
                 "background_noise_level": background_noise_level,
                 "background_noise": background_noise,
                 "generate_welcome_message": generate_welcome_message,
+                "is_welcome_message_interruptible": is_welcome_message_interruptible,
                 "welcome_message": welcome_message,
                 "system_prompt": system_prompt,
                 "template_variables": convert_and_respect_annotation_metadata(
@@ -1077,6 +1106,7 @@ class RawAgentsClient:
                 "vad_min_speech_duration_ms": vad_min_speech_duration_ms,
                 "vad_min_silence_duration_ms": vad_min_silence_duration_ms,
                 "vad_threshold": vad_threshold,
+                "enable_redaction": enable_redaction,
             },
             headers={
                 "content-type": "application/json",
@@ -1618,6 +1648,7 @@ class AsyncRawAgentsClient:
         background_noise_level: typing.Optional[float] = OMIT,
         background_noise: typing.Optional[CreateAgentRequestBackgroundNoise] = OMIT,
         generate_welcome_message: typing.Optional[bool] = OMIT,
+        is_welcome_message_interruptible: typing.Optional[bool] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValueParams]] = OMIT,
@@ -1644,6 +1675,7 @@ class AsyncRawAgentsClient:
         vad_min_speech_duration_ms: typing.Optional[int] = OMIT,
         vad_min_silence_duration_ms: typing.Optional[int] = OMIT,
         vad_threshold: typing.Optional[float] = OMIT,
+        enable_redaction: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[AgentsCreateResponse]:
         """
@@ -1687,6 +1719,9 @@ class AsyncRawAgentsClient:
         generate_welcome_message : typing.Optional[bool]
             When `true`, the welcome message will be automatically generated and the `welcome_message` field will be ignored.
 
+        is_welcome_message_interruptible : typing.Optional[bool]
+            When `false`, the welcome message will not be interruptible by the user.
+
         welcome_message : typing.Optional[str]
             Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. Ignored when `generate_welcome_message` is `true`.
 
@@ -1724,7 +1759,7 @@ class AsyncRawAgentsClient:
             Array of ISO 639-1 language codes that the agent should be able to recognize. This field is deprecated. Use `default_language` and `additional_languages` instead.
 
         multilingual_mode : typing.Optional[CreateAgentRequestMultilingualMode]
-            If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended).
+            If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended). If `"initial"` the first turn user audio determines the language for the rest of the conversation.
 
         push_to_talk : typing.Optional[bool]
             Push to talk mode. User must send mute/unmute messages to turn on/off listening to audio. Defaults to false.
@@ -1759,6 +1794,9 @@ class AsyncRawAgentsClient:
         vad_threshold : typing.Optional[float]
             Voice activity detection threshold.
 
+        enable_redaction : typing.Optional[bool]
+            When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE NUMBER]`) and bleeped from audio recordings after the conversation ends.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -1786,6 +1824,7 @@ class AsyncRawAgentsClient:
                 "background_noise_level": background_noise_level,
                 "background_noise": background_noise,
                 "generate_welcome_message": generate_welcome_message,
+                "is_welcome_message_interruptible": is_welcome_message_interruptible,
                 "welcome_message": welcome_message,
                 "system_prompt": system_prompt,
                 "template_variables": convert_and_respect_annotation_metadata(
@@ -1826,6 +1865,7 @@ class AsyncRawAgentsClient:
                 "vad_min_speech_duration_ms": vad_min_speech_duration_ms,
                 "vad_min_silence_duration_ms": vad_min_silence_duration_ms,
                 "vad_threshold": vad_threshold,
+                "enable_redaction": enable_redaction,
             },
             headers={
                 "content-type": "application/json",
@@ -1911,6 +1951,7 @@ class AsyncRawAgentsClient:
         background_noise_level: typing.Optional[float] = OMIT,
         background_noise: typing.Optional[CreateAgentRequestBackgroundNoise] = OMIT,
         generate_welcome_message: typing.Optional[bool] = OMIT,
+        is_welcome_message_interruptible: typing.Optional[bool] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValueParams]] = OMIT,
@@ -1937,6 +1978,7 @@ class AsyncRawAgentsClient:
         vad_min_speech_duration_ms: typing.Optional[int] = OMIT,
         vad_min_silence_duration_ms: typing.Optional[int] = OMIT,
         vad_threshold: typing.Optional[float] = OMIT,
+        enable_redaction: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[AgentsUpsertResponse]:
         """
@@ -1980,6 +2022,9 @@ class AsyncRawAgentsClient:
         generate_welcome_message : typing.Optional[bool]
             When `true`, the welcome message will be automatically generated and the `welcome_message` field will be ignored.
 
+        is_welcome_message_interruptible : typing.Optional[bool]
+            When `false`, the welcome message will not be interruptible by the user.
+
         welcome_message : typing.Optional[str]
             Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. Ignored when `generate_welcome_message` is `true`.
 
@@ -2017,7 +2062,7 @@ class AsyncRawAgentsClient:
             Array of ISO 639-1 language codes that the agent should be able to recognize. This field is deprecated. Use `default_language` and `additional_languages` instead.
 
         multilingual_mode : typing.Optional[CreateAgentRequestMultilingualMode]
-            If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended).
+            If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended). If `"initial"` the first turn user audio determines the language for the rest of the conversation.
 
         push_to_talk : typing.Optional[bool]
             Push to talk mode. User must send mute/unmute messages to turn on/off listening to audio. Defaults to false.
@@ -2052,6 +2097,9 @@ class AsyncRawAgentsClient:
         vad_threshold : typing.Optional[float]
             Voice activity detection threshold.
 
+        enable_redaction : typing.Optional[bool]
+            When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE NUMBER]`) and bleeped from audio recordings after the conversation ends.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -2079,6 +2127,7 @@ class AsyncRawAgentsClient:
                 "background_noise_level": background_noise_level,
                 "background_noise": background_noise,
                 "generate_welcome_message": generate_welcome_message,
+                "is_welcome_message_interruptible": is_welcome_message_interruptible,
                 "welcome_message": welcome_message,
                 "system_prompt": system_prompt,
                 "template_variables": convert_and_respect_annotation_metadata(
@@ -2119,6 +2168,7 @@ class AsyncRawAgentsClient:
                 "vad_min_speech_duration_ms": vad_min_speech_duration_ms,
                 "vad_min_silence_duration_ms": vad_min_silence_duration_ms,
                 "vad_threshold": vad_threshold,
+                "enable_redaction": enable_redaction,
             },
             headers={
                 "content-type": "application/json",
@@ -2335,6 +2385,7 @@ class AsyncRawAgentsClient:
         background_noise_level: typing.Optional[float] = OMIT,
         background_noise: typing.Optional[UpdateAgentRequestBackgroundNoise] = OMIT,
         generate_welcome_message: typing.Optional[bool] = OMIT,
+        is_welcome_message_interruptible: typing.Optional[bool] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, UpdateAgentRequestTemplateVariablesValueParams]] = OMIT,
@@ -2361,6 +2412,7 @@ class AsyncRawAgentsClient:
         vad_min_speech_duration_ms: typing.Optional[int] = OMIT,
         vad_min_silence_duration_ms: typing.Optional[int] = OMIT,
         vad_threshold: typing.Optional[float] = OMIT,
+        enable_redaction: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[AgentsUpdateResponse]:
         """
@@ -2407,6 +2459,9 @@ class AsyncRawAgentsClient:
         generate_welcome_message : typing.Optional[bool]
             When `true`, the welcome message will be automatically generated and the `welcome_message` field will be ignored.
 
+        is_welcome_message_interruptible : typing.Optional[bool]
+            When `false`, the welcome message will not be interruptible by the user.
+
         welcome_message : typing.Optional[str]
             Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. Ignored when `generate_welcome_message` is `true`.
 
@@ -2444,7 +2499,7 @@ class AsyncRawAgentsClient:
             Array of ISO 639-1 language codes that the agent should be able to recognize. This field is deprecated. Use `default_language` and `additional_languages` instead.
 
         multilingual_mode : typing.Optional[UpdateAgentRequestMultilingualMode]
-            If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended).
+            If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended). If `"initial"` the first turn user audio determines the language for the rest of the conversation.
 
         push_to_talk : typing.Optional[bool]
             Push to talk mode. User must send mute/unmute messages to turn on/off listening to audio. Defaults to false.
@@ -2479,6 +2534,9 @@ class AsyncRawAgentsClient:
         vad_threshold : typing.Optional[float]
             Voice activity detection threshold.
 
+        enable_redaction : typing.Optional[bool]
+            When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE NUMBER]`) and bleeped from audio recordings after the conversation ends.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -2506,6 +2564,7 @@ class AsyncRawAgentsClient:
                 "background_noise_level": background_noise_level,
                 "background_noise": background_noise,
                 "generate_welcome_message": generate_welcome_message,
+                "is_welcome_message_interruptible": is_welcome_message_interruptible,
                 "welcome_message": welcome_message,
                 "system_prompt": system_prompt,
                 "template_variables": convert_and_respect_annotation_metadata(
@@ -2546,6 +2605,7 @@ class AsyncRawAgentsClient:
                 "vad_min_speech_duration_ms": vad_min_speech_duration_ms,
                 "vad_min_silence_duration_ms": vad_min_silence_duration_ms,
                 "vad_threshold": vad_threshold,
+                "enable_redaction": enable_redaction,
             },
             headers={
                 "content-type": "application/json",

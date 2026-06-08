@@ -2,4 +2,4 @@
 
 import typing
 
-UpdateAgentRequestMultilingualMode = typing.Union[typing.Literal["auto", "request"], typing.Any]
+UpdateAgentRequestMultilingualMode = typing.Union[typing.Literal["auto", "request", "initial"], typing.Any]

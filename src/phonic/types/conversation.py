@@ -16,6 +16,7 @@ from .conversation_multilingual_mode import ConversationMultilingualMode
 from .conversation_origin import ConversationOrigin
 from .conversation_project import ConversationProject
 from .conversation_pronunciation_dictionary_item import ConversationPronunciationDictionaryItem
+from .language_code import LanguageCode
 
 
 class Conversation(UncheckedBaseModel):
@@ -57,6 +58,11 @@ class Conversation(UncheckedBaseModel):
     generate_welcome_message: bool = pydantic.Field()
     """
     Will be `true` if welcome message was automatically generated.
+    """
+
+    is_welcome_message_interruptible: bool = pydantic.Field()
+    """
+    When `false`, the welcome message will not be interruptible by the user.
     """
 
     welcome_message: typing.Optional[str] = pydantic.Field(default=None)
@@ -144,19 +150,19 @@ class Conversation(UncheckedBaseModel):
     Minimum number of words required to interrupt the assistant.
     """
 
-    default_language: str = pydantic.Field()
+    default_language: LanguageCode = pydantic.Field()
     """
     ISO 639-1 language code that sets the agent's default language to recognize and speak. Welcome message and no input poke text should be in this language.
     """
 
-    additional_languages: typing.Optional[typing.List[str]] = pydantic.Field(default=None)
+    additional_languages: typing.Optional[typing.List[LanguageCode]] = pydantic.Field(default=None)
     """
     Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`.
     """
 
     multilingual_mode: ConversationMultilingualMode = pydantic.Field()
     """
-    If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended).
+    If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended). If `"initial"` the first turn user audio determines the language for the rest of the conversation.
     """
 
     push_to_talk: bool = pydantic.Field()
