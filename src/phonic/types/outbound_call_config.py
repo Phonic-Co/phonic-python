@@ -26,9 +26,19 @@ class OutboundCallConfig(UncheckedBaseModel):
     The name of the project to use for the call.
     """
 
+    generate_welcome_message: typing.Optional[bool] = pydantic.Field(default=None)
+    """
+    When `true`, the welcome message will be automatically generated and the `welcome_message` field will be ignored.
+    """
+
+    is_welcome_message_interruptible: typing.Optional[bool] = pydantic.Field(default=None)
+    """
+    When `false`, the welcome message will not be interruptible by the user.
+    """
+
     welcome_message: typing.Optional[str] = pydantic.Field(default=None)
     """
-    Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`.
+    Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. Ignored when `generate_welcome_message` is `true`.
     """
 
     system_prompt: typing.Optional[str] = pydantic.Field(default=None)
