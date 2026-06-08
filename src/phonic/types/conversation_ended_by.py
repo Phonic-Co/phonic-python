@@ -3,5 +3,16 @@
 import typing
 
 ConversationEndedBy = typing.Union[
-    typing.Literal["user", "user_canceled", "user_validation_failed", "assistant", "error"], typing.Any
+    typing.Literal[
+        "user",
+        "user_canceled",
+        "user_validation_failed",
+        "assistant",
+        "assistant_silence_limit_reached",
+        "configuration_endpoint_timed_out",
+        "configuration_endpoint_error",
+        "configuration_endpoint_invalid_response",
+        "error",
+    ],
+    typing.Any,
 ]
