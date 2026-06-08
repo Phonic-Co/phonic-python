@@ -115,6 +115,7 @@ client.agents.create(
     audio_speed=1,
     background_noise_level=0,
     generate_welcome_message=False,
+    is_welcome_message_interruptible=True,
     welcome_message="Hi {{customer_name}}. How can I help you today?",
     system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
     template_variables={
@@ -243,6 +244,7 @@ client.agents.upsert(
     audio_speed=1,
     background_noise_level=0,
     generate_welcome_message=False,
+    is_welcome_message_interruptible=True,
     welcome_message="Hi {{customer_name}}. How can I help you today?",
     system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
     template_variables={
@@ -395,6 +397,14 @@ client.agents.upsert(
 <dl>
 <dd>
 
+**is_welcome_message_interruptible:** `typing.Optional[bool]` — When `false`, the welcome message will not be interruptible by the user.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **welcome_message:** `typing.Optional[str]` — Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. Ignored when `generate_welcome_message` is `true`.
     
 </dd>
@@ -491,7 +501,7 @@ client.agents.upsert(
 <dl>
 <dd>
 
-**multilingual_mode:** `typing.Optional[CreateAgentRequestMultilingualMode]` — If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended).
+**multilingual_mode:** `typing.Optional[CreateAgentRequestMultilingualMode]` — If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended). If `"initial"` the first turn user audio determines the language for the rest of the conversation.
     
 </dd>
 </dl>
@@ -580,6 +590,14 @@ client.agents.upsert(
 <dd>
 
 **vad_threshold:** `typing.Optional[float]` — Voice activity detection threshold.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**enable_redaction:** `typing.Optional[bool]` — When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE NUMBER]`) and bleeped from audio recordings after the conversation ends.
     
 </dd>
 </dl>
@@ -809,6 +827,7 @@ client.agents.update(
     audio_speed=1,
     background_noise_level=0,
     generate_welcome_message=False,
+    is_welcome_message_interruptible=True,
     welcome_message="Hi {{customer_name}}. How can I help you today?",
     system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
     template_variables={
@@ -969,6 +988,14 @@ client.agents.update(
 <dl>
 <dd>
 
+**is_welcome_message_interruptible:** `typing.Optional[bool]` — When `false`, the welcome message will not be interruptible by the user.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **welcome_message:** `typing.Optional[str]` — Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. Ignored when `generate_welcome_message` is `true`.
     
 </dd>
@@ -1065,7 +1092,7 @@ client.agents.update(
 <dl>
 <dd>
 
-**multilingual_mode:** `typing.Optional[UpdateAgentRequestMultilingualMode]` — If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended).
+**multilingual_mode:** `typing.Optional[UpdateAgentRequestMultilingualMode]` — If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended). If `"initial"` the first turn user audio determines the language for the rest of the conversation.
     
 </dd>
 </dl>
@@ -1154,6 +1181,14 @@ client.agents.update(
 <dd>
 
 **vad_threshold:** `typing.Optional[float]` — Voice activity detection threshold.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**enable_redaction:** `typing.Optional[bool]` — When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE NUMBER]`) and bleeped from audio recordings after the conversation ends.
     
 </dd>
 </dl>

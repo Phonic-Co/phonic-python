@@ -71,6 +71,11 @@ class CreateAgentRequestParams(typing_extensions.TypedDict):
     When `true`, the welcome message will be automatically generated and the `welcome_message` field will be ignored.
     """
 
+    is_welcome_message_interruptible: typing_extensions.NotRequired[bool]
+    """
+    When `false`, the welcome message will not be interruptible by the user.
+    """
+
     welcome_message: typing_extensions.NotRequired[str]
     """
     Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. Ignored when `generate_welcome_message` is `true`.
@@ -133,7 +138,7 @@ class CreateAgentRequestParams(typing_extensions.TypedDict):
 
     multilingual_mode: typing_extensions.NotRequired[CreateAgentRequestMultilingualMode]
     """
-    If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended).
+    If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended). If `"initial"` the first turn user audio determines the language for the rest of the conversation.
     """
 
     push_to_talk: typing_extensions.NotRequired[bool]
@@ -193,4 +198,9 @@ class CreateAgentRequestParams(typing_extensions.TypedDict):
     vad_threshold: typing_extensions.NotRequired[float]
     """
     Voice activity detection threshold.
+    """
+
+    enable_redaction: typing_extensions.NotRequired[bool]
+    """
+    When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE NUMBER]`) and bleeped from audio recordings after the conversation ends.
     """

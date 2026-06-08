@@ -2,4 +2,4 @@
 
 import typing
 
-OutboundCallConfigMultilingualMode = typing.Union[typing.Literal["auto", "request"], typing.Any]
+OutboundCallConfigMultilingualMode = typing.Union[typing.Literal["auto", "request", "initial"], typing.Any]
