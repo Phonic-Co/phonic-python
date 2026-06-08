@@ -2,4 +2,4 @@
 
 import typing
 
-ConfigOptionsMultilingualMode = typing.Union[typing.Literal["auto", "request"], typing.Any]
+ConfigOptionsMultilingualMode = typing.Union[typing.Literal["auto", "request", "initial"], typing.Any]

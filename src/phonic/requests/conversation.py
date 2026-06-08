@@ -8,6 +8,7 @@ from ..types.conversation_background_noise import ConversationBackgroundNoise
 from ..types.conversation_ended_by import ConversationEndedBy
 from ..types.conversation_multilingual_mode import ConversationMultilingualMode
 from ..types.conversation_origin import ConversationOrigin
+from ..types.language_code import LanguageCode
 from .conversation_agent import ConversationAgentParams
 from .conversation_analysis import ConversationAnalysisParams
 from .conversation_call_info import ConversationCallInfoParams
@@ -55,6 +56,11 @@ class ConversationParams(typing_extensions.TypedDict):
     generate_welcome_message: bool
     """
     Will be `true` if welcome message was automatically generated.
+    """
+
+    is_welcome_message_interruptible: bool
+    """
+    When `false`, the welcome message will not be interruptible by the user.
     """
 
     welcome_message: typing.Optional[str]
@@ -142,19 +148,19 @@ class ConversationParams(typing_extensions.TypedDict):
     Minimum number of words required to interrupt the assistant.
     """
 
-    default_language: str
+    default_language: LanguageCode
     """
     ISO 639-1 language code that sets the agent's default language to recognize and speak. Welcome message and no input poke text should be in this language.
     """
 
-    additional_languages: typing.Optional[typing.Sequence[str]]
+    additional_languages: typing.Optional[typing.Sequence[LanguageCode]]
     """
     Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`.
     """
 
     multilingual_mode: ConversationMultilingualMode
     """
-    If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended).
+    If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended). If `"initial"` the first turn user audio determines the language for the rest of the conversation.
     """
 
     push_to_talk: bool

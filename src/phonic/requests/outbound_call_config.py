@@ -81,7 +81,7 @@ class OutboundCallConfigParams(typing_extensions.TypedDict):
 
     multilingual_mode: typing_extensions.NotRequired[OutboundCallConfigMultilingualMode]
     """
-    If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended).
+    If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended). If `"initial"` the first turn user audio determines the language for the rest of the conversation.
     """
 
     push_to_talk: typing_extensions.NotRequired[bool]
@@ -109,4 +109,9 @@ class OutboundCallConfigParams(typing_extensions.TypedDict):
     tools: typing_extensions.NotRequired[typing.Sequence[OutboundCallConfigToolsItemParams]]
     """
     Array of built-in or custom tool names to use.
+    """
+
+    enable_redaction: typing_extensions.NotRequired[bool]
+    """
+    When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE NUMBER]`) and bleeped from audio recordings after the conversation ends.
     """
