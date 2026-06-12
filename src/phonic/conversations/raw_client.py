@@ -20,10 +20,11 @@ from ..errors.forbidden_error import ForbiddenError
 from ..errors.gateway_timeout_error import GatewayTimeoutError
 from ..errors.internal_server_error import InternalServerError
 from ..errors.not_found_error import NotFoundError
+from ..errors.too_many_requests_error import TooManyRequestsError
 from ..errors.unauthorized_error import UnauthorizedError
+from ..errors.unprocessable_entity_error import UnprocessableEntityError
 from ..requests.outbound_call_config import OutboundCallConfigParams
 from ..types.basic_error import BasicError
-from ..types.conversation_evaluation_result import ConversationEvaluationResult
 from ..types.error import Error
 from .reconnectable_socket_client import ReconnectableAsyncConversationsSocketClient, ReconnectableConversationsSocketClient
 from .socket_client import AsyncConversationsSocketClient, ConversationsSocketClient
@@ -34,6 +35,7 @@ from .websocket_connect import (
     open_reconnectable_conversations_socket_sync,
 )
 from .types.conversations_cancel_response import ConversationsCancelResponse
+from .types.conversations_evaluate_response import ConversationsEvaluateResponse
 from .types.conversations_extract_data_response import ConversationsExtractDataResponse
 from .types.conversations_get_analysis_response import ConversationsGetAnalysisResponse
 from .types.conversations_get_request_audio_container import ConversationsGetRequestAudioContainer
@@ -43,6 +45,7 @@ from .types.conversations_list_extractions_response import ConversationsListExtr
 from .types.conversations_list_request_audio_container import ConversationsListRequestAudioContainer
 from .types.conversations_list_response import ConversationsListResponse
 from .types.conversations_outbound_call_response import ConversationsOutboundCallResponse
+from .types.conversations_replay_response import ConversationsReplayResponse
 from .types.conversations_sip_outbound_call_response import ConversationsSipOutboundCallResponse
 from pydantic import ValidationError
 
@@ -787,7 +790,7 @@ class RawConversationsClient:
 
     def evaluate(
         self, id: str, *, prompt_id: str, request_options: typing.Optional[RequestOptions] = None
-    ) -> HttpResponse[ConversationEvaluationResult]:
+    ) -> HttpResponse[ConversationsEvaluateResponse]:
         """
         Evaluates a conversation using an evaluation prompt.
 
@@ -804,7 +807,7 @@ class RawConversationsClient:
 
         Returns
         -------
-        HttpResponse[ConversationEvaluationResult]
+        HttpResponse[ConversationsEvaluateResponse]
             Success response
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -823,9 +826,9 @@ class RawConversationsClient:
         try:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
-                    ConversationEvaluationResult,
+                    ConversationsEvaluateResponse,
                     construct_type(
-                        type_=ConversationEvaluationResult,  # type: ignore
+                        type_=ConversationsEvaluateResponse,  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -870,6 +873,148 @@ class RawConversationsClient:
                         typing.Any,
                         construct_type(
                             type_=typing.Any,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 500:
+                raise InternalServerError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        BasicError,
+                        construct_type(
+                            type_=BasicError,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    def replay(
+        self, id: str, *, agent: typing.Optional[str] = OMIT, request_options: typing.Optional[RequestOptions] = None
+    ) -> HttpResponse[ConversationsReplayResponse]:
+        """
+        Replays an ended conversation by re-running its recorded audio through an agent. Requires API key or access token authentication. The conversation must have audio recordings available and an associated agent (or one specified in the request body).
+
+        Parameters
+        ----------
+        id : str
+            The ID of the conversation to replay.
+
+        agent : typing.Optional[str]
+            Name of the agent to replay the conversation with. Defaults to the agent originally associated with the conversation.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[ConversationsReplayResponse]
+            Replay started
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"conversations/{jsonable_encoder(id)}/replay",
+            base_url=self._client_wrapper.get_environment().base,
+            method="POST",
+            json={
+                "agent": agent,
+            },
+            headers={
+                "content-type": "application/json",
+            },
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    ConversationsReplayResponse,
+                    construct_type(
+                        type_=ConversationsReplayResponse,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return HttpResponse(response=_response, data=_data)
+            if _response.status_code == 400:
+                raise BadRequestError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Any,
+                        construct_type(
+                            type_=typing.Any,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 401:
+                raise UnauthorizedError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        BasicError,
+                        construct_type(
+                            type_=BasicError,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 403:
+                raise ForbiddenError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Any,
+                        construct_type(
+                            type_=typing.Any,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 404:
+                raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Any,
+                        construct_type(
+                            type_=typing.Any,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 409:
+                raise ConflictError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Any,
+                        construct_type(
+                            type_=typing.Any,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 422:
+                raise UnprocessableEntityError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        BasicError,
+                        construct_type(
+                            type_=BasicError,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 429:
+                raise TooManyRequestsError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        BasicError,
+                        construct_type(
+                            type_=BasicError,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -1890,7 +2035,7 @@ class AsyncRawConversationsClient:
 
     async def evaluate(
         self, id: str, *, prompt_id: str, request_options: typing.Optional[RequestOptions] = None
-    ) -> AsyncHttpResponse[ConversationEvaluationResult]:
+    ) -> AsyncHttpResponse[ConversationsEvaluateResponse]:
         """
         Evaluates a conversation using an evaluation prompt.
 
@@ -1907,7 +2052,7 @@ class AsyncRawConversationsClient:
 
         Returns
         -------
-        AsyncHttpResponse[ConversationEvaluationResult]
+        AsyncHttpResponse[ConversationsEvaluateResponse]
             Success response
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -1926,9 +2071,9 @@ class AsyncRawConversationsClient:
         try:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
-                    ConversationEvaluationResult,
+                    ConversationsEvaluateResponse,
                     construct_type(
-                        type_=ConversationEvaluationResult,  # type: ignore
+                        type_=ConversationsEvaluateResponse,  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -1973,6 +2118,148 @@ class AsyncRawConversationsClient:
                         typing.Any,
                         construct_type(
                             type_=typing.Any,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 500:
+                raise InternalServerError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        BasicError,
+                        construct_type(
+                            type_=BasicError,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def replay(
+        self, id: str, *, agent: typing.Optional[str] = OMIT, request_options: typing.Optional[RequestOptions] = None
+    ) -> AsyncHttpResponse[ConversationsReplayResponse]:
+        """
+        Replays an ended conversation by re-running its recorded audio through an agent. Requires API key or access token authentication. The conversation must have audio recordings available and an associated agent (or one specified in the request body).
+
+        Parameters
+        ----------
+        id : str
+            The ID of the conversation to replay.
+
+        agent : typing.Optional[str]
+            Name of the agent to replay the conversation with. Defaults to the agent originally associated with the conversation.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[ConversationsReplayResponse]
+            Replay started
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"conversations/{jsonable_encoder(id)}/replay",
+            base_url=self._client_wrapper.get_environment().base,
+            method="POST",
+            json={
+                "agent": agent,
+            },
+            headers={
+                "content-type": "application/json",
+            },
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    ConversationsReplayResponse,
+                    construct_type(
+                        type_=ConversationsReplayResponse,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return AsyncHttpResponse(response=_response, data=_data)
+            if _response.status_code == 400:
+                raise BadRequestError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Any,
+                        construct_type(
+                            type_=typing.Any,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 401:
+                raise UnauthorizedError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        BasicError,
+                        construct_type(
+                            type_=BasicError,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 403:
+                raise ForbiddenError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Any,
+                        construct_type(
+                            type_=typing.Any,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 404:
+                raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Any,
+                        construct_type(
+                            type_=typing.Any,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 409:
+                raise ConflictError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Any,
+                        construct_type(
+                            type_=typing.Any,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 422:
+                raise UnprocessableEntityError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        BasicError,
+                        construct_type(
+                            type_=BasicError,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 429:
+                raise TooManyRequestsError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        BasicError,
+                        construct_type(
+                            type_=BasicError,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
