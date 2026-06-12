@@ -11,6 +11,7 @@ if typing.TYPE_CHECKING:
     from .projects_delete_response import ProjectsDeleteResponse
     from .projects_get_response import ProjectsGetResponse
     from .projects_list_eval_prompts_response import ProjectsListEvalPromptsResponse
+    from .projects_list_evals_response import ProjectsListEvalsResponse
     from .projects_list_response import ProjectsListResponse
     from .projects_update_response import ProjectsUpdateResponse
 _dynamic_imports: typing.Dict[str, str] = {
@@ -19,6 +20,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ProjectsDeleteResponse": ".projects_delete_response",
     "ProjectsGetResponse": ".projects_get_response",
     "ProjectsListEvalPromptsResponse": ".projects_list_eval_prompts_response",
+    "ProjectsListEvalsResponse": ".projects_list_evals_response",
     "ProjectsListResponse": ".projects_list_response",
     "ProjectsUpdateResponse": ".projects_update_response",
 }
@@ -51,6 +53,7 @@ __all__ = [
     "ProjectsDeleteResponse",
     "ProjectsGetResponse",
     "ProjectsListEvalPromptsResponse",
+    "ProjectsListEvalsResponse",
     "ProjectsListResponse",
     "ProjectsUpdateResponse",
 ]

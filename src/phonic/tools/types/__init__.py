@@ -16,7 +16,6 @@ if typing.TYPE_CHECKING:
     from .tools_update_response import ToolsUpdateResponse
     from .update_tool_request_endpoint_method import UpdateToolRequestEndpointMethod
     from .update_tool_request_execution_mode import UpdateToolRequestExecutionMode
-    from .update_tool_request_type import UpdateToolRequestType
 _dynamic_imports: typing.Dict[str, str] = {
     "CreateToolRequestEndpointMethod": ".create_tool_request_endpoint_method",
     "CreateToolRequestExecutionMode": ".create_tool_request_execution_mode",
@@ -28,7 +27,6 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ToolsUpdateResponse": ".tools_update_response",
     "UpdateToolRequestEndpointMethod": ".update_tool_request_endpoint_method",
     "UpdateToolRequestExecutionMode": ".update_tool_request_execution_mode",
-    "UpdateToolRequestType": ".update_tool_request_type",
 }
 
 
@@ -64,5 +62,4 @@ __all__ = [
     "ToolsUpdateResponse",
     "UpdateToolRequestEndpointMethod",
     "UpdateToolRequestExecutionMode",
-    "UpdateToolRequestType",
 ]

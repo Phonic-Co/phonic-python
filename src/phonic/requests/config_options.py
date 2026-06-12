@@ -7,7 +7,11 @@ from ..types.config_options_background_noise import ConfigOptionsBackgroundNoise
 from ..types.config_options_input_format import ConfigOptionsInputFormat
 from ..types.config_options_multilingual_mode import ConfigOptionsMultilingualMode
 from ..types.config_options_output_format import ConfigOptionsOutputFormat
+from .config_options_configuration_endpoint import ConfigOptionsConfigurationEndpointParams
+from .config_options_data_retention_policy import ConfigOptionsDataRetentionPolicyParams
+from .config_options_outbound_number_pool import ConfigOptionsOutboundNumberPoolParams
 from .config_options_pronunciation_dictionary_item import ConfigOptionsPronunciationDictionaryItemParams
+from .config_options_tasks_item import ConfigOptionsTasksItemParams
 from .tool_definition import ToolDefinitionParams
 
 
@@ -171,4 +175,40 @@ class ConfigOptionsParams(typing_extensions.TypedDict):
     enable_redaction: typing_extensions.NotRequired[bool]
     """
     When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE NUMBER]`) and bleeped from audio recordings after the conversation ends.
+    """
+
+    mcp_servers: typing_extensions.NotRequired[typing.Sequence[str]]
+    """
+    Names of pre-configured MCP servers to make available to the assistant. Names must be unique.
+    """
+
+    tasks: typing_extensions.NotRequired[typing.Sequence[ConfigOptionsTasksItemParams]]
+    """
+    Tasks the assistant should accomplish during the conversation.
+    """
+
+    outbound_number_pool: typing_extensions.NotRequired[typing.Optional[ConfigOptionsOutboundNumberPoolParams]]
+    """
+    Pool of phone numbers to use as the caller ID for outbound calls.
+    """
+
+    enable_assistant_backchannel: typing_extensions.NotRequired[bool]
+    """
+    When `true`, the assistant will produce backchannel responses (e.g. "mm-hmm", "yeah") while the user is speaking.
+    """
+
+    assistant_backchannel_aggressiveness: typing_extensions.NotRequired[float]
+    """
+    How aggressively the assistant produces backchannel responses. Only applies when `enable_assistant_backchannel` is `true`.
+    """
+
+    configuration_endpoint: typing_extensions.NotRequired[typing.Optional[ConfigOptionsConfigurationEndpointParams]]
+    """
+    When not `null`, the agent will call this endpoint to get configuration options for the conversation.
+    """
+
+    data_retention_policy: typing_extensions.NotRequired[ConfigOptionsDataRetentionPolicyParams]
+    """
+    Policy controlling how long transcripts and audio recordings are retained before being deleted.
+    When `zero_data_retention` is `true`, nothing is retained and `transcripts`/`audio_recordings` are omitted.
     """

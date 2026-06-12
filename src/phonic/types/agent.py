@@ -8,11 +8,13 @@ from ..core.unchecked_base_model import UncheckedBaseModel
 from .agent_audio_format import AgentAudioFormat
 from .agent_background_noise import AgentBackgroundNoise
 from .agent_configuration_endpoint import AgentConfigurationEndpoint
+from .agent_integration import AgentIntegration
 from .agent_multilingual_mode import AgentMultilingualMode
 from .agent_project import AgentProject
 from .agent_pronunciation_dictionary_item import AgentPronunciationDictionaryItem
 from .agent_template_variables_value import AgentTemplateVariablesValue
 from .agent_tools_item import AgentToolsItem
+from .data_retention_policy import DataRetentionPolicy
 from .language_code import LanguageCode
 from .task import Task
 
@@ -207,6 +209,28 @@ class Agent(UncheckedBaseModel):
     """
     When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE NUMBER]`) and bleeped from audio recordings after the conversation ends.
     """
+
+    slug: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    The URL-friendly slug of the agent.
+    """
+
+    enable_assistant_backchannel: typing.Optional[bool] = pydantic.Field(default=None)
+    """
+    When `true`, the assistant emits backchannel cues (e.g. "mm-hmm") while the user is speaking.
+    """
+
+    assistant_backchannel_aggressiveness: typing.Optional[float] = pydantic.Field(default=None)
+    """
+    How aggressively the assistant backchannels, from 0 to 1.
+    """
+
+    integrations: typing.Optional[typing.List[AgentIntegration]] = pydantic.Field(default=None)
+    """
+    Third-party integrations enabled for the agent.
+    """
+
+    data_retention_policy: typing.Optional[DataRetentionPolicy] = None
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

@@ -6,10 +6,14 @@ import pydantic
 from ..core.pydantic_utilities import IS_PYDANTIC_V2
 from ..core.unchecked_base_model import UncheckedBaseModel
 from .config_options_background_noise import ConfigOptionsBackgroundNoise
+from .config_options_configuration_endpoint import ConfigOptionsConfigurationEndpoint
+from .config_options_data_retention_policy import ConfigOptionsDataRetentionPolicy
 from .config_options_input_format import ConfigOptionsInputFormat
 from .config_options_multilingual_mode import ConfigOptionsMultilingualMode
+from .config_options_outbound_number_pool import ConfigOptionsOutboundNumberPool
 from .config_options_output_format import ConfigOptionsOutputFormat
 from .config_options_pronunciation_dictionary_item import ConfigOptionsPronunciationDictionaryItem
+from .config_options_tasks_item import ConfigOptionsTasksItem
 from .tool_definition import ToolDefinition
 
 
@@ -173,6 +177,42 @@ class ConfigOptions(UncheckedBaseModel):
     enable_redaction: typing.Optional[bool] = pydantic.Field(default=None)
     """
     When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE NUMBER]`) and bleeped from audio recordings after the conversation ends.
+    """
+
+    mcp_servers: typing.Optional[typing.List[str]] = pydantic.Field(default=None)
+    """
+    Names of pre-configured MCP servers to make available to the assistant. Names must be unique.
+    """
+
+    tasks: typing.Optional[typing.List[ConfigOptionsTasksItem]] = pydantic.Field(default=None)
+    """
+    Tasks the assistant should accomplish during the conversation.
+    """
+
+    outbound_number_pool: typing.Optional[ConfigOptionsOutboundNumberPool] = pydantic.Field(default=None)
+    """
+    Pool of phone numbers to use as the caller ID for outbound calls.
+    """
+
+    enable_assistant_backchannel: typing.Optional[bool] = pydantic.Field(default=None)
+    """
+    When `true`, the assistant will produce backchannel responses (e.g. "mm-hmm", "yeah") while the user is speaking.
+    """
+
+    assistant_backchannel_aggressiveness: typing.Optional[float] = pydantic.Field(default=None)
+    """
+    How aggressively the assistant produces backchannel responses. Only applies when `enable_assistant_backchannel` is `true`.
+    """
+
+    configuration_endpoint: typing.Optional[ConfigOptionsConfigurationEndpoint] = pydantic.Field(default=None)
+    """
+    When not `null`, the agent will call this endpoint to get configuration options for the conversation.
+    """
+
+    data_retention_policy: typing.Optional[ConfigOptionsDataRetentionPolicy] = pydantic.Field(default=None)
+    """
+    Policy controlling how long transcripts and audio recordings are retained before being deleted.
+    When `zero_data_retention` is `true`, nothing is retained and `transcripts`/`audio_recordings` are omitted.
     """
 
     if IS_PYDANTIC_V2:

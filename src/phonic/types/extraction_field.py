@@ -21,7 +21,7 @@ class ExtractionField(UncheckedBaseModel):
 
     description: typing.Optional[str] = pydantic.Field(default=None)
     """
-    Description of the field.
+    Description of the field. May be null, but the property must be present.
     """
 
     if IS_PYDANTIC_V2:

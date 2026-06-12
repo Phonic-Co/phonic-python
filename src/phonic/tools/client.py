@@ -16,7 +16,6 @@ from .types.tools_list_response import ToolsListResponse
 from .types.tools_update_response import ToolsUpdateResponse
 from .types.update_tool_request_endpoint_method import UpdateToolRequestEndpointMethod
 from .types.update_tool_request_execution_mode import UpdateToolRequestExecutionMode
-from .types.update_tool_request_type import UpdateToolRequestType
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -94,6 +93,7 @@ class ToolsClient:
         forbid_speech_after_tool_call: typing.Optional[bool] = OMIT,
         allow_tool_chaining: typing.Optional[bool] = OMIT,
         wait_for_response: typing.Optional[bool] = OMIT,
+        context: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ToolsCreateResponse:
         """
@@ -167,6 +167,9 @@ class ToolsClient:
         wait_for_response : typing.Optional[bool]
             The agent doesn't typically wait for the response of async custom_websocket tools. When true, makes the agent wait for a response, not call other tools and inform the user of the result. Only available for async custom_websocket tools.
 
+        context : typing.Optional[str]
+            The static context returned to the agent. Required for custom_context tools.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -199,6 +202,7 @@ class ToolsClient:
             require_speech_before_tool_call=False,
             forbid_speech_after_tool_call=False,
             allow_tool_chaining=True,
+            context="Press the A button 5 times then gently shake the printer.",
         )
         """
         _response = self._raw_client.create(
@@ -223,6 +227,7 @@ class ToolsClient:
             forbid_speech_after_tool_call=forbid_speech_after_tool_call,
             allow_tool_chaining=allow_tool_chaining,
             wait_for_response=wait_for_response,
+            context=context,
             request_options=request_options,
         )
         return _response.data
@@ -316,12 +321,12 @@ class ToolsClient:
         project: typing.Optional[str] = None,
         name: typing.Optional[str] = OMIT,
         description: typing.Optional[str] = OMIT,
-        type: typing.Optional[UpdateToolRequestType] = OMIT,
         execution_mode: typing.Optional[UpdateToolRequestExecutionMode] = OMIT,
+        context: typing.Optional[str] = OMIT,
         parameters: typing.Optional[typing.Sequence[ToolParameterParams]] = OMIT,
         endpoint_method: typing.Optional[UpdateToolRequestEndpointMethod] = OMIT,
         endpoint_url: typing.Optional[str] = OMIT,
-        endpoint_headers: typing.Optional[typing.Dict[str, str]] = OMIT,
+        endpoint_headers: typing.Optional[typing.Dict[str, typing.Optional[str]]] = OMIT,
         endpoint_timeout_ms: typing.Optional[int] = OMIT,
         tool_call_output_timeout_ms: typing.Optional[int] = OMIT,
         phone_number: typing.Optional[str] = OMIT,
@@ -353,15 +358,15 @@ class ToolsClient:
         description : typing.Optional[str]
             A description of what the tool does.
 
-        type : typing.Optional[UpdateToolRequestType]
-            The type of tool.
-
         execution_mode : typing.Optional[UpdateToolRequestExecutionMode]
             Mode of operation.
 
+        context : typing.Optional[str]
+            The static context returned to the agent. Only applicable to custom_context tools.
+
         parameters : typing.Optional[typing.Sequence[ToolParameterParams]]
             Array of parameter definitions.
-            When updating `type` or `endpoint_method`, all parameters must include explicit `location` values.
+            When updating `endpoint_method`, all parameters must include explicit `location` values.
             For `custom_webhook` tools: `location` is required for POST, defaults to `"query_string"` for GET.
             For `custom_websocket`, `built_in_transfer_to_phone_number`, and `built_in_transfer_to_agent` tools: `location` must not be specified.
 
@@ -370,7 +375,8 @@ class ToolsClient:
 
         endpoint_url : typing.Optional[str]
 
-        endpoint_headers : typing.Optional[typing.Dict[str, str]]
+        endpoint_headers : typing.Optional[typing.Dict[str, typing.Optional[str]]]
+            Headers for webhook tools. Set to null to clear existing headers.
 
         endpoint_timeout_ms : typing.Optional[int]
 
@@ -434,8 +440,8 @@ class ToolsClient:
             project=project,
             name=name,
             description=description,
-            type=type,
             execution_mode=execution_mode,
+            context=context,
             parameters=parameters,
             endpoint_method=endpoint_method,
             endpoint_url=endpoint_url,
@@ -537,6 +543,7 @@ class AsyncToolsClient:
         forbid_speech_after_tool_call: typing.Optional[bool] = OMIT,
         allow_tool_chaining: typing.Optional[bool] = OMIT,
         wait_for_response: typing.Optional[bool] = OMIT,
+        context: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ToolsCreateResponse:
         """
@@ -610,6 +617,9 @@ class AsyncToolsClient:
         wait_for_response : typing.Optional[bool]
             The agent doesn't typically wait for the response of async custom_websocket tools. When true, makes the agent wait for a response, not call other tools and inform the user of the result. Only available for async custom_websocket tools.
 
+        context : typing.Optional[str]
+            The static context returned to the agent. Required for custom_context tools.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -647,6 +657,7 @@ class AsyncToolsClient:
                 require_speech_before_tool_call=False,
                 forbid_speech_after_tool_call=False,
                 allow_tool_chaining=True,
+                context="Press the A button 5 times then gently shake the printer.",
             )
 
 
@@ -674,6 +685,7 @@ class AsyncToolsClient:
             forbid_speech_after_tool_call=forbid_speech_after_tool_call,
             allow_tool_chaining=allow_tool_chaining,
             wait_for_response=wait_for_response,
+            context=context,
             request_options=request_options,
         )
         return _response.data
@@ -783,12 +795,12 @@ class AsyncToolsClient:
         project: typing.Optional[str] = None,
         name: typing.Optional[str] = OMIT,
         description: typing.Optional[str] = OMIT,
-        type: typing.Optional[UpdateToolRequestType] = OMIT,
         execution_mode: typing.Optional[UpdateToolRequestExecutionMode] = OMIT,
+        context: typing.Optional[str] = OMIT,
         parameters: typing.Optional[typing.Sequence[ToolParameterParams]] = OMIT,
         endpoint_method: typing.Optional[UpdateToolRequestEndpointMethod] = OMIT,
         endpoint_url: typing.Optional[str] = OMIT,
-        endpoint_headers: typing.Optional[typing.Dict[str, str]] = OMIT,
+        endpoint_headers: typing.Optional[typing.Dict[str, typing.Optional[str]]] = OMIT,
         endpoint_timeout_ms: typing.Optional[int] = OMIT,
         tool_call_output_timeout_ms: typing.Optional[int] = OMIT,
         phone_number: typing.Optional[str] = OMIT,
@@ -820,15 +832,15 @@ class AsyncToolsClient:
         description : typing.Optional[str]
             A description of what the tool does.
 
-        type : typing.Optional[UpdateToolRequestType]
-            The type of tool.
-
         execution_mode : typing.Optional[UpdateToolRequestExecutionMode]
             Mode of operation.
 
+        context : typing.Optional[str]
+            The static context returned to the agent. Only applicable to custom_context tools.
+
         parameters : typing.Optional[typing.Sequence[ToolParameterParams]]
             Array of parameter definitions.
-            When updating `type` or `endpoint_method`, all parameters must include explicit `location` values.
+            When updating `endpoint_method`, all parameters must include explicit `location` values.
             For `custom_webhook` tools: `location` is required for POST, defaults to `"query_string"` for GET.
             For `custom_websocket`, `built_in_transfer_to_phone_number`, and `built_in_transfer_to_agent` tools: `location` must not be specified.
 
@@ -837,7 +849,8 @@ class AsyncToolsClient:
 
         endpoint_url : typing.Optional[str]
 
-        endpoint_headers : typing.Optional[typing.Dict[str, str]]
+        endpoint_headers : typing.Optional[typing.Dict[str, typing.Optional[str]]]
+            Headers for webhook tools. Set to null to clear existing headers.
 
         endpoint_timeout_ms : typing.Optional[int]
 
@@ -909,8 +922,8 @@ class AsyncToolsClient:
             project=project,
             name=name,
             description=description,
-            type=type,
             execution_mode=execution_mode,
+            context=context,
             parameters=parameters,
             endpoint_method=endpoint_method,
             endpoint_url=endpoint_url,

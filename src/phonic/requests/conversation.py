@@ -12,9 +12,11 @@ from ..types.language_code import LanguageCode
 from .conversation_agent import ConversationAgentParams
 from .conversation_analysis import ConversationAnalysisParams
 from .conversation_call_info import ConversationCallInfoParams
+from .conversation_deletion_info import ConversationDeletionInfoParams
 from .conversation_item import ConversationItemParams
 from .conversation_project import ConversationProjectParams
 from .conversation_pronunciation_dictionary_item import ConversationPronunciationDictionaryItemParams
+from .data_retention_policy import DataRetentionPolicyParams
 
 
 class ConversationParams(typing_extensions.TypedDict):
@@ -231,4 +233,39 @@ class ConversationParams(typing_extensions.TypedDict):
     analysis: ConversationAnalysisParams
     """
     Analysis of the conversation including latencies and interruptions.
+    """
+
+    is_redacted: typing_extensions.NotRequired[bool]
+    """
+    Whether PII and PHI have been redacted from the conversation.
+    """
+
+    redacted_transcript: typing_extensions.NotRequired[typing.Optional[str]]
+    """
+    The redacted transcript of the conversation. `null` when the conversation is not redacted.
+    """
+
+    metadata: typing_extensions.NotRequired[typing.Optional[typing.Dict[str, typing.Any]]]
+    """
+    Arbitrary metadata associated with the conversation.
+    """
+
+    data_retention_policy: typing_extensions.NotRequired[DataRetentionPolicyParams]
+    """
+    Controls how long transcripts and audio recordings are retained before deletion.
+    """
+
+    deletion_info: typing_extensions.NotRequired[ConversationDeletionInfoParams]
+    """
+    Information about when transcripts and audio recordings are or were scheduled to be deleted.
+    """
+
+    enable_assistant_backchannel: typing_extensions.NotRequired[bool]
+    """
+    Whether the assistant produced backchannel responses during the conversation.
+    """
+
+    assistant_backchannel_aggressiveness: typing_extensions.NotRequired[float]
+    """
+    How aggressively the assistant produced backchannel responses during the conversation.
     """

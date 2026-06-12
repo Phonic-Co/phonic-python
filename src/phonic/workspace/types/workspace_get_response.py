@@ -18,6 +18,21 @@ class WorkspaceGetResponse(UncheckedBaseModel):
     Maximum number of concurrent conversations allowed for this workspace.
     """
 
+    logo_url: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    URL of the workspace logo (PNG or SVG), or null if not set.
+    """
+
+    invite_link_allowed_domains: typing.List[str] = pydantic.Field()
+    """
+    Email domains allowed to join the workspace via invite link.
+    """
+
+    ip_allowlist: typing.List[str] = pydantic.Field()
+    """
+    IP addresses or CIDR ranges allowed to access the workspace.
+    """
+
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
     else:

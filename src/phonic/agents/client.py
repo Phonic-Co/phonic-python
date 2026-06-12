@@ -4,12 +4,15 @@ import typing
 
 from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.request_options import RequestOptions
+from ..requests.agent_integration import AgentIntegrationParams
 from ..requests.create_agent_request_configuration_endpoint import CreateAgentRequestConfigurationEndpointParams
 from ..requests.create_agent_request_pronunciation_dictionary_item import (
     CreateAgentRequestPronunciationDictionaryItemParams,
 )
 from ..requests.create_agent_request_template_variables_value import CreateAgentRequestTemplateVariablesValueParams
 from ..requests.create_agent_request_tools_item import CreateAgentRequestToolsItemParams
+from ..requests.data_retention_policy import DataRetentionPolicyParams
+from ..requests.outbound_number_pool import OutboundNumberPoolParams
 from ..requests.task import TaskParams
 from ..types.create_agent_request_audio_format import CreateAgentRequestAudioFormat
 from ..types.create_agent_request_background_noise import CreateAgentRequestBackgroundNoise
@@ -98,6 +101,7 @@ class AgentsClient:
         *,
         name: str,
         project: typing.Optional[str] = None,
+        slug: typing.Optional[str] = OMIT,
         phone_number: typing.Optional[CreateAgentRequestPhoneNumber] = OMIT,
         custom_phone_number: typing.Optional[str] = OMIT,
         custom_phone_numbers: typing.Optional[typing.Sequence[str]] = OMIT,
@@ -118,6 +122,9 @@ class AgentsClient:
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
+        enable_assistant_backchannel: typing.Optional[bool] = OMIT,
+        assistant_backchannel_aggressiveness: typing.Optional[float] = OMIT,
+        data_retention_policy: typing.Optional[DataRetentionPolicyParams] = OMIT,
         default_language: typing.Optional[LanguageCode] = OMIT,
         additional_languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
@@ -148,6 +155,9 @@ class AgentsClient:
 
         project : typing.Optional[str]
             The name of the project to create the agent in.
+
+        slug : typing.Optional[str]
+            URL-friendly agent slug. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
 
         phone_number : typing.Optional[CreateAgentRequestPhoneNumber]
             When set to `null`, the agent will not be associated with a phone number. When set to `"assign-automatically"`, the agent will be assigned a random phone number. When set to `"custom"`, you must provide `custom_phone_numbers`.
@@ -208,6 +218,15 @@ class AgentsClient:
 
         no_input_end_conversation_sec : typing.Optional[int]
             Seconds of silence before ending the conversation.
+
+        enable_assistant_backchannel : typing.Optional[bool]
+            When `true`, the assistant will produce backchannel responses (e.g. "mm-hmm") while the user is speaking.
+
+        assistant_backchannel_aggressiveness : typing.Optional[float]
+            How aggressively the assistant produces backchannel responses. Only relevant when `enable_assistant_backchannel` is `true`.
+
+        data_retention_policy : typing.Optional[DataRetentionPolicyParams]
+            Controls how long transcripts and audio recordings are retained before deletion.
 
         default_language : typing.Optional[LanguageCode]
             ISO 639-1 language code that sets the agent's default language to recognize and speak. Welcome message and no input poke text should be in this language.
@@ -309,6 +328,7 @@ class AgentsClient:
         _response = self._raw_client.create(
             name=name,
             project=project,
+            slug=slug,
             phone_number=phone_number,
             custom_phone_number=custom_phone_number,
             custom_phone_numbers=custom_phone_numbers,
@@ -329,6 +349,9 @@ class AgentsClient:
             no_input_poke_sec=no_input_poke_sec,
             no_input_poke_text=no_input_poke_text,
             no_input_end_conversation_sec=no_input_end_conversation_sec,
+            enable_assistant_backchannel=enable_assistant_backchannel,
+            assistant_backchannel_aggressiveness=assistant_backchannel_aggressiveness,
+            data_retention_policy=data_retention_policy,
             default_language=default_language,
             additional_languages=additional_languages,
             languages=languages,
@@ -354,6 +377,10 @@ class AgentsClient:
         *,
         name: str,
         project: typing.Optional[str] = None,
+        outbound_number_pool: typing.Optional[OutboundNumberPoolParams] = OMIT,
+        procedure_ids: typing.Optional[typing.Sequence[str]] = OMIT,
+        integrations: typing.Optional[typing.Sequence[AgentIntegrationParams]] = OMIT,
+        slug: typing.Optional[str] = OMIT,
         phone_number: typing.Optional[CreateAgentRequestPhoneNumber] = OMIT,
         custom_phone_number: typing.Optional[str] = OMIT,
         custom_phone_numbers: typing.Optional[typing.Sequence[str]] = OMIT,
@@ -374,6 +401,9 @@ class AgentsClient:
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
+        enable_assistant_backchannel: typing.Optional[bool] = OMIT,
+        assistant_backchannel_aggressiveness: typing.Optional[float] = OMIT,
+        data_retention_policy: typing.Optional[DataRetentionPolicyParams] = OMIT,
         default_language: typing.Optional[LanguageCode] = OMIT,
         additional_languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
@@ -404,6 +434,18 @@ class AgentsClient:
 
         project : typing.Optional[str]
             The name of the project containing the agent.
+
+        outbound_number_pool : typing.Optional[OutboundNumberPoolParams]
+            Pool of phone numbers used for outbound calls. Set to `null` to remove the pool.
+
+        procedure_ids : typing.Optional[typing.Sequence[str]]
+            Array of procedure IDs associated with the agent.
+
+        integrations : typing.Optional[typing.Sequence[AgentIntegrationParams]]
+            Array of third-party integrations enabled for the agent.
+
+        slug : typing.Optional[str]
+            URL-friendly agent slug. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
 
         phone_number : typing.Optional[CreateAgentRequestPhoneNumber]
             When set to `null`, the agent will not be associated with a phone number. When set to `"assign-automatically"`, the agent will be assigned a random phone number. When set to `"custom"`, you must provide `custom_phone_numbers`.
@@ -464,6 +506,15 @@ class AgentsClient:
 
         no_input_end_conversation_sec : typing.Optional[int]
             Seconds of silence before ending the conversation.
+
+        enable_assistant_backchannel : typing.Optional[bool]
+            When `true`, the assistant will produce backchannel responses (e.g. "mm-hmm") while the user is speaking.
+
+        assistant_backchannel_aggressiveness : typing.Optional[float]
+            How aggressively the assistant produces backchannel responses. Only relevant when `enable_assistant_backchannel` is `true`.
+
+        data_retention_policy : typing.Optional[DataRetentionPolicyParams]
+            Controls how long transcripts and audio recordings are retained before deletion.
 
         default_language : typing.Optional[LanguageCode]
             ISO 639-1 language code that sets the agent's default language to recognize and speak. Welcome message and no input poke text should be in this language.
@@ -565,6 +616,10 @@ class AgentsClient:
         _response = self._raw_client.upsert(
             name=name,
             project=project,
+            outbound_number_pool=outbound_number_pool,
+            procedure_ids=procedure_ids,
+            integrations=integrations,
+            slug=slug,
             phone_number=phone_number,
             custom_phone_number=custom_phone_number,
             custom_phone_numbers=custom_phone_numbers,
@@ -585,6 +640,9 @@ class AgentsClient:
             no_input_poke_sec=no_input_poke_sec,
             no_input_poke_text=no_input_poke_text,
             no_input_end_conversation_sec=no_input_end_conversation_sec,
+            enable_assistant_backchannel=enable_assistant_backchannel,
+            assistant_backchannel_aggressiveness=assistant_backchannel_aggressiveness,
+            data_retention_policy=data_retention_policy,
             default_language=default_language,
             additional_languages=additional_languages,
             languages=languages,
@@ -693,6 +751,7 @@ class AgentsClient:
         *,
         project: typing.Optional[str] = None,
         name: typing.Optional[str] = OMIT,
+        slug: typing.Optional[str] = OMIT,
         phone_number: typing.Optional[UpdateAgentRequestPhoneNumber] = OMIT,
         custom_phone_number: typing.Optional[str] = OMIT,
         custom_phone_numbers: typing.Optional[typing.Sequence[str]] = OMIT,
@@ -713,6 +772,12 @@ class AgentsClient:
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
+        enable_assistant_backchannel: typing.Optional[bool] = OMIT,
+        assistant_backchannel_aggressiveness: typing.Optional[float] = OMIT,
+        data_retention_policy: typing.Optional[DataRetentionPolicyParams] = OMIT,
+        outbound_number_pool: typing.Optional[OutboundNumberPoolParams] = OMIT,
+        procedure_ids: typing.Optional[typing.Sequence[str]] = OMIT,
+        integrations: typing.Optional[typing.Sequence[AgentIntegrationParams]] = OMIT,
         default_language: typing.Optional[LanguageCode] = OMIT,
         additional_languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
@@ -746,6 +811,9 @@ class AgentsClient:
 
         name : typing.Optional[str]
             The name of the agent. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
+
+        slug : typing.Optional[str]
+            URL-friendly agent slug. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
 
         phone_number : typing.Optional[UpdateAgentRequestPhoneNumber]
             When set to `null`, the agent will not be associated with a phone number anymore. When set to `"assign-automatically"`, the agent will be assigned a random phone number if it doesn't have one yet. If the agent already has a phone number, `"assign-automatically"` has no effect. When set to `"custom"`, you must provide `custom_phone_numbers`.
@@ -806,6 +874,24 @@ class AgentsClient:
 
         no_input_end_conversation_sec : typing.Optional[int]
             Seconds of silence before ending the conversation.
+
+        enable_assistant_backchannel : typing.Optional[bool]
+            When `true`, the assistant will produce backchannel responses (e.g. "mm-hmm") while the user is speaking.
+
+        assistant_backchannel_aggressiveness : typing.Optional[float]
+            How aggressively the assistant produces backchannel responses. Only relevant when `enable_assistant_backchannel` is `true`.
+
+        data_retention_policy : typing.Optional[DataRetentionPolicyParams]
+            Controls how long transcripts and audio recordings are retained before deletion.
+
+        outbound_number_pool : typing.Optional[OutboundNumberPoolParams]
+            Pool of phone numbers used for outbound calls. Set to `null` to remove the pool.
+
+        procedure_ids : typing.Optional[typing.Sequence[str]]
+            Array of procedure IDs associated with the agent.
+
+        integrations : typing.Optional[typing.Sequence[AgentIntegrationParams]]
+            Array of third-party integrations enabled for the agent.
 
         default_language : typing.Optional[LanguageCode]
             ISO 639-1 language code that sets the agent's default language to recognize and speak. Welcome message and no input poke text should be in this language.
@@ -909,6 +995,7 @@ class AgentsClient:
             name_or_id,
             project=project,
             name=name,
+            slug=slug,
             phone_number=phone_number,
             custom_phone_number=custom_phone_number,
             custom_phone_numbers=custom_phone_numbers,
@@ -929,6 +1016,12 @@ class AgentsClient:
             no_input_poke_sec=no_input_poke_sec,
             no_input_poke_text=no_input_poke_text,
             no_input_end_conversation_sec=no_input_end_conversation_sec,
+            enable_assistant_backchannel=enable_assistant_backchannel,
+            assistant_backchannel_aggressiveness=assistant_backchannel_aggressiveness,
+            data_retention_policy=data_retention_policy,
+            outbound_number_pool=outbound_number_pool,
+            procedure_ids=procedure_ids,
+            integrations=integrations,
             default_language=default_language,
             additional_languages=additional_languages,
             languages=languages,
@@ -1194,6 +1287,7 @@ class AsyncAgentsClient:
         *,
         name: str,
         project: typing.Optional[str] = None,
+        slug: typing.Optional[str] = OMIT,
         phone_number: typing.Optional[CreateAgentRequestPhoneNumber] = OMIT,
         custom_phone_number: typing.Optional[str] = OMIT,
         custom_phone_numbers: typing.Optional[typing.Sequence[str]] = OMIT,
@@ -1214,6 +1308,9 @@ class AsyncAgentsClient:
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
+        enable_assistant_backchannel: typing.Optional[bool] = OMIT,
+        assistant_backchannel_aggressiveness: typing.Optional[float] = OMIT,
+        data_retention_policy: typing.Optional[DataRetentionPolicyParams] = OMIT,
         default_language: typing.Optional[LanguageCode] = OMIT,
         additional_languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
@@ -1244,6 +1341,9 @@ class AsyncAgentsClient:
 
         project : typing.Optional[str]
             The name of the project to create the agent in.
+
+        slug : typing.Optional[str]
+            URL-friendly agent slug. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
 
         phone_number : typing.Optional[CreateAgentRequestPhoneNumber]
             When set to `null`, the agent will not be associated with a phone number. When set to `"assign-automatically"`, the agent will be assigned a random phone number. When set to `"custom"`, you must provide `custom_phone_numbers`.
@@ -1304,6 +1404,15 @@ class AsyncAgentsClient:
 
         no_input_end_conversation_sec : typing.Optional[int]
             Seconds of silence before ending the conversation.
+
+        enable_assistant_backchannel : typing.Optional[bool]
+            When `true`, the assistant will produce backchannel responses (e.g. "mm-hmm") while the user is speaking.
+
+        assistant_backchannel_aggressiveness : typing.Optional[float]
+            How aggressively the assistant produces backchannel responses. Only relevant when `enable_assistant_backchannel` is `true`.
+
+        data_retention_policy : typing.Optional[DataRetentionPolicyParams]
+            Controls how long transcripts and audio recordings are retained before deletion.
 
         default_language : typing.Optional[LanguageCode]
             ISO 639-1 language code that sets the agent's default language to recognize and speak. Welcome message and no input poke text should be in this language.
@@ -1415,6 +1524,7 @@ class AsyncAgentsClient:
         _response = await self._raw_client.create(
             name=name,
             project=project,
+            slug=slug,
             phone_number=phone_number,
             custom_phone_number=custom_phone_number,
             custom_phone_numbers=custom_phone_numbers,
@@ -1435,6 +1545,9 @@ class AsyncAgentsClient:
             no_input_poke_sec=no_input_poke_sec,
             no_input_poke_text=no_input_poke_text,
             no_input_end_conversation_sec=no_input_end_conversation_sec,
+            enable_assistant_backchannel=enable_assistant_backchannel,
+            assistant_backchannel_aggressiveness=assistant_backchannel_aggressiveness,
+            data_retention_policy=data_retention_policy,
             default_language=default_language,
             additional_languages=additional_languages,
             languages=languages,
@@ -1460,6 +1573,10 @@ class AsyncAgentsClient:
         *,
         name: str,
         project: typing.Optional[str] = None,
+        outbound_number_pool: typing.Optional[OutboundNumberPoolParams] = OMIT,
+        procedure_ids: typing.Optional[typing.Sequence[str]] = OMIT,
+        integrations: typing.Optional[typing.Sequence[AgentIntegrationParams]] = OMIT,
+        slug: typing.Optional[str] = OMIT,
         phone_number: typing.Optional[CreateAgentRequestPhoneNumber] = OMIT,
         custom_phone_number: typing.Optional[str] = OMIT,
         custom_phone_numbers: typing.Optional[typing.Sequence[str]] = OMIT,
@@ -1480,6 +1597,9 @@ class AsyncAgentsClient:
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
+        enable_assistant_backchannel: typing.Optional[bool] = OMIT,
+        assistant_backchannel_aggressiveness: typing.Optional[float] = OMIT,
+        data_retention_policy: typing.Optional[DataRetentionPolicyParams] = OMIT,
         default_language: typing.Optional[LanguageCode] = OMIT,
         additional_languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
@@ -1510,6 +1630,18 @@ class AsyncAgentsClient:
 
         project : typing.Optional[str]
             The name of the project containing the agent.
+
+        outbound_number_pool : typing.Optional[OutboundNumberPoolParams]
+            Pool of phone numbers used for outbound calls. Set to `null` to remove the pool.
+
+        procedure_ids : typing.Optional[typing.Sequence[str]]
+            Array of procedure IDs associated with the agent.
+
+        integrations : typing.Optional[typing.Sequence[AgentIntegrationParams]]
+            Array of third-party integrations enabled for the agent.
+
+        slug : typing.Optional[str]
+            URL-friendly agent slug. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
 
         phone_number : typing.Optional[CreateAgentRequestPhoneNumber]
             When set to `null`, the agent will not be associated with a phone number. When set to `"assign-automatically"`, the agent will be assigned a random phone number. When set to `"custom"`, you must provide `custom_phone_numbers`.
@@ -1570,6 +1702,15 @@ class AsyncAgentsClient:
 
         no_input_end_conversation_sec : typing.Optional[int]
             Seconds of silence before ending the conversation.
+
+        enable_assistant_backchannel : typing.Optional[bool]
+            When `true`, the assistant will produce backchannel responses (e.g. "mm-hmm") while the user is speaking.
+
+        assistant_backchannel_aggressiveness : typing.Optional[float]
+            How aggressively the assistant produces backchannel responses. Only relevant when `enable_assistant_backchannel` is `true`.
+
+        data_retention_policy : typing.Optional[DataRetentionPolicyParams]
+            Controls how long transcripts and audio recordings are retained before deletion.
 
         default_language : typing.Optional[LanguageCode]
             ISO 639-1 language code that sets the agent's default language to recognize and speak. Welcome message and no input poke text should be in this language.
@@ -1681,6 +1822,10 @@ class AsyncAgentsClient:
         _response = await self._raw_client.upsert(
             name=name,
             project=project,
+            outbound_number_pool=outbound_number_pool,
+            procedure_ids=procedure_ids,
+            integrations=integrations,
+            slug=slug,
             phone_number=phone_number,
             custom_phone_number=custom_phone_number,
             custom_phone_numbers=custom_phone_numbers,
@@ -1701,6 +1846,9 @@ class AsyncAgentsClient:
             no_input_poke_sec=no_input_poke_sec,
             no_input_poke_text=no_input_poke_text,
             no_input_end_conversation_sec=no_input_end_conversation_sec,
+            enable_assistant_backchannel=enable_assistant_backchannel,
+            assistant_backchannel_aggressiveness=assistant_backchannel_aggressiveness,
+            data_retention_policy=data_retention_policy,
             default_language=default_language,
             additional_languages=additional_languages,
             languages=languages,
@@ -1825,6 +1973,7 @@ class AsyncAgentsClient:
         *,
         project: typing.Optional[str] = None,
         name: typing.Optional[str] = OMIT,
+        slug: typing.Optional[str] = OMIT,
         phone_number: typing.Optional[UpdateAgentRequestPhoneNumber] = OMIT,
         custom_phone_number: typing.Optional[str] = OMIT,
         custom_phone_numbers: typing.Optional[typing.Sequence[str]] = OMIT,
@@ -1845,6 +1994,12 @@ class AsyncAgentsClient:
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
+        enable_assistant_backchannel: typing.Optional[bool] = OMIT,
+        assistant_backchannel_aggressiveness: typing.Optional[float] = OMIT,
+        data_retention_policy: typing.Optional[DataRetentionPolicyParams] = OMIT,
+        outbound_number_pool: typing.Optional[OutboundNumberPoolParams] = OMIT,
+        procedure_ids: typing.Optional[typing.Sequence[str]] = OMIT,
+        integrations: typing.Optional[typing.Sequence[AgentIntegrationParams]] = OMIT,
         default_language: typing.Optional[LanguageCode] = OMIT,
         additional_languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
@@ -1878,6 +2033,9 @@ class AsyncAgentsClient:
 
         name : typing.Optional[str]
             The name of the agent. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
+
+        slug : typing.Optional[str]
+            URL-friendly agent slug. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
 
         phone_number : typing.Optional[UpdateAgentRequestPhoneNumber]
             When set to `null`, the agent will not be associated with a phone number anymore. When set to `"assign-automatically"`, the agent will be assigned a random phone number if it doesn't have one yet. If the agent already has a phone number, `"assign-automatically"` has no effect. When set to `"custom"`, you must provide `custom_phone_numbers`.
@@ -1938,6 +2096,24 @@ class AsyncAgentsClient:
 
         no_input_end_conversation_sec : typing.Optional[int]
             Seconds of silence before ending the conversation.
+
+        enable_assistant_backchannel : typing.Optional[bool]
+            When `true`, the assistant will produce backchannel responses (e.g. "mm-hmm") while the user is speaking.
+
+        assistant_backchannel_aggressiveness : typing.Optional[float]
+            How aggressively the assistant produces backchannel responses. Only relevant when `enable_assistant_backchannel` is `true`.
+
+        data_retention_policy : typing.Optional[DataRetentionPolicyParams]
+            Controls how long transcripts and audio recordings are retained before deletion.
+
+        outbound_number_pool : typing.Optional[OutboundNumberPoolParams]
+            Pool of phone numbers used for outbound calls. Set to `null` to remove the pool.
+
+        procedure_ids : typing.Optional[typing.Sequence[str]]
+            Array of procedure IDs associated with the agent.
+
+        integrations : typing.Optional[typing.Sequence[AgentIntegrationParams]]
+            Array of third-party integrations enabled for the agent.
 
         default_language : typing.Optional[LanguageCode]
             ISO 639-1 language code that sets the agent's default language to recognize and speak. Welcome message and no input poke text should be in this language.
@@ -2051,6 +2227,7 @@ class AsyncAgentsClient:
             name_or_id,
             project=project,
             name=name,
+            slug=slug,
             phone_number=phone_number,
             custom_phone_number=custom_phone_number,
             custom_phone_numbers=custom_phone_numbers,
@@ -2071,6 +2248,12 @@ class AsyncAgentsClient:
             no_input_poke_sec=no_input_poke_sec,
             no_input_poke_text=no_input_poke_text,
             no_input_end_conversation_sec=no_input_end_conversation_sec,
+            enable_assistant_backchannel=enable_assistant_backchannel,
+            assistant_backchannel_aggressiveness=assistant_backchannel_aggressiveness,
+            data_retention_policy=data_retention_policy,
+            outbound_number_pool=outbound_number_pool,
+            procedure_ids=procedure_ids,
+            integrations=integrations,
             default_language=default_language,
             additional_languages=additional_languages,
             languages=languages,

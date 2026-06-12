@@ -17,7 +17,6 @@ if typing.TYPE_CHECKING:
         ToolsUpdateResponse,
         UpdateToolRequestEndpointMethod,
         UpdateToolRequestExecutionMode,
-        UpdateToolRequestType,
     )
     from .requests import (
         ToolsCreateResponseParams,
@@ -42,7 +41,6 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ToolsUpdateResponseParams": ".requests",
     "UpdateToolRequestEndpointMethod": ".types",
     "UpdateToolRequestExecutionMode": ".types",
-    "UpdateToolRequestType": ".types",
 }
 
 
@@ -83,5 +81,4 @@ __all__ = [
     "ToolsUpdateResponseParams",
     "UpdateToolRequestEndpointMethod",
     "UpdateToolRequestExecutionMode",
-    "UpdateToolRequestType",
 ]

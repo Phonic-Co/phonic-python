@@ -6,6 +6,10 @@ from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.request_options import RequestOptions
 from .raw_client import AsyncRawWorkspaceClient, RawWorkspaceClient
 from .types.workspace_get_response import WorkspaceGetResponse
+from .types.workspace_update_response import WorkspaceUpdateResponse
+
+# this is used as the default value for optional parameters
+OMIT = typing.cast(typing.Any, ...)
 
 
 class WorkspaceClient:
@@ -47,6 +51,57 @@ class WorkspaceClient:
         client.workspace.get()
         """
         _response = self._raw_client.get(request_options=request_options)
+        return _response.data
+
+    def update(
+        self,
+        *,
+        logo_url: typing.Optional[str] = OMIT,
+        invite_link_allowed_domains: typing.Optional[typing.Sequence[str]] = OMIT,
+        ip_allowlist: typing.Optional[typing.Sequence[str]] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> WorkspaceUpdateResponse:
+        """
+        Updates the workspace.
+
+        Parameters
+        ----------
+        logo_url : typing.Optional[str]
+            URL of the workspace logo. Must be an https URL ending in .png or .svg, or null to clear it.
+
+        invite_link_allowed_domains : typing.Optional[typing.Sequence[str]]
+            Email domains allowed to join the workspace via invite link.
+
+        ip_allowlist : typing.Optional[typing.Sequence[str]]
+            IP addresses or CIDR ranges allowed to access the workspace.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        WorkspaceUpdateResponse
+            Success response
+
+        Examples
+        --------
+        from phonic import Phonic
+
+        client = Phonic(
+            api_key="YOUR_API_KEY",
+        )
+        client.workspace.update(
+            logo_url="https://example.com/logo.png",
+            invite_link_allowed_domains=["example.com"],
+            ip_allowlist=["203.0.113.0/24"],
+        )
+        """
+        _response = self._raw_client.update(
+            logo_url=logo_url,
+            invite_link_allowed_domains=invite_link_allowed_domains,
+            ip_allowlist=ip_allowlist,
+            request_options=request_options,
+        )
         return _response.data
 
 
@@ -97,4 +152,63 @@ class AsyncWorkspaceClient:
         asyncio.run(main())
         """
         _response = await self._raw_client.get(request_options=request_options)
+        return _response.data
+
+    async def update(
+        self,
+        *,
+        logo_url: typing.Optional[str] = OMIT,
+        invite_link_allowed_domains: typing.Optional[typing.Sequence[str]] = OMIT,
+        ip_allowlist: typing.Optional[typing.Sequence[str]] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> WorkspaceUpdateResponse:
+        """
+        Updates the workspace.
+
+        Parameters
+        ----------
+        logo_url : typing.Optional[str]
+            URL of the workspace logo. Must be an https URL ending in .png or .svg, or null to clear it.
+
+        invite_link_allowed_domains : typing.Optional[typing.Sequence[str]]
+            Email domains allowed to join the workspace via invite link.
+
+        ip_allowlist : typing.Optional[typing.Sequence[str]]
+            IP addresses or CIDR ranges allowed to access the workspace.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        WorkspaceUpdateResponse
+            Success response
+
+        Examples
+        --------
+        import asyncio
+
+        from phonic import AsyncPhonic
+
+        client = AsyncPhonic(
+            api_key="YOUR_API_KEY",
+        )
+
+
+        async def main() -> None:
+            await client.workspace.update(
+                logo_url="https://example.com/logo.png",
+                invite_link_allowed_domains=["example.com"],
+                ip_allowlist=["203.0.113.0/24"],
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.update(
+            logo_url=logo_url,
+            invite_link_allowed_domains=invite_link_allowed_domains,
+            ip_allowlist=ip_allowlist,
+            request_options=request_options,
+        )
         return _response.data

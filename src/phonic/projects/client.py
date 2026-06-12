@@ -10,6 +10,7 @@ from .types.projects_create_response import ProjectsCreateResponse
 from .types.projects_delete_response import ProjectsDeleteResponse
 from .types.projects_get_response import ProjectsGetResponse
 from .types.projects_list_eval_prompts_response import ProjectsListEvalPromptsResponse
+from .types.projects_list_evals_response import ProjectsListEvalsResponse
 from .types.projects_list_response import ProjectsListResponse
 from .types.projects_update_response import ProjectsUpdateResponse
 
@@ -281,6 +282,39 @@ class ProjectsClient:
         )
         """
         _response = self._raw_client.create_eval_prompt(id, name=name, prompt=prompt, request_options=request_options)
+        return _response.data
+
+    def list_evals(
+        self, id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> ProjectsListEvalsResponse:
+        """
+        Returns all conversation evaluation results for a project.
+
+        Parameters
+        ----------
+        id : str
+            The ID of the project.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ProjectsListEvalsResponse
+            Success response
+
+        Examples
+        --------
+        from phonic import Phonic
+
+        client = Phonic(
+            api_key="YOUR_API_KEY",
+        )
+        client.projects.list_evals(
+            id="id",
+        )
+        """
+        _response = self._raw_client.list_evals(id, request_options=request_options)
         return _response.data
 
 
@@ -610,4 +644,45 @@ class AsyncProjectsClient:
         _response = await self._raw_client.create_eval_prompt(
             id, name=name, prompt=prompt, request_options=request_options
         )
+        return _response.data
+
+    async def list_evals(
+        self, id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> ProjectsListEvalsResponse:
+        """
+        Returns all conversation evaluation results for a project.
+
+        Parameters
+        ----------
+        id : str
+            The ID of the project.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ProjectsListEvalsResponse
+            Success response
+
+        Examples
+        --------
+        import asyncio
+
+        from phonic import AsyncPhonic
+
+        client = AsyncPhonic(
+            api_key="YOUR_API_KEY",
+        )
+
+
+        async def main() -> None:
+            await client.projects.list_evals(
+                id="id",
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.list_evals(id, request_options=request_options)
         return _response.data

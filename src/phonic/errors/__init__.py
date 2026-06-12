@@ -12,6 +12,7 @@ if typing.TYPE_CHECKING:
     from .gateway_timeout_error import GatewayTimeoutError
     from .internal_server_error import InternalServerError
     from .not_found_error import NotFoundError
+    from .too_many_requests_error import TooManyRequestsError
     from .unauthorized_error import UnauthorizedError
     from .unprocessable_entity_error import UnprocessableEntityError
 _dynamic_imports: typing.Dict[str, str] = {
@@ -21,6 +22,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "GatewayTimeoutError": ".gateway_timeout_error",
     "InternalServerError": ".internal_server_error",
     "NotFoundError": ".not_found_error",
+    "TooManyRequestsError": ".too_many_requests_error",
     "UnauthorizedError": ".unauthorized_error",
     "UnprocessableEntityError": ".unprocessable_entity_error",
 }
@@ -54,6 +56,7 @@ __all__ = [
     "GatewayTimeoutError",
     "InternalServerError",
     "NotFoundError",
+    "TooManyRequestsError",
     "UnauthorizedError",
     "UnprocessableEntityError",
 ]

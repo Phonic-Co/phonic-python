@@ -11,3 +11,8 @@ class DtmfPayloadParams(typing_extensions.TypedDict):
     """
     DTMF digits to play
     """
+
+    timings: typing_extensions.NotRequired[typing.Dict[str, float]]
+    """
+    Optional latency-breakdown metrics for the message, expressed as named millisecond durations.
+    """
