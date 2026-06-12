@@ -8,3 +8,4 @@ src/phonic/conversations/reconnectable_socket_client.py
 .fern/replay.lock
 .fern/replay.yml
 .gitattributes
+.github/workflows/publish.yml
