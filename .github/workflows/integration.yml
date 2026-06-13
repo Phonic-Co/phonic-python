@@ -1,0 +1,49 @@
+name: integration
+
+# Live-API integration tests for the generated SDK. These exercise real CRUD over
+# workspaces, projects, agents, tools and conversations plus the conversation websocket
+# handshake against a dedicated test workspace. The goal is to catch breakage from Fern
+# regeneration or from the hand-maintained files in .fernignore — not to test the backend.
+#
+# Runs on pull requests and on pushes to main. Requires the repo secret PHONIC_API_KEY
+# (an API key scoped to the test workspace). When that secret is unavailable — e.g. a PR
+# from a fork — the tests self-skip (see tests/integration/conftest.py) rather than fail,
+# so the job stays green.
+#
+# Kept in .fernignore so Fern's regeneration doesn't remove it.
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: integration-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  integration:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.9"
+
+      - name: Bootstrap poetry
+        run: curl -sSL https://install.python-poetry.org | python - -y --version 1.5.1
+
+      - name: Install dependencies
+        run: poetry install
+
+      - name: Run integration tests
+        env:
+          PHONIC_API_KEY: ${{ secrets.PHONIC_API_KEY }}
+          # Optional: point the suite at a non-prod REST base by setting a PHONIC_BASE_URL
+          # repo variable. Leave unset to use the SDK default (https://api.phonic.ai).
+          PHONIC_BASE_URL: ${{ vars.PHONIC_BASE_URL }}
+        run: poetry run pytest tests/integration -rs
