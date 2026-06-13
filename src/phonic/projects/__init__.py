@@ -12,6 +12,7 @@ if typing.TYPE_CHECKING:
         ProjectsDeleteResponse,
         ProjectsGetResponse,
         ProjectsListEvalPromptsResponse,
+        ProjectsListEvalsResponse,
         ProjectsListResponse,
         ProjectsUpdateResponse,
     )
@@ -21,6 +22,7 @@ if typing.TYPE_CHECKING:
         ProjectsDeleteResponseParams,
         ProjectsGetResponseParams,
         ProjectsListEvalPromptsResponseParams,
+        ProjectsListEvalsResponseParams,
         ProjectsListResponseParams,
         ProjectsUpdateResponseParams,
     )
@@ -35,6 +37,8 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ProjectsGetResponseParams": ".requests",
     "ProjectsListEvalPromptsResponse": ".types",
     "ProjectsListEvalPromptsResponseParams": ".requests",
+    "ProjectsListEvalsResponse": ".types",
+    "ProjectsListEvalsResponseParams": ".requests",
     "ProjectsListResponse": ".types",
     "ProjectsListResponseParams": ".requests",
     "ProjectsUpdateResponse": ".types",
@@ -74,6 +78,8 @@ __all__ = [
     "ProjectsGetResponseParams",
     "ProjectsListEvalPromptsResponse",
     "ProjectsListEvalPromptsResponseParams",
+    "ProjectsListEvalsResponse",
+    "ProjectsListEvalsResponseParams",
     "ProjectsListResponse",
     "ProjectsListResponseParams",
     "ProjectsUpdateResponse",

@@ -32,7 +32,7 @@ class ToolParams(typing_extensions.TypedDict):
     The type of tool.
     """
 
-    execution_mode: ToolExecutionMode
+    execution_mode: typing_extensions.NotRequired[ToolExecutionMode]
     """
     Mode of operation - sync waits for response, async continues without waiting.
     """
@@ -115,4 +115,9 @@ class ToolParams(typing_extensions.TypedDict):
     wait_for_response: typing_extensions.NotRequired[bool]
     """
     The agent doesn't typically wait for the response of async custom_websocket tools. When true, makes the agent wait for a response, not call other tools and inform the user of the result. Only available for async custom_websocket tools.
+    """
+
+    context: typing_extensions.NotRequired[str]
+    """
+    The static context returned to the agent. Only present for custom_context tools.
     """

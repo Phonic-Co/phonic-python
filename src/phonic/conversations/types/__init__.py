@@ -7,6 +7,9 @@ from importlib import import_module
 
 if typing.TYPE_CHECKING:
     from .conversations_cancel_response import ConversationsCancelResponse
+    from .conversations_evaluate_response import ConversationsEvaluateResponse
+    from .conversations_evaluate_response_evaluation import ConversationsEvaluateResponseEvaluation
+    from .conversations_evaluate_response_evaluation_result import ConversationsEvaluateResponseEvaluationResult
     from .conversations_extract_data_response import ConversationsExtractDataResponse
     from .conversations_get_analysis_response import ConversationsGetAnalysisResponse
     from .conversations_get_request_audio_container import ConversationsGetRequestAudioContainer
@@ -16,9 +19,13 @@ if typing.TYPE_CHECKING:
     from .conversations_list_request_audio_container import ConversationsListRequestAudioContainer
     from .conversations_list_response import ConversationsListResponse
     from .conversations_outbound_call_response import ConversationsOutboundCallResponse
+    from .conversations_replay_response import ConversationsReplayResponse
     from .conversations_sip_outbound_call_response import ConversationsSipOutboundCallResponse
 _dynamic_imports: typing.Dict[str, str] = {
     "ConversationsCancelResponse": ".conversations_cancel_response",
+    "ConversationsEvaluateResponse": ".conversations_evaluate_response",
+    "ConversationsEvaluateResponseEvaluation": ".conversations_evaluate_response_evaluation",
+    "ConversationsEvaluateResponseEvaluationResult": ".conversations_evaluate_response_evaluation_result",
     "ConversationsExtractDataResponse": ".conversations_extract_data_response",
     "ConversationsGetAnalysisResponse": ".conversations_get_analysis_response",
     "ConversationsGetRequestAudioContainer": ".conversations_get_request_audio_container",
@@ -28,6 +35,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ConversationsListRequestAudioContainer": ".conversations_list_request_audio_container",
     "ConversationsListResponse": ".conversations_list_response",
     "ConversationsOutboundCallResponse": ".conversations_outbound_call_response",
+    "ConversationsReplayResponse": ".conversations_replay_response",
     "ConversationsSipOutboundCallResponse": ".conversations_sip_outbound_call_response",
 }
 
@@ -55,6 +63,9 @@ def __dir__():
 
 __all__ = [
     "ConversationsCancelResponse",
+    "ConversationsEvaluateResponse",
+    "ConversationsEvaluateResponseEvaluation",
+    "ConversationsEvaluateResponseEvaluationResult",
     "ConversationsExtractDataResponse",
     "ConversationsGetAnalysisResponse",
     "ConversationsGetRequestAudioContainer",
@@ -64,5 +75,6 @@ __all__ = [
     "ConversationsListRequestAudioContainer",
     "ConversationsListResponse",
     "ConversationsOutboundCallResponse",
+    "ConversationsReplayResponse",
     "ConversationsSipOutboundCallResponse",
 ]

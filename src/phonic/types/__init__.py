@@ -11,11 +11,13 @@ if typing.TYPE_CHECKING:
     from .agent_audio_format import AgentAudioFormat
     from .agent_background_noise import AgentBackgroundNoise
     from .agent_configuration_endpoint import AgentConfigurationEndpoint
+    from .agent_integration import AgentIntegration
     from .agent_multilingual_mode import AgentMultilingualMode
     from .agent_project import AgentProject
     from .agent_pronunciation_dictionary_item import AgentPronunciationDictionaryItem
     from .agent_template_variables_value import AgentTemplateVariablesValue
     from .agent_tools_item import AgentToolsItem
+    from .api_key_with_secret import ApiKeyWithSecret
     from .assistant_chose_not_to_respond_payload import AssistantChoseNotToRespondPayload
     from .assistant_ended_conversation_payload import AssistantEndedConversationPayload
     from .assistant_finished_speaking_payload import AssistantFinishedSpeakingPayload
@@ -27,10 +29,22 @@ if typing.TYPE_CHECKING:
     from .basic_error_error import BasicErrorError
     from .config_options import ConfigOptions
     from .config_options_background_noise import ConfigOptionsBackgroundNoise
+    from .config_options_configuration_endpoint import ConfigOptionsConfigurationEndpoint
+    from .config_options_data_retention_policy import ConfigOptionsDataRetentionPolicy
+    from .config_options_data_retention_policy_audio_recordings import ConfigOptionsDataRetentionPolicyAudioRecordings
+    from .config_options_data_retention_policy_audio_recordings_audio_recordings import (
+        ConfigOptionsDataRetentionPolicyAudioRecordingsAudioRecordings,
+    )
+    from .config_options_data_retention_policy_audio_recordings_transcripts import (
+        ConfigOptionsDataRetentionPolicyAudioRecordingsTranscripts,
+    )
+    from .config_options_data_retention_policy_zero import ConfigOptionsDataRetentionPolicyZero
     from .config_options_input_format import ConfigOptionsInputFormat
     from .config_options_multilingual_mode import ConfigOptionsMultilingualMode
+    from .config_options_outbound_number_pool import ConfigOptionsOutboundNumberPool
     from .config_options_output_format import ConfigOptionsOutputFormat
     from .config_options_pronunciation_dictionary_item import ConfigOptionsPronunciationDictionaryItem
+    from .config_options_tasks_item import ConfigOptionsTasksItem
     from .config_payload import ConfigPayload
     from .conversation import Conversation
     from .conversation_agent import ConversationAgent
@@ -38,9 +52,12 @@ if typing.TYPE_CHECKING:
     from .conversation_background_noise import ConversationBackgroundNoise
     from .conversation_call_info import ConversationCallInfo
     from .conversation_created_payload import ConversationCreatedPayload
+    from .conversation_deletion_info import ConversationDeletionInfo
     from .conversation_ended_by import ConversationEndedBy
     from .conversation_eval import ConversationEval
     from .conversation_eval_prompt import ConversationEvalPrompt
+    from .conversation_eval_prompt_info import ConversationEvalPromptInfo
+    from .conversation_eval_result import ConversationEvalResult
     from .conversation_evaluation import ConversationEvaluation
     from .conversation_evaluation_result import ConversationEvaluationResult
     from .conversation_evaluation_result_prompt import ConversationEvaluationResultPrompt
@@ -68,6 +85,13 @@ if typing.TYPE_CHECKING:
     from .create_agent_request_pronunciation_dictionary_item import CreateAgentRequestPronunciationDictionaryItem
     from .create_agent_request_template_variables_value import CreateAgentRequestTemplateVariablesValue
     from .create_agent_request_tools_item import CreateAgentRequestToolsItem
+    from .data_retention_policy import DataRetentionPolicy
+    from .data_retention_policy_audio_recordings import DataRetentionPolicyAudioRecordings
+    from .data_retention_policy_audio_recordings_audio_recordings import (
+        DataRetentionPolicyAudioRecordingsAudioRecordings,
+    )
+    from .data_retention_policy_audio_recordings_transcripts import DataRetentionPolicyAudioRecordingsTranscripts
+    from .data_retention_policy_zero import DataRetentionPolicyZero
     from .dtmf_payload import DtmfPayload
     from .error import Error
     from .error_payload import ErrorPayload
@@ -86,11 +110,14 @@ if typing.TYPE_CHECKING:
     from .open_ai_function_parameters import OpenAiFunctionParameters
     from .open_ai_tool import OpenAiTool
     from .outbound_call_config import OutboundCallConfig
+    from .outbound_call_config_background_noise import OutboundCallConfigBackgroundNoise
+    from .outbound_call_config_configuration_endpoint import OutboundCallConfigConfigurationEndpoint
     from .outbound_call_config_multilingual_mode import OutboundCallConfigMultilingualMode
     from .outbound_call_config_pronunciation_dictionary_item import OutboundCallConfigPronunciationDictionaryItem
     from .outbound_call_config_tools_item import OutboundCallConfigToolsItem
     from .outbound_call_initiated_response import OutboundCallInitiatedResponse
     from .outbound_dry_run_response import OutboundDryRunResponse
+    from .outbound_number_pool import OutboundNumberPool
     from .project import Project
     from .project_default_agent import ProjectDefaultAgent
     from .ready_to_start_conversation_payload import ReadyToStartConversationPayload
@@ -139,11 +166,13 @@ _dynamic_imports: typing.Dict[str, str] = {
     "AgentAudioFormat": ".agent_audio_format",
     "AgentBackgroundNoise": ".agent_background_noise",
     "AgentConfigurationEndpoint": ".agent_configuration_endpoint",
+    "AgentIntegration": ".agent_integration",
     "AgentMultilingualMode": ".agent_multilingual_mode",
     "AgentProject": ".agent_project",
     "AgentPronunciationDictionaryItem": ".agent_pronunciation_dictionary_item",
     "AgentTemplateVariablesValue": ".agent_template_variables_value",
     "AgentToolsItem": ".agent_tools_item",
+    "ApiKeyWithSecret": ".api_key_with_secret",
     "AssistantChoseNotToRespondPayload": ".assistant_chose_not_to_respond_payload",
     "AssistantEndedConversationPayload": ".assistant_ended_conversation_payload",
     "AssistantFinishedSpeakingPayload": ".assistant_finished_speaking_payload",
@@ -155,10 +184,18 @@ _dynamic_imports: typing.Dict[str, str] = {
     "BasicErrorError": ".basic_error_error",
     "ConfigOptions": ".config_options",
     "ConfigOptionsBackgroundNoise": ".config_options_background_noise",
+    "ConfigOptionsConfigurationEndpoint": ".config_options_configuration_endpoint",
+    "ConfigOptionsDataRetentionPolicy": ".config_options_data_retention_policy",
+    "ConfigOptionsDataRetentionPolicyAudioRecordings": ".config_options_data_retention_policy_audio_recordings",
+    "ConfigOptionsDataRetentionPolicyAudioRecordingsAudioRecordings": ".config_options_data_retention_policy_audio_recordings_audio_recordings",
+    "ConfigOptionsDataRetentionPolicyAudioRecordingsTranscripts": ".config_options_data_retention_policy_audio_recordings_transcripts",
+    "ConfigOptionsDataRetentionPolicyZero": ".config_options_data_retention_policy_zero",
     "ConfigOptionsInputFormat": ".config_options_input_format",
     "ConfigOptionsMultilingualMode": ".config_options_multilingual_mode",
+    "ConfigOptionsOutboundNumberPool": ".config_options_outbound_number_pool",
     "ConfigOptionsOutputFormat": ".config_options_output_format",
     "ConfigOptionsPronunciationDictionaryItem": ".config_options_pronunciation_dictionary_item",
+    "ConfigOptionsTasksItem": ".config_options_tasks_item",
     "ConfigPayload": ".config_payload",
     "Conversation": ".conversation",
     "ConversationAgent": ".conversation_agent",
@@ -166,9 +203,12 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ConversationBackgroundNoise": ".conversation_background_noise",
     "ConversationCallInfo": ".conversation_call_info",
     "ConversationCreatedPayload": ".conversation_created_payload",
+    "ConversationDeletionInfo": ".conversation_deletion_info",
     "ConversationEndedBy": ".conversation_ended_by",
     "ConversationEval": ".conversation_eval",
     "ConversationEvalPrompt": ".conversation_eval_prompt",
+    "ConversationEvalPromptInfo": ".conversation_eval_prompt_info",
+    "ConversationEvalResult": ".conversation_eval_result",
     "ConversationEvaluation": ".conversation_evaluation",
     "ConversationEvaluationResult": ".conversation_evaluation_result",
     "ConversationEvaluationResultPrompt": ".conversation_evaluation_result_prompt",
@@ -196,6 +236,11 @@ _dynamic_imports: typing.Dict[str, str] = {
     "CreateAgentRequestPronunciationDictionaryItem": ".create_agent_request_pronunciation_dictionary_item",
     "CreateAgentRequestTemplateVariablesValue": ".create_agent_request_template_variables_value",
     "CreateAgentRequestToolsItem": ".create_agent_request_tools_item",
+    "DataRetentionPolicy": ".data_retention_policy",
+    "DataRetentionPolicyAudioRecordings": ".data_retention_policy_audio_recordings",
+    "DataRetentionPolicyAudioRecordingsAudioRecordings": ".data_retention_policy_audio_recordings_audio_recordings",
+    "DataRetentionPolicyAudioRecordingsTranscripts": ".data_retention_policy_audio_recordings_transcripts",
+    "DataRetentionPolicyZero": ".data_retention_policy_zero",
     "DtmfPayload": ".dtmf_payload",
     "Error": ".error",
     "ErrorPayload": ".error_payload",
@@ -214,11 +259,14 @@ _dynamic_imports: typing.Dict[str, str] = {
     "OpenAiFunctionParameters": ".open_ai_function_parameters",
     "OpenAiTool": ".open_ai_tool",
     "OutboundCallConfig": ".outbound_call_config",
+    "OutboundCallConfigBackgroundNoise": ".outbound_call_config_background_noise",
+    "OutboundCallConfigConfigurationEndpoint": ".outbound_call_config_configuration_endpoint",
     "OutboundCallConfigMultilingualMode": ".outbound_call_config_multilingual_mode",
     "OutboundCallConfigPronunciationDictionaryItem": ".outbound_call_config_pronunciation_dictionary_item",
     "OutboundCallConfigToolsItem": ".outbound_call_config_tools_item",
     "OutboundCallInitiatedResponse": ".outbound_call_initiated_response",
     "OutboundDryRunResponse": ".outbound_dry_run_response",
+    "OutboundNumberPool": ".outbound_number_pool",
     "Project": ".project",
     "ProjectDefaultAgent": ".project_default_agent",
     "ReadyToStartConversationPayload": ".ready_to_start_conversation_payload",
@@ -291,11 +339,13 @@ __all__ = [
     "AgentAudioFormat",
     "AgentBackgroundNoise",
     "AgentConfigurationEndpoint",
+    "AgentIntegration",
     "AgentMultilingualMode",
     "AgentProject",
     "AgentPronunciationDictionaryItem",
     "AgentTemplateVariablesValue",
     "AgentToolsItem",
+    "ApiKeyWithSecret",
     "AssistantChoseNotToRespondPayload",
     "AssistantEndedConversationPayload",
     "AssistantFinishedSpeakingPayload",
@@ -307,10 +357,18 @@ __all__ = [
     "BasicErrorError",
     "ConfigOptions",
     "ConfigOptionsBackgroundNoise",
+    "ConfigOptionsConfigurationEndpoint",
+    "ConfigOptionsDataRetentionPolicy",
+    "ConfigOptionsDataRetentionPolicyAudioRecordings",
+    "ConfigOptionsDataRetentionPolicyAudioRecordingsAudioRecordings",
+    "ConfigOptionsDataRetentionPolicyAudioRecordingsTranscripts",
+    "ConfigOptionsDataRetentionPolicyZero",
     "ConfigOptionsInputFormat",
     "ConfigOptionsMultilingualMode",
+    "ConfigOptionsOutboundNumberPool",
     "ConfigOptionsOutputFormat",
     "ConfigOptionsPronunciationDictionaryItem",
+    "ConfigOptionsTasksItem",
     "ConfigPayload",
     "Conversation",
     "ConversationAgent",
@@ -318,9 +376,12 @@ __all__ = [
     "ConversationBackgroundNoise",
     "ConversationCallInfo",
     "ConversationCreatedPayload",
+    "ConversationDeletionInfo",
     "ConversationEndedBy",
     "ConversationEval",
     "ConversationEvalPrompt",
+    "ConversationEvalPromptInfo",
+    "ConversationEvalResult",
     "ConversationEvaluation",
     "ConversationEvaluationResult",
     "ConversationEvaluationResultPrompt",
@@ -348,6 +409,11 @@ __all__ = [
     "CreateAgentRequestPronunciationDictionaryItem",
     "CreateAgentRequestTemplateVariablesValue",
     "CreateAgentRequestToolsItem",
+    "DataRetentionPolicy",
+    "DataRetentionPolicyAudioRecordings",
+    "DataRetentionPolicyAudioRecordingsAudioRecordings",
+    "DataRetentionPolicyAudioRecordingsTranscripts",
+    "DataRetentionPolicyZero",
     "DtmfPayload",
     "Error",
     "ErrorPayload",
@@ -366,11 +432,14 @@ __all__ = [
     "OpenAiFunctionParameters",
     "OpenAiTool",
     "OutboundCallConfig",
+    "OutboundCallConfigBackgroundNoise",
+    "OutboundCallConfigConfigurationEndpoint",
     "OutboundCallConfigMultilingualMode",
     "OutboundCallConfigPronunciationDictionaryItem",
     "OutboundCallConfigToolsItem",
     "OutboundCallInitiatedResponse",
     "OutboundDryRunResponse",
+    "OutboundNumberPool",
     "Project",
     "ProjectDefaultAgent",
     "ReadyToStartConversationPayload",

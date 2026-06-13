@@ -12,6 +12,7 @@ from .create_agent_request_configuration_endpoint import CreateAgentRequestConfi
 from .create_agent_request_pronunciation_dictionary_item import CreateAgentRequestPronunciationDictionaryItemParams
 from .create_agent_request_template_variables_value import CreateAgentRequestTemplateVariablesValueParams
 from .create_agent_request_tools_item import CreateAgentRequestToolsItemParams
+from .data_retention_policy import DataRetentionPolicyParams
 from .task import TaskParams
 
 
@@ -19,6 +20,11 @@ class CreateAgentRequestParams(typing_extensions.TypedDict):
     name: str
     """
     The name of the agent. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
+    """
+
+    slug: typing_extensions.NotRequired[str]
+    """
+    URL-friendly agent slug. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
     """
 
     phone_number: typing_extensions.NotRequired[typing.Optional[CreateAgentRequestPhoneNumber]]
@@ -119,6 +125,21 @@ class CreateAgentRequestParams(typing_extensions.TypedDict):
     no_input_end_conversation_sec: typing_extensions.NotRequired[int]
     """
     Seconds of silence before ending the conversation.
+    """
+
+    enable_assistant_backchannel: typing_extensions.NotRequired[bool]
+    """
+    When `true`, the assistant will produce backchannel responses (e.g. "mm-hmm") while the user is speaking.
+    """
+
+    assistant_backchannel_aggressiveness: typing_extensions.NotRequired[float]
+    """
+    How aggressively the assistant produces backchannel responses. Only relevant when `enable_assistant_backchannel` is `true`.
+    """
+
+    data_retention_policy: typing_extensions.NotRequired[DataRetentionPolicyParams]
+    """
+    Controls how long transcripts and audio recordings are retained before deletion.
     """
 
     default_language: typing_extensions.NotRequired[LanguageCode]

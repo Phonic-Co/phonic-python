@@ -34,7 +34,7 @@ class Tool(UncheckedBaseModel):
     The type of tool.
     """
 
-    execution_mode: ToolExecutionMode = pydantic.Field()
+    execution_mode: typing.Optional[ToolExecutionMode] = pydantic.Field(default=None)
     """
     Mode of operation - sync waits for response, async continues without waiting.
     """
@@ -117,6 +117,11 @@ class Tool(UncheckedBaseModel):
     wait_for_response: typing.Optional[bool] = pydantic.Field(default=None)
     """
     The agent doesn't typically wait for the response of async custom_websocket tools. When true, makes the agent wait for a response, not call other tools and inform the user of the result. Only available for async custom_websocket tools.
+    """
+
+    context: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    The static context returned to the agent. Only present for custom_context tools.
     """
 
     if IS_PYDANTIC_V2:

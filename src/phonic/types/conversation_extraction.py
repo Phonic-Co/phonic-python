@@ -17,22 +17,12 @@ class ConversationExtraction(UncheckedBaseModel):
     The extraction ID.
     """
 
-    conversation_id: typing.Optional[str] = pydantic.Field(default=None)
-    """
-    The conversation ID.
-    """
-
     schema_: typing_extensions.Annotated[
         ConversationExtractionSchema, FieldMetadata(alias="schema"), pydantic.Field(alias="schema")
     ]
     result: typing.Dict[str, typing.Any] = pydantic.Field()
     """
     The extracted data.
-    """
-
-    error: typing.Optional[str] = pydantic.Field(default=None)
-    """
-    Error message if extraction failed.
     """
 
     created_at: dt.datetime = pydantic.Field()

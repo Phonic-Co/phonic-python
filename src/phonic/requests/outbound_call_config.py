@@ -4,9 +4,14 @@ import typing
 
 import typing_extensions
 from ..types.language_code import LanguageCode
+from ..types.outbound_call_config_background_noise import OutboundCallConfigBackgroundNoise
 from ..types.outbound_call_config_multilingual_mode import OutboundCallConfigMultilingualMode
+from .data_retention_policy import DataRetentionPolicyParams
+from .outbound_call_config_configuration_endpoint import OutboundCallConfigConfigurationEndpointParams
 from .outbound_call_config_pronunciation_dictionary_item import OutboundCallConfigPronunciationDictionaryItemParams
 from .outbound_call_config_tools_item import OutboundCallConfigToolsItemParams
+from .outbound_number_pool import OutboundNumberPoolParams
+from .task import TaskParams
 
 
 class OutboundCallConfigParams(typing_extensions.TypedDict):
@@ -124,4 +129,61 @@ class OutboundCallConfigParams(typing_extensions.TypedDict):
     enable_redaction: typing_extensions.NotRequired[bool]
     """
     When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE NUMBER]`) and bleeped from audio recordings after the conversation ends.
+    """
+
+    model: typing_extensions.NotRequired[typing.Literal["merritt"]]
+    """
+    The speech-to-speech model to use.
+    """
+
+    audio_speed: typing_extensions.NotRequired[float]
+    """
+    The audio speed of the agent.
+    """
+
+    background_noise: typing_extensions.NotRequired[typing.Optional[OutboundCallConfigBackgroundNoise]]
+    """
+    The background noise type. Can be "office", "call-center", "coffee-shop", or null.
+    """
+
+    background_noise_level: typing_extensions.NotRequired[float]
+    """
+    The background noise level of the agent.
+    """
+
+    mcp_servers: typing_extensions.NotRequired[typing.Sequence[str]]
+    """
+    Array of MCP server names to use.
+    """
+
+    tasks: typing_extensions.NotRequired[typing.Sequence[TaskParams]]
+    """
+    Array of task objects with `name` and `description` fields.
+    """
+
+    outbound_number_pool: typing_extensions.NotRequired[typing.Optional[OutboundNumberPoolParams]]
+    """
+    Pool of phone numbers used for outbound calls.
+    """
+
+    enable_assistant_backchannel: typing_extensions.NotRequired[bool]
+    """
+    When `true`, the assistant will produce backchannel responses (e.g. "mm-hmm") while the user is speaking.
+    """
+
+    assistant_backchannel_aggressiveness: typing_extensions.NotRequired[float]
+    """
+    How aggressively the assistant produces backchannel responses. Only relevant when `enable_assistant_backchannel` is `true`.
+    """
+
+    configuration_endpoint: typing_extensions.NotRequired[
+        typing.Optional[OutboundCallConfigConfigurationEndpointParams]
+    ]
+    """
+    When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
+    """
+
+    data_retention_policy: typing_extensions.NotRequired[DataRetentionPolicyParams]
+    """
+    Controls how long transcripts and audio recordings are retained before deletion.
     """

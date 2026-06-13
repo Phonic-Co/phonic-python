@@ -10,12 +10,14 @@ from .conversation_agent import ConversationAgent
 from .conversation_analysis import ConversationAnalysis
 from .conversation_background_noise import ConversationBackgroundNoise
 from .conversation_call_info import ConversationCallInfo
+from .conversation_deletion_info import ConversationDeletionInfo
 from .conversation_ended_by import ConversationEndedBy
 from .conversation_item import ConversationItem
 from .conversation_multilingual_mode import ConversationMultilingualMode
 from .conversation_origin import ConversationOrigin
 from .conversation_project import ConversationProject
 from .conversation_pronunciation_dictionary_item import ConversationPronunciationDictionaryItem
+from .data_retention_policy import DataRetentionPolicy
 from .language_code import LanguageCode
 
 
@@ -233,6 +235,41 @@ class Conversation(UncheckedBaseModel):
     analysis: ConversationAnalysis = pydantic.Field()
     """
     Analysis of the conversation including latencies and interruptions.
+    """
+
+    is_redacted: typing.Optional[bool] = pydantic.Field(default=None)
+    """
+    Whether PII and PHI have been redacted from the conversation.
+    """
+
+    redacted_transcript: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    The redacted transcript of the conversation. `null` when the conversation is not redacted.
+    """
+
+    metadata: typing.Optional[typing.Dict[str, typing.Any]] = pydantic.Field(default=None)
+    """
+    Arbitrary metadata associated with the conversation.
+    """
+
+    data_retention_policy: typing.Optional[DataRetentionPolicy] = pydantic.Field(default=None)
+    """
+    Controls how long transcripts and audio recordings are retained before deletion.
+    """
+
+    deletion_info: typing.Optional[ConversationDeletionInfo] = pydantic.Field(default=None)
+    """
+    Information about when transcripts and audio recordings are or were scheduled to be deleted.
+    """
+
+    enable_assistant_backchannel: typing.Optional[bool] = pydantic.Field(default=None)
+    """
+    Whether the assistant produced backchannel responses during the conversation.
+    """
+
+    assistant_backchannel_aggressiveness: typing.Optional[float] = pydantic.Field(default=None)
+    """
+    How aggressively the assistant produced backchannel responses during the conversation.
     """
 
     if IS_PYDANTIC_V2:

@@ -5,12 +5,23 @@ import typing
 import pydantic
 from ...core.pydantic_utilities import IS_PYDANTIC_V2
 from ...core.unchecked_base_model import UncheckedBaseModel
+from ...types.agent import Agent
 
 
 class AgentsUpdateResponse(UncheckedBaseModel):
     success: bool = pydantic.Field()
     """
     Whether the agent was updated successfully.
+    """
+
+    version_number: int = pydantic.Field()
+    """
+    The version number of the agent after the update.
+    """
+
+    agent: Agent = pydantic.Field()
+    """
+    The updated agent.
     """
 
     if IS_PYDANTIC_V2:

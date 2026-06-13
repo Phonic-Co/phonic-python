@@ -13,6 +13,7 @@ from .create_agent_request_phone_number import CreateAgentRequestPhoneNumber
 from .create_agent_request_pronunciation_dictionary_item import CreateAgentRequestPronunciationDictionaryItem
 from .create_agent_request_template_variables_value import CreateAgentRequestTemplateVariablesValue
 from .create_agent_request_tools_item import CreateAgentRequestToolsItem
+from .data_retention_policy import DataRetentionPolicy
 from .language_code import LanguageCode
 from .task import Task
 
@@ -21,6 +22,11 @@ class CreateAgentRequest(UncheckedBaseModel):
     name: str = pydantic.Field()
     """
     The name of the agent. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
+    """
+
+    slug: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    URL-friendly agent slug. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
     """
 
     phone_number: typing.Optional[CreateAgentRequestPhoneNumber] = pydantic.Field(default=None)
@@ -123,6 +129,21 @@ class CreateAgentRequest(UncheckedBaseModel):
     no_input_end_conversation_sec: typing.Optional[int] = pydantic.Field(default=None)
     """
     Seconds of silence before ending the conversation.
+    """
+
+    enable_assistant_backchannel: typing.Optional[bool] = pydantic.Field(default=None)
+    """
+    When `true`, the assistant will produce backchannel responses (e.g. "mm-hmm") while the user is speaking.
+    """
+
+    assistant_backchannel_aggressiveness: typing.Optional[float] = pydantic.Field(default=None)
+    """
+    How aggressively the assistant produces backchannel responses. Only relevant when `enable_assistant_backchannel` is `true`.
+    """
+
+    data_retention_policy: typing.Optional[DataRetentionPolicy] = pydantic.Field(default=None)
+    """
+    Controls how long transcripts and audio recordings are retained before deletion.
     """
 
     default_language: typing.Optional[LanguageCode] = pydantic.Field(default=None)

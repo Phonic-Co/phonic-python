@@ -5,6 +5,7 @@ import typing
 from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.request_options import RequestOptions
 from .raw_client import AsyncRawAuthClient, RawAuthClient
+from .types.auth_create_conversation_token_response import AuthCreateConversationTokenResponse
 from .types.auth_create_session_token_response import AuthCreateSessionTokenResponse
 
 # this is used as the default value for optional parameters
@@ -57,6 +58,49 @@ class AuthClient:
         )
         """
         _response = self._raw_client.create_session_token(ttl_seconds=ttl_seconds, request_options=request_options)
+        return _response.data
+
+    def create_conversation_token(
+        self,
+        *,
+        agent_id: str,
+        ttl_seconds: typing.Optional[int] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AuthCreateConversationTokenResponse:
+        """
+        Creates a short-lived conversation token scoped to a specific agent. Conversation tokens are useful for client-side applications that start a conversation with a single agent without exposing your API key.
+
+        Parameters
+        ----------
+        agent_id : str
+            ID of the agent the conversation token is scoped to.
+
+        ttl_seconds : typing.Optional[int]
+            Time-to-live for the conversation token in seconds.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AuthCreateConversationTokenResponse
+            Success response
+
+        Examples
+        --------
+        from phonic import Phonic
+
+        client = Phonic(
+            api_key="YOUR_API_KEY",
+        )
+        client.auth.create_conversation_token(
+            agent_id="agent_12cf6e88-c254-4d3e-a149-a7f1bdd22783",
+            ttl_seconds=30,
+        )
+        """
+        _response = self._raw_client.create_conversation_token(
+            agent_id=agent_id, ttl_seconds=ttl_seconds, request_options=request_options
+        )
         return _response.data
 
 
@@ -115,5 +159,56 @@ class AsyncAuthClient:
         """
         _response = await self._raw_client.create_session_token(
             ttl_seconds=ttl_seconds, request_options=request_options
+        )
+        return _response.data
+
+    async def create_conversation_token(
+        self,
+        *,
+        agent_id: str,
+        ttl_seconds: typing.Optional[int] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AuthCreateConversationTokenResponse:
+        """
+        Creates a short-lived conversation token scoped to a specific agent. Conversation tokens are useful for client-side applications that start a conversation with a single agent without exposing your API key.
+
+        Parameters
+        ----------
+        agent_id : str
+            ID of the agent the conversation token is scoped to.
+
+        ttl_seconds : typing.Optional[int]
+            Time-to-live for the conversation token in seconds.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AuthCreateConversationTokenResponse
+            Success response
+
+        Examples
+        --------
+        import asyncio
+
+        from phonic import AsyncPhonic
+
+        client = AsyncPhonic(
+            api_key="YOUR_API_KEY",
+        )
+
+
+        async def main() -> None:
+            await client.auth.create_conversation_token(
+                agent_id="agent_12cf6e88-c254-4d3e-a149-a7f1bdd22783",
+                ttl_seconds=30,
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.create_conversation_token(
+            agent_id=agent_id, ttl_seconds=ttl_seconds, request_options=request_options
         )
         return _response.data

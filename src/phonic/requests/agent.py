@@ -8,10 +8,12 @@ from ..types.agent_background_noise import AgentBackgroundNoise
 from ..types.agent_multilingual_mode import AgentMultilingualMode
 from ..types.language_code import LanguageCode
 from .agent_configuration_endpoint import AgentConfigurationEndpointParams
+from .agent_integration import AgentIntegrationParams
 from .agent_project import AgentProjectParams
 from .agent_pronunciation_dictionary_item import AgentPronunciationDictionaryItemParams
 from .agent_template_variables_value import AgentTemplateVariablesValueParams
 from .agent_tools_item import AgentToolsItemParams
+from .data_retention_policy import DataRetentionPolicyParams
 from .task import TaskParams
 
 
@@ -205,3 +207,25 @@ class AgentParams(typing_extensions.TypedDict):
     """
     When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE NUMBER]`) and bleeped from audio recordings after the conversation ends.
     """
+
+    slug: typing_extensions.NotRequired[str]
+    """
+    The URL-friendly slug of the agent.
+    """
+
+    enable_assistant_backchannel: typing_extensions.NotRequired[bool]
+    """
+    When `true`, the assistant emits backchannel cues (e.g. "mm-hmm") while the user is speaking.
+    """
+
+    assistant_backchannel_aggressiveness: typing_extensions.NotRequired[float]
+    """
+    How aggressively the assistant backchannels, from 0 to 1.
+    """
+
+    integrations: typing_extensions.NotRequired[typing.Sequence[AgentIntegrationParams]]
+    """
+    Third-party integrations enabled for the agent.
+    """
+
+    data_retention_policy: typing_extensions.NotRequired[DataRetentionPolicyParams]

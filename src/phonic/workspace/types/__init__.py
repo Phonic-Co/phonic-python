@@ -7,7 +7,11 @@ from importlib import import_module
 
 if typing.TYPE_CHECKING:
     from .workspace_get_response import WorkspaceGetResponse
-_dynamic_imports: typing.Dict[str, str] = {"WorkspaceGetResponse": ".workspace_get_response"}
+    from .workspace_update_response import WorkspaceUpdateResponse
+_dynamic_imports: typing.Dict[str, str] = {
+    "WorkspaceGetResponse": ".workspace_get_response",
+    "WorkspaceUpdateResponse": ".workspace_update_response",
+}
 
 
 def __getattr__(attr_name: str) -> typing.Any:
@@ -31,4 +35,4 @@ def __dir__():
     return sorted(lazy_attrs)
 
 
-__all__ = ["WorkspaceGetResponse"]
+__all__ = ["WorkspaceGetResponse", "WorkspaceUpdateResponse"]
