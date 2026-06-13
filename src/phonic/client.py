@@ -13,6 +13,7 @@ from .environment import PhonicEnvironment
 
 if typing.TYPE_CHECKING:
     from .agents.client import AgentsClient, AsyncAgentsClient
+    from .api_keys.client import ApiKeysClient, AsyncApiKeysClient
     from .auth.client import AsyncAuthClient, AuthClient
     from .conversation_items.client import AsyncConversationItemsClient, ConversationItemsClient
     from .conversations.client import AsyncConversationsClient, ConversationsClient
@@ -21,6 +22,7 @@ if typing.TYPE_CHECKING:
     from .tools.client import AsyncToolsClient, ToolsClient
     from .tts.client import AsyncTtsClient, TtsClient
     from .voices.client import AsyncVoicesClient, VoicesClient
+    from .workspace.client import AsyncWorkspaceClient, WorkspaceClient
 
 
 class Phonic:
@@ -99,6 +101,7 @@ class Phonic:
             reconnect_conversation_on_abnormal_disconnect=reconnect_conversation_on_abnormal_disconnect,
         )
         self._agents: typing.Optional[AgentsClient] = None
+        self._api_keys: typing.Optional[ApiKeysClient] = None
         self._tools: typing.Optional[ToolsClient] = None
         self._extraction_schemas: typing.Optional[ExtractionSchemasClient] = None
         self._tts: typing.Optional[TtsClient] = None
@@ -107,6 +110,7 @@ class Phonic:
         self._conversation_items: typing.Optional[ConversationItemsClient] = None
         self._auth: typing.Optional[AuthClient] = None
         self._projects: typing.Optional[ProjectsClient] = None
+        self._workspace: typing.Optional[WorkspaceClient] = None
 
     @property
     def agents(self):
@@ -115,6 +119,14 @@ class Phonic:
 
             self._agents = AgentsClient(client_wrapper=self._client_wrapper)
         return self._agents
+
+    @property
+    def api_keys(self):
+        if self._api_keys is None:
+            from .api_keys.client import ApiKeysClient  # noqa: E402
+
+            self._api_keys = ApiKeysClient(client_wrapper=self._client_wrapper)
+        return self._api_keys
 
     @property
     def tools(self):
@@ -179,6 +191,14 @@ class Phonic:
 
             self._projects = ProjectsClient(client_wrapper=self._client_wrapper)
         return self._projects
+
+    @property
+    def workspace(self):
+        if self._workspace is None:
+            from .workspace.client import WorkspaceClient  # noqa: E402
+
+            self._workspace = WorkspaceClient(client_wrapper=self._client_wrapper)
+        return self._workspace
 
 
 class AsyncPhonic:
@@ -257,6 +277,7 @@ class AsyncPhonic:
             reconnect_conversation_on_abnormal_disconnect=reconnect_conversation_on_abnormal_disconnect,
         )
         self._agents: typing.Optional[AsyncAgentsClient] = None
+        self._api_keys: typing.Optional[AsyncApiKeysClient] = None
         self._tools: typing.Optional[AsyncToolsClient] = None
         self._extraction_schemas: typing.Optional[AsyncExtractionSchemasClient] = None
         self._tts: typing.Optional[AsyncTtsClient] = None
@@ -265,6 +286,7 @@ class AsyncPhonic:
         self._conversation_items: typing.Optional[AsyncConversationItemsClient] = None
         self._auth: typing.Optional[AsyncAuthClient] = None
         self._projects: typing.Optional[AsyncProjectsClient] = None
+        self._workspace: typing.Optional[AsyncWorkspaceClient] = None
 
     @property
     def agents(self):
@@ -273,6 +295,14 @@ class AsyncPhonic:
 
             self._agents = AsyncAgentsClient(client_wrapper=self._client_wrapper)
         return self._agents
+
+    @property
+    def api_keys(self):
+        if self._api_keys is None:
+            from .api_keys.client import AsyncApiKeysClient  # noqa: E402
+
+            self._api_keys = AsyncApiKeysClient(client_wrapper=self._client_wrapper)
+        return self._api_keys
 
     @property
     def tools(self):
@@ -337,3 +367,11 @@ class AsyncPhonic:
 
             self._projects = AsyncProjectsClient(client_wrapper=self._client_wrapper)
         return self._projects
+
+    @property
+    def workspace(self):
+        if self._workspace is None:
+            from .workspace.client import AsyncWorkspaceClient  # noqa: E402
+
+            self._workspace = AsyncWorkspaceClient(client_wrapper=self._client_wrapper)
+        return self._workspace
