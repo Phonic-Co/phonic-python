@@ -2,11 +2,12 @@ name: integration
 
 # Live-API integration tests for the generated SDK. These exercise real CRUD over
 # workspaces, projects, agents, tools and conversations plus the conversation websocket
-# handshake against a dedicated test workspace. The goal is to catch breakage from Fern
-# regeneration or from the hand-maintained files in .fernignore — not to test the backend.
+# handshake against the test environment (api.test.phonic.ai). The goal is to catch
+# breakage from Fern regeneration or from the hand-maintained files in .fernignore — not
+# to test the backend.
 #
 # Runs on pull requests and on pushes to main. Requires the repo secret PHONIC_API_KEY
-# (an API key scoped to the test workspace). When that secret is unavailable — e.g. a PR
+# (a TEST API key for api.test.phonic.ai). When that secret is unavailable — e.g. a PR
 # from a fork — the tests self-skip (see tests/integration/conftest.py) rather than fail,
 # so the job stays green.
 #
@@ -43,7 +44,8 @@ jobs:
       - name: Run integration tests
         env:
           PHONIC_API_KEY: ${{ secrets.PHONIC_API_KEY }}
-          # Optional: point the suite at a non-prod REST base by setting a PHONIC_BASE_URL
-          # repo variable. Leave unset to use the SDK default (https://api.phonic.ai).
-          PHONIC_BASE_URL: ${{ vars.PHONIC_BASE_URL }}
+          # Host the suite targets; both the REST base and websocket host derive from it.
+          # Defaults to api.test.phonic.ai (see conftest.py). Set a PHONIC_HOST repo
+          # variable to override (e.g. api.phonic.ai with a prod key).
+          PHONIC_HOST: ${{ vars.PHONIC_HOST }}
         run: poetry run pytest tests/integration -rs
