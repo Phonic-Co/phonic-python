@@ -16,6 +16,7 @@ from .websocket_connect import (
     open_reconnectable_conversations_socket_sync,
 )
 from .types.conversations_cancel_response import ConversationsCancelResponse
+from .types.conversations_delete_response import ConversationsDeleteResponse
 from .types.conversations_evaluate_response import ConversationsEvaluateResponse
 from .types.conversations_extract_data_response import ConversationsExtractDataResponse
 from .types.conversations_get_analysis_response import ConversationsGetAnalysisResponse
@@ -201,6 +202,39 @@ class ConversationsClient:
         )
         """
         _response = self._raw_client.cancel(id, request_options=request_options)
+        return _response.data
+
+    def delete(
+        self, id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> ConversationsDeleteResponse:
+        """
+        Deletes a conversation, scheduling its transcripts and audio recordings for deletion. The conversation must have ended.
+
+        Parameters
+        ----------
+        id : str
+            The ID of the conversation to delete.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ConversationsDeleteResponse
+            Success response
+
+        Examples
+        --------
+        from phonic import Phonic
+
+        client = Phonic(
+            api_key="YOUR_API_KEY",
+        )
+        client.conversations.delete(
+            id="id",
+        )
+        """
+        _response = self._raw_client.delete(id, request_options=request_options)
         return _response.data
 
     def get_analysis(
@@ -769,6 +803,47 @@ class AsyncConversationsClient:
         asyncio.run(main())
         """
         _response = await self._raw_client.cancel(id, request_options=request_options)
+        return _response.data
+
+    async def delete(
+        self, id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> ConversationsDeleteResponse:
+        """
+        Deletes a conversation, scheduling its transcripts and audio recordings for deletion. The conversation must have ended.
+
+        Parameters
+        ----------
+        id : str
+            The ID of the conversation to delete.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ConversationsDeleteResponse
+            Success response
+
+        Examples
+        --------
+        import asyncio
+
+        from phonic import AsyncPhonic
+
+        client = AsyncPhonic(
+            api_key="YOUR_API_KEY",
+        )
+
+
+        async def main() -> None:
+            await client.conversations.delete(
+                id="id",
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.delete(id, request_options=request_options)
         return _response.data
 
     async def get_analysis(
