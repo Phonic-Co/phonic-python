@@ -9,10 +9,7 @@ import httpx
 from .core.api_error import ApiError
 from .core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .core.logging import LogConfig, Logger
-from .core.request_options import RequestOptions
 from .environment import PhonicEnvironment
-from .raw_client import AsyncRawPhonic, RawPhonic
-from .types.delete_conversations_id_response import DeleteConversationsIdResponse
 
 if typing.TYPE_CHECKING:
     from .agents.client import AgentsClient, AsyncAgentsClient
@@ -103,7 +100,6 @@ class Phonic:
             logging=logging,
             reconnect_conversation_on_abnormal_disconnect=reconnect_conversation_on_abnormal_disconnect,
         )
-        self._raw_client = RawPhonic(client_wrapper=self._client_wrapper)
         self._agents: typing.Optional[AgentsClient] = None
         self._api_keys: typing.Optional[ApiKeysClient] = None
         self._tools: typing.Optional[ToolsClient] = None
@@ -115,50 +111,6 @@ class Phonic:
         self._auth: typing.Optional[AuthClient] = None
         self._projects: typing.Optional[ProjectsClient] = None
         self._workspace: typing.Optional[WorkspaceClient] = None
-
-    @property
-    def with_raw_response(self) -> RawPhonic:
-        """
-        Retrieves a raw implementation of this client that returns raw responses.
-
-        Returns
-        -------
-        RawPhonic
-        """
-        return self._raw_client
-
-    def delete_conversations_id(
-        self, id: str, *, request_options: typing.Optional[RequestOptions] = None
-    ) -> DeleteConversationsIdResponse:
-        """
-        Deletes a conversation, scheduling its transcripts and audio recordings for deletion. The conversation must have ended.
-
-        Parameters
-        ----------
-        id : str
-            The ID of the conversation to delete.
-
-        request_options : typing.Optional[RequestOptions]
-            Request-specific configuration.
-
-        Returns
-        -------
-        DeleteConversationsIdResponse
-            Success response
-
-        Examples
-        --------
-        from phonic import Phonic
-
-        client = Phonic(
-            api_key="YOUR_API_KEY",
-        )
-        client.delete_conversations_id(
-            id="id",
-        )
-        """
-        _response = self._raw_client.delete_conversations_id(id, request_options=request_options)
-        return _response.data
 
     @property
     def agents(self):
@@ -324,7 +276,6 @@ class AsyncPhonic:
             logging=logging,
             reconnect_conversation_on_abnormal_disconnect=reconnect_conversation_on_abnormal_disconnect,
         )
-        self._raw_client = AsyncRawPhonic(client_wrapper=self._client_wrapper)
         self._agents: typing.Optional[AsyncAgentsClient] = None
         self._api_keys: typing.Optional[AsyncApiKeysClient] = None
         self._tools: typing.Optional[AsyncToolsClient] = None
@@ -336,58 +287,6 @@ class AsyncPhonic:
         self._auth: typing.Optional[AsyncAuthClient] = None
         self._projects: typing.Optional[AsyncProjectsClient] = None
         self._workspace: typing.Optional[AsyncWorkspaceClient] = None
-
-    @property
-    def with_raw_response(self) -> AsyncRawPhonic:
-        """
-        Retrieves a raw implementation of this client that returns raw responses.
-
-        Returns
-        -------
-        AsyncRawPhonic
-        """
-        return self._raw_client
-
-    async def delete_conversations_id(
-        self, id: str, *, request_options: typing.Optional[RequestOptions] = None
-    ) -> DeleteConversationsIdResponse:
-        """
-        Deletes a conversation, scheduling its transcripts and audio recordings for deletion. The conversation must have ended.
-
-        Parameters
-        ----------
-        id : str
-            The ID of the conversation to delete.
-
-        request_options : typing.Optional[RequestOptions]
-            Request-specific configuration.
-
-        Returns
-        -------
-        DeleteConversationsIdResponse
-            Success response
-
-        Examples
-        --------
-        import asyncio
-
-        from phonic import AsyncPhonic
-
-        client = AsyncPhonic(
-            api_key="YOUR_API_KEY",
-        )
-
-
-        async def main() -> None:
-            await client.delete_conversations_id(
-                id="id",
-            )
-
-
-        asyncio.run(main())
-        """
-        _response = await self._raw_client.delete_conversations_id(id, request_options=request_options)
-        return _response.data
 
     @property
     def agents(self):
