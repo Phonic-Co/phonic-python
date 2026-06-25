@@ -113,6 +113,7 @@ class AgentsClient:
         background_noise: typing.Optional[CreateAgentRequestBackgroundNoise] = OMIT,
         generate_welcome_message: typing.Optional[bool] = OMIT,
         is_welcome_message_interruptible: typing.Optional[bool] = OMIT,
+        websocket_timeout_sec: typing.Optional[int] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValueParams]] = OMIT,
@@ -143,6 +144,8 @@ class AgentsClient:
         vad_min_silence_duration_ms: typing.Optional[int] = OMIT,
         vad_threshold: typing.Optional[float] = OMIT,
         enable_redaction: typing.Optional[bool] = OMIT,
+        mcp_server_ids: typing.Optional[typing.Sequence[str]] = OMIT,
+        observability_integrations: typing.Optional[typing.Sequence[typing.Literal["braintrust"]]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AgentsCreateResponse:
         """
@@ -191,6 +194,9 @@ class AgentsClient:
 
         is_welcome_message_interruptible : typing.Optional[bool]
             When `false`, the welcome message will not be interruptible by the user.
+
+        websocket_timeout_sec : typing.Optional[int]
+            Number of seconds of inactivity before the conversation WebSocket is closed.
 
         welcome_message : typing.Optional[str]
             Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. Ignored when `generate_welcome_message` is `true`.
@@ -275,6 +281,12 @@ class AgentsClient:
 
         enable_redaction : typing.Optional[bool]
             When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE NUMBER]`) and bleeped from audio recordings after the conversation ends.
+
+        mcp_server_ids : typing.Optional[typing.Sequence[str]]
+            Array of MCP server IDs to make available to the agent.
+
+        observability_integrations : typing.Optional[typing.Sequence[typing.Literal["braintrust"]]]
+            Names of observability integrations to enable for the agent. Each must be one of the supported providers.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -340,6 +352,7 @@ class AgentsClient:
             background_noise=background_noise,
             generate_welcome_message=generate_welcome_message,
             is_welcome_message_interruptible=is_welcome_message_interruptible,
+            websocket_timeout_sec=websocket_timeout_sec,
             welcome_message=welcome_message,
             system_prompt=system_prompt,
             template_variables=template_variables,
@@ -368,6 +381,8 @@ class AgentsClient:
             vad_min_silence_duration_ms=vad_min_silence_duration_ms,
             vad_threshold=vad_threshold,
             enable_redaction=enable_redaction,
+            mcp_server_ids=mcp_server_ids,
+            observability_integrations=observability_integrations,
             request_options=request_options,
         )
         return _response.data
@@ -392,6 +407,7 @@ class AgentsClient:
         background_noise: typing.Optional[CreateAgentRequestBackgroundNoise] = OMIT,
         generate_welcome_message: typing.Optional[bool] = OMIT,
         is_welcome_message_interruptible: typing.Optional[bool] = OMIT,
+        websocket_timeout_sec: typing.Optional[int] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValueParams]] = OMIT,
@@ -422,6 +438,8 @@ class AgentsClient:
         vad_min_silence_duration_ms: typing.Optional[int] = OMIT,
         vad_threshold: typing.Optional[float] = OMIT,
         enable_redaction: typing.Optional[bool] = OMIT,
+        mcp_server_ids: typing.Optional[typing.Sequence[str]] = OMIT,
+        observability_integrations: typing.Optional[typing.Sequence[typing.Literal["braintrust"]]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AgentsUpsertResponse:
         """
@@ -479,6 +497,9 @@ class AgentsClient:
 
         is_welcome_message_interruptible : typing.Optional[bool]
             When `false`, the welcome message will not be interruptible by the user.
+
+        websocket_timeout_sec : typing.Optional[int]
+            Number of seconds of inactivity before the conversation WebSocket is closed.
 
         welcome_message : typing.Optional[str]
             Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. Ignored when `generate_welcome_message` is `true`.
@@ -563,6 +584,12 @@ class AgentsClient:
 
         enable_redaction : typing.Optional[bool]
             When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE NUMBER]`) and bleeped from audio recordings after the conversation ends.
+
+        mcp_server_ids : typing.Optional[typing.Sequence[str]]
+            Array of MCP server IDs to make available to the agent.
+
+        observability_integrations : typing.Optional[typing.Sequence[typing.Literal["braintrust"]]]
+            Names of observability integrations to enable for the agent. Each must be one of the supported providers.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -631,6 +658,7 @@ class AgentsClient:
             background_noise=background_noise,
             generate_welcome_message=generate_welcome_message,
             is_welcome_message_interruptible=is_welcome_message_interruptible,
+            websocket_timeout_sec=websocket_timeout_sec,
             welcome_message=welcome_message,
             system_prompt=system_prompt,
             template_variables=template_variables,
@@ -659,6 +687,8 @@ class AgentsClient:
             vad_min_silence_duration_ms=vad_min_silence_duration_ms,
             vad_threshold=vad_threshold,
             enable_redaction=enable_redaction,
+            mcp_server_ids=mcp_server_ids,
+            observability_integrations=observability_integrations,
             request_options=request_options,
         )
         return _response.data
@@ -763,6 +793,7 @@ class AgentsClient:
         background_noise: typing.Optional[UpdateAgentRequestBackgroundNoise] = OMIT,
         generate_welcome_message: typing.Optional[bool] = OMIT,
         is_welcome_message_interruptible: typing.Optional[bool] = OMIT,
+        websocket_timeout_sec: typing.Optional[int] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, UpdateAgentRequestTemplateVariablesValueParams]] = OMIT,
@@ -796,6 +827,8 @@ class AgentsClient:
         vad_min_silence_duration_ms: typing.Optional[int] = OMIT,
         vad_threshold: typing.Optional[float] = OMIT,
         enable_redaction: typing.Optional[bool] = OMIT,
+        mcp_server_ids: typing.Optional[typing.Sequence[str]] = OMIT,
+        observability_integrations: typing.Optional[typing.Sequence[typing.Literal["braintrust"]]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AgentsUpdateResponse:
         """
@@ -847,6 +880,9 @@ class AgentsClient:
 
         is_welcome_message_interruptible : typing.Optional[bool]
             When `false`, the welcome message will not be interruptible by the user.
+
+        websocket_timeout_sec : typing.Optional[int]
+            Number of seconds of inactivity before the conversation WebSocket is closed.
 
         welcome_message : typing.Optional[str]
             Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. Ignored when `generate_welcome_message` is `true`.
@@ -941,6 +977,12 @@ class AgentsClient:
         enable_redaction : typing.Optional[bool]
             When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE NUMBER]`) and bleeped from audio recordings after the conversation ends.
 
+        mcp_server_ids : typing.Optional[typing.Sequence[str]]
+            Array of MCP server IDs to make available to the agent.
+
+        observability_integrations : typing.Optional[typing.Sequence[typing.Literal["braintrust"]]]
+            Names of observability integrations to enable for the agent. Each must be one of the supported providers.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -1007,6 +1049,7 @@ class AgentsClient:
             background_noise=background_noise,
             generate_welcome_message=generate_welcome_message,
             is_welcome_message_interruptible=is_welcome_message_interruptible,
+            websocket_timeout_sec=websocket_timeout_sec,
             welcome_message=welcome_message,
             system_prompt=system_prompt,
             template_variables=template_variables,
@@ -1038,6 +1081,8 @@ class AgentsClient:
             vad_min_silence_duration_ms=vad_min_silence_duration_ms,
             vad_threshold=vad_threshold,
             enable_redaction=enable_redaction,
+            mcp_server_ids=mcp_server_ids,
+            observability_integrations=observability_integrations,
             request_options=request_options,
         )
         return _response.data
@@ -1299,6 +1344,7 @@ class AsyncAgentsClient:
         background_noise: typing.Optional[CreateAgentRequestBackgroundNoise] = OMIT,
         generate_welcome_message: typing.Optional[bool] = OMIT,
         is_welcome_message_interruptible: typing.Optional[bool] = OMIT,
+        websocket_timeout_sec: typing.Optional[int] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValueParams]] = OMIT,
@@ -1329,6 +1375,8 @@ class AsyncAgentsClient:
         vad_min_silence_duration_ms: typing.Optional[int] = OMIT,
         vad_threshold: typing.Optional[float] = OMIT,
         enable_redaction: typing.Optional[bool] = OMIT,
+        mcp_server_ids: typing.Optional[typing.Sequence[str]] = OMIT,
+        observability_integrations: typing.Optional[typing.Sequence[typing.Literal["braintrust"]]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AgentsCreateResponse:
         """
@@ -1377,6 +1425,9 @@ class AsyncAgentsClient:
 
         is_welcome_message_interruptible : typing.Optional[bool]
             When `false`, the welcome message will not be interruptible by the user.
+
+        websocket_timeout_sec : typing.Optional[int]
+            Number of seconds of inactivity before the conversation WebSocket is closed.
 
         welcome_message : typing.Optional[str]
             Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. Ignored when `generate_welcome_message` is `true`.
@@ -1461,6 +1512,12 @@ class AsyncAgentsClient:
 
         enable_redaction : typing.Optional[bool]
             When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE NUMBER]`) and bleeped from audio recordings after the conversation ends.
+
+        mcp_server_ids : typing.Optional[typing.Sequence[str]]
+            Array of MCP server IDs to make available to the agent.
+
+        observability_integrations : typing.Optional[typing.Sequence[typing.Literal["braintrust"]]]
+            Names of observability integrations to enable for the agent. Each must be one of the supported providers.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1536,6 +1593,7 @@ class AsyncAgentsClient:
             background_noise=background_noise,
             generate_welcome_message=generate_welcome_message,
             is_welcome_message_interruptible=is_welcome_message_interruptible,
+            websocket_timeout_sec=websocket_timeout_sec,
             welcome_message=welcome_message,
             system_prompt=system_prompt,
             template_variables=template_variables,
@@ -1564,6 +1622,8 @@ class AsyncAgentsClient:
             vad_min_silence_duration_ms=vad_min_silence_duration_ms,
             vad_threshold=vad_threshold,
             enable_redaction=enable_redaction,
+            mcp_server_ids=mcp_server_ids,
+            observability_integrations=observability_integrations,
             request_options=request_options,
         )
         return _response.data
@@ -1588,6 +1648,7 @@ class AsyncAgentsClient:
         background_noise: typing.Optional[CreateAgentRequestBackgroundNoise] = OMIT,
         generate_welcome_message: typing.Optional[bool] = OMIT,
         is_welcome_message_interruptible: typing.Optional[bool] = OMIT,
+        websocket_timeout_sec: typing.Optional[int] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValueParams]] = OMIT,
@@ -1618,6 +1679,8 @@ class AsyncAgentsClient:
         vad_min_silence_duration_ms: typing.Optional[int] = OMIT,
         vad_threshold: typing.Optional[float] = OMIT,
         enable_redaction: typing.Optional[bool] = OMIT,
+        mcp_server_ids: typing.Optional[typing.Sequence[str]] = OMIT,
+        observability_integrations: typing.Optional[typing.Sequence[typing.Literal["braintrust"]]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AgentsUpsertResponse:
         """
@@ -1675,6 +1738,9 @@ class AsyncAgentsClient:
 
         is_welcome_message_interruptible : typing.Optional[bool]
             When `false`, the welcome message will not be interruptible by the user.
+
+        websocket_timeout_sec : typing.Optional[int]
+            Number of seconds of inactivity before the conversation WebSocket is closed.
 
         welcome_message : typing.Optional[str]
             Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. Ignored when `generate_welcome_message` is `true`.
@@ -1759,6 +1825,12 @@ class AsyncAgentsClient:
 
         enable_redaction : typing.Optional[bool]
             When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE NUMBER]`) and bleeped from audio recordings after the conversation ends.
+
+        mcp_server_ids : typing.Optional[typing.Sequence[str]]
+            Array of MCP server IDs to make available to the agent.
+
+        observability_integrations : typing.Optional[typing.Sequence[typing.Literal["braintrust"]]]
+            Names of observability integrations to enable for the agent. Each must be one of the supported providers.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1837,6 +1909,7 @@ class AsyncAgentsClient:
             background_noise=background_noise,
             generate_welcome_message=generate_welcome_message,
             is_welcome_message_interruptible=is_welcome_message_interruptible,
+            websocket_timeout_sec=websocket_timeout_sec,
             welcome_message=welcome_message,
             system_prompt=system_prompt,
             template_variables=template_variables,
@@ -1865,6 +1938,8 @@ class AsyncAgentsClient:
             vad_min_silence_duration_ms=vad_min_silence_duration_ms,
             vad_threshold=vad_threshold,
             enable_redaction=enable_redaction,
+            mcp_server_ids=mcp_server_ids,
+            observability_integrations=observability_integrations,
             request_options=request_options,
         )
         return _response.data
@@ -1985,6 +2060,7 @@ class AsyncAgentsClient:
         background_noise: typing.Optional[UpdateAgentRequestBackgroundNoise] = OMIT,
         generate_welcome_message: typing.Optional[bool] = OMIT,
         is_welcome_message_interruptible: typing.Optional[bool] = OMIT,
+        websocket_timeout_sec: typing.Optional[int] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, UpdateAgentRequestTemplateVariablesValueParams]] = OMIT,
@@ -2018,6 +2094,8 @@ class AsyncAgentsClient:
         vad_min_silence_duration_ms: typing.Optional[int] = OMIT,
         vad_threshold: typing.Optional[float] = OMIT,
         enable_redaction: typing.Optional[bool] = OMIT,
+        mcp_server_ids: typing.Optional[typing.Sequence[str]] = OMIT,
+        observability_integrations: typing.Optional[typing.Sequence[typing.Literal["braintrust"]]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AgentsUpdateResponse:
         """
@@ -2069,6 +2147,9 @@ class AsyncAgentsClient:
 
         is_welcome_message_interruptible : typing.Optional[bool]
             When `false`, the welcome message will not be interruptible by the user.
+
+        websocket_timeout_sec : typing.Optional[int]
+            Number of seconds of inactivity before the conversation WebSocket is closed.
 
         welcome_message : typing.Optional[str]
             Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. Ignored when `generate_welcome_message` is `true`.
@@ -2163,6 +2244,12 @@ class AsyncAgentsClient:
         enable_redaction : typing.Optional[bool]
             When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE NUMBER]`) and bleeped from audio recordings after the conversation ends.
 
+        mcp_server_ids : typing.Optional[typing.Sequence[str]]
+            Array of MCP server IDs to make available to the agent.
+
+        observability_integrations : typing.Optional[typing.Sequence[typing.Literal["braintrust"]]]
+            Names of observability integrations to enable for the agent. Each must be one of the supported providers.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -2239,6 +2326,7 @@ class AsyncAgentsClient:
             background_noise=background_noise,
             generate_welcome_message=generate_welcome_message,
             is_welcome_message_interruptible=is_welcome_message_interruptible,
+            websocket_timeout_sec=websocket_timeout_sec,
             welcome_message=welcome_message,
             system_prompt=system_prompt,
             template_variables=template_variables,
@@ -2270,6 +2358,8 @@ class AsyncAgentsClient:
             vad_min_silence_duration_ms=vad_min_silence_duration_ms,
             vad_threshold=vad_threshold,
             enable_redaction=enable_redaction,
+            mcp_server_ids=mcp_server_ids,
+            observability_integrations=observability_integrations,
             request_options=request_options,
         )
         return _response.data

@@ -82,6 +82,11 @@ class CreateAgentRequestParams(typing_extensions.TypedDict):
     When `false`, the welcome message will not be interruptible by the user.
     """
 
+    websocket_timeout_sec: typing_extensions.NotRequired[int]
+    """
+    Number of seconds of inactivity before the conversation WebSocket is closed.
+    """
+
     welcome_message: typing_extensions.NotRequired[str]
     """
     Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. Ignored when `generate_welcome_message` is `true`.
@@ -224,4 +229,14 @@ class CreateAgentRequestParams(typing_extensions.TypedDict):
     enable_redaction: typing_extensions.NotRequired[bool]
     """
     When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE NUMBER]`) and bleeped from audio recordings after the conversation ends.
+    """
+
+    mcp_server_ids: typing_extensions.NotRequired[typing.Sequence[str]]
+    """
+    Array of MCP server IDs to make available to the agent.
+    """
+
+    observability_integrations: typing_extensions.NotRequired[typing.Sequence[typing.Literal["braintrust"]]]
+    """
+    Names of observability integrations to enable for the agent. Each must be one of the supported providers.
     """

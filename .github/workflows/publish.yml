@@ -22,6 +22,8 @@ concurrency:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
@@ -61,3 +63,10 @@ jobs:
         run: |
           poetry config repositories.remote https://upload.pypi.org/legacy/
           poetry --no-interaction -v publish --build --repository remote --username "$PYPI_USERNAME" --password "$PYPI_PASSWORD"
+
+      - name: Create GitHub release
+        if: steps.check.outputs.publish == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.v.outputs.version }}
+        run: gh release view "v${VERSION}" >/dev/null 2>&1 || gh release create "v${VERSION}" --title "v${VERSION}" --target "${GITHUB_SHA}" --generate-notes
