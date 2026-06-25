@@ -85,6 +85,11 @@ class Agent(UncheckedBaseModel):
     When `false`, the welcome message will not be interruptible by the user.
     """
 
+    websocket_timeout_sec: typing.Optional[int] = pydantic.Field(default=None)
+    """
+    Number of seconds of inactivity before the conversation WebSocket is closed.
+    """
+
     welcome_message: typing.Optional[str] = pydantic.Field(default=None)
     """
     Message to play when the conversation starts. Ignored when `generate_welcome_message` is `true`.
@@ -158,6 +163,13 @@ class Agent(UncheckedBaseModel):
     boosted_keywords: typing.List[str] = pydantic.Field()
     """
     These words, or short phrases, will be more accurately recognized by the agent.
+    """
+
+    observability_integrations: typing.Optional[typing.List[typing.Literal["braintrust"]]] = pydantic.Field(
+        default=None
+    )
+    """
+    Names of observability integrations enabled for the agent. Each must be one of the supported providers.
     """
 
     pronunciation_dictionary: typing.List[AgentPronunciationDictionaryItem] = pydantic.Field()

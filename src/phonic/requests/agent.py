@@ -83,6 +83,11 @@ class AgentParams(typing_extensions.TypedDict):
     When `false`, the welcome message will not be interruptible by the user.
     """
 
+    websocket_timeout_sec: typing_extensions.NotRequired[int]
+    """
+    Number of seconds of inactivity before the conversation WebSocket is closed.
+    """
+
     welcome_message: typing.Optional[str]
     """
     Message to play when the conversation starts. Ignored when `generate_welcome_message` is `true`.
@@ -156,6 +161,11 @@ class AgentParams(typing_extensions.TypedDict):
     boosted_keywords: typing.Sequence[str]
     """
     These words, or short phrases, will be more accurately recognized by the agent.
+    """
+
+    observability_integrations: typing_extensions.NotRequired[typing.Sequence[typing.Literal["braintrust"]]]
+    """
+    Names of observability integrations enabled for the agent. Each must be one of the supported providers.
     """
 
     pronunciation_dictionary: typing.Sequence[AgentPronunciationDictionaryItemParams]

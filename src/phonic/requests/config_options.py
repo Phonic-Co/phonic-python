@@ -65,6 +65,11 @@ class ConfigOptionsParams(typing_extensions.TypedDict):
     When `false`, the welcome message will not be interruptible by the user.
     """
 
+    websocket_timeout_sec: typing_extensions.NotRequired[int]
+    """
+    Number of seconds of inactivity before the conversation WebSocket is closed.
+    """
+
     welcome_message: typing_extensions.NotRequired[typing.Optional[str]]
     """
     Message to play when conversation starts. Ignored when `generate_welcome_message` is `true`.
@@ -150,6 +155,11 @@ class ConfigOptionsParams(typing_extensions.TypedDict):
     Push to talk mode. User must send mute/unmute messages to turn on/off listening to audio. Defaults to false.
     """
 
+    stream_ahead_of_real_time: typing_extensions.NotRequired[bool]
+    """
+    When `true`, assistant audio is streamed to the client as fast as it is generated, rather than paced to real time. Defaults to false.
+    """
+
     boosted_keywords: typing_extensions.NotRequired[typing.Sequence[str]]
     """
     Keywords to boost in speech recognition
@@ -180,6 +190,11 @@ class ConfigOptionsParams(typing_extensions.TypedDict):
     mcp_servers: typing_extensions.NotRequired[typing.Sequence[str]]
     """
     Names of pre-configured MCP servers to make available to the assistant. Names must be unique.
+    """
+
+    observability_integrations: typing_extensions.NotRequired[typing.Sequence[typing.Literal["braintrust"]]]
+    """
+    Names of observability integrations to enable for the conversation. Each must be one of the supported providers.
     """
 
     tasks: typing_extensions.NotRequired[typing.Sequence[ConfigOptionsTasksItemParams]]

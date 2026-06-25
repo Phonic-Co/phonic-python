@@ -78,6 +78,7 @@ if typing.TYPE_CHECKING:
     )
     from .data_retention_policy_audio_recordings_transcripts import DataRetentionPolicyAudioRecordingsTranscriptsParams
     from .data_retention_policy_zero import DataRetentionPolicyZeroParams
+    from .delete_conversations_id_response import DeleteConversationsIdResponseParams
     from .dtmf_payload import DtmfPayloadParams
     from .error import ErrorParams
     from .error_payload import ErrorPayloadParams
@@ -194,6 +195,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "DataRetentionPolicyAudioRecordingsTranscriptsParams": ".data_retention_policy_audio_recordings_transcripts",
     "DataRetentionPolicyParams": ".data_retention_policy",
     "DataRetentionPolicyZeroParams": ".data_retention_policy_zero",
+    "DeleteConversationsIdResponseParams": ".delete_conversations_id_response",
     "DtmfPayloadParams": ".dtmf_payload",
     "ErrorParams": ".error",
     "ErrorPayloadErrorParams": ".error_payload_error",
@@ -334,6 +336,7 @@ __all__ = [
     "DataRetentionPolicyAudioRecordingsTranscriptsParams",
     "DataRetentionPolicyParams",
     "DataRetentionPolicyZeroParams",
+    "DeleteConversationsIdResponseParams",
     "DtmfPayloadParams",
     "ErrorParams",
     "ErrorPayloadErrorParams",
