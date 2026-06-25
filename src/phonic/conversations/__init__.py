@@ -8,6 +8,7 @@ from importlib import import_module
 if typing.TYPE_CHECKING:
     from .types import (
         ConversationsCancelResponse,
+        ConversationsDeleteResponse,
         ConversationsEvaluateResponse,
         ConversationsEvaluateResponseEvaluation,
         ConversationsEvaluateResponseEvaluationResult,
@@ -25,6 +26,7 @@ if typing.TYPE_CHECKING:
     )
     from .requests import (
         ConversationsCancelResponseParams,
+        ConversationsDeleteResponseParams,
         ConversationsEvaluateResponseEvaluationParams,
         ConversationsEvaluateResponseParams,
         ConversationsExtractDataResponseParams,
@@ -40,6 +42,8 @@ if typing.TYPE_CHECKING:
 _dynamic_imports: typing.Dict[str, str] = {
     "ConversationsCancelResponse": ".types",
     "ConversationsCancelResponseParams": ".requests",
+    "ConversationsDeleteResponse": ".types",
+    "ConversationsDeleteResponseParams": ".requests",
     "ConversationsEvaluateResponse": ".types",
     "ConversationsEvaluateResponseEvaluation": ".types",
     "ConversationsEvaluateResponseEvaluationParams": ".requests",
@@ -92,6 +96,8 @@ def __dir__():
 __all__ = [
     "ConversationsCancelResponse",
     "ConversationsCancelResponseParams",
+    "ConversationsDeleteResponse",
+    "ConversationsDeleteResponseParams",
     "ConversationsEvaluateResponse",
     "ConversationsEvaluateResponseEvaluation",
     "ConversationsEvaluateResponseEvaluationParams",

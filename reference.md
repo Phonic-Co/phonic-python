@@ -413,6 +413,14 @@ client.agents.upsert(
 <dl>
 <dd>
 
+**websocket_timeout_sec:** `typing.Optional[int]` — Number of seconds of inactivity before the conversation WebSocket is closed.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **welcome_message:** `typing.Optional[str]` — Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. Ignored when `generate_welcome_message` is `true`.
     
 </dd>
@@ -630,6 +638,22 @@ client.agents.upsert(
 <dd>
 
 **enable_redaction:** `typing.Optional[bool]` — When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE NUMBER]`) and bleeped from audio recordings after the conversation ends.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**mcp_server_ids:** `typing.Optional[typing.List[str]]` — Array of MCP server IDs to make available to the agent.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**observability_integrations:** `typing.Optional[typing.List[typing.Literal]]` — Names of observability integrations to enable for the agent. Each must be one of the supported providers.
     
 </dd>
 </dl>
@@ -1060,6 +1084,14 @@ client.agents.update(
 <dl>
 <dd>
 
+**websocket_timeout_sec:** `typing.Optional[int]` — Number of seconds of inactivity before the conversation WebSocket is closed.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **welcome_message:** `typing.Optional[str]` — Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. Ignored when `generate_welcome_message` is `true`.
     
 </dd>
@@ -1301,6 +1333,22 @@ client.agents.update(
 <dd>
 
 **enable_redaction:** `typing.Optional[bool]` — When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE NUMBER]`) and bleeped from audio recordings after the conversation ends.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**mcp_server_ids:** `typing.Optional[typing.List[str]]` — Array of MCP server IDs to make available to the agent.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**observability_integrations:** `typing.Optional[typing.List[typing.Literal]]` — Names of observability integrations to enable for the agent. Each must be one of the supported providers.
     
 </dd>
 </dl>
@@ -3784,6 +3832,79 @@ client.conversations.get(
 <dd>
 
 **audio_container:** `typing.Optional[ConversationsGetRequestAudioContainer]` — Format of the presigned `audio_url` in the response.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.conversations.<a href="src/phonic/conversations/client.py">delete</a>(...) -> ConversationsDeleteResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Deletes a conversation, scheduling its transcripts and audio recordings for deletion. The conversation must have ended.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from phonic import Phonic
+from phonic.environment import PhonicEnvironment
+
+client = Phonic(
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
+)
+
+client.conversations.delete(
+    id="id",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `str` — The ID of the conversation to delete.
     
 </dd>
 </dl>

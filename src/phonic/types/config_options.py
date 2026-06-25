@@ -67,6 +67,11 @@ class ConfigOptions(UncheckedBaseModel):
     When `false`, the welcome message will not be interruptible by the user.
     """
 
+    websocket_timeout_sec: typing.Optional[int] = pydantic.Field(default=None)
+    """
+    Number of seconds of inactivity before the conversation WebSocket is closed.
+    """
+
     welcome_message: typing.Optional[str] = pydantic.Field(default=None)
     """
     Message to play when conversation starts. Ignored when `generate_welcome_message` is `true`.
@@ -152,6 +157,11 @@ class ConfigOptions(UncheckedBaseModel):
     Push to talk mode. User must send mute/unmute messages to turn on/off listening to audio. Defaults to false.
     """
 
+    stream_ahead_of_real_time: typing.Optional[bool] = pydantic.Field(default=None)
+    """
+    When `true`, assistant audio is streamed to the client as fast as it is generated, rather than paced to real time. Defaults to false.
+    """
+
     boosted_keywords: typing.Optional[typing.List[str]] = pydantic.Field(default=None)
     """
     Keywords to boost in speech recognition
@@ -182,6 +192,13 @@ class ConfigOptions(UncheckedBaseModel):
     mcp_servers: typing.Optional[typing.List[str]] = pydantic.Field(default=None)
     """
     Names of pre-configured MCP servers to make available to the assistant. Names must be unique.
+    """
+
+    observability_integrations: typing.Optional[typing.List[typing.Literal["braintrust"]]] = pydantic.Field(
+        default=None
+    )
+    """
+    Names of observability integrations to enable for the conversation. Each must be one of the supported providers.
     """
 
     tasks: typing.Optional[typing.List[ConfigOptionsTasksItem]] = pydantic.Field(default=None)

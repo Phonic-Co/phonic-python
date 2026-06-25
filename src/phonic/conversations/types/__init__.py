@@ -7,6 +7,7 @@ from importlib import import_module
 
 if typing.TYPE_CHECKING:
     from .conversations_cancel_response import ConversationsCancelResponse
+    from .conversations_delete_response import ConversationsDeleteResponse
     from .conversations_evaluate_response import ConversationsEvaluateResponse
     from .conversations_evaluate_response_evaluation import ConversationsEvaluateResponseEvaluation
     from .conversations_evaluate_response_evaluation_result import ConversationsEvaluateResponseEvaluationResult
@@ -23,6 +24,7 @@ if typing.TYPE_CHECKING:
     from .conversations_sip_outbound_call_response import ConversationsSipOutboundCallResponse
 _dynamic_imports: typing.Dict[str, str] = {
     "ConversationsCancelResponse": ".conversations_cancel_response",
+    "ConversationsDeleteResponse": ".conversations_delete_response",
     "ConversationsEvaluateResponse": ".conversations_evaluate_response",
     "ConversationsEvaluateResponseEvaluation": ".conversations_evaluate_response_evaluation",
     "ConversationsEvaluateResponseEvaluationResult": ".conversations_evaluate_response_evaluation_result",
@@ -63,6 +65,7 @@ def __dir__():
 
 __all__ = [
     "ConversationsCancelResponse",
+    "ConversationsDeleteResponse",
     "ConversationsEvaluateResponse",
     "ConversationsEvaluateResponseEvaluation",
     "ConversationsEvaluateResponseEvaluationResult",

@@ -84,6 +84,11 @@ class CreateAgentRequest(UncheckedBaseModel):
     When `false`, the welcome message will not be interruptible by the user.
     """
 
+    websocket_timeout_sec: typing.Optional[int] = pydantic.Field(default=None)
+    """
+    Number of seconds of inactivity before the conversation WebSocket is closed.
+    """
+
     welcome_message: typing.Optional[str] = pydantic.Field(default=None)
     """
     Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. Ignored when `generate_welcome_message` is `true`.
@@ -226,6 +231,18 @@ class CreateAgentRequest(UncheckedBaseModel):
     enable_redaction: typing.Optional[bool] = pydantic.Field(default=None)
     """
     When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE NUMBER]`) and bleeped from audio recordings after the conversation ends.
+    """
+
+    mcp_server_ids: typing.Optional[typing.List[str]] = pydantic.Field(default=None)
+    """
+    Array of MCP server IDs to make available to the agent.
+    """
+
+    observability_integrations: typing.Optional[typing.List[typing.Literal["braintrust"]]] = pydantic.Field(
+        default=None
+    )
+    """
+    Names of observability integrations to enable for the agent. Each must be one of the supported providers.
     """
 
     if IS_PYDANTIC_V2:
