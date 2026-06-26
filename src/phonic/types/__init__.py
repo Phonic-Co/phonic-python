@@ -153,6 +153,7 @@ if typing.TYPE_CHECKING:
     from .tool_type import ToolType
     from .unmute_payload import UnmutePayload
     from .update_system_prompt_payload import UpdateSystemPromptPayload
+    from .update_tools_subset_payload import UpdateToolsSubsetPayload
     from .user_finished_speaking_payload import UserFinishedSpeakingPayload
     from .user_started_speaking_payload import UserStartedSpeakingPayload
     from .validation_error import ValidationError
@@ -302,6 +303,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ToolType": ".tool_type",
     "UnmutePayload": ".unmute_payload",
     "UpdateSystemPromptPayload": ".update_system_prompt_payload",
+    "UpdateToolsSubsetPayload": ".update_tools_subset_payload",
     "UserFinishedSpeakingPayload": ".user_finished_speaking_payload",
     "UserStartedSpeakingPayload": ".user_started_speaking_payload",
     "ValidationError": ".validation_error",
@@ -475,6 +477,7 @@ __all__ = [
     "ToolType",
     "UnmutePayload",
     "UpdateSystemPromptPayload",
+    "UpdateToolsSubsetPayload",
     "UserFinishedSpeakingPayload",
     "UserStartedSpeakingPayload",
     "ValidationError",
