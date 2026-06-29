@@ -17,6 +17,11 @@ class ConversationItemToolCallsItem(UncheckedBaseModel):
     """
 
     tool: ConversationItemToolCallsItemTool
+    integration: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    The integration associated with the tool, if any.
+    """
+
     endpoint_method: typing.Optional[str] = pydantic.Field(default=None)
     """
     HTTP method for webhook tool calls.

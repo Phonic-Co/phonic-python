@@ -87,7 +87,7 @@ class CreateAgentRequestParams(typing_extensions.TypedDict):
     Number of seconds of inactivity before the conversation WebSocket is closed.
     """
 
-    welcome_message: typing_extensions.NotRequired[str]
+    welcome_message: typing_extensions.NotRequired[typing.Optional[str]]
     """
     Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. Ignored when `generate_welcome_message` is `true`.
     """
@@ -154,7 +154,7 @@ class CreateAgentRequestParams(typing_extensions.TypedDict):
 
     additional_languages: typing_extensions.NotRequired[typing.Sequence[LanguageCode]]
     """
-    Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`.
+    Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`. When `multilingual_mode` is `"auto"`, a maximum of 2 additional languages is allowed.
     """
 
     languages: typing_extensions.NotRequired[typing.Sequence[LanguageCode]]

@@ -2,4 +2,6 @@
 
 import typing
 
-AgentAudioFormat = typing.Union[typing.Literal["pcm_44100", "pcm_16000", "pcm_8000", "mulaw_8000"], typing.Any]
+AgentAudioFormat = typing.Union[
+    typing.Literal["pcm_44100", "pcm_24000", "pcm_16000", "pcm_8000", "mulaw_8000"], typing.Any
+]

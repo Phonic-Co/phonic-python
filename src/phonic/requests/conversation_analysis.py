@@ -6,6 +6,11 @@ import typing_extensions
 
 
 class ConversationAnalysisParams(typing_extensions.TypedDict):
+    id: str
+    """
+    The ID of the conversation analysis.
+    """
+
     latencies_ms: typing.Sequence[float]
     """
     Latencies between turns in milliseconds.

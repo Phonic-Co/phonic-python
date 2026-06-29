@@ -75,7 +75,7 @@ class ConversationParams(typing_extensions.TypedDict):
     Template variables used in the conversation.
     """
 
-    system_prompt: typing_extensions.NotRequired[str]
+    system_prompt: typing_extensions.NotRequired[typing.Optional[str]]
     """
     System prompt used in the conversation.
     """
@@ -100,7 +100,7 @@ class ConversationParams(typing_extensions.TypedDict):
     The background noise type used in the conversation.
     """
 
-    live_transcript: str
+    live_transcript: typing.Optional[str]
     """
     Live transcript of the conversation.
     """
@@ -157,7 +157,7 @@ class ConversationParams(typing_extensions.TypedDict):
 
     additional_languages: typing.Optional[typing.Sequence[LanguageCode]]
     """
-    Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`.
+    Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`. When `multilingual_mode` is `"auto"`, a maximum of 2 additional languages is allowed.
     """
 
     multilingual_mode: ConversationMultilingualMode
@@ -170,7 +170,7 @@ class ConversationParams(typing_extensions.TypedDict):
     Push to talk mode. User must send mute/unmute messages to turn on/off listening to audio. Defaults to false.
     """
 
-    languages: typing_extensions.NotRequired[typing.Optional[typing.Sequence[str]]]
+    languages: typing_extensions.NotRequired[typing.Sequence[str]]
     """
     Array of ISO 639-1 language codes recognized by the model. This field is deprecated. Use `default_language` and `additional_languages` instead.
     """
@@ -193,6 +193,11 @@ class ConversationParams(typing_extensions.TypedDict):
     no_input_end_conversation_sec: typing.Optional[int]
     """
     Seconds of silence before the conversation is ended.
+    """
+
+    websocket_timeout_sec: typing_extensions.NotRequired[float]
+    """
+    The WebSocket idle timeout in seconds.
     """
 
     vad_prebuffer_duration_ms: typing_extensions.NotRequired[typing.Optional[int]]
@@ -265,7 +270,7 @@ class ConversationParams(typing_extensions.TypedDict):
     Whether the assistant produced backchannel responses during the conversation.
     """
 
-    assistant_backchannel_aggressiveness: typing_extensions.NotRequired[float]
+    assistant_backchannel_aggressiveness: typing_extensions.NotRequired[typing.Optional[float]]
     """
     How aggressively the assistant produced backchannel responses during the conversation.
     """

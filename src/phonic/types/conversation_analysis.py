@@ -8,6 +8,11 @@ from ..core.unchecked_base_model import UncheckedBaseModel
 
 
 class ConversationAnalysis(UncheckedBaseModel):
+    id: str = pydantic.Field()
+    """
+    The ID of the conversation analysis.
+    """
+
     latencies_ms: typing.List[float] = pydantic.Field()
     """
     Latencies between turns in milliseconds.
