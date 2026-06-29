@@ -238,7 +238,7 @@ class AgentsClient:
             ISO 639-1 language code that sets the agent's default language to recognize and speak. Welcome message and no input poke text should be in this language.
 
         additional_languages : typing.Optional[typing.Sequence[LanguageCode]]
-            Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`.
+            Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`. When `multilingual_mode` is `"auto"`, a maximum of 2 additional languages is allowed.
 
         languages : typing.Optional[typing.Sequence[LanguageCode]]
             Array of ISO 639-1 language codes that the agent should be able to recognize. This field is deprecated. Use `default_language` and `additional_languages` instead.
@@ -394,7 +394,6 @@ class AgentsClient:
         project: typing.Optional[str] = None,
         outbound_number_pool: typing.Optional[OutboundNumberPoolParams] = OMIT,
         procedure_ids: typing.Optional[typing.Sequence[str]] = OMIT,
-        integrations: typing.Optional[typing.Sequence[AgentIntegrationParams]] = OMIT,
         slug: typing.Optional[str] = OMIT,
         phone_number: typing.Optional[CreateAgentRequestPhoneNumber] = OMIT,
         custom_phone_number: typing.Optional[str] = OMIT,
@@ -458,9 +457,6 @@ class AgentsClient:
 
         procedure_ids : typing.Optional[typing.Sequence[str]]
             Array of procedure IDs associated with the agent.
-
-        integrations : typing.Optional[typing.Sequence[AgentIntegrationParams]]
-            Array of third-party integrations enabled for the agent.
 
         slug : typing.Optional[str]
             URL-friendly agent slug. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
@@ -541,7 +537,7 @@ class AgentsClient:
             ISO 639-1 language code that sets the agent's default language to recognize and speak. Welcome message and no input poke text should be in this language.
 
         additional_languages : typing.Optional[typing.Sequence[LanguageCode]]
-            Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`.
+            Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`. When `multilingual_mode` is `"auto"`, a maximum of 2 additional languages is allowed.
 
         languages : typing.Optional[typing.Sequence[LanguageCode]]
             Array of ISO 639-1 language codes that the agent should be able to recognize. This field is deprecated. Use `default_language` and `additional_languages` instead.
@@ -645,7 +641,6 @@ class AgentsClient:
             project=project,
             outbound_number_pool=outbound_number_pool,
             procedure_ids=procedure_ids,
-            integrations=integrations,
             slug=slug,
             phone_number=phone_number,
             custom_phone_number=custom_phone_number,
@@ -933,7 +928,7 @@ class AgentsClient:
             ISO 639-1 language code that sets the agent's default language to recognize and speak. Welcome message and no input poke text should be in this language.
 
         additional_languages : typing.Optional[typing.Sequence[LanguageCode]]
-            Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`.
+            Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`. When `multilingual_mode` is `"auto"`, a maximum of 2 additional languages is allowed.
 
         languages : typing.Optional[typing.Sequence[LanguageCode]]
             Array of ISO 639-1 language codes that the agent should be able to recognize. This field is deprecated. Use `default_language` and `additional_languages` instead.
@@ -1469,7 +1464,7 @@ class AsyncAgentsClient:
             ISO 639-1 language code that sets the agent's default language to recognize and speak. Welcome message and no input poke text should be in this language.
 
         additional_languages : typing.Optional[typing.Sequence[LanguageCode]]
-            Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`.
+            Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`. When `multilingual_mode` is `"auto"`, a maximum of 2 additional languages is allowed.
 
         languages : typing.Optional[typing.Sequence[LanguageCode]]
             Array of ISO 639-1 language codes that the agent should be able to recognize. This field is deprecated. Use `default_language` and `additional_languages` instead.
@@ -1635,7 +1630,6 @@ class AsyncAgentsClient:
         project: typing.Optional[str] = None,
         outbound_number_pool: typing.Optional[OutboundNumberPoolParams] = OMIT,
         procedure_ids: typing.Optional[typing.Sequence[str]] = OMIT,
-        integrations: typing.Optional[typing.Sequence[AgentIntegrationParams]] = OMIT,
         slug: typing.Optional[str] = OMIT,
         phone_number: typing.Optional[CreateAgentRequestPhoneNumber] = OMIT,
         custom_phone_number: typing.Optional[str] = OMIT,
@@ -1699,9 +1693,6 @@ class AsyncAgentsClient:
 
         procedure_ids : typing.Optional[typing.Sequence[str]]
             Array of procedure IDs associated with the agent.
-
-        integrations : typing.Optional[typing.Sequence[AgentIntegrationParams]]
-            Array of third-party integrations enabled for the agent.
 
         slug : typing.Optional[str]
             URL-friendly agent slug. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
@@ -1782,7 +1773,7 @@ class AsyncAgentsClient:
             ISO 639-1 language code that sets the agent's default language to recognize and speak. Welcome message and no input poke text should be in this language.
 
         additional_languages : typing.Optional[typing.Sequence[LanguageCode]]
-            Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`.
+            Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`. When `multilingual_mode` is `"auto"`, a maximum of 2 additional languages is allowed.
 
         languages : typing.Optional[typing.Sequence[LanguageCode]]
             Array of ISO 639-1 language codes that the agent should be able to recognize. This field is deprecated. Use `default_language` and `additional_languages` instead.
@@ -1896,7 +1887,6 @@ class AsyncAgentsClient:
             project=project,
             outbound_number_pool=outbound_number_pool,
             procedure_ids=procedure_ids,
-            integrations=integrations,
             slug=slug,
             phone_number=phone_number,
             custom_phone_number=custom_phone_number,
@@ -2200,7 +2190,7 @@ class AsyncAgentsClient:
             ISO 639-1 language code that sets the agent's default language to recognize and speak. Welcome message and no input poke text should be in this language.
 
         additional_languages : typing.Optional[typing.Sequence[LanguageCode]]
-            Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`.
+            Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`. When `multilingual_mode` is `"auto"`, a maximum of 2 additional languages is allowed.
 
         languages : typing.Optional[typing.Sequence[LanguageCode]]
             Array of ISO 639-1 language codes that the agent should be able to recognize. This field is deprecated. Use `default_language` and `additional_languages` instead.

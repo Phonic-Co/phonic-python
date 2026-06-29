@@ -102,7 +102,7 @@ class Conversation(UncheckedBaseModel):
     The background noise type used in the conversation.
     """
 
-    live_transcript: str = pydantic.Field()
+    live_transcript: typing.Optional[str] = pydantic.Field(default=None)
     """
     Live transcript of the conversation.
     """
@@ -159,7 +159,7 @@ class Conversation(UncheckedBaseModel):
 
     additional_languages: typing.Optional[typing.List[LanguageCode]] = pydantic.Field(default=None)
     """
-    Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`.
+    Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`. When `multilingual_mode` is `"auto"`, a maximum of 2 additional languages is allowed.
     """
 
     multilingual_mode: ConversationMultilingualMode = pydantic.Field()
@@ -195,6 +195,11 @@ class Conversation(UncheckedBaseModel):
     no_input_end_conversation_sec: typing.Optional[int] = pydantic.Field(default=None)
     """
     Seconds of silence before the conversation is ended.
+    """
+
+    websocket_timeout_sec: typing.Optional[float] = pydantic.Field(default=None)
+    """
+    The WebSocket idle timeout in seconds.
     """
 
     vad_prebuffer_duration_ms: typing.Optional[int] = pydantic.Field(default=None)

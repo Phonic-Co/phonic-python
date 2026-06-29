@@ -15,6 +15,11 @@ class ConversationItemToolCallsItemParams(typing_extensions.TypedDict):
     """
 
     tool: ConversationItemToolCallsItemToolParams
+    integration: typing_extensions.NotRequired[typing.Optional[str]]
+    """
+    The integration associated with the tool, if any.
+    """
+
     endpoint_method: typing_extensions.NotRequired[typing.Optional[str]]
     """
     HTTP method for webhook tool calls.

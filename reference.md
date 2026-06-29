@@ -525,7 +525,7 @@ client.agents.upsert(
 <dl>
 <dd>
 
-**additional_languages:** `typing.Optional[typing.List[LanguageCode]]` — Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`.
+**additional_languages:** `typing.Optional[typing.List[LanguageCode]]` — Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`. When `multilingual_mode` is `"auto"`, a maximum of 2 additional languages is allowed.
     
 </dd>
 </dl>
@@ -670,14 +670,6 @@ client.agents.upsert(
 <dd>
 
 **procedure_ids:** `typing.Optional[typing.List[str]]` — Array of procedure IDs associated with the agent.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**integrations:** `typing.Optional[typing.List[AgentIntegration]]` — Array of third-party integrations enabled for the agent.
     
 </dd>
 </dl>
@@ -1220,7 +1212,7 @@ client.agents.update(
 <dl>
 <dd>
 
-**additional_languages:** `typing.Optional[typing.List[LanguageCode]]` — Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`.
+**additional_languages:** `typing.Optional[typing.List[LanguageCode]]` — Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`. When `multilingual_mode` is `"auto"`, a maximum of 2 additional languages is allowed.
     
 </dd>
 </dl>
