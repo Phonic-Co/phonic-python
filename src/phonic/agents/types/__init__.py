@@ -24,6 +24,7 @@ if typing.TYPE_CHECKING:
     from .update_agent_request_audio_format import UpdateAgentRequestAudioFormat
     from .update_agent_request_background_noise import UpdateAgentRequestBackgroundNoise
     from .update_agent_request_configuration_endpoint import UpdateAgentRequestConfigurationEndpoint
+    from .update_agent_request_intelligence_level import UpdateAgentRequestIntelligenceLevel
     from .update_agent_request_multilingual_mode import UpdateAgentRequestMultilingualMode
     from .update_agent_request_phone_number import UpdateAgentRequestPhoneNumber
     from .update_agent_request_pronunciation_dictionary_item import UpdateAgentRequestPronunciationDictionaryItem
@@ -44,6 +45,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "UpdateAgentRequestAudioFormat": ".update_agent_request_audio_format",
     "UpdateAgentRequestBackgroundNoise": ".update_agent_request_background_noise",
     "UpdateAgentRequestConfigurationEndpoint": ".update_agent_request_configuration_endpoint",
+    "UpdateAgentRequestIntelligenceLevel": ".update_agent_request_intelligence_level",
     "UpdateAgentRequestMultilingualMode": ".update_agent_request_multilingual_mode",
     "UpdateAgentRequestPhoneNumber": ".update_agent_request_phone_number",
     "UpdateAgentRequestPronunciationDictionaryItem": ".update_agent_request_pronunciation_dictionary_item",
@@ -88,6 +90,7 @@ __all__ = [
     "UpdateAgentRequestAudioFormat",
     "UpdateAgentRequestBackgroundNoise",
     "UpdateAgentRequestConfigurationEndpoint",
+    "UpdateAgentRequestIntelligenceLevel",
     "UpdateAgentRequestMultilingualMode",
     "UpdateAgentRequestPhoneNumber",
     "UpdateAgentRequestPronunciationDictionaryItem",

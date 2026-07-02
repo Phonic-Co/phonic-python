@@ -5,6 +5,7 @@ import typing
 import typing_extensions
 from ..types.config_options_background_noise import ConfigOptionsBackgroundNoise
 from ..types.config_options_input_format import ConfigOptionsInputFormat
+from ..types.config_options_intelligence_level import ConfigOptionsIntelligenceLevel
 from ..types.config_options_multilingual_mode import ConfigOptionsMultilingualMode
 from ..types.config_options_output_format import ConfigOptionsOutputFormat
 from .config_options_configuration_endpoint import ConfigOptionsConfigurationEndpointParams
@@ -158,6 +159,11 @@ class ConfigOptionsParams(typing_extensions.TypedDict):
     stream_ahead_of_real_time: typing_extensions.NotRequired[bool]
     """
     When `true`, assistant audio is streamed to the client as fast as it is generated, rather than paced to real time. Defaults to false.
+    """
+
+    intelligence_level: typing_extensions.NotRequired[ConfigOptionsIntelligenceLevel]
+    """
+    The intelligence level of the agent. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency.
     """
 
     boosted_keywords: typing_extensions.NotRequired[typing.Sequence[str]]

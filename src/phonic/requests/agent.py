@@ -5,6 +5,7 @@ import typing
 import typing_extensions
 from ..types.agent_audio_format import AgentAudioFormat
 from ..types.agent_background_noise import AgentBackgroundNoise
+from ..types.agent_intelligence_level import AgentIntelligenceLevel
 from ..types.agent_multilingual_mode import AgentMultilingualMode
 from ..types.language_code import LanguageCode
 from .agent_configuration_endpoint import AgentConfigurationEndpointParams
@@ -156,6 +157,11 @@ class AgentParams(typing_extensions.TypedDict):
     push_to_talk: bool
     """
     Push to talk mode. User must send mute/unmute messages to turn on/off listening to audio. Defaults to false.
+    """
+
+    intelligence_level: AgentIntelligenceLevel
+    """
+    The intelligence level of the agent. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency.
     """
 
     boosted_keywords: typing.Sequence[str]

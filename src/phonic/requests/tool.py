@@ -74,7 +74,12 @@ class ToolParams(typing_extensions.TypedDict):
 
     dtmf: typing_extensions.NotRequired[typing.Optional[str]]
     """
-    DTMF digits to send after the transfer connects (e.g., "1234"). Defaults to null.
+    DTMF digits to send after the transfer connects (e.g., "1234"). Defaults to null. Ignored when dynamic_dtmf is true.
+    """
+
+    dynamic_dtmf: typing_extensions.NotRequired[bool]
+    """
+    When true, the agent determines the DTMF digits at call time (and may choose to send none); the static dtmf is ignored. Only sent when use_agent_phone_number is true (not on a SIP REFER transfer).
     """
 
     use_agent_phone_number: typing_extensions.NotRequired[bool]

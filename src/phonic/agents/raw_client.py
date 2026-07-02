@@ -30,6 +30,7 @@ from ..requests.task import TaskParams
 from ..types.basic_error import BasicError
 from ..types.create_agent_request_audio_format import CreateAgentRequestAudioFormat
 from ..types.create_agent_request_background_noise import CreateAgentRequestBackgroundNoise
+from ..types.create_agent_request_intelligence_level import CreateAgentRequestIntelligenceLevel
 from ..types.create_agent_request_multilingual_mode import CreateAgentRequestMultilingualMode
 from ..types.create_agent_request_phone_number import CreateAgentRequestPhoneNumber
 from ..types.language_code import LanguageCode
@@ -56,6 +57,7 @@ from .types.agents_update_response import AgentsUpdateResponse
 from .types.agents_upsert_response import AgentsUpsertResponse
 from .types.update_agent_request_audio_format import UpdateAgentRequestAudioFormat
 from .types.update_agent_request_background_noise import UpdateAgentRequestBackgroundNoise
+from .types.update_agent_request_intelligence_level import UpdateAgentRequestIntelligenceLevel
 from .types.update_agent_request_multilingual_mode import UpdateAgentRequestMultilingualMode
 from .types.update_agent_request_phone_number import UpdateAgentRequestPhoneNumber
 from pydantic import ValidationError
@@ -172,6 +174,7 @@ class RawAgentsClient:
         languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         multilingual_mode: typing.Optional[CreateAgentRequestMultilingualMode] = OMIT,
         push_to_talk: typing.Optional[bool] = OMIT,
+        intelligence_level: typing.Optional[CreateAgentRequestIntelligenceLevel] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
         pronunciation_dictionary: typing.Optional[
             typing.Sequence[CreateAgentRequestPronunciationDictionaryItemParams]
@@ -290,6 +293,9 @@ class RawAgentsClient:
         push_to_talk : typing.Optional[bool]
             Push to talk mode. User must send mute/unmute messages to turn on/off listening to audio. Defaults to false.
 
+        intelligence_level : typing.Optional[CreateAgentRequestIntelligenceLevel]
+            The intelligence level of the agent. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency.
+
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
 
@@ -386,6 +392,7 @@ class RawAgentsClient:
                 "languages": languages,
                 "multilingual_mode": multilingual_mode,
                 "push_to_talk": push_to_talk,
+                "intelligence_level": intelligence_level,
                 "boosted_keywords": boosted_keywords,
                 "pronunciation_dictionary": convert_and_respect_annotation_metadata(
                     object_=pronunciation_dictionary,
@@ -514,6 +521,7 @@ class RawAgentsClient:
         languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         multilingual_mode: typing.Optional[CreateAgentRequestMultilingualMode] = OMIT,
         push_to_talk: typing.Optional[bool] = OMIT,
+        intelligence_level: typing.Optional[CreateAgentRequestIntelligenceLevel] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
         pronunciation_dictionary: typing.Optional[
             typing.Sequence[CreateAgentRequestPronunciationDictionaryItemParams]
@@ -638,6 +646,9 @@ class RawAgentsClient:
         push_to_talk : typing.Optional[bool]
             Push to talk mode. User must send mute/unmute messages to turn on/off listening to audio. Defaults to false.
 
+        intelligence_level : typing.Optional[CreateAgentRequestIntelligenceLevel]
+            The intelligence level of the agent. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency.
+
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
 
@@ -740,6 +751,7 @@ class RawAgentsClient:
                 "languages": languages,
                 "multilingual_mode": multilingual_mode,
                 "push_to_talk": push_to_talk,
+                "intelligence_level": intelligence_level,
                 "boosted_keywords": boosted_keywords,
                 "pronunciation_dictionary": convert_and_respect_annotation_metadata(
                     object_=pronunciation_dictionary,
@@ -1000,6 +1012,7 @@ class RawAgentsClient:
         languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         multilingual_mode: typing.Optional[UpdateAgentRequestMultilingualMode] = OMIT,
         push_to_talk: typing.Optional[bool] = OMIT,
+        intelligence_level: typing.Optional[UpdateAgentRequestIntelligenceLevel] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
         pronunciation_dictionary: typing.Optional[
             typing.Sequence[UpdateAgentRequestPronunciationDictionaryItemParams]
@@ -1130,6 +1143,9 @@ class RawAgentsClient:
         push_to_talk : typing.Optional[bool]
             Push to talk mode. User must send mute/unmute messages to turn on/off listening to audio. Defaults to false.
 
+        intelligence_level : typing.Optional[UpdateAgentRequestIntelligenceLevel]
+            The intelligence level of the agent. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency.
+
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
 
@@ -1235,6 +1251,7 @@ class RawAgentsClient:
                 "languages": languages,
                 "multilingual_mode": multilingual_mode,
                 "push_to_talk": push_to_talk,
+                "intelligence_level": intelligence_level,
                 "boosted_keywords": boosted_keywords,
                 "pronunciation_dictionary": convert_and_respect_annotation_metadata(
                     object_=pronunciation_dictionary,
@@ -1817,6 +1834,7 @@ class AsyncRawAgentsClient:
         languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         multilingual_mode: typing.Optional[CreateAgentRequestMultilingualMode] = OMIT,
         push_to_talk: typing.Optional[bool] = OMIT,
+        intelligence_level: typing.Optional[CreateAgentRequestIntelligenceLevel] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
         pronunciation_dictionary: typing.Optional[
             typing.Sequence[CreateAgentRequestPronunciationDictionaryItemParams]
@@ -1935,6 +1953,9 @@ class AsyncRawAgentsClient:
         push_to_talk : typing.Optional[bool]
             Push to talk mode. User must send mute/unmute messages to turn on/off listening to audio. Defaults to false.
 
+        intelligence_level : typing.Optional[CreateAgentRequestIntelligenceLevel]
+            The intelligence level of the agent. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency.
+
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
 
@@ -2031,6 +2052,7 @@ class AsyncRawAgentsClient:
                 "languages": languages,
                 "multilingual_mode": multilingual_mode,
                 "push_to_talk": push_to_talk,
+                "intelligence_level": intelligence_level,
                 "boosted_keywords": boosted_keywords,
                 "pronunciation_dictionary": convert_and_respect_annotation_metadata(
                     object_=pronunciation_dictionary,
@@ -2159,6 +2181,7 @@ class AsyncRawAgentsClient:
         languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         multilingual_mode: typing.Optional[CreateAgentRequestMultilingualMode] = OMIT,
         push_to_talk: typing.Optional[bool] = OMIT,
+        intelligence_level: typing.Optional[CreateAgentRequestIntelligenceLevel] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
         pronunciation_dictionary: typing.Optional[
             typing.Sequence[CreateAgentRequestPronunciationDictionaryItemParams]
@@ -2283,6 +2306,9 @@ class AsyncRawAgentsClient:
         push_to_talk : typing.Optional[bool]
             Push to talk mode. User must send mute/unmute messages to turn on/off listening to audio. Defaults to false.
 
+        intelligence_level : typing.Optional[CreateAgentRequestIntelligenceLevel]
+            The intelligence level of the agent. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency.
+
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
 
@@ -2385,6 +2411,7 @@ class AsyncRawAgentsClient:
                 "languages": languages,
                 "multilingual_mode": multilingual_mode,
                 "push_to_talk": push_to_talk,
+                "intelligence_level": intelligence_level,
                 "boosted_keywords": boosted_keywords,
                 "pronunciation_dictionary": convert_and_respect_annotation_metadata(
                     object_=pronunciation_dictionary,
@@ -2645,6 +2672,7 @@ class AsyncRawAgentsClient:
         languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         multilingual_mode: typing.Optional[UpdateAgentRequestMultilingualMode] = OMIT,
         push_to_talk: typing.Optional[bool] = OMIT,
+        intelligence_level: typing.Optional[UpdateAgentRequestIntelligenceLevel] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
         pronunciation_dictionary: typing.Optional[
             typing.Sequence[UpdateAgentRequestPronunciationDictionaryItemParams]
@@ -2775,6 +2803,9 @@ class AsyncRawAgentsClient:
         push_to_talk : typing.Optional[bool]
             Push to talk mode. User must send mute/unmute messages to turn on/off listening to audio. Defaults to false.
 
+        intelligence_level : typing.Optional[UpdateAgentRequestIntelligenceLevel]
+            The intelligence level of the agent. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency.
+
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
 
@@ -2880,6 +2911,7 @@ class AsyncRawAgentsClient:
                 "languages": languages,
                 "multilingual_mode": multilingual_mode,
                 "push_to_talk": push_to_talk,
+                "intelligence_level": intelligence_level,
                 "boosted_keywords": boosted_keywords,
                 "pronunciation_dictionary": convert_and_respect_annotation_metadata(
                     object_=pronunciation_dictionary,

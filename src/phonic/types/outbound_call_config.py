@@ -9,6 +9,7 @@ from .data_retention_policy import DataRetentionPolicy
 from .language_code import LanguageCode
 from .outbound_call_config_background_noise import OutboundCallConfigBackgroundNoise
 from .outbound_call_config_configuration_endpoint import OutboundCallConfigConfigurationEndpoint
+from .outbound_call_config_intelligence_level import OutboundCallConfigIntelligenceLevel
 from .outbound_call_config_multilingual_mode import OutboundCallConfigMultilingualMode
 from .outbound_call_config_pronunciation_dictionary_item import OutboundCallConfigPronunciationDictionaryItem
 from .outbound_call_config_tools_item import OutboundCallConfigToolsItem
@@ -104,6 +105,11 @@ class OutboundCallConfig(UncheckedBaseModel):
     push_to_talk: typing.Optional[bool] = pydantic.Field(default=None)
     """
     Push to talk mode. User must send mute/unmute messages to turn on/off listening to audio. Defaults to false.
+    """
+
+    intelligence_level: typing.Optional[OutboundCallConfigIntelligenceLevel] = pydantic.Field(default=None)
+    """
+    The intelligence level of the agent. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency.
     """
 
     boosted_keywords: typing.Optional[typing.List[str]] = pydantic.Field(default=None)

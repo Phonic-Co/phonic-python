@@ -5,6 +5,7 @@ import typing
 import typing_extensions
 from ..types.language_code import LanguageCode
 from ..types.outbound_call_config_background_noise import OutboundCallConfigBackgroundNoise
+from ..types.outbound_call_config_intelligence_level import OutboundCallConfigIntelligenceLevel
 from ..types.outbound_call_config_multilingual_mode import OutboundCallConfigMultilingualMode
 from .data_retention_policy import DataRetentionPolicyParams
 from .outbound_call_config_configuration_endpoint import OutboundCallConfigConfigurationEndpointParams
@@ -102,6 +103,11 @@ class OutboundCallConfigParams(typing_extensions.TypedDict):
     push_to_talk: typing_extensions.NotRequired[bool]
     """
     Push to talk mode. User must send mute/unmute messages to turn on/off listening to audio. Defaults to false.
+    """
+
+    intelligence_level: typing_extensions.NotRequired[OutboundCallConfigIntelligenceLevel]
+    """
+    The intelligence level of the agent. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency.
     """
 
     boosted_keywords: typing_extensions.NotRequired[typing.Sequence[str]]
