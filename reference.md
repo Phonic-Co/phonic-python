@@ -557,6 +557,14 @@ client.agents.upsert(
 <dl>
 <dd>
 
+**intelligence_level:** `typing.Optional[CreateAgentRequestIntelligenceLevel]` — The intelligence level of the agent. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **boosted_keywords:** `typing.Optional[typing.List[str]]` — These words, or short phrases, will be more accurately recognized by the agent.
     
 </dd>
@@ -1237,6 +1245,14 @@ client.agents.update(
 <dd>
 
 **push_to_talk:** `typing.Optional[bool]` — Push to talk mode. User must send mute/unmute messages to turn on/off listening to audio. Defaults to false.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**intelligence_level:** `typing.Optional[UpdateAgentRequestIntelligenceLevel]` — The intelligence level of the agent. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency.
     
 </dd>
 </dl>
@@ -1933,7 +1949,15 @@ For `custom_websocket`, `built_in_transfer_to_phone_number`, and `built_in_trans
 <dl>
 <dd>
 
-**dtmf:** `typing.Optional[str]` — DTMF digits to send after the transfer connects (e.g., "1234"). Defaults to null.
+**dtmf:** `typing.Optional[str]` — DTMF digits to send after the transfer connects (e.g., "1234"). Defaults to null. Ignored when dynamic_dtmf is true.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**dynamic_dtmf:** `typing.Optional[bool]` — When true, the agent determines the DTMF digits at call time (and may choose to send none); the static dtmf is ignored. Only sent when use_agent_phone_number is true (not on a SIP REFER transfer).
     
 </dd>
 </dl>
@@ -2357,7 +2381,15 @@ For `custom_websocket`, `built_in_transfer_to_phone_number`, and `built_in_trans
 <dl>
 <dd>
 
-**dtmf:** `typing.Optional[str]` — DTMF digits to send after the transfer connects (e.g., "1234"). Can be set to null to remove DTMF.
+**dtmf:** `typing.Optional[str]` — DTMF digits to send after the transfer connects (e.g., "1234"). Can be set to null to remove DTMF. Ignored when dynamic_dtmf is true.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**dynamic_dtmf:** `typing.Optional[bool]` — When true, the agent determines the DTMF digits at call time (and may choose to send none); the static dtmf is ignored. Only sent when use_agent_phone_number is true (not on a SIP REFER transfer).
     
 </dd>
 </dl>

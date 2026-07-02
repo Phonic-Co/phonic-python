@@ -12,6 +12,7 @@ if typing.TYPE_CHECKING:
     from .agent_background_noise import AgentBackgroundNoise
     from .agent_configuration_endpoint import AgentConfigurationEndpoint
     from .agent_integration import AgentIntegration
+    from .agent_intelligence_level import AgentIntelligenceLevel
     from .agent_multilingual_mode import AgentMultilingualMode
     from .agent_project import AgentProject
     from .agent_pronunciation_dictionary_item import AgentPronunciationDictionaryItem
@@ -40,6 +41,7 @@ if typing.TYPE_CHECKING:
     )
     from .config_options_data_retention_policy_zero import ConfigOptionsDataRetentionPolicyZero
     from .config_options_input_format import ConfigOptionsInputFormat
+    from .config_options_intelligence_level import ConfigOptionsIntelligenceLevel
     from .config_options_multilingual_mode import ConfigOptionsMultilingualMode
     from .config_options_outbound_number_pool import ConfigOptionsOutboundNumberPool
     from .config_options_output_format import ConfigOptionsOutputFormat
@@ -80,6 +82,7 @@ if typing.TYPE_CHECKING:
     from .create_agent_request_audio_format import CreateAgentRequestAudioFormat
     from .create_agent_request_background_noise import CreateAgentRequestBackgroundNoise
     from .create_agent_request_configuration_endpoint import CreateAgentRequestConfigurationEndpoint
+    from .create_agent_request_intelligence_level import CreateAgentRequestIntelligenceLevel
     from .create_agent_request_multilingual_mode import CreateAgentRequestMultilingualMode
     from .create_agent_request_phone_number import CreateAgentRequestPhoneNumber
     from .create_agent_request_pronunciation_dictionary_item import CreateAgentRequestPronunciationDictionaryItem
@@ -112,6 +115,7 @@ if typing.TYPE_CHECKING:
     from .outbound_call_config import OutboundCallConfig
     from .outbound_call_config_background_noise import OutboundCallConfigBackgroundNoise
     from .outbound_call_config_configuration_endpoint import OutboundCallConfigConfigurationEndpoint
+    from .outbound_call_config_intelligence_level import OutboundCallConfigIntelligenceLevel
     from .outbound_call_config_multilingual_mode import OutboundCallConfigMultilingualMode
     from .outbound_call_config_pronunciation_dictionary_item import OutboundCallConfigPronunciationDictionaryItem
     from .outbound_call_config_tools_item import OutboundCallConfigToolsItem
@@ -168,6 +172,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "AgentBackgroundNoise": ".agent_background_noise",
     "AgentConfigurationEndpoint": ".agent_configuration_endpoint",
     "AgentIntegration": ".agent_integration",
+    "AgentIntelligenceLevel": ".agent_intelligence_level",
     "AgentMultilingualMode": ".agent_multilingual_mode",
     "AgentProject": ".agent_project",
     "AgentPronunciationDictionaryItem": ".agent_pronunciation_dictionary_item",
@@ -192,6 +197,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ConfigOptionsDataRetentionPolicyAudioRecordingsTranscripts": ".config_options_data_retention_policy_audio_recordings_transcripts",
     "ConfigOptionsDataRetentionPolicyZero": ".config_options_data_retention_policy_zero",
     "ConfigOptionsInputFormat": ".config_options_input_format",
+    "ConfigOptionsIntelligenceLevel": ".config_options_intelligence_level",
     "ConfigOptionsMultilingualMode": ".config_options_multilingual_mode",
     "ConfigOptionsOutboundNumberPool": ".config_options_outbound_number_pool",
     "ConfigOptionsOutputFormat": ".config_options_output_format",
@@ -232,6 +238,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "CreateAgentRequestAudioFormat": ".create_agent_request_audio_format",
     "CreateAgentRequestBackgroundNoise": ".create_agent_request_background_noise",
     "CreateAgentRequestConfigurationEndpoint": ".create_agent_request_configuration_endpoint",
+    "CreateAgentRequestIntelligenceLevel": ".create_agent_request_intelligence_level",
     "CreateAgentRequestMultilingualMode": ".create_agent_request_multilingual_mode",
     "CreateAgentRequestPhoneNumber": ".create_agent_request_phone_number",
     "CreateAgentRequestPronunciationDictionaryItem": ".create_agent_request_pronunciation_dictionary_item",
@@ -262,6 +269,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "OutboundCallConfig": ".outbound_call_config",
     "OutboundCallConfigBackgroundNoise": ".outbound_call_config_background_noise",
     "OutboundCallConfigConfigurationEndpoint": ".outbound_call_config_configuration_endpoint",
+    "OutboundCallConfigIntelligenceLevel": ".outbound_call_config_intelligence_level",
     "OutboundCallConfigMultilingualMode": ".outbound_call_config_multilingual_mode",
     "OutboundCallConfigPronunciationDictionaryItem": ".outbound_call_config_pronunciation_dictionary_item",
     "OutboundCallConfigToolsItem": ".outbound_call_config_tools_item",
@@ -342,6 +350,7 @@ __all__ = [
     "AgentBackgroundNoise",
     "AgentConfigurationEndpoint",
     "AgentIntegration",
+    "AgentIntelligenceLevel",
     "AgentMultilingualMode",
     "AgentProject",
     "AgentPronunciationDictionaryItem",
@@ -366,6 +375,7 @@ __all__ = [
     "ConfigOptionsDataRetentionPolicyAudioRecordingsTranscripts",
     "ConfigOptionsDataRetentionPolicyZero",
     "ConfigOptionsInputFormat",
+    "ConfigOptionsIntelligenceLevel",
     "ConfigOptionsMultilingualMode",
     "ConfigOptionsOutboundNumberPool",
     "ConfigOptionsOutputFormat",
@@ -406,6 +416,7 @@ __all__ = [
     "CreateAgentRequestAudioFormat",
     "CreateAgentRequestBackgroundNoise",
     "CreateAgentRequestConfigurationEndpoint",
+    "CreateAgentRequestIntelligenceLevel",
     "CreateAgentRequestMultilingualMode",
     "CreateAgentRequestPhoneNumber",
     "CreateAgentRequestPronunciationDictionaryItem",
@@ -436,6 +447,7 @@ __all__ = [
     "OutboundCallConfig",
     "OutboundCallConfigBackgroundNoise",
     "OutboundCallConfigConfigurationEndpoint",
+    "OutboundCallConfigIntelligenceLevel",
     "OutboundCallConfigMultilingualMode",
     "OutboundCallConfigPronunciationDictionaryItem",
     "OutboundCallConfigToolsItem",

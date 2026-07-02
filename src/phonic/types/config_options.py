@@ -9,6 +9,7 @@ from .config_options_background_noise import ConfigOptionsBackgroundNoise
 from .config_options_configuration_endpoint import ConfigOptionsConfigurationEndpoint
 from .config_options_data_retention_policy import ConfigOptionsDataRetentionPolicy
 from .config_options_input_format import ConfigOptionsInputFormat
+from .config_options_intelligence_level import ConfigOptionsIntelligenceLevel
 from .config_options_multilingual_mode import ConfigOptionsMultilingualMode
 from .config_options_outbound_number_pool import ConfigOptionsOutboundNumberPool
 from .config_options_output_format import ConfigOptionsOutputFormat
@@ -160,6 +161,11 @@ class ConfigOptions(UncheckedBaseModel):
     stream_ahead_of_real_time: typing.Optional[bool] = pydantic.Field(default=None)
     """
     When `true`, assistant audio is streamed to the client as fast as it is generated, rather than paced to real time. Defaults to false.
+    """
+
+    intelligence_level: typing.Optional[ConfigOptionsIntelligenceLevel] = pydantic.Field(default=None)
+    """
+    The intelligence level of the agent. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency.
     """
 
     boosted_keywords: typing.Optional[typing.List[str]] = pydantic.Field(default=None)

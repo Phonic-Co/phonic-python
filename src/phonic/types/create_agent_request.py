@@ -8,6 +8,7 @@ from ..core.unchecked_base_model import UncheckedBaseModel
 from .create_agent_request_audio_format import CreateAgentRequestAudioFormat
 from .create_agent_request_background_noise import CreateAgentRequestBackgroundNoise
 from .create_agent_request_configuration_endpoint import CreateAgentRequestConfigurationEndpoint
+from .create_agent_request_intelligence_level import CreateAgentRequestIntelligenceLevel
 from .create_agent_request_multilingual_mode import CreateAgentRequestMultilingualMode
 from .create_agent_request_phone_number import CreateAgentRequestPhoneNumber
 from .create_agent_request_pronunciation_dictionary_item import CreateAgentRequestPronunciationDictionaryItem
@@ -174,6 +175,11 @@ class CreateAgentRequest(UncheckedBaseModel):
     push_to_talk: typing.Optional[bool] = pydantic.Field(default=None)
     """
     Push to talk mode. User must send mute/unmute messages to turn on/off listening to audio. Defaults to false.
+    """
+
+    intelligence_level: typing.Optional[CreateAgentRequestIntelligenceLevel] = pydantic.Field(default=None)
+    """
+    The intelligence level of the agent. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency.
     """
 
     boosted_keywords: typing.Optional[typing.List[str]] = pydantic.Field(default=None)

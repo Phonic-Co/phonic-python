@@ -9,6 +9,7 @@ from .agent_audio_format import AgentAudioFormat
 from .agent_background_noise import AgentBackgroundNoise
 from .agent_configuration_endpoint import AgentConfigurationEndpoint
 from .agent_integration import AgentIntegration
+from .agent_intelligence_level import AgentIntelligenceLevel
 from .agent_multilingual_mode import AgentMultilingualMode
 from .agent_project import AgentProject
 from .agent_pronunciation_dictionary_item import AgentPronunciationDictionaryItem
@@ -158,6 +159,11 @@ class Agent(UncheckedBaseModel):
     push_to_talk: bool = pydantic.Field()
     """
     Push to talk mode. User must send mute/unmute messages to turn on/off listening to audio. Defaults to false.
+    """
+
+    intelligence_level: AgentIntelligenceLevel = pydantic.Field()
+    """
+    The intelligence level of the agent. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency.
     """
 
     boosted_keywords: typing.List[str] = pydantic.Field()

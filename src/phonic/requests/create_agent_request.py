@@ -5,6 +5,7 @@ import typing
 import typing_extensions
 from ..types.create_agent_request_audio_format import CreateAgentRequestAudioFormat
 from ..types.create_agent_request_background_noise import CreateAgentRequestBackgroundNoise
+from ..types.create_agent_request_intelligence_level import CreateAgentRequestIntelligenceLevel
 from ..types.create_agent_request_multilingual_mode import CreateAgentRequestMultilingualMode
 from ..types.create_agent_request_phone_number import CreateAgentRequestPhoneNumber
 from ..types.language_code import LanguageCode
@@ -170,6 +171,11 @@ class CreateAgentRequestParams(typing_extensions.TypedDict):
     push_to_talk: typing_extensions.NotRequired[bool]
     """
     Push to talk mode. User must send mute/unmute messages to turn on/off listening to audio. Defaults to false.
+    """
+
+    intelligence_level: typing_extensions.NotRequired[CreateAgentRequestIntelligenceLevel]
+    """
+    The intelligence level of the agent. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency.
     """
 
     boosted_keywords: typing_extensions.NotRequired[typing.Sequence[str]]
