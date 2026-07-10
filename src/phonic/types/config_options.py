@@ -232,6 +232,11 @@ class ConfigOptions(UncheckedBaseModel):
     When not `null`, the agent will call this endpoint to get configuration options for the conversation.
     """
 
+    additional_params: typing.Optional[typing.Dict[str, typing.Any]] = pydantic.Field(default=None)
+    """
+    Additional runtime parameters.
+    """
+
     data_retention_policy: typing.Optional[ConfigOptionsDataRetentionPolicy] = pydantic.Field(default=None)
     """
     Policy controlling how long transcripts and audio recordings are retained before being deleted.
