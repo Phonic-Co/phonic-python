@@ -189,6 +189,11 @@ class OutboundCallConfig(UncheckedBaseModel):
     When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
     """
 
+    additional_params: typing.Optional[typing.Dict[str, typing.Any]] = pydantic.Field(default=None)
+    """
+    Additional runtime parameters.
+    """
+
     data_retention_policy: typing.Optional[DataRetentionPolicy] = pydantic.Field(default=None)
     """
     Controls how long transcripts and audio recordings are retained before deletion.

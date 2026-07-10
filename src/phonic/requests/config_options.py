@@ -228,6 +228,11 @@ class ConfigOptionsParams(typing_extensions.TypedDict):
     When not `null`, the agent will call this endpoint to get configuration options for the conversation.
     """
 
+    additional_params: typing_extensions.NotRequired[typing.Dict[str, typing.Any]]
+    """
+    Additional runtime parameters.
+    """
+
     data_retention_policy: typing_extensions.NotRequired[ConfigOptionsDataRetentionPolicyParams]
     """
     Policy controlling how long transcripts and audio recordings are retained before being deleted.

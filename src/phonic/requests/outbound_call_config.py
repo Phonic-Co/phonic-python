@@ -189,6 +189,11 @@ class OutboundCallConfigParams(typing_extensions.TypedDict):
     When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
     """
 
+    additional_params: typing_extensions.NotRequired[typing.Dict[str, typing.Any]]
+    """
+    Additional runtime parameters.
+    """
+
     data_retention_policy: typing_extensions.NotRequired[DataRetentionPolicyParams]
     """
     Controls how long transcripts and audio recordings are retained before deletion.
