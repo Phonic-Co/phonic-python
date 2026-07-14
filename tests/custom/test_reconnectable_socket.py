@@ -1,9 +1,8 @@
 """Unit tests for the reconnect close-code predicate.
 
-Mirrors phonic-api's isReconnectableClose and phonic-node's
-ReconnectableConversationsSocket: reconnect on 1006, 1012, or a
-1001/"restarting" (fly proxy drain), but never on a bare 1001 (a deliberate
-"going away" — caller ended the conversation, tab closed/suspended).
+Reconnect on 1006, 1012, or a 1001/"restarting" (proxy drain), but never on a
+bare 1001 (a deliberate "going away" — caller ended the conversation, tab
+closed/suspended).
 """
 
 import pytest
@@ -24,15 +23,26 @@ from phonic.conversations.reconnectable_socket_client import (
     "code, reason, expected",
     [
         (ABNORMAL_CLOSURE, "", True),          # 1006 abnormal closure
-        (SERVICE_RESTART, "restarting", True),  # 1012 fly proxy redeploy
+        (SERVICE_RESTART, "restarting", True),  # 1012 service restart (proxy/LB)
         (SERVICE_RESTART, "", True),            # 1012 regardless of reason
         (GOING_AWAY, "restarting", True),       # 1001 drain surfacing as going-away
         (GOING_AWAY, "", False),                # bare 1001 = deliberate close
         (GOING_AWAY, "going away", False),      # 1001 without the restarting reason
-        (1000, "", False),                      # normal closure
-        (4800, "", False),                      # terminal: reconnect session not found
-        (4000, "", False),                      # downstream websocket closed
         (None, "", False),                      # not a ConnectionClosed
+        # Real backend close codes observed in production (BetterStack) — none
+        # is reconnectable; only 1006/1012/1001-"restarting" above are.
+        (1000, "", False),                      # normal closure
+        (1005, "", False),                      # no status received
+        (1011, "", False),                      # server internal error
+        (4000, "", False),                      # downstream websocket closed
+        (4004, "", False),                      # insufficient capacity
+        (4010, "", False),                      # concurrency limit reached
+        (4200, "", False),                      # end conversation clicked
+        (4500, "", False),                      # no input received timeout
+        (4600, "", False),                      # assistant ended conversation
+        (4700, "", False),                      # component unmounted
+        (4800, "", False),                      # terminal: reconnect session not found
+        (4801, "", False),                      # terminal: reconnect invalid state
     ],
 )
 def test_is_reconnectable_close(code, reason, expected):
