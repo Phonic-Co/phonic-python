@@ -1,5 +1,6 @@
 """
-Session-aware WebSocket reconnection on abnormal close (1006) with reconnect_conv_id.
+Session-aware WebSocket reconnection on a reconnectable close (1006 / 1012 /
+1001-"restarting") with reconnect_conv_id.
 
 Mirrors phonic-node ReconnectableConversationsSocket behavior.
 """
@@ -25,12 +26,16 @@ from .socket_client import AsyncConversationsSocketClient, ConversationsSocketCl
 from .websocket_connect import build_sts_websocket_url_and_headers
 
 ABNORMAL_CLOSURE = 1006
+SERVICE_RESTART = 1012
+GOING_AWAY = 1001
 BASE_RECONNECT_DELAY_SEC = 0.5
 MAX_RECONNECT_DELAY_SEC = 5.0
 # Safety cap: stop retrying if the server is completely unreachable.
 # In normal operation the server's terminal codes (4800/4801) stop
-# retries much sooner (within the 10s grace period).
+# retries much sooner (within the 30s grace period).
 _MAX_RECONNECT_ATTEMPTS = 10
+
+NORMAL_CLOSURE = 1000
 
 
 def _close_code(exc: BaseException) -> typing.Optional[int]:
@@ -40,6 +45,33 @@ def _close_code(exc: BaseException) -> typing.Optional[int]:
     return None
 
 
+def _close_reason(exc: BaseException) -> str:
+    if isinstance(exc, ConnectionClosed) and exc.rcvd is not None:
+        return exc.rcvd.reason or ""
+    return ""
+
+
+def _is_reconnectable_close(code: typing.Optional[int], reason: str) -> bool:
+    """Whether the disconnect was NOT a deliberate end of the conversation, so
+    we should transparently reconnect and resume with reconnect_conv_id:
+      - 1006 abnormal closure (socket died with no close frame)
+      - 1012 service restart — a Fly proxy redeploy closes the client with
+        1012/"restarting"; the conversation is still alive server-side within
+        the grace window
+      - 1001 "going away" ONLY when reason is "restarting" — a proxy drain can
+        surface to the client as 1001/"restarting" instead of 1012. A bare 1001
+        (empty/other reason) is a deliberate close (caller ended it, tab
+        closed/suspended) and must NOT reconnect.
+    Mirrors phonic-api's isReconnectableClose. All other codes (1000, 4000,
+    4800, ...) are intentional closes.
+    """
+    return (
+        code == ABNORMAL_CLOSURE
+        or code == SERVICE_RESTART
+        or (code == GOING_AWAY and reason == "restarting")
+    )
+
+
 def _reconnect_delay_sec(attempt_number: int) -> float:
     # attempt_number is 1-based after increment (matches Node)
     delay = BASE_RECONNECT_DELAY_SEC * (2 ** max(0, attempt_number - 1))
@@ -47,7 +79,7 @@ def _reconnect_delay_sec(attempt_number: int) -> float:
 
 
 class ReconnectableAsyncConversationsSocketClient(EventEmitterMixin):
-    """Async conversations socket with automatic reconnect after close code 1006."""
+    """Async conversations socket with automatic reconnect after a reconnectable close (1006/1012/1001-restarting)."""
 
     def __init__(
         self,
@@ -123,7 +155,7 @@ class ReconnectableAsyncConversationsSocketClient(EventEmitterMixin):
     def _should_reconnect(self, exc: BaseException) -> bool:
         if self._user_closed:
             return False
-        if _close_code(exc) != ABNORMAL_CLOSURE:
+        if not _is_reconnectable_close(_close_code(exc), _close_reason(exc)):
             return False
         if not self._conversation_id:
             return False
@@ -165,7 +197,11 @@ class ReconnectableAsyncConversationsSocketClient(EventEmitterMixin):
                 yield msg
             except ConnectionClosed as exc:
                 code = _close_code(exc)
-                if code is not None and code != ABNORMAL_CLOSURE and code != 1000:
+                if (
+                    code is not None
+                    and code != NORMAL_CLOSURE
+                    and not _is_reconnectable_close(code, _close_reason(exc))
+                ):
                     raise
                 break
 
@@ -228,7 +264,7 @@ class ReconnectableAsyncConversationsSocketClient(EventEmitterMixin):
 
 
 class ReconnectableConversationsSocketClient(EventEmitterMixin):
-    """Sync conversations socket with automatic reconnect after close code 1006."""
+    """Sync conversations socket with automatic reconnect after a reconnectable close (1006/1012/1001-restarting)."""
 
     def __init__(
         self,
@@ -304,7 +340,7 @@ class ReconnectableConversationsSocketClient(EventEmitterMixin):
     def _should_reconnect(self, exc: BaseException) -> bool:
         if self._user_closed:
             return False
-        if _close_code(exc) != ABNORMAL_CLOSURE:
+        if not _is_reconnectable_close(_close_code(exc), _close_reason(exc)):
             return False
         if not self._conversation_id:
             return False
@@ -345,7 +381,11 @@ class ReconnectableConversationsSocketClient(EventEmitterMixin):
                 yield self.recv()
             except ConnectionClosed as exc:
                 code = _close_code(exc)
-                if code is not None and code != ABNORMAL_CLOSURE and code != 1000:
+                if (
+                    code is not None
+                    and code != NORMAL_CLOSURE
+                    and not _is_reconnectable_close(code, _close_reason(exc))
+                ):
                     raise
                 break
 
