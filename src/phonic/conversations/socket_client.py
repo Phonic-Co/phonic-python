@@ -34,6 +34,7 @@ from ..types.tool_call_output_processed_payload import ToolCallOutputProcessedPa
 from ..types.tool_call_payload import ToolCallPayload
 from ..types.unmute_payload import UnmutePayload
 from ..types.update_system_prompt_payload import UpdateSystemPromptPayload
+from ..types.update_tools_subset_payload import UpdateToolsSubsetPayload
 from ..types.user_finished_speaking_payload import UserFinishedSpeakingPayload
 from ..types.user_started_speaking_payload import UserStartedSpeakingPayload
 from ..types.warning_payload import WarningPayload
@@ -138,6 +139,13 @@ class AsyncConversationsSocketClient(EventEmitterMixin):
         """
         Send a message to the websocket connection.
         The message will be sent as a AddSystemMessagePayload.
+        """
+        await self._send_model(message)
+
+    async def send_update_tools_subset(self, message: UpdateToolsSubsetPayload) -> None:
+        """
+        Send a message to the websocket connection.
+        The message will be sent as a UpdateToolsSubsetPayload.
         """
         await self._send_model(message)
 
@@ -292,6 +300,13 @@ class ConversationsSocketClient(EventEmitterMixin):
         """
         Send a message to the websocket connection.
         The message will be sent as a AddSystemMessagePayload.
+        """
+        self._send_model(message)
+
+    def send_update_tools_subset(self, message: UpdateToolsSubsetPayload) -> None:
+        """
+        Send a message to the websocket connection.
+        The message will be sent as a UpdateToolsSubsetPayload.
         """
         self._send_model(message)
 

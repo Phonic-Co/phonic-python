@@ -6,7 +6,6 @@ from contextlib import asynccontextmanager, contextmanager
 from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.request_options import RequestOptions
 from ..requests.outbound_call_config import OutboundCallConfigParams
-from ..types.conversation_evaluation_result import ConversationEvaluationResult
 from .raw_client import AsyncRawConversationsClient, RawConversationsClient
 from .reconnectable_socket_client import ReconnectableAsyncConversationsSocketClient, ReconnectableConversationsSocketClient
 from .socket_client import AsyncConversationsSocketClient, ConversationsSocketClient
@@ -17,6 +16,8 @@ from .websocket_connect import (
     open_reconnectable_conversations_socket_sync,
 )
 from .types.conversations_cancel_response import ConversationsCancelResponse
+from .types.conversations_delete_response import ConversationsDeleteResponse
+from .types.conversations_evaluate_response import ConversationsEvaluateResponse
 from .types.conversations_extract_data_response import ConversationsExtractDataResponse
 from .types.conversations_get_analysis_response import ConversationsGetAnalysisResponse
 from .types.conversations_get_request_audio_container import ConversationsGetRequestAudioContainer
@@ -26,6 +27,7 @@ from .types.conversations_list_extractions_response import ConversationsListExtr
 from .types.conversations_list_request_audio_container import ConversationsListRequestAudioContainer
 from .types.conversations_list_response import ConversationsListResponse
 from .types.conversations_outbound_call_response import ConversationsOutboundCallResponse
+from .types.conversations_replay_response import ConversationsReplayResponse
 from .types.conversations_sip_outbound_call_response import ConversationsSipOutboundCallResponse
 
 # this is used as the default value for optional parameters
@@ -202,6 +204,39 @@ class ConversationsClient:
         _response = self._raw_client.cancel(id, request_options=request_options)
         return _response.data
 
+    def delete(
+        self, id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> ConversationsDeleteResponse:
+        """
+        Deletes a conversation, scheduling its transcripts and audio recordings for deletion. The conversation must have ended.
+
+        Parameters
+        ----------
+        id : str
+            The ID of the conversation to delete.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ConversationsDeleteResponse
+            Success response
+
+        Examples
+        --------
+        from phonic import Phonic
+
+        client = Phonic(
+            api_key="YOUR_API_KEY",
+        )
+        client.conversations.delete(
+            id="id",
+        )
+        """
+        _response = self._raw_client.delete(id, request_options=request_options)
+        return _response.data
+
     def get_analysis(
         self, id: str, *, request_options: typing.Optional[RequestOptions] = None
     ) -> ConversationsGetAnalysisResponse:
@@ -340,7 +375,7 @@ class ConversationsClient:
 
     def evaluate(
         self, id: str, *, prompt_id: str, request_options: typing.Optional[RequestOptions] = None
-    ) -> ConversationEvaluationResult:
+    ) -> ConversationsEvaluateResponse:
         """
         Evaluates a conversation using an evaluation prompt.
 
@@ -357,7 +392,7 @@ class ConversationsClient:
 
         Returns
         -------
-        ConversationEvaluationResult
+        ConversationsEvaluateResponse
             Success response
 
         Examples
@@ -373,6 +408,42 @@ class ConversationsClient:
         )
         """
         _response = self._raw_client.evaluate(id, prompt_id=prompt_id, request_options=request_options)
+        return _response.data
+
+    def replay(
+        self, id: str, *, agent: typing.Optional[str] = OMIT, request_options: typing.Optional[RequestOptions] = None
+    ) -> ConversationsReplayResponse:
+        """
+        Replays an ended conversation by re-running its recorded audio through an agent. Requires API key or access token authentication. The conversation must have audio recordings available and an associated agent (or one specified in the request body).
+
+        Parameters
+        ----------
+        id : str
+            The ID of the conversation to replay.
+
+        agent : typing.Optional[str]
+            Name of the agent to replay the conversation with. Defaults to the agent originally associated with the conversation.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ConversationsReplayResponse
+            Replay started
+
+        Examples
+        --------
+        from phonic import Phonic
+
+        client = Phonic(
+            api_key="YOUR_API_KEY",
+        )
+        client.conversations.replay(
+            id="id",
+        )
+        """
+        _response = self._raw_client.replay(id, agent=agent, request_options=request_options)
         return _response.data
 
     def outbound_call(
@@ -734,6 +805,47 @@ class AsyncConversationsClient:
         _response = await self._raw_client.cancel(id, request_options=request_options)
         return _response.data
 
+    async def delete(
+        self, id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> ConversationsDeleteResponse:
+        """
+        Deletes a conversation, scheduling its transcripts and audio recordings for deletion. The conversation must have ended.
+
+        Parameters
+        ----------
+        id : str
+            The ID of the conversation to delete.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ConversationsDeleteResponse
+            Success response
+
+        Examples
+        --------
+        import asyncio
+
+        from phonic import AsyncPhonic
+
+        client = AsyncPhonic(
+            api_key="YOUR_API_KEY",
+        )
+
+
+        async def main() -> None:
+            await client.conversations.delete(
+                id="id",
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.delete(id, request_options=request_options)
+        return _response.data
+
     async def get_analysis(
         self, id: str, *, request_options: typing.Optional[RequestOptions] = None
     ) -> ConversationsGetAnalysisResponse:
@@ -904,7 +1016,7 @@ class AsyncConversationsClient:
 
     async def evaluate(
         self, id: str, *, prompt_id: str, request_options: typing.Optional[RequestOptions] = None
-    ) -> ConversationEvaluationResult:
+    ) -> ConversationsEvaluateResponse:
         """
         Evaluates a conversation using an evaluation prompt.
 
@@ -921,7 +1033,7 @@ class AsyncConversationsClient:
 
         Returns
         -------
-        ConversationEvaluationResult
+        ConversationsEvaluateResponse
             Success response
 
         Examples
@@ -945,6 +1057,50 @@ class AsyncConversationsClient:
         asyncio.run(main())
         """
         _response = await self._raw_client.evaluate(id, prompt_id=prompt_id, request_options=request_options)
+        return _response.data
+
+    async def replay(
+        self, id: str, *, agent: typing.Optional[str] = OMIT, request_options: typing.Optional[RequestOptions] = None
+    ) -> ConversationsReplayResponse:
+        """
+        Replays an ended conversation by re-running its recorded audio through an agent. Requires API key or access token authentication. The conversation must have audio recordings available and an associated agent (or one specified in the request body).
+
+        Parameters
+        ----------
+        id : str
+            The ID of the conversation to replay.
+
+        agent : typing.Optional[str]
+            Name of the agent to replay the conversation with. Defaults to the agent originally associated with the conversation.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        ConversationsReplayResponse
+            Replay started
+
+        Examples
+        --------
+        import asyncio
+
+        from phonic import AsyncPhonic
+
+        client = AsyncPhonic(
+            api_key="YOUR_API_KEY",
+        )
+
+
+        async def main() -> None:
+            await client.conversations.replay(
+                id="id",
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.replay(id, agent=agent, request_options=request_options)
         return _response.data
 
     async def outbound_call(

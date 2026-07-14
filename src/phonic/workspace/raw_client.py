@@ -9,11 +9,17 @@ from ..core.http_response import AsyncHttpResponse, HttpResponse
 from ..core.parse_error import ParsingError
 from ..core.request_options import RequestOptions
 from ..core.unchecked_base_model import construct_type
+from ..errors.bad_request_error import BadRequestError
+from ..errors.forbidden_error import ForbiddenError
 from ..errors.internal_server_error import InternalServerError
 from ..errors.unauthorized_error import UnauthorizedError
 from ..types.basic_error import BasicError
 from .types.workspace_get_response import WorkspaceGetResponse
+from .types.workspace_update_response import WorkspaceUpdateResponse
 from pydantic import ValidationError
+
+# this is used as the default value for optional parameters
+OMIT = typing.cast(typing.Any, ...)
 
 
 class RawWorkspaceClient:
@@ -57,6 +63,114 @@ class RawWorkspaceClient:
                         BasicError,
                         construct_type(
                             type_=BasicError,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 500:
+                raise InternalServerError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        BasicError,
+                        construct_type(
+                            type_=BasicError,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    def update(
+        self,
+        *,
+        logo_url: typing.Optional[str] = OMIT,
+        invite_link_allowed_domains: typing.Optional[typing.Sequence[str]] = OMIT,
+        ip_allowlist: typing.Optional[typing.Sequence[str]] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> HttpResponse[WorkspaceUpdateResponse]:
+        """
+        Updates the workspace.
+
+        Parameters
+        ----------
+        logo_url : typing.Optional[str]
+            URL of the workspace logo. Must be an https URL ending in .png or .svg, or null to clear it.
+
+        invite_link_allowed_domains : typing.Optional[typing.Sequence[str]]
+            Email domains allowed to join the workspace via invite link.
+
+        ip_allowlist : typing.Optional[typing.Sequence[str]]
+            IP addresses or CIDR ranges allowed to access the workspace.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[WorkspaceUpdateResponse]
+            Success response
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            "workspace",
+            base_url=self._client_wrapper.get_environment().base,
+            method="PATCH",
+            json={
+                "logo_url": logo_url,
+                "invite_link_allowed_domains": invite_link_allowed_domains,
+                "ip_allowlist": ip_allowlist,
+            },
+            headers={
+                "content-type": "application/json",
+            },
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    WorkspaceUpdateResponse,
+                    construct_type(
+                        type_=WorkspaceUpdateResponse,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return HttpResponse(response=_response, data=_data)
+            if _response.status_code == 400:
+                raise BadRequestError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Any,
+                        construct_type(
+                            type_=typing.Any,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 401:
+                raise UnauthorizedError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        BasicError,
+                        construct_type(
+                            type_=BasicError,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 403:
+                raise ForbiddenError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Any,
+                        construct_type(
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -125,6 +239,114 @@ class AsyncRawWorkspaceClient:
                         BasicError,
                         construct_type(
                             type_=BasicError,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 500:
+                raise InternalServerError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        BasicError,
+                        construct_type(
+                            type_=BasicError,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def update(
+        self,
+        *,
+        logo_url: typing.Optional[str] = OMIT,
+        invite_link_allowed_domains: typing.Optional[typing.Sequence[str]] = OMIT,
+        ip_allowlist: typing.Optional[typing.Sequence[str]] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AsyncHttpResponse[WorkspaceUpdateResponse]:
+        """
+        Updates the workspace.
+
+        Parameters
+        ----------
+        logo_url : typing.Optional[str]
+            URL of the workspace logo. Must be an https URL ending in .png or .svg, or null to clear it.
+
+        invite_link_allowed_domains : typing.Optional[typing.Sequence[str]]
+            Email domains allowed to join the workspace via invite link.
+
+        ip_allowlist : typing.Optional[typing.Sequence[str]]
+            IP addresses or CIDR ranges allowed to access the workspace.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[WorkspaceUpdateResponse]
+            Success response
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "workspace",
+            base_url=self._client_wrapper.get_environment().base,
+            method="PATCH",
+            json={
+                "logo_url": logo_url,
+                "invite_link_allowed_domains": invite_link_allowed_domains,
+                "ip_allowlist": ip_allowlist,
+            },
+            headers={
+                "content-type": "application/json",
+            },
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    WorkspaceUpdateResponse,
+                    construct_type(
+                        type_=WorkspaceUpdateResponse,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return AsyncHttpResponse(response=_response, data=_data)
+            if _response.status_code == 400:
+                raise BadRequestError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Any,
+                        construct_type(
+                            type_=typing.Any,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 401:
+                raise UnauthorizedError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        BasicError,
+                        construct_type(
+                            type_=BasicError,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 403:
+                raise ForbiddenError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Any,
+                        construct_type(
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),

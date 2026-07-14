@@ -35,7 +35,7 @@ A full reference for this library is available [here](https://github.com/Phonic-
 Instantiate and use the client with the following:
 
 ```python
-from phonic import Phonic, CreateAgentRequestTemplateVariablesValue, CreateAgentRequestConfigurationEndpoint
+from phonic import Phonic, CreateAgentRequestTemplateVariablesValue, CreateAgentRequestPronunciationDictionaryItem, CreateAgentRequestConfigurationEndpoint
 
 client = Phonic(
     api_key="<token>",
@@ -50,6 +50,7 @@ client.agents.create(
     audio_speed=1,
     background_noise_level=0,
     generate_welcome_message=False,
+    is_welcome_message_interruptible=True,
     welcome_message="Hi {{customer_name}}. How can I help you today?",
     system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
     template_variables={
@@ -75,6 +76,12 @@ client.agents.create(
     boosted_keywords=[
         "Load ID",
         "dispatch"
+    ],
+    pronunciation_dictionary=[
+        CreateAgentRequestPronunciationDictionaryItem(
+            word="Phuket",
+            pronunciation="Poo-ket",
+        )
     ],
     min_words_to_interrupt=1,
     configuration_endpoint=CreateAgentRequestConfigurationEndpoint(
@@ -111,6 +118,7 @@ async def main() -> None:
         audio_speed=1,
         background_noise_level=0,
         generate_welcome_message=False,
+        is_welcome_message_interruptible=True,
         welcome_message="Hi {{customer_name}}. How can I help you today?",
         system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
         template_variables={
@@ -136,6 +144,12 @@ async def main() -> None:
         boosted_keywords=[
             "Load ID",
             "dispatch"
+        ],
+        pronunciation_dictionary=[
+            CreateAgentRequestPronunciationDictionaryItem(
+                word="Phuket",
+                pronunciation="Poo-ket",
+            )
         ],
         min_words_to_interrupt=1,
         configuration_endpoint=CreateAgentRequestConfigurationEndpoint(

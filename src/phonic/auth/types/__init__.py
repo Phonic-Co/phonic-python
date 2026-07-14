@@ -6,8 +6,12 @@ import typing
 from importlib import import_module
 
 if typing.TYPE_CHECKING:
+    from .auth_create_conversation_token_response import AuthCreateConversationTokenResponse
     from .auth_create_session_token_response import AuthCreateSessionTokenResponse
-_dynamic_imports: typing.Dict[str, str] = {"AuthCreateSessionTokenResponse": ".auth_create_session_token_response"}
+_dynamic_imports: typing.Dict[str, str] = {
+    "AuthCreateConversationTokenResponse": ".auth_create_conversation_token_response",
+    "AuthCreateSessionTokenResponse": ".auth_create_session_token_response",
+}
 
 
 def __getattr__(attr_name: str) -> typing.Any:
@@ -31,4 +35,4 @@ def __dir__():
     return sorted(lazy_attrs)
 
 
-__all__ = ["AuthCreateSessionTokenResponse"]
+__all__ = ["AuthCreateConversationTokenResponse", "AuthCreateSessionTokenResponse"]

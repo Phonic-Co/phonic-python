@@ -26,7 +26,6 @@ from .types.tools_list_response import ToolsListResponse
 from .types.tools_update_response import ToolsUpdateResponse
 from .types.update_tool_request_endpoint_method import UpdateToolRequestEndpointMethod
 from .types.update_tool_request_execution_mode import UpdateToolRequestExecutionMode
-from .types.update_tool_request_type import UpdateToolRequestType
 from pydantic import ValidationError
 
 # this is used as the default value for optional parameters
@@ -111,6 +110,7 @@ class RawToolsClient:
         tool_call_output_timeout_ms: typing.Optional[int] = OMIT,
         phone_number: typing.Optional[str] = OMIT,
         dtmf: typing.Optional[str] = OMIT,
+        dynamic_dtmf: typing.Optional[bool] = OMIT,
         use_agent_phone_number: typing.Optional[bool] = OMIT,
         detect_voicemail: typing.Optional[bool] = OMIT,
         agents_to_transfer_to: typing.Optional[typing.Sequence[str]] = OMIT,
@@ -119,6 +119,7 @@ class RawToolsClient:
         forbid_speech_after_tool_call: typing.Optional[bool] = OMIT,
         allow_tool_chaining: typing.Optional[bool] = OMIT,
         wait_for_response: typing.Optional[bool] = OMIT,
+        context: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[ToolsCreateResponse]:
         """
@@ -166,7 +167,10 @@ class RawToolsClient:
             The E.164 formatted phone number to transfer calls to. Set to null if the agent should determine the phone number.
 
         dtmf : typing.Optional[str]
-            DTMF digits to send after the transfer connects (e.g., "1234"). Defaults to null.
+            DTMF digits to send after the transfer connects (e.g., "1234"). Defaults to null. Ignored when dynamic_dtmf is true.
+
+        dynamic_dtmf : typing.Optional[bool]
+            When true, the agent determines the DTMF digits at call time (and may choose to send none); the static dtmf is ignored. Only sent when use_agent_phone_number is true (not on a SIP REFER transfer).
 
         use_agent_phone_number : typing.Optional[bool]
             When true, Phonic will transfer the call using the agent's phone number. When false, Phonic will transfer the call using the phone number of the party to whom the agent is connected. This is only available for built_in_transfer_to_phone_number tools.
@@ -191,6 +195,9 @@ class RawToolsClient:
 
         wait_for_response : typing.Optional[bool]
             The agent doesn't typically wait for the response of async custom_websocket tools. When true, makes the agent wait for a response, not call other tools and inform the user of the result. Only available for async custom_websocket tools.
+
+        context : typing.Optional[str]
+            The static context returned to the agent. Required for custom_context tools.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -222,6 +229,7 @@ class RawToolsClient:
                 "tool_call_output_timeout_ms": tool_call_output_timeout_ms,
                 "phone_number": phone_number,
                 "dtmf": dtmf,
+                "dynamic_dtmf": dynamic_dtmf,
                 "use_agent_phone_number": use_agent_phone_number,
                 "detect_voicemail": detect_voicemail,
                 "agents_to_transfer_to": agents_to_transfer_to,
@@ -230,6 +238,7 @@ class RawToolsClient:
                 "forbid_speech_after_tool_call": forbid_speech_after_tool_call,
                 "allow_tool_chaining": allow_tool_chaining,
                 "wait_for_response": wait_for_response,
+                "context": context,
             },
             headers={
                 "content-type": "application/json",
@@ -437,16 +446,17 @@ class RawToolsClient:
         project: typing.Optional[str] = None,
         name: typing.Optional[str] = OMIT,
         description: typing.Optional[str] = OMIT,
-        type: typing.Optional[UpdateToolRequestType] = OMIT,
         execution_mode: typing.Optional[UpdateToolRequestExecutionMode] = OMIT,
+        context: typing.Optional[str] = OMIT,
         parameters: typing.Optional[typing.Sequence[ToolParameterParams]] = OMIT,
         endpoint_method: typing.Optional[UpdateToolRequestEndpointMethod] = OMIT,
         endpoint_url: typing.Optional[str] = OMIT,
-        endpoint_headers: typing.Optional[typing.Dict[str, str]] = OMIT,
+        endpoint_headers: typing.Optional[typing.Dict[str, typing.Optional[str]]] = OMIT,
         endpoint_timeout_ms: typing.Optional[int] = OMIT,
         tool_call_output_timeout_ms: typing.Optional[int] = OMIT,
         phone_number: typing.Optional[str] = OMIT,
         dtmf: typing.Optional[str] = OMIT,
+        dynamic_dtmf: typing.Optional[bool] = OMIT,
         use_agent_phone_number: typing.Optional[bool] = OMIT,
         detect_voicemail: typing.Optional[bool] = OMIT,
         agents_to_transfer_to: typing.Optional[typing.Sequence[str]] = OMIT,
@@ -474,15 +484,15 @@ class RawToolsClient:
         description : typing.Optional[str]
             A description of what the tool does.
 
-        type : typing.Optional[UpdateToolRequestType]
-            The type of tool.
-
         execution_mode : typing.Optional[UpdateToolRequestExecutionMode]
             Mode of operation.
 
+        context : typing.Optional[str]
+            The static context returned to the agent. Only applicable to custom_context tools.
+
         parameters : typing.Optional[typing.Sequence[ToolParameterParams]]
             Array of parameter definitions.
-            When updating `type` or `endpoint_method`, all parameters must include explicit `location` values.
+            When updating `endpoint_method`, all parameters must include explicit `location` values.
             For `custom_webhook` tools: `location` is required for POST, defaults to `"query_string"` for GET.
             For `custom_websocket`, `built_in_transfer_to_phone_number`, and `built_in_transfer_to_agent` tools: `location` must not be specified.
 
@@ -491,7 +501,8 @@ class RawToolsClient:
 
         endpoint_url : typing.Optional[str]
 
-        endpoint_headers : typing.Optional[typing.Dict[str, str]]
+        endpoint_headers : typing.Optional[typing.Dict[str, typing.Optional[str]]]
+            Headers for webhook tools. Set to null to clear existing headers.
 
         endpoint_timeout_ms : typing.Optional[int]
 
@@ -501,7 +512,10 @@ class RawToolsClient:
             The E.164 formatted phone number to transfer calls to. Set to null if the agent should determine the phone number.
 
         dtmf : typing.Optional[str]
-            DTMF digits to send after the transfer connects (e.g., "1234"). Can be set to null to remove DTMF.
+            DTMF digits to send after the transfer connects (e.g., "1234"). Can be set to null to remove DTMF. Ignored when dynamic_dtmf is true.
+
+        dynamic_dtmf : typing.Optional[bool]
+            When true, the agent determines the DTMF digits at call time (and may choose to send none); the static dtmf is ignored. Only sent when use_agent_phone_number is true (not on a SIP REFER transfer).
 
         use_agent_phone_number : typing.Optional[bool]
             When true, Phonic will transfer the call using the agent's phone number. When false, Phonic will transfer the call using the phone number of the party to whom the agent is connected. This is only available for built_in_transfer_to_phone_number tools.
@@ -545,8 +559,8 @@ class RawToolsClient:
             json={
                 "name": name,
                 "description": description,
-                "type": type,
                 "execution_mode": execution_mode,
+                "context": context,
                 "parameters": convert_and_respect_annotation_metadata(
                     object_=parameters, annotation=typing.Sequence[ToolParameterParams], direction="write"
                 ),
@@ -557,6 +571,7 @@ class RawToolsClient:
                 "tool_call_output_timeout_ms": tool_call_output_timeout_ms,
                 "phone_number": phone_number,
                 "dtmf": dtmf,
+                "dynamic_dtmf": dynamic_dtmf,
                 "use_agent_phone_number": use_agent_phone_number,
                 "detect_voicemail": detect_voicemail,
                 "agents_to_transfer_to": agents_to_transfer_to,
@@ -703,6 +718,7 @@ class AsyncRawToolsClient:
         tool_call_output_timeout_ms: typing.Optional[int] = OMIT,
         phone_number: typing.Optional[str] = OMIT,
         dtmf: typing.Optional[str] = OMIT,
+        dynamic_dtmf: typing.Optional[bool] = OMIT,
         use_agent_phone_number: typing.Optional[bool] = OMIT,
         detect_voicemail: typing.Optional[bool] = OMIT,
         agents_to_transfer_to: typing.Optional[typing.Sequence[str]] = OMIT,
@@ -711,6 +727,7 @@ class AsyncRawToolsClient:
         forbid_speech_after_tool_call: typing.Optional[bool] = OMIT,
         allow_tool_chaining: typing.Optional[bool] = OMIT,
         wait_for_response: typing.Optional[bool] = OMIT,
+        context: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[ToolsCreateResponse]:
         """
@@ -758,7 +775,10 @@ class AsyncRawToolsClient:
             The E.164 formatted phone number to transfer calls to. Set to null if the agent should determine the phone number.
 
         dtmf : typing.Optional[str]
-            DTMF digits to send after the transfer connects (e.g., "1234"). Defaults to null.
+            DTMF digits to send after the transfer connects (e.g., "1234"). Defaults to null. Ignored when dynamic_dtmf is true.
+
+        dynamic_dtmf : typing.Optional[bool]
+            When true, the agent determines the DTMF digits at call time (and may choose to send none); the static dtmf is ignored. Only sent when use_agent_phone_number is true (not on a SIP REFER transfer).
 
         use_agent_phone_number : typing.Optional[bool]
             When true, Phonic will transfer the call using the agent's phone number. When false, Phonic will transfer the call using the phone number of the party to whom the agent is connected. This is only available for built_in_transfer_to_phone_number tools.
@@ -783,6 +803,9 @@ class AsyncRawToolsClient:
 
         wait_for_response : typing.Optional[bool]
             The agent doesn't typically wait for the response of async custom_websocket tools. When true, makes the agent wait for a response, not call other tools and inform the user of the result. Only available for async custom_websocket tools.
+
+        context : typing.Optional[str]
+            The static context returned to the agent. Required for custom_context tools.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -814,6 +837,7 @@ class AsyncRawToolsClient:
                 "tool_call_output_timeout_ms": tool_call_output_timeout_ms,
                 "phone_number": phone_number,
                 "dtmf": dtmf,
+                "dynamic_dtmf": dynamic_dtmf,
                 "use_agent_phone_number": use_agent_phone_number,
                 "detect_voicemail": detect_voicemail,
                 "agents_to_transfer_to": agents_to_transfer_to,
@@ -822,6 +846,7 @@ class AsyncRawToolsClient:
                 "forbid_speech_after_tool_call": forbid_speech_after_tool_call,
                 "allow_tool_chaining": allow_tool_chaining,
                 "wait_for_response": wait_for_response,
+                "context": context,
             },
             headers={
                 "content-type": "application/json",
@@ -1029,16 +1054,17 @@ class AsyncRawToolsClient:
         project: typing.Optional[str] = None,
         name: typing.Optional[str] = OMIT,
         description: typing.Optional[str] = OMIT,
-        type: typing.Optional[UpdateToolRequestType] = OMIT,
         execution_mode: typing.Optional[UpdateToolRequestExecutionMode] = OMIT,
+        context: typing.Optional[str] = OMIT,
         parameters: typing.Optional[typing.Sequence[ToolParameterParams]] = OMIT,
         endpoint_method: typing.Optional[UpdateToolRequestEndpointMethod] = OMIT,
         endpoint_url: typing.Optional[str] = OMIT,
-        endpoint_headers: typing.Optional[typing.Dict[str, str]] = OMIT,
+        endpoint_headers: typing.Optional[typing.Dict[str, typing.Optional[str]]] = OMIT,
         endpoint_timeout_ms: typing.Optional[int] = OMIT,
         tool_call_output_timeout_ms: typing.Optional[int] = OMIT,
         phone_number: typing.Optional[str] = OMIT,
         dtmf: typing.Optional[str] = OMIT,
+        dynamic_dtmf: typing.Optional[bool] = OMIT,
         use_agent_phone_number: typing.Optional[bool] = OMIT,
         detect_voicemail: typing.Optional[bool] = OMIT,
         agents_to_transfer_to: typing.Optional[typing.Sequence[str]] = OMIT,
@@ -1066,15 +1092,15 @@ class AsyncRawToolsClient:
         description : typing.Optional[str]
             A description of what the tool does.
 
-        type : typing.Optional[UpdateToolRequestType]
-            The type of tool.
-
         execution_mode : typing.Optional[UpdateToolRequestExecutionMode]
             Mode of operation.
 
+        context : typing.Optional[str]
+            The static context returned to the agent. Only applicable to custom_context tools.
+
         parameters : typing.Optional[typing.Sequence[ToolParameterParams]]
             Array of parameter definitions.
-            When updating `type` or `endpoint_method`, all parameters must include explicit `location` values.
+            When updating `endpoint_method`, all parameters must include explicit `location` values.
             For `custom_webhook` tools: `location` is required for POST, defaults to `"query_string"` for GET.
             For `custom_websocket`, `built_in_transfer_to_phone_number`, and `built_in_transfer_to_agent` tools: `location` must not be specified.
 
@@ -1083,7 +1109,8 @@ class AsyncRawToolsClient:
 
         endpoint_url : typing.Optional[str]
 
-        endpoint_headers : typing.Optional[typing.Dict[str, str]]
+        endpoint_headers : typing.Optional[typing.Dict[str, typing.Optional[str]]]
+            Headers for webhook tools. Set to null to clear existing headers.
 
         endpoint_timeout_ms : typing.Optional[int]
 
@@ -1093,7 +1120,10 @@ class AsyncRawToolsClient:
             The E.164 formatted phone number to transfer calls to. Set to null if the agent should determine the phone number.
 
         dtmf : typing.Optional[str]
-            DTMF digits to send after the transfer connects (e.g., "1234"). Can be set to null to remove DTMF.
+            DTMF digits to send after the transfer connects (e.g., "1234"). Can be set to null to remove DTMF. Ignored when dynamic_dtmf is true.
+
+        dynamic_dtmf : typing.Optional[bool]
+            When true, the agent determines the DTMF digits at call time (and may choose to send none); the static dtmf is ignored. Only sent when use_agent_phone_number is true (not on a SIP REFER transfer).
 
         use_agent_phone_number : typing.Optional[bool]
             When true, Phonic will transfer the call using the agent's phone number. When false, Phonic will transfer the call using the phone number of the party to whom the agent is connected. This is only available for built_in_transfer_to_phone_number tools.
@@ -1137,8 +1167,8 @@ class AsyncRawToolsClient:
             json={
                 "name": name,
                 "description": description,
-                "type": type,
                 "execution_mode": execution_mode,
+                "context": context,
                 "parameters": convert_and_respect_annotation_metadata(
                     object_=parameters, annotation=typing.Sequence[ToolParameterParams], direction="write"
                 ),
@@ -1149,6 +1179,7 @@ class AsyncRawToolsClient:
                 "tool_call_output_timeout_ms": tool_call_output_timeout_ms,
                 "phone_number": phone_number,
                 "dtmf": dtmf,
+                "dynamic_dtmf": dynamic_dtmf,
                 "use_agent_phone_number": use_agent_phone_number,
                 "detect_voicemail": detect_voicemail,
                 "agents_to_transfer_to": agents_to_transfer_to,

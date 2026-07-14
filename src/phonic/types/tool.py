@@ -34,7 +34,7 @@ class Tool(UncheckedBaseModel):
     The type of tool.
     """
 
-    execution_mode: ToolExecutionMode = pydantic.Field()
+    execution_mode: typing.Optional[ToolExecutionMode] = pydantic.Field(default=None)
     """
     Mode of operation - sync waits for response, async continues without waiting.
     """
@@ -76,7 +76,12 @@ class Tool(UncheckedBaseModel):
 
     dtmf: typing.Optional[str] = pydantic.Field(default=None)
     """
-    DTMF digits to send after the transfer connects (e.g., "1234"). Defaults to null.
+    DTMF digits to send after the transfer connects (e.g., "1234"). Defaults to null. Ignored when dynamic_dtmf is true.
+    """
+
+    dynamic_dtmf: typing.Optional[bool] = pydantic.Field(default=None)
+    """
+    When true, the agent determines the DTMF digits at call time (and may choose to send none); the static dtmf is ignored. Only sent when use_agent_phone_number is true (not on a SIP REFER transfer).
     """
 
     use_agent_phone_number: typing.Optional[bool] = pydantic.Field(default=None)
@@ -117,6 +122,11 @@ class Tool(UncheckedBaseModel):
     wait_for_response: typing.Optional[bool] = pydantic.Field(default=None)
     """
     The agent doesn't typically wait for the response of async custom_websocket tools. When true, makes the agent wait for a response, not call other tools and inform the user of the result. Only available for async custom_websocket tools.
+    """
+
+    context: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    The static context returned to the agent. Only present for custom_context tools.
     """
 
     if IS_PYDANTIC_V2:

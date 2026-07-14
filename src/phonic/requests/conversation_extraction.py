@@ -13,20 +13,10 @@ class ConversationExtractionParams(typing_extensions.TypedDict):
     The extraction ID.
     """
 
-    conversation_id: typing_extensions.NotRequired[str]
-    """
-    The conversation ID.
-    """
-
     schema: ConversationExtractionSchemaParams
     result: typing.Dict[str, typing.Any]
     """
     The extracted data.
-    """
-
-    error: typing.Optional[str]
-    """
-    Error message if extraction failed.
     """
 
     created_at: dt.datetime

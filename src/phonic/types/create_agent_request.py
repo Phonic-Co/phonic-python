@@ -8,10 +8,13 @@ from ..core.unchecked_base_model import UncheckedBaseModel
 from .create_agent_request_audio_format import CreateAgentRequestAudioFormat
 from .create_agent_request_background_noise import CreateAgentRequestBackgroundNoise
 from .create_agent_request_configuration_endpoint import CreateAgentRequestConfigurationEndpoint
+from .create_agent_request_intelligence_level import CreateAgentRequestIntelligenceLevel
 from .create_agent_request_multilingual_mode import CreateAgentRequestMultilingualMode
 from .create_agent_request_phone_number import CreateAgentRequestPhoneNumber
+from .create_agent_request_pronunciation_dictionary_item import CreateAgentRequestPronunciationDictionaryItem
 from .create_agent_request_template_variables_value import CreateAgentRequestTemplateVariablesValue
 from .create_agent_request_tools_item import CreateAgentRequestToolsItem
+from .data_retention_policy import DataRetentionPolicy
 from .language_code import LanguageCode
 from .task import Task
 
@@ -20,6 +23,11 @@ class CreateAgentRequest(UncheckedBaseModel):
     name: str = pydantic.Field()
     """
     The name of the agent. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
+    """
+
+    slug: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    URL-friendly agent slug. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
     """
 
     phone_number: typing.Optional[CreateAgentRequestPhoneNumber] = pydantic.Field(default=None)
@@ -72,6 +80,16 @@ class CreateAgentRequest(UncheckedBaseModel):
     When `true`, the welcome message will be automatically generated and the `welcome_message` field will be ignored.
     """
 
+    is_welcome_message_interruptible: typing.Optional[bool] = pydantic.Field(default=None)
+    """
+    When `false`, the welcome message will not be interruptible by the user.
+    """
+
+    websocket_timeout_sec: typing.Optional[int] = pydantic.Field(default=None)
+    """
+    Number of seconds of inactivity before the conversation WebSocket is closed.
+    """
+
     welcome_message: typing.Optional[str] = pydantic.Field(default=None)
     """
     Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. Ignored when `generate_welcome_message` is `true`.
@@ -119,6 +137,21 @@ class CreateAgentRequest(UncheckedBaseModel):
     Seconds of silence before ending the conversation.
     """
 
+    enable_assistant_backchannel: typing.Optional[bool] = pydantic.Field(default=None)
+    """
+    When `true`, the assistant will produce backchannel responses (e.g. "mm-hmm") while the user is speaking.
+    """
+
+    assistant_backchannel_aggressiveness: typing.Optional[float] = pydantic.Field(default=None)
+    """
+    How aggressively the assistant produces backchannel responses. Only relevant when `enable_assistant_backchannel` is `true`.
+    """
+
+    data_retention_policy: typing.Optional[DataRetentionPolicy] = pydantic.Field(default=None)
+    """
+    Controls how long transcripts and audio recordings are retained before deletion.
+    """
+
     default_language: typing.Optional[LanguageCode] = pydantic.Field(default=None)
     """
     ISO 639-1 language code that sets the agent's default language to recognize and speak. Welcome message and no input poke text should be in this language.
@@ -126,7 +159,7 @@ class CreateAgentRequest(UncheckedBaseModel):
 
     additional_languages: typing.Optional[typing.List[LanguageCode]] = pydantic.Field(default=None)
     """
-    Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`.
+    Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`. When `multilingual_mode` is `"auto"`, a maximum of 2 additional languages is allowed.
     """
 
     languages: typing.Optional[typing.List[LanguageCode]] = pydantic.Field(default=None)
@@ -136,7 +169,7 @@ class CreateAgentRequest(UncheckedBaseModel):
 
     multilingual_mode: typing.Optional[CreateAgentRequestMultilingualMode] = pydantic.Field(default=None)
     """
-    If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended).
+    If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended). If `"initial"` the first turn user audio determines the language for the rest of the conversation.
     """
 
     push_to_talk: typing.Optional[bool] = pydantic.Field(default=None)
@@ -144,9 +177,21 @@ class CreateAgentRequest(UncheckedBaseModel):
     Push to talk mode. User must send mute/unmute messages to turn on/off listening to audio. Defaults to false.
     """
 
+    intelligence_level: typing.Optional[CreateAgentRequestIntelligenceLevel] = pydantic.Field(default=None)
+    """
+    The intelligence level of the agent. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency.
+    """
+
     boosted_keywords: typing.Optional[typing.List[str]] = pydantic.Field(default=None)
     """
     These words, or short phrases, will be more accurately recognized by the agent.
+    """
+
+    pronunciation_dictionary: typing.Optional[typing.List[CreateAgentRequestPronunciationDictionaryItem]] = (
+        pydantic.Field(default=None)
+    )
+    """
+    Array of `{ word, pronunciation }` entries. Words must be unique.
     """
 
     min_words_to_interrupt: typing.Optional[int] = pydantic.Field(default=None)
@@ -187,6 +232,23 @@ class CreateAgentRequest(UncheckedBaseModel):
     vad_threshold: typing.Optional[float] = pydantic.Field(default=None)
     """
     Voice activity detection threshold.
+    """
+
+    enable_redaction: typing.Optional[bool] = pydantic.Field(default=None)
+    """
+    When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE NUMBER]`) and bleeped from audio recordings after the conversation ends.
+    """
+
+    mcp_server_ids: typing.Optional[typing.List[str]] = pydantic.Field(default=None)
+    """
+    Array of MCP server IDs to make available to the agent.
+    """
+
+    observability_integrations: typing.Optional[typing.List[typing.Literal["braintrust"]]] = pydantic.Field(
+        default=None
+    )
+    """
+    Names of observability integrations to enable for the agent. Each must be one of the supported providers.
     """
 
     if IS_PYDANTIC_V2:

@@ -17,7 +17,7 @@ class ExtractionFieldParams(typing_extensions.TypedDict):
     The field type.
     """
 
-    description: typing_extensions.NotRequired[typing.Optional[str]]
+    description: typing.Optional[str]
     """
-    Description of the field.
+    Description of the field. May be null, but the property must be present.
     """

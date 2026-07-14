@@ -19,6 +19,11 @@ class AudioChunkResponsePayload(UncheckedBaseModel):
     Text corresponding to audio chunk
     """
 
+    timings: typing.Optional[typing.Dict[str, float]] = pydantic.Field(default=None)
+    """
+    Optional latency-breakdown metrics for the audio chunk, expressed as named millisecond durations. Only present on the first audio chunk of a turn.
+    """
+
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
     else:

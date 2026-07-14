@@ -24,8 +24,10 @@ if typing.TYPE_CHECKING:
     from .update_agent_request_audio_format import UpdateAgentRequestAudioFormat
     from .update_agent_request_background_noise import UpdateAgentRequestBackgroundNoise
     from .update_agent_request_configuration_endpoint import UpdateAgentRequestConfigurationEndpoint
+    from .update_agent_request_intelligence_level import UpdateAgentRequestIntelligenceLevel
     from .update_agent_request_multilingual_mode import UpdateAgentRequestMultilingualMode
     from .update_agent_request_phone_number import UpdateAgentRequestPhoneNumber
+    from .update_agent_request_pronunciation_dictionary_item import UpdateAgentRequestPronunciationDictionaryItem
     from .update_agent_request_template_variables_value import UpdateAgentRequestTemplateVariablesValue
     from .update_agent_request_tools_item import UpdateAgentRequestToolsItem
 _dynamic_imports: typing.Dict[str, str] = {
@@ -43,8 +45,10 @@ _dynamic_imports: typing.Dict[str, str] = {
     "UpdateAgentRequestAudioFormat": ".update_agent_request_audio_format",
     "UpdateAgentRequestBackgroundNoise": ".update_agent_request_background_noise",
     "UpdateAgentRequestConfigurationEndpoint": ".update_agent_request_configuration_endpoint",
+    "UpdateAgentRequestIntelligenceLevel": ".update_agent_request_intelligence_level",
     "UpdateAgentRequestMultilingualMode": ".update_agent_request_multilingual_mode",
     "UpdateAgentRequestPhoneNumber": ".update_agent_request_phone_number",
+    "UpdateAgentRequestPronunciationDictionaryItem": ".update_agent_request_pronunciation_dictionary_item",
     "UpdateAgentRequestTemplateVariablesValue": ".update_agent_request_template_variables_value",
     "UpdateAgentRequestToolsItem": ".update_agent_request_tools_item",
 }
@@ -86,8 +90,10 @@ __all__ = [
     "UpdateAgentRequestAudioFormat",
     "UpdateAgentRequestBackgroundNoise",
     "UpdateAgentRequestConfigurationEndpoint",
+    "UpdateAgentRequestIntelligenceLevel",
     "UpdateAgentRequestMultilingualMode",
     "UpdateAgentRequestPhoneNumber",
+    "UpdateAgentRequestPronunciationDictionaryItem",
     "UpdateAgentRequestTemplateVariablesValue",
     "UpdateAgentRequestToolsItem",
 ]

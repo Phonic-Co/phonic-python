@@ -5,9 +5,16 @@ import typing
 import pydantic
 from ..core.pydantic_utilities import IS_PYDANTIC_V2
 from ..core.unchecked_base_model import UncheckedBaseModel
+from .data_retention_policy import DataRetentionPolicy
 from .language_code import LanguageCode
+from .outbound_call_config_background_noise import OutboundCallConfigBackgroundNoise
+from .outbound_call_config_configuration_endpoint import OutboundCallConfigConfigurationEndpoint
+from .outbound_call_config_intelligence_level import OutboundCallConfigIntelligenceLevel
 from .outbound_call_config_multilingual_mode import OutboundCallConfigMultilingualMode
+from .outbound_call_config_pronunciation_dictionary_item import OutboundCallConfigPronunciationDictionaryItem
 from .outbound_call_config_tools_item import OutboundCallConfigToolsItem
+from .outbound_number_pool import OutboundNumberPool
+from .task import Task
 
 
 class OutboundCallConfig(UncheckedBaseModel):
@@ -25,9 +32,19 @@ class OutboundCallConfig(UncheckedBaseModel):
     The name of the project to use for the call.
     """
 
+    generate_welcome_message: typing.Optional[bool] = pydantic.Field(default=None)
+    """
+    When `true`, the welcome message will be automatically generated and the `welcome_message` field will be ignored.
+    """
+
+    is_welcome_message_interruptible: typing.Optional[bool] = pydantic.Field(default=None)
+    """
+    When `false`, the welcome message will not be interruptible by the user.
+    """
+
     welcome_message: typing.Optional[str] = pydantic.Field(default=None)
     """
-    Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`.
+    Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. Ignored when `generate_welcome_message` is `true`.
     """
 
     system_prompt: typing.Optional[str] = pydantic.Field(default=None)
@@ -72,7 +89,7 @@ class OutboundCallConfig(UncheckedBaseModel):
 
     additional_languages: typing.Optional[typing.List[LanguageCode]] = pydantic.Field(default=None)
     """
-    Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`.
+    Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`. When `multilingual_mode` is `"auto"`, a maximum of 2 additional languages is allowed.
     """
 
     languages: typing.Optional[typing.List[LanguageCode]] = pydantic.Field(default=None)
@@ -82,7 +99,7 @@ class OutboundCallConfig(UncheckedBaseModel):
 
     multilingual_mode: typing.Optional[OutboundCallConfigMultilingualMode] = pydantic.Field(default=None)
     """
-    If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended).
+    If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended). If `"initial"` the first turn user audio determines the language for the rest of the conversation.
     """
 
     push_to_talk: typing.Optional[bool] = pydantic.Field(default=None)
@@ -90,9 +107,21 @@ class OutboundCallConfig(UncheckedBaseModel):
     Push to talk mode. User must send mute/unmute messages to turn on/off listening to audio. Defaults to false.
     """
 
+    intelligence_level: typing.Optional[OutboundCallConfigIntelligenceLevel] = pydantic.Field(default=None)
+    """
+    The intelligence level of the agent. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency.
+    """
+
     boosted_keywords: typing.Optional[typing.List[str]] = pydantic.Field(default=None)
     """
     These words, or short phrases, will be more accurately recognized by the agent.
+    """
+
+    pronunciation_dictionary: typing.Optional[typing.List[OutboundCallConfigPronunciationDictionaryItem]] = (
+        pydantic.Field(default=None)
+    )
+    """
+    Array of `{ word, pronunciation }` entries. Words must be unique.
     """
 
     min_words_to_interrupt: typing.Optional[int] = pydantic.Field(default=None)
@@ -103,6 +132,71 @@ class OutboundCallConfig(UncheckedBaseModel):
     tools: typing.Optional[typing.List[OutboundCallConfigToolsItem]] = pydantic.Field(default=None)
     """
     Array of built-in or custom tool names to use.
+    """
+
+    enable_redaction: typing.Optional[bool] = pydantic.Field(default=None)
+    """
+    When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE NUMBER]`) and bleeped from audio recordings after the conversation ends.
+    """
+
+    model: typing.Optional[typing.Literal["merritt"]] = pydantic.Field(default=None)
+    """
+    The speech-to-speech model to use.
+    """
+
+    audio_speed: typing.Optional[float] = pydantic.Field(default=None)
+    """
+    The audio speed of the agent.
+    """
+
+    background_noise: typing.Optional[OutboundCallConfigBackgroundNoise] = pydantic.Field(default=None)
+    """
+    The background noise type. Can be "office", "call-center", "coffee-shop", or null.
+    """
+
+    background_noise_level: typing.Optional[float] = pydantic.Field(default=None)
+    """
+    The background noise level of the agent.
+    """
+
+    mcp_servers: typing.Optional[typing.List[str]] = pydantic.Field(default=None)
+    """
+    Array of MCP server names to use.
+    """
+
+    tasks: typing.Optional[typing.List[Task]] = pydantic.Field(default=None)
+    """
+    Array of task objects with `name` and `description` fields.
+    """
+
+    outbound_number_pool: typing.Optional[OutboundNumberPool] = pydantic.Field(default=None)
+    """
+    Pool of phone numbers used for outbound calls.
+    """
+
+    enable_assistant_backchannel: typing.Optional[bool] = pydantic.Field(default=None)
+    """
+    When `true`, the assistant will produce backchannel responses (e.g. "mm-hmm") while the user is speaking.
+    """
+
+    assistant_backchannel_aggressiveness: typing.Optional[float] = pydantic.Field(default=None)
+    """
+    How aggressively the assistant produces backchannel responses. Only relevant when `enable_assistant_backchannel` is `true`.
+    """
+
+    configuration_endpoint: typing.Optional[OutboundCallConfigConfigurationEndpoint] = pydantic.Field(default=None)
+    """
+    When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
+    """
+
+    additional_params: typing.Optional[typing.Dict[str, typing.Any]] = pydantic.Field(default=None)
+    """
+    Additional runtime parameters.
+    """
+
+    data_retention_policy: typing.Optional[DataRetentionPolicy] = pydantic.Field(default=None)
+    """
+    Controls how long transcripts and audio recordings are retained before deletion.
     """
 
     if IS_PYDANTIC_V2:

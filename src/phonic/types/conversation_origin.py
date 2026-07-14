@@ -2,4 +2,21 @@
 
 import typing
 
-ConversationOrigin = typing.Union[typing.Literal["web", "direct", "inbound", "outbound", "replay"], typing.Any]
+ConversationOrigin = typing.Union[
+    typing.Literal[
+        "web",
+        "web-playground",
+        "web-demo",
+        "direct",
+        "livekit-agents-py",
+        "livekit-agents-js",
+        "sdk-py",
+        "sdk-js",
+        "inbound",
+        "telephony-inbound",
+        "outbound",
+        "telephony-outbound",
+        "replay",
+    ],
+    typing.Any,
+]

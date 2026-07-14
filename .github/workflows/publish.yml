@@ -1,0 +1,72 @@
+name: Publish to PyPI
+
+# Publishes the package to PyPI when a PR is merged into main (i.e. when the SDK PR that
+# fern-config opened gets reviewed and merged). The version is whatever is in pyproject.toml,
+# which fern-config bakes in when it opens the PR.
+#
+# Mirrors the poetry publish job in the Fern-generated ci.yml (same command, same secrets),
+# but triggers on merge to main instead of on a git tag.
+#
+# Kept in .fernignore so Fern's regeneration doesn't remove it.
+#
+# Requires repo secrets: PYPI_USERNAME, PYPI_PASSWORD (already used by ci.yml's tag publish).
+
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  group: publish-pypi
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.9"
+
+      - name: Bootstrap poetry
+        run: curl -sSL https://install.python-poetry.org | python - -y --version 1.5.1
+
+      - name: Read package version
+        id: v
+        run: echo "version=$(poetry version -s)" >> "$GITHUB_OUTPUT"
+
+      # Don't fail on unrelated merges to main — only publish a version that isn't live yet.
+      - name: Check if already published
+        id: check
+        run: |
+          if curl -fsSL "https://pypi.org/pypi/phonic/${{ steps.v.outputs.version }}/json" >/dev/null 2>&1; then
+            echo "publish=false" >> "$GITHUB_OUTPUT"
+            echo "phonic ${{ steps.v.outputs.version }} already on PyPI — skipping."
+          else
+            echo "publish=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Install dependencies
+        if: steps.check.outputs.publish == 'true'
+        run: poetry install
+
+      - name: Publish to PyPI
+        if: steps.check.outputs.publish == 'true'
+        env:
+          PYPI_USERNAME: ${{ secrets.PYPI_USERNAME }}
+          PYPI_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+        run: |
+          poetry config repositories.remote https://upload.pypi.org/legacy/
+          poetry --no-interaction -v publish --build --repository remote --username "$PYPI_USERNAME" --password "$PYPI_PASSWORD"
+
+      - name: Create GitHub release
+        if: steps.check.outputs.publish == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.v.outputs.version }}
+        run: gh release view "v${VERSION}" >/dev/null 2>&1 || gh release create "v${VERSION}" --title "v${VERSION}" --target "${GITHUB_SHA}" --generate-notes

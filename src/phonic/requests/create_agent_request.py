@@ -5,12 +5,15 @@ import typing
 import typing_extensions
 from ..types.create_agent_request_audio_format import CreateAgentRequestAudioFormat
 from ..types.create_agent_request_background_noise import CreateAgentRequestBackgroundNoise
+from ..types.create_agent_request_intelligence_level import CreateAgentRequestIntelligenceLevel
 from ..types.create_agent_request_multilingual_mode import CreateAgentRequestMultilingualMode
 from ..types.create_agent_request_phone_number import CreateAgentRequestPhoneNumber
 from ..types.language_code import LanguageCode
 from .create_agent_request_configuration_endpoint import CreateAgentRequestConfigurationEndpointParams
+from .create_agent_request_pronunciation_dictionary_item import CreateAgentRequestPronunciationDictionaryItemParams
 from .create_agent_request_template_variables_value import CreateAgentRequestTemplateVariablesValueParams
 from .create_agent_request_tools_item import CreateAgentRequestToolsItemParams
+from .data_retention_policy import DataRetentionPolicyParams
 from .task import TaskParams
 
 
@@ -18,6 +21,11 @@ class CreateAgentRequestParams(typing_extensions.TypedDict):
     name: str
     """
     The name of the agent. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
+    """
+
+    slug: typing_extensions.NotRequired[str]
+    """
+    URL-friendly agent slug. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
     """
 
     phone_number: typing_extensions.NotRequired[typing.Optional[CreateAgentRequestPhoneNumber]]
@@ -70,7 +78,17 @@ class CreateAgentRequestParams(typing_extensions.TypedDict):
     When `true`, the welcome message will be automatically generated and the `welcome_message` field will be ignored.
     """
 
-    welcome_message: typing_extensions.NotRequired[str]
+    is_welcome_message_interruptible: typing_extensions.NotRequired[bool]
+    """
+    When `false`, the welcome message will not be interruptible by the user.
+    """
+
+    websocket_timeout_sec: typing_extensions.NotRequired[int]
+    """
+    Number of seconds of inactivity before the conversation WebSocket is closed.
+    """
+
+    welcome_message: typing_extensions.NotRequired[typing.Optional[str]]
     """
     Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. Ignored when `generate_welcome_message` is `true`.
     """
@@ -115,6 +133,21 @@ class CreateAgentRequestParams(typing_extensions.TypedDict):
     Seconds of silence before ending the conversation.
     """
 
+    enable_assistant_backchannel: typing_extensions.NotRequired[bool]
+    """
+    When `true`, the assistant will produce backchannel responses (e.g. "mm-hmm") while the user is speaking.
+    """
+
+    assistant_backchannel_aggressiveness: typing_extensions.NotRequired[float]
+    """
+    How aggressively the assistant produces backchannel responses. Only relevant when `enable_assistant_backchannel` is `true`.
+    """
+
+    data_retention_policy: typing_extensions.NotRequired[DataRetentionPolicyParams]
+    """
+    Controls how long transcripts and audio recordings are retained before deletion.
+    """
+
     default_language: typing_extensions.NotRequired[LanguageCode]
     """
     ISO 639-1 language code that sets the agent's default language to recognize and speak. Welcome message and no input poke text should be in this language.
@@ -122,7 +155,7 @@ class CreateAgentRequestParams(typing_extensions.TypedDict):
 
     additional_languages: typing_extensions.NotRequired[typing.Sequence[LanguageCode]]
     """
-    Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`.
+    Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`. When `multilingual_mode` is `"auto"`, a maximum of 2 additional languages is allowed.
     """
 
     languages: typing_extensions.NotRequired[typing.Sequence[LanguageCode]]
@@ -132,7 +165,7 @@ class CreateAgentRequestParams(typing_extensions.TypedDict):
 
     multilingual_mode: typing_extensions.NotRequired[CreateAgentRequestMultilingualMode]
     """
-    If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended).
+    If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended). If `"initial"` the first turn user audio determines the language for the rest of the conversation.
     """
 
     push_to_talk: typing_extensions.NotRequired[bool]
@@ -140,9 +173,21 @@ class CreateAgentRequestParams(typing_extensions.TypedDict):
     Push to talk mode. User must send mute/unmute messages to turn on/off listening to audio. Defaults to false.
     """
 
+    intelligence_level: typing_extensions.NotRequired[CreateAgentRequestIntelligenceLevel]
+    """
+    The intelligence level of the agent. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency.
+    """
+
     boosted_keywords: typing_extensions.NotRequired[typing.Sequence[str]]
     """
     These words, or short phrases, will be more accurately recognized by the agent.
+    """
+
+    pronunciation_dictionary: typing_extensions.NotRequired[
+        typing.Sequence[CreateAgentRequestPronunciationDictionaryItemParams]
+    ]
+    """
+    Array of `{ word, pronunciation }` entries. Words must be unique.
     """
 
     min_words_to_interrupt: typing_extensions.NotRequired[int]
@@ -185,4 +230,19 @@ class CreateAgentRequestParams(typing_extensions.TypedDict):
     vad_threshold: typing_extensions.NotRequired[float]
     """
     Voice activity detection threshold.
+    """
+
+    enable_redaction: typing_extensions.NotRequired[bool]
+    """
+    When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE NUMBER]`) and bleeped from audio recordings after the conversation ends.
+    """
+
+    mcp_server_ids: typing_extensions.NotRequired[typing.Sequence[str]]
+    """
+    Array of MCP server IDs to make available to the agent.
+    """
+
+    observability_integrations: typing_extensions.NotRequired[typing.Sequence[typing.Literal["braintrust"]]]
+    """
+    Names of observability integrations to enable for the agent. Each must be one of the supported providers.
     """

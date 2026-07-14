@@ -7,6 +7,9 @@ from importlib import import_module
 
 if typing.TYPE_CHECKING:
     from .conversations_cancel_response import ConversationsCancelResponseParams
+    from .conversations_delete_response import ConversationsDeleteResponseParams
+    from .conversations_evaluate_response import ConversationsEvaluateResponseParams
+    from .conversations_evaluate_response_evaluation import ConversationsEvaluateResponseEvaluationParams
     from .conversations_extract_data_response import ConversationsExtractDataResponseParams
     from .conversations_get_analysis_response import ConversationsGetAnalysisResponseParams
     from .conversations_get_response import ConversationsGetResponseParams
@@ -14,9 +17,13 @@ if typing.TYPE_CHECKING:
     from .conversations_list_extractions_response import ConversationsListExtractionsResponseParams
     from .conversations_list_response import ConversationsListResponseParams
     from .conversations_outbound_call_response import ConversationsOutboundCallResponseParams
+    from .conversations_replay_response import ConversationsReplayResponseParams
     from .conversations_sip_outbound_call_response import ConversationsSipOutboundCallResponseParams
 _dynamic_imports: typing.Dict[str, str] = {
     "ConversationsCancelResponseParams": ".conversations_cancel_response",
+    "ConversationsDeleteResponseParams": ".conversations_delete_response",
+    "ConversationsEvaluateResponseEvaluationParams": ".conversations_evaluate_response_evaluation",
+    "ConversationsEvaluateResponseParams": ".conversations_evaluate_response",
     "ConversationsExtractDataResponseParams": ".conversations_extract_data_response",
     "ConversationsGetAnalysisResponseParams": ".conversations_get_analysis_response",
     "ConversationsGetResponseParams": ".conversations_get_response",
@@ -24,6 +31,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ConversationsListExtractionsResponseParams": ".conversations_list_extractions_response",
     "ConversationsListResponseParams": ".conversations_list_response",
     "ConversationsOutboundCallResponseParams": ".conversations_outbound_call_response",
+    "ConversationsReplayResponseParams": ".conversations_replay_response",
     "ConversationsSipOutboundCallResponseParams": ".conversations_sip_outbound_call_response",
 }
 
@@ -51,6 +59,9 @@ def __dir__():
 
 __all__ = [
     "ConversationsCancelResponseParams",
+    "ConversationsDeleteResponseParams",
+    "ConversationsEvaluateResponseEvaluationParams",
+    "ConversationsEvaluateResponseParams",
     "ConversationsExtractDataResponseParams",
     "ConversationsGetAnalysisResponseParams",
     "ConversationsGetResponseParams",
@@ -58,5 +69,6 @@ __all__ = [
     "ConversationsListExtractionsResponseParams",
     "ConversationsListResponseParams",
     "ConversationsOutboundCallResponseParams",
+    "ConversationsReplayResponseParams",
     "ConversationsSipOutboundCallResponseParams",
 ]

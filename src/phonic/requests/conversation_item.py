@@ -9,6 +9,11 @@ from .conversation_item_tool_calls_item import ConversationItemToolCallsItemPara
 
 
 class ConversationItemParams(typing_extensions.TypedDict):
+    id: str
+    """
+    The conversation item ID.
+    """
+
     item_idx: int
     """
     Index of the item in the conversation.
@@ -19,14 +24,19 @@ class ConversationItemParams(typing_extensions.TypedDict):
     Who spoke in this turn.
     """
 
-    live_transcript: str
+    live_transcript: typing.Optional[str]
     """
-    Live transcript of this turn.
+    Live transcript of this turn. `null` when the turn has been redacted.
     """
 
     post_call_transcript: typing.Optional[str]
     """
     Post-call processed transcript.
+    """
+
+    redacted_transcript: typing_extensions.NotRequired[typing.Optional[str]]
+    """
+    The redacted transcript of this turn. `null` when the turn is not redacted.
     """
 
     duration_ms: float

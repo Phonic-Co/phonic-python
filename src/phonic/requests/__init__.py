@@ -9,9 +9,12 @@ if typing.TYPE_CHECKING:
     from .add_system_message_payload import AddSystemMessagePayloadParams
     from .agent import AgentParams
     from .agent_configuration_endpoint import AgentConfigurationEndpointParams
+    from .agent_integration import AgentIntegrationParams
     from .agent_project import AgentProjectParams
+    from .agent_pronunciation_dictionary_item import AgentPronunciationDictionaryItemParams
     from .agent_template_variables_value import AgentTemplateVariablesValueParams
     from .agent_tools_item import AgentToolsItemParams
+    from .api_key_with_secret import ApiKeyWithSecretParams
     from .assistant_chose_not_to_respond_payload import AssistantChoseNotToRespondPayloadParams
     from .assistant_ended_conversation_payload import AssistantEndedConversationPayloadParams
     from .assistant_finished_speaking_payload import AssistantFinishedSpeakingPayloadParams
@@ -22,14 +25,31 @@ if typing.TYPE_CHECKING:
     from .basic_error import BasicErrorParams
     from .basic_error_error import BasicErrorErrorParams
     from .config_options import ConfigOptionsParams
-    from .config_options_tools_item import ConfigOptionsToolsItemParams
+    from .config_options_configuration_endpoint import ConfigOptionsConfigurationEndpointParams
+    from .config_options_data_retention_policy import ConfigOptionsDataRetentionPolicyParams
+    from .config_options_data_retention_policy_audio_recordings import (
+        ConfigOptionsDataRetentionPolicyAudioRecordingsParams,
+    )
+    from .config_options_data_retention_policy_audio_recordings_audio_recordings import (
+        ConfigOptionsDataRetentionPolicyAudioRecordingsAudioRecordingsParams,
+    )
+    from .config_options_data_retention_policy_audio_recordings_transcripts import (
+        ConfigOptionsDataRetentionPolicyAudioRecordingsTranscriptsParams,
+    )
+    from .config_options_data_retention_policy_zero import ConfigOptionsDataRetentionPolicyZeroParams
+    from .config_options_outbound_number_pool import ConfigOptionsOutboundNumberPoolParams
+    from .config_options_pronunciation_dictionary_item import ConfigOptionsPronunciationDictionaryItemParams
+    from .config_options_tasks_item import ConfigOptionsTasksItemParams
     from .config_payload import ConfigPayloadParams
     from .conversation import ConversationParams
     from .conversation_agent import ConversationAgentParams
     from .conversation_analysis import ConversationAnalysisParams
     from .conversation_call_info import ConversationCallInfoParams
     from .conversation_created_payload import ConversationCreatedPayloadParams
+    from .conversation_deletion_info import ConversationDeletionInfoParams
+    from .conversation_eval import ConversationEvalParams
     from .conversation_eval_prompt import ConversationEvalPromptParams
+    from .conversation_eval_prompt_info import ConversationEvalPromptInfoParams
     from .conversation_evaluation import ConversationEvaluationParams
     from .conversation_evaluation_result import ConversationEvaluationResultParams
     from .conversation_evaluation_result_prompt import ConversationEvaluationResultPromptParams
@@ -40,6 +60,7 @@ if typing.TYPE_CHECKING:
     from .conversation_item_tool_calls_item_request_body import ConversationItemToolCallsItemRequestBodyParams
     from .conversation_item_tool_calls_item_tool import ConversationItemToolCallsItemToolParams
     from .conversation_project import ConversationProjectParams
+    from .conversation_pronunciation_dictionary_item import ConversationPronunciationDictionaryItemParams
     from .conversations_list_response_conversation import ConversationsListResponseConversationParams
     from .conversations_list_response_conversations import ConversationsListResponseConversationsParams
     from .conversations_list_response_conversations_pagination import (
@@ -47,8 +68,16 @@ if typing.TYPE_CHECKING:
     )
     from .create_agent_request import CreateAgentRequestParams
     from .create_agent_request_configuration_endpoint import CreateAgentRequestConfigurationEndpointParams
+    from .create_agent_request_pronunciation_dictionary_item import CreateAgentRequestPronunciationDictionaryItemParams
     from .create_agent_request_template_variables_value import CreateAgentRequestTemplateVariablesValueParams
     from .create_agent_request_tools_item import CreateAgentRequestToolsItemParams
+    from .data_retention_policy import DataRetentionPolicyParams
+    from .data_retention_policy_audio_recordings import DataRetentionPolicyAudioRecordingsParams
+    from .data_retention_policy_audio_recordings_audio_recordings import (
+        DataRetentionPolicyAudioRecordingsAudioRecordingsParams,
+    )
+    from .data_retention_policy_audio_recordings_transcripts import DataRetentionPolicyAudioRecordingsTranscriptsParams
+    from .data_retention_policy_zero import DataRetentionPolicyZeroParams
     from .dtmf_payload import DtmfPayloadParams
     from .error import ErrorParams
     from .error_payload import ErrorPayloadParams
@@ -56,16 +85,26 @@ if typing.TYPE_CHECKING:
     from .extraction_field import ExtractionFieldParams
     from .extraction_schema import ExtractionSchemaParams
     from .generate_reply_payload import GenerateReplyPayloadParams
+    from .inline_web_socket_tool import InlineWebSocketToolParams
     from .input_cancelled_payload import InputCancelledPayloadParams
     from .input_text_payload import InputTextPayloadParams
     from .mute_payload import MutePayloadParams
+    from .open_ai_function import OpenAiFunctionParams
+    from .open_ai_tool import OpenAiToolParams
     from .outbound_call_config import OutboundCallConfigParams
+    from .outbound_call_config_configuration_endpoint import OutboundCallConfigConfigurationEndpointParams
+    from .outbound_call_config_pronunciation_dictionary_item import OutboundCallConfigPronunciationDictionaryItemParams
     from .outbound_call_config_tools_item import OutboundCallConfigToolsItemParams
     from .outbound_call_initiated_response import OutboundCallInitiatedResponseParams
     from .outbound_dry_run_response import OutboundDryRunResponseParams
+    from .outbound_number_pool import OutboundNumberPoolParams
     from .project import ProjectParams
     from .project_default_agent import ProjectDefaultAgentParams
     from .ready_to_start_conversation_payload import ReadyToStartConversationPayloadParams
+    from .replay_conversation_item_response import ReplayConversationItemResponseParams
+    from .replay_conversation_item_response_responses_item import ReplayConversationItemResponseResponsesItemParams
+    from .replay_tool_call import ReplayToolCallParams
+    from .replay_tool_call_tool import ReplayToolCallToolParams
     from .reset_payload import ResetPayloadParams
     from .say_payload import SayPayloadParams
     from .set_external_id_payload import SetExternalIdPayloadParams
@@ -80,10 +119,12 @@ if typing.TYPE_CHECKING:
     from .tool_call_output_processed_payload import ToolCallOutputProcessedPayloadParams
     from .tool_call_output_processed_payload_tool import ToolCallOutputProcessedPayloadToolParams
     from .tool_call_payload import ToolCallPayloadParams
+    from .tool_definition import ToolDefinitionParams
     from .tool_parameter import ToolParameterParams
     from .tool_project import ToolProjectParams
     from .unmute_payload import UnmutePayloadParams
     from .update_system_prompt_payload import UpdateSystemPromptPayloadParams
+    from .update_tools_subset_payload import UpdateToolsSubsetPayloadParams
     from .user_finished_speaking_payload import UserFinishedSpeakingPayloadParams
     from .user_started_speaking_payload import UserStartedSpeakingPayloadParams
     from .validation_error import ValidationErrorParams
@@ -94,10 +135,13 @@ if typing.TYPE_CHECKING:
 _dynamic_imports: typing.Dict[str, str] = {
     "AddSystemMessagePayloadParams": ".add_system_message_payload",
     "AgentConfigurationEndpointParams": ".agent_configuration_endpoint",
+    "AgentIntegrationParams": ".agent_integration",
     "AgentParams": ".agent",
     "AgentProjectParams": ".agent_project",
+    "AgentPronunciationDictionaryItemParams": ".agent_pronunciation_dictionary_item",
     "AgentTemplateVariablesValueParams": ".agent_template_variables_value",
     "AgentToolsItemParams": ".agent_tools_item",
+    "ApiKeyWithSecretParams": ".api_key_with_secret",
     "AssistantChoseNotToRespondPayloadParams": ".assistant_chose_not_to_respond_payload",
     "AssistantEndedConversationPayloadParams": ".assistant_ended_conversation_payload",
     "AssistantFinishedSpeakingPayloadParams": ".assistant_finished_speaking_payload",
@@ -107,13 +151,24 @@ _dynamic_imports: typing.Dict[str, str] = {
     "BadRequestErrorBodyParams": ".bad_request_error_body",
     "BasicErrorErrorParams": ".basic_error_error",
     "BasicErrorParams": ".basic_error",
+    "ConfigOptionsConfigurationEndpointParams": ".config_options_configuration_endpoint",
+    "ConfigOptionsDataRetentionPolicyAudioRecordingsAudioRecordingsParams": ".config_options_data_retention_policy_audio_recordings_audio_recordings",
+    "ConfigOptionsDataRetentionPolicyAudioRecordingsParams": ".config_options_data_retention_policy_audio_recordings",
+    "ConfigOptionsDataRetentionPolicyAudioRecordingsTranscriptsParams": ".config_options_data_retention_policy_audio_recordings_transcripts",
+    "ConfigOptionsDataRetentionPolicyParams": ".config_options_data_retention_policy",
+    "ConfigOptionsDataRetentionPolicyZeroParams": ".config_options_data_retention_policy_zero",
+    "ConfigOptionsOutboundNumberPoolParams": ".config_options_outbound_number_pool",
     "ConfigOptionsParams": ".config_options",
-    "ConfigOptionsToolsItemParams": ".config_options_tools_item",
+    "ConfigOptionsPronunciationDictionaryItemParams": ".config_options_pronunciation_dictionary_item",
+    "ConfigOptionsTasksItemParams": ".config_options_tasks_item",
     "ConfigPayloadParams": ".config_payload",
     "ConversationAgentParams": ".conversation_agent",
     "ConversationAnalysisParams": ".conversation_analysis",
     "ConversationCallInfoParams": ".conversation_call_info",
     "ConversationCreatedPayloadParams": ".conversation_created_payload",
+    "ConversationDeletionInfoParams": ".conversation_deletion_info",
+    "ConversationEvalParams": ".conversation_eval",
+    "ConversationEvalPromptInfoParams": ".conversation_eval_prompt_info",
     "ConversationEvalPromptParams": ".conversation_eval_prompt",
     "ConversationEvaluationParams": ".conversation_evaluation",
     "ConversationEvaluationResultParams": ".conversation_evaluation_result",
@@ -126,13 +181,20 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ConversationItemToolCallsItemToolParams": ".conversation_item_tool_calls_item_tool",
     "ConversationParams": ".conversation",
     "ConversationProjectParams": ".conversation_project",
+    "ConversationPronunciationDictionaryItemParams": ".conversation_pronunciation_dictionary_item",
     "ConversationsListResponseConversationParams": ".conversations_list_response_conversation",
     "ConversationsListResponseConversationsPaginationParams": ".conversations_list_response_conversations_pagination",
     "ConversationsListResponseConversationsParams": ".conversations_list_response_conversations",
     "CreateAgentRequestConfigurationEndpointParams": ".create_agent_request_configuration_endpoint",
     "CreateAgentRequestParams": ".create_agent_request",
+    "CreateAgentRequestPronunciationDictionaryItemParams": ".create_agent_request_pronunciation_dictionary_item",
     "CreateAgentRequestTemplateVariablesValueParams": ".create_agent_request_template_variables_value",
     "CreateAgentRequestToolsItemParams": ".create_agent_request_tools_item",
+    "DataRetentionPolicyAudioRecordingsAudioRecordingsParams": ".data_retention_policy_audio_recordings_audio_recordings",
+    "DataRetentionPolicyAudioRecordingsParams": ".data_retention_policy_audio_recordings",
+    "DataRetentionPolicyAudioRecordingsTranscriptsParams": ".data_retention_policy_audio_recordings_transcripts",
+    "DataRetentionPolicyParams": ".data_retention_policy",
+    "DataRetentionPolicyZeroParams": ".data_retention_policy_zero",
     "DtmfPayloadParams": ".dtmf_payload",
     "ErrorParams": ".error",
     "ErrorPayloadErrorParams": ".error_payload_error",
@@ -140,16 +202,26 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ExtractionFieldParams": ".extraction_field",
     "ExtractionSchemaParams": ".extraction_schema",
     "GenerateReplyPayloadParams": ".generate_reply_payload",
+    "InlineWebSocketToolParams": ".inline_web_socket_tool",
     "InputCancelledPayloadParams": ".input_cancelled_payload",
     "InputTextPayloadParams": ".input_text_payload",
     "MutePayloadParams": ".mute_payload",
+    "OpenAiFunctionParams": ".open_ai_function",
+    "OpenAiToolParams": ".open_ai_tool",
+    "OutboundCallConfigConfigurationEndpointParams": ".outbound_call_config_configuration_endpoint",
     "OutboundCallConfigParams": ".outbound_call_config",
+    "OutboundCallConfigPronunciationDictionaryItemParams": ".outbound_call_config_pronunciation_dictionary_item",
     "OutboundCallConfigToolsItemParams": ".outbound_call_config_tools_item",
     "OutboundCallInitiatedResponseParams": ".outbound_call_initiated_response",
     "OutboundDryRunResponseParams": ".outbound_dry_run_response",
+    "OutboundNumberPoolParams": ".outbound_number_pool",
     "ProjectDefaultAgentParams": ".project_default_agent",
     "ProjectParams": ".project",
     "ReadyToStartConversationPayloadParams": ".ready_to_start_conversation_payload",
+    "ReplayConversationItemResponseParams": ".replay_conversation_item_response",
+    "ReplayConversationItemResponseResponsesItemParams": ".replay_conversation_item_response_responses_item",
+    "ReplayToolCallParams": ".replay_tool_call",
+    "ReplayToolCallToolParams": ".replay_tool_call_tool",
     "ResetPayloadParams": ".reset_payload",
     "SayPayloadParams": ".say_payload",
     "SetExternalIdPayloadParams": ".set_external_id_payload",
@@ -163,11 +235,13 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ToolCallOutputProcessedPayloadParams": ".tool_call_output_processed_payload",
     "ToolCallOutputProcessedPayloadToolParams": ".tool_call_output_processed_payload_tool",
     "ToolCallPayloadParams": ".tool_call_payload",
+    "ToolDefinitionParams": ".tool_definition",
     "ToolParameterParams": ".tool_parameter",
     "ToolParams": ".tool",
     "ToolProjectParams": ".tool_project",
     "UnmutePayloadParams": ".unmute_payload",
     "UpdateSystemPromptPayloadParams": ".update_system_prompt_payload",
+    "UpdateToolsSubsetPayloadParams": ".update_tools_subset_payload",
     "UserFinishedSpeakingPayloadParams": ".user_finished_speaking_payload",
     "UserStartedSpeakingPayloadParams": ".user_started_speaking_payload",
     "ValidationErrorErrorParams": ".validation_error_error",
@@ -202,10 +276,13 @@ def __dir__():
 __all__ = [
     "AddSystemMessagePayloadParams",
     "AgentConfigurationEndpointParams",
+    "AgentIntegrationParams",
     "AgentParams",
     "AgentProjectParams",
+    "AgentPronunciationDictionaryItemParams",
     "AgentTemplateVariablesValueParams",
     "AgentToolsItemParams",
+    "ApiKeyWithSecretParams",
     "AssistantChoseNotToRespondPayloadParams",
     "AssistantEndedConversationPayloadParams",
     "AssistantFinishedSpeakingPayloadParams",
@@ -215,13 +292,24 @@ __all__ = [
     "BadRequestErrorBodyParams",
     "BasicErrorErrorParams",
     "BasicErrorParams",
+    "ConfigOptionsConfigurationEndpointParams",
+    "ConfigOptionsDataRetentionPolicyAudioRecordingsAudioRecordingsParams",
+    "ConfigOptionsDataRetentionPolicyAudioRecordingsParams",
+    "ConfigOptionsDataRetentionPolicyAudioRecordingsTranscriptsParams",
+    "ConfigOptionsDataRetentionPolicyParams",
+    "ConfigOptionsDataRetentionPolicyZeroParams",
+    "ConfigOptionsOutboundNumberPoolParams",
     "ConfigOptionsParams",
-    "ConfigOptionsToolsItemParams",
+    "ConfigOptionsPronunciationDictionaryItemParams",
+    "ConfigOptionsTasksItemParams",
     "ConfigPayloadParams",
     "ConversationAgentParams",
     "ConversationAnalysisParams",
     "ConversationCallInfoParams",
     "ConversationCreatedPayloadParams",
+    "ConversationDeletionInfoParams",
+    "ConversationEvalParams",
+    "ConversationEvalPromptInfoParams",
     "ConversationEvalPromptParams",
     "ConversationEvaluationParams",
     "ConversationEvaluationResultParams",
@@ -234,13 +322,20 @@ __all__ = [
     "ConversationItemToolCallsItemToolParams",
     "ConversationParams",
     "ConversationProjectParams",
+    "ConversationPronunciationDictionaryItemParams",
     "ConversationsListResponseConversationParams",
     "ConversationsListResponseConversationsPaginationParams",
     "ConversationsListResponseConversationsParams",
     "CreateAgentRequestConfigurationEndpointParams",
     "CreateAgentRequestParams",
+    "CreateAgentRequestPronunciationDictionaryItemParams",
     "CreateAgentRequestTemplateVariablesValueParams",
     "CreateAgentRequestToolsItemParams",
+    "DataRetentionPolicyAudioRecordingsAudioRecordingsParams",
+    "DataRetentionPolicyAudioRecordingsParams",
+    "DataRetentionPolicyAudioRecordingsTranscriptsParams",
+    "DataRetentionPolicyParams",
+    "DataRetentionPolicyZeroParams",
     "DtmfPayloadParams",
     "ErrorParams",
     "ErrorPayloadErrorParams",
@@ -248,16 +343,26 @@ __all__ = [
     "ExtractionFieldParams",
     "ExtractionSchemaParams",
     "GenerateReplyPayloadParams",
+    "InlineWebSocketToolParams",
     "InputCancelledPayloadParams",
     "InputTextPayloadParams",
     "MutePayloadParams",
+    "OpenAiFunctionParams",
+    "OpenAiToolParams",
+    "OutboundCallConfigConfigurationEndpointParams",
     "OutboundCallConfigParams",
+    "OutboundCallConfigPronunciationDictionaryItemParams",
     "OutboundCallConfigToolsItemParams",
     "OutboundCallInitiatedResponseParams",
     "OutboundDryRunResponseParams",
+    "OutboundNumberPoolParams",
     "ProjectDefaultAgentParams",
     "ProjectParams",
     "ReadyToStartConversationPayloadParams",
+    "ReplayConversationItemResponseParams",
+    "ReplayConversationItemResponseResponsesItemParams",
+    "ReplayToolCallParams",
+    "ReplayToolCallToolParams",
     "ResetPayloadParams",
     "SayPayloadParams",
     "SetExternalIdPayloadParams",
@@ -271,11 +376,13 @@ __all__ = [
     "ToolCallOutputProcessedPayloadParams",
     "ToolCallOutputProcessedPayloadToolParams",
     "ToolCallPayloadParams",
+    "ToolDefinitionParams",
     "ToolParameterParams",
     "ToolParams",
     "ToolProjectParams",
     "UnmutePayloadParams",
     "UpdateSystemPromptPayloadParams",
+    "UpdateToolsSubsetPayloadParams",
     "UserFinishedSpeakingPayloadParams",
     "UserStartedSpeakingPayloadParams",
     "ValidationErrorErrorParams",

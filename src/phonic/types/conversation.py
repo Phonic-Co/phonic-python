@@ -10,11 +10,15 @@ from .conversation_agent import ConversationAgent
 from .conversation_analysis import ConversationAnalysis
 from .conversation_background_noise import ConversationBackgroundNoise
 from .conversation_call_info import ConversationCallInfo
+from .conversation_deletion_info import ConversationDeletionInfo
 from .conversation_ended_by import ConversationEndedBy
 from .conversation_item import ConversationItem
 from .conversation_multilingual_mode import ConversationMultilingualMode
 from .conversation_origin import ConversationOrigin
 from .conversation_project import ConversationProject
+from .conversation_pronunciation_dictionary_item import ConversationPronunciationDictionaryItem
+from .data_retention_policy import DataRetentionPolicy
+from .language_code import LanguageCode
 
 
 class Conversation(UncheckedBaseModel):
@@ -58,6 +62,11 @@ class Conversation(UncheckedBaseModel):
     Will be `true` if welcome message was automatically generated.
     """
 
+    is_welcome_message_interruptible: bool = pydantic.Field()
+    """
+    When `false`, the welcome message will not be interruptible by the user.
+    """
+
     welcome_message: typing.Optional[str] = pydantic.Field(default=None)
     """
     Welcome message played at start. Will be `null` when `generate_welcome_message` is `true`.
@@ -93,7 +102,7 @@ class Conversation(UncheckedBaseModel):
     The background noise type used in the conversation.
     """
 
-    live_transcript: str = pydantic.Field()
+    live_transcript: typing.Optional[str] = pydantic.Field(default=None)
     """
     Live transcript of the conversation.
     """
@@ -133,24 +142,29 @@ class Conversation(UncheckedBaseModel):
     These words, or short phrases, are more accurately recognized by the model.
     """
 
+    pronunciation_dictionary: typing.List[ConversationPronunciationDictionaryItem] = pydantic.Field()
+    """
+    Array of `{ word, pronunciation }` entries. Words must be unique.
+    """
+
     min_words_to_interrupt: int = pydantic.Field()
     """
     Minimum number of words required to interrupt the assistant.
     """
 
-    default_language: str = pydantic.Field()
+    default_language: LanguageCode = pydantic.Field()
     """
     ISO 639-1 language code that sets the agent's default language to recognize and speak. Welcome message and no input poke text should be in this language.
     """
 
-    additional_languages: typing.Optional[typing.List[str]] = pydantic.Field(default=None)
+    additional_languages: typing.Optional[typing.List[LanguageCode]] = pydantic.Field(default=None)
     """
-    Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`.
+    Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`. When `multilingual_mode` is `"auto"`, a maximum of 2 additional languages is allowed.
     """
 
     multilingual_mode: ConversationMultilingualMode = pydantic.Field()
     """
-    If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended).
+    If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended). If `"initial"` the first turn user audio determines the language for the rest of the conversation.
     """
 
     push_to_talk: bool = pydantic.Field()
@@ -183,6 +197,31 @@ class Conversation(UncheckedBaseModel):
     Seconds of silence before the conversation is ended.
     """
 
+    websocket_timeout_sec: typing.Optional[float] = pydantic.Field(default=None)
+    """
+    The WebSocket idle timeout in seconds.
+    """
+
+    vad_prebuffer_duration_ms: typing.Optional[int] = pydantic.Field(default=None)
+    """
+    Voice activity detection prebuffer duration in milliseconds. `null` when not applicable or unknown (e.g. push-to-talk, or legacy stored conversations).
+    """
+
+    vad_min_speech_duration_ms: typing.Optional[int] = pydantic.Field(default=None)
+    """
+    Minimum speech duration for voice activity detection in milliseconds. `null` when not applicable or unknown.
+    """
+
+    vad_min_silence_duration_ms: typing.Optional[int] = pydantic.Field(default=None)
+    """
+    Minimum silence duration for voice activity detection in milliseconds. `null` when not applicable or unknown.
+    """
+
+    vad_threshold: typing.Optional[float] = pydantic.Field(default=None)
+    """
+    Voice activity detection threshold. `null` when not applicable or unknown.
+    """
+
     task_results: typing.Dict[str, typing.Any] = pydantic.Field()
     """
     Results from conversation evaluations and extractions.
@@ -201,6 +240,41 @@ class Conversation(UncheckedBaseModel):
     analysis: ConversationAnalysis = pydantic.Field()
     """
     Analysis of the conversation including latencies and interruptions.
+    """
+
+    is_redacted: typing.Optional[bool] = pydantic.Field(default=None)
+    """
+    Whether PII and PHI have been redacted from the conversation.
+    """
+
+    redacted_transcript: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    The redacted transcript of the conversation. `null` when the conversation is not redacted.
+    """
+
+    metadata: typing.Optional[typing.Dict[str, typing.Any]] = pydantic.Field(default=None)
+    """
+    Arbitrary metadata associated with the conversation.
+    """
+
+    data_retention_policy: typing.Optional[DataRetentionPolicy] = pydantic.Field(default=None)
+    """
+    Controls how long transcripts and audio recordings are retained before deletion.
+    """
+
+    deletion_info: typing.Optional[ConversationDeletionInfo] = pydantic.Field(default=None)
+    """
+    Information about when transcripts and audio recordings are or were scheduled to be deleted.
+    """
+
+    enable_assistant_backchannel: typing.Optional[bool] = pydantic.Field(default=None)
+    """
+    Whether the assistant produced backchannel responses during the conversation.
+    """
+
+    assistant_backchannel_aggressiveness: typing.Optional[float] = pydantic.Field(default=None)
+    """
+    How aggressively the assistant produced backchannel responses during the conversation.
     """
 
     if IS_PYDANTIC_V2:

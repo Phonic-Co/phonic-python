@@ -16,3 +16,8 @@ class AudioChunkResponsePayloadParams(typing_extensions.TypedDict):
     """
     Text corresponding to audio chunk
     """
+
+    timings: typing_extensions.NotRequired[typing.Dict[str, float]]
+    """
+    Optional latency-breakdown metrics for the audio chunk, expressed as named millisecond durations. Only present on the first audio chunk of a turn.
+    """

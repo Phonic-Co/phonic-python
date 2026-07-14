@@ -14,6 +14,11 @@ class DtmfPayload(UncheckedBaseModel):
     DTMF digits to play
     """
 
+    timings: typing.Optional[typing.Dict[str, float]] = pydantic.Field(default=None)
+    """
+    Optional latency-breakdown metrics for the message, expressed as named millisecond durations.
+    """
+
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
     else:

@@ -98,7 +98,7 @@ Creates a new agent in a project.
 <dd>
 
 ```python
-from phonic import Phonic, CreateAgentRequestTemplateVariablesValue, CreateAgentRequestConfigurationEndpoint
+from phonic import Phonic, CreateAgentRequestTemplateVariablesValue, CreateAgentRequestPronunciationDictionaryItem, CreateAgentRequestConfigurationEndpoint
 from phonic.environment import PhonicEnvironment
 
 client = Phonic(
@@ -115,6 +115,7 @@ client.agents.create(
     audio_speed=1,
     background_noise_level=0,
     generate_welcome_message=False,
+    is_welcome_message_interruptible=True,
     welcome_message="Hi {{customer_name}}. How can I help you today?",
     system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
     template_variables={
@@ -140,6 +141,12 @@ client.agents.create(
     boosted_keywords=[
         "Load ID",
         "dispatch"
+    ],
+    pronunciation_dictionary=[
+        CreateAgentRequestPronunciationDictionaryItem(
+            word="Phuket",
+            pronunciation="Poo-ket",
+        )
     ],
     min_words_to_interrupt=1,
     configuration_endpoint=CreateAgentRequestConfigurationEndpoint(
@@ -220,7 +227,7 @@ Upserts an agent by name. If an agent with the same name already exists, it will
 <dd>
 
 ```python
-from phonic import Phonic, CreateAgentRequestTemplateVariablesValue, CreateAgentRequestConfigurationEndpoint
+from phonic import Phonic, CreateAgentRequestTemplateVariablesValue, CreateAgentRequestPronunciationDictionaryItem, CreateAgentRequestConfigurationEndpoint
 from phonic.environment import PhonicEnvironment
 
 client = Phonic(
@@ -237,6 +244,7 @@ client.agents.upsert(
     audio_speed=1,
     background_noise_level=0,
     generate_welcome_message=False,
+    is_welcome_message_interruptible=True,
     welcome_message="Hi {{customer_name}}. How can I help you today?",
     system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
     template_variables={
@@ -262,6 +270,12 @@ client.agents.upsert(
     boosted_keywords=[
         "Load ID",
         "dispatch"
+    ],
+    pronunciation_dictionary=[
+        CreateAgentRequestPronunciationDictionaryItem(
+            word="Phuket",
+            pronunciation="Poo-ket",
+        )
     ],
     min_words_to_interrupt=1,
     configuration_endpoint=CreateAgentRequestConfigurationEndpoint(
@@ -296,6 +310,14 @@ client.agents.upsert(
 <dd>
 
 **project:** `typing.Optional[str]` — The name of the project containing the agent.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**slug:** `typing.Optional[str]` — URL-friendly agent slug. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
     
 </dd>
 </dl>
@@ -383,6 +405,22 @@ client.agents.upsert(
 <dl>
 <dd>
 
+**is_welcome_message_interruptible:** `typing.Optional[bool]` — When `false`, the welcome message will not be interruptible by the user.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**websocket_timeout_sec:** `typing.Optional[int]` — Number of seconds of inactivity before the conversation WebSocket is closed.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **welcome_message:** `typing.Optional[str]` — Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. Ignored when `generate_welcome_message` is `true`.
     
 </dd>
@@ -455,6 +493,30 @@ client.agents.upsert(
 <dl>
 <dd>
 
+**enable_assistant_backchannel:** `typing.Optional[bool]` — When `true`, the assistant will produce backchannel responses (e.g. "mm-hmm") while the user is speaking.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**assistant_backchannel_aggressiveness:** `typing.Optional[float]` — How aggressively the assistant produces backchannel responses. Only relevant when `enable_assistant_backchannel` is `true`.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**data_retention_policy:** `typing.Optional[DataRetentionPolicy]` — Controls how long transcripts and audio recordings are retained before deletion.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **default_language:** `typing.Optional[LanguageCode]` — ISO 639-1 language code that sets the agent's default language to recognize and speak. Welcome message and no input poke text should be in this language.
     
 </dd>
@@ -463,7 +525,7 @@ client.agents.upsert(
 <dl>
 <dd>
 
-**additional_languages:** `typing.Optional[typing.List[LanguageCode]]` — Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`.
+**additional_languages:** `typing.Optional[typing.List[LanguageCode]]` — Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`. When `multilingual_mode` is `"auto"`, a maximum of 2 additional languages is allowed.
     
 </dd>
 </dl>
@@ -479,7 +541,7 @@ client.agents.upsert(
 <dl>
 <dd>
 
-**multilingual_mode:** `typing.Optional[CreateAgentRequestMultilingualMode]` — If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended).
+**multilingual_mode:** `typing.Optional[CreateAgentRequestMultilingualMode]` — If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended). If `"initial"` the first turn user audio determines the language for the rest of the conversation.
     
 </dd>
 </dl>
@@ -495,7 +557,23 @@ client.agents.upsert(
 <dl>
 <dd>
 
+**intelligence_level:** `typing.Optional[CreateAgentRequestIntelligenceLevel]` — The intelligence level of the agent. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **boosted_keywords:** `typing.Optional[typing.List[str]]` — These words, or short phrases, will be more accurately recognized by the agent.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**pronunciation_dictionary:** `typing.Optional[typing.List[CreateAgentRequestPronunciationDictionaryItem]]` — Array of `{ word, pronunciation }` entries. Words must be unique.
     
 </dd>
 </dl>
@@ -560,6 +638,46 @@ client.agents.upsert(
 <dd>
 
 **vad_threshold:** `typing.Optional[float]` — Voice activity detection threshold.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**enable_redaction:** `typing.Optional[bool]` — When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE NUMBER]`) and bleeped from audio recordings after the conversation ends.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**mcp_server_ids:** `typing.Optional[typing.List[str]]` — Array of MCP server IDs to make available to the agent.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**observability_integrations:** `typing.Optional[typing.List[typing.Literal]]` — Names of observability integrations to enable for the agent. Each must be one of the supported providers.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**outbound_number_pool:** `typing.Optional[OutboundNumberPool]` — Pool of phone numbers used for outbound calls. Set to `null` to remove the pool.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**procedure_ids:** `typing.Optional[typing.List[str]]` — Array of procedure IDs associated with the agent.
     
 </dd>
 </dl>
@@ -772,7 +890,7 @@ Updates an agent by name or ID.
 ```python
 from phonic import Phonic
 from phonic.environment import PhonicEnvironment
-from phonic.agents import UpdateAgentRequestTemplateVariablesValue, UpdateAgentRequestConfigurationEndpoint
+from phonic.agents import UpdateAgentRequestTemplateVariablesValue, UpdateAgentRequestPronunciationDictionaryItem, UpdateAgentRequestConfigurationEndpoint
 
 client = Phonic(
     api_key="<token>",
@@ -789,6 +907,7 @@ client.agents.update(
     audio_speed=1,
     background_noise_level=0,
     generate_welcome_message=False,
+    is_welcome_message_interruptible=True,
     welcome_message="Hi {{customer_name}}. How can I help you today?",
     system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
     template_variables={
@@ -814,6 +933,12 @@ client.agents.update(
     boosted_keywords=[
         "Load ID",
         "dispatch"
+    ],
+    pronunciation_dictionary=[
+        UpdateAgentRequestPronunciationDictionaryItem(
+            word="Phuket",
+            pronunciation="Poo-ket",
+        )
     ],
     min_words_to_interrupt=1,
     configuration_endpoint=UpdateAgentRequestConfigurationEndpoint(
@@ -856,6 +981,14 @@ client.agents.update(
 <dd>
 
 **name:** `typing.Optional[str]` — The name of the agent. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**slug:** `typing.Optional[str]` — URL-friendly agent slug. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
     
 </dd>
 </dl>
@@ -943,6 +1076,22 @@ client.agents.update(
 <dl>
 <dd>
 
+**is_welcome_message_interruptible:** `typing.Optional[bool]` — When `false`, the welcome message will not be interruptible by the user.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**websocket_timeout_sec:** `typing.Optional[int]` — Number of seconds of inactivity before the conversation WebSocket is closed.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **welcome_message:** `typing.Optional[str]` — Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. Ignored when `generate_welcome_message` is `true`.
     
 </dd>
@@ -1015,6 +1164,54 @@ client.agents.update(
 <dl>
 <dd>
 
+**enable_assistant_backchannel:** `typing.Optional[bool]` — When `true`, the assistant will produce backchannel responses (e.g. "mm-hmm") while the user is speaking.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**assistant_backchannel_aggressiveness:** `typing.Optional[float]` — How aggressively the assistant produces backchannel responses. Only relevant when `enable_assistant_backchannel` is `true`.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**data_retention_policy:** `typing.Optional[DataRetentionPolicy]` — Controls how long transcripts and audio recordings are retained before deletion.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**outbound_number_pool:** `typing.Optional[OutboundNumberPool]` — Pool of phone numbers used for outbound calls. Set to `null` to remove the pool.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**procedure_ids:** `typing.Optional[typing.List[str]]` — Array of procedure IDs associated with the agent.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**integrations:** `typing.Optional[typing.List[AgentIntegration]]` — Array of third-party integrations enabled for the agent.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **default_language:** `typing.Optional[LanguageCode]` — ISO 639-1 language code that sets the agent's default language to recognize and speak. Welcome message and no input poke text should be in this language.
     
 </dd>
@@ -1023,7 +1220,7 @@ client.agents.update(
 <dl>
 <dd>
 
-**additional_languages:** `typing.Optional[typing.List[LanguageCode]]` — Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`.
+**additional_languages:** `typing.Optional[typing.List[LanguageCode]]` — Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`. When `multilingual_mode` is `"auto"`, a maximum of 2 additional languages is allowed.
     
 </dd>
 </dl>
@@ -1039,7 +1236,7 @@ client.agents.update(
 <dl>
 <dd>
 
-**multilingual_mode:** `typing.Optional[UpdateAgentRequestMultilingualMode]` — If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended).
+**multilingual_mode:** `typing.Optional[UpdateAgentRequestMultilingualMode]` — If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended). If `"initial"` the first turn user audio determines the language for the rest of the conversation.
     
 </dd>
 </dl>
@@ -1055,7 +1252,23 @@ client.agents.update(
 <dl>
 <dd>
 
+**intelligence_level:** `typing.Optional[UpdateAgentRequestIntelligenceLevel]` — The intelligence level of the agent. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **boosted_keywords:** `typing.Optional[typing.List[str]]` — These words, or short phrases, will be more accurately recognized by the agent.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**pronunciation_dictionary:** `typing.Optional[typing.List[UpdateAgentRequestPronunciationDictionaryItem]]` — Array of `{ word, pronunciation }` entries. Words must be unique.
     
 </dd>
 </dl>
@@ -1120,6 +1333,30 @@ client.agents.update(
 <dd>
 
 **vad_threshold:** `typing.Optional[float]` — Voice activity detection threshold.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**enable_redaction:** `typing.Optional[bool]` — When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE NUMBER]`) and bleeped from audio recordings after the conversation ends.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**mcp_server_ids:** `typing.Optional[typing.List[str]]` — Array of MCP server IDs to make available to the agent.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**observability_integrations:** `typing.Optional[typing.List[typing.Literal]]` — Names of observability integrations to enable for the agent. Each must be one of the supported providers.
     
 </dd>
 </dl>
@@ -1594,6 +1831,7 @@ client.tools.create(
     require_speech_before_tool_call=False,
     forbid_speech_after_tool_call=False,
     allow_tool_chaining=True,
+    context="Press the A button 5 times then gently shake the printer.",
 )
 
 ```
@@ -1711,7 +1949,15 @@ For `custom_websocket`, `built_in_transfer_to_phone_number`, and `built_in_trans
 <dl>
 <dd>
 
-**dtmf:** `typing.Optional[str]` — DTMF digits to send after the transfer connects (e.g., "1234"). Defaults to null.
+**dtmf:** `typing.Optional[str]` — DTMF digits to send after the transfer connects (e.g., "1234"). Defaults to null. Ignored when dynamic_dtmf is true.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**dynamic_dtmf:** `typing.Optional[bool]` — When true, the agent determines the DTMF digits at call time (and may choose to send none); the static dtmf is ignored. Only sent when use_agent_phone_number is true (not on a SIP REFER transfer).
     
 </dd>
 </dl>
@@ -1776,6 +2022,14 @@ For `custom_websocket`, `built_in_transfer_to_phone_number`, and `built_in_trans
 <dd>
 
 **wait_for_response:** `typing.Optional[bool]` — The agent doesn't typically wait for the response of async custom_websocket tools. When true, makes the agent wait for a response, not call other tools and inform the user of the result. Only available for async custom_websocket tools.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**context:** `typing.Optional[str]` — The static context returned to the agent. Required for custom_context tools.
     
 </dd>
 </dl>
@@ -2050,7 +2304,7 @@ client.tools.update(
 <dl>
 <dd>
 
-**type:** `typing.Optional[UpdateToolRequestType]` — The type of tool.
+**execution_mode:** `typing.Optional[UpdateToolRequestExecutionMode]` — Mode of operation.
     
 </dd>
 </dl>
@@ -2058,7 +2312,7 @@ client.tools.update(
 <dl>
 <dd>
 
-**execution_mode:** `typing.Optional[UpdateToolRequestExecutionMode]` — Mode of operation.
+**context:** `typing.Optional[str]` — The static context returned to the agent. Only applicable to custom_context tools.
     
 </dd>
 </dl>
@@ -2069,7 +2323,7 @@ client.tools.update(
 **parameters:** `typing.Optional[typing.List[ToolParameter]]` 
 
 Array of parameter definitions.
-When updating `type` or `endpoint_method`, all parameters must include explicit `location` values.
+When updating `endpoint_method`, all parameters must include explicit `location` values.
 For `custom_webhook` tools: `location` is required for POST, defaults to `"query_string"` for GET.
 For `custom_websocket`, `built_in_transfer_to_phone_number`, and `built_in_transfer_to_agent` tools: `location` must not be specified.
     
@@ -2095,7 +2349,7 @@ For `custom_websocket`, `built_in_transfer_to_phone_number`, and `built_in_trans
 <dl>
 <dd>
 
-**endpoint_headers:** `typing.Optional[typing.Dict[str, str]]` 
+**endpoint_headers:** `typing.Optional[typing.Dict[str, typing.Optional[str]]]` — Headers for webhook tools. Set to null to clear existing headers.
     
 </dd>
 </dl>
@@ -2127,7 +2381,15 @@ For `custom_websocket`, `built_in_transfer_to_phone_number`, and `built_in_trans
 <dl>
 <dd>
 
-**dtmf:** `typing.Optional[str]` — DTMF digits to send after the transfer connects (e.g., "1234"). Can be set to null to remove DTMF.
+**dtmf:** `typing.Optional[str]` — DTMF digits to send after the transfer connects (e.g., "1234"). Can be set to null to remove DTMF. Ignored when dynamic_dtmf is true.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**dynamic_dtmf:** `typing.Optional[bool]` — When true, the agent determines the DTMF digits at call time (and may choose to send none); the static dtmf is ignored. Only sent when use_agent_phone_number is true (not on a SIP REFER transfer).
     
 </dd>
 </dl>
@@ -2896,6 +3158,498 @@ client.workspace.get()
 </dl>
 </details>
 
+<details><summary><code>client.workspace.<a href="src/phonic/workspace/client.py">update</a>(...) -> WorkspaceUpdateResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Updates the workspace.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from phonic import Phonic
+from phonic.environment import PhonicEnvironment
+
+client = Phonic(
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
+)
+
+client.workspace.update(
+    logo_url="https://example.com/logo.png",
+    invite_link_allowed_domains=[
+        "example.com"
+    ],
+    ip_allowlist=[
+        "203.0.113.0/24"
+    ],
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**logo_url:** `typing.Optional[str]` — URL of the workspace logo. Must be an https URL ending in .png or .svg, or null to clear it.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**invite_link_allowed_domains:** `typing.Optional[typing.List[str]]` — Email domains allowed to join the workspace via invite link.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**ip_allowlist:** `typing.Optional[typing.List[str]]` — IP addresses or CIDR ranges allowed to access the workspace.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## ApiKeys
+<details><summary><code>client.api_keys.<a href="src/phonic/api_keys/client.py">create</a>(...) -> ApiKeyWithSecret</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Creates a new API key in the workspace.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from phonic import Phonic
+from phonic.environment import PhonicEnvironment
+
+client = Phonic(
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
+)
+
+client.api_keys.create(
+    name="production-key",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**name:** `str` — A name to identify the API key.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.api_keys.<a href="src/phonic/api_keys/client.py">delete</a>(...) -> ApiKeysDeleteResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Deletes an API key.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from phonic import Phonic
+from phonic.environment import PhonicEnvironment
+
+client = Phonic(
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
+)
+
+client.api_keys.delete(
+    id="id",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `str` — The ID of the API key to delete.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.api_keys.<a href="src/phonic/api_keys/client.py">update</a>(...) -> ApiKeysUpdateResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Updates an API key.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from phonic import Phonic
+from phonic.environment import PhonicEnvironment
+
+client = Phonic(
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
+)
+
+client.api_keys.update(
+    id="id",
+    name="renamed-key",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `str` — The ID of the API key to update.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**name:** `str` — The new name for the API key.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.api_keys.<a href="src/phonic/api_keys/client.py">rotate</a>(...) -> ApiKeyWithSecret</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Rotates an API key, generating a new secret and invalidating the old one.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from phonic import Phonic
+from phonic.environment import PhonicEnvironment
+
+client = Phonic(
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
+)
+
+client.api_keys.rotate(
+    id="id",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `str` — The ID of the API key to rotate.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## ConversationItems
+<details><summary><code>client.conversation_items.<a href="src/phonic/conversation_items/client.py">replay</a>(...) -> ReplayConversationItemResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Returns the alternative response(s) the assistant would have
+produced for this conversation turn given changes to the agent system prompt.
+
+Only assistant items from ended conversations can be replayed. The
+conversation must have an associated agent.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from phonic import Phonic
+from phonic.environment import PhonicEnvironment
+
+client = Phonic(
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
+)
+
+client.conversation_items.replay(
+    id="id",
+    system_prompt="system_prompt",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `str` — The ID of the conversation item to replay.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**system_prompt:** `str` — The system prompt to use when generating replay responses. Use this to test prompt changes against this conversation turn.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**num_responses:** `typing.Optional[int]` — Number of alternative responses to generate.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 ## Conversations
 <details><summary><code>client.conversations.<a href="src/phonic/conversations/client.py">list</a>(...) -> ConversationsListResponse</code></summary>
 <dl>
@@ -3102,6 +3856,79 @@ client.conversations.get(
 <dd>
 
 **audio_container:** `typing.Optional[ConversationsGetRequestAudioContainer]` — Format of the presigned `audio_url` in the response.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.conversations.<a href="src/phonic/conversations/client.py">delete</a>(...) -> ConversationsDeleteResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Deletes a conversation, scheduling its transcripts and audio recordings for deletion. The conversation must have ended.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from phonic import Phonic
+from phonic.environment import PhonicEnvironment
+
+client = Phonic(
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
+)
+
+client.conversations.delete(
+    id="id",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `str` — The ID of the conversation to delete.
     
 </dd>
 </dl>
@@ -3495,7 +4322,7 @@ client.conversations.list_evaluations(
 </dl>
 </details>
 
-<details><summary><code>client.conversations.<a href="src/phonic/conversations/client.py">evaluate</a>(...) -> ConversationEvaluationResult</code></summary>
+<details><summary><code>client.conversations.<a href="src/phonic/conversations/client.py">evaluate</a>(...) -> ConversationsEvaluateResponse</code></summary>
 <dl>
 <dd>
 
@@ -3604,7 +4431,7 @@ Initiates a call to a given phone number using Phonic's Twilio account.
 <dd>
 
 ```python
-from phonic import Phonic, OutboundCallConfig
+from phonic import Phonic, OutboundCallConfig, OutboundCallConfigPronunciationDictionaryItem
 from phonic.environment import PhonicEnvironment
 
 client = Phonic(
@@ -3636,6 +4463,12 @@ client.conversations.outbound_call(
         boosted_keywords=[
             "Load ID",
             "dispatch"
+        ],
+        pronunciation_dictionary=[
+            OutboundCallConfigPronunciationDictionaryItem(
+                word="Phuket",
+                pronunciation="Poo-ket",
+            )
         ],
         min_words_to_interrupt=1,
         tools=[
@@ -3818,6 +4651,91 @@ client.conversations.sip_outbound_call(
 </dl>
 </details>
 
+<details><summary><code>client.conversations.<a href="src/phonic/conversations/client.py">replay</a>(...) -> ConversationsReplayResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Replays an ended conversation by re-running its recorded audio through an
+agent. Requires API key or access token authentication. The conversation must
+have audio recordings available and an associated agent (or one specified in
+the request body).
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from phonic import Phonic
+from phonic.environment import PhonicEnvironment
+
+client = Phonic(
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
+)
+
+client.conversations.replay(
+    id="id",
+    agent="support-agent",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `str` — The ID of the conversation to replay.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**agent:** `typing.Optional[str]` — Name of the agent to replay the conversation with. Defaults to the agent originally associated with the conversation.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 ## Auth
 <details><summary><code>client.auth.<a href="src/phonic/auth/client.py">create_session_token</a>(...) -> AuthCreateSessionTokenResponse</code></summary>
 <dl>
@@ -3873,6 +4791,194 @@ client.auth.create_session_token(
 <dd>
 
 **ttl_seconds:** `typing.Optional[int]` — Time-to-live for the session token in seconds.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.auth.<a href="src/phonic/auth/client.py">create_conversation_token</a>(...) -> AuthCreateConversationTokenResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Creates a short-lived conversation token scoped to a specific agent. Conversation tokens are useful for client-side applications that start a conversation with a single agent without exposing your API key.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from phonic import Phonic
+from phonic.environment import PhonicEnvironment
+
+client = Phonic(
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
+)
+
+client.auth.create_conversation_token(
+    agent_id="agent_12cf6e88-c254-4d3e-a149-a7f1bdd22783",
+    ttl_seconds=30,
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**agent_id:** `str` — ID of the agent the conversation token is scoped to.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**ttl_seconds:** `typing.Optional[int]` — Time-to-live for the conversation token in seconds.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## Tts
+<details><summary><code>client.tts.<a href="src/phonic/tts/client.py">stream</a>(...) -> typing.Iterator[bytes]</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Streams generated speech audio for the provided text.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from phonic import Phonic
+from phonic.environment import PhonicEnvironment
+
+client = Phonic(
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
+)
+
+client.tts.stream(
+    text="x",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**text:** `str` — The text to convert to speech.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**model:** `typing.Optional[typing.Literal]` — The TTS model to use.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**speed:** `typing.Optional[float]` — The speech speed.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**voice_id:** `typing.Optional[str]` — The voice ID to use.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**output_format:** `typing.Optional[StreamTtsRequestOutputFormat]` — The audio format to stream.
     
 </dd>
 </dl>
@@ -4254,6 +5360,14 @@ client.projects.update(
 <dl>
 <dd>
 
+**max_active_conversations:** `typing.Optional[int]` — Maximum number of concurrent conversations allowed for this project. When `null`, the workspace `max_active_conversations` limit is used.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
     
 </dd>
@@ -4411,6 +5525,79 @@ client.projects.create_eval_prompt(
 <dd>
 
 **prompt:** `str` — Actual evaluation prompt text to evaluate conversations with.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.projects.<a href="src/phonic/projects/client.py">list_evals</a>(...) -> ProjectsListEvalsResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Returns all conversation evaluation results for a project.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from phonic import Phonic
+from phonic.environment import PhonicEnvironment
+
+client = Phonic(
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
+)
+
+client.projects.list_evals(
+    id="id",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `str` — The ID of the project.
     
 </dd>
 </dl>

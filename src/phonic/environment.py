@@ -11,4 +11,4 @@ class PhonicEnvironment:
         self.production = production
 
 
-PhonicEnvironment.DEFAULT = PhonicEnvironment(base="https://api.phonic.co/v1", production="wss://api.phonic.co")
+PhonicEnvironment.DEFAULT = PhonicEnvironment(base="https://api.phonic.ai/v1", production="wss://api.phonic.ai")

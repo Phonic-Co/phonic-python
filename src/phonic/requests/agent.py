@@ -5,12 +5,16 @@ import typing
 import typing_extensions
 from ..types.agent_audio_format import AgentAudioFormat
 from ..types.agent_background_noise import AgentBackgroundNoise
+from ..types.agent_intelligence_level import AgentIntelligenceLevel
 from ..types.agent_multilingual_mode import AgentMultilingualMode
 from ..types.language_code import LanguageCode
 from .agent_configuration_endpoint import AgentConfigurationEndpointParams
+from .agent_integration import AgentIntegrationParams
 from .agent_project import AgentProjectParams
+from .agent_pronunciation_dictionary_item import AgentPronunciationDictionaryItemParams
 from .agent_template_variables_value import AgentTemplateVariablesValueParams
 from .agent_tools_item import AgentToolsItemParams
+from .data_retention_policy import DataRetentionPolicyParams
 from .task import TaskParams
 
 
@@ -75,6 +79,16 @@ class AgentParams(typing_extensions.TypedDict):
     When `true`, the welcome message will be automatically generated and the `welcome_message` field will be ignored.
     """
 
+    is_welcome_message_interruptible: bool
+    """
+    When `false`, the welcome message will not be interruptible by the user.
+    """
+
+    websocket_timeout_sec: typing_extensions.NotRequired[int]
+    """
+    Number of seconds of inactivity before the conversation WebSocket is closed.
+    """
+
     welcome_message: typing.Optional[str]
     """
     Message to play when the conversation starts. Ignored when `generate_welcome_message` is `true`.
@@ -127,7 +141,7 @@ class AgentParams(typing_extensions.TypedDict):
 
     additional_languages: typing.Sequence[LanguageCode]
     """
-    Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`.
+    Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`. When `multilingual_mode` is `"auto"`, a maximum of 2 additional languages is allowed.
     """
 
     languages: typing_extensions.NotRequired[typing.Sequence[LanguageCode]]
@@ -137,7 +151,7 @@ class AgentParams(typing_extensions.TypedDict):
 
     multilingual_mode: AgentMultilingualMode
     """
-    If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended).
+    If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended). If `"initial"` the first turn user audio determines the language for the rest of the conversation.
     """
 
     push_to_talk: bool
@@ -145,9 +159,24 @@ class AgentParams(typing_extensions.TypedDict):
     Push to talk mode. User must send mute/unmute messages to turn on/off listening to audio. Defaults to false.
     """
 
+    intelligence_level: AgentIntelligenceLevel
+    """
+    The intelligence level of the agent. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency.
+    """
+
     boosted_keywords: typing.Sequence[str]
     """
     These words, or short phrases, will be more accurately recognized by the agent.
+    """
+
+    observability_integrations: typing_extensions.NotRequired[typing.Sequence[typing.Literal["braintrust"]]]
+    """
+    Names of observability integrations enabled for the agent. Each must be one of the supported providers.
+    """
+
+    pronunciation_dictionary: typing.Sequence[AgentPronunciationDictionaryItemParams]
+    """
+    Array of `{ word, pronunciation }` entries. Words must be unique.
     """
 
     min_words_to_interrupt: int
@@ -189,3 +218,30 @@ class AgentParams(typing_extensions.TypedDict):
     """
     Voice activity detection threshold.
     """
+
+    enable_redaction: typing_extensions.NotRequired[bool]
+    """
+    When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE NUMBER]`) and bleeped from audio recordings after the conversation ends.
+    """
+
+    slug: typing_extensions.NotRequired[str]
+    """
+    The URL-friendly slug of the agent.
+    """
+
+    enable_assistant_backchannel: typing_extensions.NotRequired[bool]
+    """
+    When `true`, the assistant emits backchannel cues (e.g. "mm-hmm") while the user is speaking.
+    """
+
+    assistant_backchannel_aggressiveness: typing_extensions.NotRequired[float]
+    """
+    How aggressively the assistant backchannels, from 0 to 1.
+    """
+
+    integrations: typing_extensions.NotRequired[typing.Sequence[AgentIntegrationParams]]
+    """
+    Third-party integrations enabled for the agent.
+    """
+
+    data_retention_policy: typing_extensions.NotRequired[DataRetentionPolicyParams]

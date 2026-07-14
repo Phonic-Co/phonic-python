@@ -8,6 +8,10 @@ from importlib import import_module
 if typing.TYPE_CHECKING:
     from .types import (
         ConversationsCancelResponse,
+        ConversationsDeleteResponse,
+        ConversationsEvaluateResponse,
+        ConversationsEvaluateResponseEvaluation,
+        ConversationsEvaluateResponseEvaluationResult,
         ConversationsExtractDataResponse,
         ConversationsGetAnalysisResponse,
         ConversationsGetRequestAudioContainer,
@@ -17,10 +21,14 @@ if typing.TYPE_CHECKING:
         ConversationsListRequestAudioContainer,
         ConversationsListResponse,
         ConversationsOutboundCallResponse,
+        ConversationsReplayResponse,
         ConversationsSipOutboundCallResponse,
     )
     from .requests import (
         ConversationsCancelResponseParams,
+        ConversationsDeleteResponseParams,
+        ConversationsEvaluateResponseEvaluationParams,
+        ConversationsEvaluateResponseParams,
         ConversationsExtractDataResponseParams,
         ConversationsGetAnalysisResponseParams,
         ConversationsGetResponseParams,
@@ -28,11 +36,19 @@ if typing.TYPE_CHECKING:
         ConversationsListExtractionsResponseParams,
         ConversationsListResponseParams,
         ConversationsOutboundCallResponseParams,
+        ConversationsReplayResponseParams,
         ConversationsSipOutboundCallResponseParams,
     )
 _dynamic_imports: typing.Dict[str, str] = {
     "ConversationsCancelResponse": ".types",
     "ConversationsCancelResponseParams": ".requests",
+    "ConversationsDeleteResponse": ".types",
+    "ConversationsDeleteResponseParams": ".requests",
+    "ConversationsEvaluateResponse": ".types",
+    "ConversationsEvaluateResponseEvaluation": ".types",
+    "ConversationsEvaluateResponseEvaluationParams": ".requests",
+    "ConversationsEvaluateResponseEvaluationResult": ".types",
+    "ConversationsEvaluateResponseParams": ".requests",
     "ConversationsExtractDataResponse": ".types",
     "ConversationsExtractDataResponseParams": ".requests",
     "ConversationsGetAnalysisResponse": ".types",
@@ -49,6 +65,8 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ConversationsListResponseParams": ".requests",
     "ConversationsOutboundCallResponse": ".types",
     "ConversationsOutboundCallResponseParams": ".requests",
+    "ConversationsReplayResponse": ".types",
+    "ConversationsReplayResponseParams": ".requests",
     "ConversationsSipOutboundCallResponse": ".types",
     "ConversationsSipOutboundCallResponseParams": ".requests",
 }
@@ -78,6 +96,13 @@ def __dir__():
 __all__ = [
     "ConversationsCancelResponse",
     "ConversationsCancelResponseParams",
+    "ConversationsDeleteResponse",
+    "ConversationsDeleteResponseParams",
+    "ConversationsEvaluateResponse",
+    "ConversationsEvaluateResponseEvaluation",
+    "ConversationsEvaluateResponseEvaluationParams",
+    "ConversationsEvaluateResponseEvaluationResult",
+    "ConversationsEvaluateResponseParams",
     "ConversationsExtractDataResponse",
     "ConversationsExtractDataResponseParams",
     "ConversationsGetAnalysisResponse",
@@ -94,6 +119,8 @@ __all__ = [
     "ConversationsListResponseParams",
     "ConversationsOutboundCallResponse",
     "ConversationsOutboundCallResponseParams",
+    "ConversationsReplayResponse",
+    "ConversationsReplayResponseParams",
     "ConversationsSipOutboundCallResponse",
     "ConversationsSipOutboundCallResponseParams",
 ]

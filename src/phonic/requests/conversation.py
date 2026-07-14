@@ -8,11 +8,15 @@ from ..types.conversation_background_noise import ConversationBackgroundNoise
 from ..types.conversation_ended_by import ConversationEndedBy
 from ..types.conversation_multilingual_mode import ConversationMultilingualMode
 from ..types.conversation_origin import ConversationOrigin
+from ..types.language_code import LanguageCode
 from .conversation_agent import ConversationAgentParams
 from .conversation_analysis import ConversationAnalysisParams
 from .conversation_call_info import ConversationCallInfoParams
+from .conversation_deletion_info import ConversationDeletionInfoParams
 from .conversation_item import ConversationItemParams
 from .conversation_project import ConversationProjectParams
+from .conversation_pronunciation_dictionary_item import ConversationPronunciationDictionaryItemParams
+from .data_retention_policy import DataRetentionPolicyParams
 
 
 class ConversationParams(typing_extensions.TypedDict):
@@ -56,6 +60,11 @@ class ConversationParams(typing_extensions.TypedDict):
     Will be `true` if welcome message was automatically generated.
     """
 
+    is_welcome_message_interruptible: bool
+    """
+    When `false`, the welcome message will not be interruptible by the user.
+    """
+
     welcome_message: typing.Optional[str]
     """
     Welcome message played at start. Will be `null` when `generate_welcome_message` is `true`.
@@ -66,7 +75,7 @@ class ConversationParams(typing_extensions.TypedDict):
     Template variables used in the conversation.
     """
 
-    system_prompt: typing_extensions.NotRequired[str]
+    system_prompt: typing_extensions.NotRequired[typing.Optional[str]]
     """
     System prompt used in the conversation.
     """
@@ -91,7 +100,7 @@ class ConversationParams(typing_extensions.TypedDict):
     The background noise type used in the conversation.
     """
 
-    live_transcript: str
+    live_transcript: typing.Optional[str]
     """
     Live transcript of the conversation.
     """
@@ -131,24 +140,29 @@ class ConversationParams(typing_extensions.TypedDict):
     These words, or short phrases, are more accurately recognized by the model.
     """
 
+    pronunciation_dictionary: typing.Sequence[ConversationPronunciationDictionaryItemParams]
+    """
+    Array of `{ word, pronunciation }` entries. Words must be unique.
+    """
+
     min_words_to_interrupt: int
     """
     Minimum number of words required to interrupt the assistant.
     """
 
-    default_language: str
+    default_language: LanguageCode
     """
     ISO 639-1 language code that sets the agent's default language to recognize and speak. Welcome message and no input poke text should be in this language.
     """
 
-    additional_languages: typing.Optional[typing.Sequence[str]]
+    additional_languages: typing.Optional[typing.Sequence[LanguageCode]]
     """
-    Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`.
+    Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`. When `multilingual_mode` is `"auto"`, a maximum of 2 additional languages is allowed.
     """
 
     multilingual_mode: ConversationMultilingualMode
     """
-    If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended).
+    If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended). If `"initial"` the first turn user audio determines the language for the rest of the conversation.
     """
 
     push_to_talk: bool
@@ -156,7 +170,7 @@ class ConversationParams(typing_extensions.TypedDict):
     Push to talk mode. User must send mute/unmute messages to turn on/off listening to audio. Defaults to false.
     """
 
-    languages: typing_extensions.NotRequired[typing.Optional[typing.Sequence[str]]]
+    languages: typing_extensions.NotRequired[typing.Sequence[str]]
     """
     Array of ISO 639-1 language codes recognized by the model. This field is deprecated. Use `default_language` and `additional_languages` instead.
     """
@@ -181,6 +195,31 @@ class ConversationParams(typing_extensions.TypedDict):
     Seconds of silence before the conversation is ended.
     """
 
+    websocket_timeout_sec: typing_extensions.NotRequired[float]
+    """
+    The WebSocket idle timeout in seconds.
+    """
+
+    vad_prebuffer_duration_ms: typing_extensions.NotRequired[typing.Optional[int]]
+    """
+    Voice activity detection prebuffer duration in milliseconds. `null` when not applicable or unknown (e.g. push-to-talk, or legacy stored conversations).
+    """
+
+    vad_min_speech_duration_ms: typing_extensions.NotRequired[typing.Optional[int]]
+    """
+    Minimum speech duration for voice activity detection in milliseconds. `null` when not applicable or unknown.
+    """
+
+    vad_min_silence_duration_ms: typing_extensions.NotRequired[typing.Optional[int]]
+    """
+    Minimum silence duration for voice activity detection in milliseconds. `null` when not applicable or unknown.
+    """
+
+    vad_threshold: typing_extensions.NotRequired[typing.Optional[float]]
+    """
+    Voice activity detection threshold. `null` when not applicable or unknown.
+    """
+
     task_results: typing.Dict[str, typing.Any]
     """
     Results from conversation evaluations and extractions.
@@ -199,4 +238,39 @@ class ConversationParams(typing_extensions.TypedDict):
     analysis: ConversationAnalysisParams
     """
     Analysis of the conversation including latencies and interruptions.
+    """
+
+    is_redacted: typing_extensions.NotRequired[bool]
+    """
+    Whether PII and PHI have been redacted from the conversation.
+    """
+
+    redacted_transcript: typing_extensions.NotRequired[typing.Optional[str]]
+    """
+    The redacted transcript of the conversation. `null` when the conversation is not redacted.
+    """
+
+    metadata: typing_extensions.NotRequired[typing.Optional[typing.Dict[str, typing.Any]]]
+    """
+    Arbitrary metadata associated with the conversation.
+    """
+
+    data_retention_policy: typing_extensions.NotRequired[DataRetentionPolicyParams]
+    """
+    Controls how long transcripts and audio recordings are retained before deletion.
+    """
+
+    deletion_info: typing_extensions.NotRequired[ConversationDeletionInfoParams]
+    """
+    Information about when transcripts and audio recordings are or were scheduled to be deleted.
+    """
+
+    enable_assistant_backchannel: typing_extensions.NotRequired[bool]
+    """
+    Whether the assistant produced backchannel responses during the conversation.
+    """
+
+    assistant_backchannel_aggressiveness: typing_extensions.NotRequired[typing.Optional[float]]
+    """
+    How aggressively the assistant produced backchannel responses during the conversation.
     """

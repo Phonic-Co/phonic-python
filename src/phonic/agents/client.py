@@ -4,12 +4,19 @@ import typing
 
 from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.request_options import RequestOptions
+from ..requests.agent_integration import AgentIntegrationParams
 from ..requests.create_agent_request_configuration_endpoint import CreateAgentRequestConfigurationEndpointParams
+from ..requests.create_agent_request_pronunciation_dictionary_item import (
+    CreateAgentRequestPronunciationDictionaryItemParams,
+)
 from ..requests.create_agent_request_template_variables_value import CreateAgentRequestTemplateVariablesValueParams
 from ..requests.create_agent_request_tools_item import CreateAgentRequestToolsItemParams
+from ..requests.data_retention_policy import DataRetentionPolicyParams
+from ..requests.outbound_number_pool import OutboundNumberPoolParams
 from ..requests.task import TaskParams
 from ..types.create_agent_request_audio_format import CreateAgentRequestAudioFormat
 from ..types.create_agent_request_background_noise import CreateAgentRequestBackgroundNoise
+from ..types.create_agent_request_intelligence_level import CreateAgentRequestIntelligenceLevel
 from ..types.create_agent_request_multilingual_mode import CreateAgentRequestMultilingualMode
 from ..types.create_agent_request_phone_number import CreateAgentRequestPhoneNumber
 from ..types.language_code import LanguageCode
@@ -21,6 +28,9 @@ from .requests.agents_update_phone_number_request_configuration_endpoint import 
     AgentsUpdatePhoneNumberRequestConfigurationEndpointParams,
 )
 from .requests.update_agent_request_configuration_endpoint import UpdateAgentRequestConfigurationEndpointParams
+from .requests.update_agent_request_pronunciation_dictionary_item import (
+    UpdateAgentRequestPronunciationDictionaryItemParams,
+)
 from .requests.update_agent_request_template_variables_value import UpdateAgentRequestTemplateVariablesValueParams
 from .requests.update_agent_request_tools_item import UpdateAgentRequestToolsItemParams
 from .types.agents_add_custom_phone_number_response import AgentsAddCustomPhoneNumberResponse
@@ -34,6 +44,7 @@ from .types.agents_update_response import AgentsUpdateResponse
 from .types.agents_upsert_response import AgentsUpsertResponse
 from .types.update_agent_request_audio_format import UpdateAgentRequestAudioFormat
 from .types.update_agent_request_background_noise import UpdateAgentRequestBackgroundNoise
+from .types.update_agent_request_intelligence_level import UpdateAgentRequestIntelligenceLevel
 from .types.update_agent_request_multilingual_mode import UpdateAgentRequestMultilingualMode
 from .types.update_agent_request_phone_number import UpdateAgentRequestPhoneNumber
 
@@ -92,6 +103,7 @@ class AgentsClient:
         *,
         name: str,
         project: typing.Optional[str] = None,
+        slug: typing.Optional[str] = OMIT,
         phone_number: typing.Optional[CreateAgentRequestPhoneNumber] = OMIT,
         custom_phone_number: typing.Optional[str] = OMIT,
         custom_phone_numbers: typing.Optional[typing.Sequence[str]] = OMIT,
@@ -102,6 +114,8 @@ class AgentsClient:
         background_noise_level: typing.Optional[float] = OMIT,
         background_noise: typing.Optional[CreateAgentRequestBackgroundNoise] = OMIT,
         generate_welcome_message: typing.Optional[bool] = OMIT,
+        is_welcome_message_interruptible: typing.Optional[bool] = OMIT,
+        websocket_timeout_sec: typing.Optional[int] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValueParams]] = OMIT,
@@ -111,12 +125,19 @@ class AgentsClient:
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
+        enable_assistant_backchannel: typing.Optional[bool] = OMIT,
+        assistant_backchannel_aggressiveness: typing.Optional[float] = OMIT,
+        data_retention_policy: typing.Optional[DataRetentionPolicyParams] = OMIT,
         default_language: typing.Optional[LanguageCode] = OMIT,
         additional_languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         multilingual_mode: typing.Optional[CreateAgentRequestMultilingualMode] = OMIT,
         push_to_talk: typing.Optional[bool] = OMIT,
+        intelligence_level: typing.Optional[CreateAgentRequestIntelligenceLevel] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
+        pronunciation_dictionary: typing.Optional[
+            typing.Sequence[CreateAgentRequestPronunciationDictionaryItemParams]
+        ] = OMIT,
         min_words_to_interrupt: typing.Optional[int] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
@@ -125,6 +146,9 @@ class AgentsClient:
         vad_min_speech_duration_ms: typing.Optional[int] = OMIT,
         vad_min_silence_duration_ms: typing.Optional[int] = OMIT,
         vad_threshold: typing.Optional[float] = OMIT,
+        enable_redaction: typing.Optional[bool] = OMIT,
+        mcp_server_ids: typing.Optional[typing.Sequence[str]] = OMIT,
+        observability_integrations: typing.Optional[typing.Sequence[typing.Literal["braintrust"]]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AgentsCreateResponse:
         """
@@ -137,6 +161,9 @@ class AgentsClient:
 
         project : typing.Optional[str]
             The name of the project to create the agent in.
+
+        slug : typing.Optional[str]
+            URL-friendly agent slug. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
 
         phone_number : typing.Optional[CreateAgentRequestPhoneNumber]
             When set to `null`, the agent will not be associated with a phone number. When set to `"assign-automatically"`, the agent will be assigned a random phone number. When set to `"custom"`, you must provide `custom_phone_numbers`.
@@ -168,6 +195,12 @@ class AgentsClient:
         generate_welcome_message : typing.Optional[bool]
             When `true`, the welcome message will be automatically generated and the `welcome_message` field will be ignored.
 
+        is_welcome_message_interruptible : typing.Optional[bool]
+            When `false`, the welcome message will not be interruptible by the user.
+
+        websocket_timeout_sec : typing.Optional[int]
+            Number of seconds of inactivity before the conversation WebSocket is closed.
+
         welcome_message : typing.Optional[str]
             Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. Ignored when `generate_welcome_message` is `true`.
 
@@ -195,23 +228,38 @@ class AgentsClient:
         no_input_end_conversation_sec : typing.Optional[int]
             Seconds of silence before ending the conversation.
 
+        enable_assistant_backchannel : typing.Optional[bool]
+            When `true`, the assistant will produce backchannel responses (e.g. "mm-hmm") while the user is speaking.
+
+        assistant_backchannel_aggressiveness : typing.Optional[float]
+            How aggressively the assistant produces backchannel responses. Only relevant when `enable_assistant_backchannel` is `true`.
+
+        data_retention_policy : typing.Optional[DataRetentionPolicyParams]
+            Controls how long transcripts and audio recordings are retained before deletion.
+
         default_language : typing.Optional[LanguageCode]
             ISO 639-1 language code that sets the agent's default language to recognize and speak. Welcome message and no input poke text should be in this language.
 
         additional_languages : typing.Optional[typing.Sequence[LanguageCode]]
-            Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`.
+            Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`. When `multilingual_mode` is `"auto"`, a maximum of 2 additional languages is allowed.
 
         languages : typing.Optional[typing.Sequence[LanguageCode]]
             Array of ISO 639-1 language codes that the agent should be able to recognize. This field is deprecated. Use `default_language` and `additional_languages` instead.
 
         multilingual_mode : typing.Optional[CreateAgentRequestMultilingualMode]
-            If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended).
+            If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended). If `"initial"` the first turn user audio determines the language for the rest of the conversation.
 
         push_to_talk : typing.Optional[bool]
             Push to talk mode. User must send mute/unmute messages to turn on/off listening to audio. Defaults to false.
 
+        intelligence_level : typing.Optional[CreateAgentRequestIntelligenceLevel]
+            The intelligence level of the agent. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency.
+
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
+
+        pronunciation_dictionary : typing.Optional[typing.Sequence[CreateAgentRequestPronunciationDictionaryItemParams]]
+            Array of `{ word, pronunciation }` entries. Words must be unique.
 
         min_words_to_interrupt : typing.Optional[int]
             Minimum number of words required to interrupt the assistant.
@@ -236,6 +284,15 @@ class AgentsClient:
 
         vad_threshold : typing.Optional[float]
             Voice activity detection threshold.
+
+        enable_redaction : typing.Optional[bool]
+            When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE NUMBER]`) and bleeped from audio recordings after the conversation ends.
+
+        mcp_server_ids : typing.Optional[typing.Sequence[str]]
+            Array of MCP server IDs to make available to the agent.
+
+        observability_integrations : typing.Optional[typing.Sequence[typing.Literal["braintrust"]]]
+            Names of observability integrations to enable for the agent. Each must be one of the supported providers.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -261,6 +318,7 @@ class AgentsClient:
             audio_speed=1.0,
             background_noise_level=0.0,
             generate_welcome_message=False,
+            is_welcome_message_interruptible=True,
             welcome_message="Hi {{customer_name}}. How can I help you today?",
             system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
             template_variables={
@@ -276,6 +334,7 @@ class AgentsClient:
             multilingual_mode="request",
             push_to_talk=False,
             boosted_keywords=["Load ID", "dispatch"],
+            pronunciation_dictionary=[{"word": "Phuket", "pronunciation": "Poo-ket"}],
             min_words_to_interrupt=1,
             configuration_endpoint={
                 "url": "https://api.example.com/config",
@@ -287,6 +346,7 @@ class AgentsClient:
         _response = self._raw_client.create(
             name=name,
             project=project,
+            slug=slug,
             phone_number=phone_number,
             custom_phone_number=custom_phone_number,
             custom_phone_numbers=custom_phone_numbers,
@@ -297,6 +357,8 @@ class AgentsClient:
             background_noise_level=background_noise_level,
             background_noise=background_noise,
             generate_welcome_message=generate_welcome_message,
+            is_welcome_message_interruptible=is_welcome_message_interruptible,
+            websocket_timeout_sec=websocket_timeout_sec,
             welcome_message=welcome_message,
             system_prompt=system_prompt,
             template_variables=template_variables,
@@ -306,12 +368,17 @@ class AgentsClient:
             no_input_poke_sec=no_input_poke_sec,
             no_input_poke_text=no_input_poke_text,
             no_input_end_conversation_sec=no_input_end_conversation_sec,
+            enable_assistant_backchannel=enable_assistant_backchannel,
+            assistant_backchannel_aggressiveness=assistant_backchannel_aggressiveness,
+            data_retention_policy=data_retention_policy,
             default_language=default_language,
             additional_languages=additional_languages,
             languages=languages,
             multilingual_mode=multilingual_mode,
             push_to_talk=push_to_talk,
+            intelligence_level=intelligence_level,
             boosted_keywords=boosted_keywords,
+            pronunciation_dictionary=pronunciation_dictionary,
             min_words_to_interrupt=min_words_to_interrupt,
             configuration_endpoint=configuration_endpoint,
             inbound_rollout=inbound_rollout,
@@ -320,6 +387,9 @@ class AgentsClient:
             vad_min_speech_duration_ms=vad_min_speech_duration_ms,
             vad_min_silence_duration_ms=vad_min_silence_duration_ms,
             vad_threshold=vad_threshold,
+            enable_redaction=enable_redaction,
+            mcp_server_ids=mcp_server_ids,
+            observability_integrations=observability_integrations,
             request_options=request_options,
         )
         return _response.data
@@ -329,6 +399,9 @@ class AgentsClient:
         *,
         name: str,
         project: typing.Optional[str] = None,
+        outbound_number_pool: typing.Optional[OutboundNumberPoolParams] = OMIT,
+        procedure_ids: typing.Optional[typing.Sequence[str]] = OMIT,
+        slug: typing.Optional[str] = OMIT,
         phone_number: typing.Optional[CreateAgentRequestPhoneNumber] = OMIT,
         custom_phone_number: typing.Optional[str] = OMIT,
         custom_phone_numbers: typing.Optional[typing.Sequence[str]] = OMIT,
@@ -339,6 +412,8 @@ class AgentsClient:
         background_noise_level: typing.Optional[float] = OMIT,
         background_noise: typing.Optional[CreateAgentRequestBackgroundNoise] = OMIT,
         generate_welcome_message: typing.Optional[bool] = OMIT,
+        is_welcome_message_interruptible: typing.Optional[bool] = OMIT,
+        websocket_timeout_sec: typing.Optional[int] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValueParams]] = OMIT,
@@ -348,12 +423,19 @@ class AgentsClient:
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
+        enable_assistant_backchannel: typing.Optional[bool] = OMIT,
+        assistant_backchannel_aggressiveness: typing.Optional[float] = OMIT,
+        data_retention_policy: typing.Optional[DataRetentionPolicyParams] = OMIT,
         default_language: typing.Optional[LanguageCode] = OMIT,
         additional_languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         multilingual_mode: typing.Optional[CreateAgentRequestMultilingualMode] = OMIT,
         push_to_talk: typing.Optional[bool] = OMIT,
+        intelligence_level: typing.Optional[CreateAgentRequestIntelligenceLevel] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
+        pronunciation_dictionary: typing.Optional[
+            typing.Sequence[CreateAgentRequestPronunciationDictionaryItemParams]
+        ] = OMIT,
         min_words_to_interrupt: typing.Optional[int] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
@@ -362,6 +444,9 @@ class AgentsClient:
         vad_min_speech_duration_ms: typing.Optional[int] = OMIT,
         vad_min_silence_duration_ms: typing.Optional[int] = OMIT,
         vad_threshold: typing.Optional[float] = OMIT,
+        enable_redaction: typing.Optional[bool] = OMIT,
+        mcp_server_ids: typing.Optional[typing.Sequence[str]] = OMIT,
+        observability_integrations: typing.Optional[typing.Sequence[typing.Literal["braintrust"]]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AgentsUpsertResponse:
         """
@@ -374,6 +459,15 @@ class AgentsClient:
 
         project : typing.Optional[str]
             The name of the project containing the agent.
+
+        outbound_number_pool : typing.Optional[OutboundNumberPoolParams]
+            Pool of phone numbers used for outbound calls. Set to `null` to remove the pool.
+
+        procedure_ids : typing.Optional[typing.Sequence[str]]
+            Array of procedure IDs associated with the agent.
+
+        slug : typing.Optional[str]
+            URL-friendly agent slug. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
 
         phone_number : typing.Optional[CreateAgentRequestPhoneNumber]
             When set to `null`, the agent will not be associated with a phone number. When set to `"assign-automatically"`, the agent will be assigned a random phone number. When set to `"custom"`, you must provide `custom_phone_numbers`.
@@ -405,6 +499,12 @@ class AgentsClient:
         generate_welcome_message : typing.Optional[bool]
             When `true`, the welcome message will be automatically generated and the `welcome_message` field will be ignored.
 
+        is_welcome_message_interruptible : typing.Optional[bool]
+            When `false`, the welcome message will not be interruptible by the user.
+
+        websocket_timeout_sec : typing.Optional[int]
+            Number of seconds of inactivity before the conversation WebSocket is closed.
+
         welcome_message : typing.Optional[str]
             Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. Ignored when `generate_welcome_message` is `true`.
 
@@ -432,23 +532,38 @@ class AgentsClient:
         no_input_end_conversation_sec : typing.Optional[int]
             Seconds of silence before ending the conversation.
 
+        enable_assistant_backchannel : typing.Optional[bool]
+            When `true`, the assistant will produce backchannel responses (e.g. "mm-hmm") while the user is speaking.
+
+        assistant_backchannel_aggressiveness : typing.Optional[float]
+            How aggressively the assistant produces backchannel responses. Only relevant when `enable_assistant_backchannel` is `true`.
+
+        data_retention_policy : typing.Optional[DataRetentionPolicyParams]
+            Controls how long transcripts and audio recordings are retained before deletion.
+
         default_language : typing.Optional[LanguageCode]
             ISO 639-1 language code that sets the agent's default language to recognize and speak. Welcome message and no input poke text should be in this language.
 
         additional_languages : typing.Optional[typing.Sequence[LanguageCode]]
-            Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`.
+            Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`. When `multilingual_mode` is `"auto"`, a maximum of 2 additional languages is allowed.
 
         languages : typing.Optional[typing.Sequence[LanguageCode]]
             Array of ISO 639-1 language codes that the agent should be able to recognize. This field is deprecated. Use `default_language` and `additional_languages` instead.
 
         multilingual_mode : typing.Optional[CreateAgentRequestMultilingualMode]
-            If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended).
+            If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended). If `"initial"` the first turn user audio determines the language for the rest of the conversation.
 
         push_to_talk : typing.Optional[bool]
             Push to talk mode. User must send mute/unmute messages to turn on/off listening to audio. Defaults to false.
 
+        intelligence_level : typing.Optional[CreateAgentRequestIntelligenceLevel]
+            The intelligence level of the agent. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency.
+
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
+
+        pronunciation_dictionary : typing.Optional[typing.Sequence[CreateAgentRequestPronunciationDictionaryItemParams]]
+            Array of `{ word, pronunciation }` entries. Words must be unique.
 
         min_words_to_interrupt : typing.Optional[int]
             Minimum number of words required to interrupt the assistant.
@@ -474,6 +589,15 @@ class AgentsClient:
         vad_threshold : typing.Optional[float]
             Voice activity detection threshold.
 
+        enable_redaction : typing.Optional[bool]
+            When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE NUMBER]`) and bleeped from audio recordings after the conversation ends.
+
+        mcp_server_ids : typing.Optional[typing.Sequence[str]]
+            Array of MCP server IDs to make available to the agent.
+
+        observability_integrations : typing.Optional[typing.Sequence[typing.Literal["braintrust"]]]
+            Names of observability integrations to enable for the agent. Each must be one of the supported providers.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -498,6 +622,7 @@ class AgentsClient:
             audio_speed=1.0,
             background_noise_level=0.0,
             generate_welcome_message=False,
+            is_welcome_message_interruptible=True,
             welcome_message="Hi {{customer_name}}. How can I help you today?",
             system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
             template_variables={
@@ -513,6 +638,7 @@ class AgentsClient:
             multilingual_mode="request",
             push_to_talk=False,
             boosted_keywords=["Load ID", "dispatch"],
+            pronunciation_dictionary=[{"word": "Phuket", "pronunciation": "Poo-ket"}],
             min_words_to_interrupt=1,
             configuration_endpoint={
                 "url": "https://api.example.com/config",
@@ -524,6 +650,9 @@ class AgentsClient:
         _response = self._raw_client.upsert(
             name=name,
             project=project,
+            outbound_number_pool=outbound_number_pool,
+            procedure_ids=procedure_ids,
+            slug=slug,
             phone_number=phone_number,
             custom_phone_number=custom_phone_number,
             custom_phone_numbers=custom_phone_numbers,
@@ -534,6 +663,8 @@ class AgentsClient:
             background_noise_level=background_noise_level,
             background_noise=background_noise,
             generate_welcome_message=generate_welcome_message,
+            is_welcome_message_interruptible=is_welcome_message_interruptible,
+            websocket_timeout_sec=websocket_timeout_sec,
             welcome_message=welcome_message,
             system_prompt=system_prompt,
             template_variables=template_variables,
@@ -543,12 +674,17 @@ class AgentsClient:
             no_input_poke_sec=no_input_poke_sec,
             no_input_poke_text=no_input_poke_text,
             no_input_end_conversation_sec=no_input_end_conversation_sec,
+            enable_assistant_backchannel=enable_assistant_backchannel,
+            assistant_backchannel_aggressiveness=assistant_backchannel_aggressiveness,
+            data_retention_policy=data_retention_policy,
             default_language=default_language,
             additional_languages=additional_languages,
             languages=languages,
             multilingual_mode=multilingual_mode,
             push_to_talk=push_to_talk,
+            intelligence_level=intelligence_level,
             boosted_keywords=boosted_keywords,
+            pronunciation_dictionary=pronunciation_dictionary,
             min_words_to_interrupt=min_words_to_interrupt,
             configuration_endpoint=configuration_endpoint,
             inbound_rollout=inbound_rollout,
@@ -557,6 +693,9 @@ class AgentsClient:
             vad_min_speech_duration_ms=vad_min_speech_duration_ms,
             vad_min_silence_duration_ms=vad_min_silence_duration_ms,
             vad_threshold=vad_threshold,
+            enable_redaction=enable_redaction,
+            mcp_server_ids=mcp_server_ids,
+            observability_integrations=observability_integrations,
             request_options=request_options,
         )
         return _response.data
@@ -649,6 +788,7 @@ class AgentsClient:
         *,
         project: typing.Optional[str] = None,
         name: typing.Optional[str] = OMIT,
+        slug: typing.Optional[str] = OMIT,
         phone_number: typing.Optional[UpdateAgentRequestPhoneNumber] = OMIT,
         custom_phone_number: typing.Optional[str] = OMIT,
         custom_phone_numbers: typing.Optional[typing.Sequence[str]] = OMIT,
@@ -659,6 +799,8 @@ class AgentsClient:
         background_noise_level: typing.Optional[float] = OMIT,
         background_noise: typing.Optional[UpdateAgentRequestBackgroundNoise] = OMIT,
         generate_welcome_message: typing.Optional[bool] = OMIT,
+        is_welcome_message_interruptible: typing.Optional[bool] = OMIT,
+        websocket_timeout_sec: typing.Optional[int] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, UpdateAgentRequestTemplateVariablesValueParams]] = OMIT,
@@ -668,12 +810,22 @@ class AgentsClient:
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
+        enable_assistant_backchannel: typing.Optional[bool] = OMIT,
+        assistant_backchannel_aggressiveness: typing.Optional[float] = OMIT,
+        data_retention_policy: typing.Optional[DataRetentionPolicyParams] = OMIT,
+        outbound_number_pool: typing.Optional[OutboundNumberPoolParams] = OMIT,
+        procedure_ids: typing.Optional[typing.Sequence[str]] = OMIT,
+        integrations: typing.Optional[typing.Sequence[AgentIntegrationParams]] = OMIT,
         default_language: typing.Optional[LanguageCode] = OMIT,
         additional_languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         multilingual_mode: typing.Optional[UpdateAgentRequestMultilingualMode] = OMIT,
         push_to_talk: typing.Optional[bool] = OMIT,
+        intelligence_level: typing.Optional[UpdateAgentRequestIntelligenceLevel] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
+        pronunciation_dictionary: typing.Optional[
+            typing.Sequence[UpdateAgentRequestPronunciationDictionaryItemParams]
+        ] = OMIT,
         min_words_to_interrupt: typing.Optional[int] = OMIT,
         configuration_endpoint: typing.Optional[UpdateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
@@ -682,6 +834,9 @@ class AgentsClient:
         vad_min_speech_duration_ms: typing.Optional[int] = OMIT,
         vad_min_silence_duration_ms: typing.Optional[int] = OMIT,
         vad_threshold: typing.Optional[float] = OMIT,
+        enable_redaction: typing.Optional[bool] = OMIT,
+        mcp_server_ids: typing.Optional[typing.Sequence[str]] = OMIT,
+        observability_integrations: typing.Optional[typing.Sequence[typing.Literal["braintrust"]]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AgentsUpdateResponse:
         """
@@ -697,6 +852,9 @@ class AgentsClient:
 
         name : typing.Optional[str]
             The name of the agent. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
+
+        slug : typing.Optional[str]
+            URL-friendly agent slug. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
 
         phone_number : typing.Optional[UpdateAgentRequestPhoneNumber]
             When set to `null`, the agent will not be associated with a phone number anymore. When set to `"assign-automatically"`, the agent will be assigned a random phone number if it doesn't have one yet. If the agent already has a phone number, `"assign-automatically"` has no effect. When set to `"custom"`, you must provide `custom_phone_numbers`.
@@ -728,6 +886,12 @@ class AgentsClient:
         generate_welcome_message : typing.Optional[bool]
             When `true`, the welcome message will be automatically generated and the `welcome_message` field will be ignored.
 
+        is_welcome_message_interruptible : typing.Optional[bool]
+            When `false`, the welcome message will not be interruptible by the user.
+
+        websocket_timeout_sec : typing.Optional[int]
+            Number of seconds of inactivity before the conversation WebSocket is closed.
+
         welcome_message : typing.Optional[str]
             Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. Ignored when `generate_welcome_message` is `true`.
 
@@ -755,23 +919,47 @@ class AgentsClient:
         no_input_end_conversation_sec : typing.Optional[int]
             Seconds of silence before ending the conversation.
 
+        enable_assistant_backchannel : typing.Optional[bool]
+            When `true`, the assistant will produce backchannel responses (e.g. "mm-hmm") while the user is speaking.
+
+        assistant_backchannel_aggressiveness : typing.Optional[float]
+            How aggressively the assistant produces backchannel responses. Only relevant when `enable_assistant_backchannel` is `true`.
+
+        data_retention_policy : typing.Optional[DataRetentionPolicyParams]
+            Controls how long transcripts and audio recordings are retained before deletion.
+
+        outbound_number_pool : typing.Optional[OutboundNumberPoolParams]
+            Pool of phone numbers used for outbound calls. Set to `null` to remove the pool.
+
+        procedure_ids : typing.Optional[typing.Sequence[str]]
+            Array of procedure IDs associated with the agent.
+
+        integrations : typing.Optional[typing.Sequence[AgentIntegrationParams]]
+            Array of third-party integrations enabled for the agent.
+
         default_language : typing.Optional[LanguageCode]
             ISO 639-1 language code that sets the agent's default language to recognize and speak. Welcome message and no input poke text should be in this language.
 
         additional_languages : typing.Optional[typing.Sequence[LanguageCode]]
-            Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`.
+            Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`. When `multilingual_mode` is `"auto"`, a maximum of 2 additional languages is allowed.
 
         languages : typing.Optional[typing.Sequence[LanguageCode]]
             Array of ISO 639-1 language codes that the agent should be able to recognize. This field is deprecated. Use `default_language` and `additional_languages` instead.
 
         multilingual_mode : typing.Optional[UpdateAgentRequestMultilingualMode]
-            If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended).
+            If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended). If `"initial"` the first turn user audio determines the language for the rest of the conversation.
 
         push_to_talk : typing.Optional[bool]
             Push to talk mode. User must send mute/unmute messages to turn on/off listening to audio. Defaults to false.
 
+        intelligence_level : typing.Optional[UpdateAgentRequestIntelligenceLevel]
+            The intelligence level of the agent. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency.
+
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
+
+        pronunciation_dictionary : typing.Optional[typing.Sequence[UpdateAgentRequestPronunciationDictionaryItemParams]]
+            Array of `{ word, pronunciation }` entries. Words must be unique.
 
         min_words_to_interrupt : typing.Optional[int]
             Minimum number of words required to interrupt the assistant.
@@ -796,6 +984,15 @@ class AgentsClient:
 
         vad_threshold : typing.Optional[float]
             Voice activity detection threshold.
+
+        enable_redaction : typing.Optional[bool]
+            When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE NUMBER]`) and bleeped from audio recordings after the conversation ends.
+
+        mcp_server_ids : typing.Optional[typing.Sequence[str]]
+            Array of MCP server IDs to make available to the agent.
+
+        observability_integrations : typing.Optional[typing.Sequence[typing.Literal["braintrust"]]]
+            Names of observability integrations to enable for the agent. Each must be one of the supported providers.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -822,6 +1019,7 @@ class AgentsClient:
             audio_speed=1.0,
             background_noise_level=0.0,
             generate_welcome_message=False,
+            is_welcome_message_interruptible=True,
             welcome_message="Hi {{customer_name}}. How can I help you today?",
             system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
             template_variables={
@@ -837,6 +1035,7 @@ class AgentsClient:
             multilingual_mode="request",
             push_to_talk=False,
             boosted_keywords=["Load ID", "dispatch"],
+            pronunciation_dictionary=[{"word": "Phuket", "pronunciation": "Poo-ket"}],
             min_words_to_interrupt=1,
             configuration_endpoint={
                 "url": "https://api.example.com/config",
@@ -849,6 +1048,7 @@ class AgentsClient:
             name_or_id,
             project=project,
             name=name,
+            slug=slug,
             phone_number=phone_number,
             custom_phone_number=custom_phone_number,
             custom_phone_numbers=custom_phone_numbers,
@@ -859,6 +1059,8 @@ class AgentsClient:
             background_noise_level=background_noise_level,
             background_noise=background_noise,
             generate_welcome_message=generate_welcome_message,
+            is_welcome_message_interruptible=is_welcome_message_interruptible,
+            websocket_timeout_sec=websocket_timeout_sec,
             welcome_message=welcome_message,
             system_prompt=system_prompt,
             template_variables=template_variables,
@@ -868,12 +1070,20 @@ class AgentsClient:
             no_input_poke_sec=no_input_poke_sec,
             no_input_poke_text=no_input_poke_text,
             no_input_end_conversation_sec=no_input_end_conversation_sec,
+            enable_assistant_backchannel=enable_assistant_backchannel,
+            assistant_backchannel_aggressiveness=assistant_backchannel_aggressiveness,
+            data_retention_policy=data_retention_policy,
+            outbound_number_pool=outbound_number_pool,
+            procedure_ids=procedure_ids,
+            integrations=integrations,
             default_language=default_language,
             additional_languages=additional_languages,
             languages=languages,
             multilingual_mode=multilingual_mode,
             push_to_talk=push_to_talk,
+            intelligence_level=intelligence_level,
             boosted_keywords=boosted_keywords,
+            pronunciation_dictionary=pronunciation_dictionary,
             min_words_to_interrupt=min_words_to_interrupt,
             configuration_endpoint=configuration_endpoint,
             inbound_rollout=inbound_rollout,
@@ -882,6 +1092,9 @@ class AgentsClient:
             vad_min_speech_duration_ms=vad_min_speech_duration_ms,
             vad_min_silence_duration_ms=vad_min_silence_duration_ms,
             vad_threshold=vad_threshold,
+            enable_redaction=enable_redaction,
+            mcp_server_ids=mcp_server_ids,
+            observability_integrations=observability_integrations,
             request_options=request_options,
         )
         return _response.data
@@ -1131,6 +1344,7 @@ class AsyncAgentsClient:
         *,
         name: str,
         project: typing.Optional[str] = None,
+        slug: typing.Optional[str] = OMIT,
         phone_number: typing.Optional[CreateAgentRequestPhoneNumber] = OMIT,
         custom_phone_number: typing.Optional[str] = OMIT,
         custom_phone_numbers: typing.Optional[typing.Sequence[str]] = OMIT,
@@ -1141,6 +1355,8 @@ class AsyncAgentsClient:
         background_noise_level: typing.Optional[float] = OMIT,
         background_noise: typing.Optional[CreateAgentRequestBackgroundNoise] = OMIT,
         generate_welcome_message: typing.Optional[bool] = OMIT,
+        is_welcome_message_interruptible: typing.Optional[bool] = OMIT,
+        websocket_timeout_sec: typing.Optional[int] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValueParams]] = OMIT,
@@ -1150,12 +1366,19 @@ class AsyncAgentsClient:
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
+        enable_assistant_backchannel: typing.Optional[bool] = OMIT,
+        assistant_backchannel_aggressiveness: typing.Optional[float] = OMIT,
+        data_retention_policy: typing.Optional[DataRetentionPolicyParams] = OMIT,
         default_language: typing.Optional[LanguageCode] = OMIT,
         additional_languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         multilingual_mode: typing.Optional[CreateAgentRequestMultilingualMode] = OMIT,
         push_to_talk: typing.Optional[bool] = OMIT,
+        intelligence_level: typing.Optional[CreateAgentRequestIntelligenceLevel] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
+        pronunciation_dictionary: typing.Optional[
+            typing.Sequence[CreateAgentRequestPronunciationDictionaryItemParams]
+        ] = OMIT,
         min_words_to_interrupt: typing.Optional[int] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
@@ -1164,6 +1387,9 @@ class AsyncAgentsClient:
         vad_min_speech_duration_ms: typing.Optional[int] = OMIT,
         vad_min_silence_duration_ms: typing.Optional[int] = OMIT,
         vad_threshold: typing.Optional[float] = OMIT,
+        enable_redaction: typing.Optional[bool] = OMIT,
+        mcp_server_ids: typing.Optional[typing.Sequence[str]] = OMIT,
+        observability_integrations: typing.Optional[typing.Sequence[typing.Literal["braintrust"]]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AgentsCreateResponse:
         """
@@ -1176,6 +1402,9 @@ class AsyncAgentsClient:
 
         project : typing.Optional[str]
             The name of the project to create the agent in.
+
+        slug : typing.Optional[str]
+            URL-friendly agent slug. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
 
         phone_number : typing.Optional[CreateAgentRequestPhoneNumber]
             When set to `null`, the agent will not be associated with a phone number. When set to `"assign-automatically"`, the agent will be assigned a random phone number. When set to `"custom"`, you must provide `custom_phone_numbers`.
@@ -1207,6 +1436,12 @@ class AsyncAgentsClient:
         generate_welcome_message : typing.Optional[bool]
             When `true`, the welcome message will be automatically generated and the `welcome_message` field will be ignored.
 
+        is_welcome_message_interruptible : typing.Optional[bool]
+            When `false`, the welcome message will not be interruptible by the user.
+
+        websocket_timeout_sec : typing.Optional[int]
+            Number of seconds of inactivity before the conversation WebSocket is closed.
+
         welcome_message : typing.Optional[str]
             Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. Ignored when `generate_welcome_message` is `true`.
 
@@ -1234,23 +1469,38 @@ class AsyncAgentsClient:
         no_input_end_conversation_sec : typing.Optional[int]
             Seconds of silence before ending the conversation.
 
+        enable_assistant_backchannel : typing.Optional[bool]
+            When `true`, the assistant will produce backchannel responses (e.g. "mm-hmm") while the user is speaking.
+
+        assistant_backchannel_aggressiveness : typing.Optional[float]
+            How aggressively the assistant produces backchannel responses. Only relevant when `enable_assistant_backchannel` is `true`.
+
+        data_retention_policy : typing.Optional[DataRetentionPolicyParams]
+            Controls how long transcripts and audio recordings are retained before deletion.
+
         default_language : typing.Optional[LanguageCode]
             ISO 639-1 language code that sets the agent's default language to recognize and speak. Welcome message and no input poke text should be in this language.
 
         additional_languages : typing.Optional[typing.Sequence[LanguageCode]]
-            Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`.
+            Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`. When `multilingual_mode` is `"auto"`, a maximum of 2 additional languages is allowed.
 
         languages : typing.Optional[typing.Sequence[LanguageCode]]
             Array of ISO 639-1 language codes that the agent should be able to recognize. This field is deprecated. Use `default_language` and `additional_languages` instead.
 
         multilingual_mode : typing.Optional[CreateAgentRequestMultilingualMode]
-            If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended).
+            If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended). If `"initial"` the first turn user audio determines the language for the rest of the conversation.
 
         push_to_talk : typing.Optional[bool]
             Push to talk mode. User must send mute/unmute messages to turn on/off listening to audio. Defaults to false.
 
+        intelligence_level : typing.Optional[CreateAgentRequestIntelligenceLevel]
+            The intelligence level of the agent. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency.
+
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
+
+        pronunciation_dictionary : typing.Optional[typing.Sequence[CreateAgentRequestPronunciationDictionaryItemParams]]
+            Array of `{ word, pronunciation }` entries. Words must be unique.
 
         min_words_to_interrupt : typing.Optional[int]
             Minimum number of words required to interrupt the assistant.
@@ -1275,6 +1525,15 @@ class AsyncAgentsClient:
 
         vad_threshold : typing.Optional[float]
             Voice activity detection threshold.
+
+        enable_redaction : typing.Optional[bool]
+            When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE NUMBER]`) and bleeped from audio recordings after the conversation ends.
+
+        mcp_server_ids : typing.Optional[typing.Sequence[str]]
+            Array of MCP server IDs to make available to the agent.
+
+        observability_integrations : typing.Optional[typing.Sequence[typing.Literal["braintrust"]]]
+            Names of observability integrations to enable for the agent. Each must be one of the supported providers.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1305,6 +1564,7 @@ class AsyncAgentsClient:
                 audio_speed=1.0,
                 background_noise_level=0.0,
                 generate_welcome_message=False,
+                is_welcome_message_interruptible=True,
                 welcome_message="Hi {{customer_name}}. How can I help you today?",
                 system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
                 template_variables={
@@ -1320,6 +1580,9 @@ class AsyncAgentsClient:
                 multilingual_mode="request",
                 push_to_talk=False,
                 boosted_keywords=["Load ID", "dispatch"],
+                pronunciation_dictionary=[
+                    {"word": "Phuket", "pronunciation": "Poo-ket"}
+                ],
                 min_words_to_interrupt=1,
                 configuration_endpoint={
                     "url": "https://api.example.com/config",
@@ -1334,6 +1597,7 @@ class AsyncAgentsClient:
         _response = await self._raw_client.create(
             name=name,
             project=project,
+            slug=slug,
             phone_number=phone_number,
             custom_phone_number=custom_phone_number,
             custom_phone_numbers=custom_phone_numbers,
@@ -1344,6 +1608,8 @@ class AsyncAgentsClient:
             background_noise_level=background_noise_level,
             background_noise=background_noise,
             generate_welcome_message=generate_welcome_message,
+            is_welcome_message_interruptible=is_welcome_message_interruptible,
+            websocket_timeout_sec=websocket_timeout_sec,
             welcome_message=welcome_message,
             system_prompt=system_prompt,
             template_variables=template_variables,
@@ -1353,12 +1619,17 @@ class AsyncAgentsClient:
             no_input_poke_sec=no_input_poke_sec,
             no_input_poke_text=no_input_poke_text,
             no_input_end_conversation_sec=no_input_end_conversation_sec,
+            enable_assistant_backchannel=enable_assistant_backchannel,
+            assistant_backchannel_aggressiveness=assistant_backchannel_aggressiveness,
+            data_retention_policy=data_retention_policy,
             default_language=default_language,
             additional_languages=additional_languages,
             languages=languages,
             multilingual_mode=multilingual_mode,
             push_to_talk=push_to_talk,
+            intelligence_level=intelligence_level,
             boosted_keywords=boosted_keywords,
+            pronunciation_dictionary=pronunciation_dictionary,
             min_words_to_interrupt=min_words_to_interrupt,
             configuration_endpoint=configuration_endpoint,
             inbound_rollout=inbound_rollout,
@@ -1367,6 +1638,9 @@ class AsyncAgentsClient:
             vad_min_speech_duration_ms=vad_min_speech_duration_ms,
             vad_min_silence_duration_ms=vad_min_silence_duration_ms,
             vad_threshold=vad_threshold,
+            enable_redaction=enable_redaction,
+            mcp_server_ids=mcp_server_ids,
+            observability_integrations=observability_integrations,
             request_options=request_options,
         )
         return _response.data
@@ -1376,6 +1650,9 @@ class AsyncAgentsClient:
         *,
         name: str,
         project: typing.Optional[str] = None,
+        outbound_number_pool: typing.Optional[OutboundNumberPoolParams] = OMIT,
+        procedure_ids: typing.Optional[typing.Sequence[str]] = OMIT,
+        slug: typing.Optional[str] = OMIT,
         phone_number: typing.Optional[CreateAgentRequestPhoneNumber] = OMIT,
         custom_phone_number: typing.Optional[str] = OMIT,
         custom_phone_numbers: typing.Optional[typing.Sequence[str]] = OMIT,
@@ -1386,6 +1663,8 @@ class AsyncAgentsClient:
         background_noise_level: typing.Optional[float] = OMIT,
         background_noise: typing.Optional[CreateAgentRequestBackgroundNoise] = OMIT,
         generate_welcome_message: typing.Optional[bool] = OMIT,
+        is_welcome_message_interruptible: typing.Optional[bool] = OMIT,
+        websocket_timeout_sec: typing.Optional[int] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValueParams]] = OMIT,
@@ -1395,12 +1674,19 @@ class AsyncAgentsClient:
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
+        enable_assistant_backchannel: typing.Optional[bool] = OMIT,
+        assistant_backchannel_aggressiveness: typing.Optional[float] = OMIT,
+        data_retention_policy: typing.Optional[DataRetentionPolicyParams] = OMIT,
         default_language: typing.Optional[LanguageCode] = OMIT,
         additional_languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         multilingual_mode: typing.Optional[CreateAgentRequestMultilingualMode] = OMIT,
         push_to_talk: typing.Optional[bool] = OMIT,
+        intelligence_level: typing.Optional[CreateAgentRequestIntelligenceLevel] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
+        pronunciation_dictionary: typing.Optional[
+            typing.Sequence[CreateAgentRequestPronunciationDictionaryItemParams]
+        ] = OMIT,
         min_words_to_interrupt: typing.Optional[int] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
@@ -1409,6 +1695,9 @@ class AsyncAgentsClient:
         vad_min_speech_duration_ms: typing.Optional[int] = OMIT,
         vad_min_silence_duration_ms: typing.Optional[int] = OMIT,
         vad_threshold: typing.Optional[float] = OMIT,
+        enable_redaction: typing.Optional[bool] = OMIT,
+        mcp_server_ids: typing.Optional[typing.Sequence[str]] = OMIT,
+        observability_integrations: typing.Optional[typing.Sequence[typing.Literal["braintrust"]]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AgentsUpsertResponse:
         """
@@ -1421,6 +1710,15 @@ class AsyncAgentsClient:
 
         project : typing.Optional[str]
             The name of the project containing the agent.
+
+        outbound_number_pool : typing.Optional[OutboundNumberPoolParams]
+            Pool of phone numbers used for outbound calls. Set to `null` to remove the pool.
+
+        procedure_ids : typing.Optional[typing.Sequence[str]]
+            Array of procedure IDs associated with the agent.
+
+        slug : typing.Optional[str]
+            URL-friendly agent slug. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
 
         phone_number : typing.Optional[CreateAgentRequestPhoneNumber]
             When set to `null`, the agent will not be associated with a phone number. When set to `"assign-automatically"`, the agent will be assigned a random phone number. When set to `"custom"`, you must provide `custom_phone_numbers`.
@@ -1452,6 +1750,12 @@ class AsyncAgentsClient:
         generate_welcome_message : typing.Optional[bool]
             When `true`, the welcome message will be automatically generated and the `welcome_message` field will be ignored.
 
+        is_welcome_message_interruptible : typing.Optional[bool]
+            When `false`, the welcome message will not be interruptible by the user.
+
+        websocket_timeout_sec : typing.Optional[int]
+            Number of seconds of inactivity before the conversation WebSocket is closed.
+
         welcome_message : typing.Optional[str]
             Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. Ignored when `generate_welcome_message` is `true`.
 
@@ -1479,23 +1783,38 @@ class AsyncAgentsClient:
         no_input_end_conversation_sec : typing.Optional[int]
             Seconds of silence before ending the conversation.
 
+        enable_assistant_backchannel : typing.Optional[bool]
+            When `true`, the assistant will produce backchannel responses (e.g. "mm-hmm") while the user is speaking.
+
+        assistant_backchannel_aggressiveness : typing.Optional[float]
+            How aggressively the assistant produces backchannel responses. Only relevant when `enable_assistant_backchannel` is `true`.
+
+        data_retention_policy : typing.Optional[DataRetentionPolicyParams]
+            Controls how long transcripts and audio recordings are retained before deletion.
+
         default_language : typing.Optional[LanguageCode]
             ISO 639-1 language code that sets the agent's default language to recognize and speak. Welcome message and no input poke text should be in this language.
 
         additional_languages : typing.Optional[typing.Sequence[LanguageCode]]
-            Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`.
+            Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`. When `multilingual_mode` is `"auto"`, a maximum of 2 additional languages is allowed.
 
         languages : typing.Optional[typing.Sequence[LanguageCode]]
             Array of ISO 639-1 language codes that the agent should be able to recognize. This field is deprecated. Use `default_language` and `additional_languages` instead.
 
         multilingual_mode : typing.Optional[CreateAgentRequestMultilingualMode]
-            If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended).
+            If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended). If `"initial"` the first turn user audio determines the language for the rest of the conversation.
 
         push_to_talk : typing.Optional[bool]
             Push to talk mode. User must send mute/unmute messages to turn on/off listening to audio. Defaults to false.
 
+        intelligence_level : typing.Optional[CreateAgentRequestIntelligenceLevel]
+            The intelligence level of the agent. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency.
+
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
+
+        pronunciation_dictionary : typing.Optional[typing.Sequence[CreateAgentRequestPronunciationDictionaryItemParams]]
+            Array of `{ word, pronunciation }` entries. Words must be unique.
 
         min_words_to_interrupt : typing.Optional[int]
             Minimum number of words required to interrupt the assistant.
@@ -1520,6 +1839,15 @@ class AsyncAgentsClient:
 
         vad_threshold : typing.Optional[float]
             Voice activity detection threshold.
+
+        enable_redaction : typing.Optional[bool]
+            When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE NUMBER]`) and bleeped from audio recordings after the conversation ends.
+
+        mcp_server_ids : typing.Optional[typing.Sequence[str]]
+            Array of MCP server IDs to make available to the agent.
+
+        observability_integrations : typing.Optional[typing.Sequence[typing.Literal["braintrust"]]]
+            Names of observability integrations to enable for the agent. Each must be one of the supported providers.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1550,6 +1878,7 @@ class AsyncAgentsClient:
                 audio_speed=1.0,
                 background_noise_level=0.0,
                 generate_welcome_message=False,
+                is_welcome_message_interruptible=True,
                 welcome_message="Hi {{customer_name}}. How can I help you today?",
                 system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
                 template_variables={
@@ -1565,6 +1894,9 @@ class AsyncAgentsClient:
                 multilingual_mode="request",
                 push_to_talk=False,
                 boosted_keywords=["Load ID", "dispatch"],
+                pronunciation_dictionary=[
+                    {"word": "Phuket", "pronunciation": "Poo-ket"}
+                ],
                 min_words_to_interrupt=1,
                 configuration_endpoint={
                     "url": "https://api.example.com/config",
@@ -1579,6 +1911,9 @@ class AsyncAgentsClient:
         _response = await self._raw_client.upsert(
             name=name,
             project=project,
+            outbound_number_pool=outbound_number_pool,
+            procedure_ids=procedure_ids,
+            slug=slug,
             phone_number=phone_number,
             custom_phone_number=custom_phone_number,
             custom_phone_numbers=custom_phone_numbers,
@@ -1589,6 +1924,8 @@ class AsyncAgentsClient:
             background_noise_level=background_noise_level,
             background_noise=background_noise,
             generate_welcome_message=generate_welcome_message,
+            is_welcome_message_interruptible=is_welcome_message_interruptible,
+            websocket_timeout_sec=websocket_timeout_sec,
             welcome_message=welcome_message,
             system_prompt=system_prompt,
             template_variables=template_variables,
@@ -1598,12 +1935,17 @@ class AsyncAgentsClient:
             no_input_poke_sec=no_input_poke_sec,
             no_input_poke_text=no_input_poke_text,
             no_input_end_conversation_sec=no_input_end_conversation_sec,
+            enable_assistant_backchannel=enable_assistant_backchannel,
+            assistant_backchannel_aggressiveness=assistant_backchannel_aggressiveness,
+            data_retention_policy=data_retention_policy,
             default_language=default_language,
             additional_languages=additional_languages,
             languages=languages,
             multilingual_mode=multilingual_mode,
             push_to_talk=push_to_talk,
+            intelligence_level=intelligence_level,
             boosted_keywords=boosted_keywords,
+            pronunciation_dictionary=pronunciation_dictionary,
             min_words_to_interrupt=min_words_to_interrupt,
             configuration_endpoint=configuration_endpoint,
             inbound_rollout=inbound_rollout,
@@ -1612,6 +1954,9 @@ class AsyncAgentsClient:
             vad_min_speech_duration_ms=vad_min_speech_duration_ms,
             vad_min_silence_duration_ms=vad_min_silence_duration_ms,
             vad_threshold=vad_threshold,
+            enable_redaction=enable_redaction,
+            mcp_server_ids=mcp_server_ids,
+            observability_integrations=observability_integrations,
             request_options=request_options,
         )
         return _response.data
@@ -1720,6 +2065,7 @@ class AsyncAgentsClient:
         *,
         project: typing.Optional[str] = None,
         name: typing.Optional[str] = OMIT,
+        slug: typing.Optional[str] = OMIT,
         phone_number: typing.Optional[UpdateAgentRequestPhoneNumber] = OMIT,
         custom_phone_number: typing.Optional[str] = OMIT,
         custom_phone_numbers: typing.Optional[typing.Sequence[str]] = OMIT,
@@ -1730,6 +2076,8 @@ class AsyncAgentsClient:
         background_noise_level: typing.Optional[float] = OMIT,
         background_noise: typing.Optional[UpdateAgentRequestBackgroundNoise] = OMIT,
         generate_welcome_message: typing.Optional[bool] = OMIT,
+        is_welcome_message_interruptible: typing.Optional[bool] = OMIT,
+        websocket_timeout_sec: typing.Optional[int] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, UpdateAgentRequestTemplateVariablesValueParams]] = OMIT,
@@ -1739,12 +2087,22 @@ class AsyncAgentsClient:
         no_input_poke_sec: typing.Optional[int] = OMIT,
         no_input_poke_text: typing.Optional[str] = OMIT,
         no_input_end_conversation_sec: typing.Optional[int] = OMIT,
+        enable_assistant_backchannel: typing.Optional[bool] = OMIT,
+        assistant_backchannel_aggressiveness: typing.Optional[float] = OMIT,
+        data_retention_policy: typing.Optional[DataRetentionPolicyParams] = OMIT,
+        outbound_number_pool: typing.Optional[OutboundNumberPoolParams] = OMIT,
+        procedure_ids: typing.Optional[typing.Sequence[str]] = OMIT,
+        integrations: typing.Optional[typing.Sequence[AgentIntegrationParams]] = OMIT,
         default_language: typing.Optional[LanguageCode] = OMIT,
         additional_languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         multilingual_mode: typing.Optional[UpdateAgentRequestMultilingualMode] = OMIT,
         push_to_talk: typing.Optional[bool] = OMIT,
+        intelligence_level: typing.Optional[UpdateAgentRequestIntelligenceLevel] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
+        pronunciation_dictionary: typing.Optional[
+            typing.Sequence[UpdateAgentRequestPronunciationDictionaryItemParams]
+        ] = OMIT,
         min_words_to_interrupt: typing.Optional[int] = OMIT,
         configuration_endpoint: typing.Optional[UpdateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
@@ -1753,6 +2111,9 @@ class AsyncAgentsClient:
         vad_min_speech_duration_ms: typing.Optional[int] = OMIT,
         vad_min_silence_duration_ms: typing.Optional[int] = OMIT,
         vad_threshold: typing.Optional[float] = OMIT,
+        enable_redaction: typing.Optional[bool] = OMIT,
+        mcp_server_ids: typing.Optional[typing.Sequence[str]] = OMIT,
+        observability_integrations: typing.Optional[typing.Sequence[typing.Literal["braintrust"]]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AgentsUpdateResponse:
         """
@@ -1768,6 +2129,9 @@ class AsyncAgentsClient:
 
         name : typing.Optional[str]
             The name of the agent. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
+
+        slug : typing.Optional[str]
+            URL-friendly agent slug. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
 
         phone_number : typing.Optional[UpdateAgentRequestPhoneNumber]
             When set to `null`, the agent will not be associated with a phone number anymore. When set to `"assign-automatically"`, the agent will be assigned a random phone number if it doesn't have one yet. If the agent already has a phone number, `"assign-automatically"` has no effect. When set to `"custom"`, you must provide `custom_phone_numbers`.
@@ -1799,6 +2163,12 @@ class AsyncAgentsClient:
         generate_welcome_message : typing.Optional[bool]
             When `true`, the welcome message will be automatically generated and the `welcome_message` field will be ignored.
 
+        is_welcome_message_interruptible : typing.Optional[bool]
+            When `false`, the welcome message will not be interruptible by the user.
+
+        websocket_timeout_sec : typing.Optional[int]
+            Number of seconds of inactivity before the conversation WebSocket is closed.
+
         welcome_message : typing.Optional[str]
             Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. Ignored when `generate_welcome_message` is `true`.
 
@@ -1826,23 +2196,47 @@ class AsyncAgentsClient:
         no_input_end_conversation_sec : typing.Optional[int]
             Seconds of silence before ending the conversation.
 
+        enable_assistant_backchannel : typing.Optional[bool]
+            When `true`, the assistant will produce backchannel responses (e.g. "mm-hmm") while the user is speaking.
+
+        assistant_backchannel_aggressiveness : typing.Optional[float]
+            How aggressively the assistant produces backchannel responses. Only relevant when `enable_assistant_backchannel` is `true`.
+
+        data_retention_policy : typing.Optional[DataRetentionPolicyParams]
+            Controls how long transcripts and audio recordings are retained before deletion.
+
+        outbound_number_pool : typing.Optional[OutboundNumberPoolParams]
+            Pool of phone numbers used for outbound calls. Set to `null` to remove the pool.
+
+        procedure_ids : typing.Optional[typing.Sequence[str]]
+            Array of procedure IDs associated with the agent.
+
+        integrations : typing.Optional[typing.Sequence[AgentIntegrationParams]]
+            Array of third-party integrations enabled for the agent.
+
         default_language : typing.Optional[LanguageCode]
             ISO 639-1 language code that sets the agent's default language to recognize and speak. Welcome message and no input poke text should be in this language.
 
         additional_languages : typing.Optional[typing.Sequence[LanguageCode]]
-            Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`.
+            Array of additional ISO 639-1 language codes that the agent should be able to recognize and speak. Should not include `default_language`. When `multilingual_mode` is `"auto"`, a maximum of 2 additional languages is allowed.
 
         languages : typing.Optional[typing.Sequence[LanguageCode]]
             Array of ISO 639-1 language codes that the agent should be able to recognize. This field is deprecated. Use `default_language` and `additional_languages` instead.
 
         multilingual_mode : typing.Optional[UpdateAgentRequestMultilingualMode]
-            If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended).
+            If `"auto"`, each user audio is automatically identified for the language to respond in. If `"request"`, user must request to change language (recommended). If `"initial"` the first turn user audio determines the language for the rest of the conversation.
 
         push_to_talk : typing.Optional[bool]
             Push to talk mode. User must send mute/unmute messages to turn on/off listening to audio. Defaults to false.
 
+        intelligence_level : typing.Optional[UpdateAgentRequestIntelligenceLevel]
+            The intelligence level of the agent. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency.
+
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
+
+        pronunciation_dictionary : typing.Optional[typing.Sequence[UpdateAgentRequestPronunciationDictionaryItemParams]]
+            Array of `{ word, pronunciation }` entries. Words must be unique.
 
         min_words_to_interrupt : typing.Optional[int]
             Minimum number of words required to interrupt the assistant.
@@ -1867,6 +2261,15 @@ class AsyncAgentsClient:
 
         vad_threshold : typing.Optional[float]
             Voice activity detection threshold.
+
+        enable_redaction : typing.Optional[bool]
+            When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE NUMBER]`) and bleeped from audio recordings after the conversation ends.
+
+        mcp_server_ids : typing.Optional[typing.Sequence[str]]
+            Array of MCP server IDs to make available to the agent.
+
+        observability_integrations : typing.Optional[typing.Sequence[typing.Literal["braintrust"]]]
+            Names of observability integrations to enable for the agent. Each must be one of the supported providers.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1898,6 +2301,7 @@ class AsyncAgentsClient:
                 audio_speed=1.0,
                 background_noise_level=0.0,
                 generate_welcome_message=False,
+                is_welcome_message_interruptible=True,
                 welcome_message="Hi {{customer_name}}. How can I help you today?",
                 system_prompt="You are an expert in {{subject}}. Be friendly, helpful and concise.",
                 template_variables={
@@ -1913,6 +2317,9 @@ class AsyncAgentsClient:
                 multilingual_mode="request",
                 push_to_talk=False,
                 boosted_keywords=["Load ID", "dispatch"],
+                pronunciation_dictionary=[
+                    {"word": "Phuket", "pronunciation": "Poo-ket"}
+                ],
                 min_words_to_interrupt=1,
                 configuration_endpoint={
                     "url": "https://api.example.com/config",
@@ -1928,6 +2335,7 @@ class AsyncAgentsClient:
             name_or_id,
             project=project,
             name=name,
+            slug=slug,
             phone_number=phone_number,
             custom_phone_number=custom_phone_number,
             custom_phone_numbers=custom_phone_numbers,
@@ -1938,6 +2346,8 @@ class AsyncAgentsClient:
             background_noise_level=background_noise_level,
             background_noise=background_noise,
             generate_welcome_message=generate_welcome_message,
+            is_welcome_message_interruptible=is_welcome_message_interruptible,
+            websocket_timeout_sec=websocket_timeout_sec,
             welcome_message=welcome_message,
             system_prompt=system_prompt,
             template_variables=template_variables,
@@ -1947,12 +2357,20 @@ class AsyncAgentsClient:
             no_input_poke_sec=no_input_poke_sec,
             no_input_poke_text=no_input_poke_text,
             no_input_end_conversation_sec=no_input_end_conversation_sec,
+            enable_assistant_backchannel=enable_assistant_backchannel,
+            assistant_backchannel_aggressiveness=assistant_backchannel_aggressiveness,
+            data_retention_policy=data_retention_policy,
+            outbound_number_pool=outbound_number_pool,
+            procedure_ids=procedure_ids,
+            integrations=integrations,
             default_language=default_language,
             additional_languages=additional_languages,
             languages=languages,
             multilingual_mode=multilingual_mode,
             push_to_talk=push_to_talk,
+            intelligence_level=intelligence_level,
             boosted_keywords=boosted_keywords,
+            pronunciation_dictionary=pronunciation_dictionary,
             min_words_to_interrupt=min_words_to_interrupt,
             configuration_endpoint=configuration_endpoint,
             inbound_rollout=inbound_rollout,
@@ -1961,6 +2379,9 @@ class AsyncAgentsClient:
             vad_min_speech_duration_ms=vad_min_speech_duration_ms,
             vad_min_silence_duration_ms=vad_min_silence_duration_ms,
             vad_threshold=vad_threshold,
+            enable_redaction=enable_redaction,
+            mcp_server_ids=mcp_server_ids,
+            observability_integrations=observability_integrations,
             request_options=request_options,
         )
         return _response.data

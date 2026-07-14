@@ -24,6 +24,16 @@ class Project(UncheckedBaseModel):
     The project's default agent.
     """
 
+    active_conversations: int = pydantic.Field()
+    """
+    Number of conversations currently in progress for this project.
+    """
+
+    max_active_conversations: typing.Optional[int] = pydantic.Field(default=None)
+    """
+    Maximum number of concurrent conversations allowed for this project. When `null`, the workspace `max_active_conversations` limit is used.
+    """
+
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
     else:

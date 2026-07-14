@@ -5,3 +5,7 @@ src/phonic/conversations/client.py
 src/phonic/conversations/raw_client.py
 src/phonic/conversations/websocket_connect.py
 src/phonic/conversations/reconnectable_socket_client.py
+.fern/replay.lock
+.fern/replay.yml
+.gitattributes
+.github/workflows/publish.yml

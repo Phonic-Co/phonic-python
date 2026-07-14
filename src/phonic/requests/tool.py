@@ -32,7 +32,7 @@ class ToolParams(typing_extensions.TypedDict):
     The type of tool.
     """
 
-    execution_mode: ToolExecutionMode
+    execution_mode: typing_extensions.NotRequired[ToolExecutionMode]
     """
     Mode of operation - sync waits for response, async continues without waiting.
     """
@@ -74,7 +74,12 @@ class ToolParams(typing_extensions.TypedDict):
 
     dtmf: typing_extensions.NotRequired[typing.Optional[str]]
     """
-    DTMF digits to send after the transfer connects (e.g., "1234"). Defaults to null.
+    DTMF digits to send after the transfer connects (e.g., "1234"). Defaults to null. Ignored when dynamic_dtmf is true.
+    """
+
+    dynamic_dtmf: typing_extensions.NotRequired[bool]
+    """
+    When true, the agent determines the DTMF digits at call time (and may choose to send none); the static dtmf is ignored. Only sent when use_agent_phone_number is true (not on a SIP REFER transfer).
     """
 
     use_agent_phone_number: typing_extensions.NotRequired[bool]
@@ -115,4 +120,9 @@ class ToolParams(typing_extensions.TypedDict):
     wait_for_response: typing_extensions.NotRequired[bool]
     """
     The agent doesn't typically wait for the response of async custom_websocket tools. When true, makes the agent wait for a response, not call other tools and inform the user of the result. Only available for async custom_websocket tools.
+    """
+
+    context: typing_extensions.NotRequired[str]
+    """
+    The static context returned to the agent. Only present for custom_context tools.
     """
