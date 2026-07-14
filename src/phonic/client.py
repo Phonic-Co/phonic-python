@@ -57,7 +57,7 @@ class Phonic:
         Configure logging for the SDK. Accepts a LogConfig dict with 'level' (debug/info/warn/error), 'logger' (custom logger implementation), and 'silent' (boolean, defaults to True) fields. You can also pass a pre-configured Logger instance.
 
     reconnect_conversation_on_abnormal_disconnect : typing.Optional[bool]
-        When True, the conversations WebSocket automatically reconnects after an abnormal close (code 1006) using reconnect_conv_id. Defaults to False until stable in production.
+        Experimental. When True, the conversations WebSocket automatically reconnects and resumes after a non-deliberate disconnect (close codes 1006, 1012, or 1001/"restarting") using reconnect_conv_id. Defaults to False until stable in production.
 
     Examples
     --------
@@ -233,7 +233,7 @@ class AsyncPhonic:
         Configure logging for the SDK. Accepts a LogConfig dict with 'level' (debug/info/warn/error), 'logger' (custom logger implementation), and 'silent' (boolean, defaults to True) fields. You can also pass a pre-configured Logger instance.
 
     reconnect_conversation_on_abnormal_disconnect : typing.Optional[bool]
-        When True, the conversations WebSocket automatically reconnects after an abnormal close (code 1006) using reconnect_conv_id. Defaults to False until stable in production.
+        Experimental. When True, the conversations WebSocket automatically reconnects and resumes after a non-deliberate disconnect (close codes 1006, 1012, or 1001/"restarting") using reconnect_conv_id. Defaults to False until stable in production.
 
     Examples
     --------
