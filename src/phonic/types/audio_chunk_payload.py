@@ -12,7 +12,7 @@ class AudioChunkPayload(UncheckedBaseModel):
     type: typing.Literal["audio_chunk"] = "audio_chunk"
     audio: str = pydantic.Field()
     """
-    Base64-encoded audio data (Int16Array for PCM, Uint8Array for mulaw)
+    Base64-encoded audio data (Int16Array for PCM, Uint8Array for mulaw). Each chunk may contain at most 40 ms of audio — longer chunks are rejected with an error. Batch ~20 ms frames for headroom.
     """
 
     iso_date_time: typing.Optional[dt.datetime] = pydantic.Field(default=None)

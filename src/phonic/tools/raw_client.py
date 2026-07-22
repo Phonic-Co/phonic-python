@@ -18,6 +18,7 @@ from ..errors.not_found_error import NotFoundError
 from ..requests.tool_parameter import ToolParameterParams
 from .types.create_tool_request_endpoint_method import CreateToolRequestEndpointMethod
 from .types.create_tool_request_execution_mode import CreateToolRequestExecutionMode
+from .types.create_tool_request_speech_before_tool_call import CreateToolRequestSpeechBeforeToolCall
 from .types.create_tool_request_type import CreateToolRequestType
 from .types.tools_create_response import ToolsCreateResponse
 from .types.tools_delete_response import ToolsDeleteResponse
@@ -26,6 +27,7 @@ from .types.tools_list_response import ToolsListResponse
 from .types.tools_update_response import ToolsUpdateResponse
 from .types.update_tool_request_endpoint_method import UpdateToolRequestEndpointMethod
 from .types.update_tool_request_execution_mode import UpdateToolRequestExecutionMode
+from .types.update_tool_request_speech_before_tool_call import UpdateToolRequestSpeechBeforeToolCall
 from pydantic import ValidationError
 
 # this is used as the default value for optional parameters
@@ -115,6 +117,7 @@ class RawToolsClient:
         detect_voicemail: typing.Optional[bool] = OMIT,
         agents_to_transfer_to: typing.Optional[typing.Sequence[str]] = OMIT,
         require_speech_before_tool_call: typing.Optional[bool] = OMIT,
+        speech_before_tool_call: typing.Optional[CreateToolRequestSpeechBeforeToolCall] = OMIT,
         wait_for_speech_before_tool_call: typing.Optional[bool] = OMIT,
         forbid_speech_after_tool_call: typing.Optional[bool] = OMIT,
         allow_tool_chaining: typing.Optional[bool] = OMIT,
@@ -184,6 +187,9 @@ class RawToolsClient:
         require_speech_before_tool_call : typing.Optional[bool]
             When true, forces the agent to speak before executing the tool.
 
+        speech_before_tool_call : typing.Optional[CreateToolRequestSpeechBeforeToolCall]
+            For built_in_natural_conversation_ending and built_in_keypad_input tools. Whether the agent must speak before calling the tool ("required"), the model decides ("optional"), or the agent must stay silent ("suppressed"). Not used by other tool types.
+
         wait_for_speech_before_tool_call : typing.Optional[bool]
             If true, the agent will wait to finish speaking before executing the tool. This is only available for custom_webhook and custom_websocket tools.
 
@@ -234,6 +240,7 @@ class RawToolsClient:
                 "detect_voicemail": detect_voicemail,
                 "agents_to_transfer_to": agents_to_transfer_to,
                 "require_speech_before_tool_call": require_speech_before_tool_call,
+                "speech_before_tool_call": speech_before_tool_call,
                 "wait_for_speech_before_tool_call": wait_for_speech_before_tool_call,
                 "forbid_speech_after_tool_call": forbid_speech_after_tool_call,
                 "allow_tool_chaining": allow_tool_chaining,
@@ -461,6 +468,7 @@ class RawToolsClient:
         detect_voicemail: typing.Optional[bool] = OMIT,
         agents_to_transfer_to: typing.Optional[typing.Sequence[str]] = OMIT,
         require_speech_before_tool_call: typing.Optional[bool] = OMIT,
+        speech_before_tool_call: typing.Optional[UpdateToolRequestSpeechBeforeToolCall] = OMIT,
         wait_for_speech_before_tool_call: typing.Optional[bool] = OMIT,
         forbid_speech_after_tool_call: typing.Optional[bool] = OMIT,
         allow_tool_chaining: typing.Optional[bool] = OMIT,
@@ -529,6 +537,9 @@ class RawToolsClient:
         require_speech_before_tool_call : typing.Optional[bool]
             When true, forces the agent to speak before executing the tool.
 
+        speech_before_tool_call : typing.Optional[UpdateToolRequestSpeechBeforeToolCall]
+            For built_in_natural_conversation_ending and built_in_keypad_input tools. Whether the agent must speak before calling the tool ("required"), the model decides ("optional"), or the agent must stay silent ("suppressed"). Not used by other tool types.
+
         wait_for_speech_before_tool_call : typing.Optional[bool]
             If true, the agent will wait to finish speaking before executing the tool. This is only available for custom_webhook and custom_websocket tools.
 
@@ -576,6 +587,7 @@ class RawToolsClient:
                 "detect_voicemail": detect_voicemail,
                 "agents_to_transfer_to": agents_to_transfer_to,
                 "require_speech_before_tool_call": require_speech_before_tool_call,
+                "speech_before_tool_call": speech_before_tool_call,
                 "wait_for_speech_before_tool_call": wait_for_speech_before_tool_call,
                 "forbid_speech_after_tool_call": forbid_speech_after_tool_call,
                 "allow_tool_chaining": allow_tool_chaining,
@@ -723,6 +735,7 @@ class AsyncRawToolsClient:
         detect_voicemail: typing.Optional[bool] = OMIT,
         agents_to_transfer_to: typing.Optional[typing.Sequence[str]] = OMIT,
         require_speech_before_tool_call: typing.Optional[bool] = OMIT,
+        speech_before_tool_call: typing.Optional[CreateToolRequestSpeechBeforeToolCall] = OMIT,
         wait_for_speech_before_tool_call: typing.Optional[bool] = OMIT,
         forbid_speech_after_tool_call: typing.Optional[bool] = OMIT,
         allow_tool_chaining: typing.Optional[bool] = OMIT,
@@ -792,6 +805,9 @@ class AsyncRawToolsClient:
         require_speech_before_tool_call : typing.Optional[bool]
             When true, forces the agent to speak before executing the tool.
 
+        speech_before_tool_call : typing.Optional[CreateToolRequestSpeechBeforeToolCall]
+            For built_in_natural_conversation_ending and built_in_keypad_input tools. Whether the agent must speak before calling the tool ("required"), the model decides ("optional"), or the agent must stay silent ("suppressed"). Not used by other tool types.
+
         wait_for_speech_before_tool_call : typing.Optional[bool]
             If true, the agent will wait to finish speaking before executing the tool. This is only available for custom_webhook and custom_websocket tools.
 
@@ -842,6 +858,7 @@ class AsyncRawToolsClient:
                 "detect_voicemail": detect_voicemail,
                 "agents_to_transfer_to": agents_to_transfer_to,
                 "require_speech_before_tool_call": require_speech_before_tool_call,
+                "speech_before_tool_call": speech_before_tool_call,
                 "wait_for_speech_before_tool_call": wait_for_speech_before_tool_call,
                 "forbid_speech_after_tool_call": forbid_speech_after_tool_call,
                 "allow_tool_chaining": allow_tool_chaining,
@@ -1069,6 +1086,7 @@ class AsyncRawToolsClient:
         detect_voicemail: typing.Optional[bool] = OMIT,
         agents_to_transfer_to: typing.Optional[typing.Sequence[str]] = OMIT,
         require_speech_before_tool_call: typing.Optional[bool] = OMIT,
+        speech_before_tool_call: typing.Optional[UpdateToolRequestSpeechBeforeToolCall] = OMIT,
         wait_for_speech_before_tool_call: typing.Optional[bool] = OMIT,
         forbid_speech_after_tool_call: typing.Optional[bool] = OMIT,
         allow_tool_chaining: typing.Optional[bool] = OMIT,
@@ -1137,6 +1155,9 @@ class AsyncRawToolsClient:
         require_speech_before_tool_call : typing.Optional[bool]
             When true, forces the agent to speak before executing the tool.
 
+        speech_before_tool_call : typing.Optional[UpdateToolRequestSpeechBeforeToolCall]
+            For built_in_natural_conversation_ending and built_in_keypad_input tools. Whether the agent must speak before calling the tool ("required"), the model decides ("optional"), or the agent must stay silent ("suppressed"). Not used by other tool types.
+
         wait_for_speech_before_tool_call : typing.Optional[bool]
             If true, the agent will wait to finish speaking before executing the tool. This is only available for custom_webhook and custom_websocket tools.
 
@@ -1184,6 +1205,7 @@ class AsyncRawToolsClient:
                 "detect_voicemail": detect_voicemail,
                 "agents_to_transfer_to": agents_to_transfer_to,
                 "require_speech_before_tool_call": require_speech_before_tool_call,
+                "speech_before_tool_call": speech_before_tool_call,
                 "wait_for_speech_before_tool_call": wait_for_speech_before_tool_call,
                 "forbid_speech_after_tool_call": forbid_speech_after_tool_call,
                 "allow_tool_chaining": allow_tool_chaining,

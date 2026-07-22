@@ -5,6 +5,7 @@ import typing
 import typing_extensions
 from ..types.tool_endpoint_method import ToolEndpointMethod
 from ..types.tool_execution_mode import ToolExecutionMode
+from ..types.tool_speech_before_tool_call import ToolSpeechBeforeToolCall
 from ..types.tool_type import ToolType
 from .tool_parameter import ToolParameterParams
 from .tool_project import ToolProjectParams
@@ -100,6 +101,11 @@ class ToolParams(typing_extensions.TypedDict):
     require_speech_before_tool_call: typing_extensions.NotRequired[bool]
     """
     When true, forces the agent to speak before executing the tool.
+    """
+
+    speech_before_tool_call: typing_extensions.NotRequired[ToolSpeechBeforeToolCall]
+    """
+    For built_in_natural_conversation_ending and built_in_keypad_input tools. Whether the agent must speak before calling the tool ("required"), the model decides ("optional"), or the agent must stay silent ("suppressed"). Not used by other tool types.
     """
 
     wait_for_speech_before_tool_call: typing_extensions.NotRequired[bool]

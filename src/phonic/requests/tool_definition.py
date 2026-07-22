@@ -3,6 +3,7 @@
 import typing
 
 from ..types.tool_name import ToolName
+from .built_in_tool_definition import BuiltInToolDefinitionParams
 from .inline_web_socket_tool import InlineWebSocketToolParams
 
-ToolDefinitionParams = typing.Union[ToolName, InlineWebSocketToolParams]
+ToolDefinitionParams = typing.Union[ToolName, BuiltInToolDefinitionParams, InlineWebSocketToolParams]

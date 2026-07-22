@@ -10,7 +10,7 @@ class AudioChunkPayloadParams(typing_extensions.TypedDict):
     type: typing.Literal["audio_chunk"]
     audio: str
     """
-    Base64-encoded audio data (Int16Array for PCM, Uint8Array for mulaw)
+    Base64-encoded audio data (Int16Array for PCM, Uint8Array for mulaw). Each chunk may contain at most 40 ms of audio — longer chunks are rejected with an error. Batch ~20 ms frames for headroom.
     """
 
     iso_date_time: typing_extensions.NotRequired[dt.datetime]

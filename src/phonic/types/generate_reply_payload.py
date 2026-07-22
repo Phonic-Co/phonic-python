@@ -14,6 +14,11 @@ class GenerateReplyPayload(UncheckedBaseModel):
     Optional system message to guide the assistant's reply
     """
 
+    user_message: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    Optional user message for the assistant to reply to
+    """
+
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
     else:

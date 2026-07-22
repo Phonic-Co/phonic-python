@@ -18,6 +18,7 @@ from ..errors.internal_server_error import InternalServerError
 from ..errors.not_found_error import NotFoundError
 from ..errors.unauthorized_error import UnauthorizedError
 from ..requests.agent_integration import AgentIntegrationParams
+from ..requests.built_in_tool_configs import BuiltInToolConfigsParams
 from ..requests.create_agent_request_configuration_endpoint import CreateAgentRequestConfigurationEndpointParams
 from ..requests.create_agent_request_pronunciation_dictionary_item import (
     CreateAgentRequestPronunciationDictionaryItemParams,
@@ -161,6 +162,7 @@ class RawAgentsClient:
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValueParams]] = OMIT,
         tools: typing.Optional[typing.Sequence[CreateAgentRequestToolsItemParams]] = OMIT,
+        built_in_tool_configs: typing.Optional[BuiltInToolConfigsParams] = OMIT,
         tasks: typing.Optional[typing.Sequence[TaskParams]] = OMIT,
         generate_no_input_poke_text: typing.Optional[bool] = OMIT,
         no_input_poke_sec: typing.Optional[int] = OMIT,
@@ -253,6 +255,9 @@ class RawAgentsClient:
 
         tools : typing.Optional[typing.Sequence[CreateAgentRequestToolsItemParams]]
             Array of built-in or custom tool names to use.
+
+        built_in_tool_configs : typing.Optional[BuiltInToolConfigsParams]
+            Configuration overrides for built-in tools, keyed by built-in tool ID. Built-in tools not listed here use their default configuration.
 
         tasks : typing.Optional[typing.Sequence[TaskParams]]
             Array of task objects with `name` and `description` fields.
@@ -374,6 +379,9 @@ class RawAgentsClient:
                 ),
                 "tools": convert_and_respect_annotation_metadata(
                     object_=tools, annotation=typing.Sequence[CreateAgentRequestToolsItemParams], direction="write"
+                ),
+                "built_in_tool_configs": convert_and_respect_annotation_metadata(
+                    object_=built_in_tool_configs, annotation=BuiltInToolConfigsParams, direction="write"
                 ),
                 "tasks": convert_and_respect_annotation_metadata(
                     object_=tasks, annotation=typing.Sequence[TaskParams], direction="write"
@@ -508,6 +516,7 @@ class RawAgentsClient:
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValueParams]] = OMIT,
         tools: typing.Optional[typing.Sequence[CreateAgentRequestToolsItemParams]] = OMIT,
+        built_in_tool_configs: typing.Optional[BuiltInToolConfigsParams] = OMIT,
         tasks: typing.Optional[typing.Sequence[TaskParams]] = OMIT,
         generate_no_input_poke_text: typing.Optional[bool] = OMIT,
         no_input_poke_sec: typing.Optional[int] = OMIT,
@@ -606,6 +615,9 @@ class RawAgentsClient:
 
         tools : typing.Optional[typing.Sequence[CreateAgentRequestToolsItemParams]]
             Array of built-in or custom tool names to use.
+
+        built_in_tool_configs : typing.Optional[BuiltInToolConfigsParams]
+            Configuration overrides for built-in tools, keyed by built-in tool ID. Built-in tools not listed here use their default configuration.
 
         tasks : typing.Optional[typing.Sequence[TaskParams]]
             Array of task objects with `name` and `description` fields.
@@ -733,6 +745,9 @@ class RawAgentsClient:
                 ),
                 "tools": convert_and_respect_annotation_metadata(
                     object_=tools, annotation=typing.Sequence[CreateAgentRequestToolsItemParams], direction="write"
+                ),
+                "built_in_tool_configs": convert_and_respect_annotation_metadata(
+                    object_=built_in_tool_configs, annotation=BuiltInToolConfigsParams, direction="write"
                 ),
                 "tasks": convert_and_respect_annotation_metadata(
                     object_=tasks, annotation=typing.Sequence[TaskParams], direction="write"
@@ -996,6 +1011,7 @@ class RawAgentsClient:
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, UpdateAgentRequestTemplateVariablesValueParams]] = OMIT,
         tools: typing.Optional[typing.Sequence[UpdateAgentRequestToolsItemParams]] = OMIT,
+        built_in_tool_configs: typing.Optional[BuiltInToolConfigsParams] = OMIT,
         tasks: typing.Optional[typing.Sequence[TaskParams]] = OMIT,
         generate_no_input_poke_text: typing.Optional[bool] = OMIT,
         no_input_poke_sec: typing.Optional[int] = OMIT,
@@ -1094,6 +1110,9 @@ class RawAgentsClient:
 
         tools : typing.Optional[typing.Sequence[UpdateAgentRequestToolsItemParams]]
             Array of built-in or custom tool names to use.
+
+        built_in_tool_configs : typing.Optional[BuiltInToolConfigsParams]
+            Configuration overrides for built-in tools, keyed by built-in tool ID. Built-in tools not listed here use their default configuration.
 
         tasks : typing.Optional[typing.Sequence[TaskParams]]
             Array of task objects with `name` and `description` fields.
@@ -1224,6 +1243,9 @@ class RawAgentsClient:
                 ),
                 "tools": convert_and_respect_annotation_metadata(
                     object_=tools, annotation=typing.Sequence[UpdateAgentRequestToolsItemParams], direction="write"
+                ),
+                "built_in_tool_configs": convert_and_respect_annotation_metadata(
+                    object_=built_in_tool_configs, annotation=BuiltInToolConfigsParams, direction="write"
                 ),
                 "tasks": convert_and_respect_annotation_metadata(
                     object_=tasks, annotation=typing.Sequence[TaskParams], direction="write"
@@ -1821,6 +1843,7 @@ class AsyncRawAgentsClient:
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValueParams]] = OMIT,
         tools: typing.Optional[typing.Sequence[CreateAgentRequestToolsItemParams]] = OMIT,
+        built_in_tool_configs: typing.Optional[BuiltInToolConfigsParams] = OMIT,
         tasks: typing.Optional[typing.Sequence[TaskParams]] = OMIT,
         generate_no_input_poke_text: typing.Optional[bool] = OMIT,
         no_input_poke_sec: typing.Optional[int] = OMIT,
@@ -1913,6 +1936,9 @@ class AsyncRawAgentsClient:
 
         tools : typing.Optional[typing.Sequence[CreateAgentRequestToolsItemParams]]
             Array of built-in or custom tool names to use.
+
+        built_in_tool_configs : typing.Optional[BuiltInToolConfigsParams]
+            Configuration overrides for built-in tools, keyed by built-in tool ID. Built-in tools not listed here use their default configuration.
 
         tasks : typing.Optional[typing.Sequence[TaskParams]]
             Array of task objects with `name` and `description` fields.
@@ -2034,6 +2060,9 @@ class AsyncRawAgentsClient:
                 ),
                 "tools": convert_and_respect_annotation_metadata(
                     object_=tools, annotation=typing.Sequence[CreateAgentRequestToolsItemParams], direction="write"
+                ),
+                "built_in_tool_configs": convert_and_respect_annotation_metadata(
+                    object_=built_in_tool_configs, annotation=BuiltInToolConfigsParams, direction="write"
                 ),
                 "tasks": convert_and_respect_annotation_metadata(
                     object_=tasks, annotation=typing.Sequence[TaskParams], direction="write"
@@ -2168,6 +2197,7 @@ class AsyncRawAgentsClient:
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValueParams]] = OMIT,
         tools: typing.Optional[typing.Sequence[CreateAgentRequestToolsItemParams]] = OMIT,
+        built_in_tool_configs: typing.Optional[BuiltInToolConfigsParams] = OMIT,
         tasks: typing.Optional[typing.Sequence[TaskParams]] = OMIT,
         generate_no_input_poke_text: typing.Optional[bool] = OMIT,
         no_input_poke_sec: typing.Optional[int] = OMIT,
@@ -2266,6 +2296,9 @@ class AsyncRawAgentsClient:
 
         tools : typing.Optional[typing.Sequence[CreateAgentRequestToolsItemParams]]
             Array of built-in or custom tool names to use.
+
+        built_in_tool_configs : typing.Optional[BuiltInToolConfigsParams]
+            Configuration overrides for built-in tools, keyed by built-in tool ID. Built-in tools not listed here use their default configuration.
 
         tasks : typing.Optional[typing.Sequence[TaskParams]]
             Array of task objects with `name` and `description` fields.
@@ -2393,6 +2426,9 @@ class AsyncRawAgentsClient:
                 ),
                 "tools": convert_and_respect_annotation_metadata(
                     object_=tools, annotation=typing.Sequence[CreateAgentRequestToolsItemParams], direction="write"
+                ),
+                "built_in_tool_configs": convert_and_respect_annotation_metadata(
+                    object_=built_in_tool_configs, annotation=BuiltInToolConfigsParams, direction="write"
                 ),
                 "tasks": convert_and_respect_annotation_metadata(
                     object_=tasks, annotation=typing.Sequence[TaskParams], direction="write"
@@ -2656,6 +2692,7 @@ class AsyncRawAgentsClient:
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, UpdateAgentRequestTemplateVariablesValueParams]] = OMIT,
         tools: typing.Optional[typing.Sequence[UpdateAgentRequestToolsItemParams]] = OMIT,
+        built_in_tool_configs: typing.Optional[BuiltInToolConfigsParams] = OMIT,
         tasks: typing.Optional[typing.Sequence[TaskParams]] = OMIT,
         generate_no_input_poke_text: typing.Optional[bool] = OMIT,
         no_input_poke_sec: typing.Optional[int] = OMIT,
@@ -2754,6 +2791,9 @@ class AsyncRawAgentsClient:
 
         tools : typing.Optional[typing.Sequence[UpdateAgentRequestToolsItemParams]]
             Array of built-in or custom tool names to use.
+
+        built_in_tool_configs : typing.Optional[BuiltInToolConfigsParams]
+            Configuration overrides for built-in tools, keyed by built-in tool ID. Built-in tools not listed here use their default configuration.
 
         tasks : typing.Optional[typing.Sequence[TaskParams]]
             Array of task objects with `name` and `description` fields.
@@ -2884,6 +2924,9 @@ class AsyncRawAgentsClient:
                 ),
                 "tools": convert_and_respect_annotation_metadata(
                     object_=tools, annotation=typing.Sequence[UpdateAgentRequestToolsItemParams], direction="write"
+                ),
+                "built_in_tool_configs": convert_and_respect_annotation_metadata(
+                    object_=built_in_tool_configs, annotation=BuiltInToolConfigsParams, direction="write"
                 ),
                 "tasks": convert_and_respect_annotation_metadata(
                     object_=tasks, annotation=typing.Sequence[TaskParams], direction="write"

@@ -14,6 +14,7 @@ from .agent_project import AgentProjectParams
 from .agent_pronunciation_dictionary_item import AgentPronunciationDictionaryItemParams
 from .agent_template_variables_value import AgentTemplateVariablesValueParams
 from .agent_tools_item import AgentToolsItemParams
+from .built_in_tool_configs import BuiltInToolConfigsParams
 from .data_retention_policy import DataRetentionPolicyParams
 from .task import TaskParams
 
@@ -107,6 +108,11 @@ class AgentParams(typing_extensions.TypedDict):
     tools: typing.Sequence[AgentToolsItemParams]
     """
     List of tools available to the agent.
+    """
+
+    built_in_tool_configs: BuiltInToolConfigsParams
+    """
+    Configuration overrides for built-in tools, keyed by built-in tool ID.
     """
 
     tasks: typing.Sequence[TaskParams]

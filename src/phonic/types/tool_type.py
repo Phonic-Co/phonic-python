@@ -9,6 +9,9 @@ ToolType = typing.Union[
         "custom_websocket",
         "built_in_transfer_to_phone_number",
         "built_in_transfer_to_agent",
+        "built_in_natural_conversation_ending",
+        "built_in_keypad_input",
+        "built_in_choose_not_to_respond",
     ],
     typing.Any,
 ]
