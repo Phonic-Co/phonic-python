@@ -453,6 +453,14 @@ client.agents.upsert(
 <dl>
 <dd>
 
+**built_in_tool_configs:** `typing.Optional[BuiltInToolConfigs]` — Configuration overrides for built-in tools, keyed by built-in tool ID. Built-in tools not listed here use their default configuration.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **tasks:** `typing.Optional[typing.List[Task]]` — Array of task objects with `name` and `description` fields.
     
 </dd>
@@ -1117,6 +1125,14 @@ client.agents.update(
 <dd>
 
 **tools:** `typing.Optional[typing.List[UpdateAgentRequestToolsItem]]` — Array of built-in or custom tool names to use.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**built_in_tool_configs:** `typing.Optional[BuiltInToolConfigs]` — Configuration overrides for built-in tools, keyed by built-in tool ID. Built-in tools not listed here use their default configuration.
     
 </dd>
 </dl>
@@ -1997,6 +2013,14 @@ For `custom_websocket`, `built_in_transfer_to_phone_number`, and `built_in_trans
 <dl>
 <dd>
 
+**speech_before_tool_call:** `typing.Optional[CreateToolRequestSpeechBeforeToolCall]` — For built_in_natural_conversation_ending and built_in_keypad_input tools. Whether the agent must speak before calling the tool ("required"), the model decides ("optional"), or the agent must stay silent ("suppressed"). Not used by other tool types.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **wait_for_speech_before_tool_call:** `typing.Optional[bool]` — If true, the agent will wait to finish speaking before executing the tool. This is only available for custom_webhook and custom_websocket tools.
     
 </dd>
@@ -2422,6 +2446,14 @@ For `custom_websocket`, `built_in_transfer_to_phone_number`, and `built_in_trans
 <dd>
 
 **require_speech_before_tool_call:** `typing.Optional[bool]` — When true, forces the agent to speak before executing the tool.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**speech_before_tool_call:** `typing.Optional[UpdateToolRequestSpeechBeforeToolCall]` — For built_in_natural_conversation_ending and built_in_keypad_input tools. Whether the agent must speak before calling the tool ("required"), the model decides ("optional"), or the agent must stay silent ("suppressed"). Not used by other tool types.
     
 </dd>
 </dl>

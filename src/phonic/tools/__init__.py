@@ -9,6 +9,7 @@ if typing.TYPE_CHECKING:
     from .types import (
         CreateToolRequestEndpointMethod,
         CreateToolRequestExecutionMode,
+        CreateToolRequestSpeechBeforeToolCall,
         CreateToolRequestType,
         ToolsCreateResponse,
         ToolsDeleteResponse,
@@ -17,6 +18,7 @@ if typing.TYPE_CHECKING:
         ToolsUpdateResponse,
         UpdateToolRequestEndpointMethod,
         UpdateToolRequestExecutionMode,
+        UpdateToolRequestSpeechBeforeToolCall,
     )
     from .requests import (
         ToolsCreateResponseParams,
@@ -28,6 +30,7 @@ if typing.TYPE_CHECKING:
 _dynamic_imports: typing.Dict[str, str] = {
     "CreateToolRequestEndpointMethod": ".types",
     "CreateToolRequestExecutionMode": ".types",
+    "CreateToolRequestSpeechBeforeToolCall": ".types",
     "CreateToolRequestType": ".types",
     "ToolsCreateResponse": ".types",
     "ToolsCreateResponseParams": ".requests",
@@ -41,6 +44,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ToolsUpdateResponseParams": ".requests",
     "UpdateToolRequestEndpointMethod": ".types",
     "UpdateToolRequestExecutionMode": ".types",
+    "UpdateToolRequestSpeechBeforeToolCall": ".types",
 }
 
 
@@ -68,6 +72,7 @@ def __dir__():
 __all__ = [
     "CreateToolRequestEndpointMethod",
     "CreateToolRequestExecutionMode",
+    "CreateToolRequestSpeechBeforeToolCall",
     "CreateToolRequestType",
     "ToolsCreateResponse",
     "ToolsCreateResponseParams",
@@ -81,4 +86,5 @@ __all__ = [
     "ToolsUpdateResponseParams",
     "UpdateToolRequestEndpointMethod",
     "UpdateToolRequestExecutionMode",
+    "UpdateToolRequestSpeechBeforeToolCall",
 ]

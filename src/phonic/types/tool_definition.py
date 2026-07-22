@@ -2,7 +2,8 @@
 
 import typing
 
+from .built_in_tool_definition import BuiltInToolDefinition
 from .inline_web_socket_tool import InlineWebSocketTool
 from .tool_name import ToolName
 
-ToolDefinition = typing.Union[ToolName, InlineWebSocketTool]
+ToolDefinition = typing.Union[ToolName, BuiltInToolDefinition, InlineWebSocketTool]

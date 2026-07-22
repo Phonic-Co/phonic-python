@@ -5,6 +5,7 @@ import typing
 import pydantic
 from ..core.pydantic_utilities import IS_PYDANTIC_V2
 from ..core.unchecked_base_model import UncheckedBaseModel
+from .built_in_tool_configs import BuiltInToolConfigs
 from .create_agent_request_audio_format import CreateAgentRequestAudioFormat
 from .create_agent_request_background_noise import CreateAgentRequestBackgroundNoise
 from .create_agent_request_configuration_endpoint import CreateAgentRequestConfigurationEndpoint
@@ -110,6 +111,11 @@ class CreateAgentRequest(UncheckedBaseModel):
     tools: typing.Optional[typing.List[CreateAgentRequestToolsItem]] = pydantic.Field(default=None)
     """
     Array of built-in or custom tool names to use.
+    """
+
+    built_in_tool_configs: typing.Optional[BuiltInToolConfigs] = pydantic.Field(default=None)
+    """
+    Configuration overrides for built-in tools, keyed by built-in tool ID. Built-in tools not listed here use their default configuration.
     """
 
     tasks: typing.Optional[typing.List[Task]] = pydantic.Field(default=None)

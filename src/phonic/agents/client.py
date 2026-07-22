@@ -5,6 +5,7 @@ import typing
 from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.request_options import RequestOptions
 from ..requests.agent_integration import AgentIntegrationParams
+from ..requests.built_in_tool_configs import BuiltInToolConfigsParams
 from ..requests.create_agent_request_configuration_endpoint import CreateAgentRequestConfigurationEndpointParams
 from ..requests.create_agent_request_pronunciation_dictionary_item import (
     CreateAgentRequestPronunciationDictionaryItemParams,
@@ -120,6 +121,7 @@ class AgentsClient:
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValueParams]] = OMIT,
         tools: typing.Optional[typing.Sequence[CreateAgentRequestToolsItemParams]] = OMIT,
+        built_in_tool_configs: typing.Optional[BuiltInToolConfigsParams] = OMIT,
         tasks: typing.Optional[typing.Sequence[TaskParams]] = OMIT,
         generate_no_input_poke_text: typing.Optional[bool] = OMIT,
         no_input_poke_sec: typing.Optional[int] = OMIT,
@@ -212,6 +214,9 @@ class AgentsClient:
 
         tools : typing.Optional[typing.Sequence[CreateAgentRequestToolsItemParams]]
             Array of built-in or custom tool names to use.
+
+        built_in_tool_configs : typing.Optional[BuiltInToolConfigsParams]
+            Configuration overrides for built-in tools, keyed by built-in tool ID. Built-in tools not listed here use their default configuration.
 
         tasks : typing.Optional[typing.Sequence[TaskParams]]
             Array of task objects with `name` and `description` fields.
@@ -363,6 +368,7 @@ class AgentsClient:
             system_prompt=system_prompt,
             template_variables=template_variables,
             tools=tools,
+            built_in_tool_configs=built_in_tool_configs,
             tasks=tasks,
             generate_no_input_poke_text=generate_no_input_poke_text,
             no_input_poke_sec=no_input_poke_sec,
@@ -418,6 +424,7 @@ class AgentsClient:
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValueParams]] = OMIT,
         tools: typing.Optional[typing.Sequence[CreateAgentRequestToolsItemParams]] = OMIT,
+        built_in_tool_configs: typing.Optional[BuiltInToolConfigsParams] = OMIT,
         tasks: typing.Optional[typing.Sequence[TaskParams]] = OMIT,
         generate_no_input_poke_text: typing.Optional[bool] = OMIT,
         no_input_poke_sec: typing.Optional[int] = OMIT,
@@ -516,6 +523,9 @@ class AgentsClient:
 
         tools : typing.Optional[typing.Sequence[CreateAgentRequestToolsItemParams]]
             Array of built-in or custom tool names to use.
+
+        built_in_tool_configs : typing.Optional[BuiltInToolConfigsParams]
+            Configuration overrides for built-in tools, keyed by built-in tool ID. Built-in tools not listed here use their default configuration.
 
         tasks : typing.Optional[typing.Sequence[TaskParams]]
             Array of task objects with `name` and `description` fields.
@@ -669,6 +679,7 @@ class AgentsClient:
             system_prompt=system_prompt,
             template_variables=template_variables,
             tools=tools,
+            built_in_tool_configs=built_in_tool_configs,
             tasks=tasks,
             generate_no_input_poke_text=generate_no_input_poke_text,
             no_input_poke_sec=no_input_poke_sec,
@@ -805,6 +816,7 @@ class AgentsClient:
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, UpdateAgentRequestTemplateVariablesValueParams]] = OMIT,
         tools: typing.Optional[typing.Sequence[UpdateAgentRequestToolsItemParams]] = OMIT,
+        built_in_tool_configs: typing.Optional[BuiltInToolConfigsParams] = OMIT,
         tasks: typing.Optional[typing.Sequence[TaskParams]] = OMIT,
         generate_no_input_poke_text: typing.Optional[bool] = OMIT,
         no_input_poke_sec: typing.Optional[int] = OMIT,
@@ -903,6 +915,9 @@ class AgentsClient:
 
         tools : typing.Optional[typing.Sequence[UpdateAgentRequestToolsItemParams]]
             Array of built-in or custom tool names to use.
+
+        built_in_tool_configs : typing.Optional[BuiltInToolConfigsParams]
+            Configuration overrides for built-in tools, keyed by built-in tool ID. Built-in tools not listed here use their default configuration.
 
         tasks : typing.Optional[typing.Sequence[TaskParams]]
             Array of task objects with `name` and `description` fields.
@@ -1065,6 +1080,7 @@ class AgentsClient:
             system_prompt=system_prompt,
             template_variables=template_variables,
             tools=tools,
+            built_in_tool_configs=built_in_tool_configs,
             tasks=tasks,
             generate_no_input_poke_text=generate_no_input_poke_text,
             no_input_poke_sec=no_input_poke_sec,
@@ -1361,6 +1377,7 @@ class AsyncAgentsClient:
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValueParams]] = OMIT,
         tools: typing.Optional[typing.Sequence[CreateAgentRequestToolsItemParams]] = OMIT,
+        built_in_tool_configs: typing.Optional[BuiltInToolConfigsParams] = OMIT,
         tasks: typing.Optional[typing.Sequence[TaskParams]] = OMIT,
         generate_no_input_poke_text: typing.Optional[bool] = OMIT,
         no_input_poke_sec: typing.Optional[int] = OMIT,
@@ -1453,6 +1470,9 @@ class AsyncAgentsClient:
 
         tools : typing.Optional[typing.Sequence[CreateAgentRequestToolsItemParams]]
             Array of built-in or custom tool names to use.
+
+        built_in_tool_configs : typing.Optional[BuiltInToolConfigsParams]
+            Configuration overrides for built-in tools, keyed by built-in tool ID. Built-in tools not listed here use their default configuration.
 
         tasks : typing.Optional[typing.Sequence[TaskParams]]
             Array of task objects with `name` and `description` fields.
@@ -1614,6 +1634,7 @@ class AsyncAgentsClient:
             system_prompt=system_prompt,
             template_variables=template_variables,
             tools=tools,
+            built_in_tool_configs=built_in_tool_configs,
             tasks=tasks,
             generate_no_input_poke_text=generate_no_input_poke_text,
             no_input_poke_sec=no_input_poke_sec,
@@ -1669,6 +1690,7 @@ class AsyncAgentsClient:
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValueParams]] = OMIT,
         tools: typing.Optional[typing.Sequence[CreateAgentRequestToolsItemParams]] = OMIT,
+        built_in_tool_configs: typing.Optional[BuiltInToolConfigsParams] = OMIT,
         tasks: typing.Optional[typing.Sequence[TaskParams]] = OMIT,
         generate_no_input_poke_text: typing.Optional[bool] = OMIT,
         no_input_poke_sec: typing.Optional[int] = OMIT,
@@ -1767,6 +1789,9 @@ class AsyncAgentsClient:
 
         tools : typing.Optional[typing.Sequence[CreateAgentRequestToolsItemParams]]
             Array of built-in or custom tool names to use.
+
+        built_in_tool_configs : typing.Optional[BuiltInToolConfigsParams]
+            Configuration overrides for built-in tools, keyed by built-in tool ID. Built-in tools not listed here use their default configuration.
 
         tasks : typing.Optional[typing.Sequence[TaskParams]]
             Array of task objects with `name` and `description` fields.
@@ -1930,6 +1955,7 @@ class AsyncAgentsClient:
             system_prompt=system_prompt,
             template_variables=template_variables,
             tools=tools,
+            built_in_tool_configs=built_in_tool_configs,
             tasks=tasks,
             generate_no_input_poke_text=generate_no_input_poke_text,
             no_input_poke_sec=no_input_poke_sec,
@@ -2082,6 +2108,7 @@ class AsyncAgentsClient:
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, UpdateAgentRequestTemplateVariablesValueParams]] = OMIT,
         tools: typing.Optional[typing.Sequence[UpdateAgentRequestToolsItemParams]] = OMIT,
+        built_in_tool_configs: typing.Optional[BuiltInToolConfigsParams] = OMIT,
         tasks: typing.Optional[typing.Sequence[TaskParams]] = OMIT,
         generate_no_input_poke_text: typing.Optional[bool] = OMIT,
         no_input_poke_sec: typing.Optional[int] = OMIT,
@@ -2180,6 +2207,9 @@ class AsyncAgentsClient:
 
         tools : typing.Optional[typing.Sequence[UpdateAgentRequestToolsItemParams]]
             Array of built-in or custom tool names to use.
+
+        built_in_tool_configs : typing.Optional[BuiltInToolConfigsParams]
+            Configuration overrides for built-in tools, keyed by built-in tool ID. Built-in tools not listed here use their default configuration.
 
         tasks : typing.Optional[typing.Sequence[TaskParams]]
             Array of task objects with `name` and `description` fields.
@@ -2352,6 +2382,7 @@ class AsyncAgentsClient:
             system_prompt=system_prompt,
             template_variables=template_variables,
             tools=tools,
+            built_in_tool_configs=built_in_tool_configs,
             tasks=tasks,
             generate_no_input_poke_text=generate_no_input_poke_text,
             no_input_poke_sec=no_input_poke_sec,

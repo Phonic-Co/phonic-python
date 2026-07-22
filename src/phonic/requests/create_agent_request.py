@@ -9,6 +9,7 @@ from ..types.create_agent_request_intelligence_level import CreateAgentRequestIn
 from ..types.create_agent_request_multilingual_mode import CreateAgentRequestMultilingualMode
 from ..types.create_agent_request_phone_number import CreateAgentRequestPhoneNumber
 from ..types.language_code import LanguageCode
+from .built_in_tool_configs import BuiltInToolConfigsParams
 from .create_agent_request_configuration_endpoint import CreateAgentRequestConfigurationEndpointParams
 from .create_agent_request_pronunciation_dictionary_item import CreateAgentRequestPronunciationDictionaryItemParams
 from .create_agent_request_template_variables_value import CreateAgentRequestTemplateVariablesValueParams
@@ -106,6 +107,11 @@ class CreateAgentRequestParams(typing_extensions.TypedDict):
     tools: typing_extensions.NotRequired[typing.Sequence[CreateAgentRequestToolsItemParams]]
     """
     Array of built-in or custom tool names to use.
+    """
+
+    built_in_tool_configs: typing_extensions.NotRequired[BuiltInToolConfigsParams]
+    """
+    Configuration overrides for built-in tools, keyed by built-in tool ID. Built-in tools not listed here use their default configuration.
     """
 
     tasks: typing_extensions.NotRequired[typing.Sequence[TaskParams]]

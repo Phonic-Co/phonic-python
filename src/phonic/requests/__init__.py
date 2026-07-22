@@ -24,6 +24,9 @@ if typing.TYPE_CHECKING:
     from .bad_request_error_body import BadRequestErrorBodyParams
     from .basic_error import BasicErrorParams
     from .basic_error_error import BasicErrorErrorParams
+    from .built_in_tool_config import BuiltInToolConfigParams
+    from .built_in_tool_configs import BuiltInToolConfigsParams
+    from .built_in_tool_definition import BuiltInToolDefinitionParams
     from .config_options import ConfigOptionsParams
     from .config_options_configuration_endpoint import ConfigOptionsConfigurationEndpointParams
     from .config_options_data_retention_policy import ConfigOptionsDataRetentionPolicyParams
@@ -151,6 +154,9 @@ _dynamic_imports: typing.Dict[str, str] = {
     "BadRequestErrorBodyParams": ".bad_request_error_body",
     "BasicErrorErrorParams": ".basic_error_error",
     "BasicErrorParams": ".basic_error",
+    "BuiltInToolConfigParams": ".built_in_tool_config",
+    "BuiltInToolConfigsParams": ".built_in_tool_configs",
+    "BuiltInToolDefinitionParams": ".built_in_tool_definition",
     "ConfigOptionsConfigurationEndpointParams": ".config_options_configuration_endpoint",
     "ConfigOptionsDataRetentionPolicyAudioRecordingsAudioRecordingsParams": ".config_options_data_retention_policy_audio_recordings_audio_recordings",
     "ConfigOptionsDataRetentionPolicyAudioRecordingsParams": ".config_options_data_retention_policy_audio_recordings",
@@ -292,6 +298,9 @@ __all__ = [
     "BadRequestErrorBodyParams",
     "BasicErrorErrorParams",
     "BasicErrorParams",
+    "BuiltInToolConfigParams",
+    "BuiltInToolConfigsParams",
+    "BuiltInToolDefinitionParams",
     "ConfigOptionsConfigurationEndpointParams",
     "ConfigOptionsDataRetentionPolicyAudioRecordingsAudioRecordingsParams",
     "ConfigOptionsDataRetentionPolicyAudioRecordingsParams",

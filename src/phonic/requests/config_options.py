@@ -180,7 +180,7 @@ class ConfigOptionsParams(typing_extensions.TypedDict):
 
     tools: typing_extensions.NotRequired[typing.Sequence[ToolDefinitionParams]]
     """
-    Tools available to the assistant. Use a string to reference a pre-defined tool by name, or define an inline WebSocket tool for this conversation.
+    Tools available to the assistant. Use a string to reference a pre-defined tool by name, provide a built-in tool object to override its default configuration, or define an inline WebSocket tool for this conversation.
     """
 
     template_variables: typing_extensions.NotRequired[typing.Dict[str, str]]

@@ -11,3 +11,8 @@ class GenerateReplyPayloadParams(typing_extensions.TypedDict):
     """
     Optional system message to guide the assistant's reply
     """
+
+    user_message: typing_extensions.NotRequired[typing.Optional[str]]
+    """
+    Optional user message for the assistant to reply to
+    """

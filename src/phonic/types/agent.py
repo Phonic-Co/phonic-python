@@ -15,6 +15,7 @@ from .agent_project import AgentProject
 from .agent_pronunciation_dictionary_item import AgentPronunciationDictionaryItem
 from .agent_template_variables_value import AgentTemplateVariablesValue
 from .agent_tools_item import AgentToolsItem
+from .built_in_tool_configs import BuiltInToolConfigs
 from .data_retention_policy import DataRetentionPolicy
 from .language_code import LanguageCode
 from .task import Task
@@ -109,6 +110,11 @@ class Agent(UncheckedBaseModel):
     tools: typing.List[AgentToolsItem] = pydantic.Field()
     """
     List of tools available to the agent.
+    """
+
+    built_in_tool_configs: BuiltInToolConfigs = pydantic.Field()
+    """
+    Configuration overrides for built-in tools, keyed by built-in tool ID.
     """
 
     tasks: typing.List[Task] = pydantic.Field()

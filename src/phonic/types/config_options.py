@@ -182,7 +182,7 @@ class ConfigOptions(UncheckedBaseModel):
 
     tools: typing.Optional[typing.List[ToolDefinition]] = pydantic.Field(default=None)
     """
-    Tools available to the assistant. Use a string to reference a pre-defined tool by name, or define an inline WebSocket tool for this conversation.
+    Tools available to the assistant. Use a string to reference a pre-defined tool by name, provide a built-in tool object to override its default configuration, or define an inline WebSocket tool for this conversation.
     """
 
     template_variables: typing.Optional[typing.Dict[str, str]] = pydantic.Field(default=None)

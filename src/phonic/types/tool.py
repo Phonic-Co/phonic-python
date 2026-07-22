@@ -9,6 +9,7 @@ from .tool_endpoint_method import ToolEndpointMethod
 from .tool_execution_mode import ToolExecutionMode
 from .tool_parameter import ToolParameter
 from .tool_project import ToolProject
+from .tool_speech_before_tool_call import ToolSpeechBeforeToolCall
 from .tool_type import ToolType
 
 
@@ -102,6 +103,11 @@ class Tool(UncheckedBaseModel):
     require_speech_before_tool_call: typing.Optional[bool] = pydantic.Field(default=None)
     """
     When true, forces the agent to speak before executing the tool.
+    """
+
+    speech_before_tool_call: typing.Optional[ToolSpeechBeforeToolCall] = pydantic.Field(default=None)
+    """
+    For built_in_natural_conversation_ending and built_in_keypad_input tools. Whether the agent must speak before calling the tool ("required"), the model decides ("optional"), or the agent must stay silent ("suppressed"). Not used by other tool types.
     """
 
     wait_for_speech_before_tool_call: typing.Optional[bool] = pydantic.Field(default=None)
