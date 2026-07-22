@@ -12,5 +12,259 @@ generations:
     cli_version: unknown
     generator_versions:
       fernapi/fern-python-sdk: 4.64.1
-current_generation: 88b2bf7027d182c509ad72f0f91c3f6eff56bea2
-patches: []
+  - commit_sha: e8dc40e0fec75ebebd1556a16c86614c276f9ac9
+    tree_hash: 5db968874fc510c78a89c4c0952d959da49fa679
+    timestamp: 2026-07-22T04:34:30.675Z
+    cli_version: unknown
+    generator_versions:
+      fernapi/fern-python-sdk: 4.64.1
+current_generation: e8dc40e0fec75ebebd1556a16c86614c276f9ac9
+patches:
+  - id: patch-3c0d5026
+    content_hash: sha256:92750974390b844ceaa1dad583bc82b62e865cd24eaea3a93a687ca27927da9c
+    original_commit: 3c0d5026411a2c8fd40a5e73e0c128cf49eec099
+    original_message: Reconnect on 1012 / 1001-restarting, not just 1006 (PHO-2278) (#161)
+    original_author: elizabeth-phonic <elizabeth@phonic.co>
+    base_generation: 49551bdbf4330cb6bce2b49cd4743ca1518d6685
+    files:
+      - pyproject.toml
+      - tests/custom/test_reconnectable_socket.py
+    patch_content: |
+      diff --git a/pyproject.toml b/pyproject.toml
+      index 7f4ce3d..b26c899 100644
+      --- a/pyproject.toml
+      +++ b/pyproject.toml
+      @@ -4,7 +4,7 @@ dynamic = ["version"]
+       
+       [tool.poetry]
+       name = "phonic"
+      -version = "0.32.9"
+      +version = "0.32.10"
+       description = ""
+       readme = "README.md"
+       authors = []
+      diff --git a/tests/custom/test_reconnectable_socket.py b/tests/custom/test_reconnectable_socket.py
+      new file mode 100644
+      index 0000000..a70797b
+      --- /dev/null
+      +++ b/tests/custom/test_reconnectable_socket.py
+      @@ -0,0 +1,62 @@
+      +"""Unit tests for the reconnect close-code predicate.
+      +
+      +Reconnect on 1006, 1012, or a 1001/"restarting" (proxy drain), but never on a
+      +bare 1001 (a deliberate "going away" — caller ended the conversation, tab
+      +closed/suspended).
+      +"""
+      +
+      +import pytest
+      +from websockets.exceptions import ConnectionClosed
+      +from websockets.frames import Close
+      +
+      +from phonic.conversations.reconnectable_socket_client import (
+      +    ABNORMAL_CLOSURE,
+      +    GOING_AWAY,
+      +    SERVICE_RESTART,
+      +    _close_code,
+      +    _close_reason,
+      +    _is_reconnectable_close,
+      +)
+      +
+      +
+      +@pytest.mark.parametrize(
+      +    "code, reason, expected",
+      +    [
+      +        (ABNORMAL_CLOSURE, "", True),          # 1006 abnormal closure
+      +        (SERVICE_RESTART, "restarting", True),  # 1012 service restart (proxy/LB)
+      +        (SERVICE_RESTART, "", True),            # 1012 regardless of reason
+      +        (GOING_AWAY, "restarting", True),       # 1001 drain surfacing as going-away
+      +        (GOING_AWAY, "", False),                # bare 1001 = deliberate close
+      +        (GOING_AWAY, "going away", False),      # 1001 without the restarting reason
+      +        (None, "", False),                      # not a ConnectionClosed
+      +        # Real backend close codes observed in production (BetterStack) — none
+      +        # is reconnectable; only 1006/1012/1001-"restarting" above are.
+      +        (1000, "", False),                      # normal closure
+      +        (1005, "", False),                      # no status received
+      +        (1011, "", False),                      # server internal error
+      +        (4000, "", False),                      # downstream websocket closed
+      +        (4004, "", False),                      # insufficient capacity
+      +        (4010, "", False),                      # concurrency limit reached
+      +        (4200, "", False),                      # end conversation clicked
+      +        (4500, "", False),                      # no input received timeout
+      +        (4600, "", False),                      # assistant ended conversation
+      +        (4700, "", False),                      # component unmounted
+      +        (4800, "", False),                      # terminal: reconnect session not found
+      +        (4801, "", False),                      # terminal: reconnect invalid state
+      +    ],
+      +)
+      +def test_is_reconnectable_close(code, reason, expected):
+      +    assert _is_reconnectable_close(code, reason) is expected
+      +
+      +
+      +def test_close_code_and_reason_from_frame():
+      +    exc = ConnectionClosed(Close(SERVICE_RESTART, "restarting"), None)
+      +    assert _close_code(exc) == SERVICE_RESTART
+      +    assert _close_reason(exc) == "restarting"
+      +
+      +
+      +def test_close_code_defaults_to_abnormal_when_no_frame():
+      +    # No close frame received -> synthesized 1006, empty reason.
+      +    exc = ConnectionClosed(None, None)
+      +    assert _close_code(exc) == ABNORMAL_CLOSURE
+      +    assert _close_reason(exc) == ""
+    theirs_snapshot:
+      pyproject.toml: |
+        [project]
+        name = "phonic"
+        dynamic = ["version"]
+
+        [tool.poetry]
+        name = "phonic"
+        version = "0.32.10"
+        description = ""
+        readme = "README.md"
+        authors = []
+        keywords = []
+        license = "MIT"
+        classifiers = [
+            "Intended Audience :: Developers",
+            "Programming Language :: Python",
+            "Programming Language :: Python :: 3",
+            "Programming Language :: Python :: 3.8",
+            "Programming Language :: Python :: 3.9",
+            "Programming Language :: Python :: 3.10",
+            "Programming Language :: Python :: 3.11",
+            "Programming Language :: Python :: 3.12",
+            "Programming Language :: Python :: 3.13",
+            "Programming Language :: Python :: 3.14",
+            "Programming Language :: Python :: 3.15",
+            "Operating System :: OS Independent",
+            "Operating System :: POSIX",
+            "Operating System :: MacOS",
+            "Operating System :: POSIX :: Linux",
+            "Operating System :: Microsoft :: Windows",
+            "Topic :: Software Development :: Libraries :: Python Modules",
+            "Typing :: Typed",
+            "License :: OSI Approved :: MIT License"
+        ]
+        packages = [
+            { include = "phonic", from = "src"}
+        ]
+
+        [tool.poetry.urls]
+        Repository = 'https://github.com/Phonic-Co/phonic-python'
+
+        [tool.poetry.dependencies]
+        python = "^3.8"
+        httpx = ">=0.21.2"
+        pydantic = ">= 1.9.2"
+        pydantic-core = ">=2.18.2"
+        typing_extensions = ">= 4.0.0"
+        websockets = ">=12.0"
+
+        [tool.poetry.group.dev.dependencies]
+        mypy = "==1.13.0"
+        pytest = "^7.4.0"
+        pytest-asyncio = "^0.23.5"
+        pytest-xdist = "^3.6.1"
+        python-dateutil = "^2.9.0"
+        types-python-dateutil = "^2.9.0.20240316"
+        ruff = "==0.11.5"
+
+        [tool.pytest.ini_options]
+        testpaths = [ "tests" ]
+        asyncio_mode = "auto"
+
+        [tool.mypy]
+        plugins = ["pydantic.mypy"]
+
+        [tool.ruff]
+        line-length = 120
+
+        [tool.ruff.lint]
+        select = [
+            "E",  # pycodestyle errors
+            "F",  # pyflakes
+            "I",  # isort
+        ]
+        ignore = [
+            "E402",  # Module level import not at top of file
+            "E501",  # Line too long
+            "E711",  # Comparison to `None` should be `cond is not None`
+            "E712",  # Avoid equality comparisons to `True`; use `if ...:` checks
+            "E721",  # Use `is` and `is not` for type comparisons, or `isinstance()` for insinstance checks
+            "E722",  # Do not use bare `except`
+            "E731",  # Do not assign a `lambda` expression, use a `def`
+            "F821",  # Undefined name
+            "F841"   # Local variable ... is assigned to but never used
+        ]
+
+        [tool.ruff.lint.isort]
+        section-order = ["future", "standard-library", "third-party", "first-party"]
+
+        [build-system]
+        requires = ["poetry-core"]
+        build-backend = "poetry.core.masonry.api"
+      tests/custom/test_reconnectable_socket.py: |
+        """Unit tests for the reconnect close-code predicate.
+
+        Reconnect on 1006, 1012, or a 1001/"restarting" (proxy drain), but never on a
+        bare 1001 (a deliberate "going away" — caller ended the conversation, tab
+        closed/suspended).
+        """
+
+        import pytest
+        from websockets.exceptions import ConnectionClosed
+        from websockets.frames import Close
+
+        from phonic.conversations.reconnectable_socket_client import (
+            ABNORMAL_CLOSURE,
+            GOING_AWAY,
+            SERVICE_RESTART,
+            _close_code,
+            _close_reason,
+            _is_reconnectable_close,
+        )
+
+
+        @pytest.mark.parametrize(
+            "code, reason, expected",
+            [
+                (ABNORMAL_CLOSURE, "", True),          # 1006 abnormal closure
+                (SERVICE_RESTART, "restarting", True),  # 1012 service restart (proxy/LB)
+                (SERVICE_RESTART, "", True),            # 1012 regardless of reason
+                (GOING_AWAY, "restarting", True),       # 1001 drain surfacing as going-away
+                (GOING_AWAY, "", False),                # bare 1001 = deliberate close
+                (GOING_AWAY, "going away", False),      # 1001 without the restarting reason
+                (None, "", False),                      # not a ConnectionClosed
+                # Real backend close codes observed in production (BetterStack) — none
+                # is reconnectable; only 1006/1012/1001-"restarting" above are.
+                (1000, "", False),                      # normal closure
+                (1005, "", False),                      # no status received
+                (1011, "", False),                      # server internal error
+                (4000, "", False),                      # downstream websocket closed
+                (4004, "", False),                      # insufficient capacity
+                (4010, "", False),                      # concurrency limit reached
+                (4200, "", False),                      # end conversation clicked
+                (4500, "", False),                      # no input received timeout
+                (4600, "", False),                      # assistant ended conversation
+                (4700, "", False),                      # component unmounted
+                (4800, "", False),                      # terminal: reconnect session not found
+                (4801, "", False),                      # terminal: reconnect invalid state
+            ],
+        )
+        def test_is_reconnectable_close(code, reason, expected):
+            assert _is_reconnectable_close(code, reason) is expected
+
+
+        def test_close_code_and_reason_from_frame():
+            exc = ConnectionClosed(Close(SERVICE_RESTART, "restarting"), None)
+            assert _close_code(exc) == SERVICE_RESTART
+            assert _close_reason(exc) == "restarting"
+
+
+        def test_close_code_defaults_to_abnormal_when_no_frame():
+            # No close frame received -> synthesized 1006, empty reason.
+            exc = ConnectionClosed(None, None)
+            assert _close_code(exc) == ABNORMAL_CLOSURE
+            assert _close_reason(exc) == ""
+    status: unresolved
