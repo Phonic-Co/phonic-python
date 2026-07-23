@@ -10,6 +10,6 @@
       "skip_validation": true
     }
   },
-  "originGitCommit": "db179d88c7d146c13daa7465d1c349282f8f94af",
-  "sdkVersion": "0.32.15"
+  "originGitCommit": "a8182a27d0aabb8a703ffed63a92f96fab8b0e10",
+  "sdkVersion": "0.32.16"
 }
