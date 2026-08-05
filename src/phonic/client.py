@@ -17,6 +17,7 @@ if typing.TYPE_CHECKING:
     from .auth.client import AsyncAuthClient, AuthClient
     from .conversation_items.client import AsyncConversationItemsClient, ConversationItemsClient
     from .conversations.client import AsyncConversationsClient, ConversationsClient
+    from .external_storage_policies.client import AsyncExternalStoragePoliciesClient, ExternalStoragePoliciesClient
     from .extraction_schemas.client import AsyncExtractionSchemasClient, ExtractionSchemasClient
     from .projects.client import AsyncProjectsClient, ProjectsClient
     from .tools.client import AsyncToolsClient, ToolsClient
@@ -111,6 +112,7 @@ class Phonic:
         self._auth: typing.Optional[AuthClient] = None
         self._projects: typing.Optional[ProjectsClient] = None
         self._workspace: typing.Optional[WorkspaceClient] = None
+        self._external_storage_policies: typing.Optional[ExternalStoragePoliciesClient] = None
 
     @property
     def agents(self):
@@ -200,6 +202,14 @@ class Phonic:
             self._workspace = WorkspaceClient(client_wrapper=self._client_wrapper)
         return self._workspace
 
+    @property
+    def external_storage_policies(self):
+        if self._external_storage_policies is None:
+            from .external_storage_policies.client import ExternalStoragePoliciesClient  # noqa: E402
+
+            self._external_storage_policies = ExternalStoragePoliciesClient(client_wrapper=self._client_wrapper)
+        return self._external_storage_policies
+
 
 class AsyncPhonic:
     """
@@ -287,6 +297,7 @@ class AsyncPhonic:
         self._auth: typing.Optional[AsyncAuthClient] = None
         self._projects: typing.Optional[AsyncProjectsClient] = None
         self._workspace: typing.Optional[AsyncWorkspaceClient] = None
+        self._external_storage_policies: typing.Optional[AsyncExternalStoragePoliciesClient] = None
 
     @property
     def agents(self):
@@ -375,3 +386,11 @@ class AsyncPhonic:
 
             self._workspace = AsyncWorkspaceClient(client_wrapper=self._client_wrapper)
         return self._workspace
+
+    @property
+    def external_storage_policies(self):
+        if self._external_storage_policies is None:
+            from .external_storage_policies.client import AsyncExternalStoragePoliciesClient  # noqa: E402
+
+            self._external_storage_policies = AsyncExternalStoragePoliciesClient(client_wrapper=self._client_wrapper)
+        return self._external_storage_policies

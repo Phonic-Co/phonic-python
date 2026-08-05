@@ -257,6 +257,11 @@ class CreateAgentRequest(UncheckedBaseModel):
     Names of observability integrations to enable for the agent. Each must be one of the supported providers.
     """
 
+    external_storage_policy: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    Name of an external storage policy in the same project that conversation artifacts are delivered to. Requires zero data retention and cannot be combined with `enable_redaction`.
+    """
+
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
     else:

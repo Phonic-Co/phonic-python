@@ -677,6 +677,14 @@ client.agents.upsert(
 <dl>
 <dd>
 
+**external_storage_policy:** `typing.Optional[str]` — Name of an external storage policy in the same project that conversation artifacts are delivered to. Requires zero data retention and cannot be combined with `enable_redaction`.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **outbound_number_pool:** `typing.Optional[OutboundNumberPool]` — Pool of phone numbers used for outbound calls. Set to `null` to remove the pool.
     
 </dd>
@@ -1380,6 +1388,14 @@ client.agents.update(
 <dl>
 <dd>
 
+**external_storage_policy:** `typing.Optional[str]` — Name of an external storage policy in the same project that conversation artifacts are delivered to. Set to `null` to stop delivering artifacts. Requires zero data retention and cannot be combined with `enable_redaction`.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
     
 </dd>
@@ -1431,6 +1447,9 @@ client = Phonic(
 client.agents.add_custom_phone_number(
     name_or_id="nameOrId",
     project="main",
+    sip_address="X-Sip-Address",
+    sip_auth_username="X-Sip-Auth-Username",
+    sip_auth_password="X-Sip-Auth-Password",
     phone_number="+15551234567",
     configuration_endpoint=AgentsAddCustomPhoneNumberRequestConfigurationEndpoint(
         url="https://api.example.com/config",
@@ -1463,6 +1482,30 @@ client.agents.add_custom_phone_number(
 <dl>
 <dd>
 
+**sip_address:** `str` — SIP address of the user's SIP trunk. Required. All three SIP headers (X-Sip-Address, X-Sip-Auth-Username, X-Sip-Auth-Password) must be provided. They are used for outbound calls and call transfers from the agent.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**sip_auth_username:** `str` — SIP auth username. Required. All three SIP headers (X-Sip-Address, X-Sip-Auth-Username, X-Sip-Auth-Password) must be provided. They are used for outbound calls and call transfers from the agent.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**sip_auth_password:** `str` — SIP auth password. Required. All three SIP headers (X-Sip-Address, X-Sip-Auth-Username, X-Sip-Auth-Password) must be provided. They are used for outbound calls and call transfers from the agent.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **phone_number:** `str` — The E.164 formatted phone number to add (e.g., "+15551234567").
     
 </dd>
@@ -1472,30 +1515,6 @@ client.agents.add_custom_phone_number(
 <dd>
 
 **project:** `typing.Optional[str]` — The name of the project containing the agent. Only used when `nameOrId` is a name.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**sip_address:** `typing.Optional[str]` — SIP address of the user's SIP trunk. Optional, but if provided, all three SIP headers (X-Sip-Address, X-Sip-Auth-Username, X-Sip-Auth-Password) must be provided. When these headers are provided, call transfers from the agent will use the provided SIP details.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**sip_auth_username:** `typing.Optional[str]` — SIP auth username. Optional, but if provided, all three SIP headers (X-Sip-Address, X-Sip-Auth-Username, X-Sip-Auth-Password) must be provided. When these headers are provided, call transfers from the agent will use the provided SIP details.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**sip_auth_password:** `typing.Optional[str]` — SIP auth password. Optional, but if provided, all three SIP headers (X-Sip-Address, X-Sip-Auth-Username, X-Sip-Auth-Password) must be provided. When these headers are provided, call transfers from the agent will use the provided SIP details.
     
 </dd>
 </dl>
@@ -1925,7 +1944,7 @@ For `custom_websocket`, `built_in_transfer_to_phone_number`, and `built_in_trans
 <dl>
 <dd>
 
-**endpoint_url:** `typing.Optional[str]` — Required for webhook tools.
+**endpoint_url:** `typing.Optional[str]` — Required for webhook tools. Must be a publicly routable HTTPS URL without embedded credentials.
     
 </dd>
 </dl>
@@ -2365,7 +2384,7 @@ For `custom_websocket`, `built_in_transfer_to_phone_number`, and `built_in_trans
 <dl>
 <dd>
 
-**endpoint_url:** `typing.Optional[str]` 
+**endpoint_url:** `typing.Optional[str]` — URL for webhook tools. Must be a publicly routable HTTPS URL without embedded credentials.
     
 </dd>
 </dl>
@@ -2486,6 +2505,537 @@ For `custom_websocket`, `built_in_transfer_to_phone_number`, and `built_in_trans
 <dd>
 
 **wait_for_response:** `typing.Optional[bool]` — The agent doesn't typically wait for the response of async custom_websocket tools. When true, makes the agent wait for a response, not call other tools and inform the user of the result. Only available for async custom_websocket tools.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+## ExternalStoragePolicies
+<details><summary><code>client.external_storage_policies.<a href="src/phonic/external_storage_policies/client.py">list</a>(...) -> ExternalStoragePoliciesListResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Returns all external storage policies in a project.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from phonic import Phonic
+from phonic.environment import PhonicEnvironment
+
+client = Phonic(
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
+)
+
+client.external_storage_policies.list(
+    project="main",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**project:** `typing.Optional[str]` — The name of the project to list external storage policies for.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.external_storage_policies.<a href="src/phonic/external_storage_policies/client.py">create</a>(...) -> ExternalStoragePoliciesCreateResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Creates a new external storage policy in a project. Agents referencing the policy deliver their conversation artifacts to the configured S3-compatible bucket.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from phonic import Phonic
+from phonic.environment import PhonicEnvironment
+
+client = Phonic(
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
+)
+
+client.external_storage_policies.create(
+    project="main",
+    name="conversation_archive",
+    endpoint_url="https://storage.example.com",
+    bucket="conversation-audio",
+    region="us-east-1",
+    key_prefix="phonic/conversations",
+    addressing_style="auto",
+    access_key_id="AKIAIOSFODNN7EXAMPLE",
+    secret_access_key="wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**name:** `str` — The name of the external storage policy. Must be snake_case, start with a lowercase letter and be unique within the project.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**endpoint_url:** `str` — The S3-compatible endpoint URL that artifacts are uploaded to. Must be a publicly routable HTTPS URL without embedded credentials.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**bucket:** `str` — The bucket that artifacts are uploaded to.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**access_key_id:** `str` — Access key ID used to authenticate with the endpoint. Stored encrypted and never returned.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**secret_access_key:** `str` — Secret access key used to authenticate with the endpoint. Stored encrypted and never returned.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**project:** `typing.Optional[str]` — The name of the project to create the external storage policy in.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**region:** `typing.Optional[str]` — The region of the bucket. Set to `null` when the endpoint doesn't require a region.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**key_prefix:** `typing.Optional[str]` — Prefix prepended to every object key.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**addressing_style:** `typing.Optional[CreateExternalStoragePolicyRequestAddressingStyle]` — How bucket names are addressed in requests to the endpoint.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.external_storage_policies.<a href="src/phonic/external_storage_policies/client.py">get</a>(...) -> ExternalStoragePoliciesGetResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Returns an external storage policy by name or ID.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from phonic import Phonic
+from phonic.environment import PhonicEnvironment
+
+client = Phonic(
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
+)
+
+client.external_storage_policies.get(
+    name_or_id="nameOrId",
+    project="main",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**name_or_id:** `str` — The name or the ID of the external storage policy to get.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**project:** `typing.Optional[str]` — The name of the project containing the external storage policy. Only used when `nameOrId` is a name.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.external_storage_policies.<a href="src/phonic/external_storage_policies/client.py">delete</a>(...) -> ExternalStoragePoliciesDeleteResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Deletes an external storage policy by name or ID. The policy must not be referenced by any agent.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from phonic import Phonic
+from phonic.environment import PhonicEnvironment
+
+client = Phonic(
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
+)
+
+client.external_storage_policies.delete(
+    name_or_id="nameOrId",
+    project="main",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**name_or_id:** `str` — The name or the ID of the external storage policy to delete.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**project:** `typing.Optional[str]` — The name of the project containing the external storage policy. Only used when `nameOrId` is a name.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.external_storage_policies.<a href="src/phonic/external_storage_policies/client.py">update</a>(...) -> ExternalStoragePoliciesUpdateResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Updates an external storage policy by name or ID. Credentials can only be rotated by providing both `access_key_id` and `secret_access_key`.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from phonic import Phonic
+from phonic.environment import PhonicEnvironment
+
+client = Phonic(
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
+)
+
+client.external_storage_policies.update(
+    name_or_id="nameOrId",
+    project="main",
+    bucket="conversation-audio-archive",
+    key_prefix="phonic/archive",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**name_or_id:** `str` — The name or the ID of the external storage policy to update.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**project:** `typing.Optional[str]` — The name of the project containing the external storage policy. Only used when `nameOrId` is a name.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**name:** `typing.Optional[str]` — The name of the external storage policy. Must be snake_case, start with a lowercase letter and be unique within the project.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**endpoint_url:** `typing.Optional[str]` — The S3-compatible endpoint URL that artifacts are uploaded to. Must be a publicly routable HTTPS URL without embedded credentials.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**bucket:** `typing.Optional[str]` — The bucket that artifacts are uploaded to.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**region:** `typing.Optional[str]` — The region of the bucket. Set to `null` when the endpoint doesn't require a region.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**key_prefix:** `typing.Optional[str]` — Prefix prepended to every object key.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**addressing_style:** `typing.Optional[UpdateExternalStoragePolicyRequestAddressingStyle]` — How bucket names are addressed in requests to the endpoint.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**access_key_id:** `typing.Optional[str]` — Access key ID used to authenticate with the endpoint. Must be provided together with `secret_access_key`.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**secret_access_key:** `typing.Optional[str]` — Secret access key used to authenticate with the endpoint. Must be provided together with `access_key_id`.
     
 </dd>
 </dl>

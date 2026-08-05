@@ -180,6 +180,11 @@ class AgentParams(typing_extensions.TypedDict):
     Names of observability integrations enabled for the agent. Each must be one of the supported providers.
     """
 
+    external_storage_policy: typing_extensions.NotRequired[typing.Optional[str]]
+    """
+    Name of the external storage policy that conversation artifacts are delivered to. `null` when the agent doesn't deliver artifacts to external storage.
+    """
+
     pronunciation_dictionary: typing.Sequence[AgentPronunciationDictionaryItemParams]
     """
     Array of `{ word, pronunciation }` entries. Words must be unique.

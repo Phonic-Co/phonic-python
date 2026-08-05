@@ -104,6 +104,8 @@ if typing.TYPE_CHECKING:
     from .error import Error
     from .error_payload import ErrorPayload
     from .error_payload_error import ErrorPayloadError
+    from .external_storage_policy import ExternalStoragePolicy
+    from .external_storage_policy_addressing_style import ExternalStoragePolicyAddressingStyle
     from .extraction_field import ExtractionField
     from .extraction_field_type import ExtractionFieldType
     from .extraction_schema import ExtractionSchema
@@ -264,6 +266,8 @@ _dynamic_imports: typing.Dict[str, str] = {
     "Error": ".error",
     "ErrorPayload": ".error_payload",
     "ErrorPayloadError": ".error_payload_error",
+    "ExternalStoragePolicy": ".external_storage_policy",
+    "ExternalStoragePolicyAddressingStyle": ".external_storage_policy_addressing_style",
     "ExtractionField": ".extraction_field",
     "ExtractionFieldType": ".extraction_field_type",
     "ExtractionSchema": ".extraction_schema",
@@ -448,6 +452,8 @@ __all__ = [
     "Error",
     "ErrorPayload",
     "ErrorPayloadError",
+    "ExternalStoragePolicy",
+    "ExternalStoragePolicyAddressingStyle",
     "ExtractionField",
     "ExtractionFieldType",
     "ExtractionSchema",

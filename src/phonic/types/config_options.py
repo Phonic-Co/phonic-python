@@ -207,6 +207,11 @@ class ConfigOptions(UncheckedBaseModel):
     Names of observability integrations to enable for the conversation. Each must be one of the supported providers.
     """
 
+    external_storage_policy: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    Name of an external storage policy in the same project that conversation artifacts are delivered to. Requires `data_retention_policy.zero_data_retention` to be `true` and cannot be combined with `enable_redaction`. Set to `null` to disable external delivery.
+    """
+
     tasks: typing.Optional[typing.List[ConfigOptionsTasksItem]] = pydantic.Field(default=None)
     """
     Tasks the assistant should accomplish during the conversation.

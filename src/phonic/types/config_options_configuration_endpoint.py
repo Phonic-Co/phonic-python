@@ -14,7 +14,7 @@ class ConfigOptionsConfigurationEndpoint(UncheckedBaseModel):
 
     url: str = pydantic.Field()
     """
-    URL to call.
+    URL to call. Must be a publicly routable HTTPS URL without embedded credentials.
     """
 
     headers: typing.Optional[typing.Dict[str, str]] = pydantic.Field(default=None)

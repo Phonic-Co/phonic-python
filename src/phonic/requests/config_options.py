@@ -203,6 +203,11 @@ class ConfigOptionsParams(typing_extensions.TypedDict):
     Names of observability integrations to enable for the conversation. Each must be one of the supported providers.
     """
 
+    external_storage_policy: typing_extensions.NotRequired[typing.Optional[str]]
+    """
+    Name of an external storage policy in the same project that conversation artifacts are delivered to. Requires `data_retention_policy.zero_data_retention` to be `true` and cannot be combined with `enable_redaction`. Set to `null` to disable external delivery.
+    """
+
     tasks: typing_extensions.NotRequired[typing.Sequence[ConfigOptionsTasksItemParams]]
     """
     Tasks the assistant should accomplish during the conversation.

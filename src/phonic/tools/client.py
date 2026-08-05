@@ -130,7 +130,7 @@ class ToolsClient:
             Required for webhook tools. HTTP method for the webhook endpoint.
 
         endpoint_url : typing.Optional[str]
-            Required for webhook tools.
+            Required for webhook tools. Must be a publicly routable HTTPS URL without embedded credentials.
 
         endpoint_headers : typing.Optional[typing.Dict[str, str]]
             Optional headers for webhook tools.
@@ -388,6 +388,7 @@ class ToolsClient:
             HTTP method for webhook tools. When changing this value, all parameters must include explicit `location` values.
 
         endpoint_url : typing.Optional[str]
+            URL for webhook tools. Must be a publicly routable HTTPS URL without embedded credentials.
 
         endpoint_headers : typing.Optional[typing.Dict[str, typing.Optional[str]]]
             Headers for webhook tools. Set to null to clear existing headers.
@@ -600,7 +601,7 @@ class AsyncToolsClient:
             Required for webhook tools. HTTP method for the webhook endpoint.
 
         endpoint_url : typing.Optional[str]
-            Required for webhook tools.
+            Required for webhook tools. Must be a publicly routable HTTPS URL without embedded credentials.
 
         endpoint_headers : typing.Optional[typing.Dict[str, str]]
             Optional headers for webhook tools.
@@ -882,6 +883,7 @@ class AsyncToolsClient:
             HTTP method for webhook tools. When changing this value, all parameters must include explicit `location` values.
 
         endpoint_url : typing.Optional[str]
+            URL for webhook tools. Must be a publicly routable HTTPS URL without embedded credentials.
 
         endpoint_headers : typing.Optional[typing.Dict[str, typing.Optional[str]]]
             Headers for webhook tools. Set to null to clear existing headers.
