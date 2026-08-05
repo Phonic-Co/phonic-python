@@ -252,3 +252,8 @@ class CreateAgentRequestParams(typing_extensions.TypedDict):
     """
     Names of observability integrations to enable for the agent. Each must be one of the supported providers.
     """
+
+    external_storage_policy: typing_extensions.NotRequired[typing.Optional[str]]
+    """
+    Name of an external storage policy in the same project that conversation artifacts are delivered to. Requires zero data retention and cannot be combined with `enable_redaction`.
+    """

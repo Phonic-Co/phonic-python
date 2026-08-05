@@ -192,6 +192,7 @@ class RawAgentsClient:
         enable_redaction: typing.Optional[bool] = OMIT,
         mcp_server_ids: typing.Optional[typing.Sequence[str]] = OMIT,
         observability_integrations: typing.Optional[typing.Sequence[typing.Literal["braintrust"]]] = OMIT,
+        external_storage_policy: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[AgentsCreateResponse]:
         """
@@ -340,6 +341,9 @@ class RawAgentsClient:
         observability_integrations : typing.Optional[typing.Sequence[typing.Literal["braintrust"]]]
             Names of observability integrations to enable for the agent. Each must be one of the supported providers.
 
+        external_storage_policy : typing.Optional[str]
+            Name of an external storage policy in the same project that conversation artifacts are delivered to. Requires zero data retention and cannot be combined with `enable_redaction`.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -422,6 +426,7 @@ class RawAgentsClient:
                 "enable_redaction": enable_redaction,
                 "mcp_server_ids": mcp_server_ids,
                 "observability_integrations": observability_integrations,
+                "external_storage_policy": external_storage_policy,
             },
             headers={
                 "content-type": "application/json",
@@ -546,6 +551,7 @@ class RawAgentsClient:
         enable_redaction: typing.Optional[bool] = OMIT,
         mcp_server_ids: typing.Optional[typing.Sequence[str]] = OMIT,
         observability_integrations: typing.Optional[typing.Sequence[typing.Literal["braintrust"]]] = OMIT,
+        external_storage_policy: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[AgentsUpsertResponse]:
         """
@@ -700,6 +706,9 @@ class RawAgentsClient:
         observability_integrations : typing.Optional[typing.Sequence[typing.Literal["braintrust"]]]
             Names of observability integrations to enable for the agent. Each must be one of the supported providers.
 
+        external_storage_policy : typing.Optional[str]
+            Name of an external storage policy in the same project that conversation artifacts are delivered to. Requires zero data retention and cannot be combined with `enable_redaction`.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -788,6 +797,7 @@ class RawAgentsClient:
                 "enable_redaction": enable_redaction,
                 "mcp_server_ids": mcp_server_ids,
                 "observability_integrations": observability_integrations,
+                "external_storage_policy": external_storage_policy,
             },
             headers={
                 "content-type": "application/json",
@@ -1044,6 +1054,7 @@ class RawAgentsClient:
         enable_redaction: typing.Optional[bool] = OMIT,
         mcp_server_ids: typing.Optional[typing.Sequence[str]] = OMIT,
         observability_integrations: typing.Optional[typing.Sequence[typing.Literal["braintrust"]]] = OMIT,
+        external_storage_policy: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[AgentsUpdateResponse]:
         """
@@ -1204,6 +1215,9 @@ class RawAgentsClient:
         observability_integrations : typing.Optional[typing.Sequence[typing.Literal["braintrust"]]]
             Names of observability integrations to enable for the agent. Each must be one of the supported providers.
 
+        external_storage_policy : typing.Optional[str]
+            Name of an external storage policy in the same project that conversation artifacts are delivered to. Set to `null` to stop delivering artifacts. Requires zero data retention and cannot be combined with `enable_redaction`.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -1295,6 +1309,7 @@ class RawAgentsClient:
                 "enable_redaction": enable_redaction,
                 "mcp_server_ids": mcp_server_ids,
                 "observability_integrations": observability_integrations,
+                "external_storage_policy": external_storage_policy,
             },
             headers={
                 "content-type": "application/json",
@@ -1358,11 +1373,11 @@ class RawAgentsClient:
         self,
         name_or_id: str,
         *,
+        sip_address: str,
+        sip_auth_username: str,
+        sip_auth_password: str,
         phone_number: str,
         project: typing.Optional[str] = None,
-        sip_address: typing.Optional[str] = None,
-        sip_auth_username: typing.Optional[str] = None,
-        sip_auth_password: typing.Optional[str] = None,
         configuration_endpoint: typing.Optional[AgentsAddCustomPhoneNumberRequestConfigurationEndpointParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[AgentsAddCustomPhoneNumberResponse]:
@@ -1374,20 +1389,20 @@ class RawAgentsClient:
         name_or_id : str
             The name or the ID of the agent.
 
+        sip_address : str
+            SIP address of the user's SIP trunk. Required. All three SIP headers (X-Sip-Address, X-Sip-Auth-Username, X-Sip-Auth-Password) must be provided. They are used for outbound calls and call transfers from the agent.
+
+        sip_auth_username : str
+            SIP auth username. Required. All three SIP headers (X-Sip-Address, X-Sip-Auth-Username, X-Sip-Auth-Password) must be provided. They are used for outbound calls and call transfers from the agent.
+
+        sip_auth_password : str
+            SIP auth password. Required. All three SIP headers (X-Sip-Address, X-Sip-Auth-Username, X-Sip-Auth-Password) must be provided. They are used for outbound calls and call transfers from the agent.
+
         phone_number : str
             The E.164 formatted phone number to add (e.g., "+15551234567").
 
         project : typing.Optional[str]
             The name of the project containing the agent. Only used when `nameOrId` is a name.
-
-        sip_address : typing.Optional[str]
-            SIP address of the user's SIP trunk. Optional, but if provided, all three SIP headers (X-Sip-Address, X-Sip-Auth-Username, X-Sip-Auth-Password) must be provided. When these headers are provided, call transfers from the agent will use the provided SIP details.
-
-        sip_auth_username : typing.Optional[str]
-            SIP auth username. Optional, but if provided, all three SIP headers (X-Sip-Address, X-Sip-Auth-Username, X-Sip-Auth-Password) must be provided. When these headers are provided, call transfers from the agent will use the provided SIP details.
-
-        sip_auth_password : typing.Optional[str]
-            SIP auth password. Optional, but if provided, all three SIP headers (X-Sip-Address, X-Sip-Auth-Username, X-Sip-Auth-Password) must be provided. When these headers are provided, call transfers from the agent will use the provided SIP details.
 
         configuration_endpoint : typing.Optional[AgentsAddCustomPhoneNumberRequestConfigurationEndpointParams]
             When not `null`, the agent will call this endpoint to get configuration options for calls on this phone number.
@@ -1873,6 +1888,7 @@ class AsyncRawAgentsClient:
         enable_redaction: typing.Optional[bool] = OMIT,
         mcp_server_ids: typing.Optional[typing.Sequence[str]] = OMIT,
         observability_integrations: typing.Optional[typing.Sequence[typing.Literal["braintrust"]]] = OMIT,
+        external_storage_policy: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[AgentsCreateResponse]:
         """
@@ -2021,6 +2037,9 @@ class AsyncRawAgentsClient:
         observability_integrations : typing.Optional[typing.Sequence[typing.Literal["braintrust"]]]
             Names of observability integrations to enable for the agent. Each must be one of the supported providers.
 
+        external_storage_policy : typing.Optional[str]
+            Name of an external storage policy in the same project that conversation artifacts are delivered to. Requires zero data retention and cannot be combined with `enable_redaction`.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -2103,6 +2122,7 @@ class AsyncRawAgentsClient:
                 "enable_redaction": enable_redaction,
                 "mcp_server_ids": mcp_server_ids,
                 "observability_integrations": observability_integrations,
+                "external_storage_policy": external_storage_policy,
             },
             headers={
                 "content-type": "application/json",
@@ -2227,6 +2247,7 @@ class AsyncRawAgentsClient:
         enable_redaction: typing.Optional[bool] = OMIT,
         mcp_server_ids: typing.Optional[typing.Sequence[str]] = OMIT,
         observability_integrations: typing.Optional[typing.Sequence[typing.Literal["braintrust"]]] = OMIT,
+        external_storage_policy: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[AgentsUpsertResponse]:
         """
@@ -2381,6 +2402,9 @@ class AsyncRawAgentsClient:
         observability_integrations : typing.Optional[typing.Sequence[typing.Literal["braintrust"]]]
             Names of observability integrations to enable for the agent. Each must be one of the supported providers.
 
+        external_storage_policy : typing.Optional[str]
+            Name of an external storage policy in the same project that conversation artifacts are delivered to. Requires zero data retention and cannot be combined with `enable_redaction`.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -2469,6 +2493,7 @@ class AsyncRawAgentsClient:
                 "enable_redaction": enable_redaction,
                 "mcp_server_ids": mcp_server_ids,
                 "observability_integrations": observability_integrations,
+                "external_storage_policy": external_storage_policy,
             },
             headers={
                 "content-type": "application/json",
@@ -2725,6 +2750,7 @@ class AsyncRawAgentsClient:
         enable_redaction: typing.Optional[bool] = OMIT,
         mcp_server_ids: typing.Optional[typing.Sequence[str]] = OMIT,
         observability_integrations: typing.Optional[typing.Sequence[typing.Literal["braintrust"]]] = OMIT,
+        external_storage_policy: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[AgentsUpdateResponse]:
         """
@@ -2885,6 +2911,9 @@ class AsyncRawAgentsClient:
         observability_integrations : typing.Optional[typing.Sequence[typing.Literal["braintrust"]]]
             Names of observability integrations to enable for the agent. Each must be one of the supported providers.
 
+        external_storage_policy : typing.Optional[str]
+            Name of an external storage policy in the same project that conversation artifacts are delivered to. Set to `null` to stop delivering artifacts. Requires zero data retention and cannot be combined with `enable_redaction`.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -2976,6 +3005,7 @@ class AsyncRawAgentsClient:
                 "enable_redaction": enable_redaction,
                 "mcp_server_ids": mcp_server_ids,
                 "observability_integrations": observability_integrations,
+                "external_storage_policy": external_storage_policy,
             },
             headers={
                 "content-type": "application/json",
@@ -3039,11 +3069,11 @@ class AsyncRawAgentsClient:
         self,
         name_or_id: str,
         *,
+        sip_address: str,
+        sip_auth_username: str,
+        sip_auth_password: str,
         phone_number: str,
         project: typing.Optional[str] = None,
-        sip_address: typing.Optional[str] = None,
-        sip_auth_username: typing.Optional[str] = None,
-        sip_auth_password: typing.Optional[str] = None,
         configuration_endpoint: typing.Optional[AgentsAddCustomPhoneNumberRequestConfigurationEndpointParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[AgentsAddCustomPhoneNumberResponse]:
@@ -3055,20 +3085,20 @@ class AsyncRawAgentsClient:
         name_or_id : str
             The name or the ID of the agent.
 
+        sip_address : str
+            SIP address of the user's SIP trunk. Required. All three SIP headers (X-Sip-Address, X-Sip-Auth-Username, X-Sip-Auth-Password) must be provided. They are used for outbound calls and call transfers from the agent.
+
+        sip_auth_username : str
+            SIP auth username. Required. All three SIP headers (X-Sip-Address, X-Sip-Auth-Username, X-Sip-Auth-Password) must be provided. They are used for outbound calls and call transfers from the agent.
+
+        sip_auth_password : str
+            SIP auth password. Required. All three SIP headers (X-Sip-Address, X-Sip-Auth-Username, X-Sip-Auth-Password) must be provided. They are used for outbound calls and call transfers from the agent.
+
         phone_number : str
             The E.164 formatted phone number to add (e.g., "+15551234567").
 
         project : typing.Optional[str]
             The name of the project containing the agent. Only used when `nameOrId` is a name.
-
-        sip_address : typing.Optional[str]
-            SIP address of the user's SIP trunk. Optional, but if provided, all three SIP headers (X-Sip-Address, X-Sip-Auth-Username, X-Sip-Auth-Password) must be provided. When these headers are provided, call transfers from the agent will use the provided SIP details.
-
-        sip_auth_username : typing.Optional[str]
-            SIP auth username. Optional, but if provided, all three SIP headers (X-Sip-Address, X-Sip-Auth-Username, X-Sip-Auth-Password) must be provided. When these headers are provided, call transfers from the agent will use the provided SIP details.
-
-        sip_auth_password : typing.Optional[str]
-            SIP auth password. Optional, but if provided, all three SIP headers (X-Sip-Address, X-Sip-Auth-Username, X-Sip-Auth-Password) must be provided. When these headers are provided, call transfers from the agent will use the provided SIP details.
 
         configuration_endpoint : typing.Optional[AgentsAddCustomPhoneNumberRequestConfigurationEndpointParams]
             When not `null`, the agent will call this endpoint to get configuration options for calls on this phone number.
