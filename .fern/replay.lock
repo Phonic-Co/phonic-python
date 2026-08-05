@@ -273,4 +273,4 @@ patches:
             exc = ConnectionClosed(None, None)
             assert _close_code(exc) == ABNORMAL_CLOSURE
             assert _close_reason(exc) == ""
-    status: unresolved
+    status: resolving
