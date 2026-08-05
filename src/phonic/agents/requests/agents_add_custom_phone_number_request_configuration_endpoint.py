@@ -12,7 +12,7 @@ class AgentsAddCustomPhoneNumberRequestConfigurationEndpointParams(typing_extens
 
     url: str
     """
-    URL to call
+    URL to call. Must be a publicly routable HTTPS URL without embedded credentials.
     """
 
     headers: typing_extensions.NotRequired[typing.Dict[str, str]]

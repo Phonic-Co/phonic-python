@@ -184,6 +184,11 @@ class Agent(UncheckedBaseModel):
     Names of observability integrations enabled for the agent. Each must be one of the supported providers.
     """
 
+    external_storage_policy: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    Name of the external storage policy that conversation artifacts are delivered to. `null` when the agent doesn't deliver artifacts to external storage.
+    """
+
     pronunciation_dictionary: typing.List[AgentPronunciationDictionaryItem] = pydantic.Field()
     """
     Array of `{ word, pronunciation }` entries. Words must be unique.

@@ -85,6 +85,7 @@ if typing.TYPE_CHECKING:
     from .error import ErrorParams
     from .error_payload import ErrorPayloadParams
     from .error_payload_error import ErrorPayloadErrorParams
+    from .external_storage_policy import ExternalStoragePolicyParams
     from .extraction_field import ExtractionFieldParams
     from .extraction_schema import ExtractionSchemaParams
     from .generate_reply_payload import GenerateReplyPayloadParams
@@ -205,6 +206,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ErrorParams": ".error",
     "ErrorPayloadErrorParams": ".error_payload_error",
     "ErrorPayloadParams": ".error_payload",
+    "ExternalStoragePolicyParams": ".external_storage_policy",
     "ExtractionFieldParams": ".extraction_field",
     "ExtractionSchemaParams": ".extraction_schema",
     "GenerateReplyPayloadParams": ".generate_reply_payload",
@@ -349,6 +351,7 @@ __all__ = [
     "ErrorParams",
     "ErrorPayloadErrorParams",
     "ErrorPayloadParams",
+    "ExternalStoragePolicyParams",
     "ExtractionFieldParams",
     "ExtractionSchemaParams",
     "GenerateReplyPayloadParams",
