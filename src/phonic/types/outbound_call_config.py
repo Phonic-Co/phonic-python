@@ -136,7 +136,7 @@ class OutboundCallConfig(UncheckedBaseModel):
 
     enable_redaction: typing.Optional[bool] = pydantic.Field(default=None)
     """
-    When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE NUMBER]`) and bleeped from audio recordings after the conversation ends.
+    When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE]`) and bleeped from audio recordings after the conversation ends.
     """
 
     model: typing.Optional[typing.Literal["merritt"]] = pydantic.Field(default=None)

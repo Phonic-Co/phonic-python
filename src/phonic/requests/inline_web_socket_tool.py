@@ -39,6 +39,11 @@ class InlineWebSocketToolParams(typing_extensions.TypedDict):
     When true, prevents the assistant from speaking after executing the tool.
     """
 
+    forbid_tool_call_after_speech: typing_extensions.NotRequired[bool]
+    """
+    When true, prevents the assistant from calling the tool right after it has spoken.
+    """
+
     allow_tool_chaining: typing_extensions.NotRequired[bool]
     """
     When true, allows the assistant to call another tool after this tool.

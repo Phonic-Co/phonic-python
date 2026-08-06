@@ -7,7 +7,8 @@ from ..core.pydantic_utilities import IS_PYDANTIC_V2
 from ..core.unchecked_base_model import UncheckedBaseModel
 from .tool_endpoint_method import ToolEndpointMethod
 from .tool_execution_mode import ToolExecutionMode
-from .tool_parameter import ToolParameter
+from .tool_parameter_locations_value import ToolParameterLocationsValue
+from .tool_parameters import ToolParameters
 from .tool_project import ToolProject
 from .tool_speech_before_tool_call import ToolSpeechBeforeToolCall
 from .tool_type import ToolType
@@ -40,9 +41,17 @@ class Tool(UncheckedBaseModel):
     Mode of operation - sync waits for response, async continues without waiting.
     """
 
-    parameters: typing.List[ToolParameter] = pydantic.Field()
+    parameters: ToolParameters = pydantic.Field()
     """
-    Array of parameter definitions for the tool.
+    The tool's parameters, returned in the same form they were defined in.
+    Tools defined with a flat list of parameters return an array of parameter definitions (with `location` included inline for `custom_webhook` tools).
+    Tools defined with a raw JSON Schema object return that object; for `custom_webhook` tools the parameter placement is then returned separately in `parameter_locations`.
+    """
+
+    parameter_locations: typing.Optional[typing.Dict[str, ToolParameterLocationsValue]] = pydantic.Field(default=None)
+    """
+    Where each top-level parameter is sent in the webhook request, as a map from parameter name to location.
+    Only returned for `custom_webhook` tools whose `parameters` are a raw JSON Schema object. Tools defined with a flat list of parameters carry `location` inline on each parameter instead.
     """
 
     endpoint_method: typing.Optional[ToolEndpointMethod] = pydantic.Field(default=None)
@@ -118,6 +127,11 @@ class Tool(UncheckedBaseModel):
     forbid_speech_after_tool_call: typing.Optional[bool] = pydantic.Field(default=None)
     """
     When true, forbids the agent from speaking after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools.
+    """
+
+    forbid_tool_call_after_speech: typing.Optional[bool] = pydantic.Field(default=None)
+    """
+    When true, forbids the agent from calling the tool right after it has spoken. Available for custom_webhook and custom_websocket tools.
     """
 
     allow_tool_chaining: typing.Optional[bool] = pydantic.Field(default=None)

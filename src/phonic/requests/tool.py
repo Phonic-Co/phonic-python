@@ -5,9 +5,10 @@ import typing
 import typing_extensions
 from ..types.tool_endpoint_method import ToolEndpointMethod
 from ..types.tool_execution_mode import ToolExecutionMode
+from ..types.tool_parameter_locations_value import ToolParameterLocationsValue
 from ..types.tool_speech_before_tool_call import ToolSpeechBeforeToolCall
 from ..types.tool_type import ToolType
-from .tool_parameter import ToolParameterParams
+from .tool_parameters import ToolParametersParams
 from .tool_project import ToolProjectParams
 
 
@@ -38,9 +39,17 @@ class ToolParams(typing_extensions.TypedDict):
     Mode of operation - sync waits for response, async continues without waiting.
     """
 
-    parameters: typing.Sequence[ToolParameterParams]
+    parameters: ToolParametersParams
     """
-    Array of parameter definitions for the tool.
+    The tool's parameters, returned in the same form they were defined in.
+    Tools defined with a flat list of parameters return an array of parameter definitions (with `location` included inline for `custom_webhook` tools).
+    Tools defined with a raw JSON Schema object return that object; for `custom_webhook` tools the parameter placement is then returned separately in `parameter_locations`.
+    """
+
+    parameter_locations: typing_extensions.NotRequired[typing.Dict[str, ToolParameterLocationsValue]]
+    """
+    Where each top-level parameter is sent in the webhook request, as a map from parameter name to location.
+    Only returned for `custom_webhook` tools whose `parameters` are a raw JSON Schema object. Tools defined with a flat list of parameters carry `location` inline on each parameter instead.
     """
 
     endpoint_method: typing_extensions.NotRequired[ToolEndpointMethod]
@@ -116,6 +125,11 @@ class ToolParams(typing_extensions.TypedDict):
     forbid_speech_after_tool_call: typing_extensions.NotRequired[bool]
     """
     When true, forbids the agent from speaking after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools.
+    """
+
+    forbid_tool_call_after_speech: typing_extensions.NotRequired[bool]
+    """
+    When true, forbids the agent from calling the tool right after it has spoken. Available for custom_webhook and custom_websocket tools.
     """
 
     allow_tool_chaining: typing_extensions.NotRequired[bool]

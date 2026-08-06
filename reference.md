@@ -653,7 +653,7 @@ client.agents.upsert(
 <dl>
 <dd>
 
-**enable_redaction:** `typing.Optional[bool]` — When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE NUMBER]`) and bleeped from audio recordings after the conversation ends.
+**enable_redaction:** `typing.Optional[bool]` — When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE]`) and bleeped from audio recordings after the conversation ends.
     
 </dd>
 </dl>
@@ -1364,7 +1364,7 @@ client.agents.update(
 <dl>
 <dd>
 
-**enable_redaction:** `typing.Optional[bool]` — When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE NUMBER]`) and bleeped from audio recordings after the conversation ends.
+**enable_redaction:** `typing.Optional[bool]` — When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE]`) and bleeped from audio recordings after the conversation ends.
     
 </dd>
 </dl>
@@ -1923,12 +1923,27 @@ client.tools.create(
 <dl>
 <dd>
 
-**parameters:** `typing.Optional[typing.List[ToolParameter]]` 
+**parameters:** `typing.Optional[CreateToolRequestParameters]` 
 
-Array of parameter definitions.
-For `custom_webhook` tools with POST method, each parameter must include a `location` field.
-For `custom_webhook` tools with GET method, `location` defaults to `"query_string"` if not specified.
-For `custom_websocket`, `built_in_transfer_to_phone_number`, and `built_in_transfer_to_agent` tools, `location` must not be specified.
+The tool's parameters, either as a flat array of parameter definitions or as a raw JSON Schema object (use the object form for nested parameters).
+When sending an array:
+- For `custom_webhook` tools with POST method, each parameter must include a `location` field.
+- For `custom_webhook` tools with GET method, `location` defaults to `"query_string"` if not specified.
+- For `custom_websocket`, `built_in_transfer_to_phone_number`, and `built_in_transfer_to_agent` tools, `location` must not be specified.
+- `parameter_locations` must not be sent, since placement is carried inline on each parameter.
+When sending a JSON Schema object, `custom_webhook` tools supply parameter placement in `parameter_locations` instead.
+Tools that cannot have parameters (`custom_context` and the `built_in_*` types) must send an empty array or omit the field.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**parameter_locations:** `typing.Optional[typing.Dict[str, CreateToolRequestParameterLocationsValue]]` 
+
+Where each top-level parameter is sent in the webhook request, as a map from parameter name to location. Only for `custom_webhook` tools whose `parameters` are a raw JSON Schema object.
+Every key must name a top-level parameter. For POST webhooks, every parameter needs an entry. For GET webhooks, entries default to `"query_string"` and `"request_body"` is not allowed.
     
 </dd>
 </dl>
@@ -2049,6 +2064,14 @@ For `custom_websocket`, `built_in_transfer_to_phone_number`, and `built_in_trans
 <dd>
 
 **forbid_speech_after_tool_call:** `typing.Optional[bool]` — When true, forbids the agent from speaking after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**forbid_tool_call_after_speech:** `typing.Optional[bool]` — When true, forbids the agent from calling the tool right after it has spoken. Available for custom_webhook and custom_websocket tools.
     
 </dd>
 </dl>
@@ -2363,11 +2386,10 @@ client.tools.update(
 <dl>
 <dd>
 
-**parameters:** `typing.Optional[typing.List[ToolParameter]]` 
+**parameters:** `typing.Optional[UpdateToolRequestParameters]` 
 
-Array of parameter definitions.
-When updating `endpoint_method`, all parameters must include explicit `location` values.
-For `custom_webhook` tools: `location` is required for POST, defaults to `"query_string"` for GET.
+The tool's parameters, either as a flat array of parameter definitions or as a raw JSON Schema object (use the object form for nested parameters). Replaces the tool's existing parameters, including the form they are stored in.
+For `custom_webhook` tools: when sending an array, `location` is required for POST and defaults to `"query_string"` for GET, and `parameter_locations` must not be sent; when sending a JSON Schema object, placement is supplied in `parameter_locations`.
 For `custom_websocket`, `built_in_transfer_to_phone_number`, and `built_in_transfer_to_agent` tools: `location` must not be specified.
     
 </dd>
@@ -2376,7 +2398,19 @@ For `custom_websocket`, `built_in_transfer_to_phone_number`, and `built_in_trans
 <dl>
 <dd>
 
-**endpoint_method:** `typing.Optional[UpdateToolRequestEndpointMethod]` — HTTP method for webhook tools. When changing this value, all parameters must include explicit `location` values.
+**parameter_locations:** `typing.Optional[typing.Dict[str, UpdateToolRequestParameterLocationsValue]]` 
+
+Where each top-level parameter is sent in the webhook request, as a map from parameter name to location. Only for `custom_webhook` tools whose `parameters` are a raw JSON Schema object.
+Can be sent on its own to move existing parameters without resending `parameters`; entries are merged over the tool's current placement, so parameters left out keep where they were.
+Every key must name a top-level parameter. For POST webhooks, every parameter needs a placement. For GET webhooks, unplaced parameters default to `"query_string"` and `"request_body"` is not allowed.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**endpoint_method:** `typing.Optional[UpdateToolRequestEndpointMethod]` — HTTP method for webhook tools. When switching from POST to GET, a tool with request body parameters must also send new `parameters` (or `parameter_locations`) placing them in the query string.
     
 </dd>
 </dl>
@@ -2489,6 +2523,14 @@ For `custom_websocket`, `built_in_transfer_to_phone_number`, and `built_in_trans
 <dd>
 
 **forbid_speech_after_tool_call:** `typing.Optional[bool]` — When true, forbids the agent from speaking after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**forbid_tool_call_after_speech:** `typing.Optional[bool]` — When true, forbids the agent from calling the tool right after it has spoken. Available for custom_webhook and custom_websocket tools.
     
 </dd>
 </dl>

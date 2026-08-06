@@ -232,7 +232,7 @@ class AgentParams(typing_extensions.TypedDict):
 
     enable_redaction: typing_extensions.NotRequired[bool]
     """
-    When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE NUMBER]`) and bleeped from audio recordings after the conversation ends.
+    When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE]`) and bleeped from audio recordings after the conversation ends.
     """
 
     slug: typing_extensions.NotRequired[str]
