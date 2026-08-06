@@ -242,7 +242,7 @@ class CreateAgentRequest(UncheckedBaseModel):
 
     enable_redaction: typing.Optional[bool] = pydantic.Field(default=None)
     """
-    When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE NUMBER]`) and bleeped from audio recordings after the conversation ends.
+    When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE]`) and bleeped from audio recordings after the conversation ends.
     """
 
     mcp_server_ids: typing.Optional[typing.List[str]] = pydantic.Field(default=None)

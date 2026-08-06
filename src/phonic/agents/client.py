@@ -292,7 +292,7 @@ class AgentsClient:
             Voice activity detection threshold.
 
         enable_redaction : typing.Optional[bool]
-            When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE NUMBER]`) and bleeped from audio recordings after the conversation ends.
+            When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE]`) and bleeped from audio recordings after the conversation ends.
 
         mcp_server_ids : typing.Optional[typing.Sequence[str]]
             Array of MCP server IDs to make available to the agent.
@@ -606,7 +606,7 @@ class AgentsClient:
             Voice activity detection threshold.
 
         enable_redaction : typing.Optional[bool]
-            When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE NUMBER]`) and bleeped from audio recordings after the conversation ends.
+            When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE]`) and bleeped from audio recordings after the conversation ends.
 
         mcp_server_ids : typing.Optional[typing.Sequence[str]]
             Array of MCP server IDs to make available to the agent.
@@ -1012,7 +1012,7 @@ class AgentsClient:
             Voice activity detection threshold.
 
         enable_redaction : typing.Optional[bool]
-            When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE NUMBER]`) and bleeped from audio recordings after the conversation ends.
+            When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE]`) and bleeped from audio recordings after the conversation ends.
 
         mcp_server_ids : typing.Optional[typing.Sequence[str]]
             Array of MCP server IDs to make available to the agent.
@@ -1566,7 +1566,7 @@ class AsyncAgentsClient:
             Voice activity detection threshold.
 
         enable_redaction : typing.Optional[bool]
-            When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE NUMBER]`) and bleeped from audio recordings after the conversation ends.
+            When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE]`) and bleeped from audio recordings after the conversation ends.
 
         mcp_server_ids : typing.Optional[typing.Sequence[str]]
             Array of MCP server IDs to make available to the agent.
@@ -1890,7 +1890,7 @@ class AsyncAgentsClient:
             Voice activity detection threshold.
 
         enable_redaction : typing.Optional[bool]
-            When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE NUMBER]`) and bleeped from audio recordings after the conversation ends.
+            When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE]`) and bleeped from audio recordings after the conversation ends.
 
         mcp_server_ids : typing.Optional[typing.Sequence[str]]
             Array of MCP server IDs to make available to the agent.
@@ -2322,7 +2322,7 @@ class AsyncAgentsClient:
             Voice activity detection threshold.
 
         enable_redaction : typing.Optional[bool]
-            When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE NUMBER]`) and bleeped from audio recordings after the conversation ends.
+            When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE]`) and bleeped from audio recordings after the conversation ends.
 
         mcp_server_ids : typing.Optional[typing.Sequence[str]]
             Array of MCP server IDs to make available to the agent.

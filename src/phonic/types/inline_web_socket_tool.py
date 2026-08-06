@@ -41,6 +41,11 @@ class InlineWebSocketTool(UncheckedBaseModel):
     When true, prevents the assistant from speaking after executing the tool.
     """
 
+    forbid_tool_call_after_speech: typing.Optional[bool] = pydantic.Field(default=None)
+    """
+    When true, prevents the assistant from calling the tool right after it has spoken.
+    """
+
     allow_tool_chaining: typing.Optional[bool] = pydantic.Field(default=None)
     """
     When true, allows the assistant to call another tool after this tool.

@@ -6,17 +6,21 @@ import typing
 from importlib import import_module
 
 if typing.TYPE_CHECKING:
+    from .create_tool_request_parameters import CreateToolRequestParametersParams
     from .tools_create_response import ToolsCreateResponseParams
     from .tools_delete_response import ToolsDeleteResponseParams
     from .tools_get_response import ToolsGetResponseParams
     from .tools_list_response import ToolsListResponseParams
     from .tools_update_response import ToolsUpdateResponseParams
+    from .update_tool_request_parameters import UpdateToolRequestParametersParams
 _dynamic_imports: typing.Dict[str, str] = {
+    "CreateToolRequestParametersParams": ".create_tool_request_parameters",
     "ToolsCreateResponseParams": ".tools_create_response",
     "ToolsDeleteResponseParams": ".tools_delete_response",
     "ToolsGetResponseParams": ".tools_get_response",
     "ToolsListResponseParams": ".tools_list_response",
     "ToolsUpdateResponseParams": ".tools_update_response",
+    "UpdateToolRequestParametersParams": ".update_tool_request_parameters",
 }
 
 
@@ -42,9 +46,11 @@ def __dir__():
 
 
 __all__ = [
+    "CreateToolRequestParametersParams",
     "ToolsCreateResponseParams",
     "ToolsDeleteResponseParams",
     "ToolsGetResponseParams",
     "ToolsListResponseParams",
     "ToolsUpdateResponseParams",
+    "UpdateToolRequestParametersParams",
 ]

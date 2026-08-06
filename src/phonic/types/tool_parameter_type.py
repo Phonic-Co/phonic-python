@@ -2,4 +2,4 @@
 
 import typing
 
-ToolParameterType = typing.Union[typing.Literal["string", "integer", "number", "boolean", "array"], typing.Any]
+ToolParameterType = typing.Union[typing.Literal["string", "integer", "number", "boolean", "array", "enum"], typing.Any]

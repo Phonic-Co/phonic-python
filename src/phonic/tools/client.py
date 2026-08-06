@@ -4,10 +4,12 @@ import typing
 
 from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.request_options import RequestOptions
-from ..requests.tool_parameter import ToolParameterParams
 from .raw_client import AsyncRawToolsClient, RawToolsClient
+from .requests.create_tool_request_parameters import CreateToolRequestParametersParams
+from .requests.update_tool_request_parameters import UpdateToolRequestParametersParams
 from .types.create_tool_request_endpoint_method import CreateToolRequestEndpointMethod
 from .types.create_tool_request_execution_mode import CreateToolRequestExecutionMode
+from .types.create_tool_request_parameter_locations_value import CreateToolRequestParameterLocationsValue
 from .types.create_tool_request_speech_before_tool_call import CreateToolRequestSpeechBeforeToolCall
 from .types.create_tool_request_type import CreateToolRequestType
 from .types.tools_create_response import ToolsCreateResponse
@@ -17,6 +19,7 @@ from .types.tools_list_response import ToolsListResponse
 from .types.tools_update_response import ToolsUpdateResponse
 from .types.update_tool_request_endpoint_method import UpdateToolRequestEndpointMethod
 from .types.update_tool_request_execution_mode import UpdateToolRequestExecutionMode
+from .types.update_tool_request_parameter_locations_value import UpdateToolRequestParameterLocationsValue
 from .types.update_tool_request_speech_before_tool_call import UpdateToolRequestSpeechBeforeToolCall
 
 # this is used as the default value for optional parameters
@@ -79,7 +82,8 @@ class ToolsClient:
         type: CreateToolRequestType,
         execution_mode: CreateToolRequestExecutionMode,
         project: typing.Optional[str] = None,
-        parameters: typing.Optional[typing.Sequence[ToolParameterParams]] = OMIT,
+        parameters: typing.Optional[CreateToolRequestParametersParams] = OMIT,
+        parameter_locations: typing.Optional[typing.Dict[str, CreateToolRequestParameterLocationsValue]] = OMIT,
         endpoint_method: typing.Optional[CreateToolRequestEndpointMethod] = OMIT,
         endpoint_url: typing.Optional[str] = OMIT,
         endpoint_headers: typing.Optional[typing.Dict[str, str]] = OMIT,
@@ -95,6 +99,7 @@ class ToolsClient:
         speech_before_tool_call: typing.Optional[CreateToolRequestSpeechBeforeToolCall] = OMIT,
         wait_for_speech_before_tool_call: typing.Optional[bool] = OMIT,
         forbid_speech_after_tool_call: typing.Optional[bool] = OMIT,
+        forbid_tool_call_after_speech: typing.Optional[bool] = OMIT,
         allow_tool_chaining: typing.Optional[bool] = OMIT,
         wait_for_response: typing.Optional[bool] = OMIT,
         context: typing.Optional[str] = OMIT,
@@ -120,11 +125,19 @@ class ToolsClient:
         project : typing.Optional[str]
             The name of the project to create the tool in.
 
-        parameters : typing.Optional[typing.Sequence[ToolParameterParams]]
-            Array of parameter definitions.
-            For `custom_webhook` tools with POST method, each parameter must include a `location` field.
-            For `custom_webhook` tools with GET method, `location` defaults to `"query_string"` if not specified.
-            For `custom_websocket`, `built_in_transfer_to_phone_number`, and `built_in_transfer_to_agent` tools, `location` must not be specified.
+        parameters : typing.Optional[CreateToolRequestParametersParams]
+            The tool's parameters, either as a flat array of parameter definitions or as a raw JSON Schema object (use the object form for nested parameters).
+            When sending an array:
+            - For `custom_webhook` tools with POST method, each parameter must include a `location` field.
+            - For `custom_webhook` tools with GET method, `location` defaults to `"query_string"` if not specified.
+            - For `custom_websocket`, `built_in_transfer_to_phone_number`, and `built_in_transfer_to_agent` tools, `location` must not be specified.
+            - `parameter_locations` must not be sent, since placement is carried inline on each parameter.
+            When sending a JSON Schema object, `custom_webhook` tools supply parameter placement in `parameter_locations` instead.
+            Tools that cannot have parameters (`custom_context` and the `built_in_*` types) must send an empty array or omit the field.
+
+        parameter_locations : typing.Optional[typing.Dict[str, CreateToolRequestParameterLocationsValue]]
+            Where each top-level parameter is sent in the webhook request, as a map from parameter name to location. Only for `custom_webhook` tools whose `parameters` are a raw JSON Schema object.
+            Every key must name a top-level parameter. For POST webhooks, every parameter needs an entry. For GET webhooks, entries default to `"query_string"` and `"request_body"` is not allowed.
 
         endpoint_method : typing.Optional[CreateToolRequestEndpointMethod]
             Required for webhook tools. HTTP method for the webhook endpoint.
@@ -170,6 +183,9 @@ class ToolsClient:
 
         forbid_speech_after_tool_call : typing.Optional[bool]
             When true, forbids the agent from speaking after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools.
+
+        forbid_tool_call_after_speech : typing.Optional[bool]
+            When true, forbids the agent from calling the tool right after it has spoken. Available for custom_webhook and custom_websocket tools.
 
         allow_tool_chaining : typing.Optional[bool]
             When true, allows the agent to chain and execute other tools after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools.
@@ -222,6 +238,7 @@ class ToolsClient:
             execution_mode=execution_mode,
             project=project,
             parameters=parameters,
+            parameter_locations=parameter_locations,
             endpoint_method=endpoint_method,
             endpoint_url=endpoint_url,
             endpoint_headers=endpoint_headers,
@@ -237,6 +254,7 @@ class ToolsClient:
             speech_before_tool_call=speech_before_tool_call,
             wait_for_speech_before_tool_call=wait_for_speech_before_tool_call,
             forbid_speech_after_tool_call=forbid_speech_after_tool_call,
+            forbid_tool_call_after_speech=forbid_tool_call_after_speech,
             allow_tool_chaining=allow_tool_chaining,
             wait_for_response=wait_for_response,
             context=context,
@@ -335,7 +353,8 @@ class ToolsClient:
         description: typing.Optional[str] = OMIT,
         execution_mode: typing.Optional[UpdateToolRequestExecutionMode] = OMIT,
         context: typing.Optional[str] = OMIT,
-        parameters: typing.Optional[typing.Sequence[ToolParameterParams]] = OMIT,
+        parameters: typing.Optional[UpdateToolRequestParametersParams] = OMIT,
+        parameter_locations: typing.Optional[typing.Dict[str, UpdateToolRequestParameterLocationsValue]] = OMIT,
         endpoint_method: typing.Optional[UpdateToolRequestEndpointMethod] = OMIT,
         endpoint_url: typing.Optional[str] = OMIT,
         endpoint_headers: typing.Optional[typing.Dict[str, typing.Optional[str]]] = OMIT,
@@ -351,6 +370,7 @@ class ToolsClient:
         speech_before_tool_call: typing.Optional[UpdateToolRequestSpeechBeforeToolCall] = OMIT,
         wait_for_speech_before_tool_call: typing.Optional[bool] = OMIT,
         forbid_speech_after_tool_call: typing.Optional[bool] = OMIT,
+        forbid_tool_call_after_speech: typing.Optional[bool] = OMIT,
         allow_tool_chaining: typing.Optional[bool] = OMIT,
         wait_for_response: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
@@ -378,14 +398,18 @@ class ToolsClient:
         context : typing.Optional[str]
             The static context returned to the agent. Only applicable to custom_context tools.
 
-        parameters : typing.Optional[typing.Sequence[ToolParameterParams]]
-            Array of parameter definitions.
-            When updating `endpoint_method`, all parameters must include explicit `location` values.
-            For `custom_webhook` tools: `location` is required for POST, defaults to `"query_string"` for GET.
+        parameters : typing.Optional[UpdateToolRequestParametersParams]
+            The tool's parameters, either as a flat array of parameter definitions or as a raw JSON Schema object (use the object form for nested parameters). Replaces the tool's existing parameters, including the form they are stored in.
+            For `custom_webhook` tools: when sending an array, `location` is required for POST and defaults to `"query_string"` for GET, and `parameter_locations` must not be sent; when sending a JSON Schema object, placement is supplied in `parameter_locations`.
             For `custom_websocket`, `built_in_transfer_to_phone_number`, and `built_in_transfer_to_agent` tools: `location` must not be specified.
 
+        parameter_locations : typing.Optional[typing.Dict[str, UpdateToolRequestParameterLocationsValue]]
+            Where each top-level parameter is sent in the webhook request, as a map from parameter name to location. Only for `custom_webhook` tools whose `parameters` are a raw JSON Schema object.
+            Can be sent on its own to move existing parameters without resending `parameters`; entries are merged over the tool's current placement, so parameters left out keep where they were.
+            Every key must name a top-level parameter. For POST webhooks, every parameter needs a placement. For GET webhooks, unplaced parameters default to `"query_string"` and `"request_body"` is not allowed.
+
         endpoint_method : typing.Optional[UpdateToolRequestEndpointMethod]
-            HTTP method for webhook tools. When changing this value, all parameters must include explicit `location` values.
+            HTTP method for webhook tools. When switching from POST to GET, a tool with request body parameters must also send new `parameters` (or `parameter_locations`) placing them in the query string.
 
         endpoint_url : typing.Optional[str]
             URL for webhook tools. Must be a publicly routable HTTPS URL without embedded credentials.
@@ -427,6 +451,9 @@ class ToolsClient:
         forbid_speech_after_tool_call : typing.Optional[bool]
             When true, forbids the agent from speaking after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools.
 
+        forbid_tool_call_after_speech : typing.Optional[bool]
+            When true, forbids the agent from calling the tool right after it has spoken. Available for custom_webhook and custom_websocket tools.
+
         allow_tool_chaining : typing.Optional[bool]
             When true, allows the agent to chain and execute other tools after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools.
 
@@ -464,6 +491,7 @@ class ToolsClient:
             execution_mode=execution_mode,
             context=context,
             parameters=parameters,
+            parameter_locations=parameter_locations,
             endpoint_method=endpoint_method,
             endpoint_url=endpoint_url,
             endpoint_headers=endpoint_headers,
@@ -479,6 +507,7 @@ class ToolsClient:
             speech_before_tool_call=speech_before_tool_call,
             wait_for_speech_before_tool_call=wait_for_speech_before_tool_call,
             forbid_speech_after_tool_call=forbid_speech_after_tool_call,
+            forbid_tool_call_after_speech=forbid_tool_call_after_speech,
             allow_tool_chaining=allow_tool_chaining,
             wait_for_response=wait_for_response,
             request_options=request_options,
@@ -550,7 +579,8 @@ class AsyncToolsClient:
         type: CreateToolRequestType,
         execution_mode: CreateToolRequestExecutionMode,
         project: typing.Optional[str] = None,
-        parameters: typing.Optional[typing.Sequence[ToolParameterParams]] = OMIT,
+        parameters: typing.Optional[CreateToolRequestParametersParams] = OMIT,
+        parameter_locations: typing.Optional[typing.Dict[str, CreateToolRequestParameterLocationsValue]] = OMIT,
         endpoint_method: typing.Optional[CreateToolRequestEndpointMethod] = OMIT,
         endpoint_url: typing.Optional[str] = OMIT,
         endpoint_headers: typing.Optional[typing.Dict[str, str]] = OMIT,
@@ -566,6 +596,7 @@ class AsyncToolsClient:
         speech_before_tool_call: typing.Optional[CreateToolRequestSpeechBeforeToolCall] = OMIT,
         wait_for_speech_before_tool_call: typing.Optional[bool] = OMIT,
         forbid_speech_after_tool_call: typing.Optional[bool] = OMIT,
+        forbid_tool_call_after_speech: typing.Optional[bool] = OMIT,
         allow_tool_chaining: typing.Optional[bool] = OMIT,
         wait_for_response: typing.Optional[bool] = OMIT,
         context: typing.Optional[str] = OMIT,
@@ -591,11 +622,19 @@ class AsyncToolsClient:
         project : typing.Optional[str]
             The name of the project to create the tool in.
 
-        parameters : typing.Optional[typing.Sequence[ToolParameterParams]]
-            Array of parameter definitions.
-            For `custom_webhook` tools with POST method, each parameter must include a `location` field.
-            For `custom_webhook` tools with GET method, `location` defaults to `"query_string"` if not specified.
-            For `custom_websocket`, `built_in_transfer_to_phone_number`, and `built_in_transfer_to_agent` tools, `location` must not be specified.
+        parameters : typing.Optional[CreateToolRequestParametersParams]
+            The tool's parameters, either as a flat array of parameter definitions or as a raw JSON Schema object (use the object form for nested parameters).
+            When sending an array:
+            - For `custom_webhook` tools with POST method, each parameter must include a `location` field.
+            - For `custom_webhook` tools with GET method, `location` defaults to `"query_string"` if not specified.
+            - For `custom_websocket`, `built_in_transfer_to_phone_number`, and `built_in_transfer_to_agent` tools, `location` must not be specified.
+            - `parameter_locations` must not be sent, since placement is carried inline on each parameter.
+            When sending a JSON Schema object, `custom_webhook` tools supply parameter placement in `parameter_locations` instead.
+            Tools that cannot have parameters (`custom_context` and the `built_in_*` types) must send an empty array or omit the field.
+
+        parameter_locations : typing.Optional[typing.Dict[str, CreateToolRequestParameterLocationsValue]]
+            Where each top-level parameter is sent in the webhook request, as a map from parameter name to location. Only for `custom_webhook` tools whose `parameters` are a raw JSON Schema object.
+            Every key must name a top-level parameter. For POST webhooks, every parameter needs an entry. For GET webhooks, entries default to `"query_string"` and `"request_body"` is not allowed.
 
         endpoint_method : typing.Optional[CreateToolRequestEndpointMethod]
             Required for webhook tools. HTTP method for the webhook endpoint.
@@ -641,6 +680,9 @@ class AsyncToolsClient:
 
         forbid_speech_after_tool_call : typing.Optional[bool]
             When true, forbids the agent from speaking after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools.
+
+        forbid_tool_call_after_speech : typing.Optional[bool]
+            When true, forbids the agent from calling the tool right after it has spoken. Available for custom_webhook and custom_websocket tools.
 
         allow_tool_chaining : typing.Optional[bool]
             When true, allows the agent to chain and execute other tools after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools.
@@ -701,6 +743,7 @@ class AsyncToolsClient:
             execution_mode=execution_mode,
             project=project,
             parameters=parameters,
+            parameter_locations=parameter_locations,
             endpoint_method=endpoint_method,
             endpoint_url=endpoint_url,
             endpoint_headers=endpoint_headers,
@@ -716,6 +759,7 @@ class AsyncToolsClient:
             speech_before_tool_call=speech_before_tool_call,
             wait_for_speech_before_tool_call=wait_for_speech_before_tool_call,
             forbid_speech_after_tool_call=forbid_speech_after_tool_call,
+            forbid_tool_call_after_speech=forbid_tool_call_after_speech,
             allow_tool_chaining=allow_tool_chaining,
             wait_for_response=wait_for_response,
             context=context,
@@ -830,7 +874,8 @@ class AsyncToolsClient:
         description: typing.Optional[str] = OMIT,
         execution_mode: typing.Optional[UpdateToolRequestExecutionMode] = OMIT,
         context: typing.Optional[str] = OMIT,
-        parameters: typing.Optional[typing.Sequence[ToolParameterParams]] = OMIT,
+        parameters: typing.Optional[UpdateToolRequestParametersParams] = OMIT,
+        parameter_locations: typing.Optional[typing.Dict[str, UpdateToolRequestParameterLocationsValue]] = OMIT,
         endpoint_method: typing.Optional[UpdateToolRequestEndpointMethod] = OMIT,
         endpoint_url: typing.Optional[str] = OMIT,
         endpoint_headers: typing.Optional[typing.Dict[str, typing.Optional[str]]] = OMIT,
@@ -846,6 +891,7 @@ class AsyncToolsClient:
         speech_before_tool_call: typing.Optional[UpdateToolRequestSpeechBeforeToolCall] = OMIT,
         wait_for_speech_before_tool_call: typing.Optional[bool] = OMIT,
         forbid_speech_after_tool_call: typing.Optional[bool] = OMIT,
+        forbid_tool_call_after_speech: typing.Optional[bool] = OMIT,
         allow_tool_chaining: typing.Optional[bool] = OMIT,
         wait_for_response: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
@@ -873,14 +919,18 @@ class AsyncToolsClient:
         context : typing.Optional[str]
             The static context returned to the agent. Only applicable to custom_context tools.
 
-        parameters : typing.Optional[typing.Sequence[ToolParameterParams]]
-            Array of parameter definitions.
-            When updating `endpoint_method`, all parameters must include explicit `location` values.
-            For `custom_webhook` tools: `location` is required for POST, defaults to `"query_string"` for GET.
+        parameters : typing.Optional[UpdateToolRequestParametersParams]
+            The tool's parameters, either as a flat array of parameter definitions or as a raw JSON Schema object (use the object form for nested parameters). Replaces the tool's existing parameters, including the form they are stored in.
+            For `custom_webhook` tools: when sending an array, `location` is required for POST and defaults to `"query_string"` for GET, and `parameter_locations` must not be sent; when sending a JSON Schema object, placement is supplied in `parameter_locations`.
             For `custom_websocket`, `built_in_transfer_to_phone_number`, and `built_in_transfer_to_agent` tools: `location` must not be specified.
 
+        parameter_locations : typing.Optional[typing.Dict[str, UpdateToolRequestParameterLocationsValue]]
+            Where each top-level parameter is sent in the webhook request, as a map from parameter name to location. Only for `custom_webhook` tools whose `parameters` are a raw JSON Schema object.
+            Can be sent on its own to move existing parameters without resending `parameters`; entries are merged over the tool's current placement, so parameters left out keep where they were.
+            Every key must name a top-level parameter. For POST webhooks, every parameter needs a placement. For GET webhooks, unplaced parameters default to `"query_string"` and `"request_body"` is not allowed.
+
         endpoint_method : typing.Optional[UpdateToolRequestEndpointMethod]
-            HTTP method for webhook tools. When changing this value, all parameters must include explicit `location` values.
+            HTTP method for webhook tools. When switching from POST to GET, a tool with request body parameters must also send new `parameters` (or `parameter_locations`) placing them in the query string.
 
         endpoint_url : typing.Optional[str]
             URL for webhook tools. Must be a publicly routable HTTPS URL without embedded credentials.
@@ -921,6 +971,9 @@ class AsyncToolsClient:
 
         forbid_speech_after_tool_call : typing.Optional[bool]
             When true, forbids the agent from speaking after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools.
+
+        forbid_tool_call_after_speech : typing.Optional[bool]
+            When true, forbids the agent from calling the tool right after it has spoken. Available for custom_webhook and custom_websocket tools.
 
         allow_tool_chaining : typing.Optional[bool]
             When true, allows the agent to chain and execute other tools after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools.
@@ -967,6 +1020,7 @@ class AsyncToolsClient:
             execution_mode=execution_mode,
             context=context,
             parameters=parameters,
+            parameter_locations=parameter_locations,
             endpoint_method=endpoint_method,
             endpoint_url=endpoint_url,
             endpoint_headers=endpoint_headers,
@@ -982,6 +1036,7 @@ class AsyncToolsClient:
             speech_before_tool_call=speech_before_tool_call,
             wait_for_speech_before_tool_call=wait_for_speech_before_tool_call,
             forbid_speech_after_tool_call=forbid_speech_after_tool_call,
+            forbid_tool_call_after_speech=forbid_tool_call_after_speech,
             allow_tool_chaining=allow_tool_chaining,
             wait_for_response=wait_for_response,
             request_options=request_options,

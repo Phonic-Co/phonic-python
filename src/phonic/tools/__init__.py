@@ -9,6 +9,8 @@ if typing.TYPE_CHECKING:
     from .types import (
         CreateToolRequestEndpointMethod,
         CreateToolRequestExecutionMode,
+        CreateToolRequestParameterLocationsValue,
+        CreateToolRequestParameters,
         CreateToolRequestSpeechBeforeToolCall,
         CreateToolRequestType,
         ToolsCreateResponse,
@@ -18,18 +20,25 @@ if typing.TYPE_CHECKING:
         ToolsUpdateResponse,
         UpdateToolRequestEndpointMethod,
         UpdateToolRequestExecutionMode,
+        UpdateToolRequestParameterLocationsValue,
+        UpdateToolRequestParameters,
         UpdateToolRequestSpeechBeforeToolCall,
     )
     from .requests import (
+        CreateToolRequestParametersParams,
         ToolsCreateResponseParams,
         ToolsDeleteResponseParams,
         ToolsGetResponseParams,
         ToolsListResponseParams,
         ToolsUpdateResponseParams,
+        UpdateToolRequestParametersParams,
     )
 _dynamic_imports: typing.Dict[str, str] = {
     "CreateToolRequestEndpointMethod": ".types",
     "CreateToolRequestExecutionMode": ".types",
+    "CreateToolRequestParameterLocationsValue": ".types",
+    "CreateToolRequestParameters": ".types",
+    "CreateToolRequestParametersParams": ".requests",
     "CreateToolRequestSpeechBeforeToolCall": ".types",
     "CreateToolRequestType": ".types",
     "ToolsCreateResponse": ".types",
@@ -44,6 +53,9 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ToolsUpdateResponseParams": ".requests",
     "UpdateToolRequestEndpointMethod": ".types",
     "UpdateToolRequestExecutionMode": ".types",
+    "UpdateToolRequestParameterLocationsValue": ".types",
+    "UpdateToolRequestParameters": ".types",
+    "UpdateToolRequestParametersParams": ".requests",
     "UpdateToolRequestSpeechBeforeToolCall": ".types",
 }
 
@@ -72,6 +84,9 @@ def __dir__():
 __all__ = [
     "CreateToolRequestEndpointMethod",
     "CreateToolRequestExecutionMode",
+    "CreateToolRequestParameterLocationsValue",
+    "CreateToolRequestParameters",
+    "CreateToolRequestParametersParams",
     "CreateToolRequestSpeechBeforeToolCall",
     "CreateToolRequestType",
     "ToolsCreateResponse",
@@ -86,5 +101,8 @@ __all__ = [
     "ToolsUpdateResponseParams",
     "UpdateToolRequestEndpointMethod",
     "UpdateToolRequestExecutionMode",
+    "UpdateToolRequestParameterLocationsValue",
+    "UpdateToolRequestParameters",
+    "UpdateToolRequestParametersParams",
     "UpdateToolRequestSpeechBeforeToolCall",
 ]

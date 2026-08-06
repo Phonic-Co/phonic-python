@@ -159,7 +159,10 @@ if typing.TYPE_CHECKING:
     from .tool_parameter import ToolParameter
     from .tool_parameter_item_type import ToolParameterItemType
     from .tool_parameter_location import ToolParameterLocation
+    from .tool_parameter_locations_value import ToolParameterLocationsValue
     from .tool_parameter_type import ToolParameterType
+    from .tool_parameters import ToolParameters
+    from .tool_parameters_json_schema import ToolParametersJsonSchema
     from .tool_project import ToolProject
     from .tool_speech_before_tool_call import ToolSpeechBeforeToolCall
     from .tool_type import ToolType
@@ -321,7 +324,10 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ToolParameter": ".tool_parameter",
     "ToolParameterItemType": ".tool_parameter_item_type",
     "ToolParameterLocation": ".tool_parameter_location",
+    "ToolParameterLocationsValue": ".tool_parameter_locations_value",
     "ToolParameterType": ".tool_parameter_type",
+    "ToolParameters": ".tool_parameters",
+    "ToolParametersJsonSchema": ".tool_parameters_json_schema",
     "ToolProject": ".tool_project",
     "ToolSpeechBeforeToolCall": ".tool_speech_before_tool_call",
     "ToolType": ".tool_type",
@@ -507,7 +513,10 @@ __all__ = [
     "ToolParameter",
     "ToolParameterItemType",
     "ToolParameterLocation",
+    "ToolParameterLocationsValue",
     "ToolParameterType",
+    "ToolParameters",
+    "ToolParametersJsonSchema",
     "ToolProject",
     "ToolSpeechBeforeToolCall",
     "ToolType",

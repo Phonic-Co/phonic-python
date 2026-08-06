@@ -8,6 +8,8 @@ from importlib import import_module
 if typing.TYPE_CHECKING:
     from .create_tool_request_endpoint_method import CreateToolRequestEndpointMethod
     from .create_tool_request_execution_mode import CreateToolRequestExecutionMode
+    from .create_tool_request_parameter_locations_value import CreateToolRequestParameterLocationsValue
+    from .create_tool_request_parameters import CreateToolRequestParameters
     from .create_tool_request_speech_before_tool_call import CreateToolRequestSpeechBeforeToolCall
     from .create_tool_request_type import CreateToolRequestType
     from .tools_create_response import ToolsCreateResponse
@@ -17,10 +19,14 @@ if typing.TYPE_CHECKING:
     from .tools_update_response import ToolsUpdateResponse
     from .update_tool_request_endpoint_method import UpdateToolRequestEndpointMethod
     from .update_tool_request_execution_mode import UpdateToolRequestExecutionMode
+    from .update_tool_request_parameter_locations_value import UpdateToolRequestParameterLocationsValue
+    from .update_tool_request_parameters import UpdateToolRequestParameters
     from .update_tool_request_speech_before_tool_call import UpdateToolRequestSpeechBeforeToolCall
 _dynamic_imports: typing.Dict[str, str] = {
     "CreateToolRequestEndpointMethod": ".create_tool_request_endpoint_method",
     "CreateToolRequestExecutionMode": ".create_tool_request_execution_mode",
+    "CreateToolRequestParameterLocationsValue": ".create_tool_request_parameter_locations_value",
+    "CreateToolRequestParameters": ".create_tool_request_parameters",
     "CreateToolRequestSpeechBeforeToolCall": ".create_tool_request_speech_before_tool_call",
     "CreateToolRequestType": ".create_tool_request_type",
     "ToolsCreateResponse": ".tools_create_response",
@@ -30,6 +36,8 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ToolsUpdateResponse": ".tools_update_response",
     "UpdateToolRequestEndpointMethod": ".update_tool_request_endpoint_method",
     "UpdateToolRequestExecutionMode": ".update_tool_request_execution_mode",
+    "UpdateToolRequestParameterLocationsValue": ".update_tool_request_parameter_locations_value",
+    "UpdateToolRequestParameters": ".update_tool_request_parameters",
     "UpdateToolRequestSpeechBeforeToolCall": ".update_tool_request_speech_before_tool_call",
 }
 
@@ -58,6 +66,8 @@ def __dir__():
 __all__ = [
     "CreateToolRequestEndpointMethod",
     "CreateToolRequestExecutionMode",
+    "CreateToolRequestParameterLocationsValue",
+    "CreateToolRequestParameters",
     "CreateToolRequestSpeechBeforeToolCall",
     "CreateToolRequestType",
     "ToolsCreateResponse",
@@ -67,5 +77,7 @@ __all__ = [
     "ToolsUpdateResponse",
     "UpdateToolRequestEndpointMethod",
     "UpdateToolRequestExecutionMode",
+    "UpdateToolRequestParameterLocationsValue",
+    "UpdateToolRequestParameters",
     "UpdateToolRequestSpeechBeforeToolCall",
 ]

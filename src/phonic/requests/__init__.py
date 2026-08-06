@@ -125,6 +125,8 @@ if typing.TYPE_CHECKING:
     from .tool_call_payload import ToolCallPayloadParams
     from .tool_definition import ToolDefinitionParams
     from .tool_parameter import ToolParameterParams
+    from .tool_parameters import ToolParametersParams
+    from .tool_parameters_json_schema import ToolParametersJsonSchemaParams
     from .tool_project import ToolProjectParams
     from .unmute_payload import UnmutePayloadParams
     from .update_system_prompt_payload import UpdateSystemPromptPayloadParams
@@ -245,6 +247,8 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ToolCallPayloadParams": ".tool_call_payload",
     "ToolDefinitionParams": ".tool_definition",
     "ToolParameterParams": ".tool_parameter",
+    "ToolParametersJsonSchemaParams": ".tool_parameters_json_schema",
+    "ToolParametersParams": ".tool_parameters",
     "ToolParams": ".tool",
     "ToolProjectParams": ".tool_project",
     "UnmutePayloadParams": ".unmute_payload",
@@ -390,6 +394,8 @@ __all__ = [
     "ToolCallPayloadParams",
     "ToolDefinitionParams",
     "ToolParameterParams",
+    "ToolParametersJsonSchemaParams",
+    "ToolParametersParams",
     "ToolParams",
     "ToolProjectParams",
     "UnmutePayloadParams",
