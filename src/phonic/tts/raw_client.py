@@ -15,6 +15,7 @@ from ..errors.forbidden_error import ForbiddenError
 from ..errors.internal_server_error import InternalServerError
 from ..errors.unauthorized_error import UnauthorizedError
 from ..types.basic_error import BasicError
+from ..types.language_code import LanguageCode
 from .types.stream_tts_request_output_format import StreamTtsRequestOutputFormat
 from pydantic import ValidationError
 
@@ -35,6 +36,7 @@ class RawTtsClient:
         speed: typing.Optional[float] = OMIT,
         voice_id: typing.Optional[str] = OMIT,
         output_format: typing.Optional[StreamTtsRequestOutputFormat] = OMIT,
+        languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.Iterator[HttpResponse[typing.Iterator[bytes]]]:
         """
@@ -57,6 +59,10 @@ class RawTtsClient:
         output_format : typing.Optional[StreamTtsRequestOutputFormat]
             The audio format to stream.
 
+        languages : typing.Optional[typing.Sequence[LanguageCode]]
+            Candidate languages for synthesis. An empty array defaults to English, one language
+            selects it directly, and multiple languages let Phonic detect among those candidates.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration. You can pass in configuration such as `chunk_size`, and more to customize the request and response.
 
@@ -75,6 +81,7 @@ class RawTtsClient:
                 "speed": speed,
                 "voice_id": voice_id,
                 "output_format": output_format,
+                "languages": languages,
             },
             headers={
                 "content-type": "application/json",
@@ -165,6 +172,7 @@ class AsyncRawTtsClient:
         speed: typing.Optional[float] = OMIT,
         voice_id: typing.Optional[str] = OMIT,
         output_format: typing.Optional[StreamTtsRequestOutputFormat] = OMIT,
+        languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.AsyncIterator[AsyncHttpResponse[typing.AsyncIterator[bytes]]]:
         """
@@ -187,6 +195,10 @@ class AsyncRawTtsClient:
         output_format : typing.Optional[StreamTtsRequestOutputFormat]
             The audio format to stream.
 
+        languages : typing.Optional[typing.Sequence[LanguageCode]]
+            Candidate languages for synthesis. An empty array defaults to English, one language
+            selects it directly, and multiple languages let Phonic detect among those candidates.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration. You can pass in configuration such as `chunk_size`, and more to customize the request and response.
 
@@ -205,6 +217,7 @@ class AsyncRawTtsClient:
                 "speed": speed,
                 "voice_id": voice_id,
                 "output_format": output_format,
+                "languages": languages,
             },
             headers={
                 "content-type": "application/json",

@@ -4,6 +4,7 @@ import typing
 
 from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.request_options import RequestOptions
+from ..types.language_code import LanguageCode
 from .raw_client import AsyncRawTtsClient, RawTtsClient
 from .types.stream_tts_request_output_format import StreamTtsRequestOutputFormat
 
@@ -34,6 +35,7 @@ class TtsClient:
         speed: typing.Optional[float] = OMIT,
         voice_id: typing.Optional[str] = OMIT,
         output_format: typing.Optional[StreamTtsRequestOutputFormat] = OMIT,
+        languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.Iterator[bytes]:
         """
@@ -55,6 +57,10 @@ class TtsClient:
 
         output_format : typing.Optional[StreamTtsRequestOutputFormat]
             The audio format to stream.
+
+        languages : typing.Optional[typing.Sequence[LanguageCode]]
+            Candidate languages for synthesis. An empty array defaults to English, one language
+            selects it directly, and multiple languages let Phonic detect among those candidates.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration. You can pass in configuration such as `chunk_size`, and more to customize the request and response.
@@ -81,6 +87,7 @@ class TtsClient:
             speed=speed,
             voice_id=voice_id,
             output_format=output_format,
+            languages=languages,
             request_options=request_options,
         ) as r:
             yield from r.data
@@ -109,6 +116,7 @@ class AsyncTtsClient:
         speed: typing.Optional[float] = OMIT,
         voice_id: typing.Optional[str] = OMIT,
         output_format: typing.Optional[StreamTtsRequestOutputFormat] = OMIT,
+        languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.AsyncIterator[bytes]:
         """
@@ -130,6 +138,10 @@ class AsyncTtsClient:
 
         output_format : typing.Optional[StreamTtsRequestOutputFormat]
             The audio format to stream.
+
+        languages : typing.Optional[typing.Sequence[LanguageCode]]
+            Candidate languages for synthesis. An empty array defaults to English, one language
+            selects it directly, and multiple languages let Phonic detect among those candidates.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration. You can pass in configuration such as `chunk_size`, and more to customize the request and response.
@@ -164,6 +176,7 @@ class AsyncTtsClient:
             speed=speed,
             voice_id=voice_id,
             output_format=output_format,
+            languages=languages,
             request_options=request_options,
         ) as r:
             async for _chunk in r.data:

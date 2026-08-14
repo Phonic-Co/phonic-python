@@ -2,4 +2,9 @@
 
 import typing
 
-AgentToolsItem = typing.Union[typing.Literal["keypad_input"], typing.Literal["natural_conversation_ending"], str]
+AgentToolsItem = typing.Union[
+    typing.Literal["keypad_input"],
+    typing.Literal["natural_conversation_ending"],
+    typing.Literal["choose_not_to_respond"],
+    str,
+]

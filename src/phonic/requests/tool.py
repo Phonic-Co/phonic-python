@@ -117,6 +117,11 @@ class ToolParams(typing_extensions.TypedDict):
     For built_in_natural_conversation_ending and built_in_keypad_input tools. Whether the agent must speak before calling the tool ("required"), the model decides ("optional"), or the agent must stay silent ("suppressed"). Not used by other tool types.
     """
 
+    respond_after_sec: typing_extensions.NotRequired[typing.Optional[float]]
+    """
+    For built_in_choose_not_to_respond tools. Number of seconds to wait after the tool fires before the agent speaks a follow-up if the user stays silent. When null, the agent stays silent (default). Not used by other tool types.
+    """
+
     wait_for_speech_before_tool_call: typing_extensions.NotRequired[bool]
     """
     If true, the agent will wait to finish speaking before executing the tool. This is only available for custom_webhook and custom_websocket tools.
