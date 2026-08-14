@@ -31,8 +31,11 @@ if typing.TYPE_CHECKING:
     from .built_in_tool_config import BuiltInToolConfig
     from .built_in_tool_config_speech_before_tool_call import BuiltInToolConfigSpeechBeforeToolCall
     from .built_in_tool_configs import BuiltInToolConfigs
+    from .built_in_tool_configs_value import BuiltInToolConfigsValue
     from .built_in_tool_definition import BuiltInToolDefinition
     from .built_in_tool_definition_name import BuiltInToolDefinitionName
+    from .built_in_tool_definition_tool_config import BuiltInToolDefinitionToolConfig
+    from .choose_not_to_respond_tool_config import ChooseNotToRespondToolConfig
     from .config_options import ConfigOptions
     from .config_options_background_noise import ConfigOptionsBackgroundNoise
     from .config_options_configuration_endpoint import ConfigOptionsConfigurationEndpoint
@@ -202,8 +205,11 @@ _dynamic_imports: typing.Dict[str, str] = {
     "BuiltInToolConfig": ".built_in_tool_config",
     "BuiltInToolConfigSpeechBeforeToolCall": ".built_in_tool_config_speech_before_tool_call",
     "BuiltInToolConfigs": ".built_in_tool_configs",
+    "BuiltInToolConfigsValue": ".built_in_tool_configs_value",
     "BuiltInToolDefinition": ".built_in_tool_definition",
     "BuiltInToolDefinitionName": ".built_in_tool_definition_name",
+    "BuiltInToolDefinitionToolConfig": ".built_in_tool_definition_tool_config",
+    "ChooseNotToRespondToolConfig": ".choose_not_to_respond_tool_config",
     "ConfigOptions": ".config_options",
     "ConfigOptionsBackgroundNoise": ".config_options_background_noise",
     "ConfigOptionsConfigurationEndpoint": ".config_options_configuration_endpoint",
@@ -391,8 +397,11 @@ __all__ = [
     "BuiltInToolConfig",
     "BuiltInToolConfigSpeechBeforeToolCall",
     "BuiltInToolConfigs",
+    "BuiltInToolConfigsValue",
     "BuiltInToolDefinition",
     "BuiltInToolDefinitionName",
+    "BuiltInToolDefinitionToolConfig",
+    "ChooseNotToRespondToolConfig",
     "ConfigOptions",
     "ConfigOptionsBackgroundNoise",
     "ConfigOptionsConfigurationEndpoint",

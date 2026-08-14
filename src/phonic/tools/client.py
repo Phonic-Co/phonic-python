@@ -97,6 +97,7 @@ class ToolsClient:
         agents_to_transfer_to: typing.Optional[typing.Sequence[str]] = OMIT,
         require_speech_before_tool_call: typing.Optional[bool] = OMIT,
         speech_before_tool_call: typing.Optional[CreateToolRequestSpeechBeforeToolCall] = OMIT,
+        respond_after_sec: typing.Optional[float] = OMIT,
         wait_for_speech_before_tool_call: typing.Optional[bool] = OMIT,
         forbid_speech_after_tool_call: typing.Optional[bool] = OMIT,
         forbid_tool_call_after_speech: typing.Optional[bool] = OMIT,
@@ -178,6 +179,9 @@ class ToolsClient:
         speech_before_tool_call : typing.Optional[CreateToolRequestSpeechBeforeToolCall]
             For built_in_natural_conversation_ending and built_in_keypad_input tools. Whether the agent must speak before calling the tool ("required"), the model decides ("optional"), or the agent must stay silent ("suppressed"). Not used by other tool types.
 
+        respond_after_sec : typing.Optional[float]
+            For built_in_choose_not_to_respond tools. Number of seconds to wait after the tool fires before the agent speaks a follow-up if the user stays silent. When null, the agent stays silent (default). Not used by other tool types.
+
         wait_for_speech_before_tool_call : typing.Optional[bool]
             If true, the agent will wait to finish speaking before executing the tool. This is only available for custom_webhook and custom_websocket tools.
 
@@ -252,6 +256,7 @@ class ToolsClient:
             agents_to_transfer_to=agents_to_transfer_to,
             require_speech_before_tool_call=require_speech_before_tool_call,
             speech_before_tool_call=speech_before_tool_call,
+            respond_after_sec=respond_after_sec,
             wait_for_speech_before_tool_call=wait_for_speech_before_tool_call,
             forbid_speech_after_tool_call=forbid_speech_after_tool_call,
             forbid_tool_call_after_speech=forbid_tool_call_after_speech,
@@ -368,6 +373,7 @@ class ToolsClient:
         agents_to_transfer_to: typing.Optional[typing.Sequence[str]] = OMIT,
         require_speech_before_tool_call: typing.Optional[bool] = OMIT,
         speech_before_tool_call: typing.Optional[UpdateToolRequestSpeechBeforeToolCall] = OMIT,
+        respond_after_sec: typing.Optional[float] = OMIT,
         wait_for_speech_before_tool_call: typing.Optional[bool] = OMIT,
         forbid_speech_after_tool_call: typing.Optional[bool] = OMIT,
         forbid_tool_call_after_speech: typing.Optional[bool] = OMIT,
@@ -445,6 +451,9 @@ class ToolsClient:
         speech_before_tool_call : typing.Optional[UpdateToolRequestSpeechBeforeToolCall]
             For built_in_natural_conversation_ending and built_in_keypad_input tools. Whether the agent must speak before calling the tool ("required"), the model decides ("optional"), or the agent must stay silent ("suppressed"). Not used by other tool types.
 
+        respond_after_sec : typing.Optional[float]
+            For built_in_choose_not_to_respond tools. Number of seconds to wait after the tool fires before the agent speaks a follow-up if the user stays silent. When null, the agent stays silent (default). Not used by other tool types.
+
         wait_for_speech_before_tool_call : typing.Optional[bool]
             If true, the agent will wait to finish speaking before executing the tool. This is only available for custom_webhook and custom_websocket tools.
 
@@ -505,6 +514,7 @@ class ToolsClient:
             agents_to_transfer_to=agents_to_transfer_to,
             require_speech_before_tool_call=require_speech_before_tool_call,
             speech_before_tool_call=speech_before_tool_call,
+            respond_after_sec=respond_after_sec,
             wait_for_speech_before_tool_call=wait_for_speech_before_tool_call,
             forbid_speech_after_tool_call=forbid_speech_after_tool_call,
             forbid_tool_call_after_speech=forbid_tool_call_after_speech,
@@ -594,6 +604,7 @@ class AsyncToolsClient:
         agents_to_transfer_to: typing.Optional[typing.Sequence[str]] = OMIT,
         require_speech_before_tool_call: typing.Optional[bool] = OMIT,
         speech_before_tool_call: typing.Optional[CreateToolRequestSpeechBeforeToolCall] = OMIT,
+        respond_after_sec: typing.Optional[float] = OMIT,
         wait_for_speech_before_tool_call: typing.Optional[bool] = OMIT,
         forbid_speech_after_tool_call: typing.Optional[bool] = OMIT,
         forbid_tool_call_after_speech: typing.Optional[bool] = OMIT,
@@ -674,6 +685,9 @@ class AsyncToolsClient:
 
         speech_before_tool_call : typing.Optional[CreateToolRequestSpeechBeforeToolCall]
             For built_in_natural_conversation_ending and built_in_keypad_input tools. Whether the agent must speak before calling the tool ("required"), the model decides ("optional"), or the agent must stay silent ("suppressed"). Not used by other tool types.
+
+        respond_after_sec : typing.Optional[float]
+            For built_in_choose_not_to_respond tools. Number of seconds to wait after the tool fires before the agent speaks a follow-up if the user stays silent. When null, the agent stays silent (default). Not used by other tool types.
 
         wait_for_speech_before_tool_call : typing.Optional[bool]
             If true, the agent will wait to finish speaking before executing the tool. This is only available for custom_webhook and custom_websocket tools.
@@ -757,6 +771,7 @@ class AsyncToolsClient:
             agents_to_transfer_to=agents_to_transfer_to,
             require_speech_before_tool_call=require_speech_before_tool_call,
             speech_before_tool_call=speech_before_tool_call,
+            respond_after_sec=respond_after_sec,
             wait_for_speech_before_tool_call=wait_for_speech_before_tool_call,
             forbid_speech_after_tool_call=forbid_speech_after_tool_call,
             forbid_tool_call_after_speech=forbid_tool_call_after_speech,
@@ -889,6 +904,7 @@ class AsyncToolsClient:
         agents_to_transfer_to: typing.Optional[typing.Sequence[str]] = OMIT,
         require_speech_before_tool_call: typing.Optional[bool] = OMIT,
         speech_before_tool_call: typing.Optional[UpdateToolRequestSpeechBeforeToolCall] = OMIT,
+        respond_after_sec: typing.Optional[float] = OMIT,
         wait_for_speech_before_tool_call: typing.Optional[bool] = OMIT,
         forbid_speech_after_tool_call: typing.Optional[bool] = OMIT,
         forbid_tool_call_after_speech: typing.Optional[bool] = OMIT,
@@ -966,6 +982,9 @@ class AsyncToolsClient:
         speech_before_tool_call : typing.Optional[UpdateToolRequestSpeechBeforeToolCall]
             For built_in_natural_conversation_ending and built_in_keypad_input tools. Whether the agent must speak before calling the tool ("required"), the model decides ("optional"), or the agent must stay silent ("suppressed"). Not used by other tool types.
 
+        respond_after_sec : typing.Optional[float]
+            For built_in_choose_not_to_respond tools. Number of seconds to wait after the tool fires before the agent speaks a follow-up if the user stays silent. When null, the agent stays silent (default). Not used by other tool types.
+
         wait_for_speech_before_tool_call : typing.Optional[bool]
             If true, the agent will wait to finish speaking before executing the tool. This is only available for custom_webhook and custom_websocket tools.
 
@@ -1034,6 +1053,7 @@ class AsyncToolsClient:
             agents_to_transfer_to=agents_to_transfer_to,
             require_speech_before_tool_call=require_speech_before_tool_call,
             speech_before_tool_call=speech_before_tool_call,
+            respond_after_sec=respond_after_sec,
             wait_for_speech_before_tool_call=wait_for_speech_before_tool_call,
             forbid_speech_after_tool_call=forbid_speech_after_tool_call,
             forbid_tool_call_after_speech=forbid_tool_call_after_speech,

@@ -4,12 +4,12 @@ import typing
 
 import typing_extensions
 from ..types.built_in_tool_definition_name import BuiltInToolDefinitionName
-from .built_in_tool_config import BuiltInToolConfigParams
+from .built_in_tool_definition_tool_config import BuiltInToolDefinitionToolConfigParams
 
 
 class BuiltInToolDefinitionParams(typing_extensions.TypedDict):
     """
-    A built-in tool with an explicit configuration, as an alternative to referencing it by bare name (which uses the tool's default configuration). Only `keypad_input` and `natural_conversation_ending` accept configuration this way.
+    A built-in tool with an explicit configuration, as an alternative to referencing it by bare name (which uses the tool's default configuration). `keypad_input` and `natural_conversation_ending` take a `speech_before_tool_call` config; `choose_not_to_respond` takes a `respond_after_sec` config.
     """
 
     type: typing.Literal["built_in"]
@@ -18,4 +18,7 @@ class BuiltInToolDefinitionParams(typing_extensions.TypedDict):
     The name of the built-in tool.
     """
 
-    tool_config: BuiltInToolConfigParams
+    tool_config: BuiltInToolDefinitionToolConfigParams
+    """
+    The tool's configuration. Use `BuiltInToolConfig` for `keypad_input` and `natural_conversation_ending`, or `ChooseNotToRespondToolConfig` for `choose_not_to_respond`.
+    """

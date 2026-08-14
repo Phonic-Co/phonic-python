@@ -2,6 +2,6 @@
 
 import typing
 
-from ..types.built_in_tool_config import BuiltInToolConfig
+from ..types.built_in_tool_configs_value import BuiltInToolConfigsValue
 
-BuiltInToolConfigsParams = typing.Dict[str, BuiltInToolConfig]
+BuiltInToolConfigsParams = typing.Dict[str, BuiltInToolConfigsValue]
