@@ -33,7 +33,7 @@ class RawConversationItemsClient:
         self,
         id: str,
         *,
-        system_prompt: str,
+        system_prompt: typing.Optional[str] = OMIT,
         num_responses: typing.Optional[int] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[ReplayConversationItemResponse]:
@@ -41,16 +41,17 @@ class RawConversationItemsClient:
         Returns the alternative response(s) the assistant would have
         produced for this conversation turn given changes to the agent system prompt.
 
-        Only assistant items from ended conversations can be replayed. The
-        conversation must have an associated agent.
+        Only assistant items from ended conversations can be replayed. Omit the
+        request body (or omit `system_prompt`) to replay the turn exactly as it
+        originally ran.
 
         Parameters
         ----------
         id : str
             The ID of the conversation item to replay.
 
-        system_prompt : str
-            The system prompt to use when generating replay responses. Use this to test prompt changes against this conversation turn.
+        system_prompt : typing.Optional[str]
+            The system prompt to use when generating replay responses. Use this to test prompt changes against this conversation turn. Omit it to replay the turn with the system prompt it originally ran with.
 
         num_responses : typing.Optional[int]
             Number of alternative responses to generate.
@@ -182,7 +183,7 @@ class AsyncRawConversationItemsClient:
         self,
         id: str,
         *,
-        system_prompt: str,
+        system_prompt: typing.Optional[str] = OMIT,
         num_responses: typing.Optional[int] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[ReplayConversationItemResponse]:
@@ -190,16 +191,17 @@ class AsyncRawConversationItemsClient:
         Returns the alternative response(s) the assistant would have
         produced for this conversation turn given changes to the agent system prompt.
 
-        Only assistant items from ended conversations can be replayed. The
-        conversation must have an associated agent.
+        Only assistant items from ended conversations can be replayed. Omit the
+        request body (or omit `system_prompt`) to replay the turn exactly as it
+        originally ran.
 
         Parameters
         ----------
         id : str
             The ID of the conversation item to replay.
 
-        system_prompt : str
-            The system prompt to use when generating replay responses. Use this to test prompt changes against this conversation turn.
+        system_prompt : typing.Optional[str]
+            The system prompt to use when generating replay responses. Use this to test prompt changes against this conversation turn. Omit it to replay the turn with the system prompt it originally ran with.
 
         num_responses : typing.Optional[int]
             Number of alternative responses to generate.

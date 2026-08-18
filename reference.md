@@ -4211,8 +4211,9 @@ client.api_keys.rotate(
 Returns the alternative response(s) the assistant would have
 produced for this conversation turn given changes to the agent system prompt.
 
-Only assistant items from ended conversations can be replayed. The
-conversation must have an associated agent.
+Only assistant items from ended conversations can be replayed. Omit the
+request body (or omit `system_prompt`) to replay the turn exactly as it
+originally ran.
 </dd>
 </dl>
 </dd>
@@ -4237,7 +4238,6 @@ client = Phonic(
 
 client.conversation_items.replay(
     id="id",
-    system_prompt="system_prompt",
 )
 
 ```
@@ -4262,7 +4262,7 @@ client.conversation_items.replay(
 <dl>
 <dd>
 
-**system_prompt:** `str` — The system prompt to use when generating replay responses. Use this to test prompt changes against this conversation turn.
+**system_prompt:** `typing.Optional[str]` — The system prompt to use when generating replay responses. Use this to test prompt changes against this conversation turn. Omit it to replay the turn with the system prompt it originally ran with.
     
 </dd>
 </dl>
