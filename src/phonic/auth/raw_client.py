@@ -28,7 +28,11 @@ class RawAuthClient:
         self._client_wrapper = client_wrapper
 
     def create_session_token(
-        self, *, ttl_seconds: typing.Optional[int] = OMIT, request_options: typing.Optional[RequestOptions] = None
+        self,
+        *,
+        ttl_seconds: typing.Optional[int] = OMIT,
+        conversation_ids: typing.Optional[typing.Sequence[str]] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[AuthCreateSessionTokenResponse]:
         """
         Creates a short-lived session token that can be used to authenticate WebSocket connections. Session tokens are useful for client-side applications where you don't want to expose your API key.
@@ -37,6 +41,9 @@ class RawAuthClient:
         ----------
         ttl_seconds : typing.Optional[int]
             Time-to-live for the session token in seconds.
+
+        conversation_ids : typing.Optional[typing.Sequence[str]]
+            Restricts the token to these conversations. A restricted token can read only their live audio and transcript, and cannot open the STS WebSocket or create an STS session. Omit it and the token can read any live conversation in the org. Pass it whenever the token will reach an end user's browser.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -52,6 +59,7 @@ class RawAuthClient:
             method="POST",
             json={
                 "ttl_seconds": ttl_seconds,
+                "conversation_ids": conversation_ids,
             },
             headers={
                 "content-type": "application/json",
@@ -242,7 +250,11 @@ class AsyncRawAuthClient:
         self._client_wrapper = client_wrapper
 
     async def create_session_token(
-        self, *, ttl_seconds: typing.Optional[int] = OMIT, request_options: typing.Optional[RequestOptions] = None
+        self,
+        *,
+        ttl_seconds: typing.Optional[int] = OMIT,
+        conversation_ids: typing.Optional[typing.Sequence[str]] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[AuthCreateSessionTokenResponse]:
         """
         Creates a short-lived session token that can be used to authenticate WebSocket connections. Session tokens are useful for client-side applications where you don't want to expose your API key.
@@ -251,6 +263,9 @@ class AsyncRawAuthClient:
         ----------
         ttl_seconds : typing.Optional[int]
             Time-to-live for the session token in seconds.
+
+        conversation_ids : typing.Optional[typing.Sequence[str]]
+            Restricts the token to these conversations. A restricted token can read only their live audio and transcript, and cannot open the STS WebSocket or create an STS session. Omit it and the token can read any live conversation in the org. Pass it whenever the token will reach an end user's browser.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -266,6 +281,7 @@ class AsyncRawAuthClient:
             method="POST",
             json={
                 "ttl_seconds": ttl_seconds,
+                "conversation_ids": conversation_ids,
             },
             headers={
                 "content-type": "application/json",
