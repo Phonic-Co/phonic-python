@@ -5438,6 +5438,14 @@ client.auth.create_session_token(
 <dl>
 <dd>
 
+**conversation_ids:** `typing.Optional[typing.List[str]]` — Restricts the token to these conversations. A restricted token can read only their live audio and transcript, and cannot open the STS WebSocket or create an STS session. Omit it and the token can read any live conversation in the org. Pass it whenever the token will reach an end user's browser.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
     
 </dd>
