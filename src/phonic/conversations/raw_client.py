@@ -23,6 +23,7 @@ from ..errors.not_found_error import NotFoundError
 from ..errors.too_many_requests_error import TooManyRequestsError
 from ..errors.unauthorized_error import UnauthorizedError
 from ..errors.unprocessable_entity_error import UnprocessableEntityError
+from .requests.conversations_sip_outbound_call_request_sip import ConversationsSipOutboundCallRequestSipParams
 from ..requests.outbound_call_config import OutboundCallConfigParams
 from ..types.basic_error import BasicError
 from ..types.error import Error
@@ -1258,6 +1259,7 @@ class RawConversationsClient:
         sip_auth_password: typing.Optional[str] = None,
         config: typing.Optional[OutboundCallConfigParams] = OMIT,
         dry_run: typing.Optional[bool] = OMIT,
+        sip: typing.Optional[ConversationsSipOutboundCallRequestSipParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[ConversationsSipOutboundCallResponse]:
         """
@@ -1285,6 +1287,9 @@ class RawConversationsClient:
         dry_run : typing.Optional[bool]
             If true, validates the outbound call setup without placing a call. Returns HTTP 200 with `conversation_id` and `twilio_call_sid` set to null.
 
+        sip : typing.Optional[ConversationsSipOutboundCallRequestSipParams]
+            SIP trunk settings for the outbound trunk created for this call.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -1304,6 +1309,9 @@ class RawConversationsClient:
                     object_=config, annotation=OutboundCallConfigParams, direction="write"
                 ),
                 "dry_run": dry_run,
+                "sip": convert_and_respect_annotation_metadata(
+                    object_=sip, annotation=ConversationsSipOutboundCallRequestSipParams, direction="write"
+                ),
             },
             headers={
                 "content-type": "application/json",
@@ -2602,6 +2610,7 @@ class AsyncRawConversationsClient:
         sip_auth_password: typing.Optional[str] = None,
         config: typing.Optional[OutboundCallConfigParams] = OMIT,
         dry_run: typing.Optional[bool] = OMIT,
+        sip: typing.Optional[ConversationsSipOutboundCallRequestSipParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[ConversationsSipOutboundCallResponse]:
         """
@@ -2629,6 +2638,9 @@ class AsyncRawConversationsClient:
         dry_run : typing.Optional[bool]
             If true, validates the outbound call setup without placing a call. Returns HTTP 200 with `conversation_id` and `twilio_call_sid` set to null.
 
+        sip : typing.Optional[ConversationsSipOutboundCallRequestSipParams]
+            SIP trunk settings for the outbound trunk created for this call.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -2648,6 +2660,9 @@ class AsyncRawConversationsClient:
                     object_=config, annotation=OutboundCallConfigParams, direction="write"
                 ),
                 "dry_run": dry_run,
+                "sip": convert_and_respect_annotation_metadata(
+                    object_=sip, annotation=ConversationsSipOutboundCallRequestSipParams, direction="write"
+                ),
             },
             headers={
                 "content-type": "application/json",
