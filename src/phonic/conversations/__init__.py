@@ -22,6 +22,9 @@ if typing.TYPE_CHECKING:
         ConversationsListResponse,
         ConversationsOutboundCallResponse,
         ConversationsReplayResponse,
+        ConversationsSipOutboundCallRequestSip,
+        ConversationsSipOutboundCallRequestSipMediaEncryption,
+        ConversationsSipOutboundCallRequestSipTransport,
         ConversationsSipOutboundCallResponse,
     )
     from .requests import (
@@ -37,6 +40,7 @@ if typing.TYPE_CHECKING:
         ConversationsListResponseParams,
         ConversationsOutboundCallResponseParams,
         ConversationsReplayResponseParams,
+        ConversationsSipOutboundCallRequestSipParams,
         ConversationsSipOutboundCallResponseParams,
     )
 _dynamic_imports: typing.Dict[str, str] = {
@@ -67,6 +71,10 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ConversationsOutboundCallResponseParams": ".requests",
     "ConversationsReplayResponse": ".types",
     "ConversationsReplayResponseParams": ".requests",
+    "ConversationsSipOutboundCallRequestSip": ".types",
+    "ConversationsSipOutboundCallRequestSipMediaEncryption": ".types",
+    "ConversationsSipOutboundCallRequestSipParams": ".requests",
+    "ConversationsSipOutboundCallRequestSipTransport": ".types",
     "ConversationsSipOutboundCallResponse": ".types",
     "ConversationsSipOutboundCallResponseParams": ".requests",
 }
@@ -121,6 +129,10 @@ __all__ = [
     "ConversationsOutboundCallResponseParams",
     "ConversationsReplayResponse",
     "ConversationsReplayResponseParams",
+    "ConversationsSipOutboundCallRequestSip",
+    "ConversationsSipOutboundCallRequestSipMediaEncryption",
+    "ConversationsSipOutboundCallRequestSipParams",
+    "ConversationsSipOutboundCallRequestSipTransport",
     "ConversationsSipOutboundCallResponse",
     "ConversationsSipOutboundCallResponseParams",
 ]

@@ -21,6 +21,11 @@ if typing.TYPE_CHECKING:
     from .conversations_list_response import ConversationsListResponse
     from .conversations_outbound_call_response import ConversationsOutboundCallResponse
     from .conversations_replay_response import ConversationsReplayResponse
+    from .conversations_sip_outbound_call_request_sip import ConversationsSipOutboundCallRequestSip
+    from .conversations_sip_outbound_call_request_sip_media_encryption import (
+        ConversationsSipOutboundCallRequestSipMediaEncryption,
+    )
+    from .conversations_sip_outbound_call_request_sip_transport import ConversationsSipOutboundCallRequestSipTransport
     from .conversations_sip_outbound_call_response import ConversationsSipOutboundCallResponse
 _dynamic_imports: typing.Dict[str, str] = {
     "ConversationsCancelResponse": ".conversations_cancel_response",
@@ -38,6 +43,9 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ConversationsListResponse": ".conversations_list_response",
     "ConversationsOutboundCallResponse": ".conversations_outbound_call_response",
     "ConversationsReplayResponse": ".conversations_replay_response",
+    "ConversationsSipOutboundCallRequestSip": ".conversations_sip_outbound_call_request_sip",
+    "ConversationsSipOutboundCallRequestSipMediaEncryption": ".conversations_sip_outbound_call_request_sip_media_encryption",
+    "ConversationsSipOutboundCallRequestSipTransport": ".conversations_sip_outbound_call_request_sip_transport",
     "ConversationsSipOutboundCallResponse": ".conversations_sip_outbound_call_response",
 }
 
@@ -79,5 +87,8 @@ __all__ = [
     "ConversationsListResponse",
     "ConversationsOutboundCallResponse",
     "ConversationsReplayResponse",
+    "ConversationsSipOutboundCallRequestSip",
+    "ConversationsSipOutboundCallRequestSipMediaEncryption",
+    "ConversationsSipOutboundCallRequestSipTransport",
     "ConversationsSipOutboundCallResponse",
 ]

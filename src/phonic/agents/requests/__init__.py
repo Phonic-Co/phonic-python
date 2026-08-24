@@ -9,6 +9,7 @@ if typing.TYPE_CHECKING:
     from .agents_add_custom_phone_number_request_configuration_endpoint import (
         AgentsAddCustomPhoneNumberRequestConfigurationEndpointParams,
     )
+    from .agents_add_custom_phone_number_request_sip import AgentsAddCustomPhoneNumberRequestSipParams
     from .agents_add_custom_phone_number_response import AgentsAddCustomPhoneNumberResponseParams
     from .agents_create_response import AgentsCreateResponseParams
     from .agents_delete_custom_phone_number_response import AgentsDeleteCustomPhoneNumberResponseParams
@@ -27,6 +28,7 @@ if typing.TYPE_CHECKING:
     from .update_agent_request_tools_item import UpdateAgentRequestToolsItemParams
 _dynamic_imports: typing.Dict[str, str] = {
     "AgentsAddCustomPhoneNumberRequestConfigurationEndpointParams": ".agents_add_custom_phone_number_request_configuration_endpoint",
+    "AgentsAddCustomPhoneNumberRequestSipParams": ".agents_add_custom_phone_number_request_sip",
     "AgentsAddCustomPhoneNumberResponseParams": ".agents_add_custom_phone_number_response",
     "AgentsCreateResponseParams": ".agents_create_response",
     "AgentsDeleteCustomPhoneNumberResponseParams": ".agents_delete_custom_phone_number_response",
@@ -67,6 +69,7 @@ def __dir__():
 
 __all__ = [
     "AgentsAddCustomPhoneNumberRequestConfigurationEndpointParams",
+    "AgentsAddCustomPhoneNumberRequestSipParams",
     "AgentsAddCustomPhoneNumberResponseParams",
     "AgentsCreateResponseParams",
     "AgentsDeleteCustomPhoneNumberResponseParams",

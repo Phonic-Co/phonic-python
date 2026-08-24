@@ -38,6 +38,7 @@ from ..types.language_code import LanguageCode
 from .requests.agents_add_custom_phone_number_request_configuration_endpoint import (
     AgentsAddCustomPhoneNumberRequestConfigurationEndpointParams,
 )
+from .requests.agents_add_custom_phone_number_request_sip import AgentsAddCustomPhoneNumberRequestSipParams
 from .requests.agents_update_phone_number_request_configuration_endpoint import (
     AgentsUpdatePhoneNumberRequestConfigurationEndpointParams,
 )
@@ -1379,6 +1380,7 @@ class RawAgentsClient:
         phone_number: str,
         project: typing.Optional[str] = None,
         configuration_endpoint: typing.Optional[AgentsAddCustomPhoneNumberRequestConfigurationEndpointParams] = OMIT,
+        sip: typing.Optional[AgentsAddCustomPhoneNumberRequestSipParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[AgentsAddCustomPhoneNumberResponse]:
         """
@@ -1407,6 +1409,9 @@ class RawAgentsClient:
         configuration_endpoint : typing.Optional[AgentsAddCustomPhoneNumberRequestConfigurationEndpointParams]
             When not `null`, the agent will call this endpoint to get configuration options for calls on this phone number.
 
+        sip : typing.Optional[AgentsAddCustomPhoneNumberRequestSipParams]
+            SIP trunk settings for this phone number, applied to both its inbound trunk and the trunk created for each outbound call. Set at creation; remove and re-add the number to change them.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -1428,6 +1433,9 @@ class RawAgentsClient:
                     object_=configuration_endpoint,
                     annotation=typing.Optional[AgentsAddCustomPhoneNumberRequestConfigurationEndpointParams],
                     direction="write",
+                ),
+                "sip": convert_and_respect_annotation_metadata(
+                    object_=sip, annotation=AgentsAddCustomPhoneNumberRequestSipParams, direction="write"
                 ),
             },
             headers={
@@ -3075,6 +3083,7 @@ class AsyncRawAgentsClient:
         phone_number: str,
         project: typing.Optional[str] = None,
         configuration_endpoint: typing.Optional[AgentsAddCustomPhoneNumberRequestConfigurationEndpointParams] = OMIT,
+        sip: typing.Optional[AgentsAddCustomPhoneNumberRequestSipParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[AgentsAddCustomPhoneNumberResponse]:
         """
@@ -3103,6 +3112,9 @@ class AsyncRawAgentsClient:
         configuration_endpoint : typing.Optional[AgentsAddCustomPhoneNumberRequestConfigurationEndpointParams]
             When not `null`, the agent will call this endpoint to get configuration options for calls on this phone number.
 
+        sip : typing.Optional[AgentsAddCustomPhoneNumberRequestSipParams]
+            SIP trunk settings for this phone number, applied to both its inbound trunk and the trunk created for each outbound call. Set at creation; remove and re-add the number to change them.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -3124,6 +3136,9 @@ class AsyncRawAgentsClient:
                     object_=configuration_endpoint,
                     annotation=typing.Optional[AgentsAddCustomPhoneNumberRequestConfigurationEndpointParams],
                     direction="write",
+                ),
+                "sip": convert_and_respect_annotation_metadata(
+                    object_=sip, annotation=AgentsAddCustomPhoneNumberRequestSipParams, direction="write"
                 ),
             },
             headers={

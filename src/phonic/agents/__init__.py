@@ -8,6 +8,9 @@ from importlib import import_module
 if typing.TYPE_CHECKING:
     from .types import (
         AgentsAddCustomPhoneNumberRequestConfigurationEndpoint,
+        AgentsAddCustomPhoneNumberRequestSip,
+        AgentsAddCustomPhoneNumberRequestSipMediaEncryption,
+        AgentsAddCustomPhoneNumberRequestSipTransport,
         AgentsAddCustomPhoneNumberResponse,
         AgentsCreateResponse,
         AgentsDeleteCustomPhoneNumberResponse,
@@ -30,6 +33,7 @@ if typing.TYPE_CHECKING:
     )
     from .requests import (
         AgentsAddCustomPhoneNumberRequestConfigurationEndpointParams,
+        AgentsAddCustomPhoneNumberRequestSipParams,
         AgentsAddCustomPhoneNumberResponseParams,
         AgentsCreateResponseParams,
         AgentsDeleteCustomPhoneNumberResponseParams,
@@ -48,6 +52,10 @@ if typing.TYPE_CHECKING:
 _dynamic_imports: typing.Dict[str, str] = {
     "AgentsAddCustomPhoneNumberRequestConfigurationEndpoint": ".types",
     "AgentsAddCustomPhoneNumberRequestConfigurationEndpointParams": ".requests",
+    "AgentsAddCustomPhoneNumberRequestSip": ".types",
+    "AgentsAddCustomPhoneNumberRequestSipMediaEncryption": ".types",
+    "AgentsAddCustomPhoneNumberRequestSipParams": ".requests",
+    "AgentsAddCustomPhoneNumberRequestSipTransport": ".types",
     "AgentsAddCustomPhoneNumberResponse": ".types",
     "AgentsAddCustomPhoneNumberResponseParams": ".requests",
     "AgentsCreateResponse": ".types",
@@ -108,6 +116,10 @@ def __dir__():
 __all__ = [
     "AgentsAddCustomPhoneNumberRequestConfigurationEndpoint",
     "AgentsAddCustomPhoneNumberRequestConfigurationEndpointParams",
+    "AgentsAddCustomPhoneNumberRequestSip",
+    "AgentsAddCustomPhoneNumberRequestSipMediaEncryption",
+    "AgentsAddCustomPhoneNumberRequestSipParams",
+    "AgentsAddCustomPhoneNumberRequestSipTransport",
     "AgentsAddCustomPhoneNumberResponse",
     "AgentsAddCustomPhoneNumberResponseParams",
     "AgentsCreateResponse",
