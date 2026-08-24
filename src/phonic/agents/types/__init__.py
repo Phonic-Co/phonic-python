@@ -9,6 +9,11 @@ if typing.TYPE_CHECKING:
     from .agents_add_custom_phone_number_request_configuration_endpoint import (
         AgentsAddCustomPhoneNumberRequestConfigurationEndpoint,
     )
+    from .agents_add_custom_phone_number_request_sip import AgentsAddCustomPhoneNumberRequestSip
+    from .agents_add_custom_phone_number_request_sip_media_encryption import (
+        AgentsAddCustomPhoneNumberRequestSipMediaEncryption,
+    )
+    from .agents_add_custom_phone_number_request_sip_transport import AgentsAddCustomPhoneNumberRequestSipTransport
     from .agents_add_custom_phone_number_response import AgentsAddCustomPhoneNumberResponse
     from .agents_create_response import AgentsCreateResponse
     from .agents_delete_custom_phone_number_response import AgentsDeleteCustomPhoneNumberResponse
@@ -32,6 +37,9 @@ if typing.TYPE_CHECKING:
     from .update_agent_request_tools_item import UpdateAgentRequestToolsItem
 _dynamic_imports: typing.Dict[str, str] = {
     "AgentsAddCustomPhoneNumberRequestConfigurationEndpoint": ".agents_add_custom_phone_number_request_configuration_endpoint",
+    "AgentsAddCustomPhoneNumberRequestSip": ".agents_add_custom_phone_number_request_sip",
+    "AgentsAddCustomPhoneNumberRequestSipMediaEncryption": ".agents_add_custom_phone_number_request_sip_media_encryption",
+    "AgentsAddCustomPhoneNumberRequestSipTransport": ".agents_add_custom_phone_number_request_sip_transport",
     "AgentsAddCustomPhoneNumberResponse": ".agents_add_custom_phone_number_response",
     "AgentsCreateResponse": ".agents_create_response",
     "AgentsDeleteCustomPhoneNumberResponse": ".agents_delete_custom_phone_number_response",
@@ -77,6 +85,9 @@ def __dir__():
 
 __all__ = [
     "AgentsAddCustomPhoneNumberRequestConfigurationEndpoint",
+    "AgentsAddCustomPhoneNumberRequestSip",
+    "AgentsAddCustomPhoneNumberRequestSipMediaEncryption",
+    "AgentsAddCustomPhoneNumberRequestSipTransport",
     "AgentsAddCustomPhoneNumberResponse",
     "AgentsCreateResponse",
     "AgentsDeleteCustomPhoneNumberResponse",

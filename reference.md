@@ -1437,7 +1437,7 @@ Adds a custom phone number to an agent. The user must configure their SIP trunk 
 ```python
 from phonic import Phonic
 from phonic.environment import PhonicEnvironment
-from phonic.agents import AgentsAddCustomPhoneNumberRequestConfigurationEndpoint
+from phonic.agents import AgentsAddCustomPhoneNumberRequestConfigurationEndpoint, AgentsAddCustomPhoneNumberRequestSip
 
 client = Phonic(
     api_key="<token>",
@@ -1457,6 +1457,10 @@ client.agents.add_custom_phone_number(
             "Authorization": "Bearer token123"
         },
         timeout_ms=7000,
+    ),
+    sip=AgentsAddCustomPhoneNumberRequestSip(
+        transport="tls",
+        media_encryption="required",
     ),
 )
 
@@ -1523,6 +1527,14 @@ client.agents.add_custom_phone_number(
 <dd>
 
 **configuration_endpoint:** `typing.Optional[AgentsAddCustomPhoneNumberRequestConfigurationEndpoint]` — When not `null`, the agent will call this endpoint to get configuration options for calls on this phone number.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**sip:** `typing.Optional[AgentsAddCustomPhoneNumberRequestSip]` — SIP trunk settings for this phone number, applied to both its inbound trunk and the trunk created for each outbound call. Set at creation; remove and re-add the number to change them.
     
 </dd>
 </dl>
@@ -5272,6 +5284,14 @@ client.conversations.sip_outbound_call(
 <dd>
 
 **dry_run:** `typing.Optional[bool]` — If true, validates the outbound call setup without placing a call. Returns HTTP 200 with `conversation_id` and `twilio_call_sid` set to null.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**sip:** `typing.Optional[ConversationsSipOutboundCallRequestSip]` — SIP trunk settings for the outbound trunk created for this call.
     
 </dd>
 </dl>

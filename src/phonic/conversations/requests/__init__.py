@@ -18,6 +18,7 @@ if typing.TYPE_CHECKING:
     from .conversations_list_response import ConversationsListResponseParams
     from .conversations_outbound_call_response import ConversationsOutboundCallResponseParams
     from .conversations_replay_response import ConversationsReplayResponseParams
+    from .conversations_sip_outbound_call_request_sip import ConversationsSipOutboundCallRequestSipParams
     from .conversations_sip_outbound_call_response import ConversationsSipOutboundCallResponseParams
 _dynamic_imports: typing.Dict[str, str] = {
     "ConversationsCancelResponseParams": ".conversations_cancel_response",
@@ -32,6 +33,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ConversationsListResponseParams": ".conversations_list_response",
     "ConversationsOutboundCallResponseParams": ".conversations_outbound_call_response",
     "ConversationsReplayResponseParams": ".conversations_replay_response",
+    "ConversationsSipOutboundCallRequestSipParams": ".conversations_sip_outbound_call_request_sip",
     "ConversationsSipOutboundCallResponseParams": ".conversations_sip_outbound_call_response",
 }
 
@@ -70,5 +72,6 @@ __all__ = [
     "ConversationsListResponseParams",
     "ConversationsOutboundCallResponseParams",
     "ConversationsReplayResponseParams",
+    "ConversationsSipOutboundCallRequestSipParams",
     "ConversationsSipOutboundCallResponseParams",
 ]
