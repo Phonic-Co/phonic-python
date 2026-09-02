@@ -2043,6 +2043,14 @@ Every key must name a top-level parameter. For POST webhooks, every parameter ne
 <dl>
 <dd>
 
+**keep_listening:** `typing.Optional[bool]` — When true, Phonic bridges the transfer and stays on the call. When false, the call is handed off with a SIP REFER and Phonic drops out, which requires use_agent_phone_number and detect_voicemail to be false, dtmf to be null and dynamic_dtmf to be false. Only available for built_in_transfer_to_phone_number tools. Defaults to the value of use_agent_phone_number.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **agents_to_transfer_to:** `typing.Optional[typing.List[str]]` — Array of agent names that the LLM can choose from when transferring. Required for built_in_transfer_to_agent tools. All agents must exist in the same project as the tool.
     
 </dd>
@@ -2107,7 +2115,7 @@ Every key must name a top-level parameter. For POST webhooks, every parameter ne
 <dl>
 <dd>
 
-**wait_for_response:** `typing.Optional[bool]` — The agent doesn't typically wait for the response of async custom_websocket tools. When true, makes the agent wait for a response, not call other tools and inform the user of the result. Only available for async custom_websocket tools.
+**wait_for_response:** `typing.Optional[bool]` — The agent doesn't typically wait for the response of async tools. When true, makes the agent wait for a response, not call other tools and inform the user of the result. Only available for async custom_webhook and custom_websocket tools, and cannot be combined with allow_tool_chaining set to true.
     
 </dd>
 </dl>
@@ -2510,6 +2518,14 @@ Every key must name a top-level parameter. For POST webhooks, every parameter ne
 <dl>
 <dd>
 
+**keep_listening:** `typing.Optional[bool]` — When true, Phonic bridges the transfer and stays on the call. When false, the call is handed off with a SIP REFER and Phonic drops out, which requires the resulting use_agent_phone_number and detect_voicemail to be false, dtmf to be null and dynamic_dtmf to be false. Only applicable to built_in_transfer_to_phone_number tools.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **agents_to_transfer_to:** `typing.Optional[typing.List[str]]` — Array of agent names that the LLM can choose from when transferring. All agents must exist in the same project as the tool.
     
 </dd>
@@ -2574,7 +2590,7 @@ Every key must name a top-level parameter. For POST webhooks, every parameter ne
 <dl>
 <dd>
 
-**wait_for_response:** `typing.Optional[bool]` — The agent doesn't typically wait for the response of async custom_websocket tools. When true, makes the agent wait for a response, not call other tools and inform the user of the result. Only available for async custom_websocket tools.
+**wait_for_response:** `typing.Optional[bool]` — The agent doesn't typically wait for the response of async tools. When true, makes the agent wait for a response, not call other tools and inform the user of the result. Only available for async custom_webhook and custom_websocket tools, and cannot be combined with allow_tool_chaining set to true.
     
 </dd>
 </dl>
@@ -5268,6 +5284,14 @@ client.conversations.sip_outbound_call(
 <dd>
 
 **sip_auth_password:** `typing.Optional[str]` — SIP auth password, if your provider requires it.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**from_display_name:** `typing.Optional[str]` — Display name for the caller ID (the SIP `From` header) on this call. Sent only when non-empty. Whether it reaches the callee depends on your SIP carrier - carriers that forward the `From` display name (e.g. Telnyx) present it, while others (e.g. Twilio) drop it or override it with a CNAM lookup.
     
 </dd>
 </dl>

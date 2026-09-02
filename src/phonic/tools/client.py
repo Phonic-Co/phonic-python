@@ -94,6 +94,7 @@ class ToolsClient:
         dynamic_dtmf: typing.Optional[bool] = OMIT,
         use_agent_phone_number: typing.Optional[bool] = OMIT,
         detect_voicemail: typing.Optional[bool] = OMIT,
+        keep_listening: typing.Optional[bool] = OMIT,
         agents_to_transfer_to: typing.Optional[typing.Sequence[str]] = OMIT,
         require_speech_before_tool_call: typing.Optional[bool] = OMIT,
         speech_before_tool_call: typing.Optional[CreateToolRequestSpeechBeforeToolCall] = OMIT,
@@ -170,6 +171,9 @@ class ToolsClient:
         detect_voicemail : typing.Optional[bool]
             When true, Phonic will listen in and tell the user if the transfer hits voicemail. This is only available for built_in_transfer_to_phone_number tools when use_agent_phone_number is true.
 
+        keep_listening : typing.Optional[bool]
+            When true, Phonic bridges the transfer and stays on the call. When false, the call is handed off with a SIP REFER and Phonic drops out, which requires use_agent_phone_number and detect_voicemail to be false, dtmf to be null and dynamic_dtmf to be false. Only available for built_in_transfer_to_phone_number tools. Defaults to the value of use_agent_phone_number.
+
         agents_to_transfer_to : typing.Optional[typing.Sequence[str]]
             Array of agent names that the LLM can choose from when transferring. Required for built_in_transfer_to_agent tools. All agents must exist in the same project as the tool.
 
@@ -195,7 +199,7 @@ class ToolsClient:
             When true, allows the agent to chain and execute other tools after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools.
 
         wait_for_response : typing.Optional[bool]
-            The agent doesn't typically wait for the response of async custom_websocket tools. When true, makes the agent wait for a response, not call other tools and inform the user of the result. Only available for async custom_websocket tools.
+            The agent doesn't typically wait for the response of async tools. When true, makes the agent wait for a response, not call other tools and inform the user of the result. Only available for async custom_webhook and custom_websocket tools, and cannot be combined with allow_tool_chaining set to true.
 
         context : typing.Optional[str]
             The static context returned to the agent. Required for custom_context tools.
@@ -253,6 +257,7 @@ class ToolsClient:
             dynamic_dtmf=dynamic_dtmf,
             use_agent_phone_number=use_agent_phone_number,
             detect_voicemail=detect_voicemail,
+            keep_listening=keep_listening,
             agents_to_transfer_to=agents_to_transfer_to,
             require_speech_before_tool_call=require_speech_before_tool_call,
             speech_before_tool_call=speech_before_tool_call,
@@ -370,6 +375,7 @@ class ToolsClient:
         dynamic_dtmf: typing.Optional[bool] = OMIT,
         use_agent_phone_number: typing.Optional[bool] = OMIT,
         detect_voicemail: typing.Optional[bool] = OMIT,
+        keep_listening: typing.Optional[bool] = OMIT,
         agents_to_transfer_to: typing.Optional[typing.Sequence[str]] = OMIT,
         require_speech_before_tool_call: typing.Optional[bool] = OMIT,
         speech_before_tool_call: typing.Optional[UpdateToolRequestSpeechBeforeToolCall] = OMIT,
@@ -442,6 +448,9 @@ class ToolsClient:
         detect_voicemail : typing.Optional[bool]
             When true, Phonic will listen in and tell the user if the transfer hits voicemail. This is only available for built_in_transfer_to_phone_number tools when use_agent_phone_number is true.
 
+        keep_listening : typing.Optional[bool]
+            When true, Phonic bridges the transfer and stays on the call. When false, the call is handed off with a SIP REFER and Phonic drops out, which requires the resulting use_agent_phone_number and detect_voicemail to be false, dtmf to be null and dynamic_dtmf to be false. Only applicable to built_in_transfer_to_phone_number tools.
+
         agents_to_transfer_to : typing.Optional[typing.Sequence[str]]
             Array of agent names that the LLM can choose from when transferring. All agents must exist in the same project as the tool.
 
@@ -467,7 +476,7 @@ class ToolsClient:
             When true, allows the agent to chain and execute other tools after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools.
 
         wait_for_response : typing.Optional[bool]
-            The agent doesn't typically wait for the response of async custom_websocket tools. When true, makes the agent wait for a response, not call other tools and inform the user of the result. Only available for async custom_websocket tools.
+            The agent doesn't typically wait for the response of async tools. When true, makes the agent wait for a response, not call other tools and inform the user of the result. Only available for async custom_webhook and custom_websocket tools, and cannot be combined with allow_tool_chaining set to true.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -511,6 +520,7 @@ class ToolsClient:
             dynamic_dtmf=dynamic_dtmf,
             use_agent_phone_number=use_agent_phone_number,
             detect_voicemail=detect_voicemail,
+            keep_listening=keep_listening,
             agents_to_transfer_to=agents_to_transfer_to,
             require_speech_before_tool_call=require_speech_before_tool_call,
             speech_before_tool_call=speech_before_tool_call,
@@ -601,6 +611,7 @@ class AsyncToolsClient:
         dynamic_dtmf: typing.Optional[bool] = OMIT,
         use_agent_phone_number: typing.Optional[bool] = OMIT,
         detect_voicemail: typing.Optional[bool] = OMIT,
+        keep_listening: typing.Optional[bool] = OMIT,
         agents_to_transfer_to: typing.Optional[typing.Sequence[str]] = OMIT,
         require_speech_before_tool_call: typing.Optional[bool] = OMIT,
         speech_before_tool_call: typing.Optional[CreateToolRequestSpeechBeforeToolCall] = OMIT,
@@ -677,6 +688,9 @@ class AsyncToolsClient:
         detect_voicemail : typing.Optional[bool]
             When true, Phonic will listen in and tell the user if the transfer hits voicemail. This is only available for built_in_transfer_to_phone_number tools when use_agent_phone_number is true.
 
+        keep_listening : typing.Optional[bool]
+            When true, Phonic bridges the transfer and stays on the call. When false, the call is handed off with a SIP REFER and Phonic drops out, which requires use_agent_phone_number and detect_voicemail to be false, dtmf to be null and dynamic_dtmf to be false. Only available for built_in_transfer_to_phone_number tools. Defaults to the value of use_agent_phone_number.
+
         agents_to_transfer_to : typing.Optional[typing.Sequence[str]]
             Array of agent names that the LLM can choose from when transferring. Required for built_in_transfer_to_agent tools. All agents must exist in the same project as the tool.
 
@@ -702,7 +716,7 @@ class AsyncToolsClient:
             When true, allows the agent to chain and execute other tools after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools.
 
         wait_for_response : typing.Optional[bool]
-            The agent doesn't typically wait for the response of async custom_websocket tools. When true, makes the agent wait for a response, not call other tools and inform the user of the result. Only available for async custom_websocket tools.
+            The agent doesn't typically wait for the response of async tools. When true, makes the agent wait for a response, not call other tools and inform the user of the result. Only available for async custom_webhook and custom_websocket tools, and cannot be combined with allow_tool_chaining set to true.
 
         context : typing.Optional[str]
             The static context returned to the agent. Required for custom_context tools.
@@ -768,6 +782,7 @@ class AsyncToolsClient:
             dynamic_dtmf=dynamic_dtmf,
             use_agent_phone_number=use_agent_phone_number,
             detect_voicemail=detect_voicemail,
+            keep_listening=keep_listening,
             agents_to_transfer_to=agents_to_transfer_to,
             require_speech_before_tool_call=require_speech_before_tool_call,
             speech_before_tool_call=speech_before_tool_call,
@@ -901,6 +916,7 @@ class AsyncToolsClient:
         dynamic_dtmf: typing.Optional[bool] = OMIT,
         use_agent_phone_number: typing.Optional[bool] = OMIT,
         detect_voicemail: typing.Optional[bool] = OMIT,
+        keep_listening: typing.Optional[bool] = OMIT,
         agents_to_transfer_to: typing.Optional[typing.Sequence[str]] = OMIT,
         require_speech_before_tool_call: typing.Optional[bool] = OMIT,
         speech_before_tool_call: typing.Optional[UpdateToolRequestSpeechBeforeToolCall] = OMIT,
@@ -973,6 +989,9 @@ class AsyncToolsClient:
         detect_voicemail : typing.Optional[bool]
             When true, Phonic will listen in and tell the user if the transfer hits voicemail. This is only available for built_in_transfer_to_phone_number tools when use_agent_phone_number is true.
 
+        keep_listening : typing.Optional[bool]
+            When true, Phonic bridges the transfer and stays on the call. When false, the call is handed off with a SIP REFER and Phonic drops out, which requires the resulting use_agent_phone_number and detect_voicemail to be false, dtmf to be null and dynamic_dtmf to be false. Only applicable to built_in_transfer_to_phone_number tools.
+
         agents_to_transfer_to : typing.Optional[typing.Sequence[str]]
             Array of agent names that the LLM can choose from when transferring. All agents must exist in the same project as the tool.
 
@@ -998,7 +1017,7 @@ class AsyncToolsClient:
             When true, allows the agent to chain and execute other tools after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools.
 
         wait_for_response : typing.Optional[bool]
-            The agent doesn't typically wait for the response of async custom_websocket tools. When true, makes the agent wait for a response, not call other tools and inform the user of the result. Only available for async custom_websocket tools.
+            The agent doesn't typically wait for the response of async tools. When true, makes the agent wait for a response, not call other tools and inform the user of the result. Only available for async custom_webhook and custom_websocket tools, and cannot be combined with allow_tool_chaining set to true.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1050,6 +1069,7 @@ class AsyncToolsClient:
             dynamic_dtmf=dynamic_dtmf,
             use_agent_phone_number=use_agent_phone_number,
             detect_voicemail=detect_voicemail,
+            keep_listening=keep_listening,
             agents_to_transfer_to=agents_to_transfer_to,
             require_speech_before_tool_call=require_speech_before_tool_call,
             speech_before_tool_call=speech_before_tool_call,
