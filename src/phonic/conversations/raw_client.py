@@ -1257,6 +1257,7 @@ class RawConversationsClient:
         to_phone_number: str,
         sip_auth_username: typing.Optional[str] = None,
         sip_auth_password: typing.Optional[str] = None,
+        from_display_name: typing.Optional[str] = OMIT,
         config: typing.Optional[OutboundCallConfigParams] = OMIT,
         dry_run: typing.Optional[bool] = OMIT,
         sip: typing.Optional[ConversationsSipOutboundCallRequestSipParams] = OMIT,
@@ -1282,6 +1283,9 @@ class RawConversationsClient:
         sip_auth_password : typing.Optional[str]
             SIP auth password, if your provider requires it.
 
+        from_display_name : typing.Optional[str]
+            Display name for the caller ID (the SIP `From` header) on this call. Sent only when non-empty. Whether it reaches the callee depends on your SIP carrier - carriers that forward the `From` display name (e.g. Telnyx) present it, while others (e.g. Twilio) drop it or override it with a CNAM lookup.
+
         config : typing.Optional[OutboundCallConfigParams]
 
         dry_run : typing.Optional[bool]
@@ -1305,6 +1309,7 @@ class RawConversationsClient:
             json={
                 "from_phone_number": from_phone_number,
                 "to_phone_number": to_phone_number,
+                "from_display_name": from_display_name,
                 "config": convert_and_respect_annotation_metadata(
                     object_=config, annotation=OutboundCallConfigParams, direction="write"
                 ),
@@ -2608,6 +2613,7 @@ class AsyncRawConversationsClient:
         to_phone_number: str,
         sip_auth_username: typing.Optional[str] = None,
         sip_auth_password: typing.Optional[str] = None,
+        from_display_name: typing.Optional[str] = OMIT,
         config: typing.Optional[OutboundCallConfigParams] = OMIT,
         dry_run: typing.Optional[bool] = OMIT,
         sip: typing.Optional[ConversationsSipOutboundCallRequestSipParams] = OMIT,
@@ -2633,6 +2639,9 @@ class AsyncRawConversationsClient:
         sip_auth_password : typing.Optional[str]
             SIP auth password, if your provider requires it.
 
+        from_display_name : typing.Optional[str]
+            Display name for the caller ID (the SIP `From` header) on this call. Sent only when non-empty. Whether it reaches the callee depends on your SIP carrier - carriers that forward the `From` display name (e.g. Telnyx) present it, while others (e.g. Twilio) drop it or override it with a CNAM lookup.
+
         config : typing.Optional[OutboundCallConfigParams]
 
         dry_run : typing.Optional[bool]
@@ -2656,6 +2665,7 @@ class AsyncRawConversationsClient:
             json={
                 "from_phone_number": from_phone_number,
                 "to_phone_number": to_phone_number,
+                "from_display_name": from_display_name,
                 "config": convert_and_respect_annotation_metadata(
                     object_=config, annotation=OutboundCallConfigParams, direction="write"
                 ),
