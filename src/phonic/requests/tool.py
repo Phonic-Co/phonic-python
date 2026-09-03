@@ -102,6 +102,11 @@ class ToolParams(typing_extensions.TypedDict):
     When true, Phonic will listen in and tell the user if the transfer hits voicemail. This is only available for built_in_transfer_to_phone_number tools when use_agent_phone_number is true.
     """
 
+    keep_listening: typing_extensions.NotRequired[bool]
+    """
+    When true, Phonic bridges the transfer and stays on the call. When false, the call is handed off with a SIP REFER and Phonic drops out, so use_agent_phone_number, detect_voicemail and dynamic_dtmf are false and dtmf is null. Only returned for built_in_transfer_to_phone_number tools.
+    """
+
     agents_to_transfer_to: typing_extensions.NotRequired[typing.Sequence[str]]
     """
     Array of agent names that the LLM can choose from when transferring. Required for built_in_transfer_to_agent tools.
@@ -144,7 +149,7 @@ class ToolParams(typing_extensions.TypedDict):
 
     wait_for_response: typing_extensions.NotRequired[bool]
     """
-    The agent doesn't typically wait for the response of async custom_websocket tools. When true, makes the agent wait for a response, not call other tools and inform the user of the result. Only available for async custom_websocket tools.
+    The agent doesn't typically wait for the response of async tools. When true, makes the agent wait for a response, not call other tools and inform the user of the result. Only returned for custom_webhook and custom_websocket tools.
     """
 
     context: typing_extensions.NotRequired[str]
