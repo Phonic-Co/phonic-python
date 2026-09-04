@@ -6320,3 +6320,168 @@ client.projects.list_evals(
 </dl>
 </details>
 
+## Responses
+<details><summary><code>client.responses.<a href="src/phonic/responses/client.py">create</a>(...) -> GenerateResponsesResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Generates one or more alternative assistant responses for a conversation
+you supply inline to simulate Phonic agent behavior.
+
+This endpoint is stateless, so it does not create a new conversation or
+store anything. The request carries the system prompt, a conversation so
+far as `input`, and the tools the assistant may call as
+`tool_definitions`.
+
+Each item in `input` is a user message, an assistant message (with
+optional `tool_calls`), or a `tool_call_output`. Every assistant tool
+call must be followed immediately by the `tool_call_output` item that
+carries its result.
+
+This is an experimental feature and must be enabled for your workspace;
+otherwise, it returns `404`. Please contact our team if you would like
+access.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from phonic import Phonic, ResponsesUserMessage, ResponsesToolDefinition, ToolParametersJsonSchema
+from phonic.environment import PhonicEnvironment
+
+client = Phonic(
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
+)
+
+client.responses.create(
+    system_prompt="You help callers find a pizza shop. Be friendly and concise.",
+    voice_id="sabrina",
+    default_language="en",
+    additional_languages=[
+        "es"
+    ],
+    input=[
+        ResponsesUserMessage(
+            role="user",
+            text="Where should I get pizza near Union Square?",
+        )
+    ],
+    tool_definitions=[
+        ResponsesToolDefinition(
+            name="search_pizza_shop_recs",
+            description="Search for pizza shop recommendations.",
+            parameters=ToolParametersJsonSchema(
+                type="object",
+                properties={
+                    "location": {"type": "string", "description": "The neighborhood to search in."}
+                },
+                required=[
+                    "location"
+                ],
+                additional_properties=False,
+            ),
+        )
+    ],
+    num_responses=2,
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**system_prompt:** `str` — The system prompt the assistant should follow.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**input:** `typing.List[ResponsesInputItem]` — The conversation so far, in order. Must contain at least one item.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**voice_id:** `typing.Optional[str]` — ID of the voice the assistant would speak with. It shapes how the responses are worded.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**default_language:** `typing.Optional[LanguageCode]` — ISO 639-1 language code that sets the assistant's default language to recognize and speak.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**additional_languages:** `typing.Optional[typing.List[LanguageCode]]` — Array of additional ISO 639-1 language codes that the assistant should be able to recognize and speak. Should not include `default_language`.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**tool_definitions:** `typing.Optional[typing.List[ResponsesToolDefinition]]` — The tools the assistant may call, defined inline. Names must be unique and cannot be one of the names Phonic reserves for its built-in tools.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**num_responses:** `typing.Optional[int]` — Number of alternative responses to generate.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
