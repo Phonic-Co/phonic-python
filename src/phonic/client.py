@@ -20,6 +20,7 @@ if typing.TYPE_CHECKING:
     from .external_storage_policies.client import AsyncExternalStoragePoliciesClient, ExternalStoragePoliciesClient
     from .extraction_schemas.client import AsyncExtractionSchemasClient, ExtractionSchemasClient
     from .projects.client import AsyncProjectsClient, ProjectsClient
+    from .responses.client import AsyncResponsesClient, ResponsesClient
     from .tools.client import AsyncToolsClient, ToolsClient
     from .tts.client import AsyncTtsClient, TtsClient
     from .voices.client import AsyncVoicesClient, VoicesClient
@@ -111,6 +112,7 @@ class Phonic:
         self._conversation_items: typing.Optional[ConversationItemsClient] = None
         self._auth: typing.Optional[AuthClient] = None
         self._projects: typing.Optional[ProjectsClient] = None
+        self._responses: typing.Optional[ResponsesClient] = None
         self._workspace: typing.Optional[WorkspaceClient] = None
         self._external_storage_policies: typing.Optional[ExternalStoragePoliciesClient] = None
 
@@ -193,6 +195,14 @@ class Phonic:
 
             self._projects = ProjectsClient(client_wrapper=self._client_wrapper)
         return self._projects
+
+    @property
+    def responses(self):
+        if self._responses is None:
+            from .responses.client import ResponsesClient  # noqa: E402
+
+            self._responses = ResponsesClient(client_wrapper=self._client_wrapper)
+        return self._responses
 
     @property
     def workspace(self):
@@ -296,6 +306,7 @@ class AsyncPhonic:
         self._conversation_items: typing.Optional[AsyncConversationItemsClient] = None
         self._auth: typing.Optional[AsyncAuthClient] = None
         self._projects: typing.Optional[AsyncProjectsClient] = None
+        self._responses: typing.Optional[AsyncResponsesClient] = None
         self._workspace: typing.Optional[AsyncWorkspaceClient] = None
         self._external_storage_policies: typing.Optional[AsyncExternalStoragePoliciesClient] = None
 
@@ -378,6 +389,14 @@ class AsyncPhonic:
 
             self._projects = AsyncProjectsClient(client_wrapper=self._client_wrapper)
         return self._projects
+
+    @property
+    def responses(self):
+        if self._responses is None:
+            from .responses.client import AsyncResponsesClient  # noqa: E402
+
+            self._responses = AsyncResponsesClient(client_wrapper=self._client_wrapper)
+        return self._responses
 
     @property
     def workspace(self):

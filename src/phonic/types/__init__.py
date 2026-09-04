@@ -56,6 +56,7 @@ if typing.TYPE_CHECKING:
     from .config_options_pronunciation_dictionary_item import ConfigOptionsPronunciationDictionaryItem
     from .config_options_tasks_item import ConfigOptionsTasksItem
     from .config_payload import ConfigPayload
+    from .conflict_error_body import ConflictErrorBody
     from .conversation import Conversation
     from .conversation_agent import ConversationAgent
     from .conversation_analysis import ConversationAnalysis
@@ -113,6 +114,9 @@ if typing.TYPE_CHECKING:
     from .extraction_field_type import ExtractionFieldType
     from .extraction_schema import ExtractionSchema
     from .generate_reply_payload import GenerateReplyPayload
+    from .generate_responses_response import GenerateResponsesResponse
+    from .generated_response import GeneratedResponse
+    from .generated_tool_call import GeneratedToolCall
     from .inline_web_socket_tool import InlineWebSocketTool
     from .inline_web_socket_tool_execution_mode import InlineWebSocketToolExecutionMode
     from .input_cancelled_payload import InputCancelledPayload
@@ -141,6 +145,13 @@ if typing.TYPE_CHECKING:
     from .replay_tool_call_endpoint_method import ReplayToolCallEndpointMethod
     from .replay_tool_call_tool import ReplayToolCallTool
     from .reset_payload import ResetPayload
+    from .responses_assistant_message import ResponsesAssistantMessage
+    from .responses_input_item import ResponsesInputItem
+    from .responses_tool_call import ResponsesToolCall
+    from .responses_tool_call_output import ResponsesToolCallOutput
+    from .responses_tool_call_output_response_body import ResponsesToolCallOutputResponseBody
+    from .responses_tool_definition import ResponsesToolDefinition
+    from .responses_user_message import ResponsesUserMessage
     from .say_payload import SayPayload
     from .set_external_id_payload import SetExternalIdPayload
     from .sip_call_error import SipCallError
@@ -226,6 +237,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ConfigOptionsPronunciationDictionaryItem": ".config_options_pronunciation_dictionary_item",
     "ConfigOptionsTasksItem": ".config_options_tasks_item",
     "ConfigPayload": ".config_payload",
+    "ConflictErrorBody": ".conflict_error_body",
     "Conversation": ".conversation",
     "ConversationAgent": ".conversation_agent",
     "ConversationAnalysis": ".conversation_analysis",
@@ -281,6 +293,9 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ExtractionFieldType": ".extraction_field_type",
     "ExtractionSchema": ".extraction_schema",
     "GenerateReplyPayload": ".generate_reply_payload",
+    "GenerateResponsesResponse": ".generate_responses_response",
+    "GeneratedResponse": ".generated_response",
+    "GeneratedToolCall": ".generated_tool_call",
     "InlineWebSocketTool": ".inline_web_socket_tool",
     "InlineWebSocketToolExecutionMode": ".inline_web_socket_tool_execution_mode",
     "InputCancelledPayload": ".input_cancelled_payload",
@@ -309,6 +324,13 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ReplayToolCallEndpointMethod": ".replay_tool_call_endpoint_method",
     "ReplayToolCallTool": ".replay_tool_call_tool",
     "ResetPayload": ".reset_payload",
+    "ResponsesAssistantMessage": ".responses_assistant_message",
+    "ResponsesInputItem": ".responses_input_item",
+    "ResponsesToolCall": ".responses_tool_call",
+    "ResponsesToolCallOutput": ".responses_tool_call_output",
+    "ResponsesToolCallOutputResponseBody": ".responses_tool_call_output_response_body",
+    "ResponsesToolDefinition": ".responses_tool_definition",
+    "ResponsesUserMessage": ".responses_user_message",
     "SayPayload": ".say_payload",
     "SetExternalIdPayload": ".set_external_id_payload",
     "SipCallError": ".sip_call_error",
@@ -418,6 +440,7 @@ __all__ = [
     "ConfigOptionsPronunciationDictionaryItem",
     "ConfigOptionsTasksItem",
     "ConfigPayload",
+    "ConflictErrorBody",
     "Conversation",
     "ConversationAgent",
     "ConversationAnalysis",
@@ -473,6 +496,9 @@ __all__ = [
     "ExtractionFieldType",
     "ExtractionSchema",
     "GenerateReplyPayload",
+    "GenerateResponsesResponse",
+    "GeneratedResponse",
+    "GeneratedToolCall",
     "InlineWebSocketTool",
     "InlineWebSocketToolExecutionMode",
     "InputCancelledPayload",
@@ -501,6 +527,13 @@ __all__ = [
     "ReplayToolCallEndpointMethod",
     "ReplayToolCallTool",
     "ResetPayload",
+    "ResponsesAssistantMessage",
+    "ResponsesInputItem",
+    "ResponsesToolCall",
+    "ResponsesToolCallOutput",
+    "ResponsesToolCallOutputResponseBody",
+    "ResponsesToolDefinition",
+    "ResponsesUserMessage",
     "SayPayload",
     "SetExternalIdPayload",
     "SipCallError",

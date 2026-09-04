@@ -47,6 +47,7 @@ if typing.TYPE_CHECKING:
     from .config_options_pronunciation_dictionary_item import ConfigOptionsPronunciationDictionaryItemParams
     from .config_options_tasks_item import ConfigOptionsTasksItemParams
     from .config_payload import ConfigPayloadParams
+    from .conflict_error_body import ConflictErrorBodyParams
     from .conversation import ConversationParams
     from .conversation_agent import ConversationAgentParams
     from .conversation_analysis import ConversationAnalysisParams
@@ -92,6 +93,9 @@ if typing.TYPE_CHECKING:
     from .extraction_field import ExtractionFieldParams
     from .extraction_schema import ExtractionSchemaParams
     from .generate_reply_payload import GenerateReplyPayloadParams
+    from .generate_responses_response import GenerateResponsesResponseParams
+    from .generated_response import GeneratedResponseParams
+    from .generated_tool_call import GeneratedToolCallParams
     from .inline_web_socket_tool import InlineWebSocketToolParams
     from .input_cancelled_payload import InputCancelledPayloadParams
     from .input_text_payload import InputTextPayloadParams
@@ -113,6 +117,13 @@ if typing.TYPE_CHECKING:
     from .replay_tool_call import ReplayToolCallParams
     from .replay_tool_call_tool import ReplayToolCallToolParams
     from .reset_payload import ResetPayloadParams
+    from .responses_assistant_message import ResponsesAssistantMessageParams
+    from .responses_input_item import ResponsesInputItemParams
+    from .responses_tool_call import ResponsesToolCallParams
+    from .responses_tool_call_output import ResponsesToolCallOutputParams
+    from .responses_tool_call_output_response_body import ResponsesToolCallOutputResponseBodyParams
+    from .responses_tool_definition import ResponsesToolDefinitionParams
+    from .responses_user_message import ResponsesUserMessageParams
     from .say_payload import SayPayloadParams
     from .set_external_id_payload import SetExternalIdPayloadParams
     from .sip_call_error import SipCallErrorParams
@@ -177,6 +188,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ConfigOptionsPronunciationDictionaryItemParams": ".config_options_pronunciation_dictionary_item",
     "ConfigOptionsTasksItemParams": ".config_options_tasks_item",
     "ConfigPayloadParams": ".config_payload",
+    "ConflictErrorBodyParams": ".conflict_error_body",
     "ConversationAgentParams": ".conversation_agent",
     "ConversationAnalysisParams": ".conversation_analysis",
     "ConversationCallInfoParams": ".conversation_call_info",
@@ -218,6 +230,9 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ExtractionFieldParams": ".extraction_field",
     "ExtractionSchemaParams": ".extraction_schema",
     "GenerateReplyPayloadParams": ".generate_reply_payload",
+    "GenerateResponsesResponseParams": ".generate_responses_response",
+    "GeneratedResponseParams": ".generated_response",
+    "GeneratedToolCallParams": ".generated_tool_call",
     "InlineWebSocketToolParams": ".inline_web_socket_tool",
     "InputCancelledPayloadParams": ".input_cancelled_payload",
     "InputTextPayloadParams": ".input_text_payload",
@@ -239,6 +254,13 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ReplayToolCallParams": ".replay_tool_call",
     "ReplayToolCallToolParams": ".replay_tool_call_tool",
     "ResetPayloadParams": ".reset_payload",
+    "ResponsesAssistantMessageParams": ".responses_assistant_message",
+    "ResponsesInputItemParams": ".responses_input_item",
+    "ResponsesToolCallOutputParams": ".responses_tool_call_output",
+    "ResponsesToolCallOutputResponseBodyParams": ".responses_tool_call_output_response_body",
+    "ResponsesToolCallParams": ".responses_tool_call",
+    "ResponsesToolDefinitionParams": ".responses_tool_definition",
+    "ResponsesUserMessageParams": ".responses_user_message",
     "SayPayloadParams": ".say_payload",
     "SetExternalIdPayloadParams": ".set_external_id_payload",
     "SipCallErrorErrorParams": ".sip_call_error_error",
@@ -327,6 +349,7 @@ __all__ = [
     "ConfigOptionsPronunciationDictionaryItemParams",
     "ConfigOptionsTasksItemParams",
     "ConfigPayloadParams",
+    "ConflictErrorBodyParams",
     "ConversationAgentParams",
     "ConversationAnalysisParams",
     "ConversationCallInfoParams",
@@ -368,6 +391,9 @@ __all__ = [
     "ExtractionFieldParams",
     "ExtractionSchemaParams",
     "GenerateReplyPayloadParams",
+    "GenerateResponsesResponseParams",
+    "GeneratedResponseParams",
+    "GeneratedToolCallParams",
     "InlineWebSocketToolParams",
     "InputCancelledPayloadParams",
     "InputTextPayloadParams",
@@ -389,6 +415,13 @@ __all__ = [
     "ReplayToolCallParams",
     "ReplayToolCallToolParams",
     "ResetPayloadParams",
+    "ResponsesAssistantMessageParams",
+    "ResponsesInputItemParams",
+    "ResponsesToolCallOutputParams",
+    "ResponsesToolCallOutputResponseBodyParams",
+    "ResponsesToolCallParams",
+    "ResponsesToolDefinitionParams",
+    "ResponsesUserMessageParams",
     "SayPayloadParams",
     "SetExternalIdPayloadParams",
     "SipCallErrorErrorParams",
