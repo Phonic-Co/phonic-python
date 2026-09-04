@@ -13,10 +13,12 @@ def test_responses_client_uses_shared_client_wrapper() -> None:
             httpx_client=httpx_client,
             reconnect_conversation_on_abnormal_disconnect=True,
         )
+        responses_1 = client.responses
+        responses_2 = client.responses
 
-        assert isinstance(client.responses, ResponsesClient)
-        assert client.responses is client.responses
-        assert client.responses.with_raw_response._client_wrapper is client._client_wrapper
+        assert isinstance(responses_1, ResponsesClient)
+        assert responses_1 is responses_2
+        assert responses_1.with_raw_response._client_wrapper is client._client_wrapper
         assert client._client_wrapper._reconnect_conversation_on_abnormal_disconnect is True
 
 
@@ -28,10 +30,12 @@ def test_async_responses_client_uses_shared_client_wrapper() -> None:
             httpx_client=httpx_client,
             reconnect_conversation_on_abnormal_disconnect=True,
         )
+        responses_1 = client.responses
+        responses_2 = client.responses
 
-        assert isinstance(client.responses, AsyncResponsesClient)
-        assert client.responses is client.responses
-        assert client.responses.with_raw_response._client_wrapper is client._client_wrapper
+        assert isinstance(responses_1, AsyncResponsesClient)
+        assert responses_1 is responses_2
+        assert responses_1.with_raw_response._client_wrapper is client._client_wrapper
         assert client._client_wrapper._reconnect_conversation_on_abnormal_disconnect is True
     finally:
         asyncio.run(httpx_client.aclose())
