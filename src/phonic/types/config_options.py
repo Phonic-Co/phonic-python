@@ -195,6 +195,11 @@ class ConfigOptions(UncheckedBaseModel):
     When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE]`) and bleeped from audio recordings after the conversation ends.
     """
 
+    enable_watermarking: typing.Optional[bool] = pydantic.Field(default=None)
+    """
+    When `true`, an inaudible watermark is embedded in the audio the assistant generates.
+    """
+
     mcp_servers: typing.Optional[typing.List[str]] = pydantic.Field(default=None)
     """
     Names of pre-configured MCP servers to make available to the assistant. Names must be unique.

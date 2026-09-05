@@ -191,6 +191,7 @@ class RawAgentsClient:
         vad_min_silence_duration_ms: typing.Optional[int] = OMIT,
         vad_threshold: typing.Optional[float] = OMIT,
         enable_redaction: typing.Optional[bool] = OMIT,
+        enable_watermarking: typing.Optional[bool] = OMIT,
         mcp_server_ids: typing.Optional[typing.Sequence[str]] = OMIT,
         observability_integrations: typing.Optional[typing.Sequence[typing.Literal["braintrust"]]] = OMIT,
         external_storage_policy: typing.Optional[str] = OMIT,
@@ -336,6 +337,9 @@ class RawAgentsClient:
         enable_redaction : typing.Optional[bool]
             When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE]`) and bleeped from audio recordings after the conversation ends.
 
+        enable_watermarking : typing.Optional[bool]
+            When `true`, an inaudible watermark is embedded in the audio the agent generates.
+
         mcp_server_ids : typing.Optional[typing.Sequence[str]]
             Array of MCP server IDs to make available to the agent.
 
@@ -425,6 +429,7 @@ class RawAgentsClient:
                 "vad_min_silence_duration_ms": vad_min_silence_duration_ms,
                 "vad_threshold": vad_threshold,
                 "enable_redaction": enable_redaction,
+                "enable_watermarking": enable_watermarking,
                 "mcp_server_ids": mcp_server_ids,
                 "observability_integrations": observability_integrations,
                 "external_storage_policy": external_storage_policy,
@@ -550,6 +555,7 @@ class RawAgentsClient:
         vad_min_silence_duration_ms: typing.Optional[int] = OMIT,
         vad_threshold: typing.Optional[float] = OMIT,
         enable_redaction: typing.Optional[bool] = OMIT,
+        enable_watermarking: typing.Optional[bool] = OMIT,
         mcp_server_ids: typing.Optional[typing.Sequence[str]] = OMIT,
         observability_integrations: typing.Optional[typing.Sequence[typing.Literal["braintrust"]]] = OMIT,
         external_storage_policy: typing.Optional[str] = OMIT,
@@ -701,6 +707,9 @@ class RawAgentsClient:
         enable_redaction : typing.Optional[bool]
             When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE]`) and bleeped from audio recordings after the conversation ends.
 
+        enable_watermarking : typing.Optional[bool]
+            When `true`, an inaudible watermark is embedded in the audio the agent generates.
+
         mcp_server_ids : typing.Optional[typing.Sequence[str]]
             Array of MCP server IDs to make available to the agent.
 
@@ -796,6 +805,7 @@ class RawAgentsClient:
                 "vad_min_silence_duration_ms": vad_min_silence_duration_ms,
                 "vad_threshold": vad_threshold,
                 "enable_redaction": enable_redaction,
+                "enable_watermarking": enable_watermarking,
                 "mcp_server_ids": mcp_server_ids,
                 "observability_integrations": observability_integrations,
                 "external_storage_policy": external_storage_policy,
@@ -1053,6 +1063,7 @@ class RawAgentsClient:
         vad_min_silence_duration_ms: typing.Optional[int] = OMIT,
         vad_threshold: typing.Optional[float] = OMIT,
         enable_redaction: typing.Optional[bool] = OMIT,
+        enable_watermarking: typing.Optional[bool] = OMIT,
         mcp_server_ids: typing.Optional[typing.Sequence[str]] = OMIT,
         observability_integrations: typing.Optional[typing.Sequence[typing.Literal["braintrust"]]] = OMIT,
         external_storage_policy: typing.Optional[str] = OMIT,
@@ -1210,6 +1221,9 @@ class RawAgentsClient:
         enable_redaction : typing.Optional[bool]
             When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE]`) and bleeped from audio recordings after the conversation ends.
 
+        enable_watermarking : typing.Optional[bool]
+            When `true`, an inaudible watermark is embedded in the audio the agent generates.
+
         mcp_server_ids : typing.Optional[typing.Sequence[str]]
             Array of MCP server IDs to make available to the agent.
 
@@ -1308,6 +1322,7 @@ class RawAgentsClient:
                 "vad_min_silence_duration_ms": vad_min_silence_duration_ms,
                 "vad_threshold": vad_threshold,
                 "enable_redaction": enable_redaction,
+                "enable_watermarking": enable_watermarking,
                 "mcp_server_ids": mcp_server_ids,
                 "observability_integrations": observability_integrations,
                 "external_storage_policy": external_storage_policy,
@@ -1894,6 +1909,7 @@ class AsyncRawAgentsClient:
         vad_min_silence_duration_ms: typing.Optional[int] = OMIT,
         vad_threshold: typing.Optional[float] = OMIT,
         enable_redaction: typing.Optional[bool] = OMIT,
+        enable_watermarking: typing.Optional[bool] = OMIT,
         mcp_server_ids: typing.Optional[typing.Sequence[str]] = OMIT,
         observability_integrations: typing.Optional[typing.Sequence[typing.Literal["braintrust"]]] = OMIT,
         external_storage_policy: typing.Optional[str] = OMIT,
@@ -2039,6 +2055,9 @@ class AsyncRawAgentsClient:
         enable_redaction : typing.Optional[bool]
             When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE]`) and bleeped from audio recordings after the conversation ends.
 
+        enable_watermarking : typing.Optional[bool]
+            When `true`, an inaudible watermark is embedded in the audio the agent generates.
+
         mcp_server_ids : typing.Optional[typing.Sequence[str]]
             Array of MCP server IDs to make available to the agent.
 
@@ -2128,6 +2147,7 @@ class AsyncRawAgentsClient:
                 "vad_min_silence_duration_ms": vad_min_silence_duration_ms,
                 "vad_threshold": vad_threshold,
                 "enable_redaction": enable_redaction,
+                "enable_watermarking": enable_watermarking,
                 "mcp_server_ids": mcp_server_ids,
                 "observability_integrations": observability_integrations,
                 "external_storage_policy": external_storage_policy,
@@ -2253,6 +2273,7 @@ class AsyncRawAgentsClient:
         vad_min_silence_duration_ms: typing.Optional[int] = OMIT,
         vad_threshold: typing.Optional[float] = OMIT,
         enable_redaction: typing.Optional[bool] = OMIT,
+        enable_watermarking: typing.Optional[bool] = OMIT,
         mcp_server_ids: typing.Optional[typing.Sequence[str]] = OMIT,
         observability_integrations: typing.Optional[typing.Sequence[typing.Literal["braintrust"]]] = OMIT,
         external_storage_policy: typing.Optional[str] = OMIT,
@@ -2404,6 +2425,9 @@ class AsyncRawAgentsClient:
         enable_redaction : typing.Optional[bool]
             When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE]`) and bleeped from audio recordings after the conversation ends.
 
+        enable_watermarking : typing.Optional[bool]
+            When `true`, an inaudible watermark is embedded in the audio the agent generates.
+
         mcp_server_ids : typing.Optional[typing.Sequence[str]]
             Array of MCP server IDs to make available to the agent.
 
@@ -2499,6 +2523,7 @@ class AsyncRawAgentsClient:
                 "vad_min_silence_duration_ms": vad_min_silence_duration_ms,
                 "vad_threshold": vad_threshold,
                 "enable_redaction": enable_redaction,
+                "enable_watermarking": enable_watermarking,
                 "mcp_server_ids": mcp_server_ids,
                 "observability_integrations": observability_integrations,
                 "external_storage_policy": external_storage_policy,
@@ -2756,6 +2781,7 @@ class AsyncRawAgentsClient:
         vad_min_silence_duration_ms: typing.Optional[int] = OMIT,
         vad_threshold: typing.Optional[float] = OMIT,
         enable_redaction: typing.Optional[bool] = OMIT,
+        enable_watermarking: typing.Optional[bool] = OMIT,
         mcp_server_ids: typing.Optional[typing.Sequence[str]] = OMIT,
         observability_integrations: typing.Optional[typing.Sequence[typing.Literal["braintrust"]]] = OMIT,
         external_storage_policy: typing.Optional[str] = OMIT,
@@ -2913,6 +2939,9 @@ class AsyncRawAgentsClient:
         enable_redaction : typing.Optional[bool]
             When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE]`) and bleeped from audio recordings after the conversation ends.
 
+        enable_watermarking : typing.Optional[bool]
+            When `true`, an inaudible watermark is embedded in the audio the agent generates.
+
         mcp_server_ids : typing.Optional[typing.Sequence[str]]
             Array of MCP server IDs to make available to the agent.
 
@@ -3011,6 +3040,7 @@ class AsyncRawAgentsClient:
                 "vad_min_silence_duration_ms": vad_min_silence_duration_ms,
                 "vad_threshold": vad_threshold,
                 "enable_redaction": enable_redaction,
+                "enable_watermarking": enable_watermarking,
                 "mcp_server_ids": mcp_server_ids,
                 "observability_integrations": observability_integrations,
                 "external_storage_policy": external_storage_policy,

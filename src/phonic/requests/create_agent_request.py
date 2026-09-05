@@ -243,6 +243,11 @@ class CreateAgentRequestParams(typing_extensions.TypedDict):
     When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE]`) and bleeped from audio recordings after the conversation ends.
     """
 
+    enable_watermarking: typing_extensions.NotRequired[bool]
+    """
+    When `true`, an inaudible watermark is embedded in the audio the agent generates.
+    """
+
     mcp_server_ids: typing_extensions.NotRequired[typing.Sequence[str]]
     """
     Array of MCP server IDs to make available to the agent.

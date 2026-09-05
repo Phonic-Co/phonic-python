@@ -245,6 +245,11 @@ class CreateAgentRequest(UncheckedBaseModel):
     When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE]`) and bleeped from audio recordings after the conversation ends.
     """
 
+    enable_watermarking: typing.Optional[bool] = pydantic.Field(default=None)
+    """
+    When `true`, an inaudible watermark is embedded in the audio the agent generates.
+    """
+
     mcp_server_ids: typing.Optional[typing.List[str]] = pydantic.Field(default=None)
     """
     Array of MCP server IDs to make available to the agent.

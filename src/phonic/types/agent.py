@@ -239,6 +239,11 @@ class Agent(UncheckedBaseModel):
     When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE]`) and bleeped from audio recordings after the conversation ends.
     """
 
+    enable_watermarking: typing.Optional[bool] = pydantic.Field(default=None)
+    """
+    When `true`, an inaudible watermark is embedded in the audio the agent generates.
+    """
+
     slug: typing.Optional[str] = pydantic.Field(default=None)
     """
     The URL-friendly slug of the agent.

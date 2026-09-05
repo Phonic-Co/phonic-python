@@ -139,6 +139,11 @@ class OutboundCallConfig(UncheckedBaseModel):
     When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE]`) and bleeped from audio recordings after the conversation ends.
     """
 
+    enable_watermarking: typing.Optional[bool] = pydantic.Field(default=None)
+    """
+    When `true`, an inaudible watermark is embedded in the audio the agent generates.
+    """
+
     model: typing.Optional[typing.Literal["merritt"]] = pydantic.Field(default=None)
     """
     The speech-to-speech model to use.

@@ -255,6 +255,11 @@ class ConversationParams(typing_extensions.TypedDict):
     Arbitrary metadata associated with the conversation.
     """
 
+    enable_watermarking: typing_extensions.NotRequired[bool]
+    """
+    Whether an inaudible watermark was embedded in the audio the agent generated during the conversation.
+    """
+
     data_retention_policy: typing_extensions.NotRequired[DataRetentionPolicyParams]
     """
     Controls how long transcripts and audio recordings are retained before deletion.

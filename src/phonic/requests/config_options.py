@@ -193,6 +193,11 @@ class ConfigOptionsParams(typing_extensions.TypedDict):
     When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE]`) and bleeped from audio recordings after the conversation ends.
     """
 
+    enable_watermarking: typing_extensions.NotRequired[bool]
+    """
+    When `true`, an inaudible watermark is embedded in the audio the assistant generates.
+    """
+
     mcp_servers: typing_extensions.NotRequired[typing.Sequence[str]]
     """
     Names of pre-configured MCP servers to make available to the assistant. Names must be unique.
