@@ -91,6 +91,7 @@ class ToolsClient:
         tool_call_output_timeout_ms: typing.Optional[int] = OMIT,
         phone_number: typing.Optional[str] = OMIT,
         dtmf: typing.Optional[str] = OMIT,
+        post_transfer_message: typing.Optional[str] = OMIT,
         dynamic_dtmf: typing.Optional[bool] = OMIT,
         use_agent_phone_number: typing.Optional[bool] = OMIT,
         detect_voicemail: typing.Optional[bool] = OMIT,
@@ -162,6 +163,9 @@ class ToolsClient:
         dtmf : typing.Optional[str]
             DTMF digits to send after the transfer connects (e.g., "1234"). Defaults to null. Ignored when dynamic_dtmf is true.
 
+        post_transfer_message : typing.Optional[str]
+            Fixed line the agent speaks into the bridged call once the transfer connects. Defaults to null, meaning no announcement. Must be null when keep_listening is false, since a SIP REFER transfer has no bridged call to speak it on. Only available for built_in_transfer_to_phone_number tools.
+
         dynamic_dtmf : typing.Optional[bool]
             When true, the agent determines the DTMF digits at call time (and may choose to send none); the static dtmf is ignored. Only sent when use_agent_phone_number is true (not on a SIP REFER transfer).
 
@@ -172,7 +176,7 @@ class ToolsClient:
             When true, Phonic will listen in and tell the user if the transfer hits voicemail. This is only available for built_in_transfer_to_phone_number tools when use_agent_phone_number is true.
 
         keep_listening : typing.Optional[bool]
-            When true, Phonic bridges the transfer and stays on the call. When false, the call is handed off with a SIP REFER and Phonic drops out, which requires use_agent_phone_number and detect_voicemail to be false, dtmf to be null and dynamic_dtmf to be false. Only available for built_in_transfer_to_phone_number tools. Defaults to the value of use_agent_phone_number.
+            When true, Phonic bridges the transfer and stays on the call. When false, the call is handed off with a SIP REFER and Phonic drops out, which requires use_agent_phone_number and detect_voicemail to be false, dtmf and post_transfer_message to be null and dynamic_dtmf to be false. Only available for built_in_transfer_to_phone_number tools. Defaults to the value of use_agent_phone_number.
 
         agents_to_transfer_to : typing.Optional[typing.Sequence[str]]
             Array of agent names that the LLM can choose from when transferring. Required for built_in_transfer_to_agent tools. All agents must exist in the same project as the tool.
@@ -254,6 +258,7 @@ class ToolsClient:
             tool_call_output_timeout_ms=tool_call_output_timeout_ms,
             phone_number=phone_number,
             dtmf=dtmf,
+            post_transfer_message=post_transfer_message,
             dynamic_dtmf=dynamic_dtmf,
             use_agent_phone_number=use_agent_phone_number,
             detect_voicemail=detect_voicemail,
@@ -372,6 +377,7 @@ class ToolsClient:
         tool_call_output_timeout_ms: typing.Optional[int] = OMIT,
         phone_number: typing.Optional[str] = OMIT,
         dtmf: typing.Optional[str] = OMIT,
+        post_transfer_message: typing.Optional[str] = OMIT,
         dynamic_dtmf: typing.Optional[bool] = OMIT,
         use_agent_phone_number: typing.Optional[bool] = OMIT,
         detect_voicemail: typing.Optional[bool] = OMIT,
@@ -439,6 +445,9 @@ class ToolsClient:
         dtmf : typing.Optional[str]
             DTMF digits to send after the transfer connects (e.g., "1234"). Can be set to null to remove DTMF. Ignored when dynamic_dtmf is true.
 
+        post_transfer_message : typing.Optional[str]
+            Fixed line the agent speaks into the bridged call once the transfer connects. Can be set to null to remove the announcement. Must be null when the resulting keep_listening is false. Only applicable to built_in_transfer_to_phone_number tools.
+
         dynamic_dtmf : typing.Optional[bool]
             When true, the agent determines the DTMF digits at call time (and may choose to send none); the static dtmf is ignored. Only sent when use_agent_phone_number is true (not on a SIP REFER transfer).
 
@@ -449,7 +458,7 @@ class ToolsClient:
             When true, Phonic will listen in and tell the user if the transfer hits voicemail. This is only available for built_in_transfer_to_phone_number tools when use_agent_phone_number is true.
 
         keep_listening : typing.Optional[bool]
-            When true, Phonic bridges the transfer and stays on the call. When false, the call is handed off with a SIP REFER and Phonic drops out, which requires the resulting use_agent_phone_number and detect_voicemail to be false, dtmf to be null and dynamic_dtmf to be false. Only applicable to built_in_transfer_to_phone_number tools.
+            When true, Phonic bridges the transfer and stays on the call. When false, the call is handed off with a SIP REFER and Phonic drops out, which requires the resulting use_agent_phone_number and detect_voicemail to be false, dtmf and post_transfer_message to be null and dynamic_dtmf to be false. Only applicable to built_in_transfer_to_phone_number tools.
 
         agents_to_transfer_to : typing.Optional[typing.Sequence[str]]
             Array of agent names that the LLM can choose from when transferring. All agents must exist in the same project as the tool.
@@ -517,6 +526,7 @@ class ToolsClient:
             tool_call_output_timeout_ms=tool_call_output_timeout_ms,
             phone_number=phone_number,
             dtmf=dtmf,
+            post_transfer_message=post_transfer_message,
             dynamic_dtmf=dynamic_dtmf,
             use_agent_phone_number=use_agent_phone_number,
             detect_voicemail=detect_voicemail,
@@ -608,6 +618,7 @@ class AsyncToolsClient:
         tool_call_output_timeout_ms: typing.Optional[int] = OMIT,
         phone_number: typing.Optional[str] = OMIT,
         dtmf: typing.Optional[str] = OMIT,
+        post_transfer_message: typing.Optional[str] = OMIT,
         dynamic_dtmf: typing.Optional[bool] = OMIT,
         use_agent_phone_number: typing.Optional[bool] = OMIT,
         detect_voicemail: typing.Optional[bool] = OMIT,
@@ -679,6 +690,9 @@ class AsyncToolsClient:
         dtmf : typing.Optional[str]
             DTMF digits to send after the transfer connects (e.g., "1234"). Defaults to null. Ignored when dynamic_dtmf is true.
 
+        post_transfer_message : typing.Optional[str]
+            Fixed line the agent speaks into the bridged call once the transfer connects. Defaults to null, meaning no announcement. Must be null when keep_listening is false, since a SIP REFER transfer has no bridged call to speak it on. Only available for built_in_transfer_to_phone_number tools.
+
         dynamic_dtmf : typing.Optional[bool]
             When true, the agent determines the DTMF digits at call time (and may choose to send none); the static dtmf is ignored. Only sent when use_agent_phone_number is true (not on a SIP REFER transfer).
 
@@ -689,7 +703,7 @@ class AsyncToolsClient:
             When true, Phonic will listen in and tell the user if the transfer hits voicemail. This is only available for built_in_transfer_to_phone_number tools when use_agent_phone_number is true.
 
         keep_listening : typing.Optional[bool]
-            When true, Phonic bridges the transfer and stays on the call. When false, the call is handed off with a SIP REFER and Phonic drops out, which requires use_agent_phone_number and detect_voicemail to be false, dtmf to be null and dynamic_dtmf to be false. Only available for built_in_transfer_to_phone_number tools. Defaults to the value of use_agent_phone_number.
+            When true, Phonic bridges the transfer and stays on the call. When false, the call is handed off with a SIP REFER and Phonic drops out, which requires use_agent_phone_number and detect_voicemail to be false, dtmf and post_transfer_message to be null and dynamic_dtmf to be false. Only available for built_in_transfer_to_phone_number tools. Defaults to the value of use_agent_phone_number.
 
         agents_to_transfer_to : typing.Optional[typing.Sequence[str]]
             Array of agent names that the LLM can choose from when transferring. Required for built_in_transfer_to_agent tools. All agents must exist in the same project as the tool.
@@ -779,6 +793,7 @@ class AsyncToolsClient:
             tool_call_output_timeout_ms=tool_call_output_timeout_ms,
             phone_number=phone_number,
             dtmf=dtmf,
+            post_transfer_message=post_transfer_message,
             dynamic_dtmf=dynamic_dtmf,
             use_agent_phone_number=use_agent_phone_number,
             detect_voicemail=detect_voicemail,
@@ -913,6 +928,7 @@ class AsyncToolsClient:
         tool_call_output_timeout_ms: typing.Optional[int] = OMIT,
         phone_number: typing.Optional[str] = OMIT,
         dtmf: typing.Optional[str] = OMIT,
+        post_transfer_message: typing.Optional[str] = OMIT,
         dynamic_dtmf: typing.Optional[bool] = OMIT,
         use_agent_phone_number: typing.Optional[bool] = OMIT,
         detect_voicemail: typing.Optional[bool] = OMIT,
@@ -980,6 +996,9 @@ class AsyncToolsClient:
         dtmf : typing.Optional[str]
             DTMF digits to send after the transfer connects (e.g., "1234"). Can be set to null to remove DTMF. Ignored when dynamic_dtmf is true.
 
+        post_transfer_message : typing.Optional[str]
+            Fixed line the agent speaks into the bridged call once the transfer connects. Can be set to null to remove the announcement. Must be null when the resulting keep_listening is false. Only applicable to built_in_transfer_to_phone_number tools.
+
         dynamic_dtmf : typing.Optional[bool]
             When true, the agent determines the DTMF digits at call time (and may choose to send none); the static dtmf is ignored. Only sent when use_agent_phone_number is true (not on a SIP REFER transfer).
 
@@ -990,7 +1009,7 @@ class AsyncToolsClient:
             When true, Phonic will listen in and tell the user if the transfer hits voicemail. This is only available for built_in_transfer_to_phone_number tools when use_agent_phone_number is true.
 
         keep_listening : typing.Optional[bool]
-            When true, Phonic bridges the transfer and stays on the call. When false, the call is handed off with a SIP REFER and Phonic drops out, which requires the resulting use_agent_phone_number and detect_voicemail to be false, dtmf to be null and dynamic_dtmf to be false. Only applicable to built_in_transfer_to_phone_number tools.
+            When true, Phonic bridges the transfer and stays on the call. When false, the call is handed off with a SIP REFER and Phonic drops out, which requires the resulting use_agent_phone_number and detect_voicemail to be false, dtmf and post_transfer_message to be null and dynamic_dtmf to be false. Only applicable to built_in_transfer_to_phone_number tools.
 
         agents_to_transfer_to : typing.Optional[typing.Sequence[str]]
             Array of agent names that the LLM can choose from when transferring. All agents must exist in the same project as the tool.
@@ -1066,6 +1085,7 @@ class AsyncToolsClient:
             tool_call_output_timeout_ms=tool_call_output_timeout_ms,
             phone_number=phone_number,
             dtmf=dtmf,
+            post_transfer_message=post_transfer_message,
             dynamic_dtmf=dynamic_dtmf,
             use_agent_phone_number=use_agent_phone_number,
             detect_voicemail=detect_voicemail,

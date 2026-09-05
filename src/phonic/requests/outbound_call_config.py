@@ -137,6 +137,11 @@ class OutboundCallConfigParams(typing_extensions.TypedDict):
     When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE]`) and bleeped from audio recordings after the conversation ends.
     """
 
+    enable_watermarking: typing_extensions.NotRequired[bool]
+    """
+    When `true`, an inaudible watermark is embedded in the audio the agent generates.
+    """
+
     model: typing_extensions.NotRequired[typing.Literal["merritt"]]
     """
     The speech-to-speech model to use.

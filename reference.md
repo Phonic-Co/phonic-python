@@ -661,6 +661,14 @@ client.agents.upsert(
 <dl>
 <dd>
 
+**enable_watermarking:** `typing.Optional[bool]` — When `true`, an inaudible watermark is embedded in the audio the agent generates.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **mcp_server_ids:** `typing.Optional[typing.List[str]]` — Array of MCP server IDs to make available to the agent.
     
 </dd>
@@ -1372,6 +1380,14 @@ client.agents.update(
 <dl>
 <dd>
 
+**enable_watermarking:** `typing.Optional[bool]` — When `true`, an inaudible watermark is embedded in the audio the agent generates.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **mcp_server_ids:** `typing.Optional[typing.List[str]]` — Array of MCP server IDs to make available to the agent.
     
 </dd>
@@ -2019,6 +2035,14 @@ Every key must name a top-level parameter. For POST webhooks, every parameter ne
 <dl>
 <dd>
 
+**post_transfer_message:** `typing.Optional[str]` — Fixed line the agent speaks into the bridged call once the transfer connects. Defaults to null, meaning no announcement. Must be null when keep_listening is false, since a SIP REFER transfer has no bridged call to speak it on. Only available for built_in_transfer_to_phone_number tools.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **dynamic_dtmf:** `typing.Optional[bool]` — When true, the agent determines the DTMF digits at call time (and may choose to send none); the static dtmf is ignored. Only sent when use_agent_phone_number is true (not on a SIP REFER transfer).
     
 </dd>
@@ -2043,7 +2067,7 @@ Every key must name a top-level parameter. For POST webhooks, every parameter ne
 <dl>
 <dd>
 
-**keep_listening:** `typing.Optional[bool]` — When true, Phonic bridges the transfer and stays on the call. When false, the call is handed off with a SIP REFER and Phonic drops out, which requires use_agent_phone_number and detect_voicemail to be false, dtmf to be null and dynamic_dtmf to be false. Only available for built_in_transfer_to_phone_number tools. Defaults to the value of use_agent_phone_number.
+**keep_listening:** `typing.Optional[bool]` — When true, Phonic bridges the transfer and stays on the call. When false, the call is handed off with a SIP REFER and Phonic drops out, which requires use_agent_phone_number and detect_voicemail to be false, dtmf and post_transfer_message to be null and dynamic_dtmf to be false. Only available for built_in_transfer_to_phone_number tools. Defaults to the value of use_agent_phone_number.
     
 </dd>
 </dl>
@@ -2494,6 +2518,14 @@ Every key must name a top-level parameter. For POST webhooks, every parameter ne
 <dl>
 <dd>
 
+**post_transfer_message:** `typing.Optional[str]` — Fixed line the agent speaks into the bridged call once the transfer connects. Can be set to null to remove the announcement. Must be null when the resulting keep_listening is false. Only applicable to built_in_transfer_to_phone_number tools.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **dynamic_dtmf:** `typing.Optional[bool]` — When true, the agent determines the DTMF digits at call time (and may choose to send none); the static dtmf is ignored. Only sent when use_agent_phone_number is true (not on a SIP REFER transfer).
     
 </dd>
@@ -2518,7 +2550,7 @@ Every key must name a top-level parameter. For POST webhooks, every parameter ne
 <dl>
 <dd>
 
-**keep_listening:** `typing.Optional[bool]` — When true, Phonic bridges the transfer and stays on the call. When false, the call is handed off with a SIP REFER and Phonic drops out, which requires the resulting use_agent_phone_number and detect_voicemail to be false, dtmf to be null and dynamic_dtmf to be false. Only applicable to built_in_transfer_to_phone_number tools.
+**keep_listening:** `typing.Optional[bool]` — When true, Phonic bridges the transfer and stays on the call. When false, the call is handed off with a SIP REFER and Phonic drops out, which requires the resulting use_agent_phone_number and detect_voicemail to be false, dtmf and post_transfer_message to be null and dynamic_dtmf to be false. Only applicable to built_in_transfer_to_phone_number tools.
     
 </dd>
 </dl>

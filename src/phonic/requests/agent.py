@@ -235,6 +235,11 @@ class AgentParams(typing_extensions.TypedDict):
     When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE]`) and bleeped from audio recordings after the conversation ends.
     """
 
+    enable_watermarking: typing_extensions.NotRequired[bool]
+    """
+    When `true`, an inaudible watermark is embedded in the audio the agent generates.
+    """
+
     slug: typing_extensions.NotRequired[str]
     """
     The URL-friendly slug of the agent.
