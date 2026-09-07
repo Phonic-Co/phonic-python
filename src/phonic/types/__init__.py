@@ -117,6 +117,7 @@ if typing.TYPE_CHECKING:
     from .generate_responses_response import GenerateResponsesResponse
     from .generated_response import GeneratedResponse
     from .generated_tool_call import GeneratedToolCall
+    from .generated_tool_reference import GeneratedToolReference
     from .inline_web_socket_tool import InlineWebSocketTool
     from .inline_web_socket_tool_execution_mode import InlineWebSocketToolExecutionMode
     from .input_cancelled_payload import InputCancelledPayload
@@ -151,6 +152,7 @@ if typing.TYPE_CHECKING:
     from .responses_tool_call_output import ResponsesToolCallOutput
     from .responses_tool_call_output_response_body import ResponsesToolCallOutputResponseBody
     from .responses_tool_definition import ResponsesToolDefinition
+    from .responses_tool_reference import ResponsesToolReference
     from .responses_user_message import ResponsesUserMessage
     from .say_payload import SayPayload
     from .set_external_id_payload import SetExternalIdPayload
@@ -296,6 +298,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "GenerateResponsesResponse": ".generate_responses_response",
     "GeneratedResponse": ".generated_response",
     "GeneratedToolCall": ".generated_tool_call",
+    "GeneratedToolReference": ".generated_tool_reference",
     "InlineWebSocketTool": ".inline_web_socket_tool",
     "InlineWebSocketToolExecutionMode": ".inline_web_socket_tool_execution_mode",
     "InputCancelledPayload": ".input_cancelled_payload",
@@ -330,6 +333,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ResponsesToolCallOutput": ".responses_tool_call_output",
     "ResponsesToolCallOutputResponseBody": ".responses_tool_call_output_response_body",
     "ResponsesToolDefinition": ".responses_tool_definition",
+    "ResponsesToolReference": ".responses_tool_reference",
     "ResponsesUserMessage": ".responses_user_message",
     "SayPayload": ".say_payload",
     "SetExternalIdPayload": ".set_external_id_payload",
@@ -499,6 +503,7 @@ __all__ = [
     "GenerateResponsesResponse",
     "GeneratedResponse",
     "GeneratedToolCall",
+    "GeneratedToolReference",
     "InlineWebSocketTool",
     "InlineWebSocketToolExecutionMode",
     "InputCancelledPayload",
@@ -533,6 +538,7 @@ __all__ = [
     "ResponsesToolCallOutput",
     "ResponsesToolCallOutputResponseBody",
     "ResponsesToolDefinition",
+    "ResponsesToolReference",
     "ResponsesUserMessage",
     "SayPayload",
     "SetExternalIdPayload",

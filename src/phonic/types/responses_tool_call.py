@@ -5,6 +5,7 @@ import typing
 import pydantic
 from ..core.pydantic_utilities import IS_PYDANTIC_V2
 from ..core.unchecked_base_model import UncheckedBaseModel
+from .responses_tool_reference import ResponsesToolReference
 
 
 class ResponsesToolCall(UncheckedBaseModel):
@@ -17,11 +18,7 @@ class ResponsesToolCall(UncheckedBaseModel):
     Identifier for this tool call, unique within `input`.
     """
 
-    tool_name: str = pydantic.Field()
-    """
-    Name of the called tool.
-    """
-
+    tool: ResponsesToolReference
     request_body: typing.Optional[typing.Dict[str, typing.Any]] = pydantic.Field(default=None)
     """
     Arguments the assistant passed in the request body.

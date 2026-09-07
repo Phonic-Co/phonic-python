@@ -3,6 +3,7 @@
 import typing
 
 import typing_extensions
+from .responses_tool_reference import ResponsesToolReferenceParams
 
 
 class ResponsesToolCallParams(typing_extensions.TypedDict):
@@ -15,11 +16,7 @@ class ResponsesToolCallParams(typing_extensions.TypedDict):
     Identifier for this tool call, unique within `input`.
     """
 
-    tool_name: str
-    """
-    Name of the called tool.
-    """
-
+    tool: ResponsesToolReferenceParams
     request_body: typing_extensions.NotRequired[typing.Optional[typing.Dict[str, typing.Any]]]
     """
     Arguments the assistant passed in the request body.
