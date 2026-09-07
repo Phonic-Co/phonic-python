@@ -96,6 +96,7 @@ if typing.TYPE_CHECKING:
     from .generate_responses_response import GenerateResponsesResponseParams
     from .generated_response import GeneratedResponseParams
     from .generated_tool_call import GeneratedToolCallParams
+    from .generated_tool_reference import GeneratedToolReferenceParams
     from .inline_web_socket_tool import InlineWebSocketToolParams
     from .input_cancelled_payload import InputCancelledPayloadParams
     from .input_text_payload import InputTextPayloadParams
@@ -123,6 +124,7 @@ if typing.TYPE_CHECKING:
     from .responses_tool_call_output import ResponsesToolCallOutputParams
     from .responses_tool_call_output_response_body import ResponsesToolCallOutputResponseBodyParams
     from .responses_tool_definition import ResponsesToolDefinitionParams
+    from .responses_tool_reference import ResponsesToolReferenceParams
     from .responses_user_message import ResponsesUserMessageParams
     from .say_payload import SayPayloadParams
     from .set_external_id_payload import SetExternalIdPayloadParams
@@ -233,6 +235,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "GenerateResponsesResponseParams": ".generate_responses_response",
     "GeneratedResponseParams": ".generated_response",
     "GeneratedToolCallParams": ".generated_tool_call",
+    "GeneratedToolReferenceParams": ".generated_tool_reference",
     "InlineWebSocketToolParams": ".inline_web_socket_tool",
     "InputCancelledPayloadParams": ".input_cancelled_payload",
     "InputTextPayloadParams": ".input_text_payload",
@@ -260,6 +263,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ResponsesToolCallOutputResponseBodyParams": ".responses_tool_call_output_response_body",
     "ResponsesToolCallParams": ".responses_tool_call",
     "ResponsesToolDefinitionParams": ".responses_tool_definition",
+    "ResponsesToolReferenceParams": ".responses_tool_reference",
     "ResponsesUserMessageParams": ".responses_user_message",
     "SayPayloadParams": ".say_payload",
     "SetExternalIdPayloadParams": ".set_external_id_payload",
@@ -394,6 +398,7 @@ __all__ = [
     "GenerateResponsesResponseParams",
     "GeneratedResponseParams",
     "GeneratedToolCallParams",
+    "GeneratedToolReferenceParams",
     "InlineWebSocketToolParams",
     "InputCancelledPayloadParams",
     "InputTextPayloadParams",
@@ -421,6 +426,7 @@ __all__ = [
     "ResponsesToolCallOutputResponseBodyParams",
     "ResponsesToolCallParams",
     "ResponsesToolDefinitionParams",
+    "ResponsesToolReferenceParams",
     "ResponsesUserMessageParams",
     "SayPayloadParams",
     "SetExternalIdPayloadParams",

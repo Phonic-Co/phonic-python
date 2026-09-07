@@ -5,6 +5,7 @@ import typing
 import pydantic
 from ..core.pydantic_utilities import IS_PYDANTIC_V2
 from ..core.unchecked_base_model import UncheckedBaseModel
+from .generated_tool_reference import GeneratedToolReference
 
 
 class GeneratedToolCall(UncheckedBaseModel):
@@ -13,11 +14,7 @@ class GeneratedToolCall(UncheckedBaseModel):
     Identifier for this tool call. Send it back as the `tool_call_id` of the matching `tool_call_output` input item.
     """
 
-    tool_name: str = pydantic.Field()
-    """
-    Name of the tool to call. Always one of the `tool_definitions` from the request.
-    """
-
+    tool: GeneratedToolReference
     request_body: typing.Optional[typing.Dict[str, typing.Any]] = pydantic.Field(default=None)
     """
     Arguments the assistant produced for the request body.

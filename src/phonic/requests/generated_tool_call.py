@@ -3,6 +3,7 @@
 import typing
 
 import typing_extensions
+from .generated_tool_reference import GeneratedToolReferenceParams
 
 
 class GeneratedToolCallParams(typing_extensions.TypedDict):
@@ -11,11 +12,7 @@ class GeneratedToolCallParams(typing_extensions.TypedDict):
     Identifier for this tool call. Send it back as the `tool_call_id` of the matching `tool_call_output` input item.
     """
 
-    tool_name: str
-    """
-    Name of the tool to call. Always one of the `tool_definitions` from the request.
-    """
-
+    tool: GeneratedToolReferenceParams
     request_body: typing_extensions.NotRequired[typing.Dict[str, typing.Any]]
     """
     Arguments the assistant produced for the request body.
