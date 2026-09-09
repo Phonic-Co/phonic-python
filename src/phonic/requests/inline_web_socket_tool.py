@@ -53,3 +53,8 @@ class InlineWebSocketToolParams(typing_extensions.TypedDict):
     """
     For async tools, when true, the assistant waits for the response and speaks when it arrives.
     """
+
+    uninterruptible: typing_extensions.NotRequired[bool]
+    """
+    For sync tools, when true, the user cannot interrupt the assistant while the tool call is in flight; the assistant's turn is held open until the tool returns.
+    """
