@@ -2147,6 +2147,14 @@ Every key must name a top-level parameter. For POST webhooks, every parameter ne
 <dl>
 <dd>
 
+**uninterruptible:** `typing.Optional[bool]` — When true, the user cannot interrupt the agent while the tool call is in flight; the agent's turn is held open until the tool returns. Only available for sync custom_webhook and custom_websocket tools.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **context:** `typing.Optional[str]` — The static context returned to the agent. Required for custom_context tools.
     
 </dd>
@@ -2623,6 +2631,14 @@ Every key must name a top-level parameter. For POST webhooks, every parameter ne
 <dd>
 
 **wait_for_response:** `typing.Optional[bool]` — The agent doesn't typically wait for the response of async tools. When true, makes the agent wait for a response, not call other tools and inform the user of the result. Only available for async custom_webhook and custom_websocket tools, and cannot be combined with allow_tool_chaining set to true.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**uninterruptible:** `typing.Optional[bool]` — When true, the user cannot interrupt the agent while the tool call is in flight; the agent's turn is held open until the tool returns. Only available for sync custom_webhook and custom_websocket tools, so the resulting execution_mode must be sync.
     
 </dd>
 </dl>

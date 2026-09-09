@@ -105,6 +105,7 @@ class ToolsClient:
         forbid_tool_call_after_speech: typing.Optional[bool] = OMIT,
         allow_tool_chaining: typing.Optional[bool] = OMIT,
         wait_for_response: typing.Optional[bool] = OMIT,
+        uninterruptible: typing.Optional[bool] = OMIT,
         context: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ToolsCreateResponse:
@@ -205,6 +206,9 @@ class ToolsClient:
         wait_for_response : typing.Optional[bool]
             The agent doesn't typically wait for the response of async tools. When true, makes the agent wait for a response, not call other tools and inform the user of the result. Only available for async custom_webhook and custom_websocket tools, and cannot be combined with allow_tool_chaining set to true.
 
+        uninterruptible : typing.Optional[bool]
+            When true, the user cannot interrupt the agent while the tool call is in flight; the agent's turn is held open until the tool returns. Only available for sync custom_webhook and custom_websocket tools.
+
         context : typing.Optional[str]
             The static context returned to the agent. Required for custom_context tools.
 
@@ -272,6 +276,7 @@ class ToolsClient:
             forbid_tool_call_after_speech=forbid_tool_call_after_speech,
             allow_tool_chaining=allow_tool_chaining,
             wait_for_response=wait_for_response,
+            uninterruptible=uninterruptible,
             context=context,
             request_options=request_options,
         )
@@ -391,6 +396,7 @@ class ToolsClient:
         forbid_tool_call_after_speech: typing.Optional[bool] = OMIT,
         allow_tool_chaining: typing.Optional[bool] = OMIT,
         wait_for_response: typing.Optional[bool] = OMIT,
+        uninterruptible: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ToolsUpdateResponse:
         """
@@ -487,6 +493,9 @@ class ToolsClient:
         wait_for_response : typing.Optional[bool]
             The agent doesn't typically wait for the response of async tools. When true, makes the agent wait for a response, not call other tools and inform the user of the result. Only available for async custom_webhook and custom_websocket tools, and cannot be combined with allow_tool_chaining set to true.
 
+        uninterruptible : typing.Optional[bool]
+            When true, the user cannot interrupt the agent while the tool call is in flight; the agent's turn is held open until the tool returns. Only available for sync custom_webhook and custom_websocket tools, so the resulting execution_mode must be sync.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -540,6 +549,7 @@ class ToolsClient:
             forbid_tool_call_after_speech=forbid_tool_call_after_speech,
             allow_tool_chaining=allow_tool_chaining,
             wait_for_response=wait_for_response,
+            uninterruptible=uninterruptible,
             request_options=request_options,
         )
         return _response.data
@@ -632,6 +642,7 @@ class AsyncToolsClient:
         forbid_tool_call_after_speech: typing.Optional[bool] = OMIT,
         allow_tool_chaining: typing.Optional[bool] = OMIT,
         wait_for_response: typing.Optional[bool] = OMIT,
+        uninterruptible: typing.Optional[bool] = OMIT,
         context: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ToolsCreateResponse:
@@ -732,6 +743,9 @@ class AsyncToolsClient:
         wait_for_response : typing.Optional[bool]
             The agent doesn't typically wait for the response of async tools. When true, makes the agent wait for a response, not call other tools and inform the user of the result. Only available for async custom_webhook and custom_websocket tools, and cannot be combined with allow_tool_chaining set to true.
 
+        uninterruptible : typing.Optional[bool]
+            When true, the user cannot interrupt the agent while the tool call is in flight; the agent's turn is held open until the tool returns. Only available for sync custom_webhook and custom_websocket tools.
+
         context : typing.Optional[str]
             The static context returned to the agent. Required for custom_context tools.
 
@@ -807,6 +821,7 @@ class AsyncToolsClient:
             forbid_tool_call_after_speech=forbid_tool_call_after_speech,
             allow_tool_chaining=allow_tool_chaining,
             wait_for_response=wait_for_response,
+            uninterruptible=uninterruptible,
             context=context,
             request_options=request_options,
         )
@@ -942,6 +957,7 @@ class AsyncToolsClient:
         forbid_tool_call_after_speech: typing.Optional[bool] = OMIT,
         allow_tool_chaining: typing.Optional[bool] = OMIT,
         wait_for_response: typing.Optional[bool] = OMIT,
+        uninterruptible: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ToolsUpdateResponse:
         """
@@ -1038,6 +1054,9 @@ class AsyncToolsClient:
         wait_for_response : typing.Optional[bool]
             The agent doesn't typically wait for the response of async tools. When true, makes the agent wait for a response, not call other tools and inform the user of the result. Only available for async custom_webhook and custom_websocket tools, and cannot be combined with allow_tool_chaining set to true.
 
+        uninterruptible : typing.Optional[bool]
+            When true, the user cannot interrupt the agent while the tool call is in flight; the agent's turn is held open until the tool returns. Only available for sync custom_webhook and custom_websocket tools, so the resulting execution_mode must be sync.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -1099,6 +1118,7 @@ class AsyncToolsClient:
             forbid_tool_call_after_speech=forbid_tool_call_after_speech,
             allow_tool_chaining=allow_tool_chaining,
             wait_for_response=wait_for_response,
+            uninterruptible=uninterruptible,
             request_options=request_options,
         )
         return _response.data

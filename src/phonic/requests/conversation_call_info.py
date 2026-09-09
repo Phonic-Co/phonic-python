@@ -10,7 +10,7 @@ class ConversationCallInfoParams(typing_extensions.TypedDict):
 
     from_phone_number: str
     """
-    Caller phone number in E.164 format.
+    Caller phone number in E.164 format. `"anonymous"` for inbound calls whose caller withheld their number.
     """
 
     to_phone_number: str
