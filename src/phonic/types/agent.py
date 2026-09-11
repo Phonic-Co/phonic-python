@@ -92,6 +92,16 @@ class Agent(UncheckedBaseModel):
     Number of seconds of inactivity before the conversation WebSocket is closed.
     """
 
+    listen_only_inbound_enabled: bool = pydantic.Field()
+    """
+    Play an uninterruptible welcome message on incoming calls, then transcribe the caller without responding. Silence timeout and call duration limits still apply.
+    """
+
+    listen_only_inbound_message: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    Welcome message for listen-only incoming calls. Can contain template variables like `{{customer_name}}`. Must be nonempty when `listen_only_inbound_enabled` is `true`. Replaces `welcome_message` for these calls, regardless of `generate_welcome_message`.
+    """
+
     welcome_message: typing.Optional[str] = pydantic.Field(default=None)
     """
     Message to play when the conversation starts. Ignored when `generate_welcome_message` is `true`.

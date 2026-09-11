@@ -159,6 +159,8 @@ class RawAgentsClient:
         generate_welcome_message: typing.Optional[bool] = OMIT,
         is_welcome_message_interruptible: typing.Optional[bool] = OMIT,
         websocket_timeout_sec: typing.Optional[int] = OMIT,
+        listen_only_inbound_enabled: typing.Optional[bool] = OMIT,
+        listen_only_inbound_message: typing.Optional[str] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValueParams]] = OMIT,
@@ -246,6 +248,12 @@ class RawAgentsClient:
 
         websocket_timeout_sec : typing.Optional[int]
             Number of seconds of inactivity before the conversation WebSocket is closed.
+
+        listen_only_inbound_enabled : typing.Optional[bool]
+            Play an uninterruptible welcome message on incoming calls, then transcribe the caller without responding. Silence timeout and call duration limits still apply.
+
+        listen_only_inbound_message : typing.Optional[str]
+            Welcome message for listen-only incoming calls. Can contain template variables like `{{customer_name}}`. Must be nonempty when `listen_only_inbound_enabled` is `true`. Replaces `welcome_message` for these calls, regardless of `generate_welcome_message`.
 
         welcome_message : typing.Optional[str]
             Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. Ignored when `generate_welcome_message` is `true`.
@@ -379,6 +387,8 @@ class RawAgentsClient:
                 "generate_welcome_message": generate_welcome_message,
                 "is_welcome_message_interruptible": is_welcome_message_interruptible,
                 "websocket_timeout_sec": websocket_timeout_sec,
+                "listen_only_inbound_enabled": listen_only_inbound_enabled,
+                "listen_only_inbound_message": listen_only_inbound_message,
                 "welcome_message": welcome_message,
                 "system_prompt": system_prompt,
                 "template_variables": convert_and_respect_annotation_metadata(
@@ -523,6 +533,8 @@ class RawAgentsClient:
         generate_welcome_message: typing.Optional[bool] = OMIT,
         is_welcome_message_interruptible: typing.Optional[bool] = OMIT,
         websocket_timeout_sec: typing.Optional[int] = OMIT,
+        listen_only_inbound_enabled: typing.Optional[bool] = OMIT,
+        listen_only_inbound_message: typing.Optional[str] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValueParams]] = OMIT,
@@ -616,6 +628,12 @@ class RawAgentsClient:
 
         websocket_timeout_sec : typing.Optional[int]
             Number of seconds of inactivity before the conversation WebSocket is closed.
+
+        listen_only_inbound_enabled : typing.Optional[bool]
+            Play an uninterruptible welcome message on incoming calls, then transcribe the caller without responding. Silence timeout and call duration limits still apply.
+
+        listen_only_inbound_message : typing.Optional[str]
+            Welcome message for listen-only incoming calls. Can contain template variables like `{{customer_name}}`. Must be nonempty when `listen_only_inbound_enabled` is `true`. Replaces `welcome_message` for these calls, regardless of `generate_welcome_message`.
 
         welcome_message : typing.Optional[str]
             Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. Ignored when `generate_welcome_message` is `true`.
@@ -755,6 +773,8 @@ class RawAgentsClient:
                 "generate_welcome_message": generate_welcome_message,
                 "is_welcome_message_interruptible": is_welcome_message_interruptible,
                 "websocket_timeout_sec": websocket_timeout_sec,
+                "listen_only_inbound_enabled": listen_only_inbound_enabled,
+                "listen_only_inbound_message": listen_only_inbound_message,
                 "welcome_message": welcome_message,
                 "system_prompt": system_prompt,
                 "template_variables": convert_and_respect_annotation_metadata(
@@ -1028,6 +1048,8 @@ class RawAgentsClient:
         generate_welcome_message: typing.Optional[bool] = OMIT,
         is_welcome_message_interruptible: typing.Optional[bool] = OMIT,
         websocket_timeout_sec: typing.Optional[int] = OMIT,
+        listen_only_inbound_enabled: typing.Optional[bool] = OMIT,
+        listen_only_inbound_message: typing.Optional[str] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, UpdateAgentRequestTemplateVariablesValueParams]] = OMIT,
@@ -1121,6 +1143,12 @@ class RawAgentsClient:
 
         websocket_timeout_sec : typing.Optional[int]
             Number of seconds of inactivity before the conversation WebSocket is closed.
+
+        listen_only_inbound_enabled : typing.Optional[bool]
+            Play an uninterruptible welcome message on incoming calls, then transcribe the caller without responding. Silence timeout and call duration limits still apply.
+
+        listen_only_inbound_message : typing.Optional[str]
+            Welcome message for listen-only incoming calls. Can contain template variables like `{{customer_name}}`. Must be nonempty when `listen_only_inbound_enabled` is `true`. Replaces `welcome_message` for these calls, regardless of `generate_welcome_message`.
 
         welcome_message : typing.Optional[str]
             Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. Ignored when `generate_welcome_message` is `true`.
@@ -1263,6 +1291,8 @@ class RawAgentsClient:
                 "generate_welcome_message": generate_welcome_message,
                 "is_welcome_message_interruptible": is_welcome_message_interruptible,
                 "websocket_timeout_sec": websocket_timeout_sec,
+                "listen_only_inbound_enabled": listen_only_inbound_enabled,
+                "listen_only_inbound_message": listen_only_inbound_message,
                 "welcome_message": welcome_message,
                 "system_prompt": system_prompt,
                 "template_variables": convert_and_respect_annotation_metadata(
@@ -1877,6 +1907,8 @@ class AsyncRawAgentsClient:
         generate_welcome_message: typing.Optional[bool] = OMIT,
         is_welcome_message_interruptible: typing.Optional[bool] = OMIT,
         websocket_timeout_sec: typing.Optional[int] = OMIT,
+        listen_only_inbound_enabled: typing.Optional[bool] = OMIT,
+        listen_only_inbound_message: typing.Optional[str] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValueParams]] = OMIT,
@@ -1964,6 +1996,12 @@ class AsyncRawAgentsClient:
 
         websocket_timeout_sec : typing.Optional[int]
             Number of seconds of inactivity before the conversation WebSocket is closed.
+
+        listen_only_inbound_enabled : typing.Optional[bool]
+            Play an uninterruptible welcome message on incoming calls, then transcribe the caller without responding. Silence timeout and call duration limits still apply.
+
+        listen_only_inbound_message : typing.Optional[str]
+            Welcome message for listen-only incoming calls. Can contain template variables like `{{customer_name}}`. Must be nonempty when `listen_only_inbound_enabled` is `true`. Replaces `welcome_message` for these calls, regardless of `generate_welcome_message`.
 
         welcome_message : typing.Optional[str]
             Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. Ignored when `generate_welcome_message` is `true`.
@@ -2097,6 +2135,8 @@ class AsyncRawAgentsClient:
                 "generate_welcome_message": generate_welcome_message,
                 "is_welcome_message_interruptible": is_welcome_message_interruptible,
                 "websocket_timeout_sec": websocket_timeout_sec,
+                "listen_only_inbound_enabled": listen_only_inbound_enabled,
+                "listen_only_inbound_message": listen_only_inbound_message,
                 "welcome_message": welcome_message,
                 "system_prompt": system_prompt,
                 "template_variables": convert_and_respect_annotation_metadata(
@@ -2241,6 +2281,8 @@ class AsyncRawAgentsClient:
         generate_welcome_message: typing.Optional[bool] = OMIT,
         is_welcome_message_interruptible: typing.Optional[bool] = OMIT,
         websocket_timeout_sec: typing.Optional[int] = OMIT,
+        listen_only_inbound_enabled: typing.Optional[bool] = OMIT,
+        listen_only_inbound_message: typing.Optional[str] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValueParams]] = OMIT,
@@ -2334,6 +2376,12 @@ class AsyncRawAgentsClient:
 
         websocket_timeout_sec : typing.Optional[int]
             Number of seconds of inactivity before the conversation WebSocket is closed.
+
+        listen_only_inbound_enabled : typing.Optional[bool]
+            Play an uninterruptible welcome message on incoming calls, then transcribe the caller without responding. Silence timeout and call duration limits still apply.
+
+        listen_only_inbound_message : typing.Optional[str]
+            Welcome message for listen-only incoming calls. Can contain template variables like `{{customer_name}}`. Must be nonempty when `listen_only_inbound_enabled` is `true`. Replaces `welcome_message` for these calls, regardless of `generate_welcome_message`.
 
         welcome_message : typing.Optional[str]
             Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. Ignored when `generate_welcome_message` is `true`.
@@ -2473,6 +2521,8 @@ class AsyncRawAgentsClient:
                 "generate_welcome_message": generate_welcome_message,
                 "is_welcome_message_interruptible": is_welcome_message_interruptible,
                 "websocket_timeout_sec": websocket_timeout_sec,
+                "listen_only_inbound_enabled": listen_only_inbound_enabled,
+                "listen_only_inbound_message": listen_only_inbound_message,
                 "welcome_message": welcome_message,
                 "system_prompt": system_prompt,
                 "template_variables": convert_and_respect_annotation_metadata(
@@ -2746,6 +2796,8 @@ class AsyncRawAgentsClient:
         generate_welcome_message: typing.Optional[bool] = OMIT,
         is_welcome_message_interruptible: typing.Optional[bool] = OMIT,
         websocket_timeout_sec: typing.Optional[int] = OMIT,
+        listen_only_inbound_enabled: typing.Optional[bool] = OMIT,
+        listen_only_inbound_message: typing.Optional[str] = OMIT,
         welcome_message: typing.Optional[str] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         template_variables: typing.Optional[typing.Dict[str, UpdateAgentRequestTemplateVariablesValueParams]] = OMIT,
@@ -2839,6 +2891,12 @@ class AsyncRawAgentsClient:
 
         websocket_timeout_sec : typing.Optional[int]
             Number of seconds of inactivity before the conversation WebSocket is closed.
+
+        listen_only_inbound_enabled : typing.Optional[bool]
+            Play an uninterruptible welcome message on incoming calls, then transcribe the caller without responding. Silence timeout and call duration limits still apply.
+
+        listen_only_inbound_message : typing.Optional[str]
+            Welcome message for listen-only incoming calls. Can contain template variables like `{{customer_name}}`. Must be nonempty when `listen_only_inbound_enabled` is `true`. Replaces `welcome_message` for these calls, regardless of `generate_welcome_message`.
 
         welcome_message : typing.Optional[str]
             Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. Ignored when `generate_welcome_message` is `true`.
@@ -2981,6 +3039,8 @@ class AsyncRawAgentsClient:
                 "generate_welcome_message": generate_welcome_message,
                 "is_welcome_message_interruptible": is_welcome_message_interruptible,
                 "websocket_timeout_sec": websocket_timeout_sec,
+                "listen_only_inbound_enabled": listen_only_inbound_enabled,
+                "listen_only_inbound_message": listen_only_inbound_message,
                 "welcome_message": welcome_message,
                 "system_prompt": system_prompt,
                 "template_variables": convert_and_respect_annotation_metadata(

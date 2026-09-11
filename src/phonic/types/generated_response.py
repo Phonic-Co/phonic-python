@@ -6,17 +6,23 @@ import pydantic
 from ..core.pydantic_utilities import IS_PYDANTIC_V2
 from ..core.unchecked_base_model import UncheckedBaseModel
 from .generated_tool_call import GeneratedToolCall
+from .responses_action import ResponsesAction
 
 
 class GeneratedResponse(UncheckedBaseModel):
     text: str = pydantic.Field()
     """
-    The text the assistant would say. Empty when the response only makes tool calls.
+    The text the assistant would say. Empty when the response only makes tool calls or only takes an action.
     """
 
     tool_calls: typing.List[GeneratedToolCall] = pydantic.Field()
     """
     Tool calls the assistant would make - note that the tools are not actually called.
+    """
+
+    action: typing.Optional[ResponsesAction] = pydantic.Field(default=None)
+    """
+    The action the assistant would take, when the response calls one of the tools referenced in `tools`. Note that the action is not actually carried out.
     """
 
     if IS_PYDANTIC_V2:

@@ -421,6 +421,22 @@ client.agents.upsert(
 <dl>
 <dd>
 
+**listen_only_inbound_enabled:** `typing.Optional[bool]` — Play an uninterruptible welcome message on incoming calls, then transcribe the caller without responding. Silence timeout and call duration limits still apply.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**listen_only_inbound_message:** `typing.Optional[str]` — Welcome message for listen-only incoming calls. Can contain template variables like `{{customer_name}}`. Must be nonempty when `listen_only_inbound_enabled` is `true`. Replaces `welcome_message` for these calls, regardless of `generate_welcome_message`.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **welcome_message:** `typing.Optional[str]` — Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. Ignored when `generate_welcome_message` is `true`.
     
 </dd>
@@ -1109,6 +1125,22 @@ client.agents.update(
 <dd>
 
 **websocket_timeout_sec:** `typing.Optional[int]` — Number of seconds of inactivity before the conversation WebSocket is closed.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**listen_only_inbound_enabled:** `typing.Optional[bool]` — Play an uninterruptible welcome message on incoming calls, then transcribe the caller without responding. Silence timeout and call duration limits still apply.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**listen_only_inbound_message:** `typing.Optional[str]` — Welcome message for listen-only incoming calls. Can contain template variables like `{{customer_name}}`. Must be nonempty when `listen_only_inbound_enabled` is `true`. Replaces `welcome_message` for these calls, regardless of `generate_welcome_message`.
     
 </dd>
 </dl>
@@ -6386,13 +6418,26 @@ you supply inline to simulate Phonic agent behavior.
 
 This endpoint is stateless, so it does not create a new conversation or
 store anything. The request carries the system prompt, a conversation so
-far as `input`, and the tools the assistant may call as
-`tool_definitions`.
+far as `input`, and the tools the assistant may call.
+
+There are two different types of tool configurations:
+
+- `tool_definitions`: defined inline. Typically if you use LiveKit, this
+  is where you can pass in your tool definitions.
+- `tools`: predefined tools configured in Phonic, referenced by name, in
+  the same shape as the STS WebSocket `config` message. Today this covers
+  built-in tools such as `choose_not_to_respond` and transfer tools stored
+  in `project`. Your context, webhook, MCP and WebSocket tools cannot be
+  referenced here yet; define those inline as `tool_definitions`.
 
 Each item in `input` is a user message, an assistant message (with
-optional `tool_calls`), or a `tool_call_output`. Every assistant tool
-call must be followed immediately by the `tool_call_output` item that
-carries its result.
+optional `tool_calls` or an `action`), or a `tool_call_output`. Every
+assistant tool call must be followed immediately by the
+`tool_call_output` item that carries its result.
+
+A tool referenced in `tools` resolves to an `action` on the generated
+response rather than a tool call - the event a live conversation would
+have emitted, without the effect actually being carried out.
 
 This is an experimental feature and must be enabled for your workspace;
 otherwise, it returns `404`. Please contact our team if you would like
@@ -6505,7 +6550,23 @@ client.responses.create(
 <dl>
 <dd>
 
-**tool_definitions:** `typing.Optional[typing.List[ResponsesToolDefinition]]` — The tools the assistant may call, defined inline. Names must be unique and cannot be one of the names Phonic reserves for its built-in tools.
+**tool_definitions:** `typing.Optional[typing.List[ResponsesToolDefinition]]` — Tools defined inline for this request only. Typically if you use LiveKit, this is where you can pass in your tool definitions. Names must be unique, must not repeat a name in `tools`, and cannot be one of the names Phonic reserves for its built-in tools.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**project:** `typing.Optional[str]` — Name of the project the tools referenced by name in `tools` belong to. Required whenever `tools` names a tool stored in your workspace; built-in tools can be referenced without it.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**tools:** `typing.Optional[typing.List[ResponsesTool]]` — Tools the assistant may call that already exist - a built-in tool, or a transfer tool stored in `project`, referenced by name. Names must be unique and must not repeat a name in `tool_definitions`. Stored tools that are not transfer tools cannot be referenced here yet; define them inline as `tool_definitions` instead.
     
 </dd>
 </dl>

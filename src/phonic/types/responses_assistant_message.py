@@ -5,23 +5,29 @@ import typing
 import pydantic
 from ..core.pydantic_utilities import IS_PYDANTIC_V2
 from ..core.unchecked_base_model import UncheckedBaseModel
+from .responses_action import ResponsesAction
 from .responses_tool_call import ResponsesToolCall
 
 
 class ResponsesAssistantMessage(UncheckedBaseModel):
     """
-    An assistant turn. Must carry `text`, `tool_calls`, or both.
+    An assistant turn. Must carry at least one of `text`, `tool_calls`, or `action`. `tool_calls` and `action` cannot both be present.
     """
 
     role: typing.Literal["assistant"] = "assistant"
     text: str = pydantic.Field()
     """
-    What the assistant said. Empty when the turn only made tool calls.
+    What the assistant said. Empty when the turn only made tool calls or only took an action.
     """
 
     tool_calls: typing.Optional[typing.List[ResponsesToolCall]] = pydantic.Field(default=None)
     """
     Tool calls the assistant made on this turn. Each one must be followed immediately by its matching `tool_call_output` item.
+    """
+
+    action: typing.Optional[ResponsesAction] = pydantic.Field(default=None)
+    """
+    The action the assistant took on this turn. Cannot be combined with `tool_calls`.
     """
 
     if IS_PYDANTIC_V2:

@@ -4,15 +4,21 @@ import typing
 
 import typing_extensions
 from .generated_tool_call import GeneratedToolCallParams
+from .responses_action import ResponsesActionParams
 
 
 class GeneratedResponseParams(typing_extensions.TypedDict):
     text: str
     """
-    The text the assistant would say. Empty when the response only makes tool calls.
+    The text the assistant would say. Empty when the response only makes tool calls or only takes an action.
     """
 
     tool_calls: typing.Sequence[GeneratedToolCallParams]
     """
     Tool calls the assistant would make - note that the tools are not actually called.
+    """
+
+    action: typing_extensions.NotRequired[ResponsesActionParams]
+    """
+    The action the assistant would take, when the response calls one of the tools referenced in `tools`. Note that the action is not actually carried out.
     """

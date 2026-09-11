@@ -18,6 +18,7 @@ from ..errors.service_unavailable_error import ServiceUnavailableError
 from ..errors.too_many_requests_error import TooManyRequestsError
 from ..errors.unauthorized_error import UnauthorizedError
 from ..requests.responses_input_item import ResponsesInputItemParams
+from ..requests.responses_tool import ResponsesToolParams
 from ..requests.responses_tool_definition import ResponsesToolDefinitionParams
 from ..types.basic_error import BasicError
 from ..types.generate_responses_response import GenerateResponsesResponse
@@ -41,6 +42,8 @@ class RawResponsesClient:
         default_language: typing.Optional[LanguageCode] = OMIT,
         additional_languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         tool_definitions: typing.Optional[typing.Sequence[ResponsesToolDefinitionParams]] = OMIT,
+        project: typing.Optional[str] = OMIT,
+        tools: typing.Optional[typing.Sequence[ResponsesToolParams]] = OMIT,
         num_responses: typing.Optional[int] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[GenerateResponsesResponse]:
@@ -50,13 +53,26 @@ class RawResponsesClient:
 
         This endpoint is stateless, so it does not create a new conversation or
         store anything. The request carries the system prompt, a conversation so
-        far as `input`, and the tools the assistant may call as
-        `tool_definitions`.
+        far as `input`, and the tools the assistant may call.
+
+        There are two different types of tool configurations:
+
+        - `tool_definitions`: defined inline. Typically if you use LiveKit, this
+          is where you can pass in your tool definitions.
+        - `tools`: predefined tools configured in Phonic, referenced by name, in
+          the same shape as the STS WebSocket `config` message. Today this covers
+          built-in tools such as `choose_not_to_respond` and transfer tools stored
+          in `project`. Your context, webhook, MCP and WebSocket tools cannot be
+          referenced here yet; define those inline as `tool_definitions`.
 
         Each item in `input` is a user message, an assistant message (with
-        optional `tool_calls`), or a `tool_call_output`. Every assistant tool
-        call must be followed immediately by the `tool_call_output` item that
-        carries its result.
+        optional `tool_calls` or an `action`), or a `tool_call_output`. Every
+        assistant tool call must be followed immediately by the
+        `tool_call_output` item that carries its result.
+
+        A tool referenced in `tools` resolves to an `action` on the generated
+        response rather than a tool call - the event a live conversation would
+        have emitted, without the effect actually being carried out.
 
         This is an experimental feature and must be enabled for your workspace;
         otherwise, it returns `404`. Please contact our team if you would like
@@ -80,7 +96,13 @@ class RawResponsesClient:
             Array of additional ISO 639-1 language codes that the assistant should be able to recognize and speak. Should not include `default_language`.
 
         tool_definitions : typing.Optional[typing.Sequence[ResponsesToolDefinitionParams]]
-            The tools the assistant may call, defined inline. Names must be unique and cannot be one of the names Phonic reserves for its built-in tools.
+            Tools defined inline for this request only. Typically if you use LiveKit, this is where you can pass in your tool definitions. Names must be unique, must not repeat a name in `tools`, and cannot be one of the names Phonic reserves for its built-in tools.
+
+        project : typing.Optional[str]
+            Name of the project the tools referenced by name in `tools` belong to. Required whenever `tools` names a tool stored in your workspace; built-in tools can be referenced without it.
+
+        tools : typing.Optional[typing.Sequence[ResponsesToolParams]]
+            Tools the assistant may call that already exist - a built-in tool, or a transfer tool stored in `project`, referenced by name. Names must be unique and must not repeat a name in `tool_definitions`. Stored tools that are not transfer tools cannot be referenced here yet; define them inline as `tool_definitions` instead.
 
         num_responses : typing.Optional[int]
             Number of alternative responses to generate.
@@ -109,6 +131,10 @@ class RawResponsesClient:
                     object_=tool_definitions,
                     annotation=typing.Sequence[ResponsesToolDefinitionParams],
                     direction="write",
+                ),
+                "project": project,
+                "tools": convert_and_respect_annotation_metadata(
+                    object_=tools, annotation=typing.Sequence[ResponsesToolParams], direction="write"
                 ),
                 "num_responses": num_responses,
             },
@@ -228,6 +254,8 @@ class AsyncRawResponsesClient:
         default_language: typing.Optional[LanguageCode] = OMIT,
         additional_languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
         tool_definitions: typing.Optional[typing.Sequence[ResponsesToolDefinitionParams]] = OMIT,
+        project: typing.Optional[str] = OMIT,
+        tools: typing.Optional[typing.Sequence[ResponsesToolParams]] = OMIT,
         num_responses: typing.Optional[int] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[GenerateResponsesResponse]:
@@ -237,13 +265,26 @@ class AsyncRawResponsesClient:
 
         This endpoint is stateless, so it does not create a new conversation or
         store anything. The request carries the system prompt, a conversation so
-        far as `input`, and the tools the assistant may call as
-        `tool_definitions`.
+        far as `input`, and the tools the assistant may call.
+
+        There are two different types of tool configurations:
+
+        - `tool_definitions`: defined inline. Typically if you use LiveKit, this
+          is where you can pass in your tool definitions.
+        - `tools`: predefined tools configured in Phonic, referenced by name, in
+          the same shape as the STS WebSocket `config` message. Today this covers
+          built-in tools such as `choose_not_to_respond` and transfer tools stored
+          in `project`. Your context, webhook, MCP and WebSocket tools cannot be
+          referenced here yet; define those inline as `tool_definitions`.
 
         Each item in `input` is a user message, an assistant message (with
-        optional `tool_calls`), or a `tool_call_output`. Every assistant tool
-        call must be followed immediately by the `tool_call_output` item that
-        carries its result.
+        optional `tool_calls` or an `action`), or a `tool_call_output`. Every
+        assistant tool call must be followed immediately by the
+        `tool_call_output` item that carries its result.
+
+        A tool referenced in `tools` resolves to an `action` on the generated
+        response rather than a tool call - the event a live conversation would
+        have emitted, without the effect actually being carried out.
 
         This is an experimental feature and must be enabled for your workspace;
         otherwise, it returns `404`. Please contact our team if you would like
@@ -267,7 +308,13 @@ class AsyncRawResponsesClient:
             Array of additional ISO 639-1 language codes that the assistant should be able to recognize and speak. Should not include `default_language`.
 
         tool_definitions : typing.Optional[typing.Sequence[ResponsesToolDefinitionParams]]
-            The tools the assistant may call, defined inline. Names must be unique and cannot be one of the names Phonic reserves for its built-in tools.
+            Tools defined inline for this request only. Typically if you use LiveKit, this is where you can pass in your tool definitions. Names must be unique, must not repeat a name in `tools`, and cannot be one of the names Phonic reserves for its built-in tools.
+
+        project : typing.Optional[str]
+            Name of the project the tools referenced by name in `tools` belong to. Required whenever `tools` names a tool stored in your workspace; built-in tools can be referenced without it.
+
+        tools : typing.Optional[typing.Sequence[ResponsesToolParams]]
+            Tools the assistant may call that already exist - a built-in tool, or a transfer tool stored in `project`, referenced by name. Names must be unique and must not repeat a name in `tool_definitions`. Stored tools that are not transfer tools cannot be referenced here yet; define them inline as `tool_definitions` instead.
 
         num_responses : typing.Optional[int]
             Number of alternative responses to generate.
@@ -296,6 +343,10 @@ class AsyncRawResponsesClient:
                     object_=tool_definitions,
                     annotation=typing.Sequence[ResponsesToolDefinitionParams],
                     direction="write",
+                ),
+                "project": project,
+                "tools": convert_and_respect_annotation_metadata(
+                    object_=tools, annotation=typing.Sequence[ResponsesToolParams], direction="write"
                 ),
                 "num_responses": num_responses,
             },

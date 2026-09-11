@@ -122,6 +122,7 @@ if typing.TYPE_CHECKING:
     from .inline_web_socket_tool_execution_mode import InlineWebSocketToolExecutionMode
     from .input_cancelled_payload import InputCancelledPayload
     from .input_text_payload import InputTextPayload
+    from .interrupted_response_payload import InterruptedResponsePayload
     from .language_code import LanguageCode
     from .mute_payload import MutePayload
     from .open_ai_function import OpenAiFunction
@@ -146,13 +147,31 @@ if typing.TYPE_CHECKING:
     from .replay_tool_call_endpoint_method import ReplayToolCallEndpointMethod
     from .replay_tool_call_tool import ReplayToolCallTool
     from .reset_payload import ResetPayload
+    from .responses_action import (
+        ResponsesAction,
+        ResponsesAction_AssistantChoseNotToRespond,
+        ResponsesAction_AssistantEndedConversation,
+        ResponsesAction_Dtmf,
+        ResponsesAction_TransferToAgent,
+        ResponsesAction_TransferToPhoneNumber,
+    )
     from .responses_assistant_message import ResponsesAssistantMessage
+    from .responses_built_in_tool import ResponsesBuiltInTool
+    from .responses_built_in_tool_name import ResponsesBuiltInToolName
+    from .responses_built_in_tool_tool_config import ResponsesBuiltInToolToolConfig
+    from .responses_chose_not_to_respond_action import ResponsesChoseNotToRespondAction
+    from .responses_dtmf_action import ResponsesDtmfAction
+    from .responses_ended_conversation_action import ResponsesEndedConversationAction
     from .responses_input_item import ResponsesInputItem
+    from .responses_tool import ResponsesTool
     from .responses_tool_call import ResponsesToolCall
     from .responses_tool_call_output import ResponsesToolCallOutput
     from .responses_tool_call_output_response_body import ResponsesToolCallOutputResponseBody
     from .responses_tool_definition import ResponsesToolDefinition
+    from .responses_tool_name import ResponsesToolName
     from .responses_tool_reference import ResponsesToolReference
+    from .responses_transfer_to_agent_action import ResponsesTransferToAgentAction
+    from .responses_transfer_to_phone_number_action import ResponsesTransferToPhoneNumberAction
     from .responses_user_message import ResponsesUserMessage
     from .say_payload import SayPayload
     from .set_external_id_payload import SetExternalIdPayload
@@ -303,6 +322,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "InlineWebSocketToolExecutionMode": ".inline_web_socket_tool_execution_mode",
     "InputCancelledPayload": ".input_cancelled_payload",
     "InputTextPayload": ".input_text_payload",
+    "InterruptedResponsePayload": ".interrupted_response_payload",
     "LanguageCode": ".language_code",
     "MutePayload": ".mute_payload",
     "OpenAiFunction": ".open_ai_function",
@@ -327,13 +347,29 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ReplayToolCallEndpointMethod": ".replay_tool_call_endpoint_method",
     "ReplayToolCallTool": ".replay_tool_call_tool",
     "ResetPayload": ".reset_payload",
+    "ResponsesAction": ".responses_action",
+    "ResponsesAction_AssistantChoseNotToRespond": ".responses_action",
+    "ResponsesAction_AssistantEndedConversation": ".responses_action",
+    "ResponsesAction_Dtmf": ".responses_action",
+    "ResponsesAction_TransferToAgent": ".responses_action",
+    "ResponsesAction_TransferToPhoneNumber": ".responses_action",
     "ResponsesAssistantMessage": ".responses_assistant_message",
+    "ResponsesBuiltInTool": ".responses_built_in_tool",
+    "ResponsesBuiltInToolName": ".responses_built_in_tool_name",
+    "ResponsesBuiltInToolToolConfig": ".responses_built_in_tool_tool_config",
+    "ResponsesChoseNotToRespondAction": ".responses_chose_not_to_respond_action",
+    "ResponsesDtmfAction": ".responses_dtmf_action",
+    "ResponsesEndedConversationAction": ".responses_ended_conversation_action",
     "ResponsesInputItem": ".responses_input_item",
+    "ResponsesTool": ".responses_tool",
     "ResponsesToolCall": ".responses_tool_call",
     "ResponsesToolCallOutput": ".responses_tool_call_output",
     "ResponsesToolCallOutputResponseBody": ".responses_tool_call_output_response_body",
     "ResponsesToolDefinition": ".responses_tool_definition",
+    "ResponsesToolName": ".responses_tool_name",
     "ResponsesToolReference": ".responses_tool_reference",
+    "ResponsesTransferToAgentAction": ".responses_transfer_to_agent_action",
+    "ResponsesTransferToPhoneNumberAction": ".responses_transfer_to_phone_number_action",
     "ResponsesUserMessage": ".responses_user_message",
     "SayPayload": ".say_payload",
     "SetExternalIdPayload": ".set_external_id_payload",
@@ -508,6 +544,7 @@ __all__ = [
     "InlineWebSocketToolExecutionMode",
     "InputCancelledPayload",
     "InputTextPayload",
+    "InterruptedResponsePayload",
     "LanguageCode",
     "MutePayload",
     "OpenAiFunction",
@@ -532,13 +569,29 @@ __all__ = [
     "ReplayToolCallEndpointMethod",
     "ReplayToolCallTool",
     "ResetPayload",
+    "ResponsesAction",
+    "ResponsesAction_AssistantChoseNotToRespond",
+    "ResponsesAction_AssistantEndedConversation",
+    "ResponsesAction_Dtmf",
+    "ResponsesAction_TransferToAgent",
+    "ResponsesAction_TransferToPhoneNumber",
     "ResponsesAssistantMessage",
+    "ResponsesBuiltInTool",
+    "ResponsesBuiltInToolName",
+    "ResponsesBuiltInToolToolConfig",
+    "ResponsesChoseNotToRespondAction",
+    "ResponsesDtmfAction",
+    "ResponsesEndedConversationAction",
     "ResponsesInputItem",
+    "ResponsesTool",
     "ResponsesToolCall",
     "ResponsesToolCallOutput",
     "ResponsesToolCallOutputResponseBody",
     "ResponsesToolDefinition",
+    "ResponsesToolName",
     "ResponsesToolReference",
+    "ResponsesTransferToAgentAction",
+    "ResponsesTransferToPhoneNumberAction",
     "ResponsesUserMessage",
     "SayPayload",
     "SetExternalIdPayload",

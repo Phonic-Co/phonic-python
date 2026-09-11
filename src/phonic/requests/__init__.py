@@ -100,6 +100,7 @@ if typing.TYPE_CHECKING:
     from .inline_web_socket_tool import InlineWebSocketToolParams
     from .input_cancelled_payload import InputCancelledPayloadParams
     from .input_text_payload import InputTextPayloadParams
+    from .interrupted_response_payload import InterruptedResponsePayloadParams
     from .mute_payload import MutePayloadParams
     from .open_ai_function import OpenAiFunctionParams
     from .open_ai_tool import OpenAiToolParams
@@ -118,13 +119,29 @@ if typing.TYPE_CHECKING:
     from .replay_tool_call import ReplayToolCallParams
     from .replay_tool_call_tool import ReplayToolCallToolParams
     from .reset_payload import ResetPayloadParams
+    from .responses_action import (
+        ResponsesActionParams,
+        ResponsesAction_AssistantChoseNotToRespondParams,
+        ResponsesAction_AssistantEndedConversationParams,
+        ResponsesAction_DtmfParams,
+        ResponsesAction_TransferToAgentParams,
+        ResponsesAction_TransferToPhoneNumberParams,
+    )
     from .responses_assistant_message import ResponsesAssistantMessageParams
+    from .responses_built_in_tool import ResponsesBuiltInToolParams
+    from .responses_built_in_tool_tool_config import ResponsesBuiltInToolToolConfigParams
+    from .responses_chose_not_to_respond_action import ResponsesChoseNotToRespondActionParams
+    from .responses_dtmf_action import ResponsesDtmfActionParams
+    from .responses_ended_conversation_action import ResponsesEndedConversationActionParams
     from .responses_input_item import ResponsesInputItemParams
+    from .responses_tool import ResponsesToolParams
     from .responses_tool_call import ResponsesToolCallParams
     from .responses_tool_call_output import ResponsesToolCallOutputParams
     from .responses_tool_call_output_response_body import ResponsesToolCallOutputResponseBodyParams
     from .responses_tool_definition import ResponsesToolDefinitionParams
     from .responses_tool_reference import ResponsesToolReferenceParams
+    from .responses_transfer_to_agent_action import ResponsesTransferToAgentActionParams
+    from .responses_transfer_to_phone_number_action import ResponsesTransferToPhoneNumberActionParams
     from .responses_user_message import ResponsesUserMessageParams
     from .say_payload import SayPayloadParams
     from .set_external_id_payload import SetExternalIdPayloadParams
@@ -239,6 +256,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "InlineWebSocketToolParams": ".inline_web_socket_tool",
     "InputCancelledPayloadParams": ".input_cancelled_payload",
     "InputTextPayloadParams": ".input_text_payload",
+    "InterruptedResponsePayloadParams": ".interrupted_response_payload",
     "MutePayloadParams": ".mute_payload",
     "OpenAiFunctionParams": ".open_ai_function",
     "OpenAiToolParams": ".open_ai_tool",
@@ -257,13 +275,27 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ReplayToolCallParams": ".replay_tool_call",
     "ReplayToolCallToolParams": ".replay_tool_call_tool",
     "ResetPayloadParams": ".reset_payload",
+    "ResponsesActionParams": ".responses_action",
+    "ResponsesAction_AssistantChoseNotToRespondParams": ".responses_action",
+    "ResponsesAction_AssistantEndedConversationParams": ".responses_action",
+    "ResponsesAction_DtmfParams": ".responses_action",
+    "ResponsesAction_TransferToAgentParams": ".responses_action",
+    "ResponsesAction_TransferToPhoneNumberParams": ".responses_action",
     "ResponsesAssistantMessageParams": ".responses_assistant_message",
+    "ResponsesBuiltInToolParams": ".responses_built_in_tool",
+    "ResponsesBuiltInToolToolConfigParams": ".responses_built_in_tool_tool_config",
+    "ResponsesChoseNotToRespondActionParams": ".responses_chose_not_to_respond_action",
+    "ResponsesDtmfActionParams": ".responses_dtmf_action",
+    "ResponsesEndedConversationActionParams": ".responses_ended_conversation_action",
     "ResponsesInputItemParams": ".responses_input_item",
     "ResponsesToolCallOutputParams": ".responses_tool_call_output",
     "ResponsesToolCallOutputResponseBodyParams": ".responses_tool_call_output_response_body",
     "ResponsesToolCallParams": ".responses_tool_call",
     "ResponsesToolDefinitionParams": ".responses_tool_definition",
+    "ResponsesToolParams": ".responses_tool",
     "ResponsesToolReferenceParams": ".responses_tool_reference",
+    "ResponsesTransferToAgentActionParams": ".responses_transfer_to_agent_action",
+    "ResponsesTransferToPhoneNumberActionParams": ".responses_transfer_to_phone_number_action",
     "ResponsesUserMessageParams": ".responses_user_message",
     "SayPayloadParams": ".say_payload",
     "SetExternalIdPayloadParams": ".set_external_id_payload",
@@ -402,6 +434,7 @@ __all__ = [
     "InlineWebSocketToolParams",
     "InputCancelledPayloadParams",
     "InputTextPayloadParams",
+    "InterruptedResponsePayloadParams",
     "MutePayloadParams",
     "OpenAiFunctionParams",
     "OpenAiToolParams",
@@ -420,13 +453,27 @@ __all__ = [
     "ReplayToolCallParams",
     "ReplayToolCallToolParams",
     "ResetPayloadParams",
+    "ResponsesActionParams",
+    "ResponsesAction_AssistantChoseNotToRespondParams",
+    "ResponsesAction_AssistantEndedConversationParams",
+    "ResponsesAction_DtmfParams",
+    "ResponsesAction_TransferToAgentParams",
+    "ResponsesAction_TransferToPhoneNumberParams",
     "ResponsesAssistantMessageParams",
+    "ResponsesBuiltInToolParams",
+    "ResponsesBuiltInToolToolConfigParams",
+    "ResponsesChoseNotToRespondActionParams",
+    "ResponsesDtmfActionParams",
+    "ResponsesEndedConversationActionParams",
     "ResponsesInputItemParams",
     "ResponsesToolCallOutputParams",
     "ResponsesToolCallOutputResponseBodyParams",
     "ResponsesToolCallParams",
     "ResponsesToolDefinitionParams",
+    "ResponsesToolParams",
     "ResponsesToolReferenceParams",
+    "ResponsesTransferToAgentActionParams",
+    "ResponsesTransferToPhoneNumberActionParams",
     "ResponsesUserMessageParams",
     "SayPayloadParams",
     "SetExternalIdPayloadParams",

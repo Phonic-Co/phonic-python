@@ -67,6 +67,11 @@ class Conversation(UncheckedBaseModel):
     When `false`, the welcome message will not be interruptible by the user.
     """
 
+    listen_only: bool = pydantic.Field()
+    """
+    Whether this conversation used listen-only mode. The resolved greeting is stored in `welcome_message`.
+    """
+
     welcome_message: typing.Optional[str] = pydantic.Field(default=None)
     """
     Welcome message played at start. Will be `null` when `generate_welcome_message` is `true`.

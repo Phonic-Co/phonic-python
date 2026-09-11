@@ -20,3 +20,12 @@ class ResponsesToolDefinitionParams(typing_extensions.TypedDict):
     """
 
     parameters: ToolParametersJsonSchemaParams
+    require_speech_before_tool_call: typing_extensions.NotRequired[bool]
+    """
+    When true, forces the agent to speak before executing the tool. Note this defaults to true here, unlike on the tools API, so a simulated turn matches the default a custom tool runs with in a live call.
+    """
+
+    forbid_tool_call_after_speech: typing_extensions.NotRequired[bool]
+    """
+    When true, forbids the agent from calling the tool right after it has spoken. The call is dropped and the speech is kept.
+    """
