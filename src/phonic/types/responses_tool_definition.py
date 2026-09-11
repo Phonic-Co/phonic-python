@@ -24,6 +24,15 @@ class ResponsesToolDefinition(UncheckedBaseModel):
     """
 
     parameters: ToolParametersJsonSchema
+    require_speech_before_tool_call: typing.Optional[bool] = pydantic.Field(default=None)
+    """
+    When true, forces the agent to speak before executing the tool. Note this defaults to true here, unlike on the tools API, so a simulated turn matches the default a custom tool runs with in a live call.
+    """
+
+    forbid_tool_call_after_speech: typing.Optional[bool] = pydantic.Field(default=None)
+    """
+    When true, forbids the agent from calling the tool right after it has spoken. The call is dropped and the speech is kept.
+    """
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

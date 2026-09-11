@@ -89,6 +89,16 @@ class CreateAgentRequestParams(typing_extensions.TypedDict):
     Number of seconds of inactivity before the conversation WebSocket is closed.
     """
 
+    listen_only_inbound_enabled: typing_extensions.NotRequired[bool]
+    """
+    Play an uninterruptible welcome message on incoming calls, then transcribe the caller without responding. Silence timeout and call duration limits still apply.
+    """
+
+    listen_only_inbound_message: typing_extensions.NotRequired[typing.Optional[str]]
+    """
+    Welcome message for listen-only incoming calls. Can contain template variables like `{{customer_name}}`. Must be nonempty when `listen_only_inbound_enabled` is `true`. Replaces `welcome_message` for these calls, regardless of `generate_welcome_message`.
+    """
+
     welcome_message: typing_extensions.NotRequired[typing.Optional[str]]
     """
     Message to play when the conversation starts. Can contain template variables like `{{customer_name}}`. Ignored when `generate_welcome_message` is `true`.

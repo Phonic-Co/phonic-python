@@ -23,6 +23,7 @@ from ..types.error_payload import ErrorPayload
 from ..types.generate_reply_payload import GenerateReplyPayload
 from ..types.input_cancelled_payload import InputCancelledPayload
 from ..types.input_text_payload import InputTextPayload
+from ..types.interrupted_response_payload import InterruptedResponsePayload
 from ..types.mute_payload import MutePayload
 from ..types.ready_to_start_conversation_payload import ReadyToStartConversationPayload
 from ..types.reset_payload import ResetPayload
@@ -55,6 +56,7 @@ ConversationsSocketClientResponse = typing.Union[
     UserFinishedSpeakingPayload,
     AssistantStartedSpeakingPayload,
     AssistantFinishedSpeakingPayload,
+    InterruptedResponsePayload,
     DtmfPayload,
     ToolCallPayload,
     ToolCallOutputProcessedPayload,

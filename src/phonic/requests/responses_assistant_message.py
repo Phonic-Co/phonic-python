@@ -3,21 +3,27 @@
 import typing
 
 import typing_extensions
+from .responses_action import ResponsesActionParams
 from .responses_tool_call import ResponsesToolCallParams
 
 
 class ResponsesAssistantMessageParams(typing_extensions.TypedDict):
     """
-    An assistant turn. Must carry `text`, `tool_calls`, or both.
+    An assistant turn. Must carry at least one of `text`, `tool_calls`, or `action`. `tool_calls` and `action` cannot both be present.
     """
 
     role: typing.Literal["assistant"]
     text: str
     """
-    What the assistant said. Empty when the turn only made tool calls.
+    What the assistant said. Empty when the turn only made tool calls or only took an action.
     """
 
     tool_calls: typing_extensions.NotRequired[typing.Sequence[ResponsesToolCallParams]]
     """
     Tool calls the assistant made on this turn. Each one must be followed immediately by its matching `tool_call_output` item.
+    """
+
+    action: typing_extensions.NotRequired[ResponsesActionParams]
+    """
+    The action the assistant took on this turn. Cannot be combined with `tool_calls`.
     """
