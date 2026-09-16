@@ -6,8 +6,10 @@ import typing
 from importlib import import_module
 
 if typing.TYPE_CHECKING:
-    from .types import GenerateResponsesRequestPhonicModel
-_dynamic_imports: typing.Dict[str, str] = {"GenerateResponsesRequestPhonicModel": ".types"}
+    from .generate_responses_request_phonic_model import GenerateResponsesRequestPhonicModel
+_dynamic_imports: typing.Dict[str, str] = {
+    "GenerateResponsesRequestPhonicModel": ".generate_responses_request_phonic_model"
+}
 
 
 def __getattr__(attr_name: str) -> typing.Any:

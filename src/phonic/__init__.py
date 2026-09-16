@@ -522,6 +522,7 @@ if typing.TYPE_CHECKING:
         WarningPayloadParams,
         WarningPayloadWarningParams,
     )
+    from .responses import GenerateResponsesRequestPhonicModel
     from .tools import (
         CreateToolRequestEndpointMethod,
         CreateToolRequestExecutionMode,
@@ -837,6 +838,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "GatewayTimeoutError": ".errors",
     "GenerateReplyPayload": ".types",
     "GenerateReplyPayloadParams": ".requests",
+    "GenerateResponsesRequestPhonicModel": ".responses",
     "GenerateResponsesResponse": ".types",
     "GenerateResponsesResponseParams": ".requests",
     "GeneratedResponse": ".types",
@@ -1390,6 +1392,7 @@ __all__ = [
     "GatewayTimeoutError",
     "GenerateReplyPayload",
     "GenerateReplyPayloadParams",
+    "GenerateResponsesRequestPhonicModel",
     "GenerateResponsesResponse",
     "GenerateResponsesResponseParams",
     "GeneratedResponse",

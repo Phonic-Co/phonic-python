@@ -23,6 +23,7 @@ from ..requests.responses_tool_definition import ResponsesToolDefinitionParams
 from ..types.basic_error import BasicError
 from ..types.generate_responses_response import GenerateResponsesResponse
 from ..types.language_code import LanguageCode
+from .types.generate_responses_request_phonic_model import GenerateResponsesRequestPhonicModel
 from pydantic import ValidationError
 
 # this is used as the default value for optional parameters
@@ -44,6 +45,7 @@ class RawResponsesClient:
         tool_definitions: typing.Optional[typing.Sequence[ResponsesToolDefinitionParams]] = OMIT,
         project: typing.Optional[str] = OMIT,
         tools: typing.Optional[typing.Sequence[ResponsesToolParams]] = OMIT,
+        phonic_model: typing.Optional[GenerateResponsesRequestPhonicModel] = OMIT,
         num_responses: typing.Optional[int] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[GenerateResponsesResponse]:
@@ -104,6 +106,9 @@ class RawResponsesClient:
         tools : typing.Optional[typing.Sequence[ResponsesToolParams]]
             Tools the assistant may call that already exist - a built-in tool, or a transfer tool stored in `project`, referenced by name. Names must be unique and must not repeat a name in `tool_definitions`. Stored tools that are not transfer tools cannot be referenced here yet; define them inline as `tool_definitions` instead.
 
+        phonic_model : typing.Optional[GenerateResponsesRequestPhonicModel]
+            The Phonic speech-to-speech model to generate with. Omit it to use the current default model.
+
         num_responses : typing.Optional[int]
             Number of alternative responses to generate.
 
@@ -136,6 +141,7 @@ class RawResponsesClient:
                 "tools": convert_and_respect_annotation_metadata(
                     object_=tools, annotation=typing.Sequence[ResponsesToolParams], direction="write"
                 ),
+                "phonic_model": phonic_model,
                 "num_responses": num_responses,
             },
             headers={
@@ -256,6 +262,7 @@ class AsyncRawResponsesClient:
         tool_definitions: typing.Optional[typing.Sequence[ResponsesToolDefinitionParams]] = OMIT,
         project: typing.Optional[str] = OMIT,
         tools: typing.Optional[typing.Sequence[ResponsesToolParams]] = OMIT,
+        phonic_model: typing.Optional[GenerateResponsesRequestPhonicModel] = OMIT,
         num_responses: typing.Optional[int] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[GenerateResponsesResponse]:
@@ -316,6 +323,9 @@ class AsyncRawResponsesClient:
         tools : typing.Optional[typing.Sequence[ResponsesToolParams]]
             Tools the assistant may call that already exist - a built-in tool, or a transfer tool stored in `project`, referenced by name. Names must be unique and must not repeat a name in `tool_definitions`. Stored tools that are not transfer tools cannot be referenced here yet; define them inline as `tool_definitions` instead.
 
+        phonic_model : typing.Optional[GenerateResponsesRequestPhonicModel]
+            The Phonic speech-to-speech model to generate with. Omit it to use the current default model.
+
         num_responses : typing.Optional[int]
             Number of alternative responses to generate.
 
@@ -348,6 +358,7 @@ class AsyncRawResponsesClient:
                 "tools": convert_and_respect_annotation_metadata(
                     object_=tools, annotation=typing.Sequence[ResponsesToolParams], direction="write"
                 ),
+                "phonic_model": phonic_model,
                 "num_responses": num_responses,
             },
             headers={
