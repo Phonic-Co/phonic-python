@@ -6493,6 +6493,7 @@ client.responses.create(
             ),
         )
     ],
+    phonic_model="phonic_v1",
     num_responses=2,
 )
 
@@ -6567,6 +6568,14 @@ client.responses.create(
 <dd>
 
 **tools:** `typing.Optional[typing.List[ResponsesTool]]` — Tools the assistant may call that already exist - a built-in tool, or a transfer tool stored in `project`, referenced by name. Names must be unique and must not repeat a name in `tool_definitions`. Stored tools that are not transfer tools cannot be referenced here yet; define them inline as `tool_definitions` instead.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**phonic_model:** `typing.Optional[GenerateResponsesRequestPhonicModel]` — The Phonic speech-to-speech model to generate with. Omit it to use the current default model.
     
 </dd>
 </dl>
