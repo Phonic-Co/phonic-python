@@ -8,6 +8,7 @@ from ..types.config_options_input_format import ConfigOptionsInputFormat
 from ..types.config_options_intelligence_level import ConfigOptionsIntelligenceLevel
 from ..types.config_options_multilingual_mode import ConfigOptionsMultilingualMode
 from ..types.config_options_output_format import ConfigOptionsOutputFormat
+from ..types.config_options_phonic_model import ConfigOptionsPhonicModel
 from .config_options_configuration_endpoint import ConfigOptionsConfigurationEndpointParams
 from .config_options_data_retention_policy import ConfigOptionsDataRetentionPolicyParams
 from .config_options_outbound_number_pool import ConfigOptionsOutboundNumberPoolParams
@@ -164,6 +165,11 @@ class ConfigOptionsParams(typing_extensions.TypedDict):
     intelligence_level: typing_extensions.NotRequired[ConfigOptionsIntelligenceLevel]
     """
     The intelligence level of the agent. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency.
+    """
+
+    phonic_model: typing_extensions.NotRequired[ConfigOptionsPhonicModel]
+    """
+    The Phonic speech-to-speech model to generate with. Omit it to use the current default model.
     """
 
     boosted_keywords: typing_extensions.NotRequired[typing.Sequence[str]]

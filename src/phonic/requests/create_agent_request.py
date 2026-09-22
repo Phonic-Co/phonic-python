@@ -8,6 +8,7 @@ from ..types.create_agent_request_background_noise import CreateAgentRequestBack
 from ..types.create_agent_request_intelligence_level import CreateAgentRequestIntelligenceLevel
 from ..types.create_agent_request_multilingual_mode import CreateAgentRequestMultilingualMode
 from ..types.create_agent_request_phone_number import CreateAgentRequestPhoneNumber
+from ..types.create_agent_request_phonic_model import CreateAgentRequestPhonicModel
 from ..types.language_code import LanguageCode
 from .built_in_tool_configs import BuiltInToolConfigsParams
 from .create_agent_request_configuration_endpoint import CreateAgentRequestConfigurationEndpointParams
@@ -192,6 +193,11 @@ class CreateAgentRequestParams(typing_extensions.TypedDict):
     intelligence_level: typing_extensions.NotRequired[CreateAgentRequestIntelligenceLevel]
     """
     The intelligence level of the agent. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency.
+    """
+
+    phonic_model: typing_extensions.NotRequired[CreateAgentRequestPhonicModel]
+    """
+    The Phonic speech-to-speech model to generate with. Omit it to use the current default model.
     """
 
     boosted_keywords: typing_extensions.NotRequired[typing.Sequence[str]]

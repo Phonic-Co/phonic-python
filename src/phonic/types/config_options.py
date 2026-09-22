@@ -13,6 +13,7 @@ from .config_options_intelligence_level import ConfigOptionsIntelligenceLevel
 from .config_options_multilingual_mode import ConfigOptionsMultilingualMode
 from .config_options_outbound_number_pool import ConfigOptionsOutboundNumberPool
 from .config_options_output_format import ConfigOptionsOutputFormat
+from .config_options_phonic_model import ConfigOptionsPhonicModel
 from .config_options_pronunciation_dictionary_item import ConfigOptionsPronunciationDictionaryItem
 from .config_options_tasks_item import ConfigOptionsTasksItem
 from .tool_definition import ToolDefinition
@@ -166,6 +167,11 @@ class ConfigOptions(UncheckedBaseModel):
     intelligence_level: typing.Optional[ConfigOptionsIntelligenceLevel] = pydantic.Field(default=None)
     """
     The intelligence level of the agent. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency.
+    """
+
+    phonic_model: typing.Optional[ConfigOptionsPhonicModel] = pydantic.Field(default=None)
+    """
+    The Phonic speech-to-speech model to generate with. Omit it to use the current default model.
     """
 
     boosted_keywords: typing.Optional[typing.List[str]] = pydantic.Field(default=None)

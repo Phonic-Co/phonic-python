@@ -20,6 +20,7 @@ from ..types.create_agent_request_background_noise import CreateAgentRequestBack
 from ..types.create_agent_request_intelligence_level import CreateAgentRequestIntelligenceLevel
 from ..types.create_agent_request_multilingual_mode import CreateAgentRequestMultilingualMode
 from ..types.create_agent_request_phone_number import CreateAgentRequestPhoneNumber
+from ..types.create_agent_request_phonic_model import CreateAgentRequestPhonicModel
 from ..types.language_code import LanguageCode
 from .raw_client import AsyncRawAgentsClient, RawAgentsClient
 from .requests.agents_add_custom_phone_number_request_configuration_endpoint import (
@@ -49,6 +50,7 @@ from .types.update_agent_request_background_noise import UpdateAgentRequestBackg
 from .types.update_agent_request_intelligence_level import UpdateAgentRequestIntelligenceLevel
 from .types.update_agent_request_multilingual_mode import UpdateAgentRequestMultilingualMode
 from .types.update_agent_request_phone_number import UpdateAgentRequestPhoneNumber
+from .types.update_agent_request_phonic_model import UpdateAgentRequestPhonicModel
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -139,6 +141,7 @@ class AgentsClient:
         multilingual_mode: typing.Optional[CreateAgentRequestMultilingualMode] = OMIT,
         push_to_talk: typing.Optional[bool] = OMIT,
         intelligence_level: typing.Optional[CreateAgentRequestIntelligenceLevel] = OMIT,
+        phonic_model: typing.Optional[CreateAgentRequestPhonicModel] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
         pronunciation_dictionary: typing.Optional[
             typing.Sequence[CreateAgentRequestPronunciationDictionaryItemParams]
@@ -271,6 +274,9 @@ class AgentsClient:
         intelligence_level : typing.Optional[CreateAgentRequestIntelligenceLevel]
             The intelligence level of the agent. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency.
 
+        phonic_model : typing.Optional[CreateAgentRequestPhonicModel]
+            The Phonic speech-to-speech model to generate with. Omit it to use the current default model.
+
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
 
@@ -402,6 +408,7 @@ class AgentsClient:
             multilingual_mode=multilingual_mode,
             push_to_talk=push_to_talk,
             intelligence_level=intelligence_level,
+            phonic_model=phonic_model,
             boosted_keywords=boosted_keywords,
             pronunciation_dictionary=pronunciation_dictionary,
             min_words_to_interrupt=min_words_to_interrupt,
@@ -462,6 +469,7 @@ class AgentsClient:
         multilingual_mode: typing.Optional[CreateAgentRequestMultilingualMode] = OMIT,
         push_to_talk: typing.Optional[bool] = OMIT,
         intelligence_level: typing.Optional[CreateAgentRequestIntelligenceLevel] = OMIT,
+        phonic_model: typing.Optional[CreateAgentRequestPhonicModel] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
         pronunciation_dictionary: typing.Optional[
             typing.Sequence[CreateAgentRequestPronunciationDictionaryItemParams]
@@ -600,6 +608,9 @@ class AgentsClient:
         intelligence_level : typing.Optional[CreateAgentRequestIntelligenceLevel]
             The intelligence level of the agent. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency.
 
+        phonic_model : typing.Optional[CreateAgentRequestPhonicModel]
+            The Phonic speech-to-speech model to generate with. Omit it to use the current default model.
+
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
 
@@ -733,6 +744,7 @@ class AgentsClient:
             multilingual_mode=multilingual_mode,
             push_to_talk=push_to_talk,
             intelligence_level=intelligence_level,
+            phonic_model=phonic_model,
             boosted_keywords=boosted_keywords,
             pronunciation_dictionary=pronunciation_dictionary,
             min_words_to_interrupt=min_words_to_interrupt,
@@ -877,6 +889,7 @@ class AgentsClient:
         multilingual_mode: typing.Optional[UpdateAgentRequestMultilingualMode] = OMIT,
         push_to_talk: typing.Optional[bool] = OMIT,
         intelligence_level: typing.Optional[UpdateAgentRequestIntelligenceLevel] = OMIT,
+        phonic_model: typing.Optional[UpdateAgentRequestPhonicModel] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
         pronunciation_dictionary: typing.Optional[
             typing.Sequence[UpdateAgentRequestPronunciationDictionaryItemParams]
@@ -1021,6 +1034,9 @@ class AgentsClient:
         intelligence_level : typing.Optional[UpdateAgentRequestIntelligenceLevel]
             The intelligence level of the agent. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency.
 
+        phonic_model : typing.Optional[UpdateAgentRequestPhonicModel]
+            The Phonic speech-to-speech model to generate with. Omit it to use the current default model.
+
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
 
@@ -1157,6 +1173,7 @@ class AgentsClient:
             multilingual_mode=multilingual_mode,
             push_to_talk=push_to_talk,
             intelligence_level=intelligence_level,
+            phonic_model=phonic_model,
             boosted_keywords=boosted_keywords,
             pronunciation_dictionary=pronunciation_dictionary,
             min_words_to_interrupt=min_words_to_interrupt,
@@ -1464,6 +1481,7 @@ class AsyncAgentsClient:
         multilingual_mode: typing.Optional[CreateAgentRequestMultilingualMode] = OMIT,
         push_to_talk: typing.Optional[bool] = OMIT,
         intelligence_level: typing.Optional[CreateAgentRequestIntelligenceLevel] = OMIT,
+        phonic_model: typing.Optional[CreateAgentRequestPhonicModel] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
         pronunciation_dictionary: typing.Optional[
             typing.Sequence[CreateAgentRequestPronunciationDictionaryItemParams]
@@ -1595,6 +1613,9 @@ class AsyncAgentsClient:
 
         intelligence_level : typing.Optional[CreateAgentRequestIntelligenceLevel]
             The intelligence level of the agent. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency.
+
+        phonic_model : typing.Optional[CreateAgentRequestPhonicModel]
+            The Phonic speech-to-speech model to generate with. Omit it to use the current default model.
 
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
@@ -1737,6 +1758,7 @@ class AsyncAgentsClient:
             multilingual_mode=multilingual_mode,
             push_to_talk=push_to_talk,
             intelligence_level=intelligence_level,
+            phonic_model=phonic_model,
             boosted_keywords=boosted_keywords,
             pronunciation_dictionary=pronunciation_dictionary,
             min_words_to_interrupt=min_words_to_interrupt,
@@ -1797,6 +1819,7 @@ class AsyncAgentsClient:
         multilingual_mode: typing.Optional[CreateAgentRequestMultilingualMode] = OMIT,
         push_to_talk: typing.Optional[bool] = OMIT,
         intelligence_level: typing.Optional[CreateAgentRequestIntelligenceLevel] = OMIT,
+        phonic_model: typing.Optional[CreateAgentRequestPhonicModel] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
         pronunciation_dictionary: typing.Optional[
             typing.Sequence[CreateAgentRequestPronunciationDictionaryItemParams]
@@ -1934,6 +1957,9 @@ class AsyncAgentsClient:
 
         intelligence_level : typing.Optional[CreateAgentRequestIntelligenceLevel]
             The intelligence level of the agent. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency.
+
+        phonic_model : typing.Optional[CreateAgentRequestPhonicModel]
+            The Phonic speech-to-speech model to generate with. Omit it to use the current default model.
 
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
@@ -2078,6 +2104,7 @@ class AsyncAgentsClient:
             multilingual_mode=multilingual_mode,
             push_to_talk=push_to_talk,
             intelligence_level=intelligence_level,
+            phonic_model=phonic_model,
             boosted_keywords=boosted_keywords,
             pronunciation_dictionary=pronunciation_dictionary,
             min_words_to_interrupt=min_words_to_interrupt,
@@ -2238,6 +2265,7 @@ class AsyncAgentsClient:
         multilingual_mode: typing.Optional[UpdateAgentRequestMultilingualMode] = OMIT,
         push_to_talk: typing.Optional[bool] = OMIT,
         intelligence_level: typing.Optional[UpdateAgentRequestIntelligenceLevel] = OMIT,
+        phonic_model: typing.Optional[UpdateAgentRequestPhonicModel] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
         pronunciation_dictionary: typing.Optional[
             typing.Sequence[UpdateAgentRequestPronunciationDictionaryItemParams]
@@ -2381,6 +2409,9 @@ class AsyncAgentsClient:
 
         intelligence_level : typing.Optional[UpdateAgentRequestIntelligenceLevel]
             The intelligence level of the agent. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency.
+
+        phonic_model : typing.Optional[UpdateAgentRequestPhonicModel]
+            The Phonic speech-to-speech model to generate with. Omit it to use the current default model.
 
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
@@ -2528,6 +2559,7 @@ class AsyncAgentsClient:
             multilingual_mode=multilingual_mode,
             push_to_talk=push_to_talk,
             intelligence_level=intelligence_level,
+            phonic_model=phonic_model,
             boosted_keywords=boosted_keywords,
             pronunciation_dictionary=pronunciation_dictionary,
             min_words_to_interrupt=min_words_to_interrupt,
