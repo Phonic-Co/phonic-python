@@ -96,7 +96,7 @@ class Tool(UncheckedBaseModel):
 
     dynamic_dtmf: typing.Optional[bool] = pydantic.Field(default=None)
     """
-    When true, the agent determines the DTMF digits at call time (and may choose to send none); the static dtmf is ignored. Only sent when use_agent_phone_number is true (not on a SIP REFER transfer).
+    When true, the agent determines the DTMF digits at call time (and may choose to send none); the static dtmf is ignored.
     """
 
     use_agent_phone_number: typing.Optional[bool] = pydantic.Field(default=None)
@@ -111,7 +111,7 @@ class Tool(UncheckedBaseModel):
 
     keep_listening: typing.Optional[bool] = pydantic.Field(default=None)
     """
-    When true, Phonic bridges the transfer and stays on the call. When false, the call is handed off with a SIP REFER and Phonic drops out, so use_agent_phone_number, detect_voicemail and dynamic_dtmf are false and dtmf and post_transfer_message are null. Only returned for built_in_transfer_to_phone_number tools.
+    When true, Phonic bridges the transfer and stays on the call. When false, Phonic drops out once the transfer connects, so use_agent_phone_number and detect_voicemail are false and post_transfer_message is null. Without DTMF the call is handed off with a SIP REFER; with DTMF (static or dynamic) Phonic bridges the call to send the digits and then detaches, leaving the two parties connected. Only returned for built_in_transfer_to_phone_number tools.
     """
 
     agents_to_transfer_to: typing.Optional[typing.List[str]] = pydantic.Field(default=None)
