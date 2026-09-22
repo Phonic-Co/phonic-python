@@ -5,8 +5,8 @@ import typing
 from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.request_options import RequestOptions
 from ..types.language_code import LanguageCode
+from ..types.stream_tts_request_output_format import StreamTtsRequestOutputFormat
 from .raw_client import AsyncRawTtsClient, RawTtsClient
-from .types.stream_tts_request_output_format import StreamTtsRequestOutputFormat
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
