@@ -2067,7 +2067,7 @@ Every key must name a top-level parameter. For POST webhooks, every parameter ne
 <dl>
 <dd>
 
-**post_transfer_message:** `typing.Optional[str]` — Fixed line the agent speaks into the bridged call once the transfer connects. Defaults to null, meaning no announcement. Must be null when keep_listening is false, since a SIP REFER transfer has no bridged call to speak it on. Only available for built_in_transfer_to_phone_number tools.
+**post_transfer_message:** `typing.Optional[str]` — Fixed line the agent speaks into the bridged call once the transfer connects. Defaults to null, meaning no announcement. Must be null when keep_listening is false, since Phonic drops out of the call and has no line to speak it on. Only available for built_in_transfer_to_phone_number tools.
     
 </dd>
 </dl>
@@ -2075,7 +2075,7 @@ Every key must name a top-level parameter. For POST webhooks, every parameter ne
 <dl>
 <dd>
 
-**dynamic_dtmf:** `typing.Optional[bool]` — When true, the agent determines the DTMF digits at call time (and may choose to send none); the static dtmf is ignored. Only sent when use_agent_phone_number is true (not on a SIP REFER transfer).
+**dynamic_dtmf:** `typing.Optional[bool]` — When true, the agent determines the DTMF digits at call time (and may choose to send none); the static dtmf is ignored.
     
 </dd>
 </dl>
@@ -2099,7 +2099,7 @@ Every key must name a top-level parameter. For POST webhooks, every parameter ne
 <dl>
 <dd>
 
-**keep_listening:** `typing.Optional[bool]` — When true, Phonic bridges the transfer and stays on the call. When false, the call is handed off with a SIP REFER and Phonic drops out, which requires use_agent_phone_number and detect_voicemail to be false, dtmf and post_transfer_message to be null and dynamic_dtmf to be false. Only available for built_in_transfer_to_phone_number tools. Defaults to the value of use_agent_phone_number.
+**keep_listening:** `typing.Optional[bool]` — When true, Phonic bridges the transfer and stays on the call. When false, Phonic drops out once the transfer connects, which requires use_agent_phone_number and detect_voicemail to be false and post_transfer_message to be null. Without DTMF the call is handed off with a SIP REFER; with DTMF (static or dynamic) Phonic bridges the call to send the digits and then detaches, leaving the two parties connected. Only available for built_in_transfer_to_phone_number tools. Defaults to the value of use_agent_phone_number.
     
 </dd>
 </dl>
@@ -2566,7 +2566,7 @@ Every key must name a top-level parameter. For POST webhooks, every parameter ne
 <dl>
 <dd>
 
-**dynamic_dtmf:** `typing.Optional[bool]` — When true, the agent determines the DTMF digits at call time (and may choose to send none); the static dtmf is ignored. Only sent when use_agent_phone_number is true (not on a SIP REFER transfer).
+**dynamic_dtmf:** `typing.Optional[bool]` — When true, the agent determines the DTMF digits at call time (and may choose to send none); the static dtmf is ignored.
     
 </dd>
 </dl>
@@ -2590,7 +2590,7 @@ Every key must name a top-level parameter. For POST webhooks, every parameter ne
 <dl>
 <dd>
 
-**keep_listening:** `typing.Optional[bool]` — When true, Phonic bridges the transfer and stays on the call. When false, the call is handed off with a SIP REFER and Phonic drops out, which requires the resulting use_agent_phone_number and detect_voicemail to be false, dtmf and post_transfer_message to be null and dynamic_dtmf to be false. Only applicable to built_in_transfer_to_phone_number tools.
+**keep_listening:** `typing.Optional[bool]` — When true, Phonic bridges the transfer and stays on the call. When false, Phonic drops out once the transfer connects, which requires the resulting use_agent_phone_number and detect_voicemail to be false and post_transfer_message to be null. Without DTMF the call is handed off with a SIP REFER; with DTMF (static or dynamic) Phonic bridges the call to send the digits and then detaches, leaving the two parties connected. Only applicable to built_in_transfer_to_phone_number tools.
     
 </dd>
 </dl>

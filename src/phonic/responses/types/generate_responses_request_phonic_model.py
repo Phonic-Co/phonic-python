@@ -2,4 +2,6 @@
 
 import typing
 
-GenerateResponsesRequestPhonicModel = typing.Union[typing.Literal["phonic_v0_5", "phonic_v1"], typing.Any]
+GenerateResponsesRequestPhonicModel = typing.Union[
+    typing.Literal["phonic_v0_5", "phonic_v1", "phonic_v1_1"], typing.Any
+]
