@@ -7,6 +7,7 @@ from ..types.language_code import LanguageCode
 from ..types.outbound_call_config_background_noise import OutboundCallConfigBackgroundNoise
 from ..types.outbound_call_config_intelligence_level import OutboundCallConfigIntelligenceLevel
 from ..types.outbound_call_config_multilingual_mode import OutboundCallConfigMultilingualMode
+from ..types.outbound_call_config_phonic_model import OutboundCallConfigPhonicModel
 from .data_retention_policy import DataRetentionPolicyParams
 from .outbound_call_config_configuration_endpoint import OutboundCallConfigConfigurationEndpointParams
 from .outbound_call_config_pronunciation_dictionary_item import OutboundCallConfigPronunciationDictionaryItemParams
@@ -108,6 +109,11 @@ class OutboundCallConfigParams(typing_extensions.TypedDict):
     intelligence_level: typing_extensions.NotRequired[OutboundCallConfigIntelligenceLevel]
     """
     The intelligence level of the agent. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency.
+    """
+
+    phonic_model: typing_extensions.NotRequired[OutboundCallConfigPhonicModel]
+    """
+    The Phonic speech-to-speech model to generate with. Omit it to use the current default model.
     """
 
     boosted_keywords: typing_extensions.NotRequired[typing.Sequence[str]]

@@ -589,6 +589,14 @@ client.agents.upsert(
 <dl>
 <dd>
 
+**phonic_model:** `typing.Optional[CreateAgentRequestPhonicModel]` — The Phonic speech-to-speech model to generate with. Omit it to use the current default model.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **boosted_keywords:** `typing.Optional[typing.List[str]]` — These words, or short phrases, will be more accurately recognized by the agent.
     
 </dd>
@@ -1317,6 +1325,14 @@ client.agents.update(
 <dd>
 
 **intelligence_level:** `typing.Optional[UpdateAgentRequestIntelligenceLevel]` — The intelligence level of the agent. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**phonic_model:** `typing.Optional[UpdateAgentRequestPhonicModel]` — The Phonic speech-to-speech model to generate with. Omit it to use the current default model.
     
 </dd>
 </dl>

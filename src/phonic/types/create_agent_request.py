@@ -12,6 +12,7 @@ from .create_agent_request_configuration_endpoint import CreateAgentRequestConfi
 from .create_agent_request_intelligence_level import CreateAgentRequestIntelligenceLevel
 from .create_agent_request_multilingual_mode import CreateAgentRequestMultilingualMode
 from .create_agent_request_phone_number import CreateAgentRequestPhoneNumber
+from .create_agent_request_phonic_model import CreateAgentRequestPhonicModel
 from .create_agent_request_pronunciation_dictionary_item import CreateAgentRequestPronunciationDictionaryItem
 from .create_agent_request_template_variables_value import CreateAgentRequestTemplateVariablesValue
 from .create_agent_request_tools_item import CreateAgentRequestToolsItem
@@ -196,6 +197,11 @@ class CreateAgentRequest(UncheckedBaseModel):
     intelligence_level: typing.Optional[CreateAgentRequestIntelligenceLevel] = pydantic.Field(default=None)
     """
     The intelligence level of the agent. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency.
+    """
+
+    phonic_model: typing.Optional[CreateAgentRequestPhonicModel] = pydantic.Field(default=None)
+    """
+    The Phonic speech-to-speech model to generate with. Omit it to use the current default model.
     """
 
     boosted_keywords: typing.Optional[typing.List[str]] = pydantic.Field(default=None)

@@ -11,6 +11,7 @@ from .outbound_call_config_background_noise import OutboundCallConfigBackgroundN
 from .outbound_call_config_configuration_endpoint import OutboundCallConfigConfigurationEndpoint
 from .outbound_call_config_intelligence_level import OutboundCallConfigIntelligenceLevel
 from .outbound_call_config_multilingual_mode import OutboundCallConfigMultilingualMode
+from .outbound_call_config_phonic_model import OutboundCallConfigPhonicModel
 from .outbound_call_config_pronunciation_dictionary_item import OutboundCallConfigPronunciationDictionaryItem
 from .outbound_call_config_tools_item import OutboundCallConfigToolsItem
 from .outbound_number_pool import OutboundNumberPool
@@ -110,6 +111,11 @@ class OutboundCallConfig(UncheckedBaseModel):
     intelligence_level: typing.Optional[OutboundCallConfigIntelligenceLevel] = pydantic.Field(default=None)
     """
     The intelligence level of the agent. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency.
+    """
+
+    phonic_model: typing.Optional[OutboundCallConfigPhonicModel] = pydantic.Field(default=None)
+    """
+    The Phonic speech-to-speech model to generate with. Omit it to use the current default model.
     """
 
     boosted_keywords: typing.Optional[typing.List[str]] = pydantic.Field(default=None)

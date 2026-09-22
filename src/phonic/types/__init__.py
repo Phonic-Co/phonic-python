@@ -14,6 +14,7 @@ if typing.TYPE_CHECKING:
     from .agent_integration import AgentIntegration
     from .agent_intelligence_level import AgentIntelligenceLevel
     from .agent_multilingual_mode import AgentMultilingualMode
+    from .agent_phonic_model import AgentPhonicModel
     from .agent_project import AgentProject
     from .agent_pronunciation_dictionary_item import AgentPronunciationDictionaryItem
     from .agent_template_variables_value import AgentTemplateVariablesValue
@@ -53,6 +54,7 @@ if typing.TYPE_CHECKING:
     from .config_options_multilingual_mode import ConfigOptionsMultilingualMode
     from .config_options_outbound_number_pool import ConfigOptionsOutboundNumberPool
     from .config_options_output_format import ConfigOptionsOutputFormat
+    from .config_options_phonic_model import ConfigOptionsPhonicModel
     from .config_options_pronunciation_dictionary_item import ConfigOptionsPronunciationDictionaryItem
     from .config_options_tasks_item import ConfigOptionsTasksItem
     from .config_payload import ConfigPayload
@@ -94,6 +96,7 @@ if typing.TYPE_CHECKING:
     from .create_agent_request_intelligence_level import CreateAgentRequestIntelligenceLevel
     from .create_agent_request_multilingual_mode import CreateAgentRequestMultilingualMode
     from .create_agent_request_phone_number import CreateAgentRequestPhoneNumber
+    from .create_agent_request_phonic_model import CreateAgentRequestPhonicModel
     from .create_agent_request_pronunciation_dictionary_item import CreateAgentRequestPronunciationDictionaryItem
     from .create_agent_request_template_variables_value import CreateAgentRequestTemplateVariablesValue
     from .create_agent_request_tools_item import CreateAgentRequestToolsItem
@@ -133,6 +136,7 @@ if typing.TYPE_CHECKING:
     from .outbound_call_config_configuration_endpoint import OutboundCallConfigConfigurationEndpoint
     from .outbound_call_config_intelligence_level import OutboundCallConfigIntelligenceLevel
     from .outbound_call_config_multilingual_mode import OutboundCallConfigMultilingualMode
+    from .outbound_call_config_phonic_model import OutboundCallConfigPhonicModel
     from .outbound_call_config_pronunciation_dictionary_item import OutboundCallConfigPronunciationDictionaryItem
     from .outbound_call_config_tools_item import OutboundCallConfigToolsItem
     from .outbound_call_initiated_response import OutboundCallInitiatedResponse
@@ -220,6 +224,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "AgentIntegration": ".agent_integration",
     "AgentIntelligenceLevel": ".agent_intelligence_level",
     "AgentMultilingualMode": ".agent_multilingual_mode",
+    "AgentPhonicModel": ".agent_phonic_model",
     "AgentProject": ".agent_project",
     "AgentPronunciationDictionaryItem": ".agent_pronunciation_dictionary_item",
     "AgentTemplateVariablesValue": ".agent_template_variables_value",
@@ -255,6 +260,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ConfigOptionsMultilingualMode": ".config_options_multilingual_mode",
     "ConfigOptionsOutboundNumberPool": ".config_options_outbound_number_pool",
     "ConfigOptionsOutputFormat": ".config_options_output_format",
+    "ConfigOptionsPhonicModel": ".config_options_phonic_model",
     "ConfigOptionsPronunciationDictionaryItem": ".config_options_pronunciation_dictionary_item",
     "ConfigOptionsTasksItem": ".config_options_tasks_item",
     "ConfigPayload": ".config_payload",
@@ -296,6 +302,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "CreateAgentRequestIntelligenceLevel": ".create_agent_request_intelligence_level",
     "CreateAgentRequestMultilingualMode": ".create_agent_request_multilingual_mode",
     "CreateAgentRequestPhoneNumber": ".create_agent_request_phone_number",
+    "CreateAgentRequestPhonicModel": ".create_agent_request_phonic_model",
     "CreateAgentRequestPronunciationDictionaryItem": ".create_agent_request_pronunciation_dictionary_item",
     "CreateAgentRequestTemplateVariablesValue": ".create_agent_request_template_variables_value",
     "CreateAgentRequestToolsItem": ".create_agent_request_tools_item",
@@ -333,6 +340,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "OutboundCallConfigConfigurationEndpoint": ".outbound_call_config_configuration_endpoint",
     "OutboundCallConfigIntelligenceLevel": ".outbound_call_config_intelligence_level",
     "OutboundCallConfigMultilingualMode": ".outbound_call_config_multilingual_mode",
+    "OutboundCallConfigPhonicModel": ".outbound_call_config_phonic_model",
     "OutboundCallConfigPronunciationDictionaryItem": ".outbound_call_config_pronunciation_dictionary_item",
     "OutboundCallConfigToolsItem": ".outbound_call_config_tools_item",
     "OutboundCallInitiatedResponse": ".outbound_call_initiated_response",
@@ -442,6 +450,7 @@ __all__ = [
     "AgentIntegration",
     "AgentIntelligenceLevel",
     "AgentMultilingualMode",
+    "AgentPhonicModel",
     "AgentProject",
     "AgentPronunciationDictionaryItem",
     "AgentTemplateVariablesValue",
@@ -477,6 +486,7 @@ __all__ = [
     "ConfigOptionsMultilingualMode",
     "ConfigOptionsOutboundNumberPool",
     "ConfigOptionsOutputFormat",
+    "ConfigOptionsPhonicModel",
     "ConfigOptionsPronunciationDictionaryItem",
     "ConfigOptionsTasksItem",
     "ConfigPayload",
@@ -518,6 +528,7 @@ __all__ = [
     "CreateAgentRequestIntelligenceLevel",
     "CreateAgentRequestMultilingualMode",
     "CreateAgentRequestPhoneNumber",
+    "CreateAgentRequestPhonicModel",
     "CreateAgentRequestPronunciationDictionaryItem",
     "CreateAgentRequestTemplateVariablesValue",
     "CreateAgentRequestToolsItem",
@@ -555,6 +566,7 @@ __all__ = [
     "OutboundCallConfigConfigurationEndpoint",
     "OutboundCallConfigIntelligenceLevel",
     "OutboundCallConfigMultilingualMode",
+    "OutboundCallConfigPhonicModel",
     "OutboundCallConfigPronunciationDictionaryItem",
     "OutboundCallConfigToolsItem",
     "OutboundCallInitiatedResponse",
