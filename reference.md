@@ -3858,6 +3858,81 @@ client.voices.get(
 </dl>
 </details>
 
+<details><summary><code>client.voices.<a href="src/phonic/voices/client.py">preview</a>(...) -> TtsResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Generates speech audio for the provided text and returns it as a single base64-encoded string.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from phonic import Phonic
+from phonic.environment import PhonicEnvironment
+
+client = Phonic(
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
+)
+
+client.voices.preview(
+    text="Thanks for calling Phonic. How can I help?",
+    voice_id="grant",
+    output_format="pcm_16000",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request:** `StreamTtsRequest` 
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 ## Workspace
 <details><summary><code>client.workspace.<a href="src/phonic/workspace/client.py">get</a>() -> WorkspaceGetResponse</code></summary>
 <dl>
@@ -5734,50 +5809,7 @@ client.tts.stream(
 <dl>
 <dd>
 
-**text:** `str` — The text to convert to speech.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**model:** `typing.Optional[typing.Literal]` — The TTS model to use.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**speed:** `typing.Optional[float]` — The speech speed.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**voice_id:** `typing.Optional[str]` — The voice ID to use.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**output_format:** `typing.Optional[StreamTtsRequestOutputFormat]` — The audio format to stream.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**languages:** `typing.Optional[typing.List[LanguageCode]]` 
-
-Candidate languages for synthesis. An empty array defaults to English, one language
-selects it directly, and multiple languages let Phonic detect among those candidates.
+**request:** `StreamTtsRequest` 
     
 </dd>
 </dl>

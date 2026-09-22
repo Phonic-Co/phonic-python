@@ -11,13 +11,20 @@ from ..core.parse_error import ParsingError
 from ..core.request_options import RequestOptions
 from ..core.unchecked_base_model import construct_type
 from ..errors.bad_request_error import BadRequestError
+from ..errors.forbidden_error import ForbiddenError
 from ..errors.internal_server_error import InternalServerError
 from ..errors.not_found_error import NotFoundError
 from ..errors.unauthorized_error import UnauthorizedError
 from ..types.basic_error import BasicError
+from ..types.language_code import LanguageCode
+from ..types.stream_tts_request_output_format import StreamTtsRequestOutputFormat
+from ..types.tts_response import TtsResponse
 from .types.voices_get_response import VoicesGetResponse
 from .types.voices_list_response import VoicesListResponse
 from pydantic import ValidationError
+
+# this is used as the default value for optional parameters
+OMIT = typing.cast(typing.Any, ...)
 
 
 class RawVoicesClient:
@@ -152,6 +159,127 @@ class RawVoicesClient:
                         typing.Any,
                         construct_type(
                             type_=typing.Any,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    def preview(
+        self,
+        *,
+        text: str,
+        model: typing.Optional[typing.Literal["merritt"]] = OMIT,
+        speed: typing.Optional[float] = OMIT,
+        voice_id: typing.Optional[str] = OMIT,
+        output_format: typing.Optional[StreamTtsRequestOutputFormat] = OMIT,
+        languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> HttpResponse[TtsResponse]:
+        """
+        Generates speech audio for the provided text and returns it as a single base64-encoded string.
+
+        Parameters
+        ----------
+        text : str
+            The text to convert to speech.
+
+        model : typing.Optional[typing.Literal["merritt"]]
+            The TTS model to use.
+
+        speed : typing.Optional[float]
+            The speech speed.
+
+        voice_id : typing.Optional[str]
+            The voice ID to use.
+
+        output_format : typing.Optional[StreamTtsRequestOutputFormat]
+            The audio format to stream.
+
+        languages : typing.Optional[typing.Sequence[LanguageCode]]
+            Candidate languages for synthesis. An empty array defaults to English, one language
+            selects it directly, and multiple languages let Phonic detect among those candidates.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[TtsResponse]
+            The generated audio.
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            "tts",
+            base_url=self._client_wrapper.get_environment().base,
+            method="POST",
+            json={
+                "text": text,
+                "model": model,
+                "speed": speed,
+                "voice_id": voice_id,
+                "output_format": output_format,
+                "languages": languages,
+            },
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    TtsResponse,
+                    construct_type(
+                        type_=TtsResponse,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return HttpResponse(response=_response, data=_data)
+            if _response.status_code == 400:
+                raise BadRequestError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Any,
+                        construct_type(
+                            type_=typing.Any,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 401:
+                raise UnauthorizedError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        BasicError,
+                        construct_type(
+                            type_=BasicError,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 403:
+                raise ForbiddenError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Any,
+                        construct_type(
+                            type_=typing.Any,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 500:
+                raise InternalServerError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        BasicError,
+                        construct_type(
+                            type_=BasicError,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -300,6 +428,127 @@ class AsyncRawVoicesClient:
                         typing.Any,
                         construct_type(
                             type_=typing.Any,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def preview(
+        self,
+        *,
+        text: str,
+        model: typing.Optional[typing.Literal["merritt"]] = OMIT,
+        speed: typing.Optional[float] = OMIT,
+        voice_id: typing.Optional[str] = OMIT,
+        output_format: typing.Optional[StreamTtsRequestOutputFormat] = OMIT,
+        languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AsyncHttpResponse[TtsResponse]:
+        """
+        Generates speech audio for the provided text and returns it as a single base64-encoded string.
+
+        Parameters
+        ----------
+        text : str
+            The text to convert to speech.
+
+        model : typing.Optional[typing.Literal["merritt"]]
+            The TTS model to use.
+
+        speed : typing.Optional[float]
+            The speech speed.
+
+        voice_id : typing.Optional[str]
+            The voice ID to use.
+
+        output_format : typing.Optional[StreamTtsRequestOutputFormat]
+            The audio format to stream.
+
+        languages : typing.Optional[typing.Sequence[LanguageCode]]
+            Candidate languages for synthesis. An empty array defaults to English, one language
+            selects it directly, and multiple languages let Phonic detect among those candidates.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[TtsResponse]
+            The generated audio.
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "tts",
+            base_url=self._client_wrapper.get_environment().base,
+            method="POST",
+            json={
+                "text": text,
+                "model": model,
+                "speed": speed,
+                "voice_id": voice_id,
+                "output_format": output_format,
+                "languages": languages,
+            },
+            request_options=request_options,
+            omit=OMIT,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    TtsResponse,
+                    construct_type(
+                        type_=TtsResponse,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return AsyncHttpResponse(response=_response, data=_data)
+            if _response.status_code == 400:
+                raise BadRequestError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Any,
+                        construct_type(
+                            type_=typing.Any,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 401:
+                raise UnauthorizedError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        BasicError,
+                        construct_type(
+                            type_=BasicError,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 403:
+                raise ForbiddenError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Any,
+                        construct_type(
+                            type_=typing.Any,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 500:
+                raise InternalServerError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        BasicError,
+                        construct_type(
+                            type_=BasicError,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),

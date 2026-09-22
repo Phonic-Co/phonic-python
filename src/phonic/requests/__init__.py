@@ -149,6 +149,7 @@ if typing.TYPE_CHECKING:
     from .sip_call_error_error import SipCallErrorErrorParams
     from .sip_outbound_call_initiated_response import SipOutboundCallInitiatedResponseParams
     from .sip_outbound_dry_run_response import SipOutboundDryRunResponseParams
+    from .stream_tts_request import StreamTtsRequestParams
     from .task import TaskParams
     from .tool import ToolParams
     from .tool_call_interrupted_payload import ToolCallInterruptedPayloadParams
@@ -161,6 +162,7 @@ if typing.TYPE_CHECKING:
     from .tool_parameters import ToolParametersParams
     from .tool_parameters_json_schema import ToolParametersJsonSchemaParams
     from .tool_project import ToolProjectParams
+    from .tts_response import TtsResponseParams
     from .unmute_payload import UnmutePayloadParams
     from .update_system_prompt_payload import UpdateSystemPromptPayloadParams
     from .update_tools_subset_payload import UpdateToolsSubsetPayloadParams
@@ -303,6 +305,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "SipCallErrorParams": ".sip_call_error",
     "SipOutboundCallInitiatedResponseParams": ".sip_outbound_call_initiated_response",
     "SipOutboundDryRunResponseParams": ".sip_outbound_dry_run_response",
+    "StreamTtsRequestParams": ".stream_tts_request",
     "TaskParams": ".task",
     "ToolCallInterruptedPayloadParams": ".tool_call_interrupted_payload",
     "ToolCallOutputPayloadParams": ".tool_call_output_payload",
@@ -315,6 +318,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ToolParametersParams": ".tool_parameters",
     "ToolParams": ".tool",
     "ToolProjectParams": ".tool_project",
+    "TtsResponseParams": ".tts_response",
     "UnmutePayloadParams": ".unmute_payload",
     "UpdateSystemPromptPayloadParams": ".update_system_prompt_payload",
     "UpdateToolsSubsetPayloadParams": ".update_tools_subset_payload",
@@ -481,6 +485,7 @@ __all__ = [
     "SipCallErrorParams",
     "SipOutboundCallInitiatedResponseParams",
     "SipOutboundDryRunResponseParams",
+    "StreamTtsRequestParams",
     "TaskParams",
     "ToolCallInterruptedPayloadParams",
     "ToolCallOutputPayloadParams",
@@ -493,6 +498,7 @@ __all__ = [
     "ToolParametersParams",
     "ToolParams",
     "ToolProjectParams",
+    "TtsResponseParams",
     "UnmutePayloadParams",
     "UpdateSystemPromptPayloadParams",
     "UpdateToolsSubsetPayloadParams",

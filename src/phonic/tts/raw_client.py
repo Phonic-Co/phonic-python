@@ -16,7 +16,7 @@ from ..errors.internal_server_error import InternalServerError
 from ..errors.unauthorized_error import UnauthorizedError
 from ..types.basic_error import BasicError
 from ..types.language_code import LanguageCode
-from .types.stream_tts_request_output_format import StreamTtsRequestOutputFormat
+from ..types.stream_tts_request_output_format import StreamTtsRequestOutputFormat
 from pydantic import ValidationError
 
 # this is used as the default value for optional parameters
@@ -82,9 +82,6 @@ class RawTtsClient:
                 "voice_id": voice_id,
                 "output_format": output_format,
                 "languages": languages,
-            },
-            headers={
-                "content-type": "application/json",
             },
             request_options=request_options,
             omit=OMIT,
@@ -218,9 +215,6 @@ class AsyncRawTtsClient:
                 "voice_id": voice_id,
                 "output_format": output_format,
                 "languages": languages,
-            },
-            headers={
-                "content-type": "application/json",
             },
             request_options=request_options,
             omit=OMIT,

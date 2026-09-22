@@ -4,9 +4,15 @@ import typing
 
 from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.request_options import RequestOptions
+from ..types.language_code import LanguageCode
+from ..types.stream_tts_request_output_format import StreamTtsRequestOutputFormat
+from ..types.tts_response import TtsResponse
 from .raw_client import AsyncRawVoicesClient, RawVoicesClient
 from .types.voices_get_response import VoicesGetResponse
 from .types.voices_list_response import VoicesListResponse
+
+# this is used as the default value for optional parameters
+OMIT = typing.cast(typing.Any, ...)
 
 
 class VoicesClient:
@@ -79,6 +85,73 @@ class VoicesClient:
         )
         """
         _response = self._raw_client.get(id, request_options=request_options)
+        return _response.data
+
+    def preview(
+        self,
+        *,
+        text: str,
+        model: typing.Optional[typing.Literal["merritt"]] = OMIT,
+        speed: typing.Optional[float] = OMIT,
+        voice_id: typing.Optional[str] = OMIT,
+        output_format: typing.Optional[StreamTtsRequestOutputFormat] = OMIT,
+        languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> TtsResponse:
+        """
+        Generates speech audio for the provided text and returns it as a single base64-encoded string.
+
+        Parameters
+        ----------
+        text : str
+            The text to convert to speech.
+
+        model : typing.Optional[typing.Literal["merritt"]]
+            The TTS model to use.
+
+        speed : typing.Optional[float]
+            The speech speed.
+
+        voice_id : typing.Optional[str]
+            The voice ID to use.
+
+        output_format : typing.Optional[StreamTtsRequestOutputFormat]
+            The audio format to stream.
+
+        languages : typing.Optional[typing.Sequence[LanguageCode]]
+            Candidate languages for synthesis. An empty array defaults to English, one language
+            selects it directly, and multiple languages let Phonic detect among those candidates.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        TtsResponse
+            The generated audio.
+
+        Examples
+        --------
+        from phonic import Phonic
+
+        client = Phonic(
+            api_key="YOUR_API_KEY",
+        )
+        client.voices.preview(
+            text="Thanks for calling Phonic. How can I help?",
+            voice_id="grant",
+            output_format="pcm_16000",
+        )
+        """
+        _response = self._raw_client.preview(
+            text=text,
+            model=model,
+            speed=speed,
+            voice_id=voice_id,
+            output_format=output_format,
+            languages=languages,
+            request_options=request_options,
+        )
         return _response.data
 
 
@@ -168,4 +241,79 @@ class AsyncVoicesClient:
         asyncio.run(main())
         """
         _response = await self._raw_client.get(id, request_options=request_options)
+        return _response.data
+
+    async def preview(
+        self,
+        *,
+        text: str,
+        model: typing.Optional[typing.Literal["merritt"]] = OMIT,
+        speed: typing.Optional[float] = OMIT,
+        voice_id: typing.Optional[str] = OMIT,
+        output_format: typing.Optional[StreamTtsRequestOutputFormat] = OMIT,
+        languages: typing.Optional[typing.Sequence[LanguageCode]] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> TtsResponse:
+        """
+        Generates speech audio for the provided text and returns it as a single base64-encoded string.
+
+        Parameters
+        ----------
+        text : str
+            The text to convert to speech.
+
+        model : typing.Optional[typing.Literal["merritt"]]
+            The TTS model to use.
+
+        speed : typing.Optional[float]
+            The speech speed.
+
+        voice_id : typing.Optional[str]
+            The voice ID to use.
+
+        output_format : typing.Optional[StreamTtsRequestOutputFormat]
+            The audio format to stream.
+
+        languages : typing.Optional[typing.Sequence[LanguageCode]]
+            Candidate languages for synthesis. An empty array defaults to English, one language
+            selects it directly, and multiple languages let Phonic detect among those candidates.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        TtsResponse
+            The generated audio.
+
+        Examples
+        --------
+        import asyncio
+
+        from phonic import AsyncPhonic
+
+        client = AsyncPhonic(
+            api_key="YOUR_API_KEY",
+        )
+
+
+        async def main() -> None:
+            await client.voices.preview(
+                text="Thanks for calling Phonic. How can I help?",
+                voice_id="grant",
+                output_format="pcm_16000",
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.preview(
+            text=text,
+            model=model,
+            speed=speed,
+            voice_id=voice_id,
+            output_format=output_format,
+            languages=languages,
+            request_options=request_options,
+        )
         return _response.data
