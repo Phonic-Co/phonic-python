@@ -9,6 +9,7 @@ if typing.TYPE_CHECKING:
     from .types import (
         CreateToolRequestEndpointMethod,
         CreateToolRequestExecutionMode,
+        CreateToolRequestOnTransferNoAnswer,
         CreateToolRequestParameterLocationsValue,
         CreateToolRequestParameters,
         CreateToolRequestSpeechBeforeToolCall,
@@ -20,6 +21,7 @@ if typing.TYPE_CHECKING:
         ToolsUpdateResponse,
         UpdateToolRequestEndpointMethod,
         UpdateToolRequestExecutionMode,
+        UpdateToolRequestOnTransferNoAnswer,
         UpdateToolRequestParameterLocationsValue,
         UpdateToolRequestParameters,
         UpdateToolRequestSpeechBeforeToolCall,
@@ -36,6 +38,7 @@ if typing.TYPE_CHECKING:
 _dynamic_imports: typing.Dict[str, str] = {
     "CreateToolRequestEndpointMethod": ".types",
     "CreateToolRequestExecutionMode": ".types",
+    "CreateToolRequestOnTransferNoAnswer": ".types",
     "CreateToolRequestParameterLocationsValue": ".types",
     "CreateToolRequestParameters": ".types",
     "CreateToolRequestParametersParams": ".requests",
@@ -53,6 +56,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ToolsUpdateResponseParams": ".requests",
     "UpdateToolRequestEndpointMethod": ".types",
     "UpdateToolRequestExecutionMode": ".types",
+    "UpdateToolRequestOnTransferNoAnswer": ".types",
     "UpdateToolRequestParameterLocationsValue": ".types",
     "UpdateToolRequestParameters": ".types",
     "UpdateToolRequestParametersParams": ".requests",
@@ -84,6 +88,7 @@ def __dir__():
 __all__ = [
     "CreateToolRequestEndpointMethod",
     "CreateToolRequestExecutionMode",
+    "CreateToolRequestOnTransferNoAnswer",
     "CreateToolRequestParameterLocationsValue",
     "CreateToolRequestParameters",
     "CreateToolRequestParametersParams",
@@ -101,6 +106,7 @@ __all__ = [
     "ToolsUpdateResponseParams",
     "UpdateToolRequestEndpointMethod",
     "UpdateToolRequestExecutionMode",
+    "UpdateToolRequestOnTransferNoAnswer",
     "UpdateToolRequestParameterLocationsValue",
     "UpdateToolRequestParameters",
     "UpdateToolRequestParametersParams",

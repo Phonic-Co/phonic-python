@@ -7,6 +7,7 @@ from ..core.pydantic_utilities import IS_PYDANTIC_V2
 from ..core.unchecked_base_model import UncheckedBaseModel
 from .tool_endpoint_method import ToolEndpointMethod
 from .tool_execution_mode import ToolExecutionMode
+from .tool_on_transfer_no_answer import ToolOnTransferNoAnswer
 from .tool_parameter_locations_value import ToolParameterLocationsValue
 from .tool_parameters import ToolParameters
 from .tool_project import ToolProject
@@ -112,6 +113,11 @@ class Tool(UncheckedBaseModel):
     keep_listening: typing.Optional[bool] = pydantic.Field(default=None)
     """
     When true, Phonic bridges the transfer and stays on the call. When false, Phonic drops out once the transfer connects, so use_agent_phone_number and detect_voicemail are false and post_transfer_message is null. Without DTMF the call is handed off with a SIP REFER; with DTMF (static or dynamic) Phonic bridges the call to send the digits and then detaches, leaving the two parties connected. Only returned for built_in_transfer_to_phone_number tools.
+    """
+
+    on_transfer_no_answer: typing.Optional[ToolOnTransferNoAnswer] = pydantic.Field(default=None)
+    """
+    What happens when the transfer target does not answer before the ring timeout. `return_to_assistant` hands control back to the agent. `keep_retrying` keeps the caller on the line and re-dials the target until it answers, the caller hangs up, or a retry cap is reached, then returns to the assistant. Only returned for built_in_transfer_to_phone_number tools.
     """
 
     agents_to_transfer_to: typing.Optional[typing.List[str]] = pydantic.Field(default=None)

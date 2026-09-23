@@ -176,6 +176,9 @@ if typing.TYPE_CHECKING:
     from .responses_tool_reference import ResponsesToolReference
     from .responses_transfer_to_agent_action import ResponsesTransferToAgentAction
     from .responses_transfer_to_phone_number_action import ResponsesTransferToPhoneNumberAction
+    from .responses_transfer_to_phone_number_action_on_transfer_no_answer import (
+        ResponsesTransferToPhoneNumberActionOnTransferNoAnswer,
+    )
     from .responses_user_message import ResponsesUserMessage
     from .say_payload import SayPayload
     from .set_external_id_payload import SetExternalIdPayload
@@ -197,6 +200,7 @@ if typing.TYPE_CHECKING:
     from .tool_endpoint_method import ToolEndpointMethod
     from .tool_execution_mode import ToolExecutionMode
     from .tool_name import ToolName
+    from .tool_on_transfer_no_answer import ToolOnTransferNoAnswer
     from .tool_parameter import ToolParameter
     from .tool_parameter_item_type import ToolParameterItemType
     from .tool_parameter_location import ToolParameterLocation
@@ -381,6 +385,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ResponsesToolReference": ".responses_tool_reference",
     "ResponsesTransferToAgentAction": ".responses_transfer_to_agent_action",
     "ResponsesTransferToPhoneNumberAction": ".responses_transfer_to_phone_number_action",
+    "ResponsesTransferToPhoneNumberActionOnTransferNoAnswer": ".responses_transfer_to_phone_number_action_on_transfer_no_answer",
     "ResponsesUserMessage": ".responses_user_message",
     "SayPayload": ".say_payload",
     "SetExternalIdPayload": ".set_external_id_payload",
@@ -402,6 +407,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ToolEndpointMethod": ".tool_endpoint_method",
     "ToolExecutionMode": ".tool_execution_mode",
     "ToolName": ".tool_name",
+    "ToolOnTransferNoAnswer": ".tool_on_transfer_no_answer",
     "ToolParameter": ".tool_parameter",
     "ToolParameterItemType": ".tool_parameter_item_type",
     "ToolParameterLocation": ".tool_parameter_location",
@@ -610,6 +616,7 @@ __all__ = [
     "ResponsesToolReference",
     "ResponsesTransferToAgentAction",
     "ResponsesTransferToPhoneNumberAction",
+    "ResponsesTransferToPhoneNumberActionOnTransferNoAnswer",
     "ResponsesUserMessage",
     "SayPayload",
     "SetExternalIdPayload",
@@ -631,6 +638,7 @@ __all__ = [
     "ToolEndpointMethod",
     "ToolExecutionMode",
     "ToolName",
+    "ToolOnTransferNoAnswer",
     "ToolParameter",
     "ToolParameterItemType",
     "ToolParameterLocation",

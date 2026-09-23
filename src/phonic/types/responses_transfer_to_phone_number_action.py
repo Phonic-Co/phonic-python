@@ -5,6 +5,9 @@ import typing
 import pydantic
 from ..core.pydantic_utilities import IS_PYDANTIC_V2
 from ..core.unchecked_base_model import UncheckedBaseModel
+from .responses_transfer_to_phone_number_action_on_transfer_no_answer import (
+    ResponsesTransferToPhoneNumberActionOnTransferNoAnswer,
+)
 
 
 class ResponsesTransferToPhoneNumberAction(UncheckedBaseModel):
@@ -30,6 +33,11 @@ class ResponsesTransferToPhoneNumberAction(UncheckedBaseModel):
     keep_listening: bool = pydantic.Field()
     """
     Whether Phonic would keep transcribing the call after the transfer.
+    """
+
+    on_transfer_no_answer: ResponsesTransferToPhoneNumberActionOnTransferNoAnswer = pydantic.Field()
+    """
+    What Phonic would do if the transfer target does not answer. `return_to_assistant` hands control back to the agent; `keep_retrying` re-dials the target.
     """
 
     dtmf: typing.Optional[str] = pydantic.Field(default=None)

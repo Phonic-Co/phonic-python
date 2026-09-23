@@ -8,6 +8,7 @@ from importlib import import_module
 if typing.TYPE_CHECKING:
     from .create_tool_request_endpoint_method import CreateToolRequestEndpointMethod
     from .create_tool_request_execution_mode import CreateToolRequestExecutionMode
+    from .create_tool_request_on_transfer_no_answer import CreateToolRequestOnTransferNoAnswer
     from .create_tool_request_parameter_locations_value import CreateToolRequestParameterLocationsValue
     from .create_tool_request_parameters import CreateToolRequestParameters
     from .create_tool_request_speech_before_tool_call import CreateToolRequestSpeechBeforeToolCall
@@ -19,12 +20,14 @@ if typing.TYPE_CHECKING:
     from .tools_update_response import ToolsUpdateResponse
     from .update_tool_request_endpoint_method import UpdateToolRequestEndpointMethod
     from .update_tool_request_execution_mode import UpdateToolRequestExecutionMode
+    from .update_tool_request_on_transfer_no_answer import UpdateToolRequestOnTransferNoAnswer
     from .update_tool_request_parameter_locations_value import UpdateToolRequestParameterLocationsValue
     from .update_tool_request_parameters import UpdateToolRequestParameters
     from .update_tool_request_speech_before_tool_call import UpdateToolRequestSpeechBeforeToolCall
 _dynamic_imports: typing.Dict[str, str] = {
     "CreateToolRequestEndpointMethod": ".create_tool_request_endpoint_method",
     "CreateToolRequestExecutionMode": ".create_tool_request_execution_mode",
+    "CreateToolRequestOnTransferNoAnswer": ".create_tool_request_on_transfer_no_answer",
     "CreateToolRequestParameterLocationsValue": ".create_tool_request_parameter_locations_value",
     "CreateToolRequestParameters": ".create_tool_request_parameters",
     "CreateToolRequestSpeechBeforeToolCall": ".create_tool_request_speech_before_tool_call",
@@ -36,6 +39,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ToolsUpdateResponse": ".tools_update_response",
     "UpdateToolRequestEndpointMethod": ".update_tool_request_endpoint_method",
     "UpdateToolRequestExecutionMode": ".update_tool_request_execution_mode",
+    "UpdateToolRequestOnTransferNoAnswer": ".update_tool_request_on_transfer_no_answer",
     "UpdateToolRequestParameterLocationsValue": ".update_tool_request_parameter_locations_value",
     "UpdateToolRequestParameters": ".update_tool_request_parameters",
     "UpdateToolRequestSpeechBeforeToolCall": ".update_tool_request_speech_before_tool_call",
@@ -66,6 +70,7 @@ def __dir__():
 __all__ = [
     "CreateToolRequestEndpointMethod",
     "CreateToolRequestExecutionMode",
+    "CreateToolRequestOnTransferNoAnswer",
     "CreateToolRequestParameterLocationsValue",
     "CreateToolRequestParameters",
     "CreateToolRequestSpeechBeforeToolCall",
@@ -77,6 +82,7 @@ __all__ = [
     "ToolsUpdateResponse",
     "UpdateToolRequestEndpointMethod",
     "UpdateToolRequestExecutionMode",
+    "UpdateToolRequestOnTransferNoAnswer",
     "UpdateToolRequestParameterLocationsValue",
     "UpdateToolRequestParameters",
     "UpdateToolRequestSpeechBeforeToolCall",

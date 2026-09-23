@@ -9,6 +9,7 @@ from .requests.create_tool_request_parameters import CreateToolRequestParameters
 from .requests.update_tool_request_parameters import UpdateToolRequestParametersParams
 from .types.create_tool_request_endpoint_method import CreateToolRequestEndpointMethod
 from .types.create_tool_request_execution_mode import CreateToolRequestExecutionMode
+from .types.create_tool_request_on_transfer_no_answer import CreateToolRequestOnTransferNoAnswer
 from .types.create_tool_request_parameter_locations_value import CreateToolRequestParameterLocationsValue
 from .types.create_tool_request_speech_before_tool_call import CreateToolRequestSpeechBeforeToolCall
 from .types.create_tool_request_type import CreateToolRequestType
@@ -19,6 +20,7 @@ from .types.tools_list_response import ToolsListResponse
 from .types.tools_update_response import ToolsUpdateResponse
 from .types.update_tool_request_endpoint_method import UpdateToolRequestEndpointMethod
 from .types.update_tool_request_execution_mode import UpdateToolRequestExecutionMode
+from .types.update_tool_request_on_transfer_no_answer import UpdateToolRequestOnTransferNoAnswer
 from .types.update_tool_request_parameter_locations_value import UpdateToolRequestParameterLocationsValue
 from .types.update_tool_request_speech_before_tool_call import UpdateToolRequestSpeechBeforeToolCall
 
@@ -96,6 +98,7 @@ class ToolsClient:
         use_agent_phone_number: typing.Optional[bool] = OMIT,
         detect_voicemail: typing.Optional[bool] = OMIT,
         keep_listening: typing.Optional[bool] = OMIT,
+        on_transfer_no_answer: typing.Optional[CreateToolRequestOnTransferNoAnswer] = OMIT,
         agents_to_transfer_to: typing.Optional[typing.Sequence[str]] = OMIT,
         require_speech_before_tool_call: typing.Optional[bool] = OMIT,
         speech_before_tool_call: typing.Optional[CreateToolRequestSpeechBeforeToolCall] = OMIT,
@@ -178,6 +181,9 @@ class ToolsClient:
 
         keep_listening : typing.Optional[bool]
             When true, Phonic bridges the transfer and stays on the call. When false, Phonic drops out once the transfer connects, which requires use_agent_phone_number and detect_voicemail to be false and post_transfer_message to be null. Without DTMF the call is handed off with a SIP REFER; with DTMF (static or dynamic) Phonic bridges the call to send the digits and then detaches, leaving the two parties connected. Only available for built_in_transfer_to_phone_number tools. Defaults to the value of use_agent_phone_number.
+
+        on_transfer_no_answer : typing.Optional[CreateToolRequestOnTransferNoAnswer]
+            What happens when the transfer target does not answer before the ring timeout. `return_to_assistant` hands control back to the agent. `keep_retrying` keeps the caller on the line and re-dials the target until it answers, the caller hangs up, or a retry cap is reached, then returns to the assistant. Only available for built_in_transfer_to_phone_number tools.
 
         agents_to_transfer_to : typing.Optional[typing.Sequence[str]]
             Array of agent names that the LLM can choose from when transferring. Required for built_in_transfer_to_agent tools. All agents must exist in the same project as the tool.
@@ -267,6 +273,7 @@ class ToolsClient:
             use_agent_phone_number=use_agent_phone_number,
             detect_voicemail=detect_voicemail,
             keep_listening=keep_listening,
+            on_transfer_no_answer=on_transfer_no_answer,
             agents_to_transfer_to=agents_to_transfer_to,
             require_speech_before_tool_call=require_speech_before_tool_call,
             speech_before_tool_call=speech_before_tool_call,
@@ -387,6 +394,7 @@ class ToolsClient:
         use_agent_phone_number: typing.Optional[bool] = OMIT,
         detect_voicemail: typing.Optional[bool] = OMIT,
         keep_listening: typing.Optional[bool] = OMIT,
+        on_transfer_no_answer: typing.Optional[UpdateToolRequestOnTransferNoAnswer] = OMIT,
         agents_to_transfer_to: typing.Optional[typing.Sequence[str]] = OMIT,
         require_speech_before_tool_call: typing.Optional[bool] = OMIT,
         speech_before_tool_call: typing.Optional[UpdateToolRequestSpeechBeforeToolCall] = OMIT,
@@ -466,6 +474,9 @@ class ToolsClient:
         keep_listening : typing.Optional[bool]
             When true, Phonic bridges the transfer and stays on the call. When false, Phonic drops out once the transfer connects, which requires the resulting use_agent_phone_number and detect_voicemail to be false and post_transfer_message to be null. Without DTMF the call is handed off with a SIP REFER; with DTMF (static or dynamic) Phonic bridges the call to send the digits and then detaches, leaving the two parties connected. Only applicable to built_in_transfer_to_phone_number tools.
 
+        on_transfer_no_answer : typing.Optional[UpdateToolRequestOnTransferNoAnswer]
+            What happens when the transfer target does not answer before the ring timeout. `return_to_assistant` hands control back to the agent. `keep_retrying` keeps the caller on the line and re-dials the target until it answers, the caller hangs up, or a retry cap is reached, then returns to the assistant. Only applicable to built_in_transfer_to_phone_number tools.
+
         agents_to_transfer_to : typing.Optional[typing.Sequence[str]]
             Array of agent names that the LLM can choose from when transferring. All agents must exist in the same project as the tool.
 
@@ -540,6 +551,7 @@ class ToolsClient:
             use_agent_phone_number=use_agent_phone_number,
             detect_voicemail=detect_voicemail,
             keep_listening=keep_listening,
+            on_transfer_no_answer=on_transfer_no_answer,
             agents_to_transfer_to=agents_to_transfer_to,
             require_speech_before_tool_call=require_speech_before_tool_call,
             speech_before_tool_call=speech_before_tool_call,
@@ -633,6 +645,7 @@ class AsyncToolsClient:
         use_agent_phone_number: typing.Optional[bool] = OMIT,
         detect_voicemail: typing.Optional[bool] = OMIT,
         keep_listening: typing.Optional[bool] = OMIT,
+        on_transfer_no_answer: typing.Optional[CreateToolRequestOnTransferNoAnswer] = OMIT,
         agents_to_transfer_to: typing.Optional[typing.Sequence[str]] = OMIT,
         require_speech_before_tool_call: typing.Optional[bool] = OMIT,
         speech_before_tool_call: typing.Optional[CreateToolRequestSpeechBeforeToolCall] = OMIT,
@@ -715,6 +728,9 @@ class AsyncToolsClient:
 
         keep_listening : typing.Optional[bool]
             When true, Phonic bridges the transfer and stays on the call. When false, Phonic drops out once the transfer connects, which requires use_agent_phone_number and detect_voicemail to be false and post_transfer_message to be null. Without DTMF the call is handed off with a SIP REFER; with DTMF (static or dynamic) Phonic bridges the call to send the digits and then detaches, leaving the two parties connected. Only available for built_in_transfer_to_phone_number tools. Defaults to the value of use_agent_phone_number.
+
+        on_transfer_no_answer : typing.Optional[CreateToolRequestOnTransferNoAnswer]
+            What happens when the transfer target does not answer before the ring timeout. `return_to_assistant` hands control back to the agent. `keep_retrying` keeps the caller on the line and re-dials the target until it answers, the caller hangs up, or a retry cap is reached, then returns to the assistant. Only available for built_in_transfer_to_phone_number tools.
 
         agents_to_transfer_to : typing.Optional[typing.Sequence[str]]
             Array of agent names that the LLM can choose from when transferring. Required for built_in_transfer_to_agent tools. All agents must exist in the same project as the tool.
@@ -812,6 +828,7 @@ class AsyncToolsClient:
             use_agent_phone_number=use_agent_phone_number,
             detect_voicemail=detect_voicemail,
             keep_listening=keep_listening,
+            on_transfer_no_answer=on_transfer_no_answer,
             agents_to_transfer_to=agents_to_transfer_to,
             require_speech_before_tool_call=require_speech_before_tool_call,
             speech_before_tool_call=speech_before_tool_call,
@@ -948,6 +965,7 @@ class AsyncToolsClient:
         use_agent_phone_number: typing.Optional[bool] = OMIT,
         detect_voicemail: typing.Optional[bool] = OMIT,
         keep_listening: typing.Optional[bool] = OMIT,
+        on_transfer_no_answer: typing.Optional[UpdateToolRequestOnTransferNoAnswer] = OMIT,
         agents_to_transfer_to: typing.Optional[typing.Sequence[str]] = OMIT,
         require_speech_before_tool_call: typing.Optional[bool] = OMIT,
         speech_before_tool_call: typing.Optional[UpdateToolRequestSpeechBeforeToolCall] = OMIT,
@@ -1026,6 +1044,9 @@ class AsyncToolsClient:
 
         keep_listening : typing.Optional[bool]
             When true, Phonic bridges the transfer and stays on the call. When false, Phonic drops out once the transfer connects, which requires the resulting use_agent_phone_number and detect_voicemail to be false and post_transfer_message to be null. Without DTMF the call is handed off with a SIP REFER; with DTMF (static or dynamic) Phonic bridges the call to send the digits and then detaches, leaving the two parties connected. Only applicable to built_in_transfer_to_phone_number tools.
+
+        on_transfer_no_answer : typing.Optional[UpdateToolRequestOnTransferNoAnswer]
+            What happens when the transfer target does not answer before the ring timeout. `return_to_assistant` hands control back to the agent. `keep_retrying` keeps the caller on the line and re-dials the target until it answers, the caller hangs up, or a retry cap is reached, then returns to the assistant. Only applicable to built_in_transfer_to_phone_number tools.
 
         agents_to_transfer_to : typing.Optional[typing.Sequence[str]]
             Array of agent names that the LLM can choose from when transferring. All agents must exist in the same project as the tool.
@@ -1109,6 +1130,7 @@ class AsyncToolsClient:
             use_agent_phone_number=use_agent_phone_number,
             detect_voicemail=detect_voicemail,
             keep_listening=keep_listening,
+            on_transfer_no_answer=on_transfer_no_answer,
             agents_to_transfer_to=agents_to_transfer_to,
             require_speech_before_tool_call=require_speech_before_tool_call,
             speech_before_tool_call=speech_before_tool_call,

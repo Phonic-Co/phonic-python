@@ -2123,6 +2123,14 @@ Every key must name a top-level parameter. For POST webhooks, every parameter ne
 <dl>
 <dd>
 
+**on_transfer_no_answer:** `typing.Optional[CreateToolRequestOnTransferNoAnswer]` — What happens when the transfer target does not answer before the ring timeout. `return_to_assistant` hands control back to the agent. `keep_retrying` keeps the caller on the line and re-dials the target until it answers, the caller hangs up, or a retry cap is reached, then returns to the assistant. Only available for built_in_transfer_to_phone_number tools.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **agents_to_transfer_to:** `typing.Optional[typing.List[str]]` — Array of agent names that the LLM can choose from when transferring. Required for built_in_transfer_to_agent tools. All agents must exist in the same project as the tool.
     
 </dd>
@@ -2607,6 +2615,14 @@ Every key must name a top-level parameter. For POST webhooks, every parameter ne
 <dd>
 
 **keep_listening:** `typing.Optional[bool]` — When true, Phonic bridges the transfer and stays on the call. When false, Phonic drops out once the transfer connects, which requires the resulting use_agent_phone_number and detect_voicemail to be false and post_transfer_message to be null. Without DTMF the call is handed off with a SIP REFER; with DTMF (static or dynamic) Phonic bridges the call to send the digits and then detaches, leaving the two parties connected. Only applicable to built_in_transfer_to_phone_number tools.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**on_transfer_no_answer:** `typing.Optional[UpdateToolRequestOnTransferNoAnswer]` — What happens when the transfer target does not answer before the ring timeout. `return_to_assistant` hands control back to the agent. `keep_retrying` keeps the caller on the line and re-dials the target until it answers, the caller hangs up, or a retry cap is reached, then returns to the assistant. Only applicable to built_in_transfer_to_phone_number tools.
     
 </dd>
 </dl>

@@ -254,3 +254,8 @@ class ConfigOptionsParams(typing_extensions.TypedDict):
     Policy controlling how long transcripts and audio recordings are retained before being deleted.
     When `zero_data_retention` is `true`, nothing is retained and `transcripts`/`audio_recordings` are omitted.
     """
+
+    external_id: typing_extensions.NotRequired[typing.Optional[str]]
+    """
+    External ID to associate with the conversation. Surrounding whitespace is trimmed and the value must not be empty. An external ID set earlier via `set_external_id` takes precedence.
+    """
