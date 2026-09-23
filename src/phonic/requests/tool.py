@@ -5,6 +5,7 @@ import typing
 import typing_extensions
 from ..types.tool_endpoint_method import ToolEndpointMethod
 from ..types.tool_execution_mode import ToolExecutionMode
+from ..types.tool_on_transfer_no_answer import ToolOnTransferNoAnswer
 from ..types.tool_parameter_locations_value import ToolParameterLocationsValue
 from ..types.tool_speech_before_tool_call import ToolSpeechBeforeToolCall
 from ..types.tool_type import ToolType
@@ -110,6 +111,11 @@ class ToolParams(typing_extensions.TypedDict):
     keep_listening: typing_extensions.NotRequired[bool]
     """
     When true, Phonic bridges the transfer and stays on the call. When false, Phonic drops out once the transfer connects, so use_agent_phone_number and detect_voicemail are false and post_transfer_message is null. Without DTMF the call is handed off with a SIP REFER; with DTMF (static or dynamic) Phonic bridges the call to send the digits and then detaches, leaving the two parties connected. Only returned for built_in_transfer_to_phone_number tools.
+    """
+
+    on_transfer_no_answer: typing_extensions.NotRequired[ToolOnTransferNoAnswer]
+    """
+    What happens when the transfer target does not answer before the ring timeout. `return_to_assistant` hands control back to the agent. `keep_retrying` keeps the caller on the line and re-dials the target until it answers, the caller hangs up, or a retry cap is reached, then returns to the assistant. Only returned for built_in_transfer_to_phone_number tools.
     """
 
     agents_to_transfer_to: typing_extensions.NotRequired[typing.Sequence[str]]

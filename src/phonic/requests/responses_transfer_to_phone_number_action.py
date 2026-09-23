@@ -3,6 +3,9 @@
 import typing
 
 import typing_extensions
+from ..types.responses_transfer_to_phone_number_action_on_transfer_no_answer import (
+    ResponsesTransferToPhoneNumberActionOnTransferNoAnswer,
+)
 
 
 class ResponsesTransferToPhoneNumberActionParams(typing_extensions.TypedDict):
@@ -28,6 +31,11 @@ class ResponsesTransferToPhoneNumberActionParams(typing_extensions.TypedDict):
     keep_listening: bool
     """
     Whether Phonic would keep transcribing the call after the transfer.
+    """
+
+    on_transfer_no_answer: ResponsesTransferToPhoneNumberActionOnTransferNoAnswer
+    """
+    What Phonic would do if the transfer target does not answer. `return_to_assistant` hands control back to the agent; `keep_retrying` re-dials the target.
     """
 
     dtmf: typing_extensions.NotRequired[typing.Optional[str]]

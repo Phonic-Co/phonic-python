@@ -259,6 +259,11 @@ class ConfigOptions(UncheckedBaseModel):
     When `zero_data_retention` is `true`, nothing is retained and `transcripts`/`audio_recordings` are omitted.
     """
 
+    external_id: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    External ID to associate with the conversation. Surrounding whitespace is trimmed and the value must not be empty. An external ID set earlier via `set_external_id` takes precedence.
+    """
+
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
     else:

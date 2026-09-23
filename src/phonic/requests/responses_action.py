@@ -5,6 +5,9 @@ from __future__ import annotations
 import typing
 
 import typing_extensions
+from ..types.responses_transfer_to_phone_number_action_on_transfer_no_answer import (
+    ResponsesTransferToPhoneNumberActionOnTransferNoAnswer,
+)
 
 
 class ResponsesAction_AssistantChoseNotToRespondParams(typing_extensions.TypedDict):
@@ -27,6 +30,7 @@ class ResponsesAction_TransferToPhoneNumberParams(typing_extensions.TypedDict):
     detect_voicemail: bool
     use_agent_phone_number: bool
     keep_listening: bool
+    on_transfer_no_answer: ResponsesTransferToPhoneNumberActionOnTransferNoAnswer
     dtmf: typing_extensions.NotRequired[typing.Optional[str]]
 
 

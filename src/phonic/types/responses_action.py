@@ -8,6 +8,9 @@ import pydantic
 import typing_extensions
 from ..core.pydantic_utilities import IS_PYDANTIC_V2
 from ..core.unchecked_base_model import UncheckedBaseModel, UnionMetadata
+from .responses_transfer_to_phone_number_action_on_transfer_no_answer import (
+    ResponsesTransferToPhoneNumberActionOnTransferNoAnswer,
+)
 
 
 class ResponsesAction_AssistantChoseNotToRespond(UncheckedBaseModel):
@@ -73,6 +76,7 @@ class ResponsesAction_TransferToPhoneNumber(UncheckedBaseModel):
     detect_voicemail: bool
     use_agent_phone_number: bool
     keep_listening: bool
+    on_transfer_no_answer: ResponsesTransferToPhoneNumberActionOnTransferNoAnswer
     dtmf: typing.Optional[str] = None
 
     if IS_PYDANTIC_V2:
