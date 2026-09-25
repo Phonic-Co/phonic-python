@@ -2035,7 +2035,7 @@ Every key must name a top-level parameter. For POST webhooks, every parameter ne
 <dl>
 <dd>
 
-**endpoint_url:** `typing.Optional[str]` — Required for webhook tools. Must be a publicly routable HTTPS URL without embedded credentials.
+**endpoint_url:** `typing.Optional[str]` — Required for webhook tools. Must be a publicly routable HTTPS URL without embedded credentials. May contain `{name}` placeholders in the path or query (not the scheme, host, port, or credentials), each filled by a required parameter with location `"url_path"`.
     
 </dd>
 </dl>
@@ -2123,7 +2123,7 @@ Every key must name a top-level parameter. For POST webhooks, every parameter ne
 <dl>
 <dd>
 
-**on_transfer_no_answer:** `typing.Optional[CreateToolRequestOnTransferNoAnswer]` — What happens when the transfer target does not answer before the ring timeout. `return_to_assistant` hands control back to the agent. `keep_retrying` keeps the caller on the line and re-dials the target until it answers, the caller hangs up, or a retry cap is reached, then returns to the assistant. Only available for built_in_transfer_to_phone_number tools.
+**on_transfer_no_answer:** `typing.Optional[CreateToolRequestOnTransferNoAnswer]` — What happens when the transfer target does not answer before the ring timeout. `return_to_assistant` hands control back to the agent. `keep_retrying` keeps the caller on the line and re-dials the target until it answers, the caller hangs up, or a retry cap is reached, then returns to the assistant. `keep_retrying` only applies to bridged transfers, so it cannot be used when keep_listening is false. Only available for built_in_transfer_to_phone_number tools.
     
 </dd>
 </dl>
@@ -2534,7 +2534,7 @@ Every key must name a top-level parameter. For POST webhooks, every parameter ne
 <dl>
 <dd>
 
-**endpoint_url:** `typing.Optional[str]` — URL for webhook tools. Must be a publicly routable HTTPS URL without embedded credentials.
+**endpoint_url:** `typing.Optional[str]` — URL for webhook tools. Must be a publicly routable HTTPS URL without embedded credentials. May contain `{name}` placeholders in the path or query (not the scheme, host, port, or credentials), each filled by a required parameter with location `"url_path"`.
     
 </dd>
 </dl>
@@ -2622,7 +2622,7 @@ Every key must name a top-level parameter. For POST webhooks, every parameter ne
 <dl>
 <dd>
 
-**on_transfer_no_answer:** `typing.Optional[UpdateToolRequestOnTransferNoAnswer]` — What happens when the transfer target does not answer before the ring timeout. `return_to_assistant` hands control back to the agent. `keep_retrying` keeps the caller on the line and re-dials the target until it answers, the caller hangs up, or a retry cap is reached, then returns to the assistant. Only applicable to built_in_transfer_to_phone_number tools.
+**on_transfer_no_answer:** `typing.Optional[UpdateToolRequestOnTransferNoAnswer]` — What happens when the transfer target does not answer before the ring timeout. `return_to_assistant` hands control back to the agent. `keep_retrying` keeps the caller on the line and re-dials the target until it answers, the caller hangs up, or a retry cap is reached, then returns to the assistant. `keep_retrying` only applies to bridged transfers, so it cannot be used when the resulting keep_listening is false. Only applicable to built_in_transfer_to_phone_number tools.
     
 </dd>
 </dl>

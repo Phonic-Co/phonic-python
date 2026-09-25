@@ -27,7 +27,7 @@ class ToolCallOutputProcessedPayloadParams(typing_extensions.TypedDict):
 
     endpoint_url: typing_extensions.NotRequired[typing.Optional[str]]
     """
-    Webhook endpoint URL (null for WebSocket tools)
+    Webhook endpoint URL as called, with any `url_path` placeholders filled in (null for WebSocket tools)
     """
 
     endpoint_timeout_ms: typing_extensions.NotRequired[typing.Optional[int]]

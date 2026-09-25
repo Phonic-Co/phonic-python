@@ -29,7 +29,7 @@ class ToolCallOutputProcessedPayload(UncheckedBaseModel):
 
     endpoint_url: typing.Optional[str] = pydantic.Field(default=None)
     """
-    Webhook endpoint URL (null for WebSocket tools)
+    Webhook endpoint URL as called, with any `url_path` placeholders filled in (null for WebSocket tools)
     """
 
     endpoint_timeout_ms: typing.Optional[int] = pydantic.Field(default=None)

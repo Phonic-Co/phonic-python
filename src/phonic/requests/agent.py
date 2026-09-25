@@ -277,3 +277,7 @@ class AgentParams(typing_extensions.TypedDict):
     """
 
     data_retention_policy: typing_extensions.NotRequired[DataRetentionPolicyParams]
+    is_disabled: bool
+    """
+    When `true`, the agent is disabled. A disabled agent cannot start conversations or be updated, except to release its phone numbers.
+    """

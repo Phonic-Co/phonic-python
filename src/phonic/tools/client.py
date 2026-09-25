@@ -150,7 +150,7 @@ class ToolsClient:
             Required for webhook tools. HTTP method for the webhook endpoint.
 
         endpoint_url : typing.Optional[str]
-            Required for webhook tools. Must be a publicly routable HTTPS URL without embedded credentials.
+            Required for webhook tools. Must be a publicly routable HTTPS URL without embedded credentials. May contain `{name}` placeholders in the path or query (not the scheme, host, port, or credentials), each filled by a required parameter with location `"url_path"`.
 
         endpoint_headers : typing.Optional[typing.Dict[str, str]]
             Optional headers for webhook tools.
@@ -183,7 +183,7 @@ class ToolsClient:
             When true, Phonic bridges the transfer and stays on the call. When false, Phonic drops out once the transfer connects, which requires use_agent_phone_number and detect_voicemail to be false and post_transfer_message to be null. Without DTMF the call is handed off with a SIP REFER; with DTMF (static or dynamic) Phonic bridges the call to send the digits and then detaches, leaving the two parties connected. Only available for built_in_transfer_to_phone_number tools. Defaults to the value of use_agent_phone_number.
 
         on_transfer_no_answer : typing.Optional[CreateToolRequestOnTransferNoAnswer]
-            What happens when the transfer target does not answer before the ring timeout. `return_to_assistant` hands control back to the agent. `keep_retrying` keeps the caller on the line and re-dials the target until it answers, the caller hangs up, or a retry cap is reached, then returns to the assistant. Only available for built_in_transfer_to_phone_number tools.
+            What happens when the transfer target does not answer before the ring timeout. `return_to_assistant` hands control back to the agent. `keep_retrying` keeps the caller on the line and re-dials the target until it answers, the caller hangs up, or a retry cap is reached, then returns to the assistant. `keep_retrying` only applies to bridged transfers, so it cannot be used when keep_listening is false. Only available for built_in_transfer_to_phone_number tools.
 
         agents_to_transfer_to : typing.Optional[typing.Sequence[str]]
             Array of agent names that the LLM can choose from when transferring. Required for built_in_transfer_to_agent tools. All agents must exist in the same project as the tool.
@@ -444,7 +444,7 @@ class ToolsClient:
             HTTP method for webhook tools. When switching from POST to GET, a tool with request body parameters must also send new `parameters` (or `parameter_locations`) placing them in the query string.
 
         endpoint_url : typing.Optional[str]
-            URL for webhook tools. Must be a publicly routable HTTPS URL without embedded credentials.
+            URL for webhook tools. Must be a publicly routable HTTPS URL without embedded credentials. May contain `{name}` placeholders in the path or query (not the scheme, host, port, or credentials), each filled by a required parameter with location `"url_path"`.
 
         endpoint_headers : typing.Optional[typing.Dict[str, typing.Optional[str]]]
             Headers for webhook tools. Set to null to clear existing headers.
@@ -475,7 +475,7 @@ class ToolsClient:
             When true, Phonic bridges the transfer and stays on the call. When false, Phonic drops out once the transfer connects, which requires the resulting use_agent_phone_number and detect_voicemail to be false and post_transfer_message to be null. Without DTMF the call is handed off with a SIP REFER; with DTMF (static or dynamic) Phonic bridges the call to send the digits and then detaches, leaving the two parties connected. Only applicable to built_in_transfer_to_phone_number tools.
 
         on_transfer_no_answer : typing.Optional[UpdateToolRequestOnTransferNoAnswer]
-            What happens when the transfer target does not answer before the ring timeout. `return_to_assistant` hands control back to the agent. `keep_retrying` keeps the caller on the line and re-dials the target until it answers, the caller hangs up, or a retry cap is reached, then returns to the assistant. Only applicable to built_in_transfer_to_phone_number tools.
+            What happens when the transfer target does not answer before the ring timeout. `return_to_assistant` hands control back to the agent. `keep_retrying` keeps the caller on the line and re-dials the target until it answers, the caller hangs up, or a retry cap is reached, then returns to the assistant. `keep_retrying` only applies to bridged transfers, so it cannot be used when the resulting keep_listening is false. Only applicable to built_in_transfer_to_phone_number tools.
 
         agents_to_transfer_to : typing.Optional[typing.Sequence[str]]
             Array of agent names that the LLM can choose from when transferring. All agents must exist in the same project as the tool.
@@ -697,7 +697,7 @@ class AsyncToolsClient:
             Required for webhook tools. HTTP method for the webhook endpoint.
 
         endpoint_url : typing.Optional[str]
-            Required for webhook tools. Must be a publicly routable HTTPS URL without embedded credentials.
+            Required for webhook tools. Must be a publicly routable HTTPS URL without embedded credentials. May contain `{name}` placeholders in the path or query (not the scheme, host, port, or credentials), each filled by a required parameter with location `"url_path"`.
 
         endpoint_headers : typing.Optional[typing.Dict[str, str]]
             Optional headers for webhook tools.
@@ -730,7 +730,7 @@ class AsyncToolsClient:
             When true, Phonic bridges the transfer and stays on the call. When false, Phonic drops out once the transfer connects, which requires use_agent_phone_number and detect_voicemail to be false and post_transfer_message to be null. Without DTMF the call is handed off with a SIP REFER; with DTMF (static or dynamic) Phonic bridges the call to send the digits and then detaches, leaving the two parties connected. Only available for built_in_transfer_to_phone_number tools. Defaults to the value of use_agent_phone_number.
 
         on_transfer_no_answer : typing.Optional[CreateToolRequestOnTransferNoAnswer]
-            What happens when the transfer target does not answer before the ring timeout. `return_to_assistant` hands control back to the agent. `keep_retrying` keeps the caller on the line and re-dials the target until it answers, the caller hangs up, or a retry cap is reached, then returns to the assistant. Only available for built_in_transfer_to_phone_number tools.
+            What happens when the transfer target does not answer before the ring timeout. `return_to_assistant` hands control back to the agent. `keep_retrying` keeps the caller on the line and re-dials the target until it answers, the caller hangs up, or a retry cap is reached, then returns to the assistant. `keep_retrying` only applies to bridged transfers, so it cannot be used when keep_listening is false. Only available for built_in_transfer_to_phone_number tools.
 
         agents_to_transfer_to : typing.Optional[typing.Sequence[str]]
             Array of agent names that the LLM can choose from when transferring. Required for built_in_transfer_to_agent tools. All agents must exist in the same project as the tool.
@@ -1015,7 +1015,7 @@ class AsyncToolsClient:
             HTTP method for webhook tools. When switching from POST to GET, a tool with request body parameters must also send new `parameters` (or `parameter_locations`) placing them in the query string.
 
         endpoint_url : typing.Optional[str]
-            URL for webhook tools. Must be a publicly routable HTTPS URL without embedded credentials.
+            URL for webhook tools. Must be a publicly routable HTTPS URL without embedded credentials. May contain `{name}` placeholders in the path or query (not the scheme, host, port, or credentials), each filled by a required parameter with location `"url_path"`.
 
         endpoint_headers : typing.Optional[typing.Dict[str, typing.Optional[str]]]
             Headers for webhook tools. Set to null to clear existing headers.
@@ -1046,7 +1046,7 @@ class AsyncToolsClient:
             When true, Phonic bridges the transfer and stays on the call. When false, Phonic drops out once the transfer connects, which requires the resulting use_agent_phone_number and detect_voicemail to be false and post_transfer_message to be null. Without DTMF the call is handed off with a SIP REFER; with DTMF (static or dynamic) Phonic bridges the call to send the digits and then detaches, leaving the two parties connected. Only applicable to built_in_transfer_to_phone_number tools.
 
         on_transfer_no_answer : typing.Optional[UpdateToolRequestOnTransferNoAnswer]
-            What happens when the transfer target does not answer before the ring timeout. `return_to_assistant` hands control back to the agent. `keep_retrying` keeps the caller on the line and re-dials the target until it answers, the caller hangs up, or a retry cap is reached, then returns to the assistant. Only applicable to built_in_transfer_to_phone_number tools.
+            What happens when the transfer target does not answer before the ring timeout. `return_to_assistant` hands control back to the agent. `keep_retrying` keeps the caller on the line and re-dials the target until it answers, the caller hangs up, or a retry cap is reached, then returns to the assistant. `keep_retrying` only applies to bridged transfers, so it cannot be used when the resulting keep_listening is false. Only applicable to built_in_transfer_to_phone_number tools.
 
         agents_to_transfer_to : typing.Optional[typing.Sequence[str]]
             Array of agent names that the LLM can choose from when transferring. All agents must exist in the same project as the tool.

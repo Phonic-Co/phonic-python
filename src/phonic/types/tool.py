@@ -117,7 +117,7 @@ class Tool(UncheckedBaseModel):
 
     on_transfer_no_answer: typing.Optional[ToolOnTransferNoAnswer] = pydantic.Field(default=None)
     """
-    What happens when the transfer target does not answer before the ring timeout. `return_to_assistant` hands control back to the agent. `keep_retrying` keeps the caller on the line and re-dials the target until it answers, the caller hangs up, or a retry cap is reached, then returns to the assistant. Only returned for built_in_transfer_to_phone_number tools.
+    What happens when the transfer target does not answer before the ring timeout. `return_to_assistant` hands control back to the agent. `keep_retrying` keeps the caller on the line and re-dials the target until it answers, the caller hangs up, or a retry cap is reached, then returns to the assistant. `keep_retrying` only applies to bridged transfers (keep_listening true). Only returned for built_in_transfer_to_phone_number tools.
     """
 
     agents_to_transfer_to: typing.Optional[typing.List[str]] = pydantic.Field(default=None)

@@ -43,7 +43,8 @@ class ToolParameterParams(typing_extensions.TypedDict):
     """
     Only applicable for `custom_webhook` tools. Specifies where the parameter should be sent in the webhook request.
     - For GET webhooks: defaults to `"query_string"` and `"request_body"` is not allowed.
-    - For POST webhooks: required, can be either `"request_body"` or `"query_string"`.
+    - For POST webhooks: required, can be `"request_body"`, `"query_string"`, or `"url_path"`.
+    - `"url_path"` fills a matching `{name}` placeholder in the endpoint URL's path or query (GET and POST). The parameter must be required, and every placeholder in `endpoint_url` must have a matching `url_path` parameter.
     - Not allowed for `custom_websocket`, `built_in_transfer_to_phone_number`, or `built_in_transfer_to_agent` tools.
     When switching a webhook tool's `endpoint_method` from POST to GET, its request body parameters must be re-sent with `"query_string"` locations.
     """
