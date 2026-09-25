@@ -281,6 +281,10 @@ class Agent(UncheckedBaseModel):
     """
 
     data_retention_policy: typing.Optional[DataRetentionPolicy] = None
+    is_disabled: bool = pydantic.Field()
+    """
+    When `true`, the agent is disabled. A disabled agent cannot start conversations or be updated, except to release its phone numbers.
+    """
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

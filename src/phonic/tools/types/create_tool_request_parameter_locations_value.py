@@ -2,4 +2,6 @@
 
 import typing
 
-CreateToolRequestParameterLocationsValue = typing.Union[typing.Literal["request_body", "query_string"], typing.Any]
+CreateToolRequestParameterLocationsValue = typing.Union[
+    typing.Literal["request_body", "query_string", "url_path"], typing.Any
+]

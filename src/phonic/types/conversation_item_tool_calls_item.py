@@ -29,7 +29,7 @@ class ConversationItemToolCallsItem(UncheckedBaseModel):
 
     endpoint_url: typing.Optional[str] = pydantic.Field(default=None)
     """
-    URL for webhook tool calls.
+    URL for webhook tool calls, as called (with any `url_path` placeholders filled in).
     """
 
     endpoint_headers: typing.Optional[typing.Dict[str, typing.Optional[str]]] = pydantic.Field(default=None)

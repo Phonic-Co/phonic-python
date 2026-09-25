@@ -27,7 +27,7 @@ class ConversationItemToolCallsItemParams(typing_extensions.TypedDict):
 
     endpoint_url: typing_extensions.NotRequired[typing.Optional[str]]
     """
-    URL for webhook tool calls.
+    URL for webhook tool calls, as called (with any `url_path` placeholders filled in).
     """
 
     endpoint_headers: typing_extensions.NotRequired[typing.Optional[typing.Dict[str, typing.Optional[str]]]]
