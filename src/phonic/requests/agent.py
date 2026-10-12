@@ -56,6 +56,11 @@ class AgentParams(typing_extensions.TypedDict):
     The voice ID of the agent.
     """
 
+    additional_voice_ids: typing.Sequence[str]
+    """
+    Additional voice IDs that, together with `voice_id`, form the agent's voice set. Each conversation is assigned one voice from the set, chosen at random with equal probability.
+    """
+
     audio_format: AgentAudioFormat
     """
     The audio format of the agent. If the agent has a phone number, the audio format will be `mulaw_8000`.

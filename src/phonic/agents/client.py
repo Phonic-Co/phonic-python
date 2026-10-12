@@ -40,6 +40,8 @@ from .types.agents_add_custom_phone_number_response import AgentsAddCustomPhoneN
 from .types.agents_create_response import AgentsCreateResponse
 from .types.agents_delete_custom_phone_number_response import AgentsDeleteCustomPhoneNumberResponse
 from .types.agents_delete_response import AgentsDeleteResponse
+from .types.agents_disable_response import AgentsDisableResponse
+from .types.agents_enable_response import AgentsEnableResponse
 from .types.agents_get_response import AgentsGetResponse
 from .types.agents_list_response import AgentsListResponse
 from .types.agents_update_phone_number_response import AgentsUpdatePhoneNumberResponse
@@ -113,6 +115,7 @@ class AgentsClient:
         custom_phone_numbers: typing.Optional[typing.Sequence[str]] = OMIT,
         timezone: typing.Optional[str] = OMIT,
         voice_id: typing.Optional[str] = OMIT,
+        additional_voice_ids: typing.Optional[typing.Sequence[str]] = OMIT,
         audio_format: typing.Optional[CreateAgentRequestAudioFormat] = OMIT,
         audio_speed: typing.Optional[float] = OMIT,
         background_noise_level: typing.Optional[float] = OMIT,
@@ -189,6 +192,9 @@ class AgentsClient:
 
         voice_id : typing.Optional[str]
             The voice ID to use.
+
+        additional_voice_ids : typing.Optional[typing.Sequence[str]]
+            Additional voice IDs that, together with `voice_id`, form the agent's voice set. Each conversation is assigned one voice from the set, chosen at random with equal probability. Must not include `voice_id` and must not contain duplicates.
 
         audio_format : typing.Optional[CreateAgentRequestAudioFormat]
             The audio format of the agent.
@@ -380,6 +386,7 @@ class AgentsClient:
             custom_phone_numbers=custom_phone_numbers,
             timezone=timezone,
             voice_id=voice_id,
+            additional_voice_ids=additional_voice_ids,
             audio_format=audio_format,
             audio_speed=audio_speed,
             background_noise_level=background_noise_level,
@@ -441,6 +448,7 @@ class AgentsClient:
         custom_phone_numbers: typing.Optional[typing.Sequence[str]] = OMIT,
         timezone: typing.Optional[str] = OMIT,
         voice_id: typing.Optional[str] = OMIT,
+        additional_voice_ids: typing.Optional[typing.Sequence[str]] = OMIT,
         audio_format: typing.Optional[CreateAgentRequestAudioFormat] = OMIT,
         audio_speed: typing.Optional[float] = OMIT,
         background_noise_level: typing.Optional[float] = OMIT,
@@ -523,6 +531,9 @@ class AgentsClient:
 
         voice_id : typing.Optional[str]
             The voice ID to use.
+
+        additional_voice_ids : typing.Optional[typing.Sequence[str]]
+            Additional voice IDs that, together with `voice_id`, form the agent's voice set. Each conversation is assigned one voice from the set, chosen at random with equal probability. Must not include `voice_id` and must not contain duplicates.
 
         audio_format : typing.Optional[CreateAgentRequestAudioFormat]
             The audio format of the agent.
@@ -716,6 +727,7 @@ class AgentsClient:
             custom_phone_numbers=custom_phone_numbers,
             timezone=timezone,
             voice_id=voice_id,
+            additional_voice_ids=additional_voice_ids,
             audio_format=audio_format,
             audio_speed=audio_speed,
             background_noise_level=background_noise_level,
@@ -858,6 +870,7 @@ class AgentsClient:
         custom_phone_numbers: typing.Optional[typing.Sequence[str]] = OMIT,
         timezone: typing.Optional[str] = OMIT,
         voice_id: typing.Optional[str] = OMIT,
+        additional_voice_ids: typing.Optional[typing.Sequence[str]] = OMIT,
         audio_format: typing.Optional[UpdateAgentRequestAudioFormat] = OMIT,
         audio_speed: typing.Optional[float] = OMIT,
         background_noise_level: typing.Optional[float] = OMIT,
@@ -940,6 +953,9 @@ class AgentsClient:
 
         voice_id : typing.Optional[str]
             The voice ID to use.
+
+        additional_voice_ids : typing.Optional[typing.Sequence[str]]
+            Additional voice IDs that, together with `voice_id`, form the agent's voice set. Each conversation is assigned one voice from the set, chosen at random with equal probability. Must not include `voice_id` and must not contain duplicates.
 
         audio_format : typing.Optional[UpdateAgentRequestAudioFormat]
             The audio format of the agent.
@@ -1142,6 +1158,7 @@ class AgentsClient:
             custom_phone_numbers=custom_phone_numbers,
             timezone=timezone,
             voice_id=voice_id,
+            additional_voice_ids=additional_voice_ids,
             audio_format=audio_format,
             audio_speed=audio_speed,
             background_noise_level=background_noise_level,
@@ -1387,6 +1404,88 @@ class AgentsClient:
         )
         return _response.data
 
+    def disable(
+        self,
+        name_or_id: str,
+        *,
+        project: typing.Optional[str] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AgentsDisableResponse:
+        """
+        Disables an agent by name or ID. A disabled agent cannot start conversations or be updated, except to release its phone numbers.
+
+        Parameters
+        ----------
+        name_or_id : str
+            The name or the ID of the agent.
+
+        project : typing.Optional[str]
+            The name of the project containing the agent. Only used when `nameOrId` is a name.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AgentsDisableResponse
+            Success response
+
+        Examples
+        --------
+        from phonic import Phonic
+
+        client = Phonic(
+            api_key="YOUR_API_KEY",
+        )
+        client.agents.disable(
+            name_or_id="nameOrId",
+            project="main",
+        )
+        """
+        _response = self._raw_client.disable(name_or_id, project=project, request_options=request_options)
+        return _response.data
+
+    def enable(
+        self,
+        name_or_id: str,
+        *,
+        project: typing.Optional[str] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AgentsEnableResponse:
+        """
+        Enables a previously disabled agent by name or ID.
+
+        Parameters
+        ----------
+        name_or_id : str
+            The name or the ID of the agent.
+
+        project : typing.Optional[str]
+            The name of the project containing the agent. Only used when `nameOrId` is a name.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AgentsEnableResponse
+            Success response
+
+        Examples
+        --------
+        from phonic import Phonic
+
+        client = Phonic(
+            api_key="YOUR_API_KEY",
+        )
+        client.agents.enable(
+            name_or_id="nameOrId",
+            project="main",
+        )
+        """
+        _response = self._raw_client.enable(name_or_id, project=project, request_options=request_options)
+        return _response.data
+
 
 class AsyncAgentsClient:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
@@ -1453,6 +1552,7 @@ class AsyncAgentsClient:
         custom_phone_numbers: typing.Optional[typing.Sequence[str]] = OMIT,
         timezone: typing.Optional[str] = OMIT,
         voice_id: typing.Optional[str] = OMIT,
+        additional_voice_ids: typing.Optional[typing.Sequence[str]] = OMIT,
         audio_format: typing.Optional[CreateAgentRequestAudioFormat] = OMIT,
         audio_speed: typing.Optional[float] = OMIT,
         background_noise_level: typing.Optional[float] = OMIT,
@@ -1529,6 +1629,9 @@ class AsyncAgentsClient:
 
         voice_id : typing.Optional[str]
             The voice ID to use.
+
+        additional_voice_ids : typing.Optional[typing.Sequence[str]]
+            Additional voice IDs that, together with `voice_id`, form the agent's voice set. Each conversation is assigned one voice from the set, chosen at random with equal probability. Must not include `voice_id` and must not contain duplicates.
 
         audio_format : typing.Optional[CreateAgentRequestAudioFormat]
             The audio format of the agent.
@@ -1730,6 +1833,7 @@ class AsyncAgentsClient:
             custom_phone_numbers=custom_phone_numbers,
             timezone=timezone,
             voice_id=voice_id,
+            additional_voice_ids=additional_voice_ids,
             audio_format=audio_format,
             audio_speed=audio_speed,
             background_noise_level=background_noise_level,
@@ -1791,6 +1895,7 @@ class AsyncAgentsClient:
         custom_phone_numbers: typing.Optional[typing.Sequence[str]] = OMIT,
         timezone: typing.Optional[str] = OMIT,
         voice_id: typing.Optional[str] = OMIT,
+        additional_voice_ids: typing.Optional[typing.Sequence[str]] = OMIT,
         audio_format: typing.Optional[CreateAgentRequestAudioFormat] = OMIT,
         audio_speed: typing.Optional[float] = OMIT,
         background_noise_level: typing.Optional[float] = OMIT,
@@ -1873,6 +1978,9 @@ class AsyncAgentsClient:
 
         voice_id : typing.Optional[str]
             The voice ID to use.
+
+        additional_voice_ids : typing.Optional[typing.Sequence[str]]
+            Additional voice IDs that, together with `voice_id`, form the agent's voice set. Each conversation is assigned one voice from the set, chosen at random with equal probability. Must not include `voice_id` and must not contain duplicates.
 
         audio_format : typing.Optional[CreateAgentRequestAudioFormat]
             The audio format of the agent.
@@ -2076,6 +2184,7 @@ class AsyncAgentsClient:
             custom_phone_numbers=custom_phone_numbers,
             timezone=timezone,
             voice_id=voice_id,
+            additional_voice_ids=additional_voice_ids,
             audio_format=audio_format,
             audio_speed=audio_speed,
             background_noise_level=background_noise_level,
@@ -2234,6 +2343,7 @@ class AsyncAgentsClient:
         custom_phone_numbers: typing.Optional[typing.Sequence[str]] = OMIT,
         timezone: typing.Optional[str] = OMIT,
         voice_id: typing.Optional[str] = OMIT,
+        additional_voice_ids: typing.Optional[typing.Sequence[str]] = OMIT,
         audio_format: typing.Optional[UpdateAgentRequestAudioFormat] = OMIT,
         audio_speed: typing.Optional[float] = OMIT,
         background_noise_level: typing.Optional[float] = OMIT,
@@ -2316,6 +2426,9 @@ class AsyncAgentsClient:
 
         voice_id : typing.Optional[str]
             The voice ID to use.
+
+        additional_voice_ids : typing.Optional[typing.Sequence[str]]
+            Additional voice IDs that, together with `voice_id`, form the agent's voice set. Each conversation is assigned one voice from the set, chosen at random with equal probability. Must not include `voice_id` and must not contain duplicates.
 
         audio_format : typing.Optional[UpdateAgentRequestAudioFormat]
             The audio format of the agent.
@@ -2528,6 +2641,7 @@ class AsyncAgentsClient:
             custom_phone_numbers=custom_phone_numbers,
             timezone=timezone,
             voice_id=voice_id,
+            additional_voice_ids=additional_voice_ids,
             audio_format=audio_format,
             audio_speed=audio_speed,
             background_noise_level=background_noise_level,
@@ -2795,4 +2909,102 @@ class AsyncAgentsClient:
             configuration_endpoint=configuration_endpoint,
             request_options=request_options,
         )
+        return _response.data
+
+    async def disable(
+        self,
+        name_or_id: str,
+        *,
+        project: typing.Optional[str] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AgentsDisableResponse:
+        """
+        Disables an agent by name or ID. A disabled agent cannot start conversations or be updated, except to release its phone numbers.
+
+        Parameters
+        ----------
+        name_or_id : str
+            The name or the ID of the agent.
+
+        project : typing.Optional[str]
+            The name of the project containing the agent. Only used when `nameOrId` is a name.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AgentsDisableResponse
+            Success response
+
+        Examples
+        --------
+        import asyncio
+
+        from phonic import AsyncPhonic
+
+        client = AsyncPhonic(
+            api_key="YOUR_API_KEY",
+        )
+
+
+        async def main() -> None:
+            await client.agents.disable(
+                name_or_id="nameOrId",
+                project="main",
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.disable(name_or_id, project=project, request_options=request_options)
+        return _response.data
+
+    async def enable(
+        self,
+        name_or_id: str,
+        *,
+        project: typing.Optional[str] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AgentsEnableResponse:
+        """
+        Enables a previously disabled agent by name or ID.
+
+        Parameters
+        ----------
+        name_or_id : str
+            The name or the ID of the agent.
+
+        project : typing.Optional[str]
+            The name of the project containing the agent. Only used when `nameOrId` is a name.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AgentsEnableResponse
+            Success response
+
+        Examples
+        --------
+        import asyncio
+
+        from phonic import AsyncPhonic
+
+        client = AsyncPhonic(
+            api_key="YOUR_API_KEY",
+        )
+
+
+        async def main() -> None:
+            await client.agents.enable(
+                name_or_id="nameOrId",
+                project="main",
+            )
+
+
+        asyncio.run(main())
+        """
+        _response = await self._raw_client.enable(name_or_id, project=project, request_options=request_options)
         return _response.data

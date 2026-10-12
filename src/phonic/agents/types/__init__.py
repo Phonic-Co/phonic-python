@@ -18,6 +18,8 @@ if typing.TYPE_CHECKING:
     from .agents_create_response import AgentsCreateResponse
     from .agents_delete_custom_phone_number_response import AgentsDeleteCustomPhoneNumberResponse
     from .agents_delete_response import AgentsDeleteResponse
+    from .agents_disable_response import AgentsDisableResponse
+    from .agents_enable_response import AgentsEnableResponse
     from .agents_get_response import AgentsGetResponse
     from .agents_list_response import AgentsListResponse
     from .agents_update_phone_number_request_configuration_endpoint import (
@@ -45,6 +47,8 @@ _dynamic_imports: typing.Dict[str, str] = {
     "AgentsCreateResponse": ".agents_create_response",
     "AgentsDeleteCustomPhoneNumberResponse": ".agents_delete_custom_phone_number_response",
     "AgentsDeleteResponse": ".agents_delete_response",
+    "AgentsDisableResponse": ".agents_disable_response",
+    "AgentsEnableResponse": ".agents_enable_response",
     "AgentsGetResponse": ".agents_get_response",
     "AgentsListResponse": ".agents_list_response",
     "AgentsUpdatePhoneNumberRequestConfigurationEndpoint": ".agents_update_phone_number_request_configuration_endpoint",
@@ -94,6 +98,8 @@ __all__ = [
     "AgentsCreateResponse",
     "AgentsDeleteCustomPhoneNumberResponse",
     "AgentsDeleteResponse",
+    "AgentsDisableResponse",
+    "AgentsEnableResponse",
     "AgentsGetResponse",
     "AgentsListResponse",
     "AgentsUpdatePhoneNumberRequestConfigurationEndpoint",

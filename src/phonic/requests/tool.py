@@ -163,6 +163,11 @@ class ToolParams(typing_extensions.TypedDict):
     The agent doesn't typically wait for the response of async tools. When true, makes the agent wait for a response, not call other tools and inform the user of the result. Only returned for custom_webhook and custom_websocket tools.
     """
 
+    uninterruptible: typing_extensions.NotRequired[bool]
+    """
+    Whether caller speech is prevented from interrupting the assistant while the tool call is running. Returned for custom_webhook, custom_websocket, and built_in_transfer_to_phone_number tools. Phone transfers without a stored setting default to true.
+    """
+
     context: typing_extensions.NotRequired[str]
     """
     The static context returned to the agent. Only present for custom_context tools.
