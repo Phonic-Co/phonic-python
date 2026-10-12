@@ -84,6 +84,11 @@ class ConfigOptions(UncheckedBaseModel):
     Voice ID to use for speech synthesis
     """
 
+    additional_voice_ids: typing.Optional[typing.List[str]] = pydantic.Field(default=None)
+    """
+    Additional voice IDs that, together with `voice_id`, form a voice set. Each conversation is assigned one voice from the set, chosen at random with equal probability. Must not include `voice_id` and must not contain duplicates.
+    """
+
     input_format: typing.Optional[ConfigOptionsInputFormat] = pydantic.Field(default=None)
     """
     Audio input format

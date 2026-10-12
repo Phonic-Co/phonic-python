@@ -14,6 +14,8 @@ if typing.TYPE_CHECKING:
     from .agents_create_response import AgentsCreateResponseParams
     from .agents_delete_custom_phone_number_response import AgentsDeleteCustomPhoneNumberResponseParams
     from .agents_delete_response import AgentsDeleteResponseParams
+    from .agents_disable_response import AgentsDisableResponseParams
+    from .agents_enable_response import AgentsEnableResponseParams
     from .agents_get_response import AgentsGetResponseParams
     from .agents_list_response import AgentsListResponseParams
     from .agents_update_phone_number_request_configuration_endpoint import (
@@ -33,6 +35,8 @@ _dynamic_imports: typing.Dict[str, str] = {
     "AgentsCreateResponseParams": ".agents_create_response",
     "AgentsDeleteCustomPhoneNumberResponseParams": ".agents_delete_custom_phone_number_response",
     "AgentsDeleteResponseParams": ".agents_delete_response",
+    "AgentsDisableResponseParams": ".agents_disable_response",
+    "AgentsEnableResponseParams": ".agents_enable_response",
     "AgentsGetResponseParams": ".agents_get_response",
     "AgentsListResponseParams": ".agents_list_response",
     "AgentsUpdatePhoneNumberRequestConfigurationEndpointParams": ".agents_update_phone_number_request_configuration_endpoint",
@@ -74,6 +78,8 @@ __all__ = [
     "AgentsCreateResponseParams",
     "AgentsDeleteCustomPhoneNumberResponseParams",
     "AgentsDeleteResponseParams",
+    "AgentsDisableResponseParams",
+    "AgentsEnableResponseParams",
     "AgentsGetResponseParams",
     "AgentsListResponseParams",
     "AgentsUpdatePhoneNumberRequestConfigurationEndpointParams",

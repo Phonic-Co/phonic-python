@@ -213,7 +213,7 @@ class ToolsClient:
             The agent doesn't typically wait for the response of async tools. When true, makes the agent wait for a response, not call other tools and inform the user of the result. Only available for async custom_webhook and custom_websocket tools, and cannot be combined with allow_tool_chaining set to true.
 
         uninterruptible : typing.Optional[bool]
-            When true, the user cannot interrupt the agent while the tool call is in flight; the agent's turn is held open until the tool returns. Only available for sync custom_webhook and custom_websocket tools.
+            When true, caller speech cannot interrupt the assistant while the tool call is running. Available for sync custom_webhook, sync custom_websocket, and built_in_transfer_to_phone_number tools. Defaults to true for phone transfers and false for custom tools. Prevents caller interruptions during the transfer, including the preceding announcement once protection is active.
 
         context : typing.Optional[str]
             The static context returned to the agent. Required for custom_context tools.
@@ -505,7 +505,7 @@ class ToolsClient:
             The agent doesn't typically wait for the response of async tools. When true, makes the agent wait for a response, not call other tools and inform the user of the result. Only available for async custom_webhook and custom_websocket tools, and cannot be combined with allow_tool_chaining set to true.
 
         uninterruptible : typing.Optional[bool]
-            When true, the user cannot interrupt the agent while the tool call is in flight; the agent's turn is held open until the tool returns. Only available for sync custom_webhook and custom_websocket tools, so the resulting execution_mode must be sync.
+            When true, caller speech cannot interrupt the assistant while the tool call is running. Available for sync custom_webhook, sync custom_websocket, and built_in_transfer_to_phone_number tools. Omitted updates preserve the current setting. Prevents caller interruptions during the transfer, including the preceding announcement once protection is active.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -760,7 +760,7 @@ class AsyncToolsClient:
             The agent doesn't typically wait for the response of async tools. When true, makes the agent wait for a response, not call other tools and inform the user of the result. Only available for async custom_webhook and custom_websocket tools, and cannot be combined with allow_tool_chaining set to true.
 
         uninterruptible : typing.Optional[bool]
-            When true, the user cannot interrupt the agent while the tool call is in flight; the agent's turn is held open until the tool returns. Only available for sync custom_webhook and custom_websocket tools.
+            When true, caller speech cannot interrupt the assistant while the tool call is running. Available for sync custom_webhook, sync custom_websocket, and built_in_transfer_to_phone_number tools. Defaults to true for phone transfers and false for custom tools. Prevents caller interruptions during the transfer, including the preceding announcement once protection is active.
 
         context : typing.Optional[str]
             The static context returned to the agent. Required for custom_context tools.
@@ -1076,7 +1076,7 @@ class AsyncToolsClient:
             The agent doesn't typically wait for the response of async tools. When true, makes the agent wait for a response, not call other tools and inform the user of the result. Only available for async custom_webhook and custom_websocket tools, and cannot be combined with allow_tool_chaining set to true.
 
         uninterruptible : typing.Optional[bool]
-            When true, the user cannot interrupt the agent while the tool call is in flight; the agent's turn is held open until the tool returns. Only available for sync custom_webhook and custom_websocket tools, so the resulting execution_mode must be sync.
+            When true, caller speech cannot interrupt the assistant while the tool call is running. Available for sync custom_webhook, sync custom_websocket, and built_in_transfer_to_phone_number tools. Omitted updates preserve the current setting. Prevents caller interruptions during the transfer, including the preceding announcement once protection is active.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.

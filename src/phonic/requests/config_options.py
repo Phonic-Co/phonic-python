@@ -82,6 +82,11 @@ class ConfigOptionsParams(typing_extensions.TypedDict):
     Voice ID to use for speech synthesis
     """
 
+    additional_voice_ids: typing_extensions.NotRequired[typing.Sequence[str]]
+    """
+    Additional voice IDs that, together with `voice_id`, form a voice set. Each conversation is assigned one voice from the set, chosen at random with equal probability. Must not include `voice_id` and must not contain duplicates.
+    """
+
     input_format: typing_extensions.NotRequired[ConfigOptionsInputFormat]
     """
     Audio input format

@@ -57,6 +57,11 @@ class CreateAgentRequest(UncheckedBaseModel):
     The voice ID to use.
     """
 
+    additional_voice_ids: typing.Optional[typing.List[str]] = pydantic.Field(default=None)
+    """
+    Additional voice IDs that, together with `voice_id`, form the agent's voice set. Each conversation is assigned one voice from the set, chosen at random with equal probability. Must not include `voice_id` and must not contain duplicates.
+    """
+
     audio_format: typing.Optional[CreateAgentRequestAudioFormat] = pydantic.Field(default=None)
     """
     The audio format of the agent.

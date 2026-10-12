@@ -53,6 +53,8 @@ from .types.agents_add_custom_phone_number_response import AgentsAddCustomPhoneN
 from .types.agents_create_response import AgentsCreateResponse
 from .types.agents_delete_custom_phone_number_response import AgentsDeleteCustomPhoneNumberResponse
 from .types.agents_delete_response import AgentsDeleteResponse
+from .types.agents_disable_response import AgentsDisableResponse
+from .types.agents_enable_response import AgentsEnableResponse
 from .types.agents_get_response import AgentsGetResponse
 from .types.agents_list_response import AgentsListResponse
 from .types.agents_update_phone_number_response import AgentsUpdatePhoneNumberResponse
@@ -154,6 +156,7 @@ class RawAgentsClient:
         custom_phone_numbers: typing.Optional[typing.Sequence[str]] = OMIT,
         timezone: typing.Optional[str] = OMIT,
         voice_id: typing.Optional[str] = OMIT,
+        additional_voice_ids: typing.Optional[typing.Sequence[str]] = OMIT,
         audio_format: typing.Optional[CreateAgentRequestAudioFormat] = OMIT,
         audio_speed: typing.Optional[float] = OMIT,
         background_noise_level: typing.Optional[float] = OMIT,
@@ -230,6 +233,9 @@ class RawAgentsClient:
 
         voice_id : typing.Optional[str]
             The voice ID to use.
+
+        additional_voice_ids : typing.Optional[typing.Sequence[str]]
+            Additional voice IDs that, together with `voice_id`, form the agent's voice set. Each conversation is assigned one voice from the set, chosen at random with equal probability. Must not include `voice_id` and must not contain duplicates.
 
         audio_format : typing.Optional[CreateAgentRequestAudioFormat]
             The audio format of the agent.
@@ -386,6 +392,7 @@ class RawAgentsClient:
                 "custom_phone_numbers": custom_phone_numbers,
                 "timezone": timezone,
                 "voice_id": voice_id,
+                "additional_voice_ids": additional_voice_ids,
                 "audio_format": audio_format,
                 "audio_speed": audio_speed,
                 "background_noise_level": background_noise_level,
@@ -533,6 +540,7 @@ class RawAgentsClient:
         custom_phone_numbers: typing.Optional[typing.Sequence[str]] = OMIT,
         timezone: typing.Optional[str] = OMIT,
         voice_id: typing.Optional[str] = OMIT,
+        additional_voice_ids: typing.Optional[typing.Sequence[str]] = OMIT,
         audio_format: typing.Optional[CreateAgentRequestAudioFormat] = OMIT,
         audio_speed: typing.Optional[float] = OMIT,
         background_noise_level: typing.Optional[float] = OMIT,
@@ -615,6 +623,9 @@ class RawAgentsClient:
 
         voice_id : typing.Optional[str]
             The voice ID to use.
+
+        additional_voice_ids : typing.Optional[typing.Sequence[str]]
+            Additional voice IDs that, together with `voice_id`, form the agent's voice set. Each conversation is assigned one voice from the set, chosen at random with equal probability. Must not include `voice_id` and must not contain duplicates.
 
         audio_format : typing.Optional[CreateAgentRequestAudioFormat]
             The audio format of the agent.
@@ -777,6 +788,7 @@ class RawAgentsClient:
                 "custom_phone_numbers": custom_phone_numbers,
                 "timezone": timezone,
                 "voice_id": voice_id,
+                "additional_voice_ids": additional_voice_ids,
                 "audio_format": audio_format,
                 "audio_speed": audio_speed,
                 "background_noise_level": background_noise_level,
@@ -1064,6 +1076,7 @@ class RawAgentsClient:
         custom_phone_numbers: typing.Optional[typing.Sequence[str]] = OMIT,
         timezone: typing.Optional[str] = OMIT,
         voice_id: typing.Optional[str] = OMIT,
+        additional_voice_ids: typing.Optional[typing.Sequence[str]] = OMIT,
         audio_format: typing.Optional[UpdateAgentRequestAudioFormat] = OMIT,
         audio_speed: typing.Optional[float] = OMIT,
         background_noise_level: typing.Optional[float] = OMIT,
@@ -1146,6 +1159,9 @@ class RawAgentsClient:
 
         voice_id : typing.Optional[str]
             The voice ID to use.
+
+        additional_voice_ids : typing.Optional[typing.Sequence[str]]
+            Additional voice IDs that, together with `voice_id`, form the agent's voice set. Each conversation is assigned one voice from the set, chosen at random with equal probability. Must not include `voice_id` and must not contain duplicates.
 
         audio_format : typing.Optional[UpdateAgentRequestAudioFormat]
             The audio format of the agent.
@@ -1311,6 +1327,7 @@ class RawAgentsClient:
                 "custom_phone_numbers": custom_phone_numbers,
                 "timezone": timezone,
                 "voice_id": voice_id,
+                "additional_voice_ids": additional_voice_ids,
                 "audio_format": audio_format,
                 "audio_speed": audio_speed,
                 "background_noise_level": background_noise_level,
@@ -1854,6 +1871,158 @@ class RawAgentsClient:
             )
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
+    def disable(
+        self,
+        name_or_id: str,
+        *,
+        project: typing.Optional[str] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> HttpResponse[AgentsDisableResponse]:
+        """
+        Disables an agent by name or ID. A disabled agent cannot start conversations or be updated, except to release its phone numbers.
+
+        Parameters
+        ----------
+        name_or_id : str
+            The name or the ID of the agent.
+
+        project : typing.Optional[str]
+            The name of the project containing the agent. Only used when `nameOrId` is a name.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[AgentsDisableResponse]
+            Success response
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"agents/{jsonable_encoder(name_or_id)}/disable",
+            base_url=self._client_wrapper.get_environment().base,
+            method="POST",
+            params={
+                "project": project,
+            },
+            request_options=request_options,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    AgentsDisableResponse,
+                    construct_type(
+                        type_=AgentsDisableResponse,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return HttpResponse(response=_response, data=_data)
+            if _response.status_code == 403:
+                raise ForbiddenError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Any,
+                        construct_type(
+                            type_=typing.Any,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 404:
+                raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Any,
+                        construct_type(
+                            type_=typing.Any,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    def enable(
+        self,
+        name_or_id: str,
+        *,
+        project: typing.Optional[str] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> HttpResponse[AgentsEnableResponse]:
+        """
+        Enables a previously disabled agent by name or ID.
+
+        Parameters
+        ----------
+        name_or_id : str
+            The name or the ID of the agent.
+
+        project : typing.Optional[str]
+            The name of the project containing the agent. Only used when `nameOrId` is a name.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        HttpResponse[AgentsEnableResponse]
+            Success response
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            f"agents/{jsonable_encoder(name_or_id)}/enable",
+            base_url=self._client_wrapper.get_environment().base,
+            method="POST",
+            params={
+                "project": project,
+            },
+            request_options=request_options,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    AgentsEnableResponse,
+                    construct_type(
+                        type_=AgentsEnableResponse,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return HttpResponse(response=_response, data=_data)
+            if _response.status_code == 403:
+                raise ForbiddenError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Any,
+                        construct_type(
+                            type_=typing.Any,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 404:
+                raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Any,
+                        construct_type(
+                            type_=typing.Any,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
 
 class AsyncRawAgentsClient:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
@@ -1939,6 +2108,7 @@ class AsyncRawAgentsClient:
         custom_phone_numbers: typing.Optional[typing.Sequence[str]] = OMIT,
         timezone: typing.Optional[str] = OMIT,
         voice_id: typing.Optional[str] = OMIT,
+        additional_voice_ids: typing.Optional[typing.Sequence[str]] = OMIT,
         audio_format: typing.Optional[CreateAgentRequestAudioFormat] = OMIT,
         audio_speed: typing.Optional[float] = OMIT,
         background_noise_level: typing.Optional[float] = OMIT,
@@ -2015,6 +2185,9 @@ class AsyncRawAgentsClient:
 
         voice_id : typing.Optional[str]
             The voice ID to use.
+
+        additional_voice_ids : typing.Optional[typing.Sequence[str]]
+            Additional voice IDs that, together with `voice_id`, form the agent's voice set. Each conversation is assigned one voice from the set, chosen at random with equal probability. Must not include `voice_id` and must not contain duplicates.
 
         audio_format : typing.Optional[CreateAgentRequestAudioFormat]
             The audio format of the agent.
@@ -2171,6 +2344,7 @@ class AsyncRawAgentsClient:
                 "custom_phone_numbers": custom_phone_numbers,
                 "timezone": timezone,
                 "voice_id": voice_id,
+                "additional_voice_ids": additional_voice_ids,
                 "audio_format": audio_format,
                 "audio_speed": audio_speed,
                 "background_noise_level": background_noise_level,
@@ -2318,6 +2492,7 @@ class AsyncRawAgentsClient:
         custom_phone_numbers: typing.Optional[typing.Sequence[str]] = OMIT,
         timezone: typing.Optional[str] = OMIT,
         voice_id: typing.Optional[str] = OMIT,
+        additional_voice_ids: typing.Optional[typing.Sequence[str]] = OMIT,
         audio_format: typing.Optional[CreateAgentRequestAudioFormat] = OMIT,
         audio_speed: typing.Optional[float] = OMIT,
         background_noise_level: typing.Optional[float] = OMIT,
@@ -2400,6 +2575,9 @@ class AsyncRawAgentsClient:
 
         voice_id : typing.Optional[str]
             The voice ID to use.
+
+        additional_voice_ids : typing.Optional[typing.Sequence[str]]
+            Additional voice IDs that, together with `voice_id`, form the agent's voice set. Each conversation is assigned one voice from the set, chosen at random with equal probability. Must not include `voice_id` and must not contain duplicates.
 
         audio_format : typing.Optional[CreateAgentRequestAudioFormat]
             The audio format of the agent.
@@ -2562,6 +2740,7 @@ class AsyncRawAgentsClient:
                 "custom_phone_numbers": custom_phone_numbers,
                 "timezone": timezone,
                 "voice_id": voice_id,
+                "additional_voice_ids": additional_voice_ids,
                 "audio_format": audio_format,
                 "audio_speed": audio_speed,
                 "background_noise_level": background_noise_level,
@@ -2849,6 +3028,7 @@ class AsyncRawAgentsClient:
         custom_phone_numbers: typing.Optional[typing.Sequence[str]] = OMIT,
         timezone: typing.Optional[str] = OMIT,
         voice_id: typing.Optional[str] = OMIT,
+        additional_voice_ids: typing.Optional[typing.Sequence[str]] = OMIT,
         audio_format: typing.Optional[UpdateAgentRequestAudioFormat] = OMIT,
         audio_speed: typing.Optional[float] = OMIT,
         background_noise_level: typing.Optional[float] = OMIT,
@@ -2931,6 +3111,9 @@ class AsyncRawAgentsClient:
 
         voice_id : typing.Optional[str]
             The voice ID to use.
+
+        additional_voice_ids : typing.Optional[typing.Sequence[str]]
+            Additional voice IDs that, together with `voice_id`, form the agent's voice set. Each conversation is assigned one voice from the set, chosen at random with equal probability. Must not include `voice_id` and must not contain duplicates.
 
         audio_format : typing.Optional[UpdateAgentRequestAudioFormat]
             The audio format of the agent.
@@ -3096,6 +3279,7 @@ class AsyncRawAgentsClient:
                 "custom_phone_numbers": custom_phone_numbers,
                 "timezone": timezone,
                 "voice_id": voice_id,
+                "additional_voice_ids": additional_voice_ids,
                 "audio_format": audio_format,
                 "audio_speed": audio_speed,
                 "background_noise_level": background_noise_level,
@@ -3621,6 +3805,158 @@ class AsyncRawAgentsClient:
                 )
             if _response.status_code == 409:
                 raise ConflictError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Any,
+                        construct_type(
+                            type_=typing.Any,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def disable(
+        self,
+        name_or_id: str,
+        *,
+        project: typing.Optional[str] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AsyncHttpResponse[AgentsDisableResponse]:
+        """
+        Disables an agent by name or ID. A disabled agent cannot start conversations or be updated, except to release its phone numbers.
+
+        Parameters
+        ----------
+        name_or_id : str
+            The name or the ID of the agent.
+
+        project : typing.Optional[str]
+            The name of the project containing the agent. Only used when `nameOrId` is a name.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[AgentsDisableResponse]
+            Success response
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"agents/{jsonable_encoder(name_or_id)}/disable",
+            base_url=self._client_wrapper.get_environment().base,
+            method="POST",
+            params={
+                "project": project,
+            },
+            request_options=request_options,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    AgentsDisableResponse,
+                    construct_type(
+                        type_=AgentsDisableResponse,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return AsyncHttpResponse(response=_response, data=_data)
+            if _response.status_code == 403:
+                raise ForbiddenError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Any,
+                        construct_type(
+                            type_=typing.Any,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 404:
+                raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Any,
+                        construct_type(
+                            type_=typing.Any,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response.text)
+        except ValidationError as e:
+            raise ParsingError(
+                status_code=_response.status_code, headers=dict(_response.headers), body=_response.json(), cause=e
+            )
+        raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
+
+    async def enable(
+        self,
+        name_or_id: str,
+        *,
+        project: typing.Optional[str] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AsyncHttpResponse[AgentsEnableResponse]:
+        """
+        Enables a previously disabled agent by name or ID.
+
+        Parameters
+        ----------
+        name_or_id : str
+            The name or the ID of the agent.
+
+        project : typing.Optional[str]
+            The name of the project containing the agent. Only used when `nameOrId` is a name.
+
+        request_options : typing.Optional[RequestOptions]
+            Request-specific configuration.
+
+        Returns
+        -------
+        AsyncHttpResponse[AgentsEnableResponse]
+            Success response
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            f"agents/{jsonable_encoder(name_or_id)}/enable",
+            base_url=self._client_wrapper.get_environment().base,
+            method="POST",
+            params={
+                "project": project,
+            },
+            request_options=request_options,
+        )
+        try:
+            if 200 <= _response.status_code < 300:
+                _data = typing.cast(
+                    AgentsEnableResponse,
+                    construct_type(
+                        type_=AgentsEnableResponse,  # type: ignore
+                        object_=_response.json(),
+                    ),
+                )
+                return AsyncHttpResponse(response=_response, data=_data)
+            if _response.status_code == 403:
+                raise ForbiddenError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Any,
+                        construct_type(
+                            type_=typing.Any,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 404:
+                raise NotFoundError(
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Any,

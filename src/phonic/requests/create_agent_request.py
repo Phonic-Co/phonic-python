@@ -55,6 +55,11 @@ class CreateAgentRequestParams(typing_extensions.TypedDict):
     The voice ID to use.
     """
 
+    additional_voice_ids: typing_extensions.NotRequired[typing.Sequence[str]]
+    """
+    Additional voice IDs that, together with `voice_id`, form the agent's voice set. Each conversation is assigned one voice from the set, chosen at random with equal probability. Must not include `voice_id` and must not contain duplicates.
+    """
+
     audio_format: typing_extensions.NotRequired[CreateAgentRequestAudioFormat]
     """
     The audio format of the agent.

@@ -365,6 +365,14 @@ client.agents.upsert(
 <dl>
 <dd>
 
+**additional_voice_ids:** `typing.Optional[typing.List[str]]` — Additional voice IDs that, together with `voice_id`, form the agent's voice set. Each conversation is assigned one voice from the set, chosen at random with equal probability. Must not include `voice_id` and must not contain duplicates.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **audio_format:** `typing.Optional[CreateAgentRequestAudioFormat]` — The audio format of the agent.
     
 </dd>
@@ -1077,6 +1085,14 @@ client.agents.update(
 <dd>
 
 **voice_id:** `typing.Optional[str]` — The voice ID to use.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**additional_voice_ids:** `typing.Optional[typing.List[str]]` — Additional voice IDs that, together with `voice_id`, form the agent's voice set. Each conversation is assigned one voice from the set, chosen at random with equal probability. Must not include `voice_id` and must not contain duplicates.
     
 </dd>
 </dl>
@@ -1816,6 +1832,170 @@ client.agents.update_phone_number(
 </dl>
 </details>
 
+<details><summary><code>client.agents.<a href="src/phonic/agents/client.py">disable</a>(...) -> AgentsDisableResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Disables an agent by name or ID. A disabled agent cannot start conversations or be updated, except to release its phone numbers.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from phonic import Phonic
+from phonic.environment import PhonicEnvironment
+
+client = Phonic(
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
+)
+
+client.agents.disable(
+    name_or_id="nameOrId",
+    project="main",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**name_or_id:** `str` — The name or the ID of the agent.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**project:** `typing.Optional[str]` — The name of the project containing the agent. Only used when `nameOrId` is a name.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.agents.<a href="src/phonic/agents/client.py">enable</a>(...) -> AgentsEnableResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Enables a previously disabled agent by name or ID.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from phonic import Phonic
+from phonic.environment import PhonicEnvironment
+
+client = Phonic(
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
+)
+
+client.agents.enable(
+    name_or_id="nameOrId",
+    project="main",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**name_or_id:** `str` — The name or the ID of the agent.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**project:** `typing.Optional[str]` — The name of the project containing the agent. Only used when `nameOrId` is a name.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 ## Tools
 <details><summary><code>client.tools.<a href="src/phonic/tools/client.py">list</a>(...) -> ToolsListResponse</code></summary>
 <dl>
@@ -2203,7 +2383,7 @@ Every key must name a top-level parameter. For POST webhooks, every parameter ne
 <dl>
 <dd>
 
-**uninterruptible:** `typing.Optional[bool]` — When true, the user cannot interrupt the agent while the tool call is in flight; the agent's turn is held open until the tool returns. Only available for sync custom_webhook and custom_websocket tools.
+**uninterruptible:** `typing.Optional[bool]` — When true, caller speech cannot interrupt the assistant while the tool call is running. Available for sync custom_webhook, sync custom_websocket, and built_in_transfer_to_phone_number tools. Defaults to true for phone transfers and false for custom tools. Prevents caller interruptions during the transfer, including the preceding announcement once protection is active.
     
 </dd>
 </dl>
@@ -2702,7 +2882,7 @@ Every key must name a top-level parameter. For POST webhooks, every parameter ne
 <dl>
 <dd>
 
-**uninterruptible:** `typing.Optional[bool]` — When true, the user cannot interrupt the agent while the tool call is in flight; the agent's turn is held open until the tool returns. Only available for sync custom_webhook and custom_websocket tools, so the resulting execution_mode must be sync.
+**uninterruptible:** `typing.Optional[bool]` — When true, caller speech cannot interrupt the assistant while the tool call is running. Available for sync custom_webhook, sync custom_websocket, and built_in_transfer_to_phone_number tools. Omitted updates preserve the current setting. Prevents caller interruptions during the transfer, including the preceding announcement once protection is active.
     
 </dd>
 </dl>
