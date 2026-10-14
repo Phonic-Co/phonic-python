@@ -10,7 +10,7 @@ from .built_in_tool_config_speech_before_tool_call import BuiltInToolConfigSpeec
 
 class BuiltInToolConfig(UncheckedBaseModel):
     """
-    Configuration for a simple built-in tool (`keypad_input` or `natural_conversation_ending`).
+    Configuration for a simple built-in tool (`keypad_input`, `natural_conversation_ending`, or `web_search`).
     """
 
     speech_before_tool_call: BuiltInToolConfigSpeechBeforeToolCall = pydantic.Field()

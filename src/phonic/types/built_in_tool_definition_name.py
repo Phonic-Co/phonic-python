@@ -3,5 +3,5 @@
 import typing
 
 BuiltInToolDefinitionName = typing.Union[
-    typing.Literal["keypad_input", "natural_conversation_ending", "choose_not_to_respond"], typing.Any
+    typing.Literal["keypad_input", "natural_conversation_ending", "choose_not_to_respond", "web_search"], typing.Any
 ]

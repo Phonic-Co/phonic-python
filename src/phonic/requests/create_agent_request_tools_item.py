@@ -6,5 +6,6 @@ CreateAgentRequestToolsItemParams = typing.Union[
     typing.Literal["keypad_input"],
     typing.Literal["natural_conversation_ending"],
     typing.Literal["choose_not_to_respond"],
+    typing.Literal["web_search"],
     str,
 ]
