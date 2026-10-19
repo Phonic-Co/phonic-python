@@ -77,6 +77,7 @@ if typing.TYPE_CHECKING:
     from .conversation_evaluation_result_result import ConversationEvaluationResultResult
     from .conversation_extraction import ConversationExtraction
     from .conversation_extraction_schema import ConversationExtractionSchema
+    from .conversation_intelligence_level import ConversationIntelligenceLevel
     from .conversation_item import ConversationItem
     from .conversation_item_role import ConversationItemRole
     from .conversation_item_tool_calls_item import ConversationItemToolCallsItem
@@ -84,6 +85,7 @@ if typing.TYPE_CHECKING:
     from .conversation_item_tool_calls_item_tool import ConversationItemToolCallsItemTool
     from .conversation_multilingual_mode import ConversationMultilingualMode
     from .conversation_origin import ConversationOrigin
+    from .conversation_phonic_model import ConversationPhonicModel
     from .conversation_project import ConversationProject
     from .conversation_pronunciation_dictionary_item import ConversationPronunciationDictionaryItem
     from .conversations_list_response_conversation import ConversationsListResponseConversation
@@ -290,6 +292,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ConversationEvaluationResultResult": ".conversation_evaluation_result_result",
     "ConversationExtraction": ".conversation_extraction",
     "ConversationExtractionSchema": ".conversation_extraction_schema",
+    "ConversationIntelligenceLevel": ".conversation_intelligence_level",
     "ConversationItem": ".conversation_item",
     "ConversationItemRole": ".conversation_item_role",
     "ConversationItemToolCallsItem": ".conversation_item_tool_calls_item",
@@ -297,6 +300,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ConversationItemToolCallsItemTool": ".conversation_item_tool_calls_item_tool",
     "ConversationMultilingualMode": ".conversation_multilingual_mode",
     "ConversationOrigin": ".conversation_origin",
+    "ConversationPhonicModel": ".conversation_phonic_model",
     "ConversationProject": ".conversation_project",
     "ConversationPronunciationDictionaryItem": ".conversation_pronunciation_dictionary_item",
     "ConversationsListResponseConversation": ".conversations_list_response_conversation",
@@ -521,6 +525,7 @@ __all__ = [
     "ConversationEvaluationResultResult",
     "ConversationExtraction",
     "ConversationExtractionSchema",
+    "ConversationIntelligenceLevel",
     "ConversationItem",
     "ConversationItemRole",
     "ConversationItemToolCallsItem",
@@ -528,6 +533,7 @@ __all__ = [
     "ConversationItemToolCallsItemTool",
     "ConversationMultilingualMode",
     "ConversationOrigin",
+    "ConversationPhonicModel",
     "ConversationProject",
     "ConversationPronunciationDictionaryItem",
     "ConversationsListResponseConversation",

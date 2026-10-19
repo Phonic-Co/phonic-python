@@ -12,9 +12,11 @@ from .conversation_background_noise import ConversationBackgroundNoise
 from .conversation_call_info import ConversationCallInfo
 from .conversation_deletion_info import ConversationDeletionInfo
 from .conversation_ended_by import ConversationEndedBy
+from .conversation_intelligence_level import ConversationIntelligenceLevel
 from .conversation_item import ConversationItem
 from .conversation_multilingual_mode import ConversationMultilingualMode
 from .conversation_origin import ConversationOrigin
+from .conversation_phonic_model import ConversationPhonicModel
 from .conversation_project import ConversationProject
 from .conversation_pronunciation_dictionary_item import ConversationPronunciationDictionaryItem
 from .data_retention_policy import DataRetentionPolicy
@@ -117,7 +119,12 @@ class Conversation(UncheckedBaseModel):
     Post-call processed transcript.
     """
 
-    duration_ms: float = pydantic.Field()
+    summary: typing.Optional[str] = pydantic.Field(default=None)
+    """
+    Summary of the conversation.
+    """
+
+    duration_ms: typing.Optional[float] = pydantic.Field(default=None)
     """
     Duration of the conversation in milliseconds.
     """
@@ -177,9 +184,24 @@ class Conversation(UncheckedBaseModel):
     Push to talk mode. User must send mute/unmute messages to turn on/off listening to audio. Defaults to false.
     """
 
+    intelligence_level: typing.Optional[ConversationIntelligenceLevel] = pydantic.Field(default=None)
+    """
+    The intelligence level used for the conversation.
+    """
+
+    phonic_model: typing.Optional[ConversationPhonicModel] = pydantic.Field(default=None)
+    """
+    The Phonic speech-to-speech model used for the conversation.
+    """
+
     languages: typing.Optional[typing.List[str]] = pydantic.Field(default=None)
     """
     Array of ISO 639-1 language codes recognized by the model. This field is deprecated. Use `default_language` and `additional_languages` instead.
+    """
+
+    heard_languages: typing.Optional[typing.List[LanguageCode]] = pydantic.Field(default=None)
+    """
+    Distinct languages heard from the user across the conversation, in order of first appearance. Empty for conversations predating language tracking.
     """
 
     generate_no_input_poke_text: typing.Optional[bool] = pydantic.Field(default=None)
