@@ -2391,6 +2391,14 @@ Every key must name a top-level parameter. For POST webhooks, every parameter ne
 <dl>
 <dd>
 
+**can_run_during_user_speech:** `typing.Optional[bool]` — When true, the agent can call the tool while the user is still speaking. Only available for custom_webhook and custom_context tools. Setting it to true requires the feature to be enabled for your organization; contact Phonic to get access.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **context:** `typing.Optional[str]` — The static context returned to the agent. Required for custom_context tools.
     
 </dd>
@@ -2883,6 +2891,14 @@ Every key must name a top-level parameter. For POST webhooks, every parameter ne
 <dd>
 
 **uninterruptible:** `typing.Optional[bool]` — When true, caller speech cannot interrupt the assistant while the tool call is running. Available for sync custom_webhook, sync custom_websocket, and built_in_transfer_to_phone_number tools. Omitted updates preserve the current setting. Prevents caller interruptions during the transfer, including the preceding announcement once protection is active.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**can_run_during_user_speech:** `typing.Optional[bool]` — When true, the agent can call the tool while the user is still speaking. Only available for custom_webhook and custom_context tools. Setting it to true requires the feature to be enabled for your organization; contact Phonic to get access.
     
 </dd>
 </dl>

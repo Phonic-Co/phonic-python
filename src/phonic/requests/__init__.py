@@ -173,6 +173,7 @@ if typing.TYPE_CHECKING:
     from .voice import VoiceParams
     from .warning_payload import WarningPayloadParams
     from .warning_payload_warning import WarningPayloadWarningParams
+    from .web_search_tool_config import WebSearchToolConfigParams
 _dynamic_imports: typing.Dict[str, str] = {
     "AddSystemMessagePayloadParams": ".add_system_message_payload",
     "AgentConfigurationEndpointParams": ".agent_configuration_endpoint",
@@ -329,6 +330,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "VoiceParams": ".voice",
     "WarningPayloadParams": ".warning_payload",
     "WarningPayloadWarningParams": ".warning_payload_warning",
+    "WebSearchToolConfigParams": ".web_search_tool_config",
 }
 
 
@@ -509,4 +511,5 @@ __all__ = [
     "VoiceParams",
     "WarningPayloadParams",
     "WarningPayloadWarningParams",
+    "WebSearchToolConfigParams",
 ]

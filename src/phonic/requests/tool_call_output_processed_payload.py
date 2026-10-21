@@ -4,6 +4,9 @@ import datetime as dt
 import typing
 
 import typing_extensions
+from ..types.tool_call_output_processed_payload_conversation_item_role import (
+    ToolCallOutputProcessedPayloadConversationItemRole,
+)
 from .tool_call_output_processed_payload_tool import ToolCallOutputProcessedPayloadToolParams
 
 
@@ -83,4 +86,9 @@ class ToolCallOutputProcessedPayloadParams(typing_extensions.TypedDict):
     error_message: typing_extensions.NotRequired[typing.Optional[str]]
     """
     Error message if tool call failed
+    """
+
+    conversation_item_role: ToolCallOutputProcessedPayloadConversationItemRole
+    """
+    The role of the conversation turn the tool call was attached to. A tool call made while the user is still speaking is attached to the user's turn.
     """

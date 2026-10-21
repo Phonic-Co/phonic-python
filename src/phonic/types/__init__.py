@@ -196,6 +196,9 @@ if typing.TYPE_CHECKING:
     from .tool_call_interrupted_payload import ToolCallInterruptedPayload
     from .tool_call_output_payload import ToolCallOutputPayload
     from .tool_call_output_processed_payload import ToolCallOutputProcessedPayload
+    from .tool_call_output_processed_payload_conversation_item_role import (
+        ToolCallOutputProcessedPayloadConversationItemRole,
+    )
     from .tool_call_output_processed_payload_tool import ToolCallOutputProcessedPayloadTool
     from .tool_call_payload import ToolCallPayload
     from .tool_definition import ToolDefinition
@@ -224,6 +227,8 @@ if typing.TYPE_CHECKING:
     from .voice import Voice
     from .warning_payload import WarningPayload
     from .warning_payload_warning import WarningPayloadWarning
+    from .web_search_tool_config import WebSearchToolConfig
+    from .web_search_tool_config_speech_before_tool_call import WebSearchToolConfigSpeechBeforeToolCall
 _dynamic_imports: typing.Dict[str, str] = {
     "AddSystemMessagePayload": ".add_system_message_payload",
     "Agent": ".agent",
@@ -405,6 +410,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ToolCallInterruptedPayload": ".tool_call_interrupted_payload",
     "ToolCallOutputPayload": ".tool_call_output_payload",
     "ToolCallOutputProcessedPayload": ".tool_call_output_processed_payload",
+    "ToolCallOutputProcessedPayloadConversationItemRole": ".tool_call_output_processed_payload_conversation_item_role",
     "ToolCallOutputProcessedPayloadTool": ".tool_call_output_processed_payload_tool",
     "ToolCallPayload": ".tool_call_payload",
     "ToolDefinition": ".tool_definition",
@@ -433,6 +439,8 @@ _dynamic_imports: typing.Dict[str, str] = {
     "Voice": ".voice",
     "WarningPayload": ".warning_payload",
     "WarningPayloadWarning": ".warning_payload_warning",
+    "WebSearchToolConfig": ".web_search_tool_config",
+    "WebSearchToolConfigSpeechBeforeToolCall": ".web_search_tool_config_speech_before_tool_call",
 }
 
 
@@ -638,6 +646,7 @@ __all__ = [
     "ToolCallInterruptedPayload",
     "ToolCallOutputPayload",
     "ToolCallOutputProcessedPayload",
+    "ToolCallOutputProcessedPayloadConversationItemRole",
     "ToolCallOutputProcessedPayloadTool",
     "ToolCallPayload",
     "ToolDefinition",
@@ -666,4 +675,6 @@ __all__ = [
     "Voice",
     "WarningPayload",
     "WarningPayloadWarning",
+    "WebSearchToolConfig",
+    "WebSearchToolConfigSpeechBeforeToolCall",
 ]

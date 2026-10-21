@@ -64,7 +64,7 @@ class ConversationItemParams(typing_extensions.TypedDict):
     System prompt used for this assistant turn.
     """
 
-    tool_calls: typing_extensions.NotRequired[typing.Sequence[ConversationItemToolCallsItemParams]]
+    tool_calls: typing.Sequence[ConversationItemToolCallsItemParams]
     """
-    Tool calls made by the assistant.
+    Tool calls made during this turn. Tool calls made while the user is still speaking are attached to the user's turn.
     """
