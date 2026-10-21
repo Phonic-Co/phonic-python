@@ -2,4 +2,4 @@
 
 import typing
 
-ConfigOptionsPhonicModel = typing.Union[typing.Literal["phonic_v0_5", "phonic_v1", "phonic_v1_1"], typing.Any]
+ConfigOptionsPhonicModel = typing.Union[typing.Literal["phonic-0.5", "phonic-1", "phonic-1.1"], typing.Any]

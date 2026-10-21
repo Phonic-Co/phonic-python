@@ -149,7 +149,7 @@ class ResponsesClient:
                     },
                 }
             ],
-            phonic_model="phonic_v1",
+            phonic_model="phonic-1",
             num_responses=2,
         )
         """
@@ -310,7 +310,7 @@ class AsyncResponsesClient:
                         },
                     }
                 ],
-                phonic_model="phonic_v1",
+                phonic_model="phonic-1",
                 num_responses=2,
             )
 

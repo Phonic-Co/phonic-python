@@ -6,8 +6,10 @@ import typing
 import typing_extensions
 from ..types.conversation_background_noise import ConversationBackgroundNoise
 from ..types.conversation_ended_by import ConversationEndedBy
+from ..types.conversation_intelligence_level import ConversationIntelligenceLevel
 from ..types.conversation_multilingual_mode import ConversationMultilingualMode
 from ..types.conversation_origin import ConversationOrigin
+from ..types.conversation_phonic_model import ConversationPhonicModel
 from ..types.language_code import LanguageCode
 from .conversation_agent import ConversationAgentParams
 from .conversation_analysis import ConversationAnalysisParams
@@ -115,7 +117,12 @@ class ConversationParams(typing_extensions.TypedDict):
     Post-call processed transcript.
     """
 
-    duration_ms: float
+    summary: typing_extensions.NotRequired[typing.Optional[str]]
+    """
+    Summary of the conversation.
+    """
+
+    duration_ms: typing.Optional[float]
     """
     Duration of the conversation in milliseconds.
     """
@@ -175,9 +182,24 @@ class ConversationParams(typing_extensions.TypedDict):
     Push to talk mode. User must send mute/unmute messages to turn on/off listening to audio. Defaults to false.
     """
 
+    intelligence_level: typing_extensions.NotRequired[ConversationIntelligenceLevel]
+    """
+    The intelligence level used for the conversation.
+    """
+
+    phonic_model: typing_extensions.NotRequired[ConversationPhonicModel]
+    """
+    The Phonic speech-to-speech model used for the conversation.
+    """
+
     languages: typing_extensions.NotRequired[typing.Sequence[str]]
     """
     Array of ISO 639-1 language codes recognized by the model. This field is deprecated. Use `default_language` and `additional_languages` instead.
+    """
+
+    heard_languages: typing_extensions.NotRequired[typing.Sequence[LanguageCode]]
+    """
+    Distinct languages heard from the user across the conversation, in order of first appearance. Empty for conversations predating language tracking.
     """
 
     generate_no_input_poke_text: typing_extensions.NotRequired[typing.Optional[bool]]

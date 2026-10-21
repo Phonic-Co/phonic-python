@@ -6737,7 +6737,7 @@ client.responses.create(
             ),
         )
     ],
-    phonic_model="phonic_v1",
+    phonic_model="phonic-1",
     num_responses=2,
 )
 
