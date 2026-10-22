@@ -2,12 +2,17 @@
 
 from __future__ import annotations
 
+import asyncio
+import random
+import ssl
+import time
 import typing
 import urllib.parse
-from contextlib import asynccontextmanager, contextmanager
+from contextlib import AsyncExitStack, asynccontextmanager, contextmanager
 from typing import Any, AsyncIterator, Dict, Iterator, NoReturn, Optional, Tuple, TYPE_CHECKING
 
 import websockets.sync.client as websockets_sync_client
+from websockets.exceptions import InvalidHandshake, InvalidStatus
 
 from ..core.api_error import ApiError
 from ..core.client_wrapper import BaseClientWrapper
@@ -28,6 +33,96 @@ if TYPE_CHECKING:
         ReconnectableAsyncConversationsSocketClient,
         ReconnectableConversationsSocketClient,
     )
+
+
+# Policy for the initial connect, shared with the Node SDK: a 3s handshake
+# timeout, then up to 2 retries with backoff of 0.5s doubling to a 5s cap and
+# +/-20% jitter. Only failures before the socket opens are retried here;
+# drops after that are handled by the reconnectable client.
+DEFAULT_CONNECT_RETRIES = 2
+DEFAULT_CONNECTION_TIMEOUT_SEC = 3.0
+_CONNECT_RETRY_BASE_DELAY_SEC = 0.5
+_CONNECT_RETRY_MAX_DELAY_SEC = 5.0
+
+
+def _connect_retry_delay_sec(retry_number: int) -> float:
+    delay = min(_CONNECT_RETRY_BASE_DELAY_SEC * (2 ** (retry_number - 1)), _CONNECT_RETRY_MAX_DELAY_SEC)
+    return delay * (0.8 + random.random() * 0.4)
+
+
+# The sync client raises InvalidStatus even where the legacy async client
+# raises InvalidStatusCode, so status rejections can arrive as either.
+_INVALID_STATUS_ERRORS: Tuple[type, ...] = (InvalidWebSocketStatus, InvalidStatus)
+
+
+def _rejected_status_code(exc: BaseException) -> int:
+    if isinstance(exc, InvalidStatus):
+        return exc.response.status_code
+    return get_status_code(exc)  # type: ignore[arg-type]
+
+
+def _is_retryable_connect_error(exc: BaseException) -> bool:
+    if isinstance(exc, _INVALID_STATUS_ERRORS):
+        # A 4xx (bad credentials, rate limit) fails the same way on every attempt.
+        return _rejected_status_code(exc) >= 500
+    if isinstance(exc, ssl.SSLCertVerificationError):
+        return False
+    return isinstance(exc, (OSError, TimeoutError, asyncio.TimeoutError, InvalidHandshake))
+
+
+def _connect_sync_with_retries(
+    ws_url: str,
+    headers: Dict[str, str],
+    *,
+    retries: Optional[int],
+    timeout: Optional[float],
+) -> Any:
+    max_retries = DEFAULT_CONNECT_RETRIES if retries is None else retries
+    open_timeout = DEFAULT_CONNECTION_TIMEOUT_SEC if timeout is None else timeout
+    attempt = 0
+    while True:
+        try:
+            return websockets_sync_client.connect(ws_url, additional_headers=headers, open_timeout=open_timeout)
+        except Exception as exc:
+            if attempt >= max_retries or not _is_retryable_connect_error(exc):
+                raise
+            attempt += 1
+            time.sleep(_connect_retry_delay_sec(attempt))
+
+
+async def _enter_within(cm: Any, timeout: Optional[float]) -> Any:
+    # After a handshake timeout the legacy client waits its close timeout (10s)
+    # for a stalled peer to hang up before raising. Stop waiting at the timeout
+    # and let that cleanup finish in the background.
+    task = asyncio.ensure_future(cm.__aenter__())
+    done, _ = await asyncio.wait({task}, timeout=timeout)
+    if not done:
+        task.cancel()
+        task.add_done_callback(lambda t: t.cancelled() or t.exception())
+        raise asyncio.TimeoutError("timed out during handshake")
+    return task.result()
+
+
+async def _connect_async_with_retries(
+    ws_url: str,
+    headers: Dict[str, str],
+    *,
+    retries: Optional[int],
+    timeout: Optional[float],
+) -> Tuple[Any, Any]:
+    """Returns the entered connect context manager and its protocol."""
+    max_retries = DEFAULT_CONNECT_RETRIES if retries is None else retries
+    open_timeout = DEFAULT_CONNECTION_TIMEOUT_SEC if timeout is None else timeout
+    attempt = 0
+    while True:
+        cm = websockets_client_connect(ws_url, extra_headers=headers, open_timeout=open_timeout)
+        try:
+            return cm, await _enter_within(cm, open_timeout)
+        except Exception as exc:
+            if attempt >= max_retries or not _is_retryable_connect_error(exc):
+                raise
+            attempt += 1
+            await asyncio.sleep(_connect_retry_delay_sec(attempt))
 
 
 def build_sts_websocket_url_and_headers(
@@ -55,10 +150,8 @@ def build_sts_websocket_url_and_headers(
     return ws_url, headers
 
 
-def _raise_api_error_for_invalid_websocket_status(
-    exc: InvalidWebSocketStatus, headers: Dict[str, str]
-) -> NoReturn:
-    status_code: int = get_status_code(exc)
+def _raise_api_error_for_invalid_websocket_status(exc: BaseException, headers: Dict[str, str]) -> NoReturn:
+    status_code: int = _rejected_status_code(exc)
     if status_code == 401:
         raise ApiError(
             status_code=status_code,
@@ -77,16 +170,21 @@ def open_conversations_socket_sync(
     client_wrapper: BaseClientWrapper,
     *,
     request_options: Optional[RequestOptions] = None,
+    reconnect_attempts: Optional[int] = None,
+    connection_timeout_in_seconds: Optional[float] = None,
 ) -> Iterator[ConversationsSocketClient]:
     ws_url, headers = build_sts_websocket_url_and_headers(
         client_wrapper,
         request_options=request_options,
     )
     try:
-        with websockets_sync_client.connect(ws_url, additional_headers=headers) as protocol:
-            yield ConversationsSocketClient(websocket=protocol)
-    except InvalidWebSocketStatus as exc:
+        protocol = _connect_sync_with_retries(
+            ws_url, headers, retries=reconnect_attempts, timeout=connection_timeout_in_seconds
+        )
+    except _INVALID_STATUS_ERRORS as exc:
         _raise_api_error_for_invalid_websocket_status(exc, headers)
+    with protocol:
+        yield ConversationsSocketClient(websocket=protocol)
 
 
 @asynccontextmanager
@@ -94,16 +192,22 @@ async def open_conversations_socket_async(
     client_wrapper: BaseClientWrapper,
     *,
     request_options: Optional[RequestOptions] = None,
+    reconnect_attempts: Optional[int] = None,
+    connection_timeout_in_seconds: Optional[float] = None,
 ) -> AsyncIterator[AsyncConversationsSocketClient]:
     ws_url, headers = build_sts_websocket_url_and_headers(
         client_wrapper,
         request_options=request_options,
     )
     try:
-        async with websockets_client_connect(ws_url, extra_headers=headers) as protocol:
-            yield AsyncConversationsSocketClient(websocket=protocol)
-    except InvalidWebSocketStatus as exc:
+        cm, protocol = await _connect_async_with_retries(
+            ws_url, headers, retries=reconnect_attempts, timeout=connection_timeout_in_seconds
+        )
+    except _INVALID_STATUS_ERRORS as exc:
         _raise_api_error_for_invalid_websocket_status(exc, headers)
+    async with AsyncExitStack() as stack:
+        stack.push_async_exit(cm)
+        yield AsyncConversationsSocketClient(websocket=protocol)
 
 
 @contextmanager
@@ -111,6 +215,8 @@ def open_reconnectable_conversations_socket_sync(
     client_wrapper: BaseClientWrapper,
     *,
     request_options: Optional[RequestOptions] = None,
+    reconnect_attempts: Optional[int] = None,
+    connection_timeout_in_seconds: Optional[float] = None,
 ) -> Iterator["ReconnectableConversationsSocketClient"]:
     from .reconnectable_socket_client import ReconnectableConversationsSocketClient
 
@@ -119,9 +225,11 @@ def open_reconnectable_conversations_socket_sync(
         request_options=request_options,
     )
     try:
-        cm = websockets_sync_client.connect(ws_url, additional_headers=headers)
+        cm = _connect_sync_with_retries(
+            ws_url, headers, retries=reconnect_attempts, timeout=connection_timeout_in_seconds
+        )
         protocol = cm.__enter__()
-    except InvalidWebSocketStatus as exc:
+    except _INVALID_STATUS_ERRORS as exc:
         _raise_api_error_for_invalid_websocket_status(exc, headers)
     client = ReconnectableConversationsSocketClient(
         initial_cm=cm,
@@ -140,6 +248,8 @@ async def open_reconnectable_conversations_socket_async(
     client_wrapper: BaseClientWrapper,
     *,
     request_options: Optional[RequestOptions] = None,
+    reconnect_attempts: Optional[int] = None,
+    connection_timeout_in_seconds: Optional[float] = None,
 ) -> AsyncIterator["ReconnectableAsyncConversationsSocketClient"]:
     from .reconnectable_socket_client import ReconnectableAsyncConversationsSocketClient
 
@@ -148,9 +258,10 @@ async def open_reconnectable_conversations_socket_async(
         request_options=request_options,
     )
     try:
-        cm = websockets_client_connect(ws_url, extra_headers=headers)
-        protocol = await cm.__aenter__()
-    except InvalidWebSocketStatus as exc:
+        cm, protocol = await _connect_async_with_retries(
+            ws_url, headers, retries=reconnect_attempts, timeout=connection_timeout_in_seconds
+        )
+    except _INVALID_STATUS_ERRORS as exc:
         _raise_api_error_for_invalid_websocket_status(exc, headers)
     client = ReconnectableAsyncConversationsSocketClient(
         initial_cm=cm,
