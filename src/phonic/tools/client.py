@@ -109,6 +109,7 @@ class ToolsClient:
         allow_tool_chaining: typing.Optional[bool] = OMIT,
         wait_for_response: typing.Optional[bool] = OMIT,
         uninterruptible: typing.Optional[bool] = OMIT,
+        can_run_during_user_speech: typing.Optional[bool] = OMIT,
         context: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ToolsCreateResponse:
@@ -215,6 +216,9 @@ class ToolsClient:
         uninterruptible : typing.Optional[bool]
             When true, caller speech cannot interrupt the assistant while the tool call is running. Available for sync custom_webhook, sync custom_websocket, and built_in_transfer_to_phone_number tools. Defaults to true for phone transfers and false for custom tools. Prevents caller interruptions during the transfer, including the preceding announcement once protection is active.
 
+        can_run_during_user_speech : typing.Optional[bool]
+            When true, the agent can call the tool while the user is still speaking. Only available for custom_webhook and custom_context tools. Setting it to true requires the feature to be enabled for your organization; contact Phonic to get access.
+
         context : typing.Optional[str]
             The static context returned to the agent. Required for custom_context tools.
 
@@ -284,6 +288,7 @@ class ToolsClient:
             allow_tool_chaining=allow_tool_chaining,
             wait_for_response=wait_for_response,
             uninterruptible=uninterruptible,
+            can_run_during_user_speech=can_run_during_user_speech,
             context=context,
             request_options=request_options,
         )
@@ -405,6 +410,7 @@ class ToolsClient:
         allow_tool_chaining: typing.Optional[bool] = OMIT,
         wait_for_response: typing.Optional[bool] = OMIT,
         uninterruptible: typing.Optional[bool] = OMIT,
+        can_run_during_user_speech: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ToolsUpdateResponse:
         """
@@ -507,6 +513,9 @@ class ToolsClient:
         uninterruptible : typing.Optional[bool]
             When true, caller speech cannot interrupt the assistant while the tool call is running. Available for sync custom_webhook, sync custom_websocket, and built_in_transfer_to_phone_number tools. Omitted updates preserve the current setting. Prevents caller interruptions during the transfer, including the preceding announcement once protection is active.
 
+        can_run_during_user_speech : typing.Optional[bool]
+            When true, the agent can call the tool while the user is still speaking. Only available for custom_webhook and custom_context tools. Setting it to true requires the feature to be enabled for your organization; contact Phonic to get access.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -562,6 +571,7 @@ class ToolsClient:
             allow_tool_chaining=allow_tool_chaining,
             wait_for_response=wait_for_response,
             uninterruptible=uninterruptible,
+            can_run_during_user_speech=can_run_during_user_speech,
             request_options=request_options,
         )
         return _response.data
@@ -656,6 +666,7 @@ class AsyncToolsClient:
         allow_tool_chaining: typing.Optional[bool] = OMIT,
         wait_for_response: typing.Optional[bool] = OMIT,
         uninterruptible: typing.Optional[bool] = OMIT,
+        can_run_during_user_speech: typing.Optional[bool] = OMIT,
         context: typing.Optional[str] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ToolsCreateResponse:
@@ -762,6 +773,9 @@ class AsyncToolsClient:
         uninterruptible : typing.Optional[bool]
             When true, caller speech cannot interrupt the assistant while the tool call is running. Available for sync custom_webhook, sync custom_websocket, and built_in_transfer_to_phone_number tools. Defaults to true for phone transfers and false for custom tools. Prevents caller interruptions during the transfer, including the preceding announcement once protection is active.
 
+        can_run_during_user_speech : typing.Optional[bool]
+            When true, the agent can call the tool while the user is still speaking. Only available for custom_webhook and custom_context tools. Setting it to true requires the feature to be enabled for your organization; contact Phonic to get access.
+
         context : typing.Optional[str]
             The static context returned to the agent. Required for custom_context tools.
 
@@ -839,6 +853,7 @@ class AsyncToolsClient:
             allow_tool_chaining=allow_tool_chaining,
             wait_for_response=wait_for_response,
             uninterruptible=uninterruptible,
+            can_run_during_user_speech=can_run_during_user_speech,
             context=context,
             request_options=request_options,
         )
@@ -976,6 +991,7 @@ class AsyncToolsClient:
         allow_tool_chaining: typing.Optional[bool] = OMIT,
         wait_for_response: typing.Optional[bool] = OMIT,
         uninterruptible: typing.Optional[bool] = OMIT,
+        can_run_during_user_speech: typing.Optional[bool] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ToolsUpdateResponse:
         """
@@ -1078,6 +1094,9 @@ class AsyncToolsClient:
         uninterruptible : typing.Optional[bool]
             When true, caller speech cannot interrupt the assistant while the tool call is running. Available for sync custom_webhook, sync custom_websocket, and built_in_transfer_to_phone_number tools. Omitted updates preserve the current setting. Prevents caller interruptions during the transfer, including the preceding announcement once protection is active.
 
+        can_run_during_user_speech : typing.Optional[bool]
+            When true, the agent can call the tool while the user is still speaking. Only available for custom_webhook and custom_context tools. Setting it to true requires the feature to be enabled for your organization; contact Phonic to get access.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -1141,6 +1160,7 @@ class AsyncToolsClient:
             allow_tool_chaining=allow_tool_chaining,
             wait_for_response=wait_for_response,
             uninterruptible=uninterruptible,
+            can_run_during_user_speech=can_run_during_user_speech,
             request_options=request_options,
         )
         return _response.data

@@ -6,6 +6,9 @@ import typing
 import pydantic
 from ..core.pydantic_utilities import IS_PYDANTIC_V2
 from ..core.unchecked_base_model import UncheckedBaseModel
+from .tool_call_output_processed_payload_conversation_item_role import (
+    ToolCallOutputProcessedPayloadConversationItemRole,
+)
 from .tool_call_output_processed_payload_tool import ToolCallOutputProcessedPayloadTool
 
 
@@ -85,6 +88,11 @@ class ToolCallOutputProcessedPayload(UncheckedBaseModel):
     error_message: typing.Optional[str] = pydantic.Field(default=None)
     """
     Error message if tool call failed
+    """
+
+    conversation_item_role: ToolCallOutputProcessedPayloadConversationItemRole = pydantic.Field()
+    """
+    The role of the conversation turn the tool call was attached to. A tool call made while the user is still speaking is attached to the user's turn.
     """
 
     if IS_PYDANTIC_V2:

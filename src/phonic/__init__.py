@@ -187,6 +187,7 @@ if typing.TYPE_CHECKING:
         ToolCallInterruptedPayload,
         ToolCallOutputPayload,
         ToolCallOutputProcessedPayload,
+        ToolCallOutputProcessedPayloadConversationItemRole,
         ToolCallOutputProcessedPayloadTool,
         ToolCallPayload,
         ToolDefinition,
@@ -215,6 +216,8 @@ if typing.TYPE_CHECKING:
         Voice,
         WarningPayload,
         WarningPayloadWarning,
+        WebSearchToolConfig,
+        WebSearchToolConfigSpeechBeforeToolCall,
     )
     from .errors import (
         BadGatewayError,
@@ -539,6 +542,7 @@ if typing.TYPE_CHECKING:
         VoiceParams,
         WarningPayloadParams,
         WarningPayloadWarningParams,
+        WebSearchToolConfigParams,
     )
     from .responses import GenerateResponsesRequestPhonicModel
     from .tools import (
@@ -1021,6 +1025,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ToolCallOutputPayload": ".types",
     "ToolCallOutputPayloadParams": ".requests",
     "ToolCallOutputProcessedPayload": ".types",
+    "ToolCallOutputProcessedPayloadConversationItemRole": ".types",
     "ToolCallOutputProcessedPayloadParams": ".requests",
     "ToolCallOutputProcessedPayloadTool": ".types",
     "ToolCallOutputProcessedPayloadToolParams": ".requests",
@@ -1107,6 +1112,9 @@ _dynamic_imports: typing.Dict[str, str] = {
     "WarningPayloadParams": ".requests",
     "WarningPayloadWarning": ".types",
     "WarningPayloadWarningParams": ".requests",
+    "WebSearchToolConfig": ".types",
+    "WebSearchToolConfigParams": ".requests",
+    "WebSearchToolConfigSpeechBeforeToolCall": ".types",
     "WorkspaceGetResponse": ".workspace",
     "WorkspaceGetResponseParams": ".workspace",
     "WorkspaceUpdateResponse": ".workspace",
@@ -1594,6 +1602,7 @@ __all__ = [
     "ToolCallOutputPayload",
     "ToolCallOutputPayloadParams",
     "ToolCallOutputProcessedPayload",
+    "ToolCallOutputProcessedPayloadConversationItemRole",
     "ToolCallOutputProcessedPayloadParams",
     "ToolCallOutputProcessedPayloadTool",
     "ToolCallOutputProcessedPayloadToolParams",
@@ -1680,6 +1689,9 @@ __all__ = [
     "WarningPayloadParams",
     "WarningPayloadWarning",
     "WarningPayloadWarningParams",
+    "WebSearchToolConfig",
+    "WebSearchToolConfigParams",
+    "WebSearchToolConfigSpeechBeforeToolCall",
     "WorkspaceGetResponse",
     "WorkspaceGetResponseParams",
     "WorkspaceUpdateResponse",

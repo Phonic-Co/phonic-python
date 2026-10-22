@@ -4,5 +4,8 @@ import typing
 
 from .built_in_tool_config import BuiltInToolConfigParams
 from .choose_not_to_respond_tool_config import ChooseNotToRespondToolConfigParams
+from .web_search_tool_config import WebSearchToolConfigParams
 
-BuiltInToolConfigsValueParams = typing.Union[BuiltInToolConfigParams, ChooseNotToRespondToolConfigParams]
+BuiltInToolConfigsValueParams = typing.Union[
+    BuiltInToolConfigParams, WebSearchToolConfigParams, ChooseNotToRespondToolConfigParams
+]

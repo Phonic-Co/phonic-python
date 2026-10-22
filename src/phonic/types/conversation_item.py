@@ -66,9 +66,9 @@ class ConversationItem(UncheckedBaseModel):
     System prompt used for this assistant turn.
     """
 
-    tool_calls: typing.Optional[typing.List[ConversationItemToolCallsItem]] = pydantic.Field(default=None)
+    tool_calls: typing.List[ConversationItemToolCallsItem] = pydantic.Field()
     """
-    Tool calls made by the assistant.
+    Tool calls made during this turn. Tool calls made while the user is still speaking are attached to the user's turn.
     """
 
     if IS_PYDANTIC_V2:
