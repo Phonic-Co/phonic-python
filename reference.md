@@ -2391,7 +2391,7 @@ Every key must name a top-level parameter. For POST webhooks, every parameter ne
 <dl>
 <dd>
 
-**can_run_during_user_speech:** `typing.Optional[bool]` — When true, the agent can call the tool while the user is still speaking. Only available for custom_webhook and custom_context tools. Setting it to true requires the feature to be enabled for your organization; contact Phonic to get access.
+**can_run_during_user_speech:** `typing.Optional[bool]` — When true, the agent can call the tool while the user is still speaking. Only available for custom_webhook, custom_websocket, and custom_context tools. Setting it to true requires the feature to be enabled for your organization; contact Phonic to get access.
     
 </dd>
 </dl>
@@ -2898,7 +2898,7 @@ Every key must name a top-level parameter. For POST webhooks, every parameter ne
 <dl>
 <dd>
 
-**can_run_during_user_speech:** `typing.Optional[bool]` — When true, the agent can call the tool while the user is still speaking. Only available for custom_webhook and custom_context tools. Setting it to true requires the feature to be enabled for your organization; contact Phonic to get access.
+**can_run_during_user_speech:** `typing.Optional[bool]` — When true, the agent can call the tool while the user is still speaking. Only available for custom_webhook, custom_websocket, and custom_context tools. Setting it to true requires the feature to be enabled for your organization; contact Phonic to get access.
     
 </dd>
 </dl>

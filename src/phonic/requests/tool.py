@@ -170,7 +170,7 @@ class ToolParams(typing_extensions.TypedDict):
 
     can_run_during_user_speech: typing_extensions.NotRequired[bool]
     """
-    When true, the agent can call the tool while the user is still speaking. Only returned for custom_webhook and custom_context tools.
+    When true, the agent can call the tool while the user is still speaking. Only returned for custom_webhook, custom_websocket, and custom_context tools.
     """
 
     context: typing_extensions.NotRequired[str]
