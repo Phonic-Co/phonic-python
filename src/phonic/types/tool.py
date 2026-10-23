@@ -172,7 +172,7 @@ class Tool(UncheckedBaseModel):
 
     can_run_during_user_speech: typing.Optional[bool] = pydantic.Field(default=None)
     """
-    When true, the agent can call the tool while the user is still speaking. Only returned for custom_webhook and custom_context tools.
+    When true, the agent can call the tool while the user is still speaking. Only returned for custom_webhook, custom_websocket, and custom_context tools.
     """
 
     context: typing.Optional[str] = pydantic.Field(default=None)

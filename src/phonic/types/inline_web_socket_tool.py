@@ -61,6 +61,11 @@ class InlineWebSocketTool(UncheckedBaseModel):
     For sync tools, when true, the user cannot interrupt the assistant while the tool call is in flight; the assistant's turn is held open until the tool returns.
     """
 
+    can_run_during_user_speech: typing.Optional[bool] = pydantic.Field(default=None)
+    """
+    When true, the assistant can call the tool while the user is still speaking. Setting it to true requires the feature to be enabled for your organization; contact Phonic to get access.
+    """
+
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2
     else:
