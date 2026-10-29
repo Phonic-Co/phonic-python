@@ -597,7 +597,15 @@ client.agents.upsert(
 <dl>
 <dd>
 
-**phonic_model:** `typing.Optional[CreateAgentRequestPhonicModel]` — The Phonic speech-to-speech model to generate with. Omit it to use the current default model.
+**model:** `typing.Optional[CreateAgentRequestModel]` — The Phonic speech-to-speech model to generate with. Omit it to use the current default model.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**phonic_model:** `typing.Optional[CreateAgentRequestPhonicModel]` — The Phonic speech-to-speech model to generate with. This field is deprecated. Use `model` instead.
     
 </dd>
 </dl>
@@ -1348,7 +1356,15 @@ client.agents.update(
 <dl>
 <dd>
 
-**phonic_model:** `typing.Optional[UpdateAgentRequestPhonicModel]` — The Phonic speech-to-speech model to generate with. Omit it to use the current default model.
+**model:** `typing.Optional[UpdateAgentRequestModel]` — The Phonic speech-to-speech model to generate with. Omit it to use the current default model.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**phonic_model:** `typing.Optional[UpdateAgentRequestPhonicModel]` — The Phonic speech-to-speech model to generate with. This field is deprecated. Use `model` instead.
     
 </dd>
 </dl>
@@ -2255,6 +2271,14 @@ Every key must name a top-level parameter. For POST webhooks, every parameter ne
 <dl>
 <dd>
 
+**sip:** `typing.Optional[TransferSip]` — A SIP destination to transfer calls to instead of a phone number. Cannot be set together with phone_number, so phone_number must be null when sip is set. Only available for built_in_transfer_to_phone_number tools.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **dtmf:** `typing.Optional[str]` — DTMF digits to send after the transfer connects (e.g., "1234"). Defaults to null. Ignored when dynamic_dtmf is true.
     
 </dd>
@@ -2755,6 +2779,14 @@ Every key must name a top-level parameter. For POST webhooks, every parameter ne
 <dd>
 
 **phone_number:** `typing.Optional[str]` — The E.164 formatted phone number to transfer calls to. Set to null if the agent should determine the phone number.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**sip:** `typing.Optional[TransferSip]` — A SIP destination to transfer calls to instead of a phone number. Setting sip clears phone_number, and setting phone_number clears sip; they cannot both be set in one update. Can be set to null to remove the SIP destination. Only applicable to built_in_transfer_to_phone_number tools.
     
 </dd>
 </dl>
@@ -3936,7 +3968,7 @@ client.extraction_schemas.update(
 <dl>
 <dd>
 
-Returns all available voices for a model.
+Returns all available voices.
 </dd>
 </dl>
 </dd>
@@ -3959,9 +3991,7 @@ client = Phonic(
     environment=PhonicEnvironment.DEFAULT,
 )
 
-client.voices.list(
-    model="merritt",
-)
+client.voices.list()
 
 ```
 </dd>
@@ -3977,7 +4007,7 @@ client.voices.list(
 <dl>
 <dd>
 
-**model:** `typing.Literal` — The model to get voices for.
+**model:** `typing.Optional[typing.Literal]` — Ignored. This parameter is deprecated and can be omitted.
     
 </dd>
 </dl>
@@ -6753,7 +6783,7 @@ client.responses.create(
             ),
         )
     ],
-    phonic_model="phonic-1",
+    model="phonic-1",
     num_responses=2,
 )
 
@@ -6835,7 +6865,15 @@ client.responses.create(
 <dl>
 <dd>
 
-**phonic_model:** `typing.Optional[GenerateResponsesRequestPhonicModel]` — The Phonic speech-to-speech model to generate with. Omit it to use the current default model.
+**model:** `typing.Optional[GenerateResponsesRequestModel]` — The Phonic speech-to-speech model to generate with. Omit it to use the current default model.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**phonic_model:** `typing.Optional[GenerateResponsesRequestPhonicModel]` — The Phonic speech-to-speech model to generate with. This field is deprecated. Use `model` instead.
     
 </dd>
 </dl>

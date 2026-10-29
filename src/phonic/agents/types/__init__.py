@@ -32,6 +32,7 @@ if typing.TYPE_CHECKING:
     from .update_agent_request_background_noise import UpdateAgentRequestBackgroundNoise
     from .update_agent_request_configuration_endpoint import UpdateAgentRequestConfigurationEndpoint
     from .update_agent_request_intelligence_level import UpdateAgentRequestIntelligenceLevel
+    from .update_agent_request_model import UpdateAgentRequestModel
     from .update_agent_request_multilingual_mode import UpdateAgentRequestMultilingualMode
     from .update_agent_request_phone_number import UpdateAgentRequestPhoneNumber
     from .update_agent_request_phonic_model import UpdateAgentRequestPhonicModel
@@ -59,6 +60,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "UpdateAgentRequestBackgroundNoise": ".update_agent_request_background_noise",
     "UpdateAgentRequestConfigurationEndpoint": ".update_agent_request_configuration_endpoint",
     "UpdateAgentRequestIntelligenceLevel": ".update_agent_request_intelligence_level",
+    "UpdateAgentRequestModel": ".update_agent_request_model",
     "UpdateAgentRequestMultilingualMode": ".update_agent_request_multilingual_mode",
     "UpdateAgentRequestPhoneNumber": ".update_agent_request_phone_number",
     "UpdateAgentRequestPhonicModel": ".update_agent_request_phonic_model",
@@ -110,6 +112,7 @@ __all__ = [
     "UpdateAgentRequestBackgroundNoise",
     "UpdateAgentRequestConfigurationEndpoint",
     "UpdateAgentRequestIntelligenceLevel",
+    "UpdateAgentRequestModel",
     "UpdateAgentRequestMultilingualMode",
     "UpdateAgentRequestPhoneNumber",
     "UpdateAgentRequestPhonicModel",

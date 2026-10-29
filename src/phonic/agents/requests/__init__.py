@@ -25,6 +25,8 @@ if typing.TYPE_CHECKING:
     from .agents_update_response import AgentsUpdateResponseParams
     from .agents_upsert_response import AgentsUpsertResponseParams
     from .update_agent_request_configuration_endpoint import UpdateAgentRequestConfigurationEndpointParams
+    from .update_agent_request_model import UpdateAgentRequestModelParams
+    from .update_agent_request_phonic_model import UpdateAgentRequestPhonicModelParams
     from .update_agent_request_pronunciation_dictionary_item import UpdateAgentRequestPronunciationDictionaryItemParams
     from .update_agent_request_template_variables_value import UpdateAgentRequestTemplateVariablesValueParams
     from .update_agent_request_tools_item import UpdateAgentRequestToolsItemParams
@@ -44,6 +46,8 @@ _dynamic_imports: typing.Dict[str, str] = {
     "AgentsUpdateResponseParams": ".agents_update_response",
     "AgentsUpsertResponseParams": ".agents_upsert_response",
     "UpdateAgentRequestConfigurationEndpointParams": ".update_agent_request_configuration_endpoint",
+    "UpdateAgentRequestModelParams": ".update_agent_request_model",
+    "UpdateAgentRequestPhonicModelParams": ".update_agent_request_phonic_model",
     "UpdateAgentRequestPronunciationDictionaryItemParams": ".update_agent_request_pronunciation_dictionary_item",
     "UpdateAgentRequestTemplateVariablesValueParams": ".update_agent_request_template_variables_value",
     "UpdateAgentRequestToolsItemParams": ".update_agent_request_tools_item",
@@ -87,6 +91,8 @@ __all__ = [
     "AgentsUpdateResponseParams",
     "AgentsUpsertResponseParams",
     "UpdateAgentRequestConfigurationEndpointParams",
+    "UpdateAgentRequestModelParams",
+    "UpdateAgentRequestPhonicModelParams",
     "UpdateAgentRequestPronunciationDictionaryItemParams",
     "UpdateAgentRequestTemplateVariablesValueParams",
     "UpdateAgentRequestToolsItemParams",

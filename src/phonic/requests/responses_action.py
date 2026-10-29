@@ -8,6 +8,7 @@ import typing_extensions
 from ..types.responses_transfer_to_phone_number_action_on_transfer_no_answer import (
     ResponsesTransferToPhoneNumberActionOnTransferNoAnswer,
 )
+from .transfer_sip import TransferSipParams
 
 
 class ResponsesAction_AssistantChoseNotToRespondParams(typing_extensions.TypedDict):
@@ -26,7 +27,8 @@ class ResponsesAction_DtmfParams(typing_extensions.TypedDict):
 
 class ResponsesAction_TransferToPhoneNumberParams(typing_extensions.TypedDict):
     type: typing.Literal["transfer_to_phone_number"]
-    phone_number: str
+    phone_number: typing_extensions.NotRequired[typing.Optional[str]]
+    sip: typing_extensions.NotRequired[typing.Optional[TransferSipParams]]
     detect_voicemail: bool
     use_agent_phone_number: bool
     keep_listening: bool

@@ -10,6 +10,8 @@ if typing.TYPE_CHECKING:
     from .agent import AgentParams
     from .agent_configuration_endpoint import AgentConfigurationEndpointParams
     from .agent_integration import AgentIntegrationParams
+    from .agent_model import AgentModelParams
+    from .agent_phonic_model import AgentPhonicModelParams
     from .agent_project import AgentProjectParams
     from .agent_pronunciation_dictionary_item import AgentPronunciationDictionaryItemParams
     from .agent_template_variables_value import AgentTemplateVariablesValueParams
@@ -43,7 +45,9 @@ if typing.TYPE_CHECKING:
         ConfigOptionsDataRetentionPolicyAudioRecordingsTranscriptsParams,
     )
     from .config_options_data_retention_policy_zero import ConfigOptionsDataRetentionPolicyZeroParams
+    from .config_options_model import ConfigOptionsModelParams
     from .config_options_outbound_number_pool import ConfigOptionsOutboundNumberPoolParams
+    from .config_options_phonic_model import ConfigOptionsPhonicModelParams
     from .config_options_pronunciation_dictionary_item import ConfigOptionsPronunciationDictionaryItemParams
     from .config_options_tasks_item import ConfigOptionsTasksItemParams
     from .config_payload import ConfigPayloadParams
@@ -66,6 +70,8 @@ if typing.TYPE_CHECKING:
     from .conversation_item_tool_calls_item import ConversationItemToolCallsItemParams
     from .conversation_item_tool_calls_item_request_body import ConversationItemToolCallsItemRequestBodyParams
     from .conversation_item_tool_calls_item_tool import ConversationItemToolCallsItemToolParams
+    from .conversation_model import ConversationModelParams
+    from .conversation_phonic_model import ConversationPhonicModelParams
     from .conversation_project import ConversationProjectParams
     from .conversation_pronunciation_dictionary_item import ConversationPronunciationDictionaryItemParams
     from .conversations_list_response_conversation import ConversationsListResponseConversationParams
@@ -75,6 +81,8 @@ if typing.TYPE_CHECKING:
     )
     from .create_agent_request import CreateAgentRequestParams
     from .create_agent_request_configuration_endpoint import CreateAgentRequestConfigurationEndpointParams
+    from .create_agent_request_model import CreateAgentRequestModelParams
+    from .create_agent_request_phonic_model import CreateAgentRequestPhonicModelParams
     from .create_agent_request_pronunciation_dictionary_item import CreateAgentRequestPronunciationDictionaryItemParams
     from .create_agent_request_template_variables_value import CreateAgentRequestTemplateVariablesValueParams
     from .create_agent_request_tools_item import CreateAgentRequestToolsItemParams
@@ -106,6 +114,8 @@ if typing.TYPE_CHECKING:
     from .open_ai_tool import OpenAiToolParams
     from .outbound_call_config import OutboundCallConfigParams
     from .outbound_call_config_configuration_endpoint import OutboundCallConfigConfigurationEndpointParams
+    from .outbound_call_config_model import OutboundCallConfigModelParams
+    from .outbound_call_config_phonic_model import OutboundCallConfigPhonicModelParams
     from .outbound_call_config_pronunciation_dictionary_item import OutboundCallConfigPronunciationDictionaryItemParams
     from .outbound_call_config_tools_item import OutboundCallConfigToolsItemParams
     from .outbound_call_initiated_response import OutboundCallInitiatedResponseParams
@@ -162,6 +172,7 @@ if typing.TYPE_CHECKING:
     from .tool_parameters import ToolParametersParams
     from .tool_parameters_json_schema import ToolParametersJsonSchemaParams
     from .tool_project import ToolProjectParams
+    from .transfer_sip import TransferSipParams
     from .tts_response import TtsResponseParams
     from .unmute_payload import UnmutePayloadParams
     from .update_system_prompt_payload import UpdateSystemPromptPayloadParams
@@ -178,7 +189,9 @@ _dynamic_imports: typing.Dict[str, str] = {
     "AddSystemMessagePayloadParams": ".add_system_message_payload",
     "AgentConfigurationEndpointParams": ".agent_configuration_endpoint",
     "AgentIntegrationParams": ".agent_integration",
+    "AgentModelParams": ".agent_model",
     "AgentParams": ".agent",
+    "AgentPhonicModelParams": ".agent_phonic_model",
     "AgentProjectParams": ".agent_project",
     "AgentPronunciationDictionaryItemParams": ".agent_pronunciation_dictionary_item",
     "AgentTemplateVariablesValueParams": ".agent_template_variables_value",
@@ -205,8 +218,10 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ConfigOptionsDataRetentionPolicyAudioRecordingsTranscriptsParams": ".config_options_data_retention_policy_audio_recordings_transcripts",
     "ConfigOptionsDataRetentionPolicyParams": ".config_options_data_retention_policy",
     "ConfigOptionsDataRetentionPolicyZeroParams": ".config_options_data_retention_policy_zero",
+    "ConfigOptionsModelParams": ".config_options_model",
     "ConfigOptionsOutboundNumberPoolParams": ".config_options_outbound_number_pool",
     "ConfigOptionsParams": ".config_options",
+    "ConfigOptionsPhonicModelParams": ".config_options_phonic_model",
     "ConfigOptionsPronunciationDictionaryItemParams": ".config_options_pronunciation_dictionary_item",
     "ConfigOptionsTasksItemParams": ".config_options_tasks_item",
     "ConfigPayloadParams": ".config_payload",
@@ -228,14 +243,18 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ConversationItemToolCallsItemParams": ".conversation_item_tool_calls_item",
     "ConversationItemToolCallsItemRequestBodyParams": ".conversation_item_tool_calls_item_request_body",
     "ConversationItemToolCallsItemToolParams": ".conversation_item_tool_calls_item_tool",
+    "ConversationModelParams": ".conversation_model",
     "ConversationParams": ".conversation",
+    "ConversationPhonicModelParams": ".conversation_phonic_model",
     "ConversationProjectParams": ".conversation_project",
     "ConversationPronunciationDictionaryItemParams": ".conversation_pronunciation_dictionary_item",
     "ConversationsListResponseConversationParams": ".conversations_list_response_conversation",
     "ConversationsListResponseConversationsPaginationParams": ".conversations_list_response_conversations_pagination",
     "ConversationsListResponseConversationsParams": ".conversations_list_response_conversations",
     "CreateAgentRequestConfigurationEndpointParams": ".create_agent_request_configuration_endpoint",
+    "CreateAgentRequestModelParams": ".create_agent_request_model",
     "CreateAgentRequestParams": ".create_agent_request",
+    "CreateAgentRequestPhonicModelParams": ".create_agent_request_phonic_model",
     "CreateAgentRequestPronunciationDictionaryItemParams": ".create_agent_request_pronunciation_dictionary_item",
     "CreateAgentRequestTemplateVariablesValueParams": ".create_agent_request_template_variables_value",
     "CreateAgentRequestToolsItemParams": ".create_agent_request_tools_item",
@@ -264,7 +283,9 @@ _dynamic_imports: typing.Dict[str, str] = {
     "OpenAiFunctionParams": ".open_ai_function",
     "OpenAiToolParams": ".open_ai_tool",
     "OutboundCallConfigConfigurationEndpointParams": ".outbound_call_config_configuration_endpoint",
+    "OutboundCallConfigModelParams": ".outbound_call_config_model",
     "OutboundCallConfigParams": ".outbound_call_config",
+    "OutboundCallConfigPhonicModelParams": ".outbound_call_config_phonic_model",
     "OutboundCallConfigPronunciationDictionaryItemParams": ".outbound_call_config_pronunciation_dictionary_item",
     "OutboundCallConfigToolsItemParams": ".outbound_call_config_tools_item",
     "OutboundCallInitiatedResponseParams": ".outbound_call_initiated_response",
@@ -319,6 +340,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ToolParametersParams": ".tool_parameters",
     "ToolParams": ".tool",
     "ToolProjectParams": ".tool_project",
+    "TransferSipParams": ".transfer_sip",
     "TtsResponseParams": ".tts_response",
     "UnmutePayloadParams": ".unmute_payload",
     "UpdateSystemPromptPayloadParams": ".update_system_prompt_payload",
@@ -359,7 +381,9 @@ __all__ = [
     "AddSystemMessagePayloadParams",
     "AgentConfigurationEndpointParams",
     "AgentIntegrationParams",
+    "AgentModelParams",
     "AgentParams",
+    "AgentPhonicModelParams",
     "AgentProjectParams",
     "AgentPronunciationDictionaryItemParams",
     "AgentTemplateVariablesValueParams",
@@ -386,8 +410,10 @@ __all__ = [
     "ConfigOptionsDataRetentionPolicyAudioRecordingsTranscriptsParams",
     "ConfigOptionsDataRetentionPolicyParams",
     "ConfigOptionsDataRetentionPolicyZeroParams",
+    "ConfigOptionsModelParams",
     "ConfigOptionsOutboundNumberPoolParams",
     "ConfigOptionsParams",
+    "ConfigOptionsPhonicModelParams",
     "ConfigOptionsPronunciationDictionaryItemParams",
     "ConfigOptionsTasksItemParams",
     "ConfigPayloadParams",
@@ -409,14 +435,18 @@ __all__ = [
     "ConversationItemToolCallsItemParams",
     "ConversationItemToolCallsItemRequestBodyParams",
     "ConversationItemToolCallsItemToolParams",
+    "ConversationModelParams",
     "ConversationParams",
+    "ConversationPhonicModelParams",
     "ConversationProjectParams",
     "ConversationPronunciationDictionaryItemParams",
     "ConversationsListResponseConversationParams",
     "ConversationsListResponseConversationsPaginationParams",
     "ConversationsListResponseConversationsParams",
     "CreateAgentRequestConfigurationEndpointParams",
+    "CreateAgentRequestModelParams",
     "CreateAgentRequestParams",
+    "CreateAgentRequestPhonicModelParams",
     "CreateAgentRequestPronunciationDictionaryItemParams",
     "CreateAgentRequestTemplateVariablesValueParams",
     "CreateAgentRequestToolsItemParams",
@@ -445,7 +475,9 @@ __all__ = [
     "OpenAiFunctionParams",
     "OpenAiToolParams",
     "OutboundCallConfigConfigurationEndpointParams",
+    "OutboundCallConfigModelParams",
     "OutboundCallConfigParams",
+    "OutboundCallConfigPhonicModelParams",
     "OutboundCallConfigPronunciationDictionaryItemParams",
     "OutboundCallConfigToolsItemParams",
     "OutboundCallInitiatedResponseParams",
@@ -500,6 +532,7 @@ __all__ = [
     "ToolParametersParams",
     "ToolParams",
     "ToolProjectParams",
+    "TransferSipParams",
     "TtsResponseParams",
     "UnmutePayloadParams",
     "UpdateSystemPromptPayloadParams",

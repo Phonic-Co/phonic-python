@@ -9,13 +9,14 @@ from ..types.conversation_ended_by import ConversationEndedBy
 from ..types.conversation_intelligence_level import ConversationIntelligenceLevel
 from ..types.conversation_multilingual_mode import ConversationMultilingualMode
 from ..types.conversation_origin import ConversationOrigin
-from ..types.conversation_phonic_model import ConversationPhonicModel
 from ..types.language_code import LanguageCode
 from .conversation_agent import ConversationAgentParams
 from .conversation_analysis import ConversationAnalysisParams
 from .conversation_call_info import ConversationCallInfoParams
 from .conversation_deletion_info import ConversationDeletionInfoParams
 from .conversation_item import ConversationItemParams
+from .conversation_model import ConversationModelParams
+from .conversation_phonic_model import ConversationPhonicModelParams
 from .conversation_project import ConversationProjectParams
 from .conversation_pronunciation_dictionary_item import ConversationPronunciationDictionaryItemParams
 from .data_retention_policy import DataRetentionPolicyParams
@@ -52,9 +53,9 @@ class ConversationParams(typing_extensions.TypedDict):
     The origin of the conversation.
     """
 
-    model: str
+    model: ConversationModelParams
     """
-    The STS model used.
+    The Phonic speech-to-speech model used for the conversation.
     """
 
     generate_welcome_message: bool
@@ -187,9 +188,9 @@ class ConversationParams(typing_extensions.TypedDict):
     The intelligence level used for the conversation.
     """
 
-    phonic_model: typing_extensions.NotRequired[ConversationPhonicModel]
+    phonic_model: typing_extensions.NotRequired[ConversationPhonicModelParams]
     """
-    The Phonic speech-to-speech model used for the conversation.
+    The Phonic speech-to-speech model used for the conversation. This field is deprecated. Use `model` instead.
     """
 
     languages: typing_extensions.NotRequired[typing.Sequence[str]]

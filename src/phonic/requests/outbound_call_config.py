@@ -7,9 +7,10 @@ from ..types.language_code import LanguageCode
 from ..types.outbound_call_config_background_noise import OutboundCallConfigBackgroundNoise
 from ..types.outbound_call_config_intelligence_level import OutboundCallConfigIntelligenceLevel
 from ..types.outbound_call_config_multilingual_mode import OutboundCallConfigMultilingualMode
-from ..types.outbound_call_config_phonic_model import OutboundCallConfigPhonicModel
 from .data_retention_policy import DataRetentionPolicyParams
 from .outbound_call_config_configuration_endpoint import OutboundCallConfigConfigurationEndpointParams
+from .outbound_call_config_model import OutboundCallConfigModelParams
+from .outbound_call_config_phonic_model import OutboundCallConfigPhonicModelParams
 from .outbound_call_config_pronunciation_dictionary_item import OutboundCallConfigPronunciationDictionaryItemParams
 from .outbound_call_config_tools_item import OutboundCallConfigToolsItemParams
 from .outbound_number_pool import OutboundNumberPoolParams
@@ -116,9 +117,9 @@ class OutboundCallConfigParams(typing_extensions.TypedDict):
     The intelligence level of the agent. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency.
     """
 
-    phonic_model: typing_extensions.NotRequired[OutboundCallConfigPhonicModel]
+    phonic_model: typing_extensions.NotRequired[OutboundCallConfigPhonicModelParams]
     """
-    The Phonic speech-to-speech model to generate with. Omit it to use the current default model.
+    The Phonic speech-to-speech model to generate with. This field is deprecated. Use `model` instead.
     """
 
     boosted_keywords: typing_extensions.NotRequired[typing.Sequence[str]]
@@ -153,9 +154,9 @@ class OutboundCallConfigParams(typing_extensions.TypedDict):
     When `true`, an inaudible watermark is embedded in the audio the agent generates.
     """
 
-    model: typing_extensions.NotRequired[typing.Literal["merritt"]]
+    model: typing_extensions.NotRequired[OutboundCallConfigModelParams]
     """
-    The speech-to-speech model to use.
+    The Phonic speech-to-speech model to generate with. Omit it to use the current default model.
     """
 
     audio_speed: typing_extensions.NotRequired[float]

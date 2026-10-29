@@ -13,6 +13,7 @@ from .tool_parameters import ToolParameters
 from .tool_project import ToolProject
 from .tool_speech_before_tool_call import ToolSpeechBeforeToolCall
 from .tool_type import ToolType
+from .transfer_sip import TransferSip
 
 
 class Tool(UncheckedBaseModel):
@@ -83,6 +84,11 @@ class Tool(UncheckedBaseModel):
     phone_number: typing.Optional[str] = pydantic.Field(default=None)
     """
     The E.164 formatted phone number to transfer calls to. Set to null if the agent should determine the phone number.
+    """
+
+    sip: typing.Optional[TransferSip] = pydantic.Field(default=None)
+    """
+    The SIP destination to transfer calls to. Mutually exclusive with phone_number; null when transferring to a phone number. Only returned for built_in_transfer_to_phone_number tools.
     """
 
     dtmf: typing.Optional[str] = pydantic.Field(default=None)

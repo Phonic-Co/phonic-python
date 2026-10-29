@@ -15,5 +15,5 @@ class AudioChunkPayloadParams(typing_extensions.TypedDict):
 
     iso_date_time: typing_extensions.NotRequired[dt.datetime]
     """
-    ISO 8601 timestamp (required for first chunk only)
+    Optional ISO 8601 UTC timestamp for when the audio was captured, used to align the caller's audio in the call recording. Only useful if you buffer audio and send it later than it was captured. If omitted, the server uses the time it received the chunk. If set, it must be real wall-clock time, not a simulated clock.
     """

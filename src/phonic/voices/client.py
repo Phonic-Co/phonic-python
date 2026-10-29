@@ -30,12 +30,20 @@ class VoicesClient:
         """
         return self._raw_client
 
-    def list(self, *, request_options: typing.Optional[RequestOptions] = None) -> VoicesListResponse:
+    def list(
+        self,
+        *,
+        model: typing.Optional[typing.Literal["merritt"]] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> VoicesListResponse:
         """
-        Returns all available voices for a model.
+        Returns all available voices.
 
         Parameters
         ----------
+        model : typing.Optional[typing.Literal["merritt"]]
+            Ignored. This parameter is deprecated and can be omitted.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -53,7 +61,7 @@ class VoicesClient:
         )
         client.voices.list()
         """
-        _response = self._raw_client.list(request_options=request_options)
+        _response = self._raw_client.list(model=model, request_options=request_options)
         return _response.data
 
     def get(self, id: str, *, request_options: typing.Optional[RequestOptions] = None) -> VoicesGetResponse:
@@ -170,12 +178,20 @@ class AsyncVoicesClient:
         """
         return self._raw_client
 
-    async def list(self, *, request_options: typing.Optional[RequestOptions] = None) -> VoicesListResponse:
+    async def list(
+        self,
+        *,
+        model: typing.Optional[typing.Literal["merritt"]] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> VoicesListResponse:
         """
-        Returns all available voices for a model.
+        Returns all available voices.
 
         Parameters
         ----------
+        model : typing.Optional[typing.Literal["merritt"]]
+            Ignored. This parameter is deprecated and can be omitted.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -201,7 +217,7 @@ class AsyncVoicesClient:
 
         asyncio.run(main())
         """
-        _response = await self._raw_client.list(request_options=request_options)
+        _response = await self._raw_client.list(model=model, request_options=request_options)
         return _response.data
 
     async def get(self, id: str, *, request_options: typing.Optional[RequestOptions] = None) -> VoicesGetResponse:

@@ -10,6 +10,7 @@ from .agent_background_noise import AgentBackgroundNoise
 from .agent_configuration_endpoint import AgentConfigurationEndpoint
 from .agent_integration import AgentIntegration
 from .agent_intelligence_level import AgentIntelligenceLevel
+from .agent_model import AgentModel
 from .agent_multilingual_mode import AgentMultilingualMode
 from .agent_phonic_model import AgentPhonicModel
 from .agent_project import AgentProject
@@ -188,9 +189,14 @@ class Agent(UncheckedBaseModel):
     The intelligence level of the agent. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency.
     """
 
-    phonic_model: typing.Optional[AgentPhonicModel] = pydantic.Field(default=None)
+    model: AgentModel = pydantic.Field()
     """
     The Phonic speech-to-speech model to generate with. Omit it to use the current default model.
+    """
+
+    phonic_model: typing.Optional[AgentPhonicModel] = pydantic.Field(default=None)
+    """
+    The Phonic speech-to-speech model to generate with. This field is deprecated. Use `model` instead.
     """
 
     boosted_keywords: typing.List[str] = pydantic.Field()

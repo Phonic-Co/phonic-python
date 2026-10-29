@@ -11,6 +11,7 @@ from ..core.unchecked_base_model import UncheckedBaseModel, UnionMetadata
 from .responses_transfer_to_phone_number_action_on_transfer_no_answer import (
     ResponsesTransferToPhoneNumberActionOnTransferNoAnswer,
 )
+from .transfer_sip import TransferSip
 
 
 class ResponsesAction_AssistantChoseNotToRespond(UncheckedBaseModel):
@@ -72,7 +73,8 @@ class ResponsesAction_TransferToPhoneNumber(UncheckedBaseModel):
     """
 
     type: typing.Literal["transfer_to_phone_number"] = "transfer_to_phone_number"
-    phone_number: str
+    phone_number: typing.Optional[str] = None
+    sip: typing.Optional[TransferSip] = None
     detect_voicemail: bool
     use_agent_phone_number: bool
     keep_listening: bool

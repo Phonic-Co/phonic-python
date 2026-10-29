@@ -15,6 +15,7 @@ from ..errors.bad_request_error import BadRequestError
 from ..errors.conflict_error import ConflictError
 from ..errors.forbidden_error import ForbiddenError
 from ..errors.not_found_error import NotFoundError
+from ..requests.transfer_sip import TransferSipParams
 from .requests.create_tool_request_parameters import CreateToolRequestParametersParams
 from .requests.update_tool_request_parameters import UpdateToolRequestParametersParams
 from .types.create_tool_request_endpoint_method import CreateToolRequestEndpointMethod
@@ -117,6 +118,7 @@ class RawToolsClient:
         endpoint_timeout_ms: typing.Optional[int] = OMIT,
         tool_call_output_timeout_ms: typing.Optional[int] = OMIT,
         phone_number: typing.Optional[str] = OMIT,
+        sip: typing.Optional[TransferSipParams] = OMIT,
         dtmf: typing.Optional[str] = OMIT,
         post_transfer_message: typing.Optional[str] = OMIT,
         dynamic_dtmf: typing.Optional[bool] = OMIT,
@@ -189,6 +191,9 @@ class RawToolsClient:
 
         phone_number : typing.Optional[str]
             The E.164 formatted phone number to transfer calls to. Set to null if the agent should determine the phone number.
+
+        sip : typing.Optional[TransferSipParams]
+            A SIP destination to transfer calls to instead of a phone number. Cannot be set together with phone_number, so phone_number must be null when sip is set. Only available for built_in_transfer_to_phone_number tools.
 
         dtmf : typing.Optional[str]
             DTMF digits to send after the transfer connects (e.g., "1234"). Defaults to null. Ignored when dynamic_dtmf is true.
@@ -277,6 +282,9 @@ class RawToolsClient:
                 "endpoint_timeout_ms": endpoint_timeout_ms,
                 "tool_call_output_timeout_ms": tool_call_output_timeout_ms,
                 "phone_number": phone_number,
+                "sip": convert_and_respect_annotation_metadata(
+                    object_=sip, annotation=typing.Optional[TransferSipParams], direction="write"
+                ),
                 "dtmf": dtmf,
                 "post_transfer_message": post_transfer_message,
                 "dynamic_dtmf": dynamic_dtmf,
@@ -513,6 +521,7 @@ class RawToolsClient:
         endpoint_timeout_ms: typing.Optional[int] = OMIT,
         tool_call_output_timeout_ms: typing.Optional[int] = OMIT,
         phone_number: typing.Optional[str] = OMIT,
+        sip: typing.Optional[TransferSipParams] = OMIT,
         dtmf: typing.Optional[str] = OMIT,
         post_transfer_message: typing.Optional[str] = OMIT,
         dynamic_dtmf: typing.Optional[bool] = OMIT,
@@ -581,6 +590,9 @@ class RawToolsClient:
 
         phone_number : typing.Optional[str]
             The E.164 formatted phone number to transfer calls to. Set to null if the agent should determine the phone number.
+
+        sip : typing.Optional[TransferSipParams]
+            A SIP destination to transfer calls to instead of a phone number. Setting sip clears phone_number, and setting phone_number clears sip; they cannot both be set in one update. Can be set to null to remove the SIP destination. Only applicable to built_in_transfer_to_phone_number tools.
 
         dtmf : typing.Optional[str]
             DTMF digits to send after the transfer connects (e.g., "1234"). Can be set to null to remove DTMF. Ignored when dynamic_dtmf is true.
@@ -666,6 +678,9 @@ class RawToolsClient:
                 "endpoint_timeout_ms": endpoint_timeout_ms,
                 "tool_call_output_timeout_ms": tool_call_output_timeout_ms,
                 "phone_number": phone_number,
+                "sip": convert_and_respect_annotation_metadata(
+                    object_=sip, annotation=typing.Optional[TransferSipParams], direction="write"
+                ),
                 "dtmf": dtmf,
                 "post_transfer_message": post_transfer_message,
                 "dynamic_dtmf": dynamic_dtmf,
@@ -822,6 +837,7 @@ class AsyncRawToolsClient:
         endpoint_timeout_ms: typing.Optional[int] = OMIT,
         tool_call_output_timeout_ms: typing.Optional[int] = OMIT,
         phone_number: typing.Optional[str] = OMIT,
+        sip: typing.Optional[TransferSipParams] = OMIT,
         dtmf: typing.Optional[str] = OMIT,
         post_transfer_message: typing.Optional[str] = OMIT,
         dynamic_dtmf: typing.Optional[bool] = OMIT,
@@ -894,6 +910,9 @@ class AsyncRawToolsClient:
 
         phone_number : typing.Optional[str]
             The E.164 formatted phone number to transfer calls to. Set to null if the agent should determine the phone number.
+
+        sip : typing.Optional[TransferSipParams]
+            A SIP destination to transfer calls to instead of a phone number. Cannot be set together with phone_number, so phone_number must be null when sip is set. Only available for built_in_transfer_to_phone_number tools.
 
         dtmf : typing.Optional[str]
             DTMF digits to send after the transfer connects (e.g., "1234"). Defaults to null. Ignored when dynamic_dtmf is true.
@@ -982,6 +1001,9 @@ class AsyncRawToolsClient:
                 "endpoint_timeout_ms": endpoint_timeout_ms,
                 "tool_call_output_timeout_ms": tool_call_output_timeout_ms,
                 "phone_number": phone_number,
+                "sip": convert_and_respect_annotation_metadata(
+                    object_=sip, annotation=typing.Optional[TransferSipParams], direction="write"
+                ),
                 "dtmf": dtmf,
                 "post_transfer_message": post_transfer_message,
                 "dynamic_dtmf": dynamic_dtmf,
@@ -1218,6 +1240,7 @@ class AsyncRawToolsClient:
         endpoint_timeout_ms: typing.Optional[int] = OMIT,
         tool_call_output_timeout_ms: typing.Optional[int] = OMIT,
         phone_number: typing.Optional[str] = OMIT,
+        sip: typing.Optional[TransferSipParams] = OMIT,
         dtmf: typing.Optional[str] = OMIT,
         post_transfer_message: typing.Optional[str] = OMIT,
         dynamic_dtmf: typing.Optional[bool] = OMIT,
@@ -1286,6 +1309,9 @@ class AsyncRawToolsClient:
 
         phone_number : typing.Optional[str]
             The E.164 formatted phone number to transfer calls to. Set to null if the agent should determine the phone number.
+
+        sip : typing.Optional[TransferSipParams]
+            A SIP destination to transfer calls to instead of a phone number. Setting sip clears phone_number, and setting phone_number clears sip; they cannot both be set in one update. Can be set to null to remove the SIP destination. Only applicable to built_in_transfer_to_phone_number tools.
 
         dtmf : typing.Optional[str]
             DTMF digits to send after the transfer connects (e.g., "1234"). Can be set to null to remove DTMF. Ignored when dynamic_dtmf is true.
@@ -1371,6 +1397,9 @@ class AsyncRawToolsClient:
                 "endpoint_timeout_ms": endpoint_timeout_ms,
                 "tool_call_output_timeout_ms": tool_call_output_timeout_ms,
                 "phone_number": phone_number,
+                "sip": convert_and_respect_annotation_metadata(
+                    object_=sip, annotation=typing.Optional[TransferSipParams], direction="write"
+                ),
                 "dtmf": dtmf,
                 "post_transfer_message": post_transfer_message,
                 "dynamic_dtmf": dynamic_dtmf,

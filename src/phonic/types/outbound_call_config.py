@@ -10,6 +10,7 @@ from .language_code import LanguageCode
 from .outbound_call_config_background_noise import OutboundCallConfigBackgroundNoise
 from .outbound_call_config_configuration_endpoint import OutboundCallConfigConfigurationEndpoint
 from .outbound_call_config_intelligence_level import OutboundCallConfigIntelligenceLevel
+from .outbound_call_config_model import OutboundCallConfigModel
 from .outbound_call_config_multilingual_mode import OutboundCallConfigMultilingualMode
 from .outbound_call_config_phonic_model import OutboundCallConfigPhonicModel
 from .outbound_call_config_pronunciation_dictionary_item import OutboundCallConfigPronunciationDictionaryItem
@@ -120,7 +121,7 @@ class OutboundCallConfig(UncheckedBaseModel):
 
     phonic_model: typing.Optional[OutboundCallConfigPhonicModel] = pydantic.Field(default=None)
     """
-    The Phonic speech-to-speech model to generate with. Omit it to use the current default model.
+    The Phonic speech-to-speech model to generate with. This field is deprecated. Use `model` instead.
     """
 
     boosted_keywords: typing.Optional[typing.List[str]] = pydantic.Field(default=None)
@@ -155,9 +156,9 @@ class OutboundCallConfig(UncheckedBaseModel):
     When `true`, an inaudible watermark is embedded in the audio the agent generates.
     """
 
-    model: typing.Optional[typing.Literal["merritt"]] = pydantic.Field(default=None)
+    model: typing.Optional[OutboundCallConfigModel] = pydantic.Field(default=None)
     """
-    The speech-to-speech model to use.
+    The Phonic speech-to-speech model to generate with. Omit it to use the current default model.
     """
 
     audio_speed: typing.Optional[float] = pydantic.Field(default=None)

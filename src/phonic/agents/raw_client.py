@@ -20,6 +20,8 @@ from ..errors.unauthorized_error import UnauthorizedError
 from ..requests.agent_integration import AgentIntegrationParams
 from ..requests.built_in_tool_configs import BuiltInToolConfigsParams
 from ..requests.create_agent_request_configuration_endpoint import CreateAgentRequestConfigurationEndpointParams
+from ..requests.create_agent_request_model import CreateAgentRequestModelParams
+from ..requests.create_agent_request_phonic_model import CreateAgentRequestPhonicModelParams
 from ..requests.create_agent_request_pronunciation_dictionary_item import (
     CreateAgentRequestPronunciationDictionaryItemParams,
 )
@@ -34,7 +36,6 @@ from ..types.create_agent_request_background_noise import CreateAgentRequestBack
 from ..types.create_agent_request_intelligence_level import CreateAgentRequestIntelligenceLevel
 from ..types.create_agent_request_multilingual_mode import CreateAgentRequestMultilingualMode
 from ..types.create_agent_request_phone_number import CreateAgentRequestPhoneNumber
-from ..types.create_agent_request_phonic_model import CreateAgentRequestPhonicModel
 from ..types.language_code import LanguageCode
 from .requests.agents_add_custom_phone_number_request_configuration_endpoint import (
     AgentsAddCustomPhoneNumberRequestConfigurationEndpointParams,
@@ -44,6 +45,8 @@ from .requests.agents_update_phone_number_request_configuration_endpoint import 
     AgentsUpdatePhoneNumberRequestConfigurationEndpointParams,
 )
 from .requests.update_agent_request_configuration_endpoint import UpdateAgentRequestConfigurationEndpointParams
+from .requests.update_agent_request_model import UpdateAgentRequestModelParams
+from .requests.update_agent_request_phonic_model import UpdateAgentRequestPhonicModelParams
 from .requests.update_agent_request_pronunciation_dictionary_item import (
     UpdateAgentRequestPronunciationDictionaryItemParams,
 )
@@ -65,7 +68,6 @@ from .types.update_agent_request_background_noise import UpdateAgentRequestBackg
 from .types.update_agent_request_intelligence_level import UpdateAgentRequestIntelligenceLevel
 from .types.update_agent_request_multilingual_mode import UpdateAgentRequestMultilingualMode
 from .types.update_agent_request_phone_number import UpdateAgentRequestPhoneNumber
-from .types.update_agent_request_phonic_model import UpdateAgentRequestPhonicModel
 from pydantic import ValidationError
 
 # this is used as the default value for optional parameters
@@ -185,7 +187,8 @@ class RawAgentsClient:
         multilingual_mode: typing.Optional[CreateAgentRequestMultilingualMode] = OMIT,
         push_to_talk: typing.Optional[bool] = OMIT,
         intelligence_level: typing.Optional[CreateAgentRequestIntelligenceLevel] = OMIT,
-        phonic_model: typing.Optional[CreateAgentRequestPhonicModel] = OMIT,
+        model: typing.Optional[CreateAgentRequestModelParams] = OMIT,
+        phonic_model: typing.Optional[CreateAgentRequestPhonicModelParams] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
         pronunciation_dictionary: typing.Optional[
             typing.Sequence[CreateAgentRequestPronunciationDictionaryItemParams]
@@ -321,8 +324,11 @@ class RawAgentsClient:
         intelligence_level : typing.Optional[CreateAgentRequestIntelligenceLevel]
             The intelligence level of the agent. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency.
 
-        phonic_model : typing.Optional[CreateAgentRequestPhonicModel]
+        model : typing.Optional[CreateAgentRequestModelParams]
             The Phonic speech-to-speech model to generate with. Omit it to use the current default model.
+
+        phonic_model : typing.Optional[CreateAgentRequestPhonicModelParams]
+            The Phonic speech-to-speech model to generate with. This field is deprecated. Use `model` instead.
 
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
@@ -433,7 +439,12 @@ class RawAgentsClient:
                 "multilingual_mode": multilingual_mode,
                 "push_to_talk": push_to_talk,
                 "intelligence_level": intelligence_level,
-                "phonic_model": phonic_model,
+                "model": convert_and_respect_annotation_metadata(
+                    object_=model, annotation=CreateAgentRequestModelParams, direction="write"
+                ),
+                "phonic_model": convert_and_respect_annotation_metadata(
+                    object_=phonic_model, annotation=CreateAgentRequestPhonicModelParams, direction="write"
+                ),
                 "boosted_keywords": boosted_keywords,
                 "pronunciation_dictionary": convert_and_respect_annotation_metadata(
                     object_=pronunciation_dictionary,
@@ -569,7 +580,8 @@ class RawAgentsClient:
         multilingual_mode: typing.Optional[CreateAgentRequestMultilingualMode] = OMIT,
         push_to_talk: typing.Optional[bool] = OMIT,
         intelligence_level: typing.Optional[CreateAgentRequestIntelligenceLevel] = OMIT,
-        phonic_model: typing.Optional[CreateAgentRequestPhonicModel] = OMIT,
+        model: typing.Optional[CreateAgentRequestModelParams] = OMIT,
+        phonic_model: typing.Optional[CreateAgentRequestPhonicModelParams] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
         pronunciation_dictionary: typing.Optional[
             typing.Sequence[CreateAgentRequestPronunciationDictionaryItemParams]
@@ -711,8 +723,11 @@ class RawAgentsClient:
         intelligence_level : typing.Optional[CreateAgentRequestIntelligenceLevel]
             The intelligence level of the agent. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency.
 
-        phonic_model : typing.Optional[CreateAgentRequestPhonicModel]
+        model : typing.Optional[CreateAgentRequestModelParams]
             The Phonic speech-to-speech model to generate with. Omit it to use the current default model.
+
+        phonic_model : typing.Optional[CreateAgentRequestPhonicModelParams]
+            The Phonic speech-to-speech model to generate with. This field is deprecated. Use `model` instead.
 
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
@@ -829,7 +844,12 @@ class RawAgentsClient:
                 "multilingual_mode": multilingual_mode,
                 "push_to_talk": push_to_talk,
                 "intelligence_level": intelligence_level,
-                "phonic_model": phonic_model,
+                "model": convert_and_respect_annotation_metadata(
+                    object_=model, annotation=CreateAgentRequestModelParams, direction="write"
+                ),
+                "phonic_model": convert_and_respect_annotation_metadata(
+                    object_=phonic_model, annotation=CreateAgentRequestPhonicModelParams, direction="write"
+                ),
                 "boosted_keywords": boosted_keywords,
                 "pronunciation_dictionary": convert_and_respect_annotation_metadata(
                     object_=pronunciation_dictionary,
@@ -1108,7 +1128,8 @@ class RawAgentsClient:
         multilingual_mode: typing.Optional[UpdateAgentRequestMultilingualMode] = OMIT,
         push_to_talk: typing.Optional[bool] = OMIT,
         intelligence_level: typing.Optional[UpdateAgentRequestIntelligenceLevel] = OMIT,
-        phonic_model: typing.Optional[UpdateAgentRequestPhonicModel] = OMIT,
+        model: typing.Optional[UpdateAgentRequestModelParams] = OMIT,
+        phonic_model: typing.Optional[UpdateAgentRequestPhonicModelParams] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
         pronunciation_dictionary: typing.Optional[
             typing.Sequence[UpdateAgentRequestPronunciationDictionaryItemParams]
@@ -1256,8 +1277,11 @@ class RawAgentsClient:
         intelligence_level : typing.Optional[UpdateAgentRequestIntelligenceLevel]
             The intelligence level of the agent. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency.
 
-        phonic_model : typing.Optional[UpdateAgentRequestPhonicModel]
+        model : typing.Optional[UpdateAgentRequestModelParams]
             The Phonic speech-to-speech model to generate with. Omit it to use the current default model.
+
+        phonic_model : typing.Optional[UpdateAgentRequestPhonicModelParams]
+            The Phonic speech-to-speech model to generate with. This field is deprecated. Use `model` instead.
 
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
@@ -1377,7 +1401,12 @@ class RawAgentsClient:
                 "multilingual_mode": multilingual_mode,
                 "push_to_talk": push_to_talk,
                 "intelligence_level": intelligence_level,
-                "phonic_model": phonic_model,
+                "model": convert_and_respect_annotation_metadata(
+                    object_=model, annotation=UpdateAgentRequestModelParams, direction="write"
+                ),
+                "phonic_model": convert_and_respect_annotation_metadata(
+                    object_=phonic_model, annotation=UpdateAgentRequestPhonicModelParams, direction="write"
+                ),
                 "boosted_keywords": boosted_keywords,
                 "pronunciation_dictionary": convert_and_respect_annotation_metadata(
                     object_=pronunciation_dictionary,
@@ -2137,7 +2166,8 @@ class AsyncRawAgentsClient:
         multilingual_mode: typing.Optional[CreateAgentRequestMultilingualMode] = OMIT,
         push_to_talk: typing.Optional[bool] = OMIT,
         intelligence_level: typing.Optional[CreateAgentRequestIntelligenceLevel] = OMIT,
-        phonic_model: typing.Optional[CreateAgentRequestPhonicModel] = OMIT,
+        model: typing.Optional[CreateAgentRequestModelParams] = OMIT,
+        phonic_model: typing.Optional[CreateAgentRequestPhonicModelParams] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
         pronunciation_dictionary: typing.Optional[
             typing.Sequence[CreateAgentRequestPronunciationDictionaryItemParams]
@@ -2273,8 +2303,11 @@ class AsyncRawAgentsClient:
         intelligence_level : typing.Optional[CreateAgentRequestIntelligenceLevel]
             The intelligence level of the agent. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency.
 
-        phonic_model : typing.Optional[CreateAgentRequestPhonicModel]
+        model : typing.Optional[CreateAgentRequestModelParams]
             The Phonic speech-to-speech model to generate with. Omit it to use the current default model.
+
+        phonic_model : typing.Optional[CreateAgentRequestPhonicModelParams]
+            The Phonic speech-to-speech model to generate with. This field is deprecated. Use `model` instead.
 
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
@@ -2385,7 +2418,12 @@ class AsyncRawAgentsClient:
                 "multilingual_mode": multilingual_mode,
                 "push_to_talk": push_to_talk,
                 "intelligence_level": intelligence_level,
-                "phonic_model": phonic_model,
+                "model": convert_and_respect_annotation_metadata(
+                    object_=model, annotation=CreateAgentRequestModelParams, direction="write"
+                ),
+                "phonic_model": convert_and_respect_annotation_metadata(
+                    object_=phonic_model, annotation=CreateAgentRequestPhonicModelParams, direction="write"
+                ),
                 "boosted_keywords": boosted_keywords,
                 "pronunciation_dictionary": convert_and_respect_annotation_metadata(
                     object_=pronunciation_dictionary,
@@ -2521,7 +2559,8 @@ class AsyncRawAgentsClient:
         multilingual_mode: typing.Optional[CreateAgentRequestMultilingualMode] = OMIT,
         push_to_talk: typing.Optional[bool] = OMIT,
         intelligence_level: typing.Optional[CreateAgentRequestIntelligenceLevel] = OMIT,
-        phonic_model: typing.Optional[CreateAgentRequestPhonicModel] = OMIT,
+        model: typing.Optional[CreateAgentRequestModelParams] = OMIT,
+        phonic_model: typing.Optional[CreateAgentRequestPhonicModelParams] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
         pronunciation_dictionary: typing.Optional[
             typing.Sequence[CreateAgentRequestPronunciationDictionaryItemParams]
@@ -2663,8 +2702,11 @@ class AsyncRawAgentsClient:
         intelligence_level : typing.Optional[CreateAgentRequestIntelligenceLevel]
             The intelligence level of the agent. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency.
 
-        phonic_model : typing.Optional[CreateAgentRequestPhonicModel]
+        model : typing.Optional[CreateAgentRequestModelParams]
             The Phonic speech-to-speech model to generate with. Omit it to use the current default model.
+
+        phonic_model : typing.Optional[CreateAgentRequestPhonicModelParams]
+            The Phonic speech-to-speech model to generate with. This field is deprecated. Use `model` instead.
 
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
@@ -2781,7 +2823,12 @@ class AsyncRawAgentsClient:
                 "multilingual_mode": multilingual_mode,
                 "push_to_talk": push_to_talk,
                 "intelligence_level": intelligence_level,
-                "phonic_model": phonic_model,
+                "model": convert_and_respect_annotation_metadata(
+                    object_=model, annotation=CreateAgentRequestModelParams, direction="write"
+                ),
+                "phonic_model": convert_and_respect_annotation_metadata(
+                    object_=phonic_model, annotation=CreateAgentRequestPhonicModelParams, direction="write"
+                ),
                 "boosted_keywords": boosted_keywords,
                 "pronunciation_dictionary": convert_and_respect_annotation_metadata(
                     object_=pronunciation_dictionary,
@@ -3060,7 +3107,8 @@ class AsyncRawAgentsClient:
         multilingual_mode: typing.Optional[UpdateAgentRequestMultilingualMode] = OMIT,
         push_to_talk: typing.Optional[bool] = OMIT,
         intelligence_level: typing.Optional[UpdateAgentRequestIntelligenceLevel] = OMIT,
-        phonic_model: typing.Optional[UpdateAgentRequestPhonicModel] = OMIT,
+        model: typing.Optional[UpdateAgentRequestModelParams] = OMIT,
+        phonic_model: typing.Optional[UpdateAgentRequestPhonicModelParams] = OMIT,
         boosted_keywords: typing.Optional[typing.Sequence[str]] = OMIT,
         pronunciation_dictionary: typing.Optional[
             typing.Sequence[UpdateAgentRequestPronunciationDictionaryItemParams]
@@ -3208,8 +3256,11 @@ class AsyncRawAgentsClient:
         intelligence_level : typing.Optional[UpdateAgentRequestIntelligenceLevel]
             The intelligence level of the agent. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency.
 
-        phonic_model : typing.Optional[UpdateAgentRequestPhonicModel]
+        model : typing.Optional[UpdateAgentRequestModelParams]
             The Phonic speech-to-speech model to generate with. Omit it to use the current default model.
+
+        phonic_model : typing.Optional[UpdateAgentRequestPhonicModelParams]
+            The Phonic speech-to-speech model to generate with. This field is deprecated. Use `model` instead.
 
         boosted_keywords : typing.Optional[typing.Sequence[str]]
             These words, or short phrases, will be more accurately recognized by the agent.
@@ -3329,7 +3380,12 @@ class AsyncRawAgentsClient:
                 "multilingual_mode": multilingual_mode,
                 "push_to_talk": push_to_talk,
                 "intelligence_level": intelligence_level,
-                "phonic_model": phonic_model,
+                "model": convert_and_respect_annotation_metadata(
+                    object_=model, annotation=UpdateAgentRequestModelParams, direction="write"
+                ),
+                "phonic_model": convert_and_respect_annotation_metadata(
+                    object_=phonic_model, annotation=UpdateAgentRequestPhonicModelParams, direction="write"
+                ),
                 "boosted_keywords": boosted_keywords,
                 "pronunciation_dictionary": convert_and_respect_annotation_metadata(
                     object_=pronunciation_dictionary,

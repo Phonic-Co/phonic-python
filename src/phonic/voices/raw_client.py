@@ -31,12 +31,20 @@ class RawVoicesClient:
     def __init__(self, *, client_wrapper: SyncClientWrapper):
         self._client_wrapper = client_wrapper
 
-    def list(self, *, request_options: typing.Optional[RequestOptions] = None) -> HttpResponse[VoicesListResponse]:
+    def list(
+        self,
+        *,
+        model: typing.Optional[typing.Literal["merritt"]] = None,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> HttpResponse[VoicesListResponse]:
         """
-        Returns all available voices for a model.
+        Returns all available voices.
 
         Parameters
         ----------
+        model : typing.Optional[typing.Literal["merritt"]]
+            Ignored. This parameter is deprecated and can be omitted.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -50,7 +58,7 @@ class RawVoicesClient:
             base_url=self._client_wrapper.get_environment().base,
             method="GET",
             params={
-                "model": "merritt",
+                "model": model,
             },
             request_options=request_options,
         )
@@ -299,13 +307,19 @@ class AsyncRawVoicesClient:
         self._client_wrapper = client_wrapper
 
     async def list(
-        self, *, request_options: typing.Optional[RequestOptions] = None
+        self,
+        *,
+        model: typing.Optional[typing.Literal["merritt"]] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[VoicesListResponse]:
         """
-        Returns all available voices for a model.
+        Returns all available voices.
 
         Parameters
         ----------
+        model : typing.Optional[typing.Literal["merritt"]]
+            Ignored. This parameter is deprecated and can be omitted.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -319,7 +333,7 @@ class AsyncRawVoicesClient:
             base_url=self._client_wrapper.get_environment().base,
             method="GET",
             params={
-                "model": "merritt",
+                "model": model,
             },
             request_options=request_options,
         )

@@ -7,10 +7,11 @@ from ..types.agent_audio_format import AgentAudioFormat
 from ..types.agent_background_noise import AgentBackgroundNoise
 from ..types.agent_intelligence_level import AgentIntelligenceLevel
 from ..types.agent_multilingual_mode import AgentMultilingualMode
-from ..types.agent_phonic_model import AgentPhonicModel
 from ..types.language_code import LanguageCode
 from .agent_configuration_endpoint import AgentConfigurationEndpointParams
 from .agent_integration import AgentIntegrationParams
+from .agent_model import AgentModelParams
+from .agent_phonic_model import AgentPhonicModelParams
 from .agent_project import AgentProjectParams
 from .agent_pronunciation_dictionary_item import AgentPronunciationDictionaryItemParams
 from .agent_template_variables_value import AgentTemplateVariablesValueParams
@@ -186,9 +187,14 @@ class AgentParams(typing_extensions.TypedDict):
     The intelligence level of the agent. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency.
     """
 
-    phonic_model: typing_extensions.NotRequired[AgentPhonicModel]
+    model: AgentModelParams
     """
     The Phonic speech-to-speech model to generate with. Omit it to use the current default model.
+    """
+
+    phonic_model: typing_extensions.NotRequired[AgentPhonicModelParams]
+    """
+    The Phonic speech-to-speech model to generate with. This field is deprecated. Use `model` instead.
     """
 
     boosted_keywords: typing.Sequence[str]
