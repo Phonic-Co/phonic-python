@@ -8,10 +8,11 @@ from ..types.config_options_input_format import ConfigOptionsInputFormat
 from ..types.config_options_intelligence_level import ConfigOptionsIntelligenceLevel
 from ..types.config_options_multilingual_mode import ConfigOptionsMultilingualMode
 from ..types.config_options_output_format import ConfigOptionsOutputFormat
-from ..types.config_options_phonic_model import ConfigOptionsPhonicModel
 from .config_options_configuration_endpoint import ConfigOptionsConfigurationEndpointParams
 from .config_options_data_retention_policy import ConfigOptionsDataRetentionPolicyParams
+from .config_options_model import ConfigOptionsModelParams
 from .config_options_outbound_number_pool import ConfigOptionsOutboundNumberPoolParams
+from .config_options_phonic_model import ConfigOptionsPhonicModelParams
 from .config_options_pronunciation_dictionary_item import ConfigOptionsPronunciationDictionaryItemParams
 from .config_options_tasks_item import ConfigOptionsTasksItemParams
 from .tool_definition import ToolDefinitionParams
@@ -32,9 +33,9 @@ class ConfigOptionsParams(typing_extensions.TypedDict):
     Project name
     """
 
-    model: typing_extensions.NotRequired[typing.Literal["merritt"]]
+    model: typing_extensions.NotRequired[ConfigOptionsModelParams]
     """
-    STS model to use
+    The Phonic speech-to-speech model to generate with. Omit it to use the current default model.
     """
 
     system_prompt: typing_extensions.NotRequired[str]
@@ -172,9 +173,9 @@ class ConfigOptionsParams(typing_extensions.TypedDict):
     The intelligence level of the agent. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency.
     """
 
-    phonic_model: typing_extensions.NotRequired[ConfigOptionsPhonicModel]
+    phonic_model: typing_extensions.NotRequired[ConfigOptionsPhonicModelParams]
     """
-    The Phonic speech-to-speech model to generate with. Omit it to use the current default model.
+    The Phonic speech-to-speech model to generate with. This field is deprecated. Use `model` instead.
     """
 
     boosted_keywords: typing_extensions.NotRequired[typing.Sequence[str]]

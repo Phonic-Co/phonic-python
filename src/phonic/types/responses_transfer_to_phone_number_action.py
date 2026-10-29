@@ -8,6 +8,7 @@ from ..core.unchecked_base_model import UncheckedBaseModel
 from .responses_transfer_to_phone_number_action_on_transfer_no_answer import (
     ResponsesTransferToPhoneNumberActionOnTransferNoAnswer,
 )
+from .transfer_sip import TransferSip
 
 
 class ResponsesTransferToPhoneNumberAction(UncheckedBaseModel):
@@ -15,9 +16,14 @@ class ResponsesTransferToPhoneNumberAction(UncheckedBaseModel):
     The assistant transferred the call to a phone number (a `built_in_transfer_to_phone_number` tool).
     """
 
-    phone_number: str = pydantic.Field()
+    phone_number: typing.Optional[str] = pydantic.Field(default=None)
     """
-    The phone number the call would be transferred to, in E.164 format.
+    The phone number the call would be transferred to, in E.164 format. Null when transferring to `sip` instead.
+    """
+
+    sip: typing.Optional[TransferSip] = pydantic.Field(default=None)
+    """
+    The SIP destination the call would be transferred to. Null when transferring to `phone_number` instead.
     """
 
     detect_voicemail: bool = pydantic.Field()

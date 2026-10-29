@@ -13,6 +13,7 @@ if typing.TYPE_CHECKING:
     from .agent_configuration_endpoint import AgentConfigurationEndpoint
     from .agent_integration import AgentIntegration
     from .agent_intelligence_level import AgentIntelligenceLevel
+    from .agent_model import AgentModel
     from .agent_multilingual_mode import AgentMultilingualMode
     from .agent_phonic_model import AgentPhonicModel
     from .agent_project import AgentProject
@@ -51,6 +52,7 @@ if typing.TYPE_CHECKING:
     from .config_options_data_retention_policy_zero import ConfigOptionsDataRetentionPolicyZero
     from .config_options_input_format import ConfigOptionsInputFormat
     from .config_options_intelligence_level import ConfigOptionsIntelligenceLevel
+    from .config_options_model import ConfigOptionsModel
     from .config_options_multilingual_mode import ConfigOptionsMultilingualMode
     from .config_options_outbound_number_pool import ConfigOptionsOutboundNumberPool
     from .config_options_output_format import ConfigOptionsOutputFormat
@@ -83,6 +85,7 @@ if typing.TYPE_CHECKING:
     from .conversation_item_tool_calls_item import ConversationItemToolCallsItem
     from .conversation_item_tool_calls_item_request_body import ConversationItemToolCallsItemRequestBody
     from .conversation_item_tool_calls_item_tool import ConversationItemToolCallsItemTool
+    from .conversation_model import ConversationModel
     from .conversation_multilingual_mode import ConversationMultilingualMode
     from .conversation_origin import ConversationOrigin
     from .conversation_phonic_model import ConversationPhonicModel
@@ -96,6 +99,7 @@ if typing.TYPE_CHECKING:
     from .create_agent_request_background_noise import CreateAgentRequestBackgroundNoise
     from .create_agent_request_configuration_endpoint import CreateAgentRequestConfigurationEndpoint
     from .create_agent_request_intelligence_level import CreateAgentRequestIntelligenceLevel
+    from .create_agent_request_model import CreateAgentRequestModel
     from .create_agent_request_multilingual_mode import CreateAgentRequestMultilingualMode
     from .create_agent_request_phone_number import CreateAgentRequestPhoneNumber
     from .create_agent_request_phonic_model import CreateAgentRequestPhonicModel
@@ -137,6 +141,7 @@ if typing.TYPE_CHECKING:
     from .outbound_call_config_background_noise import OutboundCallConfigBackgroundNoise
     from .outbound_call_config_configuration_endpoint import OutboundCallConfigConfigurationEndpoint
     from .outbound_call_config_intelligence_level import OutboundCallConfigIntelligenceLevel
+    from .outbound_call_config_model import OutboundCallConfigModel
     from .outbound_call_config_multilingual_mode import OutboundCallConfigMultilingualMode
     from .outbound_call_config_phonic_model import OutboundCallConfigPhonicModel
     from .outbound_call_config_pronunciation_dictionary_item import OutboundCallConfigPronunciationDictionaryItem
@@ -216,6 +221,7 @@ if typing.TYPE_CHECKING:
     from .tool_project import ToolProject
     from .tool_speech_before_tool_call import ToolSpeechBeforeToolCall
     from .tool_type import ToolType
+    from .transfer_sip import TransferSip
     from .tts_response import TtsResponse
     from .unmute_payload import UnmutePayload
     from .update_system_prompt_payload import UpdateSystemPromptPayload
@@ -237,6 +243,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "AgentConfigurationEndpoint": ".agent_configuration_endpoint",
     "AgentIntegration": ".agent_integration",
     "AgentIntelligenceLevel": ".agent_intelligence_level",
+    "AgentModel": ".agent_model",
     "AgentMultilingualMode": ".agent_multilingual_mode",
     "AgentPhonicModel": ".agent_phonic_model",
     "AgentProject": ".agent_project",
@@ -271,6 +278,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ConfigOptionsDataRetentionPolicyZero": ".config_options_data_retention_policy_zero",
     "ConfigOptionsInputFormat": ".config_options_input_format",
     "ConfigOptionsIntelligenceLevel": ".config_options_intelligence_level",
+    "ConfigOptionsModel": ".config_options_model",
     "ConfigOptionsMultilingualMode": ".config_options_multilingual_mode",
     "ConfigOptionsOutboundNumberPool": ".config_options_outbound_number_pool",
     "ConfigOptionsOutputFormat": ".config_options_output_format",
@@ -303,6 +311,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ConversationItemToolCallsItem": ".conversation_item_tool_calls_item",
     "ConversationItemToolCallsItemRequestBody": ".conversation_item_tool_calls_item_request_body",
     "ConversationItemToolCallsItemTool": ".conversation_item_tool_calls_item_tool",
+    "ConversationModel": ".conversation_model",
     "ConversationMultilingualMode": ".conversation_multilingual_mode",
     "ConversationOrigin": ".conversation_origin",
     "ConversationPhonicModel": ".conversation_phonic_model",
@@ -316,6 +325,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "CreateAgentRequestBackgroundNoise": ".create_agent_request_background_noise",
     "CreateAgentRequestConfigurationEndpoint": ".create_agent_request_configuration_endpoint",
     "CreateAgentRequestIntelligenceLevel": ".create_agent_request_intelligence_level",
+    "CreateAgentRequestModel": ".create_agent_request_model",
     "CreateAgentRequestMultilingualMode": ".create_agent_request_multilingual_mode",
     "CreateAgentRequestPhoneNumber": ".create_agent_request_phone_number",
     "CreateAgentRequestPhonicModel": ".create_agent_request_phonic_model",
@@ -355,6 +365,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "OutboundCallConfigBackgroundNoise": ".outbound_call_config_background_noise",
     "OutboundCallConfigConfigurationEndpoint": ".outbound_call_config_configuration_endpoint",
     "OutboundCallConfigIntelligenceLevel": ".outbound_call_config_intelligence_level",
+    "OutboundCallConfigModel": ".outbound_call_config_model",
     "OutboundCallConfigMultilingualMode": ".outbound_call_config_multilingual_mode",
     "OutboundCallConfigPhonicModel": ".outbound_call_config_phonic_model",
     "OutboundCallConfigPronunciationDictionaryItem": ".outbound_call_config_pronunciation_dictionary_item",
@@ -428,6 +439,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ToolProject": ".tool_project",
     "ToolSpeechBeforeToolCall": ".tool_speech_before_tool_call",
     "ToolType": ".tool_type",
+    "TransferSip": ".transfer_sip",
     "TtsResponse": ".tts_response",
     "UnmutePayload": ".unmute_payload",
     "UpdateSystemPromptPayload": ".update_system_prompt_payload",
@@ -473,6 +485,7 @@ __all__ = [
     "AgentConfigurationEndpoint",
     "AgentIntegration",
     "AgentIntelligenceLevel",
+    "AgentModel",
     "AgentMultilingualMode",
     "AgentPhonicModel",
     "AgentProject",
@@ -507,6 +520,7 @@ __all__ = [
     "ConfigOptionsDataRetentionPolicyZero",
     "ConfigOptionsInputFormat",
     "ConfigOptionsIntelligenceLevel",
+    "ConfigOptionsModel",
     "ConfigOptionsMultilingualMode",
     "ConfigOptionsOutboundNumberPool",
     "ConfigOptionsOutputFormat",
@@ -539,6 +553,7 @@ __all__ = [
     "ConversationItemToolCallsItem",
     "ConversationItemToolCallsItemRequestBody",
     "ConversationItemToolCallsItemTool",
+    "ConversationModel",
     "ConversationMultilingualMode",
     "ConversationOrigin",
     "ConversationPhonicModel",
@@ -552,6 +567,7 @@ __all__ = [
     "CreateAgentRequestBackgroundNoise",
     "CreateAgentRequestConfigurationEndpoint",
     "CreateAgentRequestIntelligenceLevel",
+    "CreateAgentRequestModel",
     "CreateAgentRequestMultilingualMode",
     "CreateAgentRequestPhoneNumber",
     "CreateAgentRequestPhonicModel",
@@ -591,6 +607,7 @@ __all__ = [
     "OutboundCallConfigBackgroundNoise",
     "OutboundCallConfigConfigurationEndpoint",
     "OutboundCallConfigIntelligenceLevel",
+    "OutboundCallConfigModel",
     "OutboundCallConfigMultilingualMode",
     "OutboundCallConfigPhonicModel",
     "OutboundCallConfigPronunciationDictionaryItem",
@@ -664,6 +681,7 @@ __all__ = [
     "ToolProject",
     "ToolSpeechBeforeToolCall",
     "ToolType",
+    "TransferSip",
     "TtsResponse",
     "UnmutePayload",
     "UpdateSystemPromptPayload",

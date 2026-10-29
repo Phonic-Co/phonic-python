@@ -6,9 +6,11 @@ import typing
 from importlib import import_module
 
 if typing.TYPE_CHECKING:
+    from .generate_responses_request_model import GenerateResponsesRequestModel
     from .generate_responses_request_phonic_model import GenerateResponsesRequestPhonicModel
 _dynamic_imports: typing.Dict[str, str] = {
-    "GenerateResponsesRequestPhonicModel": ".generate_responses_request_phonic_model"
+    "GenerateResponsesRequestModel": ".generate_responses_request_model",
+    "GenerateResponsesRequestPhonicModel": ".generate_responses_request_phonic_model",
 }
 
 
@@ -33,4 +35,4 @@ def __dir__():
     return sorted(lazy_attrs)
 
 
-__all__ = ["GenerateResponsesRequestPhonicModel"]
+__all__ = ["GenerateResponsesRequestModel", "GenerateResponsesRequestPhonicModel"]

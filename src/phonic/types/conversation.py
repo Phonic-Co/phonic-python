@@ -14,6 +14,7 @@ from .conversation_deletion_info import ConversationDeletionInfo
 from .conversation_ended_by import ConversationEndedBy
 from .conversation_intelligence_level import ConversationIntelligenceLevel
 from .conversation_item import ConversationItem
+from .conversation_model import ConversationModel
 from .conversation_multilingual_mode import ConversationMultilingualMode
 from .conversation_origin import ConversationOrigin
 from .conversation_phonic_model import ConversationPhonicModel
@@ -54,9 +55,9 @@ class Conversation(UncheckedBaseModel):
     The origin of the conversation.
     """
 
-    model: str = pydantic.Field()
+    model: ConversationModel = pydantic.Field()
     """
-    The STS model used.
+    The Phonic speech-to-speech model used for the conversation.
     """
 
     generate_welcome_message: bool = pydantic.Field()
@@ -191,7 +192,7 @@ class Conversation(UncheckedBaseModel):
 
     phonic_model: typing.Optional[ConversationPhonicModel] = pydantic.Field(default=None)
     """
-    The Phonic speech-to-speech model used for the conversation.
+    The Phonic speech-to-speech model used for the conversation. This field is deprecated. Use `model` instead.
     """
 
     languages: typing.Optional[typing.List[str]] = pydantic.Field(default=None)

@@ -10,7 +10,8 @@ from ..requests.responses_tool_definition import ResponsesToolDefinitionParams
 from ..types.generate_responses_response import GenerateResponsesResponse
 from ..types.language_code import LanguageCode
 from .raw_client import AsyncRawResponsesClient, RawResponsesClient
-from .types.generate_responses_request_phonic_model import GenerateResponsesRequestPhonicModel
+from .requests.generate_responses_request_model import GenerateResponsesRequestModelParams
+from .requests.generate_responses_request_phonic_model import GenerateResponsesRequestPhonicModelParams
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -42,7 +43,8 @@ class ResponsesClient:
         tool_definitions: typing.Optional[typing.Sequence[ResponsesToolDefinitionParams]] = OMIT,
         project: typing.Optional[str] = OMIT,
         tools: typing.Optional[typing.Sequence[ResponsesToolParams]] = OMIT,
-        phonic_model: typing.Optional[GenerateResponsesRequestPhonicModel] = OMIT,
+        model: typing.Optional[GenerateResponsesRequestModelParams] = OMIT,
+        phonic_model: typing.Optional[GenerateResponsesRequestPhonicModelParams] = OMIT,
         num_responses: typing.Optional[int] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> GenerateResponsesResponse:
@@ -103,8 +105,11 @@ class ResponsesClient:
         tools : typing.Optional[typing.Sequence[ResponsesToolParams]]
             Tools the assistant may call that already exist - a built-in tool, or a transfer tool stored in `project`, referenced by name. Names must be unique and must not repeat a name in `tool_definitions`. Stored tools that are not transfer tools cannot be referenced here yet; define them inline as `tool_definitions` instead.
 
-        phonic_model : typing.Optional[GenerateResponsesRequestPhonicModel]
+        model : typing.Optional[GenerateResponsesRequestModelParams]
             The Phonic speech-to-speech model to generate with. Omit it to use the current default model.
+
+        phonic_model : typing.Optional[GenerateResponsesRequestPhonicModelParams]
+            The Phonic speech-to-speech model to generate with. This field is deprecated. Use `model` instead.
 
         num_responses : typing.Optional[int]
             Number of alternative responses to generate.
@@ -149,7 +154,6 @@ class ResponsesClient:
                     },
                 }
             ],
-            phonic_model="phonic-1",
             num_responses=2,
         )
         """
@@ -162,6 +166,7 @@ class ResponsesClient:
             tool_definitions=tool_definitions,
             project=project,
             tools=tools,
+            model=model,
             phonic_model=phonic_model,
             num_responses=num_responses,
             request_options=request_options,
@@ -195,7 +200,8 @@ class AsyncResponsesClient:
         tool_definitions: typing.Optional[typing.Sequence[ResponsesToolDefinitionParams]] = OMIT,
         project: typing.Optional[str] = OMIT,
         tools: typing.Optional[typing.Sequence[ResponsesToolParams]] = OMIT,
-        phonic_model: typing.Optional[GenerateResponsesRequestPhonicModel] = OMIT,
+        model: typing.Optional[GenerateResponsesRequestModelParams] = OMIT,
+        phonic_model: typing.Optional[GenerateResponsesRequestPhonicModelParams] = OMIT,
         num_responses: typing.Optional[int] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> GenerateResponsesResponse:
@@ -256,8 +262,11 @@ class AsyncResponsesClient:
         tools : typing.Optional[typing.Sequence[ResponsesToolParams]]
             Tools the assistant may call that already exist - a built-in tool, or a transfer tool stored in `project`, referenced by name. Names must be unique and must not repeat a name in `tool_definitions`. Stored tools that are not transfer tools cannot be referenced here yet; define them inline as `tool_definitions` instead.
 
-        phonic_model : typing.Optional[GenerateResponsesRequestPhonicModel]
+        model : typing.Optional[GenerateResponsesRequestModelParams]
             The Phonic speech-to-speech model to generate with. Omit it to use the current default model.
+
+        phonic_model : typing.Optional[GenerateResponsesRequestPhonicModelParams]
+            The Phonic speech-to-speech model to generate with. This field is deprecated. Use `model` instead.
 
         num_responses : typing.Optional[int]
             Number of alternative responses to generate.
@@ -310,7 +319,6 @@ class AsyncResponsesClient:
                         },
                     }
                 ],
-                phonic_model="phonic-1",
                 num_responses=2,
             )
 
@@ -326,6 +334,7 @@ class AsyncResponsesClient:
             tool_definitions=tool_definitions,
             project=project,
             tools=tools,
+            model=model,
             phonic_model=phonic_model,
             num_responses=num_responses,
             request_options=request_options,

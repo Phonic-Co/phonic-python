@@ -10,6 +10,7 @@ from .config_options_configuration_endpoint import ConfigOptionsConfigurationEnd
 from .config_options_data_retention_policy import ConfigOptionsDataRetentionPolicy
 from .config_options_input_format import ConfigOptionsInputFormat
 from .config_options_intelligence_level import ConfigOptionsIntelligenceLevel
+from .config_options_model import ConfigOptionsModel
 from .config_options_multilingual_mode import ConfigOptionsMultilingualMode
 from .config_options_outbound_number_pool import ConfigOptionsOutboundNumberPool
 from .config_options_output_format import ConfigOptionsOutputFormat
@@ -34,9 +35,9 @@ class ConfigOptions(UncheckedBaseModel):
     Project name
     """
 
-    model: typing.Optional[typing.Literal["merritt"]] = pydantic.Field(default=None)
+    model: typing.Optional[ConfigOptionsModel] = pydantic.Field(default=None)
     """
-    STS model to use
+    The Phonic speech-to-speech model to generate with. Omit it to use the current default model.
     """
 
     system_prompt: typing.Optional[str] = pydantic.Field(default=None)
@@ -176,7 +177,7 @@ class ConfigOptions(UncheckedBaseModel):
 
     phonic_model: typing.Optional[ConfigOptionsPhonicModel] = pydantic.Field(default=None)
     """
-    The Phonic speech-to-speech model to generate with. Omit it to use the current default model.
+    The Phonic speech-to-speech model to generate with. This field is deprecated. Use `model` instead.
     """
 
     boosted_keywords: typing.Optional[typing.List[str]] = pydantic.Field(default=None)

@@ -2,4 +2,4 @@
 
 import typing
 
-AgentPhonicModel = typing.Union[typing.Literal["phonic-0.5", "phonic-1", "phonic-1.1"], typing.Any]
+AgentPhonicModel = typing.Union[typing.Literal["phonic-0.5"], typing.Literal["phonic-1"], str]

@@ -6,6 +6,7 @@ import typing_extensions
 from ..types.responses_transfer_to_phone_number_action_on_transfer_no_answer import (
     ResponsesTransferToPhoneNumberActionOnTransferNoAnswer,
 )
+from .transfer_sip import TransferSipParams
 
 
 class ResponsesTransferToPhoneNumberActionParams(typing_extensions.TypedDict):
@@ -13,9 +14,14 @@ class ResponsesTransferToPhoneNumberActionParams(typing_extensions.TypedDict):
     The assistant transferred the call to a phone number (a `built_in_transfer_to_phone_number` tool).
     """
 
-    phone_number: str
+    phone_number: typing_extensions.NotRequired[typing.Optional[str]]
     """
-    The phone number the call would be transferred to, in E.164 format.
+    The phone number the call would be transferred to, in E.164 format. Null when transferring to `sip` instead.
+    """
+
+    sip: typing_extensions.NotRequired[typing.Optional[TransferSipParams]]
+    """
+    The SIP destination the call would be transferred to. Null when transferring to `phone_number` instead.
     """
 
     detect_voicemail: bool
