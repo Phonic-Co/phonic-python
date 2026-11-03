@@ -39,6 +39,7 @@ if typing.TYPE_CHECKING:
     from .update_agent_request_pronunciation_dictionary_item import UpdateAgentRequestPronunciationDictionaryItem
     from .update_agent_request_template_variables_value import UpdateAgentRequestTemplateVariablesValue
     from .update_agent_request_tools_item import UpdateAgentRequestToolsItem
+    from .update_agent_request_turn_taking import UpdateAgentRequestTurnTaking
 _dynamic_imports: typing.Dict[str, str] = {
     "AgentsAddCustomPhoneNumberRequestConfigurationEndpoint": ".agents_add_custom_phone_number_request_configuration_endpoint",
     "AgentsAddCustomPhoneNumberRequestSip": ".agents_add_custom_phone_number_request_sip",
@@ -67,6 +68,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "UpdateAgentRequestPronunciationDictionaryItem": ".update_agent_request_pronunciation_dictionary_item",
     "UpdateAgentRequestTemplateVariablesValue": ".update_agent_request_template_variables_value",
     "UpdateAgentRequestToolsItem": ".update_agent_request_tools_item",
+    "UpdateAgentRequestTurnTaking": ".update_agent_request_turn_taking",
 }
 
 
@@ -119,4 +121,5 @@ __all__ = [
     "UpdateAgentRequestPronunciationDictionaryItem",
     "UpdateAgentRequestTemplateVariablesValue",
     "UpdateAgentRequestToolsItem",
+    "UpdateAgentRequestTurnTaking",
 ]

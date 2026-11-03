@@ -15,6 +15,7 @@ from .outbound_call_config_multilingual_mode import OutboundCallConfigMultilingu
 from .outbound_call_config_phonic_model import OutboundCallConfigPhonicModel
 from .outbound_call_config_pronunciation_dictionary_item import OutboundCallConfigPronunciationDictionaryItem
 from .outbound_call_config_tools_item import OutboundCallConfigToolsItem
+from .outbound_call_config_turn_taking import OutboundCallConfigTurnTaking
 from .outbound_number_pool import OutboundNumberPool
 from .task import Task
 
@@ -139,6 +140,11 @@ class OutboundCallConfig(UncheckedBaseModel):
     min_words_to_interrupt: typing.Optional[int] = pydantic.Field(default=None)
     """
     Minimum number of words required to interrupt the assistant.
+    """
+
+    turn_taking: typing.Optional[OutboundCallConfigTurnTaking] = pydantic.Field(default=None)
+    """
+    How long the agent waits after the user stops speaking before taking its turn. `"eager"` responds fastest; `"very_patient"` waits the longest. Defaults to the agent's `turn_taking`, or `"standard"`.
     """
 
     tools: typing.Optional[typing.List[OutboundCallConfigToolsItem]] = pydantic.Field(default=None)

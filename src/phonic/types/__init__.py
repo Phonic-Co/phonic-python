@@ -20,6 +20,7 @@ if typing.TYPE_CHECKING:
     from .agent_pronunciation_dictionary_item import AgentPronunciationDictionaryItem
     from .agent_template_variables_value import AgentTemplateVariablesValue
     from .agent_tools_item import AgentToolsItem
+    from .agent_turn_taking import AgentTurnTaking
     from .api_key_with_secret import ApiKeyWithSecret
     from .assistant_chose_not_to_respond_payload import AssistantChoseNotToRespondPayload
     from .assistant_ended_conversation_payload import AssistantEndedConversationPayload
@@ -59,6 +60,7 @@ if typing.TYPE_CHECKING:
     from .config_options_phonic_model import ConfigOptionsPhonicModel
     from .config_options_pronunciation_dictionary_item import ConfigOptionsPronunciationDictionaryItem
     from .config_options_tasks_item import ConfigOptionsTasksItem
+    from .config_options_turn_taking import ConfigOptionsTurnTaking
     from .config_payload import ConfigPayload
     from .conflict_error_body import ConflictErrorBody
     from .conversation import Conversation
@@ -91,6 +93,7 @@ if typing.TYPE_CHECKING:
     from .conversation_phonic_model import ConversationPhonicModel
     from .conversation_project import ConversationProject
     from .conversation_pronunciation_dictionary_item import ConversationPronunciationDictionaryItem
+    from .conversation_turn_taking import ConversationTurnTaking
     from .conversations_list_response_conversation import ConversationsListResponseConversation
     from .conversations_list_response_conversations import ConversationsListResponseConversations
     from .conversations_list_response_conversations_pagination import ConversationsListResponseConversationsPagination
@@ -106,6 +109,7 @@ if typing.TYPE_CHECKING:
     from .create_agent_request_pronunciation_dictionary_item import CreateAgentRequestPronunciationDictionaryItem
     from .create_agent_request_template_variables_value import CreateAgentRequestTemplateVariablesValue
     from .create_agent_request_tools_item import CreateAgentRequestToolsItem
+    from .create_agent_request_turn_taking import CreateAgentRequestTurnTaking
     from .data_retention_policy import DataRetentionPolicy
     from .data_retention_policy_audio_recordings import DataRetentionPolicyAudioRecordings
     from .data_retention_policy_audio_recordings_audio_recordings import (
@@ -133,6 +137,10 @@ if typing.TYPE_CHECKING:
     from .input_text_payload import InputTextPayload
     from .interrupted_response_payload import InterruptedResponsePayload
     from .language_code import LanguageCode
+    from .mcp_server import McpServer
+    from .mcp_server_project import McpServerProject
+    from .mcp_server_tool import McpServerTool
+    from .mcp_server_tool_parameters import McpServerToolParameters
     from .mute_payload import MutePayload
     from .open_ai_function import OpenAiFunction
     from .open_ai_function_parameters import OpenAiFunctionParameters
@@ -146,6 +154,7 @@ if typing.TYPE_CHECKING:
     from .outbound_call_config_phonic_model import OutboundCallConfigPhonicModel
     from .outbound_call_config_pronunciation_dictionary_item import OutboundCallConfigPronunciationDictionaryItem
     from .outbound_call_config_tools_item import OutboundCallConfigToolsItem
+    from .outbound_call_config_turn_taking import OutboundCallConfigTurnTaking
     from .outbound_call_initiated_response import OutboundCallInitiatedResponse
     from .outbound_dry_run_response import OutboundDryRunResponse
     from .outbound_number_pool import OutboundNumberPool
@@ -250,6 +259,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "AgentPronunciationDictionaryItem": ".agent_pronunciation_dictionary_item",
     "AgentTemplateVariablesValue": ".agent_template_variables_value",
     "AgentToolsItem": ".agent_tools_item",
+    "AgentTurnTaking": ".agent_turn_taking",
     "ApiKeyWithSecret": ".api_key_with_secret",
     "AssistantChoseNotToRespondPayload": ".assistant_chose_not_to_respond_payload",
     "AssistantEndedConversationPayload": ".assistant_ended_conversation_payload",
@@ -285,6 +295,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ConfigOptionsPhonicModel": ".config_options_phonic_model",
     "ConfigOptionsPronunciationDictionaryItem": ".config_options_pronunciation_dictionary_item",
     "ConfigOptionsTasksItem": ".config_options_tasks_item",
+    "ConfigOptionsTurnTaking": ".config_options_turn_taking",
     "ConfigPayload": ".config_payload",
     "ConflictErrorBody": ".conflict_error_body",
     "Conversation": ".conversation",
@@ -317,6 +328,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ConversationPhonicModel": ".conversation_phonic_model",
     "ConversationProject": ".conversation_project",
     "ConversationPronunciationDictionaryItem": ".conversation_pronunciation_dictionary_item",
+    "ConversationTurnTaking": ".conversation_turn_taking",
     "ConversationsListResponseConversation": ".conversations_list_response_conversation",
     "ConversationsListResponseConversations": ".conversations_list_response_conversations",
     "ConversationsListResponseConversationsPagination": ".conversations_list_response_conversations_pagination",
@@ -332,6 +344,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "CreateAgentRequestPronunciationDictionaryItem": ".create_agent_request_pronunciation_dictionary_item",
     "CreateAgentRequestTemplateVariablesValue": ".create_agent_request_template_variables_value",
     "CreateAgentRequestToolsItem": ".create_agent_request_tools_item",
+    "CreateAgentRequestTurnTaking": ".create_agent_request_turn_taking",
     "DataRetentionPolicy": ".data_retention_policy",
     "DataRetentionPolicyAudioRecordings": ".data_retention_policy_audio_recordings",
     "DataRetentionPolicyAudioRecordingsAudioRecordings": ".data_retention_policy_audio_recordings_audio_recordings",
@@ -357,6 +370,10 @@ _dynamic_imports: typing.Dict[str, str] = {
     "InputTextPayload": ".input_text_payload",
     "InterruptedResponsePayload": ".interrupted_response_payload",
     "LanguageCode": ".language_code",
+    "McpServer": ".mcp_server",
+    "McpServerProject": ".mcp_server_project",
+    "McpServerTool": ".mcp_server_tool",
+    "McpServerToolParameters": ".mcp_server_tool_parameters",
     "MutePayload": ".mute_payload",
     "OpenAiFunction": ".open_ai_function",
     "OpenAiFunctionParameters": ".open_ai_function_parameters",
@@ -370,6 +387,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "OutboundCallConfigPhonicModel": ".outbound_call_config_phonic_model",
     "OutboundCallConfigPronunciationDictionaryItem": ".outbound_call_config_pronunciation_dictionary_item",
     "OutboundCallConfigToolsItem": ".outbound_call_config_tools_item",
+    "OutboundCallConfigTurnTaking": ".outbound_call_config_turn_taking",
     "OutboundCallInitiatedResponse": ".outbound_call_initiated_response",
     "OutboundDryRunResponse": ".outbound_dry_run_response",
     "OutboundNumberPool": ".outbound_number_pool",
@@ -492,6 +510,7 @@ __all__ = [
     "AgentPronunciationDictionaryItem",
     "AgentTemplateVariablesValue",
     "AgentToolsItem",
+    "AgentTurnTaking",
     "ApiKeyWithSecret",
     "AssistantChoseNotToRespondPayload",
     "AssistantEndedConversationPayload",
@@ -527,6 +546,7 @@ __all__ = [
     "ConfigOptionsPhonicModel",
     "ConfigOptionsPronunciationDictionaryItem",
     "ConfigOptionsTasksItem",
+    "ConfigOptionsTurnTaking",
     "ConfigPayload",
     "ConflictErrorBody",
     "Conversation",
@@ -559,6 +579,7 @@ __all__ = [
     "ConversationPhonicModel",
     "ConversationProject",
     "ConversationPronunciationDictionaryItem",
+    "ConversationTurnTaking",
     "ConversationsListResponseConversation",
     "ConversationsListResponseConversations",
     "ConversationsListResponseConversationsPagination",
@@ -574,6 +595,7 @@ __all__ = [
     "CreateAgentRequestPronunciationDictionaryItem",
     "CreateAgentRequestTemplateVariablesValue",
     "CreateAgentRequestToolsItem",
+    "CreateAgentRequestTurnTaking",
     "DataRetentionPolicy",
     "DataRetentionPolicyAudioRecordings",
     "DataRetentionPolicyAudioRecordingsAudioRecordings",
@@ -599,6 +621,10 @@ __all__ = [
     "InputTextPayload",
     "InterruptedResponsePayload",
     "LanguageCode",
+    "McpServer",
+    "McpServerProject",
+    "McpServerTool",
+    "McpServerToolParameters",
     "MutePayload",
     "OpenAiFunction",
     "OpenAiFunctionParameters",
@@ -612,6 +638,7 @@ __all__ = [
     "OutboundCallConfigPhonicModel",
     "OutboundCallConfigPronunciationDictionaryItem",
     "OutboundCallConfigToolsItem",
+    "OutboundCallConfigTurnTaking",
     "OutboundCallInitiatedResponse",
     "OutboundDryRunResponse",
     "OutboundNumberPool",

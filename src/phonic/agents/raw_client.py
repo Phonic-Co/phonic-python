@@ -36,6 +36,7 @@ from ..types.create_agent_request_background_noise import CreateAgentRequestBack
 from ..types.create_agent_request_intelligence_level import CreateAgentRequestIntelligenceLevel
 from ..types.create_agent_request_multilingual_mode import CreateAgentRequestMultilingualMode
 from ..types.create_agent_request_phone_number import CreateAgentRequestPhoneNumber
+from ..types.create_agent_request_turn_taking import CreateAgentRequestTurnTaking
 from ..types.language_code import LanguageCode
 from .requests.agents_add_custom_phone_number_request_configuration_endpoint import (
     AgentsAddCustomPhoneNumberRequestConfigurationEndpointParams,
@@ -68,6 +69,7 @@ from .types.update_agent_request_background_noise import UpdateAgentRequestBackg
 from .types.update_agent_request_intelligence_level import UpdateAgentRequestIntelligenceLevel
 from .types.update_agent_request_multilingual_mode import UpdateAgentRequestMultilingualMode
 from .types.update_agent_request_phone_number import UpdateAgentRequestPhoneNumber
+from .types.update_agent_request_turn_taking import UpdateAgentRequestTurnTaking
 from pydantic import ValidationError
 
 # this is used as the default value for optional parameters
@@ -194,6 +196,7 @@ class RawAgentsClient:
             typing.Sequence[CreateAgentRequestPronunciationDictionaryItemParams]
         ] = OMIT,
         min_words_to_interrupt: typing.Optional[int] = OMIT,
+        turn_taking: typing.Optional[CreateAgentRequestTurnTaking] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
@@ -339,6 +342,9 @@ class RawAgentsClient:
         min_words_to_interrupt : typing.Optional[int]
             Minimum number of words required to interrupt the assistant.
 
+        turn_taking : typing.Optional[CreateAgentRequestTurnTaking]
+            How long the agent waits after the user stops speaking before taking its turn. `"eager"` responds fastest; `"very_patient"` waits the longest.
+
         configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpointParams]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
@@ -349,16 +355,16 @@ class RawAgentsClient:
             E.164 formatted phone number where non-agent calls will be forwarded. Required when `inbound_rollout < 1.0`, must be `null` when `inbound_rollout = 1.0`. Defaults to `null`.
 
         vad_prebuffer_duration_ms : typing.Optional[int]
-            Voice activity detection prebuffer duration in milliseconds.
+            Voice activity detection prebuffer duration in milliseconds. Deprecated. Stored on the agent but ignored at runtime. Use `turn_taking`, or send VAD settings in the conversation config instead.
 
         vad_min_speech_duration_ms : typing.Optional[int]
-            Minimum speech duration for voice activity detection in milliseconds.
+            Minimum speech duration for voice activity detection in milliseconds. Deprecated. Stored on the agent but ignored at runtime. Use `turn_taking`, or send VAD settings in the conversation config instead.
 
         vad_min_silence_duration_ms : typing.Optional[int]
-            Minimum silence duration for voice activity detection in milliseconds.
+            Minimum silence duration for voice activity detection in milliseconds. Deprecated. Stored on the agent but ignored at runtime. Use `turn_taking`, or send VAD settings in the conversation config instead.
 
         vad_threshold : typing.Optional[float]
-            Voice activity detection threshold.
+            Voice activity detection threshold. Deprecated. Stored on the agent but ignored at runtime. Use `turn_taking`, or send VAD settings in the conversation config instead.
 
         enable_redaction : typing.Optional[bool]
             When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE]`) and bleeped from audio recordings after the conversation ends.
@@ -452,6 +458,7 @@ class RawAgentsClient:
                     direction="write",
                 ),
                 "min_words_to_interrupt": min_words_to_interrupt,
+                "turn_taking": turn_taking,
                 "configuration_endpoint": convert_and_respect_annotation_metadata(
                     object_=configuration_endpoint,
                     annotation=typing.Optional[CreateAgentRequestConfigurationEndpointParams],
@@ -587,6 +594,7 @@ class RawAgentsClient:
             typing.Sequence[CreateAgentRequestPronunciationDictionaryItemParams]
         ] = OMIT,
         min_words_to_interrupt: typing.Optional[int] = OMIT,
+        turn_taking: typing.Optional[CreateAgentRequestTurnTaking] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
@@ -738,6 +746,9 @@ class RawAgentsClient:
         min_words_to_interrupt : typing.Optional[int]
             Minimum number of words required to interrupt the assistant.
 
+        turn_taking : typing.Optional[CreateAgentRequestTurnTaking]
+            How long the agent waits after the user stops speaking before taking its turn. `"eager"` responds fastest; `"very_patient"` waits the longest.
+
         configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpointParams]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
@@ -748,16 +759,16 @@ class RawAgentsClient:
             E.164 formatted phone number where non-agent calls will be forwarded. Required when `inbound_rollout < 1.0`, must be `null` when `inbound_rollout = 1.0`. Defaults to `null`.
 
         vad_prebuffer_duration_ms : typing.Optional[int]
-            Voice activity detection prebuffer duration in milliseconds.
+            Voice activity detection prebuffer duration in milliseconds. Deprecated. Stored on the agent but ignored at runtime. Use `turn_taking`, or send VAD settings in the conversation config instead.
 
         vad_min_speech_duration_ms : typing.Optional[int]
-            Minimum speech duration for voice activity detection in milliseconds.
+            Minimum speech duration for voice activity detection in milliseconds. Deprecated. Stored on the agent but ignored at runtime. Use `turn_taking`, or send VAD settings in the conversation config instead.
 
         vad_min_silence_duration_ms : typing.Optional[int]
-            Minimum silence duration for voice activity detection in milliseconds.
+            Minimum silence duration for voice activity detection in milliseconds. Deprecated. Stored on the agent but ignored at runtime. Use `turn_taking`, or send VAD settings in the conversation config instead.
 
         vad_threshold : typing.Optional[float]
-            Voice activity detection threshold.
+            Voice activity detection threshold. Deprecated. Stored on the agent but ignored at runtime. Use `turn_taking`, or send VAD settings in the conversation config instead.
 
         enable_redaction : typing.Optional[bool]
             When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE]`) and bleeped from audio recordings after the conversation ends.
@@ -857,6 +868,7 @@ class RawAgentsClient:
                     direction="write",
                 ),
                 "min_words_to_interrupt": min_words_to_interrupt,
+                "turn_taking": turn_taking,
                 "configuration_endpoint": convert_and_respect_annotation_metadata(
                     object_=configuration_endpoint,
                     annotation=typing.Optional[CreateAgentRequestConfigurationEndpointParams],
@@ -1135,6 +1147,7 @@ class RawAgentsClient:
             typing.Sequence[UpdateAgentRequestPronunciationDictionaryItemParams]
         ] = OMIT,
         min_words_to_interrupt: typing.Optional[int] = OMIT,
+        turn_taking: typing.Optional[UpdateAgentRequestTurnTaking] = OMIT,
         configuration_endpoint: typing.Optional[UpdateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
@@ -1292,6 +1305,9 @@ class RawAgentsClient:
         min_words_to_interrupt : typing.Optional[int]
             Minimum number of words required to interrupt the assistant.
 
+        turn_taking : typing.Optional[UpdateAgentRequestTurnTaking]
+            How long the agent waits after the user stops speaking before taking its turn. `"eager"` responds fastest; `"very_patient"` waits the longest.
+
         configuration_endpoint : typing.Optional[UpdateAgentRequestConfigurationEndpointParams]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
@@ -1302,16 +1318,16 @@ class RawAgentsClient:
             E.164 formatted phone number where non-agent calls will be forwarded. Required when `inbound_rollout < 1.0`, must be `null` when `inbound_rollout = 1.0`.
 
         vad_prebuffer_duration_ms : typing.Optional[int]
-            Voice activity detection prebuffer duration in milliseconds.
+            Voice activity detection prebuffer duration in milliseconds. Deprecated. Stored on the agent but ignored at runtime. Use `turn_taking`, or send VAD settings in the conversation config instead.
 
         vad_min_speech_duration_ms : typing.Optional[int]
-            Minimum speech duration for voice activity detection in milliseconds.
+            Minimum speech duration for voice activity detection in milliseconds. Deprecated. Stored on the agent but ignored at runtime. Use `turn_taking`, or send VAD settings in the conversation config instead.
 
         vad_min_silence_duration_ms : typing.Optional[int]
-            Minimum silence duration for voice activity detection in milliseconds.
+            Minimum silence duration for voice activity detection in milliseconds. Deprecated. Stored on the agent but ignored at runtime. Use `turn_taking`, or send VAD settings in the conversation config instead.
 
         vad_threshold : typing.Optional[float]
-            Voice activity detection threshold.
+            Voice activity detection threshold. Deprecated. Stored on the agent but ignored at runtime. Use `turn_taking`, or send VAD settings in the conversation config instead.
 
         enable_redaction : typing.Optional[bool]
             When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE]`) and bleeped from audio recordings after the conversation ends.
@@ -1414,6 +1430,7 @@ class RawAgentsClient:
                     direction="write",
                 ),
                 "min_words_to_interrupt": min_words_to_interrupt,
+                "turn_taking": turn_taking,
                 "configuration_endpoint": convert_and_respect_annotation_metadata(
                     object_=configuration_endpoint,
                     annotation=typing.Optional[UpdateAgentRequestConfigurationEndpointParams],
@@ -1514,7 +1531,7 @@ class RawAgentsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[AgentsAddCustomPhoneNumberResponse]:
         """
-        Adds a custom phone number to an agent. The user must configure their SIP trunk to point to Phonic's SIP server.
+        Adds a bring-your-own phone number to an agent in the authenticated workspace and project. Use this to connect a phone number and SIP trunk the user is authorized to manage; it does not purchase a number or place a call. Stores the supplied SIP address and credentials for calls and transfers, and saves any configuration endpoint for calls on this number. The user must configure their SIP trunk to route inbound calls to Phonic. A configured endpoint receives requests during call setup; use only an endpoint the user intends Phonic to contact.
 
         Parameters
         ----------
@@ -2173,6 +2190,7 @@ class AsyncRawAgentsClient:
             typing.Sequence[CreateAgentRequestPronunciationDictionaryItemParams]
         ] = OMIT,
         min_words_to_interrupt: typing.Optional[int] = OMIT,
+        turn_taking: typing.Optional[CreateAgentRequestTurnTaking] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
@@ -2318,6 +2336,9 @@ class AsyncRawAgentsClient:
         min_words_to_interrupt : typing.Optional[int]
             Minimum number of words required to interrupt the assistant.
 
+        turn_taking : typing.Optional[CreateAgentRequestTurnTaking]
+            How long the agent waits after the user stops speaking before taking its turn. `"eager"` responds fastest; `"very_patient"` waits the longest.
+
         configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpointParams]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
@@ -2328,16 +2349,16 @@ class AsyncRawAgentsClient:
             E.164 formatted phone number where non-agent calls will be forwarded. Required when `inbound_rollout < 1.0`, must be `null` when `inbound_rollout = 1.0`. Defaults to `null`.
 
         vad_prebuffer_duration_ms : typing.Optional[int]
-            Voice activity detection prebuffer duration in milliseconds.
+            Voice activity detection prebuffer duration in milliseconds. Deprecated. Stored on the agent but ignored at runtime. Use `turn_taking`, or send VAD settings in the conversation config instead.
 
         vad_min_speech_duration_ms : typing.Optional[int]
-            Minimum speech duration for voice activity detection in milliseconds.
+            Minimum speech duration for voice activity detection in milliseconds. Deprecated. Stored on the agent but ignored at runtime. Use `turn_taking`, or send VAD settings in the conversation config instead.
 
         vad_min_silence_duration_ms : typing.Optional[int]
-            Minimum silence duration for voice activity detection in milliseconds.
+            Minimum silence duration for voice activity detection in milliseconds. Deprecated. Stored on the agent but ignored at runtime. Use `turn_taking`, or send VAD settings in the conversation config instead.
 
         vad_threshold : typing.Optional[float]
-            Voice activity detection threshold.
+            Voice activity detection threshold. Deprecated. Stored on the agent but ignored at runtime. Use `turn_taking`, or send VAD settings in the conversation config instead.
 
         enable_redaction : typing.Optional[bool]
             When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE]`) and bleeped from audio recordings after the conversation ends.
@@ -2431,6 +2452,7 @@ class AsyncRawAgentsClient:
                     direction="write",
                 ),
                 "min_words_to_interrupt": min_words_to_interrupt,
+                "turn_taking": turn_taking,
                 "configuration_endpoint": convert_and_respect_annotation_metadata(
                     object_=configuration_endpoint,
                     annotation=typing.Optional[CreateAgentRequestConfigurationEndpointParams],
@@ -2566,6 +2588,7 @@ class AsyncRawAgentsClient:
             typing.Sequence[CreateAgentRequestPronunciationDictionaryItemParams]
         ] = OMIT,
         min_words_to_interrupt: typing.Optional[int] = OMIT,
+        turn_taking: typing.Optional[CreateAgentRequestTurnTaking] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
@@ -2717,6 +2740,9 @@ class AsyncRawAgentsClient:
         min_words_to_interrupt : typing.Optional[int]
             Minimum number of words required to interrupt the assistant.
 
+        turn_taking : typing.Optional[CreateAgentRequestTurnTaking]
+            How long the agent waits after the user stops speaking before taking its turn. `"eager"` responds fastest; `"very_patient"` waits the longest.
+
         configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpointParams]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
@@ -2727,16 +2753,16 @@ class AsyncRawAgentsClient:
             E.164 formatted phone number where non-agent calls will be forwarded. Required when `inbound_rollout < 1.0`, must be `null` when `inbound_rollout = 1.0`. Defaults to `null`.
 
         vad_prebuffer_duration_ms : typing.Optional[int]
-            Voice activity detection prebuffer duration in milliseconds.
+            Voice activity detection prebuffer duration in milliseconds. Deprecated. Stored on the agent but ignored at runtime. Use `turn_taking`, or send VAD settings in the conversation config instead.
 
         vad_min_speech_duration_ms : typing.Optional[int]
-            Minimum speech duration for voice activity detection in milliseconds.
+            Minimum speech duration for voice activity detection in milliseconds. Deprecated. Stored on the agent but ignored at runtime. Use `turn_taking`, or send VAD settings in the conversation config instead.
 
         vad_min_silence_duration_ms : typing.Optional[int]
-            Minimum silence duration for voice activity detection in milliseconds.
+            Minimum silence duration for voice activity detection in milliseconds. Deprecated. Stored on the agent but ignored at runtime. Use `turn_taking`, or send VAD settings in the conversation config instead.
 
         vad_threshold : typing.Optional[float]
-            Voice activity detection threshold.
+            Voice activity detection threshold. Deprecated. Stored on the agent but ignored at runtime. Use `turn_taking`, or send VAD settings in the conversation config instead.
 
         enable_redaction : typing.Optional[bool]
             When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE]`) and bleeped from audio recordings after the conversation ends.
@@ -2836,6 +2862,7 @@ class AsyncRawAgentsClient:
                     direction="write",
                 ),
                 "min_words_to_interrupt": min_words_to_interrupt,
+                "turn_taking": turn_taking,
                 "configuration_endpoint": convert_and_respect_annotation_metadata(
                     object_=configuration_endpoint,
                     annotation=typing.Optional[CreateAgentRequestConfigurationEndpointParams],
@@ -3114,6 +3141,7 @@ class AsyncRawAgentsClient:
             typing.Sequence[UpdateAgentRequestPronunciationDictionaryItemParams]
         ] = OMIT,
         min_words_to_interrupt: typing.Optional[int] = OMIT,
+        turn_taking: typing.Optional[UpdateAgentRequestTurnTaking] = OMIT,
         configuration_endpoint: typing.Optional[UpdateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
@@ -3271,6 +3299,9 @@ class AsyncRawAgentsClient:
         min_words_to_interrupt : typing.Optional[int]
             Minimum number of words required to interrupt the assistant.
 
+        turn_taking : typing.Optional[UpdateAgentRequestTurnTaking]
+            How long the agent waits after the user stops speaking before taking its turn. `"eager"` responds fastest; `"very_patient"` waits the longest.
+
         configuration_endpoint : typing.Optional[UpdateAgentRequestConfigurationEndpointParams]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
@@ -3281,16 +3312,16 @@ class AsyncRawAgentsClient:
             E.164 formatted phone number where non-agent calls will be forwarded. Required when `inbound_rollout < 1.0`, must be `null` when `inbound_rollout = 1.0`.
 
         vad_prebuffer_duration_ms : typing.Optional[int]
-            Voice activity detection prebuffer duration in milliseconds.
+            Voice activity detection prebuffer duration in milliseconds. Deprecated. Stored on the agent but ignored at runtime. Use `turn_taking`, or send VAD settings in the conversation config instead.
 
         vad_min_speech_duration_ms : typing.Optional[int]
-            Minimum speech duration for voice activity detection in milliseconds.
+            Minimum speech duration for voice activity detection in milliseconds. Deprecated. Stored on the agent but ignored at runtime. Use `turn_taking`, or send VAD settings in the conversation config instead.
 
         vad_min_silence_duration_ms : typing.Optional[int]
-            Minimum silence duration for voice activity detection in milliseconds.
+            Minimum silence duration for voice activity detection in milliseconds. Deprecated. Stored on the agent but ignored at runtime. Use `turn_taking`, or send VAD settings in the conversation config instead.
 
         vad_threshold : typing.Optional[float]
-            Voice activity detection threshold.
+            Voice activity detection threshold. Deprecated. Stored on the agent but ignored at runtime. Use `turn_taking`, or send VAD settings in the conversation config instead.
 
         enable_redaction : typing.Optional[bool]
             When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE]`) and bleeped from audio recordings after the conversation ends.
@@ -3393,6 +3424,7 @@ class AsyncRawAgentsClient:
                     direction="write",
                 ),
                 "min_words_to_interrupt": min_words_to_interrupt,
+                "turn_taking": turn_taking,
                 "configuration_endpoint": convert_and_respect_annotation_metadata(
                     object_=configuration_endpoint,
                     annotation=typing.Optional[UpdateAgentRequestConfigurationEndpointParams],
@@ -3493,7 +3525,7 @@ class AsyncRawAgentsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[AgentsAddCustomPhoneNumberResponse]:
         """
-        Adds a custom phone number to an agent. The user must configure their SIP trunk to point to Phonic's SIP server.
+        Adds a bring-your-own phone number to an agent in the authenticated workspace and project. Use this to connect a phone number and SIP trunk the user is authorized to manage; it does not purchase a number or place a call. Stores the supplied SIP address and credentials for calls and transfers, and saves any configuration endpoint for calls on this number. The user must configure their SIP trunk to route inbound calls to Phonic. A configured endpoint receives requests during call setup; use only an endpoint the user intends Phonic to contact.
 
         Parameters
         ----------

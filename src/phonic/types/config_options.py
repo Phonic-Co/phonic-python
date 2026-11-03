@@ -17,6 +17,7 @@ from .config_options_output_format import ConfigOptionsOutputFormat
 from .config_options_phonic_model import ConfigOptionsPhonicModel
 from .config_options_pronunciation_dictionary_item import ConfigOptionsPronunciationDictionaryItem
 from .config_options_tasks_item import ConfigOptionsTasksItem
+from .config_options_turn_taking import ConfigOptionsTurnTaking
 from .tool_definition import ToolDefinition
 
 
@@ -102,27 +103,32 @@ class ConfigOptions(UncheckedBaseModel):
 
     vad_prebuffer_duration_ms: typing.Optional[int] = pydantic.Field(default=None)
     """
-    Voice activity detection prebuffer duration
+    Voice activity detection prebuffer duration. Only applied when sent in the config; there is no default.
     """
 
     vad_min_speech_duration_ms: typing.Optional[int] = pydantic.Field(default=None)
     """
-    Minimum speech duration for VAD
+    Minimum speech duration for VAD. Only applied when sent in the config; there is no default.
     """
 
     vad_min_silence_duration_ms: typing.Optional[int] = pydantic.Field(default=None)
     """
-    Minimum silence duration for VAD
+    Minimum silence duration for VAD. Only applied when sent in the config; there is no default.
     """
 
     vad_threshold: typing.Optional[float] = pydantic.Field(default=None)
     """
-    Voice activity detection threshold
+    Voice activity detection threshold. Only applied when sent in the config; there is no default.
     """
 
     min_words_to_interrupt: typing.Optional[int] = pydantic.Field(default=None)
     """
     Minimum number of words required to interrupt the assistant.
+    """
+
+    turn_taking: typing.Optional[ConfigOptionsTurnTaking] = pydantic.Field(default=None)
+    """
+    How long the agent waits after the user stops speaking before taking its turn. `"eager"` responds fastest; `"very_patient"` waits the longest. Defaults to the agent's `turn_taking`, or `"standard"`.
     """
 
     generate_no_input_poke_text: typing.Optional[bool] = pydantic.Field(default=None)

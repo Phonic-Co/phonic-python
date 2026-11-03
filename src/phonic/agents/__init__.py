@@ -34,6 +34,7 @@ if typing.TYPE_CHECKING:
         UpdateAgentRequestPronunciationDictionaryItem,
         UpdateAgentRequestTemplateVariablesValue,
         UpdateAgentRequestToolsItem,
+        UpdateAgentRequestTurnTaking,
     )
     from .requests import (
         AgentsAddCustomPhoneNumberRequestConfigurationEndpointParams,
@@ -105,6 +106,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "UpdateAgentRequestTemplateVariablesValueParams": ".requests",
     "UpdateAgentRequestToolsItem": ".types",
     "UpdateAgentRequestToolsItemParams": ".requests",
+    "UpdateAgentRequestTurnTaking": ".types",
 }
 
 
@@ -177,4 +179,5 @@ __all__ = [
     "UpdateAgentRequestTemplateVariablesValueParams",
     "UpdateAgentRequestToolsItem",
     "UpdateAgentRequestToolsItemParams",
+    "UpdateAgentRequestTurnTaking",
 ]

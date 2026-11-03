@@ -17,6 +17,7 @@ from .agent_project import AgentProject
 from .agent_pronunciation_dictionary_item import AgentPronunciationDictionaryItem
 from .agent_template_variables_value import AgentTemplateVariablesValue
 from .agent_tools_item import AgentToolsItem
+from .agent_turn_taking import AgentTurnTaking
 from .built_in_tool_configs import BuiltInToolConfigs
 from .data_retention_policy import DataRetentionPolicy
 from .language_code import LanguageCode
@@ -226,6 +227,11 @@ class Agent(UncheckedBaseModel):
     Minimum number of words required to interrupt the assistant.
     """
 
+    turn_taking: AgentTurnTaking = pydantic.Field()
+    """
+    How long the agent waits after the user stops speaking before taking its turn. `"eager"` responds fastest; `"very_patient"` waits the longest.
+    """
+
     configuration_endpoint: typing.Optional[AgentConfigurationEndpoint] = pydantic.Field(default=None)
     """
     When not `null`, the agent will call this endpoint to get configuration options.
@@ -239,26 +245,6 @@ class Agent(UncheckedBaseModel):
     inbound_rollout_forward_phone_number: typing.Optional[str] = pydantic.Field(default=None)
     """
     E.164 formatted phone number where non-agent calls will be forwarded. Required when `inbound_rollout < 1.0`, must be `null` when `inbound_rollout = 1.0`.
-    """
-
-    vad_prebuffer_duration_ms: typing.Optional[int] = pydantic.Field(default=None)
-    """
-    Voice activity detection prebuffer duration in milliseconds.
-    """
-
-    vad_min_speech_duration_ms: typing.Optional[int] = pydantic.Field(default=None)
-    """
-    Minimum speech duration for voice activity detection in milliseconds.
-    """
-
-    vad_min_silence_duration_ms: typing.Optional[int] = pydantic.Field(default=None)
-    """
-    Minimum silence duration for voice activity detection in milliseconds.
-    """
-
-    vad_threshold: typing.Optional[float] = pydantic.Field(default=None)
-    """
-    Voice activity detection threshold.
     """
 
     enable_redaction: typing.Optional[bool] = pydantic.Field(default=None)

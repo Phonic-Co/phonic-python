@@ -20,6 +20,7 @@ from .conversation_origin import ConversationOrigin
 from .conversation_phonic_model import ConversationPhonicModel
 from .conversation_project import ConversationProject
 from .conversation_pronunciation_dictionary_item import ConversationPronunciationDictionaryItem
+from .conversation_turn_taking import ConversationTurnTaking
 from .data_retention_policy import DataRetentionPolicy
 from .language_code import LanguageCode
 
@@ -248,6 +249,11 @@ class Conversation(UncheckedBaseModel):
     vad_threshold: typing.Optional[float] = pydantic.Field(default=None)
     """
     Voice activity detection threshold. `null` when not applicable or unknown.
+    """
+
+    turn_taking: ConversationTurnTaking = pydantic.Field()
+    """
+    How long the agent waits after the user stops speaking before taking its turn. `"eager"` responds fastest; `"very_patient"` waits the longest.
     """
 
     task_results: typing.Dict[str, typing.Any] = pydantic.Field()

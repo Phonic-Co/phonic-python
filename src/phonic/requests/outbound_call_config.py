@@ -7,6 +7,7 @@ from ..types.language_code import LanguageCode
 from ..types.outbound_call_config_background_noise import OutboundCallConfigBackgroundNoise
 from ..types.outbound_call_config_intelligence_level import OutboundCallConfigIntelligenceLevel
 from ..types.outbound_call_config_multilingual_mode import OutboundCallConfigMultilingualMode
+from ..types.outbound_call_config_turn_taking import OutboundCallConfigTurnTaking
 from .data_retention_policy import DataRetentionPolicyParams
 from .outbound_call_config_configuration_endpoint import OutboundCallConfigConfigurationEndpointParams
 from .outbound_call_config_model import OutboundCallConfigModelParams
@@ -137,6 +138,11 @@ class OutboundCallConfigParams(typing_extensions.TypedDict):
     min_words_to_interrupt: typing_extensions.NotRequired[int]
     """
     Minimum number of words required to interrupt the assistant.
+    """
+
+    turn_taking: typing_extensions.NotRequired[OutboundCallConfigTurnTaking]
+    """
+    How long the agent waits after the user stops speaking before taking its turn. `"eager"` responds fastest; `"very_patient"` waits the longest. Defaults to the agent's `turn_taking`, or `"standard"`.
     """
 
     tools: typing_extensions.NotRequired[typing.Sequence[OutboundCallConfigToolsItemParams]]

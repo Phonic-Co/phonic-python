@@ -17,6 +17,7 @@ from .create_agent_request_phonic_model import CreateAgentRequestPhonicModel
 from .create_agent_request_pronunciation_dictionary_item import CreateAgentRequestPronunciationDictionaryItem
 from .create_agent_request_template_variables_value import CreateAgentRequestTemplateVariablesValue
 from .create_agent_request_tools_item import CreateAgentRequestToolsItem
+from .create_agent_request_turn_taking import CreateAgentRequestTurnTaking
 from .data_retention_policy import DataRetentionPolicy
 from .language_code import LanguageCode
 from .task import Task
@@ -232,6 +233,11 @@ class CreateAgentRequest(UncheckedBaseModel):
     Minimum number of words required to interrupt the assistant.
     """
 
+    turn_taking: typing.Optional[CreateAgentRequestTurnTaking] = pydantic.Field(default=None)
+    """
+    How long the agent waits after the user stops speaking before taking its turn. `"eager"` responds fastest; `"very_patient"` waits the longest.
+    """
+
     configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpoint] = pydantic.Field(default=None)
     """
     When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
@@ -249,22 +255,22 @@ class CreateAgentRequest(UncheckedBaseModel):
 
     vad_prebuffer_duration_ms: typing.Optional[int] = pydantic.Field(default=None)
     """
-    Voice activity detection prebuffer duration in milliseconds.
+    Voice activity detection prebuffer duration in milliseconds. Deprecated. Stored on the agent but ignored at runtime. Use `turn_taking`, or send VAD settings in the conversation config instead.
     """
 
     vad_min_speech_duration_ms: typing.Optional[int] = pydantic.Field(default=None)
     """
-    Minimum speech duration for voice activity detection in milliseconds.
+    Minimum speech duration for voice activity detection in milliseconds. Deprecated. Stored on the agent but ignored at runtime. Use `turn_taking`, or send VAD settings in the conversation config instead.
     """
 
     vad_min_silence_duration_ms: typing.Optional[int] = pydantic.Field(default=None)
     """
-    Minimum silence duration for voice activity detection in milliseconds.
+    Minimum silence duration for voice activity detection in milliseconds. Deprecated. Stored on the agent but ignored at runtime. Use `turn_taking`, or send VAD settings in the conversation config instead.
     """
 
     vad_threshold: typing.Optional[float] = pydantic.Field(default=None)
     """
-    Voice activity detection threshold.
+    Voice activity detection threshold. Deprecated. Stored on the agent but ignored at runtime. Use `turn_taking`, or send VAD settings in the conversation config instead.
     """
 
     enable_redaction: typing.Optional[bool] = pydantic.Field(default=None)
