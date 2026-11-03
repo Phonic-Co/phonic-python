@@ -84,6 +84,7 @@ client.agents.create(
         )
     ],
     min_words_to_interrupt=1,
+    turn_taking="standard",
     configuration_endpoint=CreateAgentRequestConfigurationEndpoint(
         url="https://api.example.com/config",
         headers={
@@ -152,6 +153,7 @@ async def main() -> None:
             )
         ],
         min_words_to_interrupt=1,
+        turn_taking="standard",
         configuration_endpoint=CreateAgentRequestConfigurationEndpoint(
             url="https://api.example.com/config",
             headers={

@@ -7,6 +7,7 @@ from ..types.agent_audio_format import AgentAudioFormat
 from ..types.agent_background_noise import AgentBackgroundNoise
 from ..types.agent_intelligence_level import AgentIntelligenceLevel
 from ..types.agent_multilingual_mode import AgentMultilingualMode
+from ..types.agent_turn_taking import AgentTurnTaking
 from ..types.language_code import LanguageCode
 from .agent_configuration_endpoint import AgentConfigurationEndpointParams
 from .agent_integration import AgentIntegrationParams
@@ -222,6 +223,11 @@ class AgentParams(typing_extensions.TypedDict):
     Minimum number of words required to interrupt the assistant.
     """
 
+    turn_taking: AgentTurnTaking
+    """
+    How long the agent waits after the user stops speaking before taking its turn. `"eager"` responds fastest; `"very_patient"` waits the longest.
+    """
+
     configuration_endpoint: typing.Optional[AgentConfigurationEndpointParams]
     """
     When not `null`, the agent will call this endpoint to get configuration options.
@@ -235,26 +241,6 @@ class AgentParams(typing_extensions.TypedDict):
     inbound_rollout_forward_phone_number: typing_extensions.NotRequired[typing.Optional[str]]
     """
     E.164 formatted phone number where non-agent calls will be forwarded. Required when `inbound_rollout < 1.0`, must be `null` when `inbound_rollout = 1.0`.
-    """
-
-    vad_prebuffer_duration_ms: typing_extensions.NotRequired[int]
-    """
-    Voice activity detection prebuffer duration in milliseconds.
-    """
-
-    vad_min_speech_duration_ms: typing_extensions.NotRequired[int]
-    """
-    Minimum speech duration for voice activity detection in milliseconds.
-    """
-
-    vad_min_silence_duration_ms: typing_extensions.NotRequired[int]
-    """
-    Minimum silence duration for voice activity detection in milliseconds.
-    """
-
-    vad_threshold: typing_extensions.NotRequired[float]
-    """
-    Voice activity detection threshold.
     """
 
     enable_redaction: typing_extensions.NotRequired[bool]

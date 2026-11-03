@@ -149,6 +149,7 @@ client.agents.create(
         )
     ],
     min_words_to_interrupt=1,
+    turn_taking="standard",
     configuration_endpoint=CreateAgentRequestConfigurationEndpoint(
         url="https://api.example.com/config",
         headers={
@@ -278,6 +279,7 @@ client.agents.upsert(
         )
     ],
     min_words_to_interrupt=1,
+    turn_taking="standard",
     configuration_endpoint=CreateAgentRequestConfigurationEndpoint(
         url="https://api.example.com/config",
         headers={
@@ -637,6 +639,14 @@ client.agents.upsert(
 <dl>
 <dd>
 
+**turn_taking:** `typing.Optional[CreateAgentRequestTurnTaking]` — How long the agent waits after the user stops speaking before taking its turn. `"eager"` responds fastest; `"very_patient"` waits the longest.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **configuration_endpoint:** `typing.Optional[CreateAgentRequestConfigurationEndpoint]` — When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
     
 </dd>
@@ -661,7 +671,7 @@ client.agents.upsert(
 <dl>
 <dd>
 
-**vad_prebuffer_duration_ms:** `typing.Optional[int]` — Voice activity detection prebuffer duration in milliseconds.
+**vad_prebuffer_duration_ms:** `typing.Optional[int]` — Voice activity detection prebuffer duration in milliseconds. Deprecated. Stored on the agent but ignored at runtime. Use `turn_taking`, or send VAD settings in the conversation config instead.
     
 </dd>
 </dl>
@@ -669,7 +679,7 @@ client.agents.upsert(
 <dl>
 <dd>
 
-**vad_min_speech_duration_ms:** `typing.Optional[int]` — Minimum speech duration for voice activity detection in milliseconds.
+**vad_min_speech_duration_ms:** `typing.Optional[int]` — Minimum speech duration for voice activity detection in milliseconds. Deprecated. Stored on the agent but ignored at runtime. Use `turn_taking`, or send VAD settings in the conversation config instead.
     
 </dd>
 </dl>
@@ -677,7 +687,7 @@ client.agents.upsert(
 <dl>
 <dd>
 
-**vad_min_silence_duration_ms:** `typing.Optional[int]` — Minimum silence duration for voice activity detection in milliseconds.
+**vad_min_silence_duration_ms:** `typing.Optional[int]` — Minimum silence duration for voice activity detection in milliseconds. Deprecated. Stored on the agent but ignored at runtime. Use `turn_taking`, or send VAD settings in the conversation config instead.
     
 </dd>
 </dl>
@@ -685,7 +695,7 @@ client.agents.upsert(
 <dl>
 <dd>
 
-**vad_threshold:** `typing.Optional[float]` — Voice activity detection threshold.
+**vad_threshold:** `typing.Optional[float]` — Voice activity detection threshold. Deprecated. Stored on the agent but ignored at runtime. Use `turn_taking`, or send VAD settings in the conversation config instead.
     
 </dd>
 </dl>
@@ -1005,6 +1015,7 @@ client.agents.update(
         )
     ],
     min_words_to_interrupt=1,
+    turn_taking="standard",
     configuration_endpoint=UpdateAgentRequestConfigurationEndpoint(
         url="https://api.example.com/config",
         headers={
@@ -1396,6 +1407,14 @@ client.agents.update(
 <dl>
 <dd>
 
+**turn_taking:** `typing.Optional[UpdateAgentRequestTurnTaking]` — How long the agent waits after the user stops speaking before taking its turn. `"eager"` responds fastest; `"very_patient"` waits the longest.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **configuration_endpoint:** `typing.Optional[UpdateAgentRequestConfigurationEndpoint]` — When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
     
 </dd>
@@ -1420,7 +1439,7 @@ client.agents.update(
 <dl>
 <dd>
 
-**vad_prebuffer_duration_ms:** `typing.Optional[int]` — Voice activity detection prebuffer duration in milliseconds.
+**vad_prebuffer_duration_ms:** `typing.Optional[int]` — Voice activity detection prebuffer duration in milliseconds. Deprecated. Stored on the agent but ignored at runtime. Use `turn_taking`, or send VAD settings in the conversation config instead.
     
 </dd>
 </dl>
@@ -1428,7 +1447,7 @@ client.agents.update(
 <dl>
 <dd>
 
-**vad_min_speech_duration_ms:** `typing.Optional[int]` — Minimum speech duration for voice activity detection in milliseconds.
+**vad_min_speech_duration_ms:** `typing.Optional[int]` — Minimum speech duration for voice activity detection in milliseconds. Deprecated. Stored on the agent but ignored at runtime. Use `turn_taking`, or send VAD settings in the conversation config instead.
     
 </dd>
 </dl>
@@ -1436,7 +1455,7 @@ client.agents.update(
 <dl>
 <dd>
 
-**vad_min_silence_duration_ms:** `typing.Optional[int]` — Minimum silence duration for voice activity detection in milliseconds.
+**vad_min_silence_duration_ms:** `typing.Optional[int]` — Minimum silence duration for voice activity detection in milliseconds. Deprecated. Stored on the agent but ignored at runtime. Use `turn_taking`, or send VAD settings in the conversation config instead.
     
 </dd>
 </dl>
@@ -1444,7 +1463,7 @@ client.agents.update(
 <dl>
 <dd>
 
-**vad_threshold:** `typing.Optional[float]` — Voice activity detection threshold.
+**vad_threshold:** `typing.Optional[float]` — Voice activity detection threshold. Deprecated. Stored on the agent but ignored at runtime. Use `turn_taking`, or send VAD settings in the conversation config instead.
     
 </dd>
 </dl>
@@ -1516,7 +1535,7 @@ client.agents.update(
 <dl>
 <dd>
 
-Adds a custom phone number to an agent. The user must configure their SIP trunk to point to Phonic's SIP server.
+Adds a bring-your-own phone number to an agent in the authenticated workspace and project. Use this to connect a phone number and SIP trunk the user is authorized to manage; it does not purchase a number or place a call. Stores the supplied SIP address and credentials for calls and transfers, and saves any configuration endpoint for calls on this number. The user must configure their SIP trunk to route inbound calls to Phonic. A configured endpoint receives requests during call setup; use only an endpoint the user intends Phonic to contact.
 </dd>
 </dl>
 </dd>
@@ -2950,6 +2969,447 @@ Every key must name a top-level parameter. For POST webhooks, every parameter ne
 </dl>
 </details>
 
+## McpServers
+<details><summary><code>client.mcp_servers.<a href="src/phonic/mcp_servers/client.py">list</a>(...) -> McpServersListResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Returns all MCP servers in a project.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from phonic import Phonic
+from phonic.environment import PhonicEnvironment
+
+client = Phonic(
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
+)
+
+client.mcp_servers.list(
+    project="main",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**project:** `typing.Optional[str]` — The name of the project to list MCP servers for.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.mcp_servers.<a href="src/phonic/mcp_servers/client.py">create</a>(...) -> McpServersCreateResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Creates an MCP server in the authenticated workspace and project. Phonic connects to the server, lists its tools and saves them alongside the server, so the server must be reachable from Phonic's network. The supplied headers are sent on every request Phonic makes to the server; their values are stored encrypted and never returned. Creating the server does not attach it to an agent; add its ID to an agent's `mcp_server_ids` to make its tools available.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from phonic import Phonic
+from phonic.environment import PhonicEnvironment
+
+client = Phonic(
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
+)
+
+client.mcp_servers.create(
+    project="main",
+    name="crm_server",
+    url="https://mcp.example.com/mcp",
+    headers={
+        "Authorization": "Bearer token123"
+    },
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**name:** `str` — The name of the MCP server. Must be snake_case, start with a lowercase letter and be unique within the project.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**url:** `str` — The URL of the MCP server. Must be a publicly routable HTTPS URL without embedded credentials. Cannot be changed after creation.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**project:** `typing.Optional[str]` — The name of the project to create the MCP server in.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**headers:** `typing.Optional[typing.Dict[str, str]]` — Headers sent on every request to the MCP server (e.g. for authentication). Header names must be unique (case-insensitive) and values cannot contain line breaks. Values are stored encrypted and never returned.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.mcp_servers.<a href="src/phonic/mcp_servers/client.py">get</a>(...) -> McpServersGetResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Returns an MCP server by name or ID.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from phonic import Phonic
+from phonic.environment import PhonicEnvironment
+
+client = Phonic(
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
+)
+
+client.mcp_servers.get(
+    name_or_id="nameOrId",
+    project="main",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**name_or_id:** `str` — The name or the ID of the MCP server to get.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**project:** `typing.Optional[str]` — The name of the project containing the MCP server. Only used when `nameOrId` is a name.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.mcp_servers.<a href="src/phonic/mcp_servers/client.py">delete</a>(...) -> McpServersDeleteResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Deletes an MCP server by name or ID and removes it from every agent's `mcp_server_ids`.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from phonic import Phonic
+from phonic.environment import PhonicEnvironment
+
+client = Phonic(
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
+)
+
+client.mcp_servers.delete(
+    name_or_id="nameOrId",
+    project="main",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**name_or_id:** `str` — The name or the ID of the MCP server to delete.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**project:** `typing.Optional[str]` — The name of the project containing the MCP server. Only used when `nameOrId` is a name.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.mcp_servers.<a href="src/phonic/mcp_servers/client.py">update</a>(...) -> McpServersUpdateResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Updates the name and/or headers of an existing MCP server by name or ID. Providing `headers` replaces all existing headers. The URL cannot be changed; delete and re-create the server instead.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from phonic import Phonic
+from phonic.environment import PhonicEnvironment
+
+client = Phonic(
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
+)
+
+client.mcp_servers.update(
+    name_or_id="nameOrId",
+    project="main",
+    headers={
+        "Authorization": "Bearer new_token456"
+    },
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**name_or_id:** `str` — The name or the ID of the MCP server to update.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**project:** `typing.Optional[str]` — The name of the project containing the MCP server. Only used when `nameOrId` is a name.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**name:** `typing.Optional[str]` — The name of the MCP server. Must be snake_case, start with a lowercase letter and be unique within the project.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**headers:** `typing.Optional[typing.Dict[str, str]]` — Headers sent on every request to the MCP server. Replaces all existing headers. Header names must be unique (case-insensitive) and values cannot contain line breaks.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 ## ExternalStoragePolicies
 <details><summary><code>client.external_storage_policies.<a href="src/phonic/external_storage_policies/client.py">list</a>(...) -> ExternalStoragePoliciesListResponse</code></summary>
 <dl>
@@ -3036,7 +3496,7 @@ client.external_storage_policies.list(
 <dl>
 <dd>
 
-Creates a new external storage policy in a project. Agents referencing the policy deliver their conversation artifacts to the configured S3-compatible bucket.
+Creates a named external storage policy in the authenticated workspace and project, storing the supplied S3-compatible destination and credentials for later artifact delivery. Use this when the user wants agents to export conversation artifacts to a bucket they are authorized to use. Agents referencing this policy send conversation artifacts, which may contain personal data, to that external destination. Creating the policy does not attach it to an agent or export existing conversations.
 </dd>
 </dl>
 </dd>
@@ -3345,7 +3805,7 @@ client.external_storage_policies.delete(
 <dl>
 <dd>
 
-Updates an external storage policy by name or ID. Credentials can only be rotated by providing both `access_key_id` and `secret_access_key`.
+Updates the supplied fields of an existing external storage policy by name or ID in the authenticated workspace and project. Use this to change the artifact destination or rotate its credentials. Changes affect subsequent artifact delivery for agents referencing the policy; changing the endpoint or bucket can send conversation artifacts, which may contain personal data, to a different external destination. Confirm the intended destination before updating. Rotate credentials by providing both `access_key_id` and `secret_access_key`. This operation does not move or delete artifacts already delivered.
 </dd>
 </dl>
 </dd>
@@ -5552,6 +6012,7 @@ client.conversations.outbound_call(
             )
         ],
         min_words_to_interrupt=1,
+        turn_taking="standard",
         tools=[
             "keypad_input"
         ],
@@ -5621,7 +6082,7 @@ client.conversations.outbound_call(
 <dl>
 <dd>
 
-Initiates a SIP outbound call using user-supplied SIP credentials in headers.
+Places an outbound voice-agent phone call through the user's SIP trunk using the supplied SIP credentials, caller ID, destination phone number, and conversation configuration. Use only when the user requests a call to that recipient and is authorized to use the trunk and caller ID. With `dry_run` omitted or false, this contacts the recipient and may incur telephony charges; repeating a successful request may place another call. Set `dry_run` to true to validate setup without placing a call. A dry run does not verify that the recipient can be reached or test call audio.
 </dd>
 </dl>
 </dd>

@@ -19,6 +19,7 @@ if typing.TYPE_CHECKING:
     from .conversations.client import AsyncConversationsClient, ConversationsClient
     from .external_storage_policies.client import AsyncExternalStoragePoliciesClient, ExternalStoragePoliciesClient
     from .extraction_schemas.client import AsyncExtractionSchemasClient, ExtractionSchemasClient
+    from .mcp_servers.client import AsyncMcpServersClient, McpServersClient
     from .projects.client import AsyncProjectsClient, ProjectsClient
     from .responses.client import AsyncResponsesClient, ResponsesClient
     from .tools.client import AsyncToolsClient, ToolsClient
@@ -115,6 +116,7 @@ class Phonic:
         self._responses: typing.Optional[ResponsesClient] = None
         self._workspace: typing.Optional[WorkspaceClient] = None
         self._external_storage_policies: typing.Optional[ExternalStoragePoliciesClient] = None
+        self._mcp_servers: typing.Optional[McpServersClient] = None
 
     @property
     def agents(self):
@@ -220,6 +222,14 @@ class Phonic:
             self._external_storage_policies = ExternalStoragePoliciesClient(client_wrapper=self._client_wrapper)
         return self._external_storage_policies
 
+    @property
+    def mcp_servers(self):
+        if self._mcp_servers is None:
+            from .mcp_servers.client import McpServersClient  # noqa: E402
+
+            self._mcp_servers = McpServersClient(client_wrapper=self._client_wrapper)
+        return self._mcp_servers
+
 
 class AsyncPhonic:
     """
@@ -309,6 +319,7 @@ class AsyncPhonic:
         self._responses: typing.Optional[AsyncResponsesClient] = None
         self._workspace: typing.Optional[AsyncWorkspaceClient] = None
         self._external_storage_policies: typing.Optional[AsyncExternalStoragePoliciesClient] = None
+        self._mcp_servers: typing.Optional[AsyncMcpServersClient] = None
 
     @property
     def agents(self):
@@ -413,3 +424,11 @@ class AsyncPhonic:
 
             self._external_storage_policies = AsyncExternalStoragePoliciesClient(client_wrapper=self._client_wrapper)
         return self._external_storage_policies
+
+    @property
+    def mcp_servers(self):
+        if self._mcp_servers is None:
+            from .mcp_servers.client import AsyncMcpServersClient  # noqa: E402
+
+            self._mcp_servers = AsyncMcpServersClient(client_wrapper=self._client_wrapper)
+        return self._mcp_servers

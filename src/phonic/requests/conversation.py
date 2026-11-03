@@ -9,6 +9,7 @@ from ..types.conversation_ended_by import ConversationEndedBy
 from ..types.conversation_intelligence_level import ConversationIntelligenceLevel
 from ..types.conversation_multilingual_mode import ConversationMultilingualMode
 from ..types.conversation_origin import ConversationOrigin
+from ..types.conversation_turn_taking import ConversationTurnTaking
 from ..types.language_code import LanguageCode
 from .conversation_agent import ConversationAgentParams
 from .conversation_analysis import ConversationAnalysisParams
@@ -246,6 +247,11 @@ class ConversationParams(typing_extensions.TypedDict):
     vad_threshold: typing_extensions.NotRequired[typing.Optional[float]]
     """
     Voice activity detection threshold. `null` when not applicable or unknown.
+    """
+
+    turn_taking: ConversationTurnTaking
+    """
+    How long the agent waits after the user stops speaking before taking its turn. `"eager"` responds fastest; `"very_patient"` waits the longest.
     """
 
     task_results: typing.Dict[str, typing.Any]

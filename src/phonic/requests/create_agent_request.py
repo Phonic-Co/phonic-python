@@ -8,6 +8,7 @@ from ..types.create_agent_request_background_noise import CreateAgentRequestBack
 from ..types.create_agent_request_intelligence_level import CreateAgentRequestIntelligenceLevel
 from ..types.create_agent_request_multilingual_mode import CreateAgentRequestMultilingualMode
 from ..types.create_agent_request_phone_number import CreateAgentRequestPhoneNumber
+from ..types.create_agent_request_turn_taking import CreateAgentRequestTurnTaking
 from ..types.language_code import LanguageCode
 from .built_in_tool_configs import BuiltInToolConfigsParams
 from .create_agent_request_configuration_endpoint import CreateAgentRequestConfigurationEndpointParams
@@ -228,6 +229,11 @@ class CreateAgentRequestParams(typing_extensions.TypedDict):
     Minimum number of words required to interrupt the assistant.
     """
 
+    turn_taking: typing_extensions.NotRequired[CreateAgentRequestTurnTaking]
+    """
+    How long the agent waits after the user stops speaking before taking its turn. `"eager"` responds fastest; `"very_patient"` waits the longest.
+    """
+
     configuration_endpoint: typing_extensions.NotRequired[
         typing.Optional[CreateAgentRequestConfigurationEndpointParams]
     ]
@@ -247,22 +253,22 @@ class CreateAgentRequestParams(typing_extensions.TypedDict):
 
     vad_prebuffer_duration_ms: typing_extensions.NotRequired[int]
     """
-    Voice activity detection prebuffer duration in milliseconds.
+    Voice activity detection prebuffer duration in milliseconds. Deprecated. Stored on the agent but ignored at runtime. Use `turn_taking`, or send VAD settings in the conversation config instead.
     """
 
     vad_min_speech_duration_ms: typing_extensions.NotRequired[int]
     """
-    Minimum speech duration for voice activity detection in milliseconds.
+    Minimum speech duration for voice activity detection in milliseconds. Deprecated. Stored on the agent but ignored at runtime. Use `turn_taking`, or send VAD settings in the conversation config instead.
     """
 
     vad_min_silence_duration_ms: typing_extensions.NotRequired[int]
     """
-    Minimum silence duration for voice activity detection in milliseconds.
+    Minimum silence duration for voice activity detection in milliseconds. Deprecated. Stored on the agent but ignored at runtime. Use `turn_taking`, or send VAD settings in the conversation config instead.
     """
 
     vad_threshold: typing_extensions.NotRequired[float]
     """
-    Voice activity detection threshold.
+    Voice activity detection threshold. Deprecated. Stored on the agent but ignored at runtime. Use `turn_taking`, or send VAD settings in the conversation config instead.
     """
 
     enable_redaction: typing_extensions.NotRequired[bool]

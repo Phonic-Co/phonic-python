@@ -109,6 +109,10 @@ if typing.TYPE_CHECKING:
     from .input_cancelled_payload import InputCancelledPayloadParams
     from .input_text_payload import InputTextPayloadParams
     from .interrupted_response_payload import InterruptedResponsePayloadParams
+    from .mcp_server import McpServerParams
+    from .mcp_server_project import McpServerProjectParams
+    from .mcp_server_tool import McpServerToolParams
+    from .mcp_server_tool_parameters import McpServerToolParametersParams
     from .mute_payload import MutePayloadParams
     from .open_ai_function import OpenAiFunctionParams
     from .open_ai_tool import OpenAiToolParams
@@ -279,6 +283,10 @@ _dynamic_imports: typing.Dict[str, str] = {
     "InputCancelledPayloadParams": ".input_cancelled_payload",
     "InputTextPayloadParams": ".input_text_payload",
     "InterruptedResponsePayloadParams": ".interrupted_response_payload",
+    "McpServerParams": ".mcp_server",
+    "McpServerProjectParams": ".mcp_server_project",
+    "McpServerToolParametersParams": ".mcp_server_tool_parameters",
+    "McpServerToolParams": ".mcp_server_tool",
     "MutePayloadParams": ".mute_payload",
     "OpenAiFunctionParams": ".open_ai_function",
     "OpenAiToolParams": ".open_ai_tool",
@@ -471,6 +479,10 @@ __all__ = [
     "InputCancelledPayloadParams",
     "InputTextPayloadParams",
     "InterruptedResponsePayloadParams",
+    "McpServerParams",
+    "McpServerProjectParams",
+    "McpServerToolParametersParams",
+    "McpServerToolParams",
     "MutePayloadParams",
     "OpenAiFunctionParams",
     "OpenAiToolParams",
