@@ -150,6 +150,7 @@ client.agents.create(
     ],
     min_words_to_interrupt=1,
     turn_taking="standard",
+    max_conversation_duration_sec=7200,
     configuration_endpoint=CreateAgentRequestConfigurationEndpoint(
         url="https://api.example.com/config",
         headers={
@@ -280,6 +281,7 @@ client.agents.upsert(
     ],
     min_words_to_interrupt=1,
     turn_taking="standard",
+    max_conversation_duration_sec=7200,
     configuration_endpoint=CreateAgentRequestConfigurationEndpoint(
         url="https://api.example.com/config",
         headers={
@@ -647,6 +649,14 @@ client.agents.upsert(
 <dl>
 <dd>
 
+**max_conversation_duration_sec:** `typing.Optional[int]` — Maximum duration of a conversation in seconds. When the limit is reached, the conversation is ended.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **configuration_endpoint:** `typing.Optional[CreateAgentRequestConfigurationEndpoint]` — When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
     
 </dd>
@@ -735,7 +745,7 @@ client.agents.upsert(
 <dl>
 <dd>
 
-**external_storage_policy:** `typing.Optional[str]` — Name of an external storage policy in the same project that conversation artifacts are delivered to. Requires zero data retention and cannot be combined with `enable_redaction`.
+**external_storage_policy:** `typing.Optional[str]` — Name of an external storage policy in the same project that conversation artifacts are delivered to. Requires zero data retention.
     
 </dd>
 </dl>
@@ -1016,6 +1026,7 @@ client.agents.update(
     ],
     min_words_to_interrupt=1,
     turn_taking="standard",
+    max_conversation_duration_sec=7200,
     configuration_endpoint=UpdateAgentRequestConfigurationEndpoint(
         url="https://api.example.com/config",
         headers={
@@ -1415,6 +1426,14 @@ client.agents.update(
 <dl>
 <dd>
 
+**max_conversation_duration_sec:** `typing.Optional[int]` — Maximum duration of a conversation in seconds. When the limit is reached, the conversation is ended.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **configuration_endpoint:** `typing.Optional[UpdateAgentRequestConfigurationEndpoint]` — When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
     
 </dd>
@@ -1503,7 +1522,7 @@ client.agents.update(
 <dl>
 <dd>
 
-**external_storage_policy:** `typing.Optional[str]` — Name of an external storage policy in the same project that conversation artifacts are delivered to. Set to `null` to stop delivering artifacts. Requires zero data retention and cannot be combined with `enable_redaction`.
+**external_storage_policy:** `typing.Optional[str]` — Name of an external storage policy in the same project that conversation artifacts are delivered to. Set to `null` to stop delivering artifacts. Requires zero data retention.
     
 </dd>
 </dl>
@@ -6013,6 +6032,7 @@ client.conversations.outbound_call(
         ],
         min_words_to_interrupt=1,
         turn_taking="standard",
+        max_conversation_duration_sec=7200,
         tools=[
             "keypad_input"
         ],
@@ -7189,10 +7209,6 @@ assistant tool call must be followed immediately by the
 A tool referenced in `tools` resolves to an `action` on the generated
 response rather than a tool call - the event a live conversation would
 have emitted, without the effect actually being carried out.
-
-This is an experimental feature and must be enabled for your workspace;
-otherwise, it returns `404`. Please contact our team if you would like
-access.
 </dd>
 </dl>
 </dd>
@@ -7335,6 +7351,14 @@ client.responses.create(
 <dd>
 
 **phonic_model:** `typing.Optional[GenerateResponsesRequestPhonicModel]` — The Phonic speech-to-speech model to generate with. This field is deprecated. Use `model` instead.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**intelligence_level:** `typing.Optional[GenerateResponsesRequestIntelligenceLevel]` — The intelligence level of the assistant. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency.
     
 </dd>
 </dl>

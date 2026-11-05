@@ -197,6 +197,7 @@ class RawAgentsClient:
         ] = OMIT,
         min_words_to_interrupt: typing.Optional[int] = OMIT,
         turn_taking: typing.Optional[CreateAgentRequestTurnTaking] = OMIT,
+        max_conversation_duration_sec: typing.Optional[int] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
@@ -345,6 +346,9 @@ class RawAgentsClient:
         turn_taking : typing.Optional[CreateAgentRequestTurnTaking]
             How long the agent waits after the user stops speaking before taking its turn. `"eager"` responds fastest; `"very_patient"` waits the longest.
 
+        max_conversation_duration_sec : typing.Optional[int]
+            Maximum duration of a conversation in seconds. When the limit is reached, the conversation is ended.
+
         configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpointParams]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
@@ -379,7 +383,7 @@ class RawAgentsClient:
             Names of observability integrations to enable for the agent. Each must be one of the supported providers.
 
         external_storage_policy : typing.Optional[str]
-            Name of an external storage policy in the same project that conversation artifacts are delivered to. Requires zero data retention and cannot be combined with `enable_redaction`.
+            Name of an external storage policy in the same project that conversation artifacts are delivered to. Requires zero data retention.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -459,6 +463,7 @@ class RawAgentsClient:
                 ),
                 "min_words_to_interrupt": min_words_to_interrupt,
                 "turn_taking": turn_taking,
+                "max_conversation_duration_sec": max_conversation_duration_sec,
                 "configuration_endpoint": convert_and_respect_annotation_metadata(
                     object_=configuration_endpoint,
                     annotation=typing.Optional[CreateAgentRequestConfigurationEndpointParams],
@@ -595,6 +600,7 @@ class RawAgentsClient:
         ] = OMIT,
         min_words_to_interrupt: typing.Optional[int] = OMIT,
         turn_taking: typing.Optional[CreateAgentRequestTurnTaking] = OMIT,
+        max_conversation_duration_sec: typing.Optional[int] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
@@ -749,6 +755,9 @@ class RawAgentsClient:
         turn_taking : typing.Optional[CreateAgentRequestTurnTaking]
             How long the agent waits after the user stops speaking before taking its turn. `"eager"` responds fastest; `"very_patient"` waits the longest.
 
+        max_conversation_duration_sec : typing.Optional[int]
+            Maximum duration of a conversation in seconds. When the limit is reached, the conversation is ended.
+
         configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpointParams]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
@@ -783,7 +792,7 @@ class RawAgentsClient:
             Names of observability integrations to enable for the agent. Each must be one of the supported providers.
 
         external_storage_policy : typing.Optional[str]
-            Name of an external storage policy in the same project that conversation artifacts are delivered to. Requires zero data retention and cannot be combined with `enable_redaction`.
+            Name of an external storage policy in the same project that conversation artifacts are delivered to. Requires zero data retention.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -869,6 +878,7 @@ class RawAgentsClient:
                 ),
                 "min_words_to_interrupt": min_words_to_interrupt,
                 "turn_taking": turn_taking,
+                "max_conversation_duration_sec": max_conversation_duration_sec,
                 "configuration_endpoint": convert_and_respect_annotation_metadata(
                     object_=configuration_endpoint,
                     annotation=typing.Optional[CreateAgentRequestConfigurationEndpointParams],
@@ -1148,6 +1158,7 @@ class RawAgentsClient:
         ] = OMIT,
         min_words_to_interrupt: typing.Optional[int] = OMIT,
         turn_taking: typing.Optional[UpdateAgentRequestTurnTaking] = OMIT,
+        max_conversation_duration_sec: typing.Optional[int] = OMIT,
         configuration_endpoint: typing.Optional[UpdateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
@@ -1308,6 +1319,9 @@ class RawAgentsClient:
         turn_taking : typing.Optional[UpdateAgentRequestTurnTaking]
             How long the agent waits after the user stops speaking before taking its turn. `"eager"` responds fastest; `"very_patient"` waits the longest.
 
+        max_conversation_duration_sec : typing.Optional[int]
+            Maximum duration of a conversation in seconds. When the limit is reached, the conversation is ended.
+
         configuration_endpoint : typing.Optional[UpdateAgentRequestConfigurationEndpointParams]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
@@ -1342,7 +1356,7 @@ class RawAgentsClient:
             Names of observability integrations to enable for the agent. Each must be one of the supported providers.
 
         external_storage_policy : typing.Optional[str]
-            Name of an external storage policy in the same project that conversation artifacts are delivered to. Set to `null` to stop delivering artifacts. Requires zero data retention and cannot be combined with `enable_redaction`.
+            Name of an external storage policy in the same project that conversation artifacts are delivered to. Set to `null` to stop delivering artifacts. Requires zero data retention.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1431,6 +1445,7 @@ class RawAgentsClient:
                 ),
                 "min_words_to_interrupt": min_words_to_interrupt,
                 "turn_taking": turn_taking,
+                "max_conversation_duration_sec": max_conversation_duration_sec,
                 "configuration_endpoint": convert_and_respect_annotation_metadata(
                     object_=configuration_endpoint,
                     annotation=typing.Optional[UpdateAgentRequestConfigurationEndpointParams],
@@ -2191,6 +2206,7 @@ class AsyncRawAgentsClient:
         ] = OMIT,
         min_words_to_interrupt: typing.Optional[int] = OMIT,
         turn_taking: typing.Optional[CreateAgentRequestTurnTaking] = OMIT,
+        max_conversation_duration_sec: typing.Optional[int] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
@@ -2339,6 +2355,9 @@ class AsyncRawAgentsClient:
         turn_taking : typing.Optional[CreateAgentRequestTurnTaking]
             How long the agent waits after the user stops speaking before taking its turn. `"eager"` responds fastest; `"very_patient"` waits the longest.
 
+        max_conversation_duration_sec : typing.Optional[int]
+            Maximum duration of a conversation in seconds. When the limit is reached, the conversation is ended.
+
         configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpointParams]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
@@ -2373,7 +2392,7 @@ class AsyncRawAgentsClient:
             Names of observability integrations to enable for the agent. Each must be one of the supported providers.
 
         external_storage_policy : typing.Optional[str]
-            Name of an external storage policy in the same project that conversation artifacts are delivered to. Requires zero data retention and cannot be combined with `enable_redaction`.
+            Name of an external storage policy in the same project that conversation artifacts are delivered to. Requires zero data retention.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -2453,6 +2472,7 @@ class AsyncRawAgentsClient:
                 ),
                 "min_words_to_interrupt": min_words_to_interrupt,
                 "turn_taking": turn_taking,
+                "max_conversation_duration_sec": max_conversation_duration_sec,
                 "configuration_endpoint": convert_and_respect_annotation_metadata(
                     object_=configuration_endpoint,
                     annotation=typing.Optional[CreateAgentRequestConfigurationEndpointParams],
@@ -2589,6 +2609,7 @@ class AsyncRawAgentsClient:
         ] = OMIT,
         min_words_to_interrupt: typing.Optional[int] = OMIT,
         turn_taking: typing.Optional[CreateAgentRequestTurnTaking] = OMIT,
+        max_conversation_duration_sec: typing.Optional[int] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
@@ -2743,6 +2764,9 @@ class AsyncRawAgentsClient:
         turn_taking : typing.Optional[CreateAgentRequestTurnTaking]
             How long the agent waits after the user stops speaking before taking its turn. `"eager"` responds fastest; `"very_patient"` waits the longest.
 
+        max_conversation_duration_sec : typing.Optional[int]
+            Maximum duration of a conversation in seconds. When the limit is reached, the conversation is ended.
+
         configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpointParams]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
@@ -2777,7 +2801,7 @@ class AsyncRawAgentsClient:
             Names of observability integrations to enable for the agent. Each must be one of the supported providers.
 
         external_storage_policy : typing.Optional[str]
-            Name of an external storage policy in the same project that conversation artifacts are delivered to. Requires zero data retention and cannot be combined with `enable_redaction`.
+            Name of an external storage policy in the same project that conversation artifacts are delivered to. Requires zero data retention.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -2863,6 +2887,7 @@ class AsyncRawAgentsClient:
                 ),
                 "min_words_to_interrupt": min_words_to_interrupt,
                 "turn_taking": turn_taking,
+                "max_conversation_duration_sec": max_conversation_duration_sec,
                 "configuration_endpoint": convert_and_respect_annotation_metadata(
                     object_=configuration_endpoint,
                     annotation=typing.Optional[CreateAgentRequestConfigurationEndpointParams],
@@ -3142,6 +3167,7 @@ class AsyncRawAgentsClient:
         ] = OMIT,
         min_words_to_interrupt: typing.Optional[int] = OMIT,
         turn_taking: typing.Optional[UpdateAgentRequestTurnTaking] = OMIT,
+        max_conversation_duration_sec: typing.Optional[int] = OMIT,
         configuration_endpoint: typing.Optional[UpdateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
@@ -3302,6 +3328,9 @@ class AsyncRawAgentsClient:
         turn_taking : typing.Optional[UpdateAgentRequestTurnTaking]
             How long the agent waits after the user stops speaking before taking its turn. `"eager"` responds fastest; `"very_patient"` waits the longest.
 
+        max_conversation_duration_sec : typing.Optional[int]
+            Maximum duration of a conversation in seconds. When the limit is reached, the conversation is ended.
+
         configuration_endpoint : typing.Optional[UpdateAgentRequestConfigurationEndpointParams]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
@@ -3336,7 +3365,7 @@ class AsyncRawAgentsClient:
             Names of observability integrations to enable for the agent. Each must be one of the supported providers.
 
         external_storage_policy : typing.Optional[str]
-            Name of an external storage policy in the same project that conversation artifacts are delivered to. Set to `null` to stop delivering artifacts. Requires zero data retention and cannot be combined with `enable_redaction`.
+            Name of an external storage policy in the same project that conversation artifacts are delivered to. Set to `null` to stop delivering artifacts. Requires zero data retention.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -3425,6 +3454,7 @@ class AsyncRawAgentsClient:
                 ),
                 "min_words_to_interrupt": min_words_to_interrupt,
                 "turn_taking": turn_taking,
+                "max_conversation_duration_sec": max_conversation_duration_sec,
                 "configuration_endpoint": convert_and_respect_annotation_metadata(
                     object_=configuration_endpoint,
                     annotation=typing.Optional[UpdateAgentRequestConfigurationEndpointParams],

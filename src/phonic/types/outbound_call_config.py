@@ -147,6 +147,11 @@ class OutboundCallConfig(UncheckedBaseModel):
     How long the agent waits after the user stops speaking before taking its turn. `"eager"` responds fastest; `"very_patient"` waits the longest. Defaults to the agent's `turn_taking`, or `"standard"`.
     """
 
+    max_conversation_duration_sec: typing.Optional[int] = pydantic.Field(default=None)
+    """
+    Maximum duration of the conversation in seconds. When the limit is reached, the conversation is ended. Defaults to the agent's `max_conversation_duration_sec`, or `7200`.
+    """
+
     tools: typing.Optional[typing.List[OutboundCallConfigToolsItem]] = pydantic.Field(default=None)
     """
     Array of built-in or custom tool names to use.

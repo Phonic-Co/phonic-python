@@ -156,6 +156,7 @@ class AgentsClient:
         ] = OMIT,
         min_words_to_interrupt: typing.Optional[int] = OMIT,
         turn_taking: typing.Optional[CreateAgentRequestTurnTaking] = OMIT,
+        max_conversation_duration_sec: typing.Optional[int] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
@@ -304,6 +305,9 @@ class AgentsClient:
         turn_taking : typing.Optional[CreateAgentRequestTurnTaking]
             How long the agent waits after the user stops speaking before taking its turn. `"eager"` responds fastest; `"very_patient"` waits the longest.
 
+        max_conversation_duration_sec : typing.Optional[int]
+            Maximum duration of a conversation in seconds. When the limit is reached, the conversation is ended.
+
         configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpointParams]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
@@ -338,7 +342,7 @@ class AgentsClient:
             Names of observability integrations to enable for the agent. Each must be one of the supported providers.
 
         external_storage_policy : typing.Optional[str]
-            Name of an external storage policy in the same project that conversation artifacts are delivered to. Requires zero data retention and cannot be combined with `enable_redaction`.
+            Name of an external storage policy in the same project that conversation artifacts are delivered to. Requires zero data retention.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -383,6 +387,7 @@ class AgentsClient:
             pronunciation_dictionary=[{"word": "Phuket", "pronunciation": "Poo-ket"}],
             min_words_to_interrupt=1,
             turn_taking="standard",
+            max_conversation_duration_sec=7200,
             configuration_endpoint={
                 "url": "https://api.example.com/config",
                 "headers": {"Authorization": "Bearer token123"},
@@ -434,6 +439,7 @@ class AgentsClient:
             pronunciation_dictionary=pronunciation_dictionary,
             min_words_to_interrupt=min_words_to_interrupt,
             turn_taking=turn_taking,
+            max_conversation_duration_sec=max_conversation_duration_sec,
             configuration_endpoint=configuration_endpoint,
             inbound_rollout=inbound_rollout,
             inbound_rollout_forward_phone_number=inbound_rollout_forward_phone_number,
@@ -500,6 +506,7 @@ class AgentsClient:
         ] = OMIT,
         min_words_to_interrupt: typing.Optional[int] = OMIT,
         turn_taking: typing.Optional[CreateAgentRequestTurnTaking] = OMIT,
+        max_conversation_duration_sec: typing.Optional[int] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
@@ -654,6 +661,9 @@ class AgentsClient:
         turn_taking : typing.Optional[CreateAgentRequestTurnTaking]
             How long the agent waits after the user stops speaking before taking its turn. `"eager"` responds fastest; `"very_patient"` waits the longest.
 
+        max_conversation_duration_sec : typing.Optional[int]
+            Maximum duration of a conversation in seconds. When the limit is reached, the conversation is ended.
+
         configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpointParams]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
@@ -688,7 +698,7 @@ class AgentsClient:
             Names of observability integrations to enable for the agent. Each must be one of the supported providers.
 
         external_storage_policy : typing.Optional[str]
-            Name of an external storage policy in the same project that conversation artifacts are delivered to. Requires zero data retention and cannot be combined with `enable_redaction`.
+            Name of an external storage policy in the same project that conversation artifacts are delivered to. Requires zero data retention.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -733,6 +743,7 @@ class AgentsClient:
             pronunciation_dictionary=[{"word": "Phuket", "pronunciation": "Poo-ket"}],
             min_words_to_interrupt=1,
             turn_taking="standard",
+            max_conversation_duration_sec=7200,
             configuration_endpoint={
                 "url": "https://api.example.com/config",
                 "headers": {"Authorization": "Bearer token123"},
@@ -786,6 +797,7 @@ class AgentsClient:
             pronunciation_dictionary=pronunciation_dictionary,
             min_words_to_interrupt=min_words_to_interrupt,
             turn_taking=turn_taking,
+            max_conversation_duration_sec=max_conversation_duration_sec,
             configuration_endpoint=configuration_endpoint,
             inbound_rollout=inbound_rollout,
             inbound_rollout_forward_phone_number=inbound_rollout_forward_phone_number,
@@ -936,6 +948,7 @@ class AgentsClient:
         ] = OMIT,
         min_words_to_interrupt: typing.Optional[int] = OMIT,
         turn_taking: typing.Optional[UpdateAgentRequestTurnTaking] = OMIT,
+        max_conversation_duration_sec: typing.Optional[int] = OMIT,
         configuration_endpoint: typing.Optional[UpdateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
@@ -1096,6 +1109,9 @@ class AgentsClient:
         turn_taking : typing.Optional[UpdateAgentRequestTurnTaking]
             How long the agent waits after the user stops speaking before taking its turn. `"eager"` responds fastest; `"very_patient"` waits the longest.
 
+        max_conversation_duration_sec : typing.Optional[int]
+            Maximum duration of a conversation in seconds. When the limit is reached, the conversation is ended.
+
         configuration_endpoint : typing.Optional[UpdateAgentRequestConfigurationEndpointParams]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
@@ -1130,7 +1146,7 @@ class AgentsClient:
             Names of observability integrations to enable for the agent. Each must be one of the supported providers.
 
         external_storage_policy : typing.Optional[str]
-            Name of an external storage policy in the same project that conversation artifacts are delivered to. Set to `null` to stop delivering artifacts. Requires zero data retention and cannot be combined with `enable_redaction`.
+            Name of an external storage policy in the same project that conversation artifacts are delivered to. Set to `null` to stop delivering artifacts. Requires zero data retention.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1176,6 +1192,7 @@ class AgentsClient:
             pronunciation_dictionary=[{"word": "Phuket", "pronunciation": "Poo-ket"}],
             min_words_to_interrupt=1,
             turn_taking="standard",
+            max_conversation_duration_sec=7200,
             configuration_endpoint={
                 "url": "https://api.example.com/config",
                 "headers": {"Authorization": "Bearer token123"},
@@ -1231,6 +1248,7 @@ class AgentsClient:
             pronunciation_dictionary=pronunciation_dictionary,
             min_words_to_interrupt=min_words_to_interrupt,
             turn_taking=turn_taking,
+            max_conversation_duration_sec=max_conversation_duration_sec,
             configuration_endpoint=configuration_endpoint,
             inbound_rollout=inbound_rollout,
             inbound_rollout_forward_phone_number=inbound_rollout_forward_phone_number,
@@ -1626,6 +1644,7 @@ class AsyncAgentsClient:
         ] = OMIT,
         min_words_to_interrupt: typing.Optional[int] = OMIT,
         turn_taking: typing.Optional[CreateAgentRequestTurnTaking] = OMIT,
+        max_conversation_duration_sec: typing.Optional[int] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
@@ -1774,6 +1793,9 @@ class AsyncAgentsClient:
         turn_taking : typing.Optional[CreateAgentRequestTurnTaking]
             How long the agent waits after the user stops speaking before taking its turn. `"eager"` responds fastest; `"very_patient"` waits the longest.
 
+        max_conversation_duration_sec : typing.Optional[int]
+            Maximum duration of a conversation in seconds. When the limit is reached, the conversation is ended.
+
         configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpointParams]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
@@ -1808,7 +1830,7 @@ class AsyncAgentsClient:
             Names of observability integrations to enable for the agent. Each must be one of the supported providers.
 
         external_storage_policy : typing.Optional[str]
-            Name of an external storage policy in the same project that conversation artifacts are delivered to. Requires zero data retention and cannot be combined with `enable_redaction`.
+            Name of an external storage policy in the same project that conversation artifacts are delivered to. Requires zero data retention.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -1860,6 +1882,7 @@ class AsyncAgentsClient:
                 ],
                 min_words_to_interrupt=1,
                 turn_taking="standard",
+                max_conversation_duration_sec=7200,
                 configuration_endpoint={
                     "url": "https://api.example.com/config",
                     "headers": {"Authorization": "Bearer token123"},
@@ -1914,6 +1937,7 @@ class AsyncAgentsClient:
             pronunciation_dictionary=pronunciation_dictionary,
             min_words_to_interrupt=min_words_to_interrupt,
             turn_taking=turn_taking,
+            max_conversation_duration_sec=max_conversation_duration_sec,
             configuration_endpoint=configuration_endpoint,
             inbound_rollout=inbound_rollout,
             inbound_rollout_forward_phone_number=inbound_rollout_forward_phone_number,
@@ -1980,6 +2004,7 @@ class AsyncAgentsClient:
         ] = OMIT,
         min_words_to_interrupt: typing.Optional[int] = OMIT,
         turn_taking: typing.Optional[CreateAgentRequestTurnTaking] = OMIT,
+        max_conversation_duration_sec: typing.Optional[int] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
@@ -2134,6 +2159,9 @@ class AsyncAgentsClient:
         turn_taking : typing.Optional[CreateAgentRequestTurnTaking]
             How long the agent waits after the user stops speaking before taking its turn. `"eager"` responds fastest; `"very_patient"` waits the longest.
 
+        max_conversation_duration_sec : typing.Optional[int]
+            Maximum duration of a conversation in seconds. When the limit is reached, the conversation is ended.
+
         configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpointParams]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
@@ -2168,7 +2196,7 @@ class AsyncAgentsClient:
             Names of observability integrations to enable for the agent. Each must be one of the supported providers.
 
         external_storage_policy : typing.Optional[str]
-            Name of an external storage policy in the same project that conversation artifacts are delivered to. Requires zero data retention and cannot be combined with `enable_redaction`.
+            Name of an external storage policy in the same project that conversation artifacts are delivered to. Requires zero data retention.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -2220,6 +2248,7 @@ class AsyncAgentsClient:
                 ],
                 min_words_to_interrupt=1,
                 turn_taking="standard",
+                max_conversation_duration_sec=7200,
                 configuration_endpoint={
                     "url": "https://api.example.com/config",
                     "headers": {"Authorization": "Bearer token123"},
@@ -2276,6 +2305,7 @@ class AsyncAgentsClient:
             pronunciation_dictionary=pronunciation_dictionary,
             min_words_to_interrupt=min_words_to_interrupt,
             turn_taking=turn_taking,
+            max_conversation_duration_sec=max_conversation_duration_sec,
             configuration_endpoint=configuration_endpoint,
             inbound_rollout=inbound_rollout,
             inbound_rollout_forward_phone_number=inbound_rollout_forward_phone_number,
@@ -2442,6 +2472,7 @@ class AsyncAgentsClient:
         ] = OMIT,
         min_words_to_interrupt: typing.Optional[int] = OMIT,
         turn_taking: typing.Optional[UpdateAgentRequestTurnTaking] = OMIT,
+        max_conversation_duration_sec: typing.Optional[int] = OMIT,
         configuration_endpoint: typing.Optional[UpdateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
@@ -2602,6 +2633,9 @@ class AsyncAgentsClient:
         turn_taking : typing.Optional[UpdateAgentRequestTurnTaking]
             How long the agent waits after the user stops speaking before taking its turn. `"eager"` responds fastest; `"very_patient"` waits the longest.
 
+        max_conversation_duration_sec : typing.Optional[int]
+            Maximum duration of a conversation in seconds. When the limit is reached, the conversation is ended.
+
         configuration_endpoint : typing.Optional[UpdateAgentRequestConfigurationEndpointParams]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
@@ -2636,7 +2670,7 @@ class AsyncAgentsClient:
             Names of observability integrations to enable for the agent. Each must be one of the supported providers.
 
         external_storage_policy : typing.Optional[str]
-            Name of an external storage policy in the same project that conversation artifacts are delivered to. Set to `null` to stop delivering artifacts. Requires zero data retention and cannot be combined with `enable_redaction`.
+            Name of an external storage policy in the same project that conversation artifacts are delivered to. Set to `null` to stop delivering artifacts. Requires zero data retention.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -2689,6 +2723,7 @@ class AsyncAgentsClient:
                 ],
                 min_words_to_interrupt=1,
                 turn_taking="standard",
+                max_conversation_duration_sec=7200,
                 configuration_endpoint={
                     "url": "https://api.example.com/config",
                     "headers": {"Authorization": "Bearer token123"},
@@ -2747,6 +2782,7 @@ class AsyncAgentsClient:
             pronunciation_dictionary=pronunciation_dictionary,
             min_words_to_interrupt=min_words_to_interrupt,
             turn_taking=turn_taking,
+            max_conversation_duration_sec=max_conversation_duration_sec,
             configuration_endpoint=configuration_endpoint,
             inbound_rollout=inbound_rollout,
             inbound_rollout_forward_phone_number=inbound_rollout_forward_phone_number,

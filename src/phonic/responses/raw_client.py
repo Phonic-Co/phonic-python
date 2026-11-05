@@ -25,6 +25,7 @@ from ..types.generate_responses_response import GenerateResponsesResponse
 from ..types.language_code import LanguageCode
 from .requests.generate_responses_request_model import GenerateResponsesRequestModelParams
 from .requests.generate_responses_request_phonic_model import GenerateResponsesRequestPhonicModelParams
+from .types.generate_responses_request_intelligence_level import GenerateResponsesRequestIntelligenceLevel
 from pydantic import ValidationError
 
 # this is used as the default value for optional parameters
@@ -48,6 +49,7 @@ class RawResponsesClient:
         tools: typing.Optional[typing.Sequence[ResponsesToolParams]] = OMIT,
         model: typing.Optional[GenerateResponsesRequestModelParams] = OMIT,
         phonic_model: typing.Optional[GenerateResponsesRequestPhonicModelParams] = OMIT,
+        intelligence_level: typing.Optional[GenerateResponsesRequestIntelligenceLevel] = OMIT,
         num_responses: typing.Optional[int] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[GenerateResponsesResponse]:
@@ -77,10 +79,6 @@ class RawResponsesClient:
         A tool referenced in `tools` resolves to an `action` on the generated
         response rather than a tool call - the event a live conversation would
         have emitted, without the effect actually being carried out.
-
-        This is an experimental feature and must be enabled for your workspace;
-        otherwise, it returns `404`. Please contact our team if you would like
-        access.
 
         Parameters
         ----------
@@ -113,6 +111,9 @@ class RawResponsesClient:
 
         phonic_model : typing.Optional[GenerateResponsesRequestPhonicModelParams]
             The Phonic speech-to-speech model to generate with. This field is deprecated. Use `model` instead.
+
+        intelligence_level : typing.Optional[GenerateResponsesRequestIntelligenceLevel]
+            The intelligence level of the assistant. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency.
 
         num_responses : typing.Optional[int]
             Number of alternative responses to generate.
@@ -152,6 +153,7 @@ class RawResponsesClient:
                 "phonic_model": convert_and_respect_annotation_metadata(
                     object_=phonic_model, annotation=GenerateResponsesRequestPhonicModelParams, direction="write"
                 ),
+                "intelligence_level": intelligence_level,
                 "num_responses": num_responses,
             },
             headers={
@@ -274,6 +276,7 @@ class AsyncRawResponsesClient:
         tools: typing.Optional[typing.Sequence[ResponsesToolParams]] = OMIT,
         model: typing.Optional[GenerateResponsesRequestModelParams] = OMIT,
         phonic_model: typing.Optional[GenerateResponsesRequestPhonicModelParams] = OMIT,
+        intelligence_level: typing.Optional[GenerateResponsesRequestIntelligenceLevel] = OMIT,
         num_responses: typing.Optional[int] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[GenerateResponsesResponse]:
@@ -303,10 +306,6 @@ class AsyncRawResponsesClient:
         A tool referenced in `tools` resolves to an `action` on the generated
         response rather than a tool call - the event a live conversation would
         have emitted, without the effect actually being carried out.
-
-        This is an experimental feature and must be enabled for your workspace;
-        otherwise, it returns `404`. Please contact our team if you would like
-        access.
 
         Parameters
         ----------
@@ -339,6 +338,9 @@ class AsyncRawResponsesClient:
 
         phonic_model : typing.Optional[GenerateResponsesRequestPhonicModelParams]
             The Phonic speech-to-speech model to generate with. This field is deprecated. Use `model` instead.
+
+        intelligence_level : typing.Optional[GenerateResponsesRequestIntelligenceLevel]
+            The intelligence level of the assistant. `high` uses a more capable model for more complex reasoning, while `standard` is optimized for lower latency.
 
         num_responses : typing.Optional[int]
             Number of alternative responses to generate.
@@ -378,6 +380,7 @@ class AsyncRawResponsesClient:
                 "phonic_model": convert_and_respect_annotation_metadata(
                     object_=phonic_model, annotation=GenerateResponsesRequestPhonicModelParams, direction="write"
                 ),
+                "intelligence_level": intelligence_level,
                 "num_responses": num_responses,
             },
             headers={

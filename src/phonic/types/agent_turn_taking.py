@@ -2,4 +2,6 @@
 
 import typing
 
-AgentTurnTaking = typing.Union[typing.Literal["eager", "standard", "relaxed", "patient", "very_patient"], typing.Any]
+AgentTurnTaking = typing.Union[
+    typing.Literal["eager", "standard", "relaxed", "measured", "patient", "very_patient"], typing.Any
+]
