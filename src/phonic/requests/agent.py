@@ -228,6 +228,11 @@ class AgentParams(typing_extensions.TypedDict):
     How long the agent waits after the user stops speaking before taking its turn. `"eager"` responds fastest; `"very_patient"` waits the longest.
     """
 
+    max_conversation_duration_sec: int
+    """
+    Maximum duration of a conversation in seconds. When the limit is reached, the conversation is ended.
+    """
+
     configuration_endpoint: typing.Optional[AgentConfigurationEndpointParams]
     """
     When not `null`, the agent will call this endpoint to get configuration options.

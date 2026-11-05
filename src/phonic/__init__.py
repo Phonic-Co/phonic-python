@@ -592,6 +592,7 @@ if typing.TYPE_CHECKING:
         WebSearchToolConfigParams,
     )
     from .responses import (
+        GenerateResponsesRequestIntelligenceLevel,
         GenerateResponsesRequestModel,
         GenerateResponsesRequestModelParams,
         GenerateResponsesRequestPhonicModel,
@@ -939,6 +940,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "GatewayTimeoutError": ".errors",
     "GenerateReplyPayload": ".types",
     "GenerateReplyPayloadParams": ".requests",
+    "GenerateResponsesRequestIntelligenceLevel": ".responses",
     "GenerateResponsesRequestModel": ".responses",
     "GenerateResponsesRequestModelParams": ".responses",
     "GenerateResponsesRequestPhonicModel": ".responses",
@@ -1564,6 +1566,7 @@ __all__ = [
     "GatewayTimeoutError",
     "GenerateReplyPayload",
     "GenerateReplyPayloadParams",
+    "GenerateResponsesRequestIntelligenceLevel",
     "GenerateResponsesRequestModel",
     "GenerateResponsesRequestModelParams",
     "GenerateResponsesRequestPhonicModel",

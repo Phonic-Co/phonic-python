@@ -256,6 +256,11 @@ class Conversation(UncheckedBaseModel):
     How long the agent waits after the user stops speaking before taking its turn. `"eager"` responds fastest; `"very_patient"` waits the longest.
     """
 
+    max_conversation_duration_sec: int = pydantic.Field()
+    """
+    Maximum duration of the conversation in seconds.
+    """
+
     task_results: typing.Dict[str, typing.Any] = pydantic.Field()
     """
     Results from conversation evaluations and extractions.

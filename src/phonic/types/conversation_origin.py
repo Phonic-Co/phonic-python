@@ -10,6 +10,7 @@ ConversationOrigin = typing.Union[
         "direct",
         "livekit-agents-py",
         "livekit-agents-js",
+        "pipecat-py",
         "sdk-py",
         "sdk-js",
         "inbound",

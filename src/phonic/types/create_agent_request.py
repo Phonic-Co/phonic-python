@@ -238,6 +238,11 @@ class CreateAgentRequest(UncheckedBaseModel):
     How long the agent waits after the user stops speaking before taking its turn. `"eager"` responds fastest; `"very_patient"` waits the longest.
     """
 
+    max_conversation_duration_sec: typing.Optional[int] = pydantic.Field(default=None)
+    """
+    Maximum duration of a conversation in seconds. When the limit is reached, the conversation is ended.
+    """
+
     configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpoint] = pydantic.Field(default=None)
     """
     When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
@@ -297,7 +302,7 @@ class CreateAgentRequest(UncheckedBaseModel):
 
     external_storage_policy: typing.Optional[str] = pydantic.Field(default=None)
     """
-    Name of an external storage policy in the same project that conversation artifacts are delivered to. Requires zero data retention and cannot be combined with `enable_redaction`.
+    Name of an external storage policy in the same project that conversation artifacts are delivered to. Requires zero data retention.
     """
 
     if IS_PYDANTIC_V2:

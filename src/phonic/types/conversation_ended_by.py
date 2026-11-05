@@ -9,6 +9,7 @@ ConversationEndedBy = typing.Union[
         "user_validation_failed",
         "assistant",
         "assistant_silence_limit_reached",
+        "assistant_time_limit_reached",
         "configuration_endpoint_timed_out",
         "configuration_endpoint_error",
         "configuration_endpoint_invalid_response",

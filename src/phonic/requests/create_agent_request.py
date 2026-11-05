@@ -234,6 +234,11 @@ class CreateAgentRequestParams(typing_extensions.TypedDict):
     How long the agent waits after the user stops speaking before taking its turn. `"eager"` responds fastest; `"very_patient"` waits the longest.
     """
 
+    max_conversation_duration_sec: typing_extensions.NotRequired[int]
+    """
+    Maximum duration of a conversation in seconds. When the limit is reached, the conversation is ended.
+    """
+
     configuration_endpoint: typing_extensions.NotRequired[
         typing.Optional[CreateAgentRequestConfigurationEndpointParams]
     ]
@@ -293,5 +298,5 @@ class CreateAgentRequestParams(typing_extensions.TypedDict):
 
     external_storage_policy: typing_extensions.NotRequired[typing.Optional[str]]
     """
-    Name of an external storage policy in the same project that conversation artifacts are delivered to. Requires zero data retention and cannot be combined with `enable_redaction`.
+    Name of an external storage policy in the same project that conversation artifacts are delivered to. Requires zero data retention.
     """
