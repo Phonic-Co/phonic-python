@@ -592,13 +592,23 @@ class ConversationsClient:
 
     @contextmanager
     def connect(
-        self, *, request_options: typing.Optional[RequestOptions] = None,
+        self,
+        *,
+        reconnect_attempts: typing.Optional[int] = None,
+        connection_timeout_in_seconds: typing.Optional[float] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.Iterator[typing.Union[ConversationsSocketClient, ReconnectableConversationsSocketClient]]:
         """
         Main STS WebSocket channel for real-time voice conversations
 
         Parameters
         ----------
+        reconnect_attempts : typing.Optional[int]
+            Number of times to retry a connect that fails before opening (timeout, network error, 5xx). Defaults to 2.
+
+        connection_timeout_in_seconds : typing.Optional[float]
+            The timeout for establishing the WebSocket connection in seconds. Defaults to 3.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -612,12 +622,16 @@ class ConversationsClient:
             with open_reconnectable_conversations_socket_sync(
                 cw,
                 request_options=request_options,
+                reconnect_attempts=reconnect_attempts,
+                connection_timeout_in_seconds=connection_timeout_in_seconds,
             ) as socket:
                 yield socket
         else:
             with open_conversations_socket_sync(
                 cw,
                 request_options=request_options,
+                reconnect_attempts=reconnect_attempts,
+                connection_timeout_in_seconds=connection_timeout_in_seconds,
             ) as socket:
                 yield socket
 
@@ -1278,13 +1292,23 @@ class AsyncConversationsClient:
 
     @asynccontextmanager
     async def connect(
-        self, *, request_options: typing.Optional[RequestOptions] = None,
+        self,
+        *,
+        reconnect_attempts: typing.Optional[int] = None,
+        connection_timeout_in_seconds: typing.Optional[float] = None,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.AsyncIterator[typing.Union[AsyncConversationsSocketClient, ReconnectableAsyncConversationsSocketClient]]:
         """
         Main STS WebSocket channel for real-time voice conversations
 
         Parameters
         ----------
+        reconnect_attempts : typing.Optional[int]
+            Number of times to retry a connect that fails before opening (timeout, network error, 5xx). Defaults to 2.
+
+        connection_timeout_in_seconds : typing.Optional[float]
+            The timeout for establishing the WebSocket connection in seconds. Defaults to 3.
+
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
@@ -1298,11 +1322,15 @@ class AsyncConversationsClient:
             async with open_reconnectable_conversations_socket_async(
                 cw,
                 request_options=request_options,
+                reconnect_attempts=reconnect_attempts,
+                connection_timeout_in_seconds=connection_timeout_in_seconds,
             ) as socket:
                 yield socket
         else:
             async with open_conversations_socket_async(
                 cw,
                 request_options=request_options,
+                reconnect_attempts=reconnect_attempts,
+                connection_timeout_in_seconds=connection_timeout_in_seconds,
             ) as socket:
                 yield socket
