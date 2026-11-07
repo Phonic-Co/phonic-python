@@ -20,7 +20,7 @@ class WebSearchToolConfig(UncheckedBaseModel):
 
     can_run_during_user_speech: typing.Optional[bool] = pydantic.Field(default=None)
     """
-    When true, the agent can call web search while the user is still speaking. Setting it to true requires the feature to be enabled for your organization; contact Phonic to get access.
+    When true, the agent can call web search while the user is still speaking.
     """
 
     if IS_PYDANTIC_V2:

@@ -247,7 +247,7 @@ class RawToolsClient:
             When true, caller speech cannot interrupt the assistant while the tool call is running. Available for sync custom_webhook, sync custom_websocket, and built_in_transfer_to_phone_number tools. Defaults to true for phone transfers and false for custom tools. Prevents caller interruptions during the transfer, including the preceding announcement once protection is active.
 
         can_run_during_user_speech : typing.Optional[bool]
-            When true, the agent can call the tool while the user is still speaking. Only available for custom_webhook, custom_websocket, and custom_context tools. Setting it to true requires the feature to be enabled for your organization; contact Phonic to get access.
+            When true, the agent can call the tool while the user is still speaking. Only available for custom_webhook, custom_websocket, and custom_context tools.
 
         context : typing.Optional[str]
             The static context returned to the agent. Required for custom_context tools.
@@ -646,7 +646,7 @@ class RawToolsClient:
             When true, caller speech cannot interrupt the assistant while the tool call is running. Available for sync custom_webhook, sync custom_websocket, and built_in_transfer_to_phone_number tools. Omitted updates preserve the current setting. Prevents caller interruptions during the transfer, including the preceding announcement once protection is active.
 
         can_run_during_user_speech : typing.Optional[bool]
-            When true, the agent can call the tool while the user is still speaking. Only available for custom_webhook, custom_websocket, and custom_context tools. Setting it to true requires the feature to be enabled for your organization; contact Phonic to get access.
+            When true, the agent can call the tool while the user is still speaking. Only available for custom_webhook, custom_websocket, and custom_context tools.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -966,7 +966,7 @@ class AsyncRawToolsClient:
             When true, caller speech cannot interrupt the assistant while the tool call is running. Available for sync custom_webhook, sync custom_websocket, and built_in_transfer_to_phone_number tools. Defaults to true for phone transfers and false for custom tools. Prevents caller interruptions during the transfer, including the preceding announcement once protection is active.
 
         can_run_during_user_speech : typing.Optional[bool]
-            When true, the agent can call the tool while the user is still speaking. Only available for custom_webhook, custom_websocket, and custom_context tools. Setting it to true requires the feature to be enabled for your organization; contact Phonic to get access.
+            When true, the agent can call the tool while the user is still speaking. Only available for custom_webhook, custom_websocket, and custom_context tools.
 
         context : typing.Optional[str]
             The static context returned to the agent. Required for custom_context tools.
@@ -1365,7 +1365,7 @@ class AsyncRawToolsClient:
             When true, caller speech cannot interrupt the assistant while the tool call is running. Available for sync custom_webhook, sync custom_websocket, and built_in_transfer_to_phone_number tools. Omitted updates preserve the current setting. Prevents caller interruptions during the transfer, including the preceding announcement once protection is active.
 
         can_run_during_user_speech : typing.Optional[bool]
-            When true, the agent can call the tool while the user is still speaking. Only available for custom_webhook, custom_websocket, and custom_context tools. Setting it to true requires the feature to be enabled for your organization; contact Phonic to get access.
+            When true, the agent can call the tool while the user is still speaking. Only available for custom_webhook, custom_websocket, and custom_context tools.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
