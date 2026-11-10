@@ -112,13 +112,64 @@ async def test_async_recv_first_abnormal_close_reconnects() -> None:
     assert replacement.sent == ["chunk"]
 
 
-async def test_async_send_deliberate_close_still_raises() -> None:
+async def test_async_send_on_deliberate_close_is_dropped_and_recv_raises_it() -> None:
     socket = _async_socket(
-        _FakeAsyncInner(recv_results=[], send_error=_deliberate_close()), _FakeAsyncInner(recv_results=[])
+        _FakeAsyncInner(recv_results=[_deliberate_close()], send_error=_deliberate_close()),
+        _FakeAsyncInner(recv_results=[]),
     )
 
+    await socket.send_audio_chunk("chunk")
+
     with pytest.raises(ConnectionClosed):
-        await socket.send_audio_chunk("chunk")
+        async for _ in socket:
+            pass
+
+
+async def test_async_iteration_raises_once_reconnect_gives_up() -> None:
+    socket = _async_socket(_FakeAsyncInner(recv_results=[_abnormal_close()]), _FakeAsyncInner(recv_results=[]))
+    attempts = 0
+
+    async def _failing_reconnect() -> None:
+        nonlocal attempts
+        attempts += 1
+        raise OSError("unreachable")
+
+    socket._reconnect = _failing_reconnect  # type: ignore[method-assign]
+
+    with pytest.raises(ConnectionClosed):
+        async for _ in socket:
+            pass
+    assert attempts == rsc._MAX_RECONNECT_ATTEMPTS
+
+
+async def test_async_iteration_ends_quietly_on_normal_close() -> None:
+    socket = _async_socket(
+        _FakeAsyncInner(recv_results=["hello", ConnectionClosed(Close(1000, ""), None)]),
+        _FakeAsyncInner(recv_results=[]),
+    )
+
+    assert [msg async for msg in socket] == ["hello"]
+
+
+async def test_async_close_during_reconnect_drops_the_new_connection() -> None:
+    socket = _async_socket(_FakeAsyncInner(recv_results=[_abnormal_close()]), _FakeAsyncInner(recv_results=[]))
+    closed_connections = 0
+
+    async def _reconnect_while_closing() -> None:
+        socket._user_closed = True  # close() ran while the new connection was opening
+        socket._cm = object()
+
+    async def _close_current_connection() -> None:
+        nonlocal closed_connections
+        closed_connections += 1
+        socket._cm = None
+
+    socket._reconnect = _reconnect_while_closing  # type: ignore[method-assign]
+    socket._close_current_connection = _close_current_connection  # type: ignore[method-assign]
+
+    assert [msg async for msg in socket] == []
+    assert closed_connections == 1
+    assert socket._cm is None
 
 
 def test_sync_send_first_abnormal_close_is_dropped_and_recv_reconnects() -> None:
@@ -132,10 +183,25 @@ def test_sync_send_first_abnormal_close_is_dropped_and_recv_reconnects() -> None
     assert replacement.sent == ["chunk-2"]
 
 
-def test_sync_send_deliberate_close_still_raises() -> None:
+def test_sync_send_on_deliberate_close_is_dropped_and_recv_raises_it() -> None:
     socket = _sync_socket(
-        _FakeSyncInner(recv_results=[], send_error=_deliberate_close()), _FakeSyncInner(recv_results=[])
+        _FakeSyncInner(recv_results=[_deliberate_close()], send_error=_deliberate_close()),
+        _FakeSyncInner(recv_results=[]),
     )
 
+    socket.send_audio_chunk("chunk")
+
     with pytest.raises(ConnectionClosed):
-        socket.send_audio_chunk("chunk")
+        list(socket)
+
+
+def test_sync_iteration_raises_once_reconnect_gives_up() -> None:
+    socket = _sync_socket(_FakeSyncInner(recv_results=[_abnormal_close()]), _FakeSyncInner(recv_results=[]))
+
+    def _failing_reconnect() -> None:
+        raise OSError("unreachable")
+
+    socket._reconnect = _failing_reconnect  # type: ignore[method-assign]
+
+    with pytest.raises(ConnectionClosed):
+        list(socket)
