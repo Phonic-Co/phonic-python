@@ -481,7 +481,7 @@ client.agents.upsert(
 <dl>
 <dd>
 
-**built_in_tool_configs:** `typing.Optional[BuiltInToolConfigs]` — Configuration overrides for built-in tools, keyed by built-in tool ID. Built-in tools not listed here use their default configuration.
+**built_in_tool_configs:** `typing.Optional[BuiltInToolConfigs]` — Configuration overrides for built-in tools, keyed by built-in tool ID: `tool_natural_conversation_ending`, `tool_keypad_input`, `tool_web_search`, or `tool_choose_not_to_respond` (the tool name prefixed with `tool_`; bare tool names such as `natural_conversation_ending` are rejected). Built-in tools not listed here use their default configuration.
     
 </dd>
 </dl>
@@ -714,6 +714,14 @@ client.agents.upsert(
 <dd>
 
 **enable_redaction:** `typing.Optional[bool]` — When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE]`) and bleeped from audio recordings after the conversation ends.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**redaction_entities:** `typing.Optional[typing.List[CreateAgentRequestRedactionEntitiesItem]]` — The types of PII and PHI to redact when `enable_redaction` is `true`. `null` redacts all PII and PHI. Must contain at least one item when not `null`.
     
 </dd>
 </dl>
@@ -1234,7 +1242,7 @@ client.agents.update(
 <dl>
 <dd>
 
-**built_in_tool_configs:** `typing.Optional[BuiltInToolConfigs]` — Configuration overrides for built-in tools, keyed by built-in tool ID. Built-in tools not listed here use their default configuration.
+**built_in_tool_configs:** `typing.Optional[BuiltInToolConfigs]` — Configuration overrides for built-in tools, keyed by built-in tool ID: `tool_natural_conversation_ending`, `tool_keypad_input`, `tool_web_search`, or `tool_choose_not_to_respond` (the tool name prefixed with `tool_`; bare tool names such as `natural_conversation_ending` are rejected). Replaces the agent's stored map; built-in tools not listed here use their default configuration.
     
 </dd>
 </dl>
@@ -1491,6 +1499,14 @@ client.agents.update(
 <dd>
 
 **enable_redaction:** `typing.Optional[bool]` — When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE]`) and bleeped from audio recordings after the conversation ends.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**redaction_entities:** `typing.Optional[typing.List[UpdateAgentRequestRedactionEntitiesItem]]` — The types of PII and PHI to redact when `enable_redaction` is `true`. `null` redacts all PII and PHI. Must contain at least one item when not `null`.
     
 </dd>
 </dl>
@@ -2453,7 +2469,7 @@ Every key must name a top-level parameter. For POST webhooks, every parameter ne
 <dl>
 <dd>
 
-**can_run_during_user_speech:** `typing.Optional[bool]` — When true, the agent can call the tool while the user is still speaking. Only available for custom_webhook, custom_websocket, and custom_context tools. Setting it to true requires the feature to be enabled for your organization; contact Phonic to get access.
+**can_run_during_user_speech:** `typing.Optional[bool]` — When true, the agent can call the tool while the user is still speaking. Only available for custom_webhook, custom_websocket, and custom_context tools.
     
 </dd>
 </dl>
@@ -2968,7 +2984,7 @@ Every key must name a top-level parameter. For POST webhooks, every parameter ne
 <dl>
 <dd>
 
-**can_run_during_user_speech:** `typing.Optional[bool]` — When true, the agent can call the tool while the user is still speaking. Only available for custom_webhook, custom_websocket, and custom_context tools. Setting it to true requires the feature to be enabled for your organization; contact Phonic to get access.
+**can_run_during_user_speech:** `typing.Optional[bool]` — When true, the agent can call the tool while the user is still speaking. Only available for custom_webhook, custom_websocket, and custom_context tools.
     
 </dd>
 </dl>
@@ -4667,7 +4683,7 @@ client.voices.preview(
 <dl>
 <dd>
 
-Returns information about the workspace.
+Returns information about the workspace. An API key must have workspace access.
 </dd>
 </dl>
 </dd>
@@ -4730,7 +4746,7 @@ client.workspace.get()
 <dl>
 <dd>
 
-Updates the workspace.
+Updates the workspace. An API key must have workspace access.
 </dd>
 </dl>
 </dd>
@@ -4814,7 +4830,7 @@ client.workspace.update(
 </details>
 
 ## ApiKeys
-<details><summary><code>client.api_keys.<a href="src/phonic/api_keys/client.py">create</a>(...) -> ApiKeyWithSecret</code></summary>
+<details><summary><code>client.api_keys.<a href="src/phonic/api_keys/client.py">create</a>(...) -> CreateApiKeyResponse</code></summary>
 <dl>
 <dd>
 
@@ -4827,6 +4843,12 @@ client.workspace.update(
 <dd>
 
 Creates a new API key in the workspace.
+
+Requires an API key with workspace access, or an access token. The new
+key's `scope` must be within the caller's scope. Omit `scope` and an
+API key copies its own scope onto the new key. An access token that
+omits `scope` creates a key with access to every project and to
+workspace management.
 </dd>
 </dl>
 </dd>
@@ -4841,7 +4863,7 @@ Creates a new API key in the workspace.
 <dd>
 
 ```python
-from phonic import Phonic
+from phonic import Phonic, ApiKeyScope
 from phonic.environment import PhonicEnvironment
 
 client = Phonic(
@@ -4850,7 +4872,14 @@ client = Phonic(
 )
 
 client.api_keys.create(
-    name="production-key",
+    name="billing-key",
+    scope=ApiKeyScope(
+        workspace_access=False,
+        project_access="selected",
+        project_ids=[
+            "proj_ad0334f1-2487-4155-9df3-abd8129b29ad"
+        ],
+    ),
 )
 
 ```
@@ -4867,7 +4896,19 @@ client.api_keys.create(
 <dl>
 <dd>
 
-**name:** `str` — A name to identify the API key.
+**name:** `str` — A name to identify the API key. Required, and unique within the workspace.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**scope:** `typing.Optional[ApiKeyScope]` 
+
+Access granted to the new key. Must be within the caller's own
+scope. Omit it and an API key copies its own scope onto the new
+key.
     
 </dd>
 </dl>
@@ -4900,6 +4941,10 @@ client.api_keys.create(
 <dd>
 
 Deletes an API key.
+
+Requires an API key with workspace access, or an access token. The
+caller can delete a key only when that key's scope is within the
+caller's scope.
 </dd>
 </dl>
 </dd>
@@ -4972,7 +5017,13 @@ client.api_keys.delete(
 <dl>
 <dd>
 
-Updates an API key.
+Updates an API key's name, scope, or both. Send at least one of `name`
+and `scope`.
+
+Requires an API key with workspace access, or an access token. The
+caller can update a key only when that key's current scope is within
+the caller's scope, and a new `scope` must also be within the caller's
+scope.
 </dd>
 </dl>
 </dd>
@@ -4987,7 +5038,7 @@ Updates an API key.
 <dd>
 
 ```python
-from phonic import Phonic
+from phonic import Phonic, ApiKeyScope
 from phonic.environment import PhonicEnvironment
 
 client = Phonic(
@@ -4997,7 +5048,14 @@ client = Phonic(
 
 client.api_keys.update(
     id="id",
-    name="renamed-key",
+    name="billing-key",
+    scope=ApiKeyScope(
+        workspace_access=False,
+        project_access="selected",
+        project_ids=[
+            "proj_ad0334f1-2487-4155-9df3-abd8129b29ad"
+        ],
+    ),
 )
 
 ```
@@ -5022,7 +5080,19 @@ client.api_keys.update(
 <dl>
 <dd>
 
-**name:** `str` — The new name for the API key.
+**name:** `typing.Optional[str]` — The new name for the API key. Unique within the workspace.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**scope:** `typing.Optional[ApiKeyScope]` 
+
+Replaces the key's scope. Must be within the caller's own scope.
+The caller can change a key only when that key's current scope is
+also within the caller's scope.
     
 </dd>
 </dl>
@@ -5054,7 +5124,12 @@ client.api_keys.update(
 <dl>
 <dd>
 
-Rotates an API key, generating a new secret and invalidating the old one.
+Rotates an API key, generating a new secret and invalidating the old
+one. The new key keeps the previous key's name and scope.
+
+Requires an API key with workspace access, or an access token. The
+caller can rotate a key only when that key's scope is within the
+caller's scope.
 </dd>
 </dl>
 </dd>
@@ -5223,7 +5298,7 @@ client.conversation_items.replay(
 <dl>
 <dd>
 
-Returns conversations with optional filtering.
+Returns conversations with optional filtering. Each item is the full conversation object returned by [Get conversation](/api-reference/conversations/get), including transcripts, `system_prompt` and `items`.
 </dd>
 </dl>
 </dd>
@@ -5294,7 +5369,7 @@ client.conversations.list()
 <dl>
 <dd>
 
-**started_at_min:** `typing.Optional[str]` — Minimum start date/time. Valid examples: `2025-04-17`, `2025-04-17T02:48:52.708Z`
+**started_at_min:** `typing.Optional[str]` — Only return conversations that started at or after this time. Accepts a UTC date (`2025-04-17`) or a UTC date-time with milliseconds (`2025-04-17T02:48:52.708Z`). UTC offsets are not supported.
     
 </dd>
 </dl>
@@ -5302,7 +5377,7 @@ client.conversations.list()
 <dl>
 <dd>
 
-**started_at_max:** `typing.Optional[str]` — Maximum start date/time. Valid examples: `2025-04-17`, `2025-04-17T02:48:52.708Z`
+**started_at_max:** `typing.Optional[str]` — Only return conversations that started at or before this time. Accepts a UTC date (`2025-04-17`, meaning midnight at the start of that day) or a UTC date-time with milliseconds (`2025-04-17T02:48:52.708Z`). UTC offsets are not supported.
     
 </dd>
 </dl>
@@ -6565,7 +6640,8 @@ client.tts.stream(
 <dl>
 <dd>
 
-Returns all projects in a workspace.
+Returns the projects in the workspace. An API key limited to selected
+projects receives only those projects.
 </dd>
 </dl>
 </dd>
@@ -6628,7 +6704,7 @@ client.projects.list()
 <dl>
 <dd>
 
-Creates a new project in a workspace.
+Creates a new project in the workspace. An API key must have workspace access.
 </dd>
 </dl>
 </dd>
@@ -6701,7 +6777,7 @@ client.projects.create(
 <dl>
 <dd>
 
-Returns a project by name or ID.
+Returns a project by name or ID. An API key can read a project only when that project is in its scope.
 </dd>
 </dl>
 </dd>
@@ -6774,7 +6850,7 @@ client.projects.get(
 <dl>
 <dd>
 
-Deletes a project by name or ID.
+Deletes a project by name or ID. An API key can delete a project only when that project is in its scope.
 </dd>
 </dl>
 </dd>
@@ -6847,7 +6923,7 @@ client.projects.delete(
 <dl>
 <dd>
 
-Updates a project by name or ID.
+Updates a project by name or ID. An API key can update a project only when that project is in its scope.
 </dd>
 </dl>
 </dd>

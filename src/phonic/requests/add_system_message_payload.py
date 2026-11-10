@@ -9,5 +9,5 @@ class AddSystemMessagePayloadParams(typing_extensions.TypedDict):
     type: typing.Literal["add_system_message"]
     system_message: str
     """
-    New system message
+    System message to add to the conversation context
     """

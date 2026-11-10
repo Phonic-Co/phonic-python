@@ -28,7 +28,7 @@ class RawWorkspaceClient:
 
     def get(self, *, request_options: typing.Optional[RequestOptions] = None) -> HttpResponse[WorkspaceGetResponse]:
         """
-        Returns information about the workspace.
+        Returns information about the workspace. An API key must have workspace access.
 
         Parameters
         ----------
@@ -67,6 +67,17 @@ class RawWorkspaceClient:
                         ),
                     ),
                 )
+            if _response.status_code == 403:
+                raise ForbiddenError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Any,
+                        construct_type(
+                            type_=typing.Any,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
             if _response.status_code == 500:
                 raise InternalServerError(
                     headers=dict(_response.headers),
@@ -96,7 +107,7 @@ class RawWorkspaceClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[WorkspaceUpdateResponse]:
         """
-        Updates the workspace.
+        Updates the workspace. An API key must have workspace access.
 
         Parameters
         ----------
@@ -204,7 +215,7 @@ class AsyncRawWorkspaceClient:
         self, *, request_options: typing.Optional[RequestOptions] = None
     ) -> AsyncHttpResponse[WorkspaceGetResponse]:
         """
-        Returns information about the workspace.
+        Returns information about the workspace. An API key must have workspace access.
 
         Parameters
         ----------
@@ -243,6 +254,17 @@ class AsyncRawWorkspaceClient:
                         ),
                     ),
                 )
+            if _response.status_code == 403:
+                raise ForbiddenError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Any,
+                        construct_type(
+                            type_=typing.Any,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
             if _response.status_code == 500:
                 raise InternalServerError(
                     headers=dict(_response.headers),
@@ -272,7 +294,7 @@ class AsyncRawWorkspaceClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[WorkspaceUpdateResponse]:
         """
-        Updates the workspace.
+        Updates the workspace. An API key must have workspace access.
 
         Parameters
         ----------

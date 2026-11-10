@@ -37,6 +37,7 @@ if typing.TYPE_CHECKING:
     from .update_agent_request_phone_number import UpdateAgentRequestPhoneNumber
     from .update_agent_request_phonic_model import UpdateAgentRequestPhonicModel
     from .update_agent_request_pronunciation_dictionary_item import UpdateAgentRequestPronunciationDictionaryItem
+    from .update_agent_request_redaction_entities_item import UpdateAgentRequestRedactionEntitiesItem
     from .update_agent_request_template_variables_value import UpdateAgentRequestTemplateVariablesValue
     from .update_agent_request_tools_item import UpdateAgentRequestToolsItem
     from .update_agent_request_turn_taking import UpdateAgentRequestTurnTaking
@@ -66,6 +67,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "UpdateAgentRequestPhoneNumber": ".update_agent_request_phone_number",
     "UpdateAgentRequestPhonicModel": ".update_agent_request_phonic_model",
     "UpdateAgentRequestPronunciationDictionaryItem": ".update_agent_request_pronunciation_dictionary_item",
+    "UpdateAgentRequestRedactionEntitiesItem": ".update_agent_request_redaction_entities_item",
     "UpdateAgentRequestTemplateVariablesValue": ".update_agent_request_template_variables_value",
     "UpdateAgentRequestToolsItem": ".update_agent_request_tools_item",
     "UpdateAgentRequestTurnTaking": ".update_agent_request_turn_taking",
@@ -119,6 +121,7 @@ __all__ = [
     "UpdateAgentRequestPhoneNumber",
     "UpdateAgentRequestPhonicModel",
     "UpdateAgentRequestPronunciationDictionaryItem",
+    "UpdateAgentRequestRedactionEntitiesItem",
     "UpdateAgentRequestTemplateVariablesValue",
     "UpdateAgentRequestToolsItem",
     "UpdateAgentRequestTurnTaking",

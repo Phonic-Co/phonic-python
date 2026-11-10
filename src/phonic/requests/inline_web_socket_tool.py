@@ -61,5 +61,5 @@ class InlineWebSocketToolParams(typing_extensions.TypedDict):
 
     can_run_during_user_speech: typing_extensions.NotRequired[bool]
     """
-    When true, the assistant can call the tool while the user is still speaking. Setting it to true requires the feature to be enabled for your organization; contact Phonic to get access.
+    When true, the assistant can call the tool while the user is still speaking.
     """

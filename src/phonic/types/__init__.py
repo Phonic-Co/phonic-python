@@ -18,9 +18,12 @@ if typing.TYPE_CHECKING:
     from .agent_phonic_model import AgentPhonicModel
     from .agent_project import AgentProject
     from .agent_pronunciation_dictionary_item import AgentPronunciationDictionaryItem
+    from .agent_redaction_entities_item import AgentRedactionEntitiesItem
     from .agent_template_variables_value import AgentTemplateVariablesValue
     from .agent_tools_item import AgentToolsItem
     from .agent_turn_taking import AgentTurnTaking
+    from .api_key_scope import ApiKeyScope
+    from .api_key_scope_project_access import ApiKeyScopeProjectAccess
     from .api_key_with_secret import ApiKeyWithSecret
     from .assistant_chose_not_to_respond_payload import AssistantChoseNotToRespondPayload
     from .assistant_ended_conversation_payload import AssistantEndedConversationPayload
@@ -59,6 +62,7 @@ if typing.TYPE_CHECKING:
     from .config_options_output_format import ConfigOptionsOutputFormat
     from .config_options_phonic_model import ConfigOptionsPhonicModel
     from .config_options_pronunciation_dictionary_item import ConfigOptionsPronunciationDictionaryItem
+    from .config_options_redaction_entities_item import ConfigOptionsRedactionEntitiesItem
     from .config_options_tasks_item import ConfigOptionsTasksItem
     from .config_options_turn_taking import ConfigOptionsTurnTaking
     from .config_payload import ConfigPayload
@@ -107,9 +111,11 @@ if typing.TYPE_CHECKING:
     from .create_agent_request_phone_number import CreateAgentRequestPhoneNumber
     from .create_agent_request_phonic_model import CreateAgentRequestPhonicModel
     from .create_agent_request_pronunciation_dictionary_item import CreateAgentRequestPronunciationDictionaryItem
+    from .create_agent_request_redaction_entities_item import CreateAgentRequestRedactionEntitiesItem
     from .create_agent_request_template_variables_value import CreateAgentRequestTemplateVariablesValue
     from .create_agent_request_tools_item import CreateAgentRequestToolsItem
     from .create_agent_request_turn_taking import CreateAgentRequestTurnTaking
+    from .create_api_key_response import CreateApiKeyResponse
     from .data_retention_policy import DataRetentionPolicy
     from .data_retention_policy_audio_recordings import DataRetentionPolicyAudioRecordings
     from .data_retention_policy_audio_recordings_audio_recordings import (
@@ -153,6 +159,7 @@ if typing.TYPE_CHECKING:
     from .outbound_call_config_multilingual_mode import OutboundCallConfigMultilingualMode
     from .outbound_call_config_phonic_model import OutboundCallConfigPhonicModel
     from .outbound_call_config_pronunciation_dictionary_item import OutboundCallConfigPronunciationDictionaryItem
+    from .outbound_call_config_redaction_entities_item import OutboundCallConfigRedactionEntitiesItem
     from .outbound_call_config_tools_item import OutboundCallConfigToolsItem
     from .outbound_call_config_turn_taking import OutboundCallConfigTurnTaking
     from .outbound_call_initiated_response import OutboundCallInitiatedResponse
@@ -257,9 +264,12 @@ _dynamic_imports: typing.Dict[str, str] = {
     "AgentPhonicModel": ".agent_phonic_model",
     "AgentProject": ".agent_project",
     "AgentPronunciationDictionaryItem": ".agent_pronunciation_dictionary_item",
+    "AgentRedactionEntitiesItem": ".agent_redaction_entities_item",
     "AgentTemplateVariablesValue": ".agent_template_variables_value",
     "AgentToolsItem": ".agent_tools_item",
     "AgentTurnTaking": ".agent_turn_taking",
+    "ApiKeyScope": ".api_key_scope",
+    "ApiKeyScopeProjectAccess": ".api_key_scope_project_access",
     "ApiKeyWithSecret": ".api_key_with_secret",
     "AssistantChoseNotToRespondPayload": ".assistant_chose_not_to_respond_payload",
     "AssistantEndedConversationPayload": ".assistant_ended_conversation_payload",
@@ -294,6 +304,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ConfigOptionsOutputFormat": ".config_options_output_format",
     "ConfigOptionsPhonicModel": ".config_options_phonic_model",
     "ConfigOptionsPronunciationDictionaryItem": ".config_options_pronunciation_dictionary_item",
+    "ConfigOptionsRedactionEntitiesItem": ".config_options_redaction_entities_item",
     "ConfigOptionsTasksItem": ".config_options_tasks_item",
     "ConfigOptionsTurnTaking": ".config_options_turn_taking",
     "ConfigPayload": ".config_payload",
@@ -342,9 +353,11 @@ _dynamic_imports: typing.Dict[str, str] = {
     "CreateAgentRequestPhoneNumber": ".create_agent_request_phone_number",
     "CreateAgentRequestPhonicModel": ".create_agent_request_phonic_model",
     "CreateAgentRequestPronunciationDictionaryItem": ".create_agent_request_pronunciation_dictionary_item",
+    "CreateAgentRequestRedactionEntitiesItem": ".create_agent_request_redaction_entities_item",
     "CreateAgentRequestTemplateVariablesValue": ".create_agent_request_template_variables_value",
     "CreateAgentRequestToolsItem": ".create_agent_request_tools_item",
     "CreateAgentRequestTurnTaking": ".create_agent_request_turn_taking",
+    "CreateApiKeyResponse": ".create_api_key_response",
     "DataRetentionPolicy": ".data_retention_policy",
     "DataRetentionPolicyAudioRecordings": ".data_retention_policy_audio_recordings",
     "DataRetentionPolicyAudioRecordingsAudioRecordings": ".data_retention_policy_audio_recordings_audio_recordings",
@@ -386,6 +399,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "OutboundCallConfigMultilingualMode": ".outbound_call_config_multilingual_mode",
     "OutboundCallConfigPhonicModel": ".outbound_call_config_phonic_model",
     "OutboundCallConfigPronunciationDictionaryItem": ".outbound_call_config_pronunciation_dictionary_item",
+    "OutboundCallConfigRedactionEntitiesItem": ".outbound_call_config_redaction_entities_item",
     "OutboundCallConfigToolsItem": ".outbound_call_config_tools_item",
     "OutboundCallConfigTurnTaking": ".outbound_call_config_turn_taking",
     "OutboundCallInitiatedResponse": ".outbound_call_initiated_response",
@@ -508,9 +522,12 @@ __all__ = [
     "AgentPhonicModel",
     "AgentProject",
     "AgentPronunciationDictionaryItem",
+    "AgentRedactionEntitiesItem",
     "AgentTemplateVariablesValue",
     "AgentToolsItem",
     "AgentTurnTaking",
+    "ApiKeyScope",
+    "ApiKeyScopeProjectAccess",
     "ApiKeyWithSecret",
     "AssistantChoseNotToRespondPayload",
     "AssistantEndedConversationPayload",
@@ -545,6 +562,7 @@ __all__ = [
     "ConfigOptionsOutputFormat",
     "ConfigOptionsPhonicModel",
     "ConfigOptionsPronunciationDictionaryItem",
+    "ConfigOptionsRedactionEntitiesItem",
     "ConfigOptionsTasksItem",
     "ConfigOptionsTurnTaking",
     "ConfigPayload",
@@ -593,9 +611,11 @@ __all__ = [
     "CreateAgentRequestPhoneNumber",
     "CreateAgentRequestPhonicModel",
     "CreateAgentRequestPronunciationDictionaryItem",
+    "CreateAgentRequestRedactionEntitiesItem",
     "CreateAgentRequestTemplateVariablesValue",
     "CreateAgentRequestToolsItem",
     "CreateAgentRequestTurnTaking",
+    "CreateApiKeyResponse",
     "DataRetentionPolicy",
     "DataRetentionPolicyAudioRecordings",
     "DataRetentionPolicyAudioRecordingsAudioRecordings",
@@ -637,6 +657,7 @@ __all__ = [
     "OutboundCallConfigMultilingualMode",
     "OutboundCallConfigPhonicModel",
     "OutboundCallConfigPronunciationDictionaryItem",
+    "OutboundCallConfigRedactionEntitiesItem",
     "OutboundCallConfigToolsItem",
     "OutboundCallConfigTurnTaking",
     "OutboundCallInitiatedResponse",

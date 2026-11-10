@@ -37,7 +37,8 @@ class RawProjectsClient:
 
     def list(self, *, request_options: typing.Optional[RequestOptions] = None) -> HttpResponse[ProjectsListResponse]:
         """
-        Returns all projects in a workspace.
+        Returns the projects in the workspace. An API key limited to selected
+        projects receives only those projects.
 
         Parameters
         ----------
@@ -100,7 +101,7 @@ class RawProjectsClient:
         self, *, name: str, request_options: typing.Optional[RequestOptions] = None
     ) -> HttpResponse[ProjectsCreateResponse]:
         """
-        Creates a new project in a workspace.
+        Creates a new project in the workspace. An API key must have workspace access.
 
         Parameters
         ----------
@@ -160,6 +161,17 @@ class RawProjectsClient:
                         ),
                     ),
                 )
+            if _response.status_code == 403:
+                raise ForbiddenError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Any,
+                        construct_type(
+                            type_=typing.Any,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
             if _response.status_code == 500:
                 raise InternalServerError(
                     headers=dict(_response.headers),
@@ -184,7 +196,7 @@ class RawProjectsClient:
         self, name_or_id: str, *, request_options: typing.Optional[RequestOptions] = None
     ) -> HttpResponse[ProjectsGetResponse]:
         """
-        Returns a project by name or ID.
+        Returns a project by name or ID. An API key can read a project only when that project is in its scope.
 
         Parameters
         ----------
@@ -272,7 +284,7 @@ class RawProjectsClient:
         self, name_or_id: str, *, request_options: typing.Optional[RequestOptions] = None
     ) -> HttpResponse[ProjectsDeleteResponse]:
         """
-        Deletes a project by name or ID.
+        Deletes a project by name or ID. An API key can delete a project only when that project is in its scope.
 
         Parameters
         ----------
@@ -377,7 +389,7 @@ class RawProjectsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[ProjectsUpdateResponse]:
         """
-        Updates a project by name or ID.
+        Updates a project by name or ID. An API key can update a project only when that project is in its scope.
 
         Parameters
         ----------
@@ -788,7 +800,8 @@ class AsyncRawProjectsClient:
         self, *, request_options: typing.Optional[RequestOptions] = None
     ) -> AsyncHttpResponse[ProjectsListResponse]:
         """
-        Returns all projects in a workspace.
+        Returns the projects in the workspace. An API key limited to selected
+        projects receives only those projects.
 
         Parameters
         ----------
@@ -851,7 +864,7 @@ class AsyncRawProjectsClient:
         self, *, name: str, request_options: typing.Optional[RequestOptions] = None
     ) -> AsyncHttpResponse[ProjectsCreateResponse]:
         """
-        Creates a new project in a workspace.
+        Creates a new project in the workspace. An API key must have workspace access.
 
         Parameters
         ----------
@@ -911,6 +924,17 @@ class AsyncRawProjectsClient:
                         ),
                     ),
                 )
+            if _response.status_code == 403:
+                raise ForbiddenError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Any,
+                        construct_type(
+                            type_=typing.Any,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
             if _response.status_code == 500:
                 raise InternalServerError(
                     headers=dict(_response.headers),
@@ -935,7 +959,7 @@ class AsyncRawProjectsClient:
         self, name_or_id: str, *, request_options: typing.Optional[RequestOptions] = None
     ) -> AsyncHttpResponse[ProjectsGetResponse]:
         """
-        Returns a project by name or ID.
+        Returns a project by name or ID. An API key can read a project only when that project is in its scope.
 
         Parameters
         ----------
@@ -1023,7 +1047,7 @@ class AsyncRawProjectsClient:
         self, name_or_id: str, *, request_options: typing.Optional[RequestOptions] = None
     ) -> AsyncHttpResponse[ProjectsDeleteResponse]:
         """
-        Deletes a project by name or ID.
+        Deletes a project by name or ID. An API key can delete a project only when that project is in its scope.
 
         Parameters
         ----------
@@ -1128,7 +1152,7 @@ class AsyncRawProjectsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[ProjectsUpdateResponse]:
         """
-        Updates a project by name or ID.
+        Updates a project by name or ID. An API key can update a project only when that project is in its scope.
 
         Parameters
         ----------

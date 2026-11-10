@@ -8,6 +8,7 @@ from ..types.config_options_input_format import ConfigOptionsInputFormat
 from ..types.config_options_intelligence_level import ConfigOptionsIntelligenceLevel
 from ..types.config_options_multilingual_mode import ConfigOptionsMultilingualMode
 from ..types.config_options_output_format import ConfigOptionsOutputFormat
+from ..types.config_options_redaction_entities_item import ConfigOptionsRedactionEntitiesItem
 from ..types.config_options_turn_taking import ConfigOptionsTurnTaking
 from .config_options_configuration_endpoint import ConfigOptionsConfigurationEndpointParams
 from .config_options_data_retention_policy import ConfigOptionsDataRetentionPolicyParams
@@ -214,6 +215,13 @@ class ConfigOptionsParams(typing_extensions.TypedDict):
     enable_redaction: typing_extensions.NotRequired[bool]
     """
     When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE]`) and bleeped from audio recordings after the conversation ends.
+    """
+
+    redaction_entities: typing_extensions.NotRequired[
+        typing.Optional[typing.Sequence[ConfigOptionsRedactionEntitiesItem]]
+    ]
+    """
+    The types of PII and PHI to redact when `enable_redaction` is `true`. `null` redacts all PII and PHI. Must contain at least one item when not `null`.
     """
 
     enable_watermarking: typing_extensions.NotRequired[bool]

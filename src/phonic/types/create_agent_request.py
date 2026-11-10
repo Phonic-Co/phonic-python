@@ -15,6 +15,7 @@ from .create_agent_request_multilingual_mode import CreateAgentRequestMultilingu
 from .create_agent_request_phone_number import CreateAgentRequestPhoneNumber
 from .create_agent_request_phonic_model import CreateAgentRequestPhonicModel
 from .create_agent_request_pronunciation_dictionary_item import CreateAgentRequestPronunciationDictionaryItem
+from .create_agent_request_redaction_entities_item import CreateAgentRequestRedactionEntitiesItem
 from .create_agent_request_template_variables_value import CreateAgentRequestTemplateVariablesValue
 from .create_agent_request_tools_item import CreateAgentRequestToolsItem
 from .create_agent_request_turn_taking import CreateAgentRequestTurnTaking
@@ -133,7 +134,7 @@ class CreateAgentRequest(UncheckedBaseModel):
 
     built_in_tool_configs: typing.Optional[BuiltInToolConfigs] = pydantic.Field(default=None)
     """
-    Configuration overrides for built-in tools, keyed by built-in tool ID. Built-in tools not listed here use their default configuration.
+    Configuration overrides for built-in tools, keyed by built-in tool ID: `tool_natural_conversation_ending`, `tool_keypad_input`, `tool_web_search`, or `tool_choose_not_to_respond` (the tool name prefixed with `tool_`; bare tool names such as `natural_conversation_ending` are rejected). Built-in tools not listed here use their default configuration.
     """
 
     tasks: typing.Optional[typing.List[Task]] = pydantic.Field(default=None)
@@ -281,6 +282,13 @@ class CreateAgentRequest(UncheckedBaseModel):
     enable_redaction: typing.Optional[bool] = pydantic.Field(default=None)
     """
     When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE]`) and bleeped from audio recordings after the conversation ends.
+    """
+
+    redaction_entities: typing.Optional[typing.List[CreateAgentRequestRedactionEntitiesItem]] = pydantic.Field(
+        default=None
+    )
+    """
+    The types of PII and PHI to redact when `enable_redaction` is `true`. `null` redacts all PII and PHI. Must contain at least one item when not `null`.
     """
 
     enable_watermarking: typing.Optional[bool] = pydantic.Field(default=None)

@@ -9,13 +9,18 @@ from ..core.http_response import AsyncHttpResponse, HttpResponse
 from ..core.jsonable_encoder import jsonable_encoder
 from ..core.parse_error import ParsingError
 from ..core.request_options import RequestOptions
+from ..core.serialization import convert_and_respect_annotation_metadata
 from ..core.unchecked_base_model import construct_type
 from ..errors.bad_request_error import BadRequestError
+from ..errors.conflict_error import ConflictError
+from ..errors.forbidden_error import ForbiddenError
 from ..errors.internal_server_error import InternalServerError
 from ..errors.not_found_error import NotFoundError
 from ..errors.unauthorized_error import UnauthorizedError
+from ..requests.api_key_scope import ApiKeyScopeParams
 from ..types.api_key_with_secret import ApiKeyWithSecret
 from ..types.basic_error import BasicError
+from ..types.create_api_key_response import CreateApiKeyResponse
 from .types.api_keys_delete_response import ApiKeysDeleteResponse
 from .types.api_keys_update_response import ApiKeysUpdateResponse
 from pydantic import ValidationError
@@ -29,22 +34,37 @@ class RawApiKeysClient:
         self._client_wrapper = client_wrapper
 
     def create(
-        self, *, name: str, request_options: typing.Optional[RequestOptions] = None
-    ) -> HttpResponse[ApiKeyWithSecret]:
+        self,
+        *,
+        name: str,
+        scope: typing.Optional[ApiKeyScopeParams] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> HttpResponse[CreateApiKeyResponse]:
         """
         Creates a new API key in the workspace.
+
+        Requires an API key with workspace access, or an access token. The new
+        key's `scope` must be within the caller's scope. Omit `scope` and an
+        API key copies its own scope onto the new key. An access token that
+        omits `scope` creates a key with access to every project and to
+        workspace management.
 
         Parameters
         ----------
         name : str
-            A name to identify the API key.
+            A name to identify the API key. Required, and unique within the workspace.
+
+        scope : typing.Optional[ApiKeyScopeParams]
+            Access granted to the new key. Must be within the caller's own
+            scope. Omit it and an API key copies its own scope onto the new
+            key.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        HttpResponse[ApiKeyWithSecret]
+        HttpResponse[CreateApiKeyResponse]
             API key created
         """
         _response = self._client_wrapper.httpx_client.request(
@@ -53,6 +73,9 @@ class RawApiKeysClient:
             method="POST",
             json={
                 "name": name,
+                "scope": convert_and_respect_annotation_metadata(
+                    object_=scope, annotation=ApiKeyScopeParams, direction="write"
+                ),
             },
             headers={
                 "content-type": "application/json",
@@ -63,9 +86,9 @@ class RawApiKeysClient:
         try:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
-                    ApiKeyWithSecret,
+                    CreateApiKeyResponse,
                     construct_type(
-                        type_=ApiKeyWithSecret,  # type: ignore
+                        type_=CreateApiKeyResponse,  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -88,6 +111,17 @@ class RawApiKeysClient:
                         BasicError,
                         construct_type(
                             type_=BasicError,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 403:
+                raise ForbiddenError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Any,
+                        construct_type(
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -117,6 +151,10 @@ class RawApiKeysClient:
     ) -> HttpResponse[ApiKeysDeleteResponse]:
         """
         Deletes an API key.
+
+        Requires an API key with workspace access, or an access token. The
+        caller can delete a key only when that key's scope is within the
+        caller's scope.
 
         Parameters
         ----------
@@ -158,8 +196,30 @@ class RawApiKeysClient:
                         ),
                     ),
                 )
+            if _response.status_code == 403:
+                raise ForbiddenError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Any,
+                        construct_type(
+                            type_=typing.Any,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
             if _response.status_code == 404:
                 raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Any,
+                        construct_type(
+                            type_=typing.Any,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 409:
+                raise ConflictError(
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Any,
@@ -190,18 +250,34 @@ class RawApiKeysClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     def update(
-        self, id: str, *, name: str, request_options: typing.Optional[RequestOptions] = None
+        self,
+        id: str,
+        *,
+        name: typing.Optional[str] = OMIT,
+        scope: typing.Optional[ApiKeyScopeParams] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[ApiKeysUpdateResponse]:
         """
-        Updates an API key.
+        Updates an API key's name, scope, or both. Send at least one of `name`
+        and `scope`.
+
+        Requires an API key with workspace access, or an access token. The
+        caller can update a key only when that key's current scope is within
+        the caller's scope, and a new `scope` must also be within the caller's
+        scope.
 
         Parameters
         ----------
         id : str
             The ID of the API key to update.
 
-        name : str
-            The new name for the API key.
+        name : typing.Optional[str]
+            The new name for the API key. Unique within the workspace.
+
+        scope : typing.Optional[ApiKeyScopeParams]
+            Replaces the key's scope. Must be within the caller's own scope.
+            The caller can change a key only when that key's current scope is
+            also within the caller's scope.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -217,6 +293,9 @@ class RawApiKeysClient:
             method="PATCH",
             json={
                 "name": name,
+                "scope": convert_and_respect_annotation_metadata(
+                    object_=scope, annotation=ApiKeyScopeParams, direction="write"
+                ),
             },
             headers={
                 "content-type": "application/json",
@@ -256,8 +335,30 @@ class RawApiKeysClient:
                         ),
                     ),
                 )
+            if _response.status_code == 403:
+                raise ForbiddenError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Any,
+                        construct_type(
+                            type_=typing.Any,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
             if _response.status_code == 404:
                 raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Any,
+                        construct_type(
+                            type_=typing.Any,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 409:
+                raise ConflictError(
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Any,
@@ -291,7 +392,12 @@ class RawApiKeysClient:
         self, id: str, *, request_options: typing.Optional[RequestOptions] = None
     ) -> HttpResponse[ApiKeyWithSecret]:
         """
-        Rotates an API key, generating a new secret and invalidating the old one.
+        Rotates an API key, generating a new secret and invalidating the old
+        one. The new key keeps the previous key's name and scope.
+
+        Requires an API key with workspace access, or an access token. The
+        caller can rotate a key only when that key's scope is within the
+        caller's scope.
 
         Parameters
         ----------
@@ -333,8 +439,30 @@ class RawApiKeysClient:
                         ),
                     ),
                 )
+            if _response.status_code == 403:
+                raise ForbiddenError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Any,
+                        construct_type(
+                            type_=typing.Any,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
             if _response.status_code == 404:
                 raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Any,
+                        construct_type(
+                            type_=typing.Any,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 409:
+                raise ConflictError(
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Any,
@@ -370,22 +498,37 @@ class AsyncRawApiKeysClient:
         self._client_wrapper = client_wrapper
 
     async def create(
-        self, *, name: str, request_options: typing.Optional[RequestOptions] = None
-    ) -> AsyncHttpResponse[ApiKeyWithSecret]:
+        self,
+        *,
+        name: str,
+        scope: typing.Optional[ApiKeyScopeParams] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> AsyncHttpResponse[CreateApiKeyResponse]:
         """
         Creates a new API key in the workspace.
+
+        Requires an API key with workspace access, or an access token. The new
+        key's `scope` must be within the caller's scope. Omit `scope` and an
+        API key copies its own scope onto the new key. An access token that
+        omits `scope` creates a key with access to every project and to
+        workspace management.
 
         Parameters
         ----------
         name : str
-            A name to identify the API key.
+            A name to identify the API key. Required, and unique within the workspace.
+
+        scope : typing.Optional[ApiKeyScopeParams]
+            Access granted to the new key. Must be within the caller's own
+            scope. Omit it and an API key copies its own scope onto the new
+            key.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        AsyncHttpResponse[ApiKeyWithSecret]
+        AsyncHttpResponse[CreateApiKeyResponse]
             API key created
         """
         _response = await self._client_wrapper.httpx_client.request(
@@ -394,6 +537,9 @@ class AsyncRawApiKeysClient:
             method="POST",
             json={
                 "name": name,
+                "scope": convert_and_respect_annotation_metadata(
+                    object_=scope, annotation=ApiKeyScopeParams, direction="write"
+                ),
             },
             headers={
                 "content-type": "application/json",
@@ -404,9 +550,9 @@ class AsyncRawApiKeysClient:
         try:
             if 200 <= _response.status_code < 300:
                 _data = typing.cast(
-                    ApiKeyWithSecret,
+                    CreateApiKeyResponse,
                     construct_type(
-                        type_=ApiKeyWithSecret,  # type: ignore
+                        type_=CreateApiKeyResponse,  # type: ignore
                         object_=_response.json(),
                     ),
                 )
@@ -429,6 +575,17 @@ class AsyncRawApiKeysClient:
                         BasicError,
                         construct_type(
                             type_=BasicError,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 403:
+                raise ForbiddenError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Any,
+                        construct_type(
+                            type_=typing.Any,  # type: ignore
                             object_=_response.json(),
                         ),
                     ),
@@ -458,6 +615,10 @@ class AsyncRawApiKeysClient:
     ) -> AsyncHttpResponse[ApiKeysDeleteResponse]:
         """
         Deletes an API key.
+
+        Requires an API key with workspace access, or an access token. The
+        caller can delete a key only when that key's scope is within the
+        caller's scope.
 
         Parameters
         ----------
@@ -499,8 +660,30 @@ class AsyncRawApiKeysClient:
                         ),
                     ),
                 )
+            if _response.status_code == 403:
+                raise ForbiddenError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Any,
+                        construct_type(
+                            type_=typing.Any,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
             if _response.status_code == 404:
                 raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Any,
+                        construct_type(
+                            type_=typing.Any,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 409:
+                raise ConflictError(
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Any,
@@ -531,18 +714,34 @@ class AsyncRawApiKeysClient:
         raise ApiError(status_code=_response.status_code, headers=dict(_response.headers), body=_response_json)
 
     async def update(
-        self, id: str, *, name: str, request_options: typing.Optional[RequestOptions] = None
+        self,
+        id: str,
+        *,
+        name: typing.Optional[str] = OMIT,
+        scope: typing.Optional[ApiKeyScopeParams] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[ApiKeysUpdateResponse]:
         """
-        Updates an API key.
+        Updates an API key's name, scope, or both. Send at least one of `name`
+        and `scope`.
+
+        Requires an API key with workspace access, or an access token. The
+        caller can update a key only when that key's current scope is within
+        the caller's scope, and a new `scope` must also be within the caller's
+        scope.
 
         Parameters
         ----------
         id : str
             The ID of the API key to update.
 
-        name : str
-            The new name for the API key.
+        name : typing.Optional[str]
+            The new name for the API key. Unique within the workspace.
+
+        scope : typing.Optional[ApiKeyScopeParams]
+            Replaces the key's scope. Must be within the caller's own scope.
+            The caller can change a key only when that key's current scope is
+            also within the caller's scope.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -558,6 +757,9 @@ class AsyncRawApiKeysClient:
             method="PATCH",
             json={
                 "name": name,
+                "scope": convert_and_respect_annotation_metadata(
+                    object_=scope, annotation=ApiKeyScopeParams, direction="write"
+                ),
             },
             headers={
                 "content-type": "application/json",
@@ -597,8 +799,30 @@ class AsyncRawApiKeysClient:
                         ),
                     ),
                 )
+            if _response.status_code == 403:
+                raise ForbiddenError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Any,
+                        construct_type(
+                            type_=typing.Any,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
             if _response.status_code == 404:
                 raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Any,
+                        construct_type(
+                            type_=typing.Any,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 409:
+                raise ConflictError(
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Any,
@@ -632,7 +856,12 @@ class AsyncRawApiKeysClient:
         self, id: str, *, request_options: typing.Optional[RequestOptions] = None
     ) -> AsyncHttpResponse[ApiKeyWithSecret]:
         """
-        Rotates an API key, generating a new secret and invalidating the old one.
+        Rotates an API key, generating a new secret and invalidating the old
+        one. The new key keeps the previous key's name and scope.
+
+        Requires an API key with workspace access, or an access token. The
+        caller can rotate a key only when that key's scope is within the
+        caller's scope.
 
         Parameters
         ----------
@@ -674,8 +903,30 @@ class AsyncRawApiKeysClient:
                         ),
                     ),
                 )
+            if _response.status_code == 403:
+                raise ForbiddenError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Any,
+                        construct_type(
+                            type_=typing.Any,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
             if _response.status_code == 404:
                 raise NotFoundError(
+                    headers=dict(_response.headers),
+                    body=typing.cast(
+                        typing.Any,
+                        construct_type(
+                            type_=typing.Any,  # type: ignore
+                            object_=_response.json(),
+                        ),
+                    ),
+                )
+            if _response.status_code == 409:
+                raise ConflictError(
                     headers=dict(_response.headers),
                     body=typing.cast(
                         typing.Any,
