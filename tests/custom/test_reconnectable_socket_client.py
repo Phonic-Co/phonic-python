@@ -60,8 +60,8 @@ def _async_socket(inner: _FakeAsyncInner, replacement: _FakeAsyncInner) -> Recon
     socket = ReconnectableAsyncConversationsSocketClient(
         initial_cm=None,
         initial_protocol=None,
-        client_wrapper=None,
-        request_options=None,  # type: ignore[arg-type]
+        client_wrapper=None,  # type: ignore[arg-type]
+        request_options=None,
     )
     socket._inner = inner  # type: ignore[assignment]
     socket._conversation_id = "conv_test"
@@ -77,8 +77,8 @@ def _sync_socket(inner: _FakeSyncInner, replacement: _FakeSyncInner) -> Reconnec
     socket = ReconnectableConversationsSocketClient(
         initial_cm=None,
         initial_protocol=None,
-        client_wrapper=None,
-        request_options=None,  # type: ignore[arg-type]
+        client_wrapper=None,  # type: ignore[arg-type]
+        request_options=None,
     )
     socket._inner = inner  # type: ignore[assignment]
     socket._conversation_id = "conv_test"
