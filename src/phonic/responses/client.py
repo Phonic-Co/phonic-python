@@ -150,8 +150,6 @@ class ResponsesClient:
                                 "description": "The neighborhood to search in.",
                             }
                         },
-                        "required": ["location"],
-                        "additional_properties": False,
                     },
                 }
             ],
@@ -316,8 +314,6 @@ class AsyncResponsesClient:
                                     "description": "The neighborhood to search in.",
                                 }
                             },
-                            "required": ["location"],
-                            "additional_properties": False,
                         },
                     }
                 ],

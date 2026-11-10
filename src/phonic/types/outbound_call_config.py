@@ -58,7 +58,7 @@ class OutboundCallConfig(UncheckedBaseModel):
 
     template_variables: typing.Optional[typing.Dict[str, str]] = pydantic.Field(default=None)
     """
-    Variables that can be used in the welcome message and the system prompt.
+    Values for the agent's template variables in this conversation, keyed by variable name. Each value is a plain string, which overrides the variable's saved `default_value` on the agent.
     """
 
     voice_id: typing.Optional[str] = pydantic.Field(default=None)
