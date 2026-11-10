@@ -196,6 +196,7 @@ if typing.TYPE_CHECKING:
     from .responses_tool_call_output_response_body import ResponsesToolCallOutputResponseBody
     from .responses_tool_definition import ResponsesToolDefinition
     from .responses_tool_name import ResponsesToolName
+    from .responses_tool_parameters import ResponsesToolParameters
     from .responses_tool_reference import ResponsesToolReference
     from .responses_transfer_to_agent_action import ResponsesTransferToAgentAction
     from .responses_transfer_to_phone_number_action import ResponsesTransferToPhoneNumberAction
@@ -434,6 +435,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ResponsesToolCallOutputResponseBody": ".responses_tool_call_output_response_body",
     "ResponsesToolDefinition": ".responses_tool_definition",
     "ResponsesToolName": ".responses_tool_name",
+    "ResponsesToolParameters": ".responses_tool_parameters",
     "ResponsesToolReference": ".responses_tool_reference",
     "ResponsesTransferToAgentAction": ".responses_transfer_to_agent_action",
     "ResponsesTransferToPhoneNumberAction": ".responses_transfer_to_phone_number_action",
@@ -692,6 +694,7 @@ __all__ = [
     "ResponsesToolCallOutputResponseBody",
     "ResponsesToolDefinition",
     "ResponsesToolName",
+    "ResponsesToolParameters",
     "ResponsesToolReference",
     "ResponsesTransferToAgentAction",
     "ResponsesTransferToPhoneNumberAction",

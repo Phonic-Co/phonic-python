@@ -8,8 +8,19 @@ from ...core.unchecked_base_model import UncheckedBaseModel
 
 
 class UpdateAgentRequestTemplateVariablesValue(UncheckedBaseModel):
-    default_value: str
-    is_boosted_keyword: typing.Optional[bool] = None
+    """
+    A template variable saved on the agent.
+    """
+
+    default_value: str = pydantic.Field()
+    """
+    Value used when a conversation doesn't provide one. Can be an empty string.
+    """
+
+    is_boosted_keyword: typing.Optional[bool] = pydantic.Field(default=None)
+    """
+    When true, the variable's value is added to the agent's boosted keywords. Boosted values can be at most 50 characters.
+    """
 
     if IS_PYDANTIC_V2:
         model_config: typing.ClassVar[pydantic.ConfigDict] = pydantic.ConfigDict(extra="allow", frozen=True)  # type: ignore # Pydantic v2

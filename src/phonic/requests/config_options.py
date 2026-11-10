@@ -209,7 +209,7 @@ class ConfigOptionsParams(typing_extensions.TypedDict):
 
     template_variables: typing_extensions.NotRequired[typing.Dict[str, str]]
     """
-    Template variables for system prompt and welcome message
+    Values for the agent's template variables in this conversation, keyed by variable name. Each value is a plain string, which overrides the variable's saved `default_value` on the agent.
     """
 
     enable_redaction: typing_extensions.NotRequired[bool]

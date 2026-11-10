@@ -124,7 +124,7 @@ class CreateAgentRequest(UncheckedBaseModel):
         default=None
     )
     """
-    Variables that can be used in the welcome message and the system prompt.
+    Template variables saved on the agent, keyed by snake_case variable name, for use in the welcome message and the system prompt. Each value is an object such as `{"default_value": "Sarah"}`, not a plain string. Leave a variable out to require every conversation to provide it. To set values for a single conversation, pass plain strings in that conversation's `template_variables` instead.
     """
 
     tools: typing.Optional[typing.List[CreateAgentRequestToolsItem]] = pydantic.Field(default=None)

@@ -4,5 +4,16 @@ import typing_extensions
 
 
 class CreateAgentRequestTemplateVariablesValueParams(typing_extensions.TypedDict):
+    """
+    A template variable saved on the agent.
+    """
+
     default_value: str
+    """
+    Value used when a conversation doesn't provide one. Can be an empty string.
+    """
+
     is_boosted_keyword: typing_extensions.NotRequired[bool]
+    """
+    When true, the variable's value is added to the agent's boosted keywords. Boosted values can be at most 50 characters.
+    """

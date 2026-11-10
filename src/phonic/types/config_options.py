@@ -211,7 +211,7 @@ class ConfigOptions(UncheckedBaseModel):
 
     template_variables: typing.Optional[typing.Dict[str, str]] = pydantic.Field(default=None)
     """
-    Template variables for system prompt and welcome message
+    Values for the agent's template variables in this conversation, keyed by variable name. Each value is a plain string, which overrides the variable's saved `default_value` on the agent.
     """
 
     enable_redaction: typing.Optional[bool] = pydantic.Field(default=None)

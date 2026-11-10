@@ -5,7 +5,7 @@ import typing
 import pydantic
 from ..core.pydantic_utilities import IS_PYDANTIC_V2
 from ..core.unchecked_base_model import UncheckedBaseModel
-from .tool_parameters_json_schema import ToolParametersJsonSchema
+from .responses_tool_parameters import ResponsesToolParameters
 
 
 class ResponsesToolDefinition(UncheckedBaseModel):
@@ -23,15 +23,30 @@ class ResponsesToolDefinition(UncheckedBaseModel):
     What the tool does. The model uses this to decide when to call it.
     """
 
-    parameters: ToolParametersJsonSchema
+    parameters: ResponsesToolParameters
     require_speech_before_tool_call: typing.Optional[bool] = pydantic.Field(default=None)
     """
     When true, forces the agent to speak before executing the tool. Note this defaults to true here, unlike on the tools API, so a simulated turn matches the default a custom tool runs with in a live call.
     """
 
+    wait_for_speech_before_tool_call: typing.Optional[bool] = pydantic.Field(default=None)
+    """
+    When true, waits for the agent's speech to finish before calling the tool. Accepted for parity with live tools; it has no effect on generated responses.
+    """
+
+    forbid_speech_after_tool_call: typing.Optional[bool] = pydantic.Field(default=None)
+    """
+    When true, prevents the agent from speaking after executing the tool. Applied on the request that resumes the turn, the one carrying the `tool_call_output`.
+    """
+
     forbid_tool_call_after_speech: typing.Optional[bool] = pydantic.Field(default=None)
     """
     When true, forbids the agent from calling the tool right after it has spoken. The call is dropped and the speech is kept.
+    """
+
+    allow_tool_chaining: typing.Optional[bool] = pydantic.Field(default=None)
+    """
+    When true, allows the agent to call another tool after this tool. Applied on the request that resumes the turn, the one carrying the `tool_call_output`.
     """
 
     if IS_PYDANTIC_V2:

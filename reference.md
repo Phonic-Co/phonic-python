@@ -465,7 +465,7 @@ client.agents.upsert(
 <dl>
 <dd>
 
-**template_variables:** `typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValue]]` — Variables that can be used in the welcome message and the system prompt.
+**template_variables:** `typing.Optional[typing.Dict[str, CreateAgentRequestTemplateVariablesValue]]` — Template variables saved on the agent, keyed by snake_case variable name, for use in the welcome message and the system prompt. Each value is an object such as `{"default_value": "Sarah"}`, not a plain string. Leave a variable out to require every conversation to provide it. To set values for a single conversation, pass plain strings in that conversation's `template_variables` instead.
     
 </dd>
 </dl>
@@ -1226,7 +1226,7 @@ client.agents.update(
 <dl>
 <dd>
 
-**template_variables:** `typing.Optional[typing.Dict[str, UpdateAgentRequestTemplateVariablesValue]]` — Variables that can be used in the welcome message and the system prompt.
+**template_variables:** `typing.Optional[typing.Dict[str, UpdateAgentRequestTemplateVariablesValue]]` — Template variables saved on the agent, keyed by snake_case variable name, for use in the welcome message and the system prompt. Each value is an object such as `{"default_value": "Sarah"}`, not a plain string. Leave a variable out to require every conversation to provide it. To set values for a single conversation, pass plain strings in that conversation's `template_variables` instead.
     
 </dd>
 </dl>
@@ -7299,7 +7299,7 @@ have emitted, without the effect actually being carried out.
 <dd>
 
 ```python
-from phonic import Phonic, ResponsesUserMessage, ResponsesToolDefinition, ToolParametersJsonSchema
+from phonic import Phonic, ResponsesUserMessage, ResponsesToolDefinition, ResponsesToolParameters
 from phonic.environment import PhonicEnvironment
 
 client = Phonic(
@@ -7324,15 +7324,11 @@ client.responses.create(
         ResponsesToolDefinition(
             name="search_pizza_shop_recs",
             description="Search for pizza shop recommendations.",
-            parameters=ToolParametersJsonSchema(
+            parameters=ResponsesToolParameters(
                 type="object",
                 properties={
                     "location": {"type": "string", "description": "The neighborhood to search in."}
                 },
-                required=[
-                    "location"
-                ],
-                additional_properties=False,
             ),
         )
     ],
