@@ -7,6 +7,7 @@ from ..types.agent_audio_format import AgentAudioFormat
 from ..types.agent_background_noise import AgentBackgroundNoise
 from ..types.agent_intelligence_level import AgentIntelligenceLevel
 from ..types.agent_multilingual_mode import AgentMultilingualMode
+from ..types.agent_redaction_entities_item import AgentRedactionEntitiesItem
 from ..types.agent_turn_taking import AgentTurnTaking
 from ..types.language_code import LanguageCode
 from .agent_configuration_endpoint import AgentConfigurationEndpointParams
@@ -130,7 +131,7 @@ class AgentParams(typing_extensions.TypedDict):
 
     built_in_tool_configs: BuiltInToolConfigsParams
     """
-    Configuration overrides for built-in tools, keyed by built-in tool ID.
+    Configuration overrides for built-in tools, keyed by built-in tool ID: `tool_natural_conversation_ending`, `tool_keypad_input`, `tool_web_search`, or `tool_choose_not_to_respond` (the tool name prefixed with `tool_`; bare tool names such as `natural_conversation_ending` are rejected).
     """
 
     tasks: typing.Sequence[TaskParams]
@@ -251,6 +252,11 @@ class AgentParams(typing_extensions.TypedDict):
     enable_redaction: typing_extensions.NotRequired[bool]
     """
     When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE]`) and bleeped from audio recordings after the conversation ends.
+    """
+
+    redaction_entities: typing_extensions.NotRequired[typing.Optional[typing.Sequence[AgentRedactionEntitiesItem]]]
+    """
+    The types of PII and PHI to redact when `enable_redaction` is `true`. `null` redacts all PII and PHI. Must contain at least one item when not `null`.
     """
 
     enable_watermarking: typing_extensions.NotRequired[bool]

@@ -16,6 +16,7 @@ if typing.TYPE_CHECKING:
     from .agent_pronunciation_dictionary_item import AgentPronunciationDictionaryItemParams
     from .agent_template_variables_value import AgentTemplateVariablesValueParams
     from .agent_tools_item import AgentToolsItemParams
+    from .api_key_scope import ApiKeyScopeParams
     from .api_key_with_secret import ApiKeyWithSecretParams
     from .assistant_chose_not_to_respond_payload import AssistantChoseNotToRespondPayloadParams
     from .assistant_ended_conversation_payload import AssistantEndedConversationPayloadParams
@@ -86,6 +87,7 @@ if typing.TYPE_CHECKING:
     from .create_agent_request_pronunciation_dictionary_item import CreateAgentRequestPronunciationDictionaryItemParams
     from .create_agent_request_template_variables_value import CreateAgentRequestTemplateVariablesValueParams
     from .create_agent_request_tools_item import CreateAgentRequestToolsItemParams
+    from .create_api_key_response import CreateApiKeyResponseParams
     from .data_retention_policy import DataRetentionPolicyParams
     from .data_retention_policy_audio_recordings import DataRetentionPolicyAudioRecordingsParams
     from .data_retention_policy_audio_recordings_audio_recordings import (
@@ -200,6 +202,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "AgentPronunciationDictionaryItemParams": ".agent_pronunciation_dictionary_item",
     "AgentTemplateVariablesValueParams": ".agent_template_variables_value",
     "AgentToolsItemParams": ".agent_tools_item",
+    "ApiKeyScopeParams": ".api_key_scope",
     "ApiKeyWithSecretParams": ".api_key_with_secret",
     "AssistantChoseNotToRespondPayloadParams": ".assistant_chose_not_to_respond_payload",
     "AssistantEndedConversationPayloadParams": ".assistant_ended_conversation_payload",
@@ -262,6 +265,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "CreateAgentRequestPronunciationDictionaryItemParams": ".create_agent_request_pronunciation_dictionary_item",
     "CreateAgentRequestTemplateVariablesValueParams": ".create_agent_request_template_variables_value",
     "CreateAgentRequestToolsItemParams": ".create_agent_request_tools_item",
+    "CreateApiKeyResponseParams": ".create_api_key_response",
     "DataRetentionPolicyAudioRecordingsAudioRecordingsParams": ".data_retention_policy_audio_recordings_audio_recordings",
     "DataRetentionPolicyAudioRecordingsParams": ".data_retention_policy_audio_recordings",
     "DataRetentionPolicyAudioRecordingsTranscriptsParams": ".data_retention_policy_audio_recordings_transcripts",
@@ -396,6 +400,7 @@ __all__ = [
     "AgentPronunciationDictionaryItemParams",
     "AgentTemplateVariablesValueParams",
     "AgentToolsItemParams",
+    "ApiKeyScopeParams",
     "ApiKeyWithSecretParams",
     "AssistantChoseNotToRespondPayloadParams",
     "AssistantEndedConversationPayloadParams",
@@ -458,6 +463,7 @@ __all__ = [
     "CreateAgentRequestPronunciationDictionaryItemParams",
     "CreateAgentRequestTemplateVariablesValueParams",
     "CreateAgentRequestToolsItemParams",
+    "CreateApiKeyResponseParams",
     "DataRetentionPolicyAudioRecordingsAudioRecordingsParams",
     "DataRetentionPolicyAudioRecordingsParams",
     "DataRetentionPolicyAudioRecordingsTranscriptsParams",

@@ -15,6 +15,7 @@ from .agent_multilingual_mode import AgentMultilingualMode
 from .agent_phonic_model import AgentPhonicModel
 from .agent_project import AgentProject
 from .agent_pronunciation_dictionary_item import AgentPronunciationDictionaryItem
+from .agent_redaction_entities_item import AgentRedactionEntitiesItem
 from .agent_template_variables_value import AgentTemplateVariablesValue
 from .agent_tools_item import AgentToolsItem
 from .agent_turn_taking import AgentTurnTaking
@@ -132,7 +133,7 @@ class Agent(UncheckedBaseModel):
 
     built_in_tool_configs: BuiltInToolConfigs = pydantic.Field()
     """
-    Configuration overrides for built-in tools, keyed by built-in tool ID.
+    Configuration overrides for built-in tools, keyed by built-in tool ID: `tool_natural_conversation_ending`, `tool_keypad_input`, `tool_web_search`, or `tool_choose_not_to_respond` (the tool name prefixed with `tool_`; bare tool names such as `natural_conversation_ending` are rejected).
     """
 
     tasks: typing.List[Task] = pydantic.Field()
@@ -255,6 +256,11 @@ class Agent(UncheckedBaseModel):
     enable_redaction: typing.Optional[bool] = pydantic.Field(default=None)
     """
     When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE]`) and bleeped from audio recordings after the conversation ends.
+    """
+
+    redaction_entities: typing.Optional[typing.List[AgentRedactionEntitiesItem]] = pydantic.Field(default=None)
+    """
+    The types of PII and PHI to redact when `enable_redaction` is `true`. `null` redacts all PII and PHI. Must contain at least one item when not `null`.
     """
 
     enable_watermarking: typing.Optional[bool] = pydantic.Field(default=None)

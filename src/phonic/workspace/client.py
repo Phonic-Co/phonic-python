@@ -29,7 +29,7 @@ class WorkspaceClient:
 
     def get(self, *, request_options: typing.Optional[RequestOptions] = None) -> WorkspaceGetResponse:
         """
-        Returns information about the workspace.
+        Returns information about the workspace. An API key must have workspace access.
 
         Parameters
         ----------
@@ -62,7 +62,7 @@ class WorkspaceClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> WorkspaceUpdateResponse:
         """
-        Updates the workspace.
+        Updates the workspace. An API key must have workspace access.
 
         Parameters
         ----------
@@ -122,7 +122,7 @@ class AsyncWorkspaceClient:
 
     async def get(self, *, request_options: typing.Optional[RequestOptions] = None) -> WorkspaceGetResponse:
         """
-        Returns information about the workspace.
+        Returns information about the workspace. An API key must have workspace access.
 
         Parameters
         ----------
@@ -163,7 +163,7 @@ class AsyncWorkspaceClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> WorkspaceUpdateResponse:
         """
-        Updates the workspace.
+        Updates the workspace. An API key must have workspace access.
 
         Parameters
         ----------

@@ -12,7 +12,7 @@ class UpdateToolsSubsetPayload(UncheckedBaseModel):
     type: typing.Literal["update_tools_subset"] = "update_tools_subset"
     tools: typing.List[ToolDefinition] = pydantic.Field()
     """
-    Tools available to the assistant. Use a string to reference a pre-defined tool by name, or define an inline WebSocket tool for this conversation. Tool names must be unique.
+    Tools available to the assistant. Use a string to reference a pre-defined tool by name, or define an inline WebSocket tool for this conversation. A string can also reference an inline WebSocket tool defined in the session's `config` message by its name. Tool names must be unique.
     """
 
     if IS_PYDANTIC_V2:

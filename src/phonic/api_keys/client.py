@@ -4,7 +4,9 @@ import typing
 
 from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.request_options import RequestOptions
+from ..requests.api_key_scope import ApiKeyScopeParams
 from ..types.api_key_with_secret import ApiKeyWithSecret
+from ..types.create_api_key_response import CreateApiKeyResponse
 from .raw_client import AsyncRawApiKeysClient, RawApiKeysClient
 from .types.api_keys_delete_response import ApiKeysDeleteResponse
 from .types.api_keys_update_response import ApiKeysUpdateResponse
@@ -28,21 +30,38 @@ class ApiKeysClient:
         """
         return self._raw_client
 
-    def create(self, *, name: str, request_options: typing.Optional[RequestOptions] = None) -> ApiKeyWithSecret:
+    def create(
+        self,
+        *,
+        name: str,
+        scope: typing.Optional[ApiKeyScopeParams] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> CreateApiKeyResponse:
         """
         Creates a new API key in the workspace.
+
+        Requires an API key with workspace access, or an access token. The new
+        key's `scope` must be within the caller's scope. Omit `scope` and an
+        API key copies its own scope onto the new key. An access token that
+        omits `scope` creates a key with access to every project and to
+        workspace management.
 
         Parameters
         ----------
         name : str
-            A name to identify the API key.
+            A name to identify the API key. Required, and unique within the workspace.
+
+        scope : typing.Optional[ApiKeyScopeParams]
+            Access granted to the new key. Must be within the caller's own
+            scope. Omit it and an API key copies its own scope onto the new
+            key.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        ApiKeyWithSecret
+        CreateApiKeyResponse
             API key created
 
         Examples
@@ -53,15 +72,24 @@ class ApiKeysClient:
             api_key="YOUR_API_KEY",
         )
         client.api_keys.create(
-            name="production-key",
+            name="billing-key",
+            scope={
+                "workspace_access": False,
+                "project_access": "selected",
+                "project_ids": ["proj_ad0334f1-2487-4155-9df3-abd8129b29ad"],
+            },
         )
         """
-        _response = self._raw_client.create(name=name, request_options=request_options)
+        _response = self._raw_client.create(name=name, scope=scope, request_options=request_options)
         return _response.data
 
     def delete(self, id: str, *, request_options: typing.Optional[RequestOptions] = None) -> ApiKeysDeleteResponse:
         """
         Deletes an API key.
+
+        Requires an API key with workspace access, or an access token. The
+        caller can delete a key only when that key's scope is within the
+        caller's scope.
 
         Parameters
         ----------
@@ -91,18 +119,34 @@ class ApiKeysClient:
         return _response.data
 
     def update(
-        self, id: str, *, name: str, request_options: typing.Optional[RequestOptions] = None
+        self,
+        id: str,
+        *,
+        name: typing.Optional[str] = OMIT,
+        scope: typing.Optional[ApiKeyScopeParams] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> ApiKeysUpdateResponse:
         """
-        Updates an API key.
+        Updates an API key's name, scope, or both. Send at least one of `name`
+        and `scope`.
+
+        Requires an API key with workspace access, or an access token. The
+        caller can update a key only when that key's current scope is within
+        the caller's scope, and a new `scope` must also be within the caller's
+        scope.
 
         Parameters
         ----------
         id : str
             The ID of the API key to update.
 
-        name : str
-            The new name for the API key.
+        name : typing.Optional[str]
+            The new name for the API key. Unique within the workspace.
+
+        scope : typing.Optional[ApiKeyScopeParams]
+            Replaces the key's scope. Must be within the caller's own scope.
+            The caller can change a key only when that key's current scope is
+            also within the caller's scope.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -121,15 +165,25 @@ class ApiKeysClient:
         )
         client.api_keys.update(
             id="id",
-            name="renamed-key",
+            name="billing-key",
+            scope={
+                "workspace_access": False,
+                "project_access": "selected",
+                "project_ids": ["proj_ad0334f1-2487-4155-9df3-abd8129b29ad"],
+            },
         )
         """
-        _response = self._raw_client.update(id, name=name, request_options=request_options)
+        _response = self._raw_client.update(id, name=name, scope=scope, request_options=request_options)
         return _response.data
 
     def rotate(self, id: str, *, request_options: typing.Optional[RequestOptions] = None) -> ApiKeyWithSecret:
         """
-        Rotates an API key, generating a new secret and invalidating the old one.
+        Rotates an API key, generating a new secret and invalidating the old
+        one. The new key keeps the previous key's name and scope.
+
+        Requires an API key with workspace access, or an access token. The
+        caller can rotate a key only when that key's scope is within the
+        caller's scope.
 
         Parameters
         ----------
@@ -174,21 +228,38 @@ class AsyncApiKeysClient:
         """
         return self._raw_client
 
-    async def create(self, *, name: str, request_options: typing.Optional[RequestOptions] = None) -> ApiKeyWithSecret:
+    async def create(
+        self,
+        *,
+        name: str,
+        scope: typing.Optional[ApiKeyScopeParams] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> CreateApiKeyResponse:
         """
         Creates a new API key in the workspace.
+
+        Requires an API key with workspace access, or an access token. The new
+        key's `scope` must be within the caller's scope. Omit `scope` and an
+        API key copies its own scope onto the new key. An access token that
+        omits `scope` creates a key with access to every project and to
+        workspace management.
 
         Parameters
         ----------
         name : str
-            A name to identify the API key.
+            A name to identify the API key. Required, and unique within the workspace.
+
+        scope : typing.Optional[ApiKeyScopeParams]
+            Access granted to the new key. Must be within the caller's own
+            scope. Omit it and an API key copies its own scope onto the new
+            key.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
 
         Returns
         -------
-        ApiKeyWithSecret
+        CreateApiKeyResponse
             API key created
 
         Examples
@@ -204,13 +275,18 @@ class AsyncApiKeysClient:
 
         async def main() -> None:
             await client.api_keys.create(
-                name="production-key",
+                name="billing-key",
+                scope={
+                    "workspace_access": False,
+                    "project_access": "selected",
+                    "project_ids": ["proj_ad0334f1-2487-4155-9df3-abd8129b29ad"],
+                },
             )
 
 
         asyncio.run(main())
         """
-        _response = await self._raw_client.create(name=name, request_options=request_options)
+        _response = await self._raw_client.create(name=name, scope=scope, request_options=request_options)
         return _response.data
 
     async def delete(
@@ -218,6 +294,10 @@ class AsyncApiKeysClient:
     ) -> ApiKeysDeleteResponse:
         """
         Deletes an API key.
+
+        Requires an API key with workspace access, or an access token. The
+        caller can delete a key only when that key's scope is within the
+        caller's scope.
 
         Parameters
         ----------
@@ -255,18 +335,34 @@ class AsyncApiKeysClient:
         return _response.data
 
     async def update(
-        self, id: str, *, name: str, request_options: typing.Optional[RequestOptions] = None
+        self,
+        id: str,
+        *,
+        name: typing.Optional[str] = OMIT,
+        scope: typing.Optional[ApiKeyScopeParams] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
     ) -> ApiKeysUpdateResponse:
         """
-        Updates an API key.
+        Updates an API key's name, scope, or both. Send at least one of `name`
+        and `scope`.
+
+        Requires an API key with workspace access, or an access token. The
+        caller can update a key only when that key's current scope is within
+        the caller's scope, and a new `scope` must also be within the caller's
+        scope.
 
         Parameters
         ----------
         id : str
             The ID of the API key to update.
 
-        name : str
-            The new name for the API key.
+        name : typing.Optional[str]
+            The new name for the API key. Unique within the workspace.
+
+        scope : typing.Optional[ApiKeyScopeParams]
+            Replaces the key's scope. Must be within the caller's own scope.
+            The caller can change a key only when that key's current scope is
+            also within the caller's scope.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -290,18 +386,28 @@ class AsyncApiKeysClient:
         async def main() -> None:
             await client.api_keys.update(
                 id="id",
-                name="renamed-key",
+                name="billing-key",
+                scope={
+                    "workspace_access": False,
+                    "project_access": "selected",
+                    "project_ids": ["proj_ad0334f1-2487-4155-9df3-abd8129b29ad"],
+                },
             )
 
 
         asyncio.run(main())
         """
-        _response = await self._raw_client.update(id, name=name, request_options=request_options)
+        _response = await self._raw_client.update(id, name=name, scope=scope, request_options=request_options)
         return _response.data
 
     async def rotate(self, id: str, *, request_options: typing.Optional[RequestOptions] = None) -> ApiKeyWithSecret:
         """
-        Rotates an API key, generating a new secret and invalidating the old one.
+        Rotates an API key, generating a new secret and invalidating the old
+        one. The new key keeps the previous key's name and scope.
+
+        Requires an API key with workspace access, or an access token. The
+        caller can rotate a key only when that key's scope is within the
+        caller's scope.
 
         Parameters
         ----------

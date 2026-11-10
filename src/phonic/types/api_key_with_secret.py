@@ -20,7 +20,7 @@ class ApiKeyWithSecret(UncheckedBaseModel):
 
     api_key: str = pydantic.Field()
     """
-    The API key secret. Only returned once, when the key is created or rotated.
+    The API key secret. Returned only when the key is rotated. The rotated key keeps its previous scope.
     """
 
     if IS_PYDANTIC_V2:

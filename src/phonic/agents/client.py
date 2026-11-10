@@ -22,6 +22,7 @@ from ..types.create_agent_request_background_noise import CreateAgentRequestBack
 from ..types.create_agent_request_intelligence_level import CreateAgentRequestIntelligenceLevel
 from ..types.create_agent_request_multilingual_mode import CreateAgentRequestMultilingualMode
 from ..types.create_agent_request_phone_number import CreateAgentRequestPhoneNumber
+from ..types.create_agent_request_redaction_entities_item import CreateAgentRequestRedactionEntitiesItem
 from ..types.create_agent_request_turn_taking import CreateAgentRequestTurnTaking
 from ..types.language_code import LanguageCode
 from .raw_client import AsyncRawAgentsClient, RawAgentsClient
@@ -56,6 +57,7 @@ from .types.update_agent_request_background_noise import UpdateAgentRequestBackg
 from .types.update_agent_request_intelligence_level import UpdateAgentRequestIntelligenceLevel
 from .types.update_agent_request_multilingual_mode import UpdateAgentRequestMultilingualMode
 from .types.update_agent_request_phone_number import UpdateAgentRequestPhoneNumber
+from .types.update_agent_request_redaction_entities_item import UpdateAgentRequestRedactionEntitiesItem
 from .types.update_agent_request_turn_taking import UpdateAgentRequestTurnTaking
 
 # this is used as the default value for optional parameters
@@ -165,6 +167,7 @@ class AgentsClient:
         vad_min_silence_duration_ms: typing.Optional[int] = OMIT,
         vad_threshold: typing.Optional[float] = OMIT,
         enable_redaction: typing.Optional[bool] = OMIT,
+        redaction_entities: typing.Optional[typing.Sequence[CreateAgentRequestRedactionEntitiesItem]] = OMIT,
         enable_watermarking: typing.Optional[bool] = OMIT,
         mcp_server_ids: typing.Optional[typing.Sequence[str]] = OMIT,
         observability_integrations: typing.Optional[typing.Sequence[typing.Literal["braintrust"]]] = OMIT,
@@ -243,7 +246,7 @@ class AgentsClient:
             Array of built-in or custom tool names to use.
 
         built_in_tool_configs : typing.Optional[BuiltInToolConfigsParams]
-            Configuration overrides for built-in tools, keyed by built-in tool ID. Built-in tools not listed here use their default configuration.
+            Configuration overrides for built-in tools, keyed by built-in tool ID: `tool_natural_conversation_ending`, `tool_keypad_input`, `tool_web_search`, or `tool_choose_not_to_respond` (the tool name prefixed with `tool_`; bare tool names such as `natural_conversation_ending` are rejected). Built-in tools not listed here use their default configuration.
 
         tasks : typing.Optional[typing.Sequence[TaskParams]]
             Array of task objects with `name` and `description` fields.
@@ -331,6 +334,9 @@ class AgentsClient:
 
         enable_redaction : typing.Optional[bool]
             When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE]`) and bleeped from audio recordings after the conversation ends.
+
+        redaction_entities : typing.Optional[typing.Sequence[CreateAgentRequestRedactionEntitiesItem]]
+            The types of PII and PHI to redact when `enable_redaction` is `true`. `null` redacts all PII and PHI. Must contain at least one item when not `null`.
 
         enable_watermarking : typing.Optional[bool]
             When `true`, an inaudible watermark is embedded in the audio the agent generates.
@@ -448,6 +454,7 @@ class AgentsClient:
             vad_min_silence_duration_ms=vad_min_silence_duration_ms,
             vad_threshold=vad_threshold,
             enable_redaction=enable_redaction,
+            redaction_entities=redaction_entities,
             enable_watermarking=enable_watermarking,
             mcp_server_ids=mcp_server_ids,
             observability_integrations=observability_integrations,
@@ -515,6 +522,7 @@ class AgentsClient:
         vad_min_silence_duration_ms: typing.Optional[int] = OMIT,
         vad_threshold: typing.Optional[float] = OMIT,
         enable_redaction: typing.Optional[bool] = OMIT,
+        redaction_entities: typing.Optional[typing.Sequence[CreateAgentRequestRedactionEntitiesItem]] = OMIT,
         enable_watermarking: typing.Optional[bool] = OMIT,
         mcp_server_ids: typing.Optional[typing.Sequence[str]] = OMIT,
         observability_integrations: typing.Optional[typing.Sequence[typing.Literal["braintrust"]]] = OMIT,
@@ -599,7 +607,7 @@ class AgentsClient:
             Array of built-in or custom tool names to use.
 
         built_in_tool_configs : typing.Optional[BuiltInToolConfigsParams]
-            Configuration overrides for built-in tools, keyed by built-in tool ID. Built-in tools not listed here use their default configuration.
+            Configuration overrides for built-in tools, keyed by built-in tool ID: `tool_natural_conversation_ending`, `tool_keypad_input`, `tool_web_search`, or `tool_choose_not_to_respond` (the tool name prefixed with `tool_`; bare tool names such as `natural_conversation_ending` are rejected). Built-in tools not listed here use their default configuration.
 
         tasks : typing.Optional[typing.Sequence[TaskParams]]
             Array of task objects with `name` and `description` fields.
@@ -687,6 +695,9 @@ class AgentsClient:
 
         enable_redaction : typing.Optional[bool]
             When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE]`) and bleeped from audio recordings after the conversation ends.
+
+        redaction_entities : typing.Optional[typing.Sequence[CreateAgentRequestRedactionEntitiesItem]]
+            The types of PII and PHI to redact when `enable_redaction` is `true`. `null` redacts all PII and PHI. Must contain at least one item when not `null`.
 
         enable_watermarking : typing.Optional[bool]
             When `true`, an inaudible watermark is embedded in the audio the agent generates.
@@ -806,6 +817,7 @@ class AgentsClient:
             vad_min_silence_duration_ms=vad_min_silence_duration_ms,
             vad_threshold=vad_threshold,
             enable_redaction=enable_redaction,
+            redaction_entities=redaction_entities,
             enable_watermarking=enable_watermarking,
             mcp_server_ids=mcp_server_ids,
             observability_integrations=observability_integrations,
@@ -957,6 +969,7 @@ class AgentsClient:
         vad_min_silence_duration_ms: typing.Optional[int] = OMIT,
         vad_threshold: typing.Optional[float] = OMIT,
         enable_redaction: typing.Optional[bool] = OMIT,
+        redaction_entities: typing.Optional[typing.Sequence[UpdateAgentRequestRedactionEntitiesItem]] = OMIT,
         enable_watermarking: typing.Optional[bool] = OMIT,
         mcp_server_ids: typing.Optional[typing.Sequence[str]] = OMIT,
         observability_integrations: typing.Optional[typing.Sequence[typing.Literal["braintrust"]]] = OMIT,
@@ -1038,7 +1051,7 @@ class AgentsClient:
             Array of built-in or custom tool names to use.
 
         built_in_tool_configs : typing.Optional[BuiltInToolConfigsParams]
-            Configuration overrides for built-in tools, keyed by built-in tool ID. Built-in tools not listed here use their default configuration.
+            Configuration overrides for built-in tools, keyed by built-in tool ID: `tool_natural_conversation_ending`, `tool_keypad_input`, `tool_web_search`, or `tool_choose_not_to_respond` (the tool name prefixed with `tool_`; bare tool names such as `natural_conversation_ending` are rejected). Replaces the agent's stored map; built-in tools not listed here use their default configuration.
 
         tasks : typing.Optional[typing.Sequence[TaskParams]]
             Array of task objects with `name` and `description` fields.
@@ -1135,6 +1148,9 @@ class AgentsClient:
 
         enable_redaction : typing.Optional[bool]
             When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE]`) and bleeped from audio recordings after the conversation ends.
+
+        redaction_entities : typing.Optional[typing.Sequence[UpdateAgentRequestRedactionEntitiesItem]]
+            The types of PII and PHI to redact when `enable_redaction` is `true`. `null` redacts all PII and PHI. Must contain at least one item when not `null`.
 
         enable_watermarking : typing.Optional[bool]
             When `true`, an inaudible watermark is embedded in the audio the agent generates.
@@ -1257,6 +1273,7 @@ class AgentsClient:
             vad_min_silence_duration_ms=vad_min_silence_duration_ms,
             vad_threshold=vad_threshold,
             enable_redaction=enable_redaction,
+            redaction_entities=redaction_entities,
             enable_watermarking=enable_watermarking,
             mcp_server_ids=mcp_server_ids,
             observability_integrations=observability_integrations,
@@ -1653,6 +1670,7 @@ class AsyncAgentsClient:
         vad_min_silence_duration_ms: typing.Optional[int] = OMIT,
         vad_threshold: typing.Optional[float] = OMIT,
         enable_redaction: typing.Optional[bool] = OMIT,
+        redaction_entities: typing.Optional[typing.Sequence[CreateAgentRequestRedactionEntitiesItem]] = OMIT,
         enable_watermarking: typing.Optional[bool] = OMIT,
         mcp_server_ids: typing.Optional[typing.Sequence[str]] = OMIT,
         observability_integrations: typing.Optional[typing.Sequence[typing.Literal["braintrust"]]] = OMIT,
@@ -1731,7 +1749,7 @@ class AsyncAgentsClient:
             Array of built-in or custom tool names to use.
 
         built_in_tool_configs : typing.Optional[BuiltInToolConfigsParams]
-            Configuration overrides for built-in tools, keyed by built-in tool ID. Built-in tools not listed here use their default configuration.
+            Configuration overrides for built-in tools, keyed by built-in tool ID: `tool_natural_conversation_ending`, `tool_keypad_input`, `tool_web_search`, or `tool_choose_not_to_respond` (the tool name prefixed with `tool_`; bare tool names such as `natural_conversation_ending` are rejected). Built-in tools not listed here use their default configuration.
 
         tasks : typing.Optional[typing.Sequence[TaskParams]]
             Array of task objects with `name` and `description` fields.
@@ -1819,6 +1837,9 @@ class AsyncAgentsClient:
 
         enable_redaction : typing.Optional[bool]
             When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE]`) and bleeped from audio recordings after the conversation ends.
+
+        redaction_entities : typing.Optional[typing.Sequence[CreateAgentRequestRedactionEntitiesItem]]
+            The types of PII and PHI to redact when `enable_redaction` is `true`. `null` redacts all PII and PHI. Must contain at least one item when not `null`.
 
         enable_watermarking : typing.Optional[bool]
             When `true`, an inaudible watermark is embedded in the audio the agent generates.
@@ -1946,6 +1967,7 @@ class AsyncAgentsClient:
             vad_min_silence_duration_ms=vad_min_silence_duration_ms,
             vad_threshold=vad_threshold,
             enable_redaction=enable_redaction,
+            redaction_entities=redaction_entities,
             enable_watermarking=enable_watermarking,
             mcp_server_ids=mcp_server_ids,
             observability_integrations=observability_integrations,
@@ -2013,6 +2035,7 @@ class AsyncAgentsClient:
         vad_min_silence_duration_ms: typing.Optional[int] = OMIT,
         vad_threshold: typing.Optional[float] = OMIT,
         enable_redaction: typing.Optional[bool] = OMIT,
+        redaction_entities: typing.Optional[typing.Sequence[CreateAgentRequestRedactionEntitiesItem]] = OMIT,
         enable_watermarking: typing.Optional[bool] = OMIT,
         mcp_server_ids: typing.Optional[typing.Sequence[str]] = OMIT,
         observability_integrations: typing.Optional[typing.Sequence[typing.Literal["braintrust"]]] = OMIT,
@@ -2097,7 +2120,7 @@ class AsyncAgentsClient:
             Array of built-in or custom tool names to use.
 
         built_in_tool_configs : typing.Optional[BuiltInToolConfigsParams]
-            Configuration overrides for built-in tools, keyed by built-in tool ID. Built-in tools not listed here use their default configuration.
+            Configuration overrides for built-in tools, keyed by built-in tool ID: `tool_natural_conversation_ending`, `tool_keypad_input`, `tool_web_search`, or `tool_choose_not_to_respond` (the tool name prefixed with `tool_`; bare tool names such as `natural_conversation_ending` are rejected). Built-in tools not listed here use their default configuration.
 
         tasks : typing.Optional[typing.Sequence[TaskParams]]
             Array of task objects with `name` and `description` fields.
@@ -2185,6 +2208,9 @@ class AsyncAgentsClient:
 
         enable_redaction : typing.Optional[bool]
             When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE]`) and bleeped from audio recordings after the conversation ends.
+
+        redaction_entities : typing.Optional[typing.Sequence[CreateAgentRequestRedactionEntitiesItem]]
+            The types of PII and PHI to redact when `enable_redaction` is `true`. `null` redacts all PII and PHI. Must contain at least one item when not `null`.
 
         enable_watermarking : typing.Optional[bool]
             When `true`, an inaudible watermark is embedded in the audio the agent generates.
@@ -2314,6 +2340,7 @@ class AsyncAgentsClient:
             vad_min_silence_duration_ms=vad_min_silence_duration_ms,
             vad_threshold=vad_threshold,
             enable_redaction=enable_redaction,
+            redaction_entities=redaction_entities,
             enable_watermarking=enable_watermarking,
             mcp_server_ids=mcp_server_ids,
             observability_integrations=observability_integrations,
@@ -2481,6 +2508,7 @@ class AsyncAgentsClient:
         vad_min_silence_duration_ms: typing.Optional[int] = OMIT,
         vad_threshold: typing.Optional[float] = OMIT,
         enable_redaction: typing.Optional[bool] = OMIT,
+        redaction_entities: typing.Optional[typing.Sequence[UpdateAgentRequestRedactionEntitiesItem]] = OMIT,
         enable_watermarking: typing.Optional[bool] = OMIT,
         mcp_server_ids: typing.Optional[typing.Sequence[str]] = OMIT,
         observability_integrations: typing.Optional[typing.Sequence[typing.Literal["braintrust"]]] = OMIT,
@@ -2562,7 +2590,7 @@ class AsyncAgentsClient:
             Array of built-in or custom tool names to use.
 
         built_in_tool_configs : typing.Optional[BuiltInToolConfigsParams]
-            Configuration overrides for built-in tools, keyed by built-in tool ID. Built-in tools not listed here use their default configuration.
+            Configuration overrides for built-in tools, keyed by built-in tool ID: `tool_natural_conversation_ending`, `tool_keypad_input`, `tool_web_search`, or `tool_choose_not_to_respond` (the tool name prefixed with `tool_`; bare tool names such as `natural_conversation_ending` are rejected). Replaces the agent's stored map; built-in tools not listed here use their default configuration.
 
         tasks : typing.Optional[typing.Sequence[TaskParams]]
             Array of task objects with `name` and `description` fields.
@@ -2659,6 +2687,9 @@ class AsyncAgentsClient:
 
         enable_redaction : typing.Optional[bool]
             When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE]`) and bleeped from audio recordings after the conversation ends.
+
+        redaction_entities : typing.Optional[typing.Sequence[UpdateAgentRequestRedactionEntitiesItem]]
+            The types of PII and PHI to redact when `enable_redaction` is `true`. `null` redacts all PII and PHI. Must contain at least one item when not `null`.
 
         enable_watermarking : typing.Optional[bool]
             When `true`, an inaudible watermark is embedded in the audio the agent generates.
@@ -2791,6 +2822,7 @@ class AsyncAgentsClient:
             vad_min_silence_duration_ms=vad_min_silence_duration_ms,
             vad_threshold=vad_threshold,
             enable_redaction=enable_redaction,
+            redaction_entities=redaction_entities,
             enable_watermarking=enable_watermarking,
             mcp_server_ids=mcp_server_ids,
             observability_integrations=observability_integrations,

@@ -35,7 +35,8 @@ class ProjectsClient:
 
     def list(self, *, request_options: typing.Optional[RequestOptions] = None) -> ProjectsListResponse:
         """
-        Returns all projects in a workspace.
+        Returns the projects in the workspace. An API key limited to selected
+        projects receives only those projects.
 
         Parameters
         ----------
@@ -61,7 +62,7 @@ class ProjectsClient:
 
     def create(self, *, name: str, request_options: typing.Optional[RequestOptions] = None) -> ProjectsCreateResponse:
         """
-        Creates a new project in a workspace.
+        Creates a new project in the workspace. An API key must have workspace access.
 
         Parameters
         ----------
@@ -92,7 +93,7 @@ class ProjectsClient:
 
     def get(self, name_or_id: str, *, request_options: typing.Optional[RequestOptions] = None) -> ProjectsGetResponse:
         """
-        Returns a project by name or ID.
+        Returns a project by name or ID. An API key can read a project only when that project is in its scope.
 
         Parameters
         ----------
@@ -125,7 +126,7 @@ class ProjectsClient:
         self, name_or_id: str, *, request_options: typing.Optional[RequestOptions] = None
     ) -> ProjectsDeleteResponse:
         """
-        Deletes a project by name or ID.
+        Deletes a project by name or ID. An API key can delete a project only when that project is in its scope.
 
         Parameters
         ----------
@@ -164,7 +165,7 @@ class ProjectsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ProjectsUpdateResponse:
         """
-        Updates a project by name or ID.
+        Updates a project by name or ID. An API key can update a project only when that project is in its scope.
 
         Parameters
         ----------
@@ -335,7 +336,8 @@ class AsyncProjectsClient:
 
     async def list(self, *, request_options: typing.Optional[RequestOptions] = None) -> ProjectsListResponse:
         """
-        Returns all projects in a workspace.
+        Returns the projects in the workspace. An API key limited to selected
+        projects receives only those projects.
 
         Parameters
         ----------
@@ -371,7 +373,7 @@ class AsyncProjectsClient:
         self, *, name: str, request_options: typing.Optional[RequestOptions] = None
     ) -> ProjectsCreateResponse:
         """
-        Creates a new project in a workspace.
+        Creates a new project in the workspace. An API key must have workspace access.
 
         Parameters
         ----------
@@ -412,7 +414,7 @@ class AsyncProjectsClient:
         self, name_or_id: str, *, request_options: typing.Optional[RequestOptions] = None
     ) -> ProjectsGetResponse:
         """
-        Returns a project by name or ID.
+        Returns a project by name or ID. An API key can read a project only when that project is in its scope.
 
         Parameters
         ----------
@@ -453,7 +455,7 @@ class AsyncProjectsClient:
         self, name_or_id: str, *, request_options: typing.Optional[RequestOptions] = None
     ) -> ProjectsDeleteResponse:
         """
-        Deletes a project by name or ID.
+        Deletes a project by name or ID. An API key can delete a project only when that project is in its scope.
 
         Parameters
         ----------
@@ -500,7 +502,7 @@ class AsyncProjectsClient:
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ProjectsUpdateResponse:
         """
-        Updates a project by name or ID.
+        Updates a project by name or ID. An API key can update a project only when that project is in its scope.
 
         Parameters
         ----------

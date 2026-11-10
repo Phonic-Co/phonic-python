@@ -8,6 +8,7 @@ from ..types.create_agent_request_background_noise import CreateAgentRequestBack
 from ..types.create_agent_request_intelligence_level import CreateAgentRequestIntelligenceLevel
 from ..types.create_agent_request_multilingual_mode import CreateAgentRequestMultilingualMode
 from ..types.create_agent_request_phone_number import CreateAgentRequestPhoneNumber
+from ..types.create_agent_request_redaction_entities_item import CreateAgentRequestRedactionEntitiesItem
 from ..types.create_agent_request_turn_taking import CreateAgentRequestTurnTaking
 from ..types.language_code import LanguageCode
 from .built_in_tool_configs import BuiltInToolConfigsParams
@@ -129,7 +130,7 @@ class CreateAgentRequestParams(typing_extensions.TypedDict):
 
     built_in_tool_configs: typing_extensions.NotRequired[BuiltInToolConfigsParams]
     """
-    Configuration overrides for built-in tools, keyed by built-in tool ID. Built-in tools not listed here use their default configuration.
+    Configuration overrides for built-in tools, keyed by built-in tool ID: `tool_natural_conversation_ending`, `tool_keypad_input`, `tool_web_search`, or `tool_choose_not_to_respond` (the tool name prefixed with `tool_`; bare tool names such as `natural_conversation_ending` are rejected). Built-in tools not listed here use their default configuration.
     """
 
     tasks: typing_extensions.NotRequired[typing.Sequence[TaskParams]]
@@ -279,6 +280,13 @@ class CreateAgentRequestParams(typing_extensions.TypedDict):
     enable_redaction: typing_extensions.NotRequired[bool]
     """
     When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE]`) and bleeped from audio recordings after the conversation ends.
+    """
+
+    redaction_entities: typing_extensions.NotRequired[
+        typing.Optional[typing.Sequence[CreateAgentRequestRedactionEntitiesItem]]
+    ]
+    """
+    The types of PII and PHI to redact when `enable_redaction` is `true`. `null` redacts all PII and PHI. Must contain at least one item when not `null`.
     """
 
     enable_watermarking: typing_extensions.NotRequired[bool]

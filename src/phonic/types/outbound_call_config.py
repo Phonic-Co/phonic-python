@@ -14,6 +14,7 @@ from .outbound_call_config_model import OutboundCallConfigModel
 from .outbound_call_config_multilingual_mode import OutboundCallConfigMultilingualMode
 from .outbound_call_config_phonic_model import OutboundCallConfigPhonicModel
 from .outbound_call_config_pronunciation_dictionary_item import OutboundCallConfigPronunciationDictionaryItem
+from .outbound_call_config_redaction_entities_item import OutboundCallConfigRedactionEntitiesItem
 from .outbound_call_config_tools_item import OutboundCallConfigToolsItem
 from .outbound_call_config_turn_taking import OutboundCallConfigTurnTaking
 from .outbound_number_pool import OutboundNumberPool
@@ -154,12 +155,19 @@ class OutboundCallConfig(UncheckedBaseModel):
 
     tools: typing.Optional[typing.List[OutboundCallConfigToolsItem]] = pydantic.Field(default=None)
     """
-    Array of built-in or custom tool names to use.
+    Array of built-in or custom tool names to use. A built-in tool can also be passed as an object to set its configuration, e.g. `{ "type": "built_in", "name": "choose_not_to_respond", "tool_config": { "respond_after_sec": 5 } }`. A bare name uses the tool's default configuration.
     """
 
     enable_redaction: typing.Optional[bool] = pydantic.Field(default=None)
     """
     When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE]`) and bleeped from audio recordings after the conversation ends.
+    """
+
+    redaction_entities: typing.Optional[typing.List[OutboundCallConfigRedactionEntitiesItem]] = pydantic.Field(
+        default=None
+    )
+    """
+    The types of PII and PHI to redact when `enable_redaction` is `true`. `null` redacts all PII and PHI. Must contain at least one item when not `null`.
     """
 
     enable_watermarking: typing.Optional[bool] = pydantic.Field(default=None)

@@ -16,6 +16,7 @@ from .config_options_outbound_number_pool import ConfigOptionsOutboundNumberPool
 from .config_options_output_format import ConfigOptionsOutputFormat
 from .config_options_phonic_model import ConfigOptionsPhonicModel
 from .config_options_pronunciation_dictionary_item import ConfigOptionsPronunciationDictionaryItem
+from .config_options_redaction_entities_item import ConfigOptionsRedactionEntitiesItem
 from .config_options_tasks_item import ConfigOptionsTasksItem
 from .config_options_turn_taking import ConfigOptionsTurnTaking
 from .tool_definition import ToolDefinition
@@ -216,6 +217,11 @@ class ConfigOptions(UncheckedBaseModel):
     enable_redaction: typing.Optional[bool] = pydantic.Field(default=None)
     """
     When `true`, PII and PHI are redacted from text transcripts (e.g. replaced with tags like `[PHONE]`) and bleeped from audio recordings after the conversation ends.
+    """
+
+    redaction_entities: typing.Optional[typing.List[ConfigOptionsRedactionEntitiesItem]] = pydantic.Field(default=None)
+    """
+    The types of PII and PHI to redact when `enable_redaction` is `true`. `null` redacts all PII and PHI. Must contain at least one item when not `null`.
     """
 
     enable_watermarking: typing.Optional[bool] = pydantic.Field(default=None)
