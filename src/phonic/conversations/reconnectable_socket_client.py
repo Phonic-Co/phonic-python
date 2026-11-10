@@ -298,6 +298,8 @@ class ReconnectableConversationsSocketClient(EventEmitterMixin):
         try:
             op(self._inner)
         except ConnectionClosed:
+            # Intentionally ignore: sends to a closed socket are dropped by design;
+            # recv() observes the close and handles reconnect/raise semantics.
             pass
 
     def _observe_json(self, json_data: typing.Any) -> None:
