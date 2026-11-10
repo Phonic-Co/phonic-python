@@ -114,7 +114,8 @@ class ReconnectableAsyncConversationsSocketClient(EventEmitterMixin):
         try:
             await op(self._inner)
         except ConnectionClosed:
-            pass
+            # Expected during close/reconnect races: intentionally drop the send.
+            return
 
     def _observe_json(self, json_data: typing.Any) -> None:
         if not isinstance(json_data, dict):
