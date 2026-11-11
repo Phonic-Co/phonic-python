@@ -25,12 +25,12 @@ from .task import TaskParams
 class CreateAgentRequestParams(typing_extensions.TypedDict):
     name: str
     """
-    The name of the agent. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
+    Deprecated alias of `slug`; agents have no separate display name. If both `name` and `slug` are provided, `slug` takes precedence and `name` is set to the same value. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
     """
 
     slug: typing_extensions.NotRequired[str]
     """
-    URL-friendly agent slug. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
+    URL-friendly agent slug, which also serves as the agent's `name`. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
     """
 
     phone_number: typing_extensions.NotRequired[typing.Optional[CreateAgentRequestPhoneNumber]]

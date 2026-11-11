@@ -25,6 +25,7 @@ if typing.TYPE_CHECKING:
     from .tools.client import AsyncToolsClient, ToolsClient
     from .tts.client import AsyncTtsClient, TtsClient
     from .voices.client import AsyncVoicesClient, VoicesClient
+    from .webhooks.client import AsyncWebhooksClient, WebhooksClient
     from .workspace.client import AsyncWorkspaceClient, WorkspaceClient
 
 
@@ -117,6 +118,7 @@ class Phonic:
         self._workspace: typing.Optional[WorkspaceClient] = None
         self._external_storage_policies: typing.Optional[ExternalStoragePoliciesClient] = None
         self._mcp_servers: typing.Optional[McpServersClient] = None
+        self._webhooks: typing.Optional[WebhooksClient] = None
 
     @property
     def agents(self):
@@ -230,6 +232,14 @@ class Phonic:
             self._mcp_servers = McpServersClient(client_wrapper=self._client_wrapper)
         return self._mcp_servers
 
+    @property
+    def webhooks(self):
+        if self._webhooks is None:
+            from .webhooks.client import WebhooksClient  # noqa: E402
+
+            self._webhooks = WebhooksClient(client_wrapper=self._client_wrapper)
+        return self._webhooks
+
 
 class AsyncPhonic:
     """
@@ -320,6 +330,7 @@ class AsyncPhonic:
         self._workspace: typing.Optional[AsyncWorkspaceClient] = None
         self._external_storage_policies: typing.Optional[AsyncExternalStoragePoliciesClient] = None
         self._mcp_servers: typing.Optional[AsyncMcpServersClient] = None
+        self._webhooks: typing.Optional[AsyncWebhooksClient] = None
 
     @property
     def agents(self):
@@ -432,3 +443,11 @@ class AsyncPhonic:
 
             self._mcp_servers = AsyncMcpServersClient(client_wrapper=self._client_wrapper)
         return self._mcp_servers
+
+    @property
+    def webhooks(self):
+        if self._webhooks is None:
+            from .webhooks.client import AsyncWebhooksClient  # noqa: E402
+
+            self._webhooks = AsyncWebhooksClient(client_wrapper=self._client_wrapper)
+        return self._webhooks

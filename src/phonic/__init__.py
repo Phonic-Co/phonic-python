@@ -113,6 +113,7 @@ if typing.TYPE_CHECKING:
         CreateAgentRequestToolsItem,
         CreateAgentRequestTurnTaking,
         CreateApiKeyResponse,
+        CreateWebhookResponse,
         DataRetentionPolicy,
         DataRetentionPolicyAudioRecordings,
         DataRetentionPolicyAudioRecordingsAudioRecordings,
@@ -241,6 +242,8 @@ if typing.TYPE_CHECKING:
         WarningPayloadWarning,
         WebSearchToolConfig,
         WebSearchToolConfigSpeechBeforeToolCall,
+        Webhook,
+        WebhookEvent,
     )
     from .errors import (
         BadGatewayError,
@@ -270,6 +273,7 @@ if typing.TYPE_CHECKING:
         tools,
         tts,
         voices,
+        webhooks,
         workspace,
     )
     from .agents import (
@@ -503,6 +507,7 @@ if typing.TYPE_CHECKING:
         CreateAgentRequestTemplateVariablesValueParams,
         CreateAgentRequestToolsItemParams,
         CreateApiKeyResponseParams,
+        CreateWebhookResponseParams,
         DataRetentionPolicyAudioRecordingsAudioRecordingsParams,
         DataRetentionPolicyAudioRecordingsParams,
         DataRetentionPolicyAudioRecordingsTranscriptsParams,
@@ -603,6 +608,7 @@ if typing.TYPE_CHECKING:
         WarningPayloadParams,
         WarningPayloadWarningParams,
         WebSearchToolConfigParams,
+        WebhookParams,
     )
     from .responses import (
         GenerateResponsesRequestIntelligenceLevel,
@@ -640,6 +646,18 @@ if typing.TYPE_CHECKING:
     )
     from .version import __version__
     from .voices import VoicesGetResponse, VoicesGetResponseParams, VoicesListResponse, VoicesListResponseParams
+    from .webhooks import (
+        WebhooksDeleteResponse,
+        WebhooksDeleteResponseParams,
+        WebhooksGetResponse,
+        WebhooksGetResponseParams,
+        WebhooksGetSecretResponse,
+        WebhooksGetSecretResponseParams,
+        WebhooksListResponse,
+        WebhooksListResponseParams,
+        WebhooksUpdateResponse,
+        WebhooksUpdateResponseParams,
+    )
     from .workspace import (
         WorkspaceGetResponse,
         WorkspaceGetResponseParams,
@@ -911,6 +929,8 @@ _dynamic_imports: typing.Dict[str, str] = {
     "CreateToolRequestParametersParams": ".tools",
     "CreateToolRequestSpeechBeforeToolCall": ".tools",
     "CreateToolRequestType": ".tools",
+    "CreateWebhookResponse": ".types",
+    "CreateWebhookResponseParams": ".requests",
     "DataRetentionPolicy": ".types",
     "DataRetentionPolicyAudioRecordings": ".types",
     "DataRetentionPolicyAudioRecordingsAudioRecordings": ".types",
@@ -1242,6 +1262,19 @@ _dynamic_imports: typing.Dict[str, str] = {
     "WebSearchToolConfig": ".types",
     "WebSearchToolConfigParams": ".requests",
     "WebSearchToolConfigSpeechBeforeToolCall": ".types",
+    "Webhook": ".types",
+    "WebhookEvent": ".types",
+    "WebhookParams": ".requests",
+    "WebhooksDeleteResponse": ".webhooks",
+    "WebhooksDeleteResponseParams": ".webhooks",
+    "WebhooksGetResponse": ".webhooks",
+    "WebhooksGetResponseParams": ".webhooks",
+    "WebhooksGetSecretResponse": ".webhooks",
+    "WebhooksGetSecretResponseParams": ".webhooks",
+    "WebhooksListResponse": ".webhooks",
+    "WebhooksListResponseParams": ".webhooks",
+    "WebhooksUpdateResponse": ".webhooks",
+    "WebhooksUpdateResponseParams": ".webhooks",
     "WorkspaceGetResponse": ".workspace",
     "WorkspaceGetResponseParams": ".workspace",
     "WorkspaceUpdateResponse": ".workspace",
@@ -1260,6 +1293,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "tools": ".tools",
     "tts": ".tts",
     "voices": ".voices",
+    "webhooks": ".webhooks",
     "workspace": ".workspace",
 }
 
@@ -1550,6 +1584,8 @@ __all__ = [
     "CreateToolRequestParametersParams",
     "CreateToolRequestSpeechBeforeToolCall",
     "CreateToolRequestType",
+    "CreateWebhookResponse",
+    "CreateWebhookResponseParams",
     "DataRetentionPolicy",
     "DataRetentionPolicyAudioRecordings",
     "DataRetentionPolicyAudioRecordingsAudioRecordings",
@@ -1881,6 +1917,19 @@ __all__ = [
     "WebSearchToolConfig",
     "WebSearchToolConfigParams",
     "WebSearchToolConfigSpeechBeforeToolCall",
+    "Webhook",
+    "WebhookEvent",
+    "WebhookParams",
+    "WebhooksDeleteResponse",
+    "WebhooksDeleteResponseParams",
+    "WebhooksGetResponse",
+    "WebhooksGetResponseParams",
+    "WebhooksGetSecretResponse",
+    "WebhooksGetSecretResponseParams",
+    "WebhooksListResponse",
+    "WebhooksListResponseParams",
+    "WebhooksUpdateResponse",
+    "WebhooksUpdateResponseParams",
     "WorkspaceGetResponse",
     "WorkspaceGetResponseParams",
     "WorkspaceUpdateResponse",
@@ -1899,5 +1948,6 @@ __all__ = [
     "tools",
     "tts",
     "voices",
+    "webhooks",
     "workspace",
 ]

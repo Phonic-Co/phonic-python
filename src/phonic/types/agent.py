@@ -33,7 +33,7 @@ class Agent(UncheckedBaseModel):
 
     name: str = pydantic.Field()
     """
-    The name of the agent.
+    The name of the agent. Always equal to `slug`; agents have no separate display name.
     """
 
     phone_number: typing.Optional[str] = pydantic.Field(default=None)

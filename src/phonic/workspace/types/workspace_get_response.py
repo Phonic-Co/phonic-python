@@ -18,6 +18,16 @@ class WorkspaceGetResponse(UncheckedBaseModel):
     Maximum number of concurrent conversations allowed for this workspace.
     """
 
+    active_agents: int = pydantic.Field()
+    """
+    Number of enabled agents in this workspace. Disabled and deleted agents, and agents in deleted projects, are not counted.
+    """
+
+    max_agents: int = pydantic.Field()
+    """
+    Maximum number of enabled agents allowed for this workspace.
+    """
+
     logo_url: typing.Optional[str] = pydantic.Field(default=None)
     """
     URL of the workspace logo (PNG or SVG), or null if not set.
