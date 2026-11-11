@@ -232,13 +232,13 @@ class RawAgentsClient:
         Parameters
         ----------
         name : str
-            The name of the agent. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
+            Deprecated alias of `slug`; agents have no separate display name. If both `name` and `slug` are provided, `slug` takes precedence and `name` is set to the same value. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
 
         project : typing.Optional[str]
             The name of the project to create the agent in.
 
         slug : typing.Optional[str]
-            URL-friendly agent slug. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
+            URL-friendly agent slug, which also serves as the agent's `name`. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
 
         phone_number : typing.Optional[CreateAgentRequestPhoneNumber]
             When set to `null`, the agent will not be associated with a phone number. When set to `"assign-automatically"`, the agent will be assigned a random phone number. When set to `"custom"`, you must provide `custom_phone_numbers`.
@@ -651,7 +651,7 @@ class RawAgentsClient:
         Parameters
         ----------
         name : str
-            The name of the agent. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
+            Deprecated alias of `slug`; agents have no separate display name. If both `name` and `slug` are provided, `slug` takes precedence and `name` is set to the same value. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
 
         project : typing.Optional[str]
             The name of the project containing the agent.
@@ -663,7 +663,7 @@ class RawAgentsClient:
             Array of procedure IDs associated with the agent.
 
         slug : typing.Optional[str]
-            URL-friendly agent slug. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
+            URL-friendly agent slug, which also serves as the agent's `name`. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
 
         phone_number : typing.Optional[CreateAgentRequestPhoneNumber]
             When set to `null`, the agent will not be associated with a phone number. When set to `"assign-automatically"`, the agent will be assigned a random phone number. When set to `"custom"`, you must provide `custom_phone_numbers`.
@@ -1231,10 +1231,10 @@ class RawAgentsClient:
             The name of the project containing the agent. Only used when `nameOrId` is a name.
 
         name : typing.Optional[str]
-            The name of the agent. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
+            Deprecated alias of `slug`; agents have no separate display name. If both `name` and `slug` are provided, `slug` takes precedence and `name` is set to the same value. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
 
         slug : typing.Optional[str]
-            URL-friendly agent slug. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
+            URL-friendly agent slug, which also serves as the agent's `name`. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
 
         phone_number : typing.Optional[UpdateAgentRequestPhoneNumber]
             When set to `null`, the agent will not be associated with a phone number anymore. When set to `"assign-automatically"`, the agent will be assigned a random phone number if it doesn't have one yet. If the agent already has a phone number, `"assign-automatically"` has no effect. When set to `"custom"`, you must provide `custom_phone_numbers`.
@@ -2289,13 +2289,13 @@ class AsyncRawAgentsClient:
         Parameters
         ----------
         name : str
-            The name of the agent. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
+            Deprecated alias of `slug`; agents have no separate display name. If both `name` and `slug` are provided, `slug` takes precedence and `name` is set to the same value. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
 
         project : typing.Optional[str]
             The name of the project to create the agent in.
 
         slug : typing.Optional[str]
-            URL-friendly agent slug. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
+            URL-friendly agent slug, which also serves as the agent's `name`. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
 
         phone_number : typing.Optional[CreateAgentRequestPhoneNumber]
             When set to `null`, the agent will not be associated with a phone number. When set to `"assign-automatically"`, the agent will be assigned a random phone number. When set to `"custom"`, you must provide `custom_phone_numbers`.
@@ -2708,7 +2708,7 @@ class AsyncRawAgentsClient:
         Parameters
         ----------
         name : str
-            The name of the agent. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
+            Deprecated alias of `slug`; agents have no separate display name. If both `name` and `slug` are provided, `slug` takes precedence and `name` is set to the same value. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
 
         project : typing.Optional[str]
             The name of the project containing the agent.
@@ -2720,7 +2720,7 @@ class AsyncRawAgentsClient:
             Array of procedure IDs associated with the agent.
 
         slug : typing.Optional[str]
-            URL-friendly agent slug. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
+            URL-friendly agent slug, which also serves as the agent's `name`. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
 
         phone_number : typing.Optional[CreateAgentRequestPhoneNumber]
             When set to `null`, the agent will not be associated with a phone number. When set to `"assign-automatically"`, the agent will be assigned a random phone number. When set to `"custom"`, you must provide `custom_phone_numbers`.
@@ -3288,10 +3288,10 @@ class AsyncRawAgentsClient:
             The name of the project containing the agent. Only used when `nameOrId` is a name.
 
         name : typing.Optional[str]
-            The name of the agent. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
+            Deprecated alias of `slug`; agents have no separate display name. If both `name` and `slug` are provided, `slug` takes precedence and `name` is set to the same value. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
 
         slug : typing.Optional[str]
-            URL-friendly agent slug. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
+            URL-friendly agent slug, which also serves as the agent's `name`. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
 
         phone_number : typing.Optional[UpdateAgentRequestPhoneNumber]
             When set to `null`, the agent will not be associated with a phone number anymore. When set to `"assign-automatically"`, the agent will be assigned a random phone number if it doesn't have one yet. If the agent already has a phone number, `"assign-automatically"` has no effect. When set to `"custom"`, you must provide `custom_phone_numbers`.

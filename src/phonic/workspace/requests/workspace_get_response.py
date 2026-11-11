@@ -16,6 +16,16 @@ class WorkspaceGetResponseParams(typing_extensions.TypedDict):
     Maximum number of concurrent conversations allowed for this workspace.
     """
 
+    active_agents: int
+    """
+    Number of enabled agents in this workspace. Disabled and deleted agents, and agents in deleted projects, are not counted.
+    """
+
+    max_agents: int
+    """
+    Maximum number of enabled agents allowed for this workspace.
+    """
+
     logo_url: typing.Optional[str]
     """
     URL of the workspace logo (PNG or SVG), or null if not set.

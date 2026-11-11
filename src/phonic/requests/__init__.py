@@ -88,6 +88,7 @@ if typing.TYPE_CHECKING:
     from .create_agent_request_template_variables_value import CreateAgentRequestTemplateVariablesValueParams
     from .create_agent_request_tools_item import CreateAgentRequestToolsItemParams
     from .create_api_key_response import CreateApiKeyResponseParams
+    from .create_webhook_response import CreateWebhookResponseParams
     from .data_retention_policy import DataRetentionPolicyParams
     from .data_retention_policy_audio_recordings import DataRetentionPolicyAudioRecordingsParams
     from .data_retention_policy_audio_recordings_audio_recordings import (
@@ -192,6 +193,7 @@ if typing.TYPE_CHECKING:
     from .warning_payload import WarningPayloadParams
     from .warning_payload_warning import WarningPayloadWarningParams
     from .web_search_tool_config import WebSearchToolConfigParams
+    from .webhook import WebhookParams
 _dynamic_imports: typing.Dict[str, str] = {
     "AddSystemMessagePayloadParams": ".add_system_message_payload",
     "AgentConfigurationEndpointParams": ".agent_configuration_endpoint",
@@ -267,6 +269,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "CreateAgentRequestTemplateVariablesValueParams": ".create_agent_request_template_variables_value",
     "CreateAgentRequestToolsItemParams": ".create_agent_request_tools_item",
     "CreateApiKeyResponseParams": ".create_api_key_response",
+    "CreateWebhookResponseParams": ".create_webhook_response",
     "DataRetentionPolicyAudioRecordingsAudioRecordingsParams": ".data_retention_policy_audio_recordings_audio_recordings",
     "DataRetentionPolicyAudioRecordingsParams": ".data_retention_policy_audio_recordings",
     "DataRetentionPolicyAudioRecordingsTranscriptsParams": ".data_retention_policy_audio_recordings_transcripts",
@@ -367,6 +370,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "WarningPayloadParams": ".warning_payload",
     "WarningPayloadWarningParams": ".warning_payload_warning",
     "WebSearchToolConfigParams": ".web_search_tool_config",
+    "WebhookParams": ".webhook",
 }
 
 
@@ -466,6 +470,7 @@ __all__ = [
     "CreateAgentRequestTemplateVariablesValueParams",
     "CreateAgentRequestToolsItemParams",
     "CreateApiKeyResponseParams",
+    "CreateWebhookResponseParams",
     "DataRetentionPolicyAudioRecordingsAudioRecordingsParams",
     "DataRetentionPolicyAudioRecordingsParams",
     "DataRetentionPolicyAudioRecordingsTranscriptsParams",
@@ -566,4 +571,5 @@ __all__ = [
     "WarningPayloadParams",
     "WarningPayloadWarningParams",
     "WebSearchToolConfigParams",
+    "WebhookParams",
 ]

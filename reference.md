@@ -305,7 +305,7 @@ client.agents.upsert(
 <dl>
 <dd>
 
-**name:** `str` — The name of the agent. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
+**name:** `str` — Deprecated alias of `slug`; agents have no separate display name. If both `name` and `slug` are provided, `slug` takes precedence and `name` is set to the same value. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
     
 </dd>
 </dl>
@@ -321,7 +321,7 @@ client.agents.upsert(
 <dl>
 <dd>
 
-**slug:** `typing.Optional[str]` — URL-friendly agent slug. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
+**slug:** `typing.Optional[str]` — URL-friendly agent slug, which also serves as the agent's `name`. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
     
 </dd>
 </dl>
@@ -1074,7 +1074,7 @@ client.agents.update(
 <dl>
 <dd>
 
-**name:** `typing.Optional[str]` — The name of the agent. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
+**name:** `typing.Optional[str]` — Deprecated alias of `slug`; agents have no separate display name. If both `name` and `slug` are provided, `slug` takes precedence and `name` is set to the same value. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
     
 </dd>
 </dl>
@@ -1082,7 +1082,7 @@ client.agents.update(
 <dl>
 <dd>
 
-**slug:** `typing.Optional[str]` — URL-friendly agent slug. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
+**slug:** `typing.Optional[str]` — URL-friendly agent slug, which also serves as the agent's `name`. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
     
 </dd>
 </dl>
@@ -2225,7 +2225,7 @@ client.tools.create(
 <dl>
 <dd>
 
-**type:** `CreateToolRequestType` — The type of tool.
+**type:** `CreateToolRequestType` — The type of tool. Each type accepts only its own fields, and a field from another type is rejected with a 400 error. Most execution flags are for custom_webhook and custom_websocket tools only. built_in_transfer_to_agent accepts only require_speech_before_tool_call, built_in_transfer_to_phone_number accepts require_speech_before_tool_call and uninterruptible, and the built_in_natural_conversation_ending, built_in_keypad_input, and built_in_choose_not_to_respond types accept none of them. Leave out any field your type doesn't accept; the field's presence is rejected, so sending it as false or null also fails. See [which tool types accept each flag](https://docs.phonic.ai/docs/build/tools/how_tools_execute#which-tool-types-accept-each-flag).
     
 </dd>
 </dl>
@@ -2233,7 +2233,7 @@ client.tools.create(
 <dl>
 <dd>
 
-**execution_mode:** `CreateToolRequestExecutionMode` — Mode of operation.
+**execution_mode:** `CreateToolRequestExecutionMode` — Mode of operation. Only custom_webhook and custom_websocket tools can be async; every other type must be sync. Optional for built_in_natural_conversation_ending, built_in_keypad_input, and built_in_choose_not_to_respond tools, where it defaults to sync.
     
 </dd>
 </dl>
@@ -2397,7 +2397,7 @@ Every key must name a top-level parameter. For POST webhooks, every parameter ne
 <dl>
 <dd>
 
-**require_speech_before_tool_call:** `typing.Optional[bool]` — When true, forces the agent to speak before executing the tool.
+**require_speech_before_tool_call:** `typing.Optional[bool]` — When true, forces the agent to speak before executing the tool. Available for custom_webhook, custom_websocket, custom_context, built_in_transfer_to_phone_number, and built_in_transfer_to_agent tools. The built_in_natural_conversation_ending and built_in_keypad_input types use speech_before_tool_call instead, and built_in_choose_not_to_respond takes neither. Omit it for those three types; sending it, even as false, returns a 400 error.
     
 </dd>
 </dl>
@@ -2421,7 +2421,7 @@ Every key must name a top-level parameter. For POST webhooks, every parameter ne
 <dl>
 <dd>
 
-**wait_for_speech_before_tool_call:** `typing.Optional[bool]` — If true, the agent will wait to finish speaking before executing the tool. This is only available for custom_webhook and custom_websocket tools.
+**wait_for_speech_before_tool_call:** `typing.Optional[bool]` — If true, the agent will wait to finish speaking before executing the tool. This is only available for custom_webhook and custom_websocket tools. Omit it for every other tool type, including built_in_transfer_to_agent and built_in_transfer_to_phone_number; sending it, even as false, returns a 400 error.
     
 </dd>
 </dl>
@@ -2429,7 +2429,7 @@ Every key must name a top-level parameter. For POST webhooks, every parameter ne
 <dl>
 <dd>
 
-**forbid_speech_after_tool_call:** `typing.Optional[bool]` — When true, forbids the agent from speaking after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools.
+**forbid_speech_after_tool_call:** `typing.Optional[bool]` — When true, forbids the agent from speaking after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools. Omit it for every other tool type, including built_in_transfer_to_agent and built_in_transfer_to_phone_number; sending it, even as false, returns a 400 error.
     
 </dd>
 </dl>
@@ -2437,7 +2437,7 @@ Every key must name a top-level parameter. For POST webhooks, every parameter ne
 <dl>
 <dd>
 
-**forbid_tool_call_after_speech:** `typing.Optional[bool]` — When true, forbids the agent from calling the tool right after it has spoken. Available for custom_webhook and custom_websocket tools.
+**forbid_tool_call_after_speech:** `typing.Optional[bool]` — When true, forbids the agent from calling the tool right after it has spoken. Available for custom_webhook and custom_websocket tools. Omit it for every other tool type, including built_in_transfer_to_agent and built_in_transfer_to_phone_number; sending it, even as false, returns a 400 error.
     
 </dd>
 </dl>
@@ -2445,7 +2445,7 @@ Every key must name a top-level parameter. For POST webhooks, every parameter ne
 <dl>
 <dd>
 
-**allow_tool_chaining:** `typing.Optional[bool]` — When true, allows the agent to chain and execute other tools after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools.
+**allow_tool_chaining:** `typing.Optional[bool]` — When true, allows the agent to chain and execute other tools after executing the tool. Available for custom_context, custom_webhook and custom_websocket tools. Omit it for every other tool type, including built_in_transfer_to_agent and built_in_transfer_to_phone_number; sending it, even as false, returns a 400 error.
     
 </dd>
 </dl>
@@ -2453,7 +2453,7 @@ Every key must name a top-level parameter. For POST webhooks, every parameter ne
 <dl>
 <dd>
 
-**wait_for_response:** `typing.Optional[bool]` — The agent doesn't typically wait for the response of async tools. When true, makes the agent wait for a response, not call other tools and inform the user of the result. Only available for async custom_webhook and custom_websocket tools, and cannot be combined with allow_tool_chaining set to true.
+**wait_for_response:** `typing.Optional[bool]` — The agent doesn't typically wait for the response of async tools. When true, makes the agent wait for a response, not call other tools and inform the user of the result. Only available for async custom_webhook and custom_websocket tools, and cannot be combined with allow_tool_chaining set to true. Omit it for every other tool type, including built_in_transfer_to_agent and built_in_transfer_to_phone_number; sending it, even as false, returns a 400 error.
     
 </dd>
 </dl>
@@ -2461,7 +2461,7 @@ Every key must name a top-level parameter. For POST webhooks, every parameter ne
 <dl>
 <dd>
 
-**uninterruptible:** `typing.Optional[bool]` — When true, caller speech cannot interrupt the assistant while the tool call is running. Available for sync custom_webhook, sync custom_websocket, and built_in_transfer_to_phone_number tools. Defaults to true for phone transfers and false for custom tools. Prevents caller interruptions during the transfer, including the preceding announcement once protection is active.
+**uninterruptible:** `typing.Optional[bool]` — When true, caller speech cannot interrupt the assistant while the tool call is running. Available for sync custom_webhook, sync custom_websocket, and built_in_transfer_to_phone_number tools. Defaults to true for phone transfers and false for custom tools. Prevents caller interruptions during the transfer, including the preceding announcement once protection is active. Omit it for every other tool type, including built_in_transfer_to_agent; sending it, even as false, returns a 400 error.
     
 </dd>
 </dl>
@@ -2469,7 +2469,7 @@ Every key must name a top-level parameter. For POST webhooks, every parameter ne
 <dl>
 <dd>
 
-**can_run_during_user_speech:** `typing.Optional[bool]` — When true, the agent can call the tool while the user is still speaking. Only available for custom_webhook, custom_websocket, and custom_context tools.
+**can_run_during_user_speech:** `typing.Optional[bool]` — When true, the agent can call the tool while the user is still speaking. Only available for custom_webhook, custom_websocket, and custom_context tools. Omit it for every other tool type, including built_in_transfer_to_agent and built_in_transfer_to_phone_number; sending it, even as false, returns a 400 error.
     
 </dd>
 </dl>
@@ -2912,7 +2912,7 @@ Every key must name a top-level parameter. For POST webhooks, every parameter ne
 <dl>
 <dd>
 
-**require_speech_before_tool_call:** `typing.Optional[bool]` — When true, forces the agent to speak before executing the tool.
+**require_speech_before_tool_call:** `typing.Optional[bool]` — When true, forces the agent to speak before executing the tool. Available for custom_webhook, custom_websocket, custom_context, built_in_transfer_to_phone_number, and built_in_transfer_to_agent tools. The built_in_natural_conversation_ending and built_in_keypad_input types use speech_before_tool_call instead, and built_in_choose_not_to_respond takes neither.
     
 </dd>
 </dl>
@@ -5190,6 +5190,506 @@ client.api_keys.rotate(
 </dl>
 </details>
 
+## Webhooks
+<details><summary><code>client.webhooks.<a href="src/phonic/webhooks/client.py">list</a>() -> WebhooksListResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Returns the workspace's webhooks, newest first.
+
+Requires workspace access. An API key restricted to selected projects
+only sees webhooks whose projects are all within its scope.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from phonic import Phonic
+from phonic.environment import PhonicEnvironment
+
+client = Phonic(
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
+)
+
+client.webhooks.list()
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.webhooks.<a href="src/phonic/webhooks/client.py">create</a>(...) -> CreateWebhookResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Creates a webhook that sends the chosen events for the chosen projects
+to `endpoint_url`. The response includes the webhook's signing secret.
+
+Requires an API key with workspace access, or an access token. An API
+key restricted to selected projects can only use projects within its
+scope.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from phonic import Phonic
+from phonic.environment import PhonicEnvironment
+
+client = Phonic(
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
+)
+
+client.webhooks.create(
+    endpoint_url="https://example.com/phonic/webhooks",
+    events=[
+        "conversation.ended",
+        "conversation.analysis"
+    ],
+    project_ids=[
+        "proj_ad0334f1-2487-4155-9df3-abd8129b29ad"
+    ],
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**endpoint_url:** `str` 
+
+The URL that receives the webhook's requests. Must be a publicly
+routable HTTPS URL without embedded credentials, and unique within
+the workspace. It cannot be changed later.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**events:** `typing.List[WebhookEvent]` — The events to send to the endpoint.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**project_ids:** `typing.List[str]` — The projects whose events are sent to the endpoint.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.webhooks.<a href="src/phonic/webhooks/client.py">get</a>(...) -> WebhooksGetResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Returns a webhook.
+
+Requires workspace access. An API key restricted to selected projects
+can only get a webhook whose projects are all within its scope.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from phonic import Phonic
+from phonic.environment import PhonicEnvironment
+
+client = Phonic(
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
+)
+
+client.webhooks.get(
+    id="id",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `str` — The ID of the webhook.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.webhooks.<a href="src/phonic/webhooks/client.py">delete</a>(...) -> WebhooksDeleteResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Deletes a webhook.
+
+Requires an API key with workspace access, or an access token. An API
+key restricted to selected projects can only delete a webhook whose
+projects are all within its scope.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from phonic import Phonic
+from phonic.environment import PhonicEnvironment
+
+client = Phonic(
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
+)
+
+client.webhooks.delete(
+    id="id",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `str` — The ID of the webhook to delete.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.webhooks.<a href="src/phonic/webhooks/client.py">update</a>(...) -> WebhooksUpdateResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Updates a webhook's events, projects, or both. The endpoint URL cannot
+be changed; create a new webhook instead.
+
+Requires an API key with workspace access, or an access token. An API
+key restricted to selected projects can only update a webhook whose
+current and new projects are all within its scope.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from phonic import Phonic
+from phonic.environment import PhonicEnvironment
+
+client = Phonic(
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
+)
+
+client.webhooks.update(
+    id="id",
+    events=[
+        "conversation.ended",
+        "conversation.transferred"
+    ],
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `str` — The ID of the webhook to update.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**events:** `typing.Optional[typing.List[WebhookEvent]]` — Replaces the events sent to the endpoint.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**project_ids:** `typing.Optional[typing.List[str]]` — Replaces the projects whose events are sent to the endpoint.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.webhooks.<a href="src/phonic/webhooks/client.py">get_secret</a>(...) -> WebhooksGetSecretResponse</code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Returns the secret used to sign the webhook's requests.
+
+Requires an API key with workspace access, or an access token. An API
+key restricted to selected projects can only get the secret of a
+webhook whose projects are all within its scope.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```python
+from phonic import Phonic
+from phonic.environment import PhonicEnvironment
+
+client = Phonic(
+    api_key="<token>",
+    environment=PhonicEnvironment.DEFAULT,
+)
+
+client.webhooks.get_secret(
+    id="id",
+)
+
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**id:** `str` — The ID of the webhook.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
+    
+</dd>
+</dl>
+</dd>
+</dl>
+
+
+</dd>
+</dl>
+</details>
+
 ## ConversationItems
 <details><summary><code>client.conversation_items.<a href="src/phonic/conversation_items/client.py">replay</a>(...) -> ReplayConversationItemResponse</code></summary>
 <dl>
@@ -7271,11 +7771,16 @@ There are two different types of tool configurations:
 
 - `tool_definitions`: defined inline. Typically if you use LiveKit, this
   is where you can pass in your tool definitions.
-- `tools`: predefined tools configured in Phonic, referenced by name, in
-  the same shape as the STS WebSocket `config` message. Today this covers
-  built-in tools such as `choose_not_to_respond` and transfer tools stored
-  in `project`. Your context, webhook, MCP and WebSocket tools cannot be
-  referenced here yet; define those inline as `tool_definitions`.
+- `tools`: tools that already exist in Phonic, in the same shape as the
+  STS WebSocket `config` message. Built-in tools such as
+  `choose_not_to_respond` are passed by their built-in name or as a
+  `{type: "built_in", name, tool_config}` object. The only tools stored in
+  `project` that can be referenced by name are transfer tools (transfer to
+  phone number and transfer to agent). Stored built-in tool instances
+  (such as a saved choose not to respond, natural conversation ending or
+  keypad input tool) cannot be referenced by their saved name; pass the
+  built-in itself instead. Your context, webhook, MCP and WebSocket tools
+  cannot be referenced here yet; define those inline as `tool_definitions`.
 
 Each item in `input` is a user message, an assistant message (with
 optional `tool_calls` or an `action`), or a `tool_call_output`. Every
@@ -7406,7 +7911,7 @@ client.responses.create(
 <dl>
 <dd>
 
-**tools:** `typing.Optional[typing.List[ResponsesTool]]` — Tools the assistant may call that already exist - a built-in tool, or a transfer tool stored in `project`, referenced by name. Names must be unique and must not repeat a name in `tool_definitions`. Stored tools that are not transfer tools cannot be referenced here yet; define them inline as `tool_definitions` instead.
+**tools:** `typing.Optional[typing.List[ResponsesTool]]` — Tools the assistant may call that already exist - a built-in tool, passed by its built-in name or as a `built_in` object, or a transfer tool stored in `project`, referenced by name. Names must be unique and must not repeat a name in `tool_definitions`. Stored tools that are not transfer tools cannot be referenced by name here yet. For a stored built-in tool instance, pass the built-in itself (for example `choose_not_to_respond`, or a `built_in` object with its `tool_config`); define other stored tools inline as `tool_definitions` instead.
     
 </dd>
 </dl>

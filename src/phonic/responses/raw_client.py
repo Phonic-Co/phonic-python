@@ -66,11 +66,16 @@ class RawResponsesClient:
 
         - `tool_definitions`: defined inline. Typically if you use LiveKit, this
           is where you can pass in your tool definitions.
-        - `tools`: predefined tools configured in Phonic, referenced by name, in
-          the same shape as the STS WebSocket `config` message. Today this covers
-          built-in tools such as `choose_not_to_respond` and transfer tools stored
-          in `project`. Your context, webhook, MCP and WebSocket tools cannot be
-          referenced here yet; define those inline as `tool_definitions`.
+        - `tools`: tools that already exist in Phonic, in the same shape as the
+          STS WebSocket `config` message. Built-in tools such as
+          `choose_not_to_respond` are passed by their built-in name or as a
+          `{type: "built_in", name, tool_config}` object. The only tools stored in
+          `project` that can be referenced by name are transfer tools (transfer to
+          phone number and transfer to agent). Stored built-in tool instances
+          (such as a saved choose not to respond, natural conversation ending or
+          keypad input tool) cannot be referenced by their saved name; pass the
+          built-in itself instead. Your context, webhook, MCP and WebSocket tools
+          cannot be referenced here yet; define those inline as `tool_definitions`.
 
         Each item in `input` is a user message, an assistant message (with
         optional `tool_calls` or an `action`), or a `tool_call_output`. Every
@@ -105,7 +110,7 @@ class RawResponsesClient:
             Name of the project the tools referenced by name in `tools` belong to. Required whenever `tools` names a tool stored in your workspace; built-in tools can be referenced without it.
 
         tools : typing.Optional[typing.Sequence[ResponsesToolParams]]
-            Tools the assistant may call that already exist - a built-in tool, or a transfer tool stored in `project`, referenced by name. Names must be unique and must not repeat a name in `tool_definitions`. Stored tools that are not transfer tools cannot be referenced here yet; define them inline as `tool_definitions` instead.
+            Tools the assistant may call that already exist - a built-in tool, passed by its built-in name or as a `built_in` object, or a transfer tool stored in `project`, referenced by name. Names must be unique and must not repeat a name in `tool_definitions`. Stored tools that are not transfer tools cannot be referenced by name here yet. For a stored built-in tool instance, pass the built-in itself (for example `choose_not_to_respond`, or a `built_in` object with its `tool_config`); define other stored tools inline as `tool_definitions` instead.
 
         model : typing.Optional[GenerateResponsesRequestModelParams]
             The Phonic speech-to-speech model to generate with. Omit it to use the current default model.
@@ -304,11 +309,16 @@ class AsyncRawResponsesClient:
 
         - `tool_definitions`: defined inline. Typically if you use LiveKit, this
           is where you can pass in your tool definitions.
-        - `tools`: predefined tools configured in Phonic, referenced by name, in
-          the same shape as the STS WebSocket `config` message. Today this covers
-          built-in tools such as `choose_not_to_respond` and transfer tools stored
-          in `project`. Your context, webhook, MCP and WebSocket tools cannot be
-          referenced here yet; define those inline as `tool_definitions`.
+        - `tools`: tools that already exist in Phonic, in the same shape as the
+          STS WebSocket `config` message. Built-in tools such as
+          `choose_not_to_respond` are passed by their built-in name or as a
+          `{type: "built_in", name, tool_config}` object. The only tools stored in
+          `project` that can be referenced by name are transfer tools (transfer to
+          phone number and transfer to agent). Stored built-in tool instances
+          (such as a saved choose not to respond, natural conversation ending or
+          keypad input tool) cannot be referenced by their saved name; pass the
+          built-in itself instead. Your context, webhook, MCP and WebSocket tools
+          cannot be referenced here yet; define those inline as `tool_definitions`.
 
         Each item in `input` is a user message, an assistant message (with
         optional `tool_calls` or an `action`), or a `tool_call_output`. Every
@@ -343,7 +353,7 @@ class AsyncRawResponsesClient:
             Name of the project the tools referenced by name in `tools` belong to. Required whenever `tools` names a tool stored in your workspace; built-in tools can be referenced without it.
 
         tools : typing.Optional[typing.Sequence[ResponsesToolParams]]
-            Tools the assistant may call that already exist - a built-in tool, or a transfer tool stored in `project`, referenced by name. Names must be unique and must not repeat a name in `tool_definitions`. Stored tools that are not transfer tools cannot be referenced here yet; define them inline as `tool_definitions` instead.
+            Tools the assistant may call that already exist - a built-in tool, passed by its built-in name or as a `built_in` object, or a transfer tool stored in `project`, referenced by name. Names must be unique and must not repeat a name in `tool_definitions`. Stored tools that are not transfer tools cannot be referenced by name here yet. For a stored built-in tool instance, pass the built-in itself (for example `choose_not_to_respond`, or a `built_in` object with its `tool_config`); define other stored tools inline as `tool_definitions` instead.
 
         model : typing.Optional[GenerateResponsesRequestModelParams]
             The Phonic speech-to-speech model to generate with. Omit it to use the current default model.

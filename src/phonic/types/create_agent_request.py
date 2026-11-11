@@ -27,12 +27,12 @@ from .task import Task
 class CreateAgentRequest(UncheckedBaseModel):
     name: str = pydantic.Field()
     """
-    The name of the agent. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
+    Deprecated alias of `slug`; agents have no separate display name. If both `name` and `slug` are provided, `slug` takes precedence and `name` is set to the same value. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
     """
 
     slug: typing.Optional[str] = pydantic.Field(default=None)
     """
-    URL-friendly agent slug. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
+    URL-friendly agent slug, which also serves as the agent's `name`. Can only contain lowercase letters, numbers and hyphens. Must be unique within the project.
     """
 
     phone_number: typing.Optional[CreateAgentRequestPhoneNumber] = pydantic.Field(default=None)

@@ -133,7 +133,7 @@ class Tool(UncheckedBaseModel):
 
     require_speech_before_tool_call: typing.Optional[bool] = pydantic.Field(default=None)
     """
-    When true, forces the agent to speak before executing the tool.
+    When true, forces the agent to speak before executing the tool. Available for custom_webhook, custom_websocket, custom_context, built_in_transfer_to_phone_number, and built_in_transfer_to_agent tools. The built_in_natural_conversation_ending and built_in_keypad_input types use speech_before_tool_call instead, and built_in_choose_not_to_respond takes neither.
     """
 
     speech_before_tool_call: typing.Optional[ToolSpeechBeforeToolCall] = pydantic.Field(default=None)

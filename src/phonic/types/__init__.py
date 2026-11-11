@@ -116,6 +116,7 @@ if typing.TYPE_CHECKING:
     from .create_agent_request_tools_item import CreateAgentRequestToolsItem
     from .create_agent_request_turn_taking import CreateAgentRequestTurnTaking
     from .create_api_key_response import CreateApiKeyResponse
+    from .create_webhook_response import CreateWebhookResponse
     from .data_retention_policy import DataRetentionPolicy
     from .data_retention_policy_audio_recordings import DataRetentionPolicyAudioRecordings
     from .data_retention_policy_audio_recordings_audio_recordings import (
@@ -252,6 +253,8 @@ if typing.TYPE_CHECKING:
     from .warning_payload_warning import WarningPayloadWarning
     from .web_search_tool_config import WebSearchToolConfig
     from .web_search_tool_config_speech_before_tool_call import WebSearchToolConfigSpeechBeforeToolCall
+    from .webhook import Webhook
+    from .webhook_event import WebhookEvent
 _dynamic_imports: typing.Dict[str, str] = {
     "AddSystemMessagePayload": ".add_system_message_payload",
     "Agent": ".agent",
@@ -359,6 +362,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "CreateAgentRequestToolsItem": ".create_agent_request_tools_item",
     "CreateAgentRequestTurnTaking": ".create_agent_request_turn_taking",
     "CreateApiKeyResponse": ".create_api_key_response",
+    "CreateWebhookResponse": ".create_webhook_response",
     "DataRetentionPolicy": ".data_retention_policy",
     "DataRetentionPolicyAudioRecordings": ".data_retention_policy_audio_recordings",
     "DataRetentionPolicyAudioRecordingsAudioRecordings": ".data_retention_policy_audio_recordings_audio_recordings",
@@ -487,6 +491,8 @@ _dynamic_imports: typing.Dict[str, str] = {
     "WarningPayloadWarning": ".warning_payload_warning",
     "WebSearchToolConfig": ".web_search_tool_config",
     "WebSearchToolConfigSpeechBeforeToolCall": ".web_search_tool_config_speech_before_tool_call",
+    "Webhook": ".webhook",
+    "WebhookEvent": ".webhook_event",
 }
 
 
@@ -618,6 +624,7 @@ __all__ = [
     "CreateAgentRequestToolsItem",
     "CreateAgentRequestTurnTaking",
     "CreateApiKeyResponse",
+    "CreateWebhookResponse",
     "DataRetentionPolicy",
     "DataRetentionPolicyAudioRecordings",
     "DataRetentionPolicyAudioRecordingsAudioRecordings",
@@ -746,4 +753,6 @@ __all__ = [
     "WarningPayloadWarning",
     "WebSearchToolConfig",
     "WebSearchToolConfigSpeechBeforeToolCall",
+    "Webhook",
+    "WebhookEvent",
 ]
