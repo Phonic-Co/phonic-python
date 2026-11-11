@@ -107,15 +107,15 @@ class ReconnectableAsyncConversationsSocketClient(EventEmitterMixin):
         return not self._user_closed and not self._reconnecting
 
     async def _send(self, op: typing.Callable[[AsyncConversationsSocketClient], typing.Awaitable[None]]) -> None:
-        """Send unless reconnecting. A send that hits a reconnectable close is dropped (no queue), like sends
-        made while reconnecting: recv() sees the same close and resumes the conversation."""
+        """Send unless reconnecting. Like phonic-node, a send to a closed socket is dropped (no queue): recv()
+        sees the same close, and either resumes the conversation or raises it."""
         if not self._is_send_safe():
             return
         try:
             await op(self._inner)
-        except ConnectionClosed as exc:
-            if not _is_reconnectable_close(_close_code(exc), _close_reason(exc)):
-                raise
+        except ConnectionClosed:
+            # Expected during close/reconnect races: intentionally drop the send.
+            return
 
     def _observe_json(self, json_data: typing.Any) -> None:
         if not isinstance(json_data, dict):
@@ -195,6 +195,9 @@ class ReconnectableAsyncConversationsSocketClient(EventEmitterMixin):
         try:
             await self._reconnect()
             self._reconnecting = False
+            if self._user_closed:  # close() ran while connecting
+                await self._close_current_connection()
+                raise exc
         except ConnectionClosed as reconnect_exc:
             return await self._recv_with_reconnect(reconnect_exc)
         except Exception:
@@ -207,14 +210,11 @@ class ReconnectableAsyncConversationsSocketClient(EventEmitterMixin):
                 msg = await self.recv()
                 yield msg
             except ConnectionClosed as exc:
-                code = _close_code(exc)
-                if (
-                    code is not None
-                    and code != NORMAL_CLOSURE
-                    and not _is_reconnectable_close(code, _close_reason(exc))
-                ):
-                    raise
-                break
+                # recv() only raises a reconnectable close once it has given up, so raise it like any other
+                # abnormal close; only a close() by the caller or a normal closure ends iteration quietly.
+                if self._user_closed or _close_code(exc) == NORMAL_CLOSURE:
+                    break
+                raise
 
     async def start_listening(self) -> None:
         await self._emit_async(EventType.OPEN, None)
@@ -292,15 +292,16 @@ class ReconnectableConversationsSocketClient(EventEmitterMixin):
         return not self._user_closed and not self._reconnecting
 
     def _send(self, op: typing.Callable[[ConversationsSocketClient], None]) -> None:
-        """Send unless reconnecting. A send that hits a reconnectable close is dropped (no queue), like sends
-        made while reconnecting: recv() sees the same close and resumes the conversation."""
+        """Send unless reconnecting. Like phonic-node, a send to a closed socket is dropped (no queue): recv()
+        sees the same close, and either resumes the conversation or raises it."""
         if not self._is_send_safe():
             return
         try:
             op(self._inner)
-        except ConnectionClosed as exc:
-            if not _is_reconnectable_close(_close_code(exc), _close_reason(exc)):
-                raise
+        except ConnectionClosed:
+            # Intentionally ignore: sends to a closed socket are dropped by design;
+            # recv() observes the close and handles reconnect/raise semantics.
+            pass
 
     def _observe_json(self, json_data: typing.Any) -> None:
         if not isinstance(json_data, dict):
@@ -380,6 +381,9 @@ class ReconnectableConversationsSocketClient(EventEmitterMixin):
         try:
             self._reconnect()
             self._reconnecting = False
+            if self._user_closed:  # close() ran while connecting
+                self._close_current_connection()
+                raise exc
         except ConnectionClosed as reconnect_exc:
             return self._recv_with_reconnect(reconnect_exc)
         except Exception:
@@ -391,14 +395,11 @@ class ReconnectableConversationsSocketClient(EventEmitterMixin):
             try:
                 yield self.recv()
             except ConnectionClosed as exc:
-                code = _close_code(exc)
-                if (
-                    code is not None
-                    and code != NORMAL_CLOSURE
-                    and not _is_reconnectable_close(code, _close_reason(exc))
-                ):
-                    raise
-                break
+                # recv() only raises a reconnectable close once it has given up, so raise it like any other
+                # abnormal close; only a close() by the caller or a normal closure ends iteration quietly.
+                if self._user_closed or _close_code(exc) == NORMAL_CLOSURE:
+                    break
+                raise
 
     def start_listening(self) -> None:
         self._emit(EventType.OPEN, None)
