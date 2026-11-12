@@ -8,12 +8,14 @@ from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.http_response import AsyncHttpResponse, HttpResponse
 from ..core.parse_error import ParsingError
 from ..core.request_options import RequestOptions
+from ..core.serialization import convert_and_respect_annotation_metadata
 from ..core.unchecked_base_model import construct_type
 from ..errors.bad_request_error import BadRequestError
 from ..errors.forbidden_error import ForbiddenError
 from ..errors.internal_server_error import InternalServerError
 from ..errors.unauthorized_error import UnauthorizedError
 from ..types.basic_error import BasicError
+from .requests.update_workspace_request_alerts import UpdateWorkspaceRequestAlertsParams
 from .types.workspace_get_response import WorkspaceGetResponse
 from .types.workspace_update_response import WorkspaceUpdateResponse
 from pydantic import ValidationError
@@ -104,6 +106,7 @@ class RawWorkspaceClient:
         logo_url: typing.Optional[str] = OMIT,
         invite_link_allowed_domains: typing.Optional[typing.Sequence[str]] = OMIT,
         ip_allowlist: typing.Optional[typing.Sequence[str]] = OMIT,
+        alerts: typing.Optional[UpdateWorkspaceRequestAlertsParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[WorkspaceUpdateResponse]:
         """
@@ -119,6 +122,9 @@ class RawWorkspaceClient:
 
         ip_allowlist : typing.Optional[typing.Sequence[str]]
             IP addresses or CIDR ranges allowed to access the workspace.
+
+        alerts : typing.Optional[UpdateWorkspaceRequestAlertsParams]
+            Email alert recipients, keyed by alert type. Replaces the workspace's alerts; alert types omitted from this object are removed.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -136,6 +142,9 @@ class RawWorkspaceClient:
                 "logo_url": logo_url,
                 "invite_link_allowed_domains": invite_link_allowed_domains,
                 "ip_allowlist": ip_allowlist,
+                "alerts": convert_and_respect_annotation_metadata(
+                    object_=alerts, annotation=UpdateWorkspaceRequestAlertsParams, direction="write"
+                ),
             },
             headers={
                 "content-type": "application/json",
@@ -291,6 +300,7 @@ class AsyncRawWorkspaceClient:
         logo_url: typing.Optional[str] = OMIT,
         invite_link_allowed_domains: typing.Optional[typing.Sequence[str]] = OMIT,
         ip_allowlist: typing.Optional[typing.Sequence[str]] = OMIT,
+        alerts: typing.Optional[UpdateWorkspaceRequestAlertsParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[WorkspaceUpdateResponse]:
         """
@@ -306,6 +316,9 @@ class AsyncRawWorkspaceClient:
 
         ip_allowlist : typing.Optional[typing.Sequence[str]]
             IP addresses or CIDR ranges allowed to access the workspace.
+
+        alerts : typing.Optional[UpdateWorkspaceRequestAlertsParams]
+            Email alert recipients, keyed by alert type. Replaces the workspace's alerts; alert types omitted from this object are removed.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -323,6 +336,9 @@ class AsyncRawWorkspaceClient:
                 "logo_url": logo_url,
                 "invite_link_allowed_domains": invite_link_allowed_domains,
                 "ip_allowlist": ip_allowlist,
+                "alerts": convert_and_respect_annotation_metadata(
+                    object_=alerts, annotation=UpdateWorkspaceRequestAlertsParams, direction="write"
+                ),
             },
             headers={
                 "content-type": "application/json",

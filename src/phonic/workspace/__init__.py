@@ -6,10 +6,24 @@ import typing
 from importlib import import_module
 
 if typing.TYPE_CHECKING:
-    from .types import WorkspaceGetResponse, WorkspaceUpdateResponse
-    from .requests import WorkspaceGetResponseParams, WorkspaceUpdateResponseParams
+    from .types import (
+        UpdateWorkspaceRequestAlerts,
+        WorkspaceGetResponse,
+        WorkspaceGetResponseAlerts,
+        WorkspaceUpdateResponse,
+    )
+    from .requests import (
+        UpdateWorkspaceRequestAlertsParams,
+        WorkspaceGetResponseAlertsParams,
+        WorkspaceGetResponseParams,
+        WorkspaceUpdateResponseParams,
+    )
 _dynamic_imports: typing.Dict[str, str] = {
+    "UpdateWorkspaceRequestAlerts": ".types",
+    "UpdateWorkspaceRequestAlertsParams": ".requests",
     "WorkspaceGetResponse": ".types",
+    "WorkspaceGetResponseAlerts": ".types",
+    "WorkspaceGetResponseAlertsParams": ".requests",
     "WorkspaceGetResponseParams": ".requests",
     "WorkspaceUpdateResponse": ".types",
     "WorkspaceUpdateResponseParams": ".requests",
@@ -38,7 +52,11 @@ def __dir__():
 
 
 __all__ = [
+    "UpdateWorkspaceRequestAlerts",
+    "UpdateWorkspaceRequestAlertsParams",
     "WorkspaceGetResponse",
+    "WorkspaceGetResponseAlerts",
+    "WorkspaceGetResponseAlertsParams",
     "WorkspaceGetResponseParams",
     "WorkspaceUpdateResponse",
     "WorkspaceUpdateResponseParams",

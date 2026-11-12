@@ -255,6 +255,7 @@ if typing.TYPE_CHECKING:
     from .web_search_tool_config_speech_before_tool_call import WebSearchToolConfigSpeechBeforeToolCall
     from .webhook import Webhook
     from .webhook_event import WebhookEvent
+    from .workspace_alert import WorkspaceAlert
 _dynamic_imports: typing.Dict[str, str] = {
     "AddSystemMessagePayload": ".add_system_message_payload",
     "Agent": ".agent",
@@ -493,6 +494,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "WebSearchToolConfigSpeechBeforeToolCall": ".web_search_tool_config_speech_before_tool_call",
     "Webhook": ".webhook",
     "WebhookEvent": ".webhook_event",
+    "WorkspaceAlert": ".workspace_alert",
 }
 
 
@@ -755,4 +757,5 @@ __all__ = [
     "WebSearchToolConfigSpeechBeforeToolCall",
     "Webhook",
     "WebhookEvent",
+    "WorkspaceAlert",
 ]

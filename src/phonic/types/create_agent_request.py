@@ -244,6 +244,11 @@ class CreateAgentRequest(UncheckedBaseModel):
     Maximum duration of a conversation in seconds. When the limit is reached, the conversation is ended.
     """
 
+    detect_voicemail_tone: typing.Optional[bool] = pydantic.Field(default=None)
+    """
+    Whether to listen for the beep at the end of a voicemail greeting and tell the agent when it hears one. Runs during the first 45 seconds of outbound phone calls and WebSocket conversations, and never on inbound phone calls.
+    """
+
     configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpoint] = pydantic.Field(default=None)
     """
     When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.

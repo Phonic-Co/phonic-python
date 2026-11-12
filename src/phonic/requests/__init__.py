@@ -194,6 +194,7 @@ if typing.TYPE_CHECKING:
     from .warning_payload_warning import WarningPayloadWarningParams
     from .web_search_tool_config import WebSearchToolConfigParams
     from .webhook import WebhookParams
+    from .workspace_alert import WorkspaceAlertParams
 _dynamic_imports: typing.Dict[str, str] = {
     "AddSystemMessagePayloadParams": ".add_system_message_payload",
     "AgentConfigurationEndpointParams": ".agent_configuration_endpoint",
@@ -371,6 +372,7 @@ _dynamic_imports: typing.Dict[str, str] = {
     "WarningPayloadWarningParams": ".warning_payload_warning",
     "WebSearchToolConfigParams": ".web_search_tool_config",
     "WebhookParams": ".webhook",
+    "WorkspaceAlertParams": ".workspace_alert",
 }
 
 
@@ -572,4 +574,5 @@ __all__ = [
     "WarningPayloadWarningParams",
     "WebSearchToolConfigParams",
     "WebhookParams",
+    "WorkspaceAlertParams",
 ]

@@ -151,6 +151,7 @@ client.agents.create(
     min_words_to_interrupt=1,
     turn_taking="standard",
     max_conversation_duration_sec=7200,
+    detect_voicemail_tone=True,
     configuration_endpoint=CreateAgentRequestConfigurationEndpoint(
         url="https://api.example.com/config",
         headers={
@@ -282,6 +283,7 @@ client.agents.upsert(
     min_words_to_interrupt=1,
     turn_taking="standard",
     max_conversation_duration_sec=7200,
+    detect_voicemail_tone=True,
     configuration_endpoint=CreateAgentRequestConfigurationEndpoint(
         url="https://api.example.com/config",
         headers={
@@ -650,6 +652,14 @@ client.agents.upsert(
 <dd>
 
 **max_conversation_duration_sec:** `typing.Optional[int]` — Maximum duration of a conversation in seconds. When the limit is reached, the conversation is ended.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**detect_voicemail_tone:** `typing.Optional[bool]` — Whether to listen for the beep at the end of a voicemail greeting and tell the agent when it hears one. Runs during the first 45 seconds of outbound phone calls and WebSocket conversations, and never on inbound phone calls.
     
 </dd>
 </dl>
@@ -1035,6 +1045,7 @@ client.agents.update(
     min_words_to_interrupt=1,
     turn_taking="standard",
     max_conversation_duration_sec=7200,
+    detect_voicemail_tone=True,
     configuration_endpoint=UpdateAgentRequestConfigurationEndpoint(
         url="https://api.example.com/config",
         headers={
@@ -1435,6 +1446,14 @@ client.agents.update(
 <dd>
 
 **max_conversation_duration_sec:** `typing.Optional[int]` — Maximum duration of a conversation in seconds. When the limit is reached, the conversation is ended.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**detect_voicemail_tone:** `typing.Optional[bool]` — Whether to listen for the beep at the end of a voicemail greeting and tell the agent when it hears one. Runs during the first 45 seconds of outbound phone calls and WebSocket conversations, and never on inbound phone calls.
     
 </dd>
 </dl>
@@ -4817,6 +4836,14 @@ client.workspace.update(
 <dl>
 <dd>
 
+**alerts:** `typing.Optional[UpdateWorkspaceRequestAlerts]` — Email alert recipients, keyed by alert type. Replaces the workspace's alerts; alert types omitted from this object are removed.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **request_options:** `typing.Optional[RequestOptions]` — Request-specific configuration.
     
 </dd>
@@ -6608,6 +6635,7 @@ client.conversations.outbound_call(
         min_words_to_interrupt=1,
         turn_taking="standard",
         max_conversation_duration_sec=7200,
+        detect_voicemail_tone=True,
         tools=[
             "keypad_input"
         ],

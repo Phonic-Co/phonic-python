@@ -259,6 +259,11 @@ class ConversationParams(typing_extensions.TypedDict):
     Maximum duration of the conversation in seconds.
     """
 
+    detect_voicemail_tone: bool
+    """
+    Whether voicemail tone detection was enabled for the conversation.
+    """
+
     task_results: typing.Dict[str, typing.Any]
     """
     Results from conversation evaluations and extractions.

@@ -151,6 +151,11 @@ class OutboundCallConfigParams(typing_extensions.TypedDict):
     Maximum duration of the conversation in seconds. When the limit is reached, the conversation is ended. Defaults to the agent's `max_conversation_duration_sec`, or `7200`.
     """
 
+    detect_voicemail_tone: typing_extensions.NotRequired[bool]
+    """
+    Whether to listen for the beep at the end of a voicemail greeting and tell the agent when it hears one. Runs during the first 45 seconds of outbound phone calls and WebSocket conversations, and never on inbound phone calls. Defaults to the agent's `detect_voicemail_tone`, or `true`.
+    """
+
     tools: typing_extensions.NotRequired[typing.Sequence[OutboundCallConfigToolsItemParams]]
     """
     Array of built-in or custom tool names to use. A built-in tool can also be passed as an object to set its configuration, e.g. `{ "type": "built_in", "name": "choose_not_to_respond", "tool_config": { "respond_after_sec": 5 } }`. A bare name uses the tool's default configuration.

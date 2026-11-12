@@ -5,6 +5,7 @@ import typing
 import pydantic
 from ...core.pydantic_utilities import IS_PYDANTIC_V2
 from ...core.unchecked_base_model import UncheckedBaseModel
+from .workspace_get_response_alerts import WorkspaceGetResponseAlerts
 
 
 class WorkspaceGetResponse(UncheckedBaseModel):
@@ -41,6 +42,11 @@ class WorkspaceGetResponse(UncheckedBaseModel):
     ip_allowlist: typing.List[str] = pydantic.Field()
     """
     IP addresses or CIDR ranges allowed to access the workspace.
+    """
+
+    alerts: WorkspaceGetResponseAlerts = pydantic.Field()
+    """
+    Email alert recipients for the workspace, keyed by alert type.
     """
 
     if IS_PYDANTIC_V2:
