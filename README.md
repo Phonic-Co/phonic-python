@@ -86,6 +86,7 @@ client.agents.create(
     min_words_to_interrupt=1,
     turn_taking="standard",
     max_conversation_duration_sec=7200,
+    detect_voicemail_tone=True,
     configuration_endpoint=CreateAgentRequestConfigurationEndpoint(
         url="https://api.example.com/config",
         headers={
@@ -156,6 +157,7 @@ async def main() -> None:
         min_words_to_interrupt=1,
         turn_taking="standard",
         max_conversation_duration_sec=7200,
+        detect_voicemail_tone=True,
         configuration_endpoint=CreateAgentRequestConfigurationEndpoint(
             url="https://api.example.com/config",
             headers={

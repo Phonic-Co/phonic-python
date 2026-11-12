@@ -261,6 +261,11 @@ class Conversation(UncheckedBaseModel):
     Maximum duration of the conversation in seconds.
     """
 
+    detect_voicemail_tone: bool = pydantic.Field()
+    """
+    Whether voicemail tone detection was enabled for the conversation.
+    """
+
     task_results: typing.Dict[str, typing.Any] = pydantic.Field()
     """
     Results from conversation evaluations and extractions.

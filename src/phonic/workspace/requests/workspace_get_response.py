@@ -3,6 +3,7 @@
 import typing
 
 import typing_extensions
+from .workspace_get_response_alerts import WorkspaceGetResponseAlertsParams
 
 
 class WorkspaceGetResponseParams(typing_extensions.TypedDict):
@@ -39,4 +40,9 @@ class WorkspaceGetResponseParams(typing_extensions.TypedDict):
     ip_allowlist: typing.Sequence[str]
     """
     IP addresses or CIDR ranges allowed to access the workspace.
+    """
+
+    alerts: WorkspaceGetResponseAlertsParams
+    """
+    Email alert recipients for the workspace, keyed by alert type.
     """

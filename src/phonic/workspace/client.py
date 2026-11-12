@@ -5,6 +5,7 @@ import typing
 from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.request_options import RequestOptions
 from .raw_client import AsyncRawWorkspaceClient, RawWorkspaceClient
+from .requests.update_workspace_request_alerts import UpdateWorkspaceRequestAlertsParams
 from .types.workspace_get_response import WorkspaceGetResponse
 from .types.workspace_update_response import WorkspaceUpdateResponse
 
@@ -59,6 +60,7 @@ class WorkspaceClient:
         logo_url: typing.Optional[str] = OMIT,
         invite_link_allowed_domains: typing.Optional[typing.Sequence[str]] = OMIT,
         ip_allowlist: typing.Optional[typing.Sequence[str]] = OMIT,
+        alerts: typing.Optional[UpdateWorkspaceRequestAlertsParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> WorkspaceUpdateResponse:
         """
@@ -74,6 +76,9 @@ class WorkspaceClient:
 
         ip_allowlist : typing.Optional[typing.Sequence[str]]
             IP addresses or CIDR ranges allowed to access the workspace.
+
+        alerts : typing.Optional[UpdateWorkspaceRequestAlertsParams]
+            Email alert recipients, keyed by alert type. Replaces the workspace's alerts; alert types omitted from this object are removed.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -100,6 +105,7 @@ class WorkspaceClient:
             logo_url=logo_url,
             invite_link_allowed_domains=invite_link_allowed_domains,
             ip_allowlist=ip_allowlist,
+            alerts=alerts,
             request_options=request_options,
         )
         return _response.data
@@ -160,6 +166,7 @@ class AsyncWorkspaceClient:
         logo_url: typing.Optional[str] = OMIT,
         invite_link_allowed_domains: typing.Optional[typing.Sequence[str]] = OMIT,
         ip_allowlist: typing.Optional[typing.Sequence[str]] = OMIT,
+        alerts: typing.Optional[UpdateWorkspaceRequestAlertsParams] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> WorkspaceUpdateResponse:
         """
@@ -175,6 +182,9 @@ class AsyncWorkspaceClient:
 
         ip_allowlist : typing.Optional[typing.Sequence[str]]
             IP addresses or CIDR ranges allowed to access the workspace.
+
+        alerts : typing.Optional[UpdateWorkspaceRequestAlertsParams]
+            Email alert recipients, keyed by alert type. Replaces the workspace's alerts; alert types omitted from this object are removed.
 
         request_options : typing.Optional[RequestOptions]
             Request-specific configuration.
@@ -209,6 +219,7 @@ class AsyncWorkspaceClient:
             logo_url=logo_url,
             invite_link_allowed_domains=invite_link_allowed_domains,
             ip_allowlist=ip_allowlist,
+            alerts=alerts,
             request_options=request_options,
         )
         return _response.data

@@ -159,6 +159,7 @@ class AgentsClient:
         min_words_to_interrupt: typing.Optional[int] = OMIT,
         turn_taking: typing.Optional[CreateAgentRequestTurnTaking] = OMIT,
         max_conversation_duration_sec: typing.Optional[int] = OMIT,
+        detect_voicemail_tone: typing.Optional[bool] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
@@ -311,6 +312,9 @@ class AgentsClient:
         max_conversation_duration_sec : typing.Optional[int]
             Maximum duration of a conversation in seconds. When the limit is reached, the conversation is ended.
 
+        detect_voicemail_tone : typing.Optional[bool]
+            Whether to listen for the beep at the end of a voicemail greeting and tell the agent when it hears one. Runs during the first 45 seconds of outbound phone calls and WebSocket conversations, and never on inbound phone calls.
+
         configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpointParams]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
@@ -394,6 +398,7 @@ class AgentsClient:
             min_words_to_interrupt=1,
             turn_taking="standard",
             max_conversation_duration_sec=7200,
+            detect_voicemail_tone=True,
             configuration_endpoint={
                 "url": "https://api.example.com/config",
                 "headers": {"Authorization": "Bearer token123"},
@@ -446,6 +451,7 @@ class AgentsClient:
             min_words_to_interrupt=min_words_to_interrupt,
             turn_taking=turn_taking,
             max_conversation_duration_sec=max_conversation_duration_sec,
+            detect_voicemail_tone=detect_voicemail_tone,
             configuration_endpoint=configuration_endpoint,
             inbound_rollout=inbound_rollout,
             inbound_rollout_forward_phone_number=inbound_rollout_forward_phone_number,
@@ -514,6 +520,7 @@ class AgentsClient:
         min_words_to_interrupt: typing.Optional[int] = OMIT,
         turn_taking: typing.Optional[CreateAgentRequestTurnTaking] = OMIT,
         max_conversation_duration_sec: typing.Optional[int] = OMIT,
+        detect_voicemail_tone: typing.Optional[bool] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
@@ -672,6 +679,9 @@ class AgentsClient:
         max_conversation_duration_sec : typing.Optional[int]
             Maximum duration of a conversation in seconds. When the limit is reached, the conversation is ended.
 
+        detect_voicemail_tone : typing.Optional[bool]
+            Whether to listen for the beep at the end of a voicemail greeting and tell the agent when it hears one. Runs during the first 45 seconds of outbound phone calls and WebSocket conversations, and never on inbound phone calls.
+
         configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpointParams]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
@@ -755,6 +765,7 @@ class AgentsClient:
             min_words_to_interrupt=1,
             turn_taking="standard",
             max_conversation_duration_sec=7200,
+            detect_voicemail_tone=True,
             configuration_endpoint={
                 "url": "https://api.example.com/config",
                 "headers": {"Authorization": "Bearer token123"},
@@ -809,6 +820,7 @@ class AgentsClient:
             min_words_to_interrupt=min_words_to_interrupt,
             turn_taking=turn_taking,
             max_conversation_duration_sec=max_conversation_duration_sec,
+            detect_voicemail_tone=detect_voicemail_tone,
             configuration_endpoint=configuration_endpoint,
             inbound_rollout=inbound_rollout,
             inbound_rollout_forward_phone_number=inbound_rollout_forward_phone_number,
@@ -961,6 +973,7 @@ class AgentsClient:
         min_words_to_interrupt: typing.Optional[int] = OMIT,
         turn_taking: typing.Optional[UpdateAgentRequestTurnTaking] = OMIT,
         max_conversation_duration_sec: typing.Optional[int] = OMIT,
+        detect_voicemail_tone: typing.Optional[bool] = OMIT,
         configuration_endpoint: typing.Optional[UpdateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
@@ -1125,6 +1138,9 @@ class AgentsClient:
         max_conversation_duration_sec : typing.Optional[int]
             Maximum duration of a conversation in seconds. When the limit is reached, the conversation is ended.
 
+        detect_voicemail_tone : typing.Optional[bool]
+            Whether to listen for the beep at the end of a voicemail greeting and tell the agent when it hears one. Runs during the first 45 seconds of outbound phone calls and WebSocket conversations, and never on inbound phone calls.
+
         configuration_endpoint : typing.Optional[UpdateAgentRequestConfigurationEndpointParams]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
@@ -1209,6 +1225,7 @@ class AgentsClient:
             min_words_to_interrupt=1,
             turn_taking="standard",
             max_conversation_duration_sec=7200,
+            detect_voicemail_tone=True,
             configuration_endpoint={
                 "url": "https://api.example.com/config",
                 "headers": {"Authorization": "Bearer token123"},
@@ -1265,6 +1282,7 @@ class AgentsClient:
             min_words_to_interrupt=min_words_to_interrupt,
             turn_taking=turn_taking,
             max_conversation_duration_sec=max_conversation_duration_sec,
+            detect_voicemail_tone=detect_voicemail_tone,
             configuration_endpoint=configuration_endpoint,
             inbound_rollout=inbound_rollout,
             inbound_rollout_forward_phone_number=inbound_rollout_forward_phone_number,
@@ -1662,6 +1680,7 @@ class AsyncAgentsClient:
         min_words_to_interrupt: typing.Optional[int] = OMIT,
         turn_taking: typing.Optional[CreateAgentRequestTurnTaking] = OMIT,
         max_conversation_duration_sec: typing.Optional[int] = OMIT,
+        detect_voicemail_tone: typing.Optional[bool] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
@@ -1814,6 +1833,9 @@ class AsyncAgentsClient:
         max_conversation_duration_sec : typing.Optional[int]
             Maximum duration of a conversation in seconds. When the limit is reached, the conversation is ended.
 
+        detect_voicemail_tone : typing.Optional[bool]
+            Whether to listen for the beep at the end of a voicemail greeting and tell the agent when it hears one. Runs during the first 45 seconds of outbound phone calls and WebSocket conversations, and never on inbound phone calls.
+
         configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpointParams]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
@@ -1904,6 +1926,7 @@ class AsyncAgentsClient:
                 min_words_to_interrupt=1,
                 turn_taking="standard",
                 max_conversation_duration_sec=7200,
+                detect_voicemail_tone=True,
                 configuration_endpoint={
                     "url": "https://api.example.com/config",
                     "headers": {"Authorization": "Bearer token123"},
@@ -1959,6 +1982,7 @@ class AsyncAgentsClient:
             min_words_to_interrupt=min_words_to_interrupt,
             turn_taking=turn_taking,
             max_conversation_duration_sec=max_conversation_duration_sec,
+            detect_voicemail_tone=detect_voicemail_tone,
             configuration_endpoint=configuration_endpoint,
             inbound_rollout=inbound_rollout,
             inbound_rollout_forward_phone_number=inbound_rollout_forward_phone_number,
@@ -2027,6 +2051,7 @@ class AsyncAgentsClient:
         min_words_to_interrupt: typing.Optional[int] = OMIT,
         turn_taking: typing.Optional[CreateAgentRequestTurnTaking] = OMIT,
         max_conversation_duration_sec: typing.Optional[int] = OMIT,
+        detect_voicemail_tone: typing.Optional[bool] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
@@ -2185,6 +2210,9 @@ class AsyncAgentsClient:
         max_conversation_duration_sec : typing.Optional[int]
             Maximum duration of a conversation in seconds. When the limit is reached, the conversation is ended.
 
+        detect_voicemail_tone : typing.Optional[bool]
+            Whether to listen for the beep at the end of a voicemail greeting and tell the agent when it hears one. Runs during the first 45 seconds of outbound phone calls and WebSocket conversations, and never on inbound phone calls.
+
         configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpointParams]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
@@ -2275,6 +2303,7 @@ class AsyncAgentsClient:
                 min_words_to_interrupt=1,
                 turn_taking="standard",
                 max_conversation_duration_sec=7200,
+                detect_voicemail_tone=True,
                 configuration_endpoint={
                     "url": "https://api.example.com/config",
                     "headers": {"Authorization": "Bearer token123"},
@@ -2332,6 +2361,7 @@ class AsyncAgentsClient:
             min_words_to_interrupt=min_words_to_interrupt,
             turn_taking=turn_taking,
             max_conversation_duration_sec=max_conversation_duration_sec,
+            detect_voicemail_tone=detect_voicemail_tone,
             configuration_endpoint=configuration_endpoint,
             inbound_rollout=inbound_rollout,
             inbound_rollout_forward_phone_number=inbound_rollout_forward_phone_number,
@@ -2500,6 +2530,7 @@ class AsyncAgentsClient:
         min_words_to_interrupt: typing.Optional[int] = OMIT,
         turn_taking: typing.Optional[UpdateAgentRequestTurnTaking] = OMIT,
         max_conversation_duration_sec: typing.Optional[int] = OMIT,
+        detect_voicemail_tone: typing.Optional[bool] = OMIT,
         configuration_endpoint: typing.Optional[UpdateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
@@ -2664,6 +2695,9 @@ class AsyncAgentsClient:
         max_conversation_duration_sec : typing.Optional[int]
             Maximum duration of a conversation in seconds. When the limit is reached, the conversation is ended.
 
+        detect_voicemail_tone : typing.Optional[bool]
+            Whether to listen for the beep at the end of a voicemail greeting and tell the agent when it hears one. Runs during the first 45 seconds of outbound phone calls and WebSocket conversations, and never on inbound phone calls.
+
         configuration_endpoint : typing.Optional[UpdateAgentRequestConfigurationEndpointParams]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
@@ -2755,6 +2789,7 @@ class AsyncAgentsClient:
                 min_words_to_interrupt=1,
                 turn_taking="standard",
                 max_conversation_duration_sec=7200,
+                detect_voicemail_tone=True,
                 configuration_endpoint={
                     "url": "https://api.example.com/config",
                     "headers": {"Authorization": "Bearer token123"},
@@ -2814,6 +2849,7 @@ class AsyncAgentsClient:
             min_words_to_interrupt=min_words_to_interrupt,
             turn_taking=turn_taking,
             max_conversation_duration_sec=max_conversation_duration_sec,
+            detect_voicemail_tone=detect_voicemail_tone,
             configuration_endpoint=configuration_endpoint,
             inbound_rollout=inbound_rollout,
             inbound_rollout_forward_phone_number=inbound_rollout_forward_phone_number,

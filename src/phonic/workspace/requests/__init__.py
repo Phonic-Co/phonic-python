@@ -6,9 +6,13 @@ import typing
 from importlib import import_module
 
 if typing.TYPE_CHECKING:
+    from .update_workspace_request_alerts import UpdateWorkspaceRequestAlertsParams
     from .workspace_get_response import WorkspaceGetResponseParams
+    from .workspace_get_response_alerts import WorkspaceGetResponseAlertsParams
     from .workspace_update_response import WorkspaceUpdateResponseParams
 _dynamic_imports: typing.Dict[str, str] = {
+    "UpdateWorkspaceRequestAlertsParams": ".update_workspace_request_alerts",
+    "WorkspaceGetResponseAlertsParams": ".workspace_get_response_alerts",
     "WorkspaceGetResponseParams": ".workspace_get_response",
     "WorkspaceUpdateResponseParams": ".workspace_update_response",
 }
@@ -35,4 +39,9 @@ def __dir__():
     return sorted(lazy_attrs)
 
 
-__all__ = ["WorkspaceGetResponseParams", "WorkspaceUpdateResponseParams"]
+__all__ = [
+    "UpdateWorkspaceRequestAlertsParams",
+    "WorkspaceGetResponseAlertsParams",
+    "WorkspaceGetResponseParams",
+    "WorkspaceUpdateResponseParams",
+]

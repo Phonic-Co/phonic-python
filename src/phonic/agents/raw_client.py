@@ -211,6 +211,7 @@ class RawAgentsClient:
         min_words_to_interrupt: typing.Optional[int] = OMIT,
         turn_taking: typing.Optional[CreateAgentRequestTurnTaking] = OMIT,
         max_conversation_duration_sec: typing.Optional[int] = OMIT,
+        detect_voicemail_tone: typing.Optional[bool] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
@@ -363,6 +364,9 @@ class RawAgentsClient:
         max_conversation_duration_sec : typing.Optional[int]
             Maximum duration of a conversation in seconds. When the limit is reached, the conversation is ended.
 
+        detect_voicemail_tone : typing.Optional[bool]
+            Whether to listen for the beep at the end of a voicemail greeting and tell the agent when it hears one. Runs during the first 45 seconds of outbound phone calls and WebSocket conversations, and never on inbound phone calls.
+
         configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpointParams]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
@@ -481,6 +485,7 @@ class RawAgentsClient:
                 "min_words_to_interrupt": min_words_to_interrupt,
                 "turn_taking": turn_taking,
                 "max_conversation_duration_sec": max_conversation_duration_sec,
+                "detect_voicemail_tone": detect_voicemail_tone,
                 "configuration_endpoint": convert_and_respect_annotation_metadata(
                     object_=configuration_endpoint,
                     annotation=typing.Optional[CreateAgentRequestConfigurationEndpointParams],
@@ -630,6 +635,7 @@ class RawAgentsClient:
         min_words_to_interrupt: typing.Optional[int] = OMIT,
         turn_taking: typing.Optional[CreateAgentRequestTurnTaking] = OMIT,
         max_conversation_duration_sec: typing.Optional[int] = OMIT,
+        detect_voicemail_tone: typing.Optional[bool] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
@@ -788,6 +794,9 @@ class RawAgentsClient:
         max_conversation_duration_sec : typing.Optional[int]
             Maximum duration of a conversation in seconds. When the limit is reached, the conversation is ended.
 
+        detect_voicemail_tone : typing.Optional[bool]
+            Whether to listen for the beep at the end of a voicemail greeting and tell the agent when it hears one. Runs during the first 45 seconds of outbound phone calls and WebSocket conversations, and never on inbound phone calls.
+
         configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpointParams]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
@@ -912,6 +921,7 @@ class RawAgentsClient:
                 "min_words_to_interrupt": min_words_to_interrupt,
                 "turn_taking": turn_taking,
                 "max_conversation_duration_sec": max_conversation_duration_sec,
+                "detect_voicemail_tone": detect_voicemail_tone,
                 "configuration_endpoint": convert_and_respect_annotation_metadata(
                     object_=configuration_endpoint,
                     annotation=typing.Optional[CreateAgentRequestConfigurationEndpointParams],
@@ -1204,6 +1214,7 @@ class RawAgentsClient:
         min_words_to_interrupt: typing.Optional[int] = OMIT,
         turn_taking: typing.Optional[UpdateAgentRequestTurnTaking] = OMIT,
         max_conversation_duration_sec: typing.Optional[int] = OMIT,
+        detect_voicemail_tone: typing.Optional[bool] = OMIT,
         configuration_endpoint: typing.Optional[UpdateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
@@ -1368,6 +1379,9 @@ class RawAgentsClient:
         max_conversation_duration_sec : typing.Optional[int]
             Maximum duration of a conversation in seconds. When the limit is reached, the conversation is ended.
 
+        detect_voicemail_tone : typing.Optional[bool]
+            Whether to listen for the beep at the end of a voicemail greeting and tell the agent when it hears one. Runs during the first 45 seconds of outbound phone calls and WebSocket conversations, and never on inbound phone calls.
+
         configuration_endpoint : typing.Optional[UpdateAgentRequestConfigurationEndpointParams]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
@@ -1495,6 +1509,7 @@ class RawAgentsClient:
                 "min_words_to_interrupt": min_words_to_interrupt,
                 "turn_taking": turn_taking,
                 "max_conversation_duration_sec": max_conversation_duration_sec,
+                "detect_voicemail_tone": detect_voicemail_tone,
                 "configuration_endpoint": convert_and_respect_annotation_metadata(
                     object_=configuration_endpoint,
                     annotation=typing.Optional[UpdateAgentRequestConfigurationEndpointParams],
@@ -2268,6 +2283,7 @@ class AsyncRawAgentsClient:
         min_words_to_interrupt: typing.Optional[int] = OMIT,
         turn_taking: typing.Optional[CreateAgentRequestTurnTaking] = OMIT,
         max_conversation_duration_sec: typing.Optional[int] = OMIT,
+        detect_voicemail_tone: typing.Optional[bool] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
@@ -2420,6 +2436,9 @@ class AsyncRawAgentsClient:
         max_conversation_duration_sec : typing.Optional[int]
             Maximum duration of a conversation in seconds. When the limit is reached, the conversation is ended.
 
+        detect_voicemail_tone : typing.Optional[bool]
+            Whether to listen for the beep at the end of a voicemail greeting and tell the agent when it hears one. Runs during the first 45 seconds of outbound phone calls and WebSocket conversations, and never on inbound phone calls.
+
         configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpointParams]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
@@ -2538,6 +2557,7 @@ class AsyncRawAgentsClient:
                 "min_words_to_interrupt": min_words_to_interrupt,
                 "turn_taking": turn_taking,
                 "max_conversation_duration_sec": max_conversation_duration_sec,
+                "detect_voicemail_tone": detect_voicemail_tone,
                 "configuration_endpoint": convert_and_respect_annotation_metadata(
                     object_=configuration_endpoint,
                     annotation=typing.Optional[CreateAgentRequestConfigurationEndpointParams],
@@ -2687,6 +2707,7 @@ class AsyncRawAgentsClient:
         min_words_to_interrupt: typing.Optional[int] = OMIT,
         turn_taking: typing.Optional[CreateAgentRequestTurnTaking] = OMIT,
         max_conversation_duration_sec: typing.Optional[int] = OMIT,
+        detect_voicemail_tone: typing.Optional[bool] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
@@ -2845,6 +2866,9 @@ class AsyncRawAgentsClient:
         max_conversation_duration_sec : typing.Optional[int]
             Maximum duration of a conversation in seconds. When the limit is reached, the conversation is ended.
 
+        detect_voicemail_tone : typing.Optional[bool]
+            Whether to listen for the beep at the end of a voicemail greeting and tell the agent when it hears one. Runs during the first 45 seconds of outbound phone calls and WebSocket conversations, and never on inbound phone calls.
+
         configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpointParams]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
@@ -2969,6 +2993,7 @@ class AsyncRawAgentsClient:
                 "min_words_to_interrupt": min_words_to_interrupt,
                 "turn_taking": turn_taking,
                 "max_conversation_duration_sec": max_conversation_duration_sec,
+                "detect_voicemail_tone": detect_voicemail_tone,
                 "configuration_endpoint": convert_and_respect_annotation_metadata(
                     object_=configuration_endpoint,
                     annotation=typing.Optional[CreateAgentRequestConfigurationEndpointParams],
@@ -3261,6 +3286,7 @@ class AsyncRawAgentsClient:
         min_words_to_interrupt: typing.Optional[int] = OMIT,
         turn_taking: typing.Optional[UpdateAgentRequestTurnTaking] = OMIT,
         max_conversation_duration_sec: typing.Optional[int] = OMIT,
+        detect_voicemail_tone: typing.Optional[bool] = OMIT,
         configuration_endpoint: typing.Optional[UpdateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
@@ -3425,6 +3451,9 @@ class AsyncRawAgentsClient:
         max_conversation_duration_sec : typing.Optional[int]
             Maximum duration of a conversation in seconds. When the limit is reached, the conversation is ended.
 
+        detect_voicemail_tone : typing.Optional[bool]
+            Whether to listen for the beep at the end of a voicemail greeting and tell the agent when it hears one. Runs during the first 45 seconds of outbound phone calls and WebSocket conversations, and never on inbound phone calls.
+
         configuration_endpoint : typing.Optional[UpdateAgentRequestConfigurationEndpointParams]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
@@ -3552,6 +3581,7 @@ class AsyncRawAgentsClient:
                 "min_words_to_interrupt": min_words_to_interrupt,
                 "turn_taking": turn_taking,
                 "max_conversation_duration_sec": max_conversation_duration_sec,
+                "detect_voicemail_tone": detect_voicemail_tone,
                 "configuration_endpoint": convert_and_respect_annotation_metadata(
                     object_=configuration_endpoint,
                     annotation=typing.Optional[UpdateAgentRequestConfigurationEndpointParams],

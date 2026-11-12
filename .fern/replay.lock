@@ -192,14 +192,20 @@ generations:
     cli_version: unknown
     generator_versions:
       fernapi/fern-python-sdk: 4.64.1
-current_generation: 5c0ae908ba4d116f4a5f64577f2313b11e75c8af
+  - commit_sha: fa0827a55d34693e71a136ded0343040363a63f3
+    tree_hash: a6a833b6c4caeb8e767c411c55e4922e26cc49e1
+    timestamp: 2026-11-12T04:35:07.185Z
+    cli_version: unknown
+    generator_versions:
+      fernapi/fern-python-sdk: 4.64.1
+current_generation: fa0827a55d34693e71a136ded0343040363a63f3
 patches:
   - id: patch-9f961cf7
     content_hash: sha256:7f613238cb075fa199845fddfbe536db1c06e0fe2a25ffb4bed0a841c221ecb2
     original_commit: 9f961cf752bd7866b173fc6da737ee4f9803d3d9
     original_message: Don't let a send end the session on a reconnectable close (#196)
     original_author: arunwpm-work <arun@phonic.co>
-    base_generation: 5c0ae908ba4d116f4a5f64577f2313b11e75c8af
+    base_generation: fa0827a55d34693e71a136ded0343040363a63f3
     files:
       - tests/custom/test_reconnectable_socket_client.py
     patch_content: |

@@ -234,6 +234,11 @@ class AgentParams(typing_extensions.TypedDict):
     Maximum duration of a conversation in seconds. When the limit is reached, the conversation is ended.
     """
 
+    detect_voicemail_tone: bool
+    """
+    Whether to listen for the beep at the end of a voicemail greeting and tell the agent when it hears one. Runs during the first 45 seconds of outbound phone calls and WebSocket conversations, and never on inbound phone calls.
+    """
+
     configuration_endpoint: typing.Optional[AgentConfigurationEndpointParams]
     """
     When not `null`, the agent will call this endpoint to get configuration options.
