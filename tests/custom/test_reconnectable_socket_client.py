@@ -1,4 +1,6 @@
+import inspect
 import typing
+from unittest import mock
 
 import pytest
 from websockets.exceptions import ConnectionClosed
@@ -9,6 +11,7 @@ from phonic.conversations.reconnectable_socket_client import (
     ReconnectableAsyncConversationsSocketClient,
     ReconnectableConversationsSocketClient,
 )
+from phonic.conversations.socket_client import AsyncConversationsSocketClient, ConversationsSocketClient
 
 
 def _abnormal_close() -> ConnectionClosed:
@@ -205,3 +208,47 @@ def test_sync_iteration_raises_once_reconnect_gives_up() -> None:
 
     with pytest.raises(ConnectionClosed):
         list(socket)
+
+
+def _public_send_methods(cls: type) -> typing.List[str]:
+    return sorted(name for name in dir(cls) if name.startswith("send_") and callable(getattr(cls, name)))
+
+
+_SOCKET_PAIRS = [
+    pytest.param(AsyncConversationsSocketClient, ReconnectableAsyncConversationsSocketClient, id="async"),
+    pytest.param(ConversationsSocketClient, ReconnectableConversationsSocketClient, id="sync"),
+]
+
+
+@pytest.mark.parametrize("base_cls, reconnectable_cls", _SOCKET_PAIRS)
+def test_reconnectable_socket_has_every_send_method(base_cls: type, reconnectable_cls: type) -> None:
+    # The base socket clients are Fern-generated; the reconnectable wrappers are hand-written (.fernignore).
+    # When a regen adds a send_* method, it must be wrapped here too or callers hit AttributeError.
+    base_sends = _public_send_methods(base_cls)
+    assert base_sends, "expected the generated socket client to expose send_* methods"
+    missing = [name for name in base_sends if not hasattr(reconnectable_cls, name)]
+    assert not missing, f"{reconnectable_cls.__name__} is missing {missing}"
+    for name in base_sends:
+        assert inspect.iscoroutinefunction(getattr(reconnectable_cls, name)) == inspect.iscoroutinefunction(
+            getattr(base_cls, name)
+        ), f"{reconnectable_cls.__name__}.{name} must match the sync/async-ness of {base_cls.__name__}.{name}"
+
+
+@pytest.mark.parametrize("name", _public_send_methods(AsyncConversationsSocketClient))
+async def test_async_send_methods_forward_to_same_inner_method(name: str) -> None:
+    inner = mock.AsyncMock(spec=AsyncConversationsSocketClient)
+    socket = _async_socket(inner, inner)  # type: ignore[arg-type]
+
+    await getattr(socket, name)("payload")
+
+    getattr(inner, name).assert_awaited_once_with("payload")
+
+
+@pytest.mark.parametrize("name", _public_send_methods(ConversationsSocketClient))
+def test_sync_send_methods_forward_to_same_inner_method(name: str) -> None:
+    inner = mock.Mock(spec=ConversationsSocketClient)
+    socket = _sync_socket(inner, inner)  # type: ignore[arg-type]
+
+    getattr(socket, name)("payload")
+
+    getattr(inner, name).assert_called_once_with("payload")
