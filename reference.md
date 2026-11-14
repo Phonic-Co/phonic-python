@@ -5731,11 +5731,11 @@ client.webhooks.get_secret(
 <dd>
 
 Returns the alternative response(s) the assistant would have
-produced for this conversation turn given changes to the agent system prompt.
+produced for this conversation turn given changes to the system prompt or model.
 
 Only assistant items from ended conversations can be replayed. Omit the
-request body (or omit `system_prompt`) to replay the turn exactly as it
-originally ran.
+request body to use the original prompt and model. Set `model` to compare
+the same turn on another model available to your workspace.
 </dd>
 </dl>
 </dd>
@@ -5777,6 +5777,14 @@ client.conversation_items.replay(
 <dd>
 
 **id:** `str` — The ID of the conversation item to replay.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**model:** `typing.Optional[ReplayConversationItemRequestModel]` — Optional model override for this replay. Omit it to use the original model. Select a model available to your workspace. Phonic 0.5 (phonic-0.5) is deprecated and remains available only to customers who used it before Phonic 1 launched. The conversation's saved intelligence level is retained.
     
 </dd>
 </dl>

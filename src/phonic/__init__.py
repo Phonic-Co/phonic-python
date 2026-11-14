@@ -341,6 +341,7 @@ if typing.TYPE_CHECKING:
         AuthCreateSessionTokenResponseParams,
     )
     from .client import AsyncPhonic, Phonic
+    from .conversation_items import ReplayConversationItemRequestModel, ReplayConversationItemRequestModelParams
     from .conversations import (
         ConversationsCancelResponse,
         ConversationsCancelResponseParams,
@@ -1085,6 +1086,8 @@ _dynamic_imports: typing.Dict[str, str] = {
     "ProjectsUpdateResponseParams": ".projects",
     "ReadyToStartConversationPayload": ".types",
     "ReadyToStartConversationPayloadParams": ".requests",
+    "ReplayConversationItemRequestModel": ".conversation_items",
+    "ReplayConversationItemRequestModelParams": ".conversation_items",
     "ReplayConversationItemResponse": ".types",
     "ReplayConversationItemResponseParams": ".requests",
     "ReplayConversationItemResponseResponsesItem": ".types",
@@ -1746,6 +1749,8 @@ __all__ = [
     "ProjectsUpdateResponseParams",
     "ReadyToStartConversationPayload",
     "ReadyToStartConversationPayloadParams",
+    "ReplayConversationItemRequestModel",
+    "ReplayConversationItemRequestModelParams",
     "ReplayConversationItemResponse",
     "ReplayConversationItemResponseParams",
     "ReplayConversationItemResponseResponsesItem",
