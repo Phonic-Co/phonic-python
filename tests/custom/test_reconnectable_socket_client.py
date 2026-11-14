@@ -1,0 +1,254 @@
+import inspect
+import typing
+from unittest import mock
+
+import pytest
+from websockets.exceptions import ConnectionClosed
+from websockets.frames import Close
+
+from phonic.conversations import reconnectable_socket_client as rsc
+from phonic.conversations.reconnectable_socket_client import (
+    ReconnectableAsyncConversationsSocketClient,
+    ReconnectableConversationsSocketClient,
+)
+from phonic.conversations.socket_client import AsyncConversationsSocketClient, ConversationsSocketClient
+
+
+def _abnormal_close() -> ConnectionClosed:
+    # no close frame received -> treated as 1006
+    return ConnectionClosed(None, None)
+
+
+def _deliberate_close() -> ConnectionClosed:
+    return ConnectionClosed(Close(4800, "session expired"), None)
+
+
+class _FakeAsyncInner:
+    def __init__(self, recv_results: typing.List[typing.Any], send_error: typing.Optional[BaseException] = None):
+        self._recv_results = recv_results
+        self._send_error = send_error
+        self.sent: typing.List[typing.Any] = []
+
+    async def recv(self) -> typing.Any:
+        result = self._recv_results.pop(0)
+        if isinstance(result, BaseException):
+            raise result
+        return result
+
+    async def send_audio_chunk(self, message: typing.Any) -> None:
+        if self._send_error is not None:
+            raise self._send_error
+        self.sent.append(message)
+
+
+class _FakeSyncInner(_FakeAsyncInner):
+    def recv(self) -> typing.Any:  # type: ignore[override]
+        result = self._recv_results.pop(0)
+        if isinstance(result, BaseException):
+            raise result
+        return result
+
+    def send_audio_chunk(self, message: typing.Any) -> None:  # type: ignore[override]
+        if self._send_error is not None:
+            raise self._send_error
+        self.sent.append(message)
+
+
+@pytest.fixture(autouse=True)
+def _no_reconnect_delay(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setattr(rsc, "_reconnect_delay_sec", lambda attempt_number: 0)
+
+
+def _async_socket(inner: _FakeAsyncInner, replacement: _FakeAsyncInner) -> ReconnectableAsyncConversationsSocketClient:
+    socket = ReconnectableAsyncConversationsSocketClient(
+        initial_cm=None,
+        initial_protocol=None,
+        client_wrapper=None,  # type: ignore[arg-type]
+        request_options=None,
+    )
+    socket._inner = inner  # type: ignore[assignment]
+    socket._conversation_id = "conv_test"
+
+    async def _reconnect() -> None:
+        socket._inner = replacement  # type: ignore[assignment]
+
+    socket._reconnect = _reconnect  # type: ignore[method-assign]
+    return socket
+
+
+def _sync_socket(inner: _FakeSyncInner, replacement: _FakeSyncInner) -> ReconnectableConversationsSocketClient:
+    socket = ReconnectableConversationsSocketClient(
+        initial_cm=None,
+        initial_protocol=None,
+        client_wrapper=None,  # type: ignore[arg-type]
+        request_options=None,
+    )
+    socket._inner = inner  # type: ignore[assignment]
+    socket._conversation_id = "conv_test"
+
+    def _reconnect() -> None:
+        socket._inner = replacement  # type: ignore[assignment]
+
+    socket._reconnect = _reconnect  # type: ignore[method-assign]
+    return socket
+
+
+async def test_async_send_first_abnormal_close_is_dropped_and_recv_reconnects() -> None:
+    replacement = _FakeAsyncInner(recv_results=["after reconnect"])
+    socket = _async_socket(_FakeAsyncInner(recv_results=[_abnormal_close()], send_error=_abnormal_close()), replacement)
+
+    await socket.send_audio_chunk("chunk-1")
+
+    assert await socket.recv() == "after reconnect"
+    await socket.send_audio_chunk("chunk-2")
+    assert replacement.sent == ["chunk-2"]
+
+
+async def test_async_recv_first_abnormal_close_reconnects() -> None:
+    replacement = _FakeAsyncInner(recv_results=["after reconnect"])
+    original = _FakeAsyncInner(recv_results=[_abnormal_close()])
+    socket = _async_socket(original, replacement)
+
+    assert await socket.recv() == "after reconnect"
+    await socket.send_audio_chunk("chunk")
+    assert original.sent == []
+    assert replacement.sent == ["chunk"]
+
+
+async def test_async_send_on_deliberate_close_is_dropped_and_recv_raises_it() -> None:
+    socket = _async_socket(
+        _FakeAsyncInner(recv_results=[_deliberate_close()], send_error=_deliberate_close()),
+        _FakeAsyncInner(recv_results=[]),
+    )
+
+    await socket.send_audio_chunk("chunk")
+
+    with pytest.raises(ConnectionClosed):
+        async for _ in socket:
+            pass
+
+
+async def test_async_iteration_raises_once_reconnect_gives_up() -> None:
+    socket = _async_socket(_FakeAsyncInner(recv_results=[_abnormal_close()]), _FakeAsyncInner(recv_results=[]))
+    attempts = 0
+
+    async def _failing_reconnect() -> None:
+        nonlocal attempts
+        attempts += 1
+        raise OSError("unreachable")
+
+    socket._reconnect = _failing_reconnect  # type: ignore[method-assign]
+
+    with pytest.raises(ConnectionClosed):
+        async for _ in socket:
+            pass
+    assert attempts == rsc._MAX_RECONNECT_ATTEMPTS
+
+
+async def test_async_iteration_ends_quietly_on_normal_close() -> None:
+    socket = _async_socket(
+        _FakeAsyncInner(recv_results=["hello", ConnectionClosed(Close(1000, ""), None)]),
+        _FakeAsyncInner(recv_results=[]),
+    )
+
+    assert [msg async for msg in socket] == ["hello"]
+
+
+async def test_async_close_during_reconnect_drops_the_new_connection() -> None:
+    socket = _async_socket(_FakeAsyncInner(recv_results=[_abnormal_close()]), _FakeAsyncInner(recv_results=[]))
+    closed_connections = 0
+
+    async def _reconnect_while_closing() -> None:
+        socket._user_closed = True  # close() ran while the new connection was opening
+        socket._cm = object()
+
+    async def _close_current_connection() -> None:
+        nonlocal closed_connections
+        closed_connections += 1
+        socket._cm = None
+
+    socket._reconnect = _reconnect_while_closing  # type: ignore[method-assign]
+    socket._close_current_connection = _close_current_connection  # type: ignore[method-assign]
+
+    assert [msg async for msg in socket] == []
+    assert closed_connections == 1
+    assert socket._cm is None
+
+
+def test_sync_send_first_abnormal_close_is_dropped_and_recv_reconnects() -> None:
+    replacement = _FakeSyncInner(recv_results=["after reconnect"])
+    socket = _sync_socket(_FakeSyncInner(recv_results=[_abnormal_close()], send_error=_abnormal_close()), replacement)
+
+    socket.send_audio_chunk("chunk-1")
+
+    assert socket.recv() == "after reconnect"
+    socket.send_audio_chunk("chunk-2")
+    assert replacement.sent == ["chunk-2"]
+
+
+def test_sync_send_on_deliberate_close_is_dropped_and_recv_raises_it() -> None:
+    socket = _sync_socket(
+        _FakeSyncInner(recv_results=[_deliberate_close()], send_error=_deliberate_close()),
+        _FakeSyncInner(recv_results=[]),
+    )
+
+    socket.send_audio_chunk("chunk")
+
+    with pytest.raises(ConnectionClosed):
+        list(socket)
+
+
+def test_sync_iteration_raises_once_reconnect_gives_up() -> None:
+    socket = _sync_socket(_FakeSyncInner(recv_results=[_abnormal_close()]), _FakeSyncInner(recv_results=[]))
+
+    def _failing_reconnect() -> None:
+        raise OSError("unreachable")
+
+    socket._reconnect = _failing_reconnect  # type: ignore[method-assign]
+
+    with pytest.raises(ConnectionClosed):
+        list(socket)
+
+
+def _public_send_methods(cls: type) -> typing.List[str]:
+    return sorted(name for name in dir(cls) if name.startswith("send_") and callable(getattr(cls, name)))
+
+
+_SOCKET_PAIRS = [
+    pytest.param(AsyncConversationsSocketClient, ReconnectableAsyncConversationsSocketClient, id="async"),
+    pytest.param(ConversationsSocketClient, ReconnectableConversationsSocketClient, id="sync"),
+]
+
+
+@pytest.mark.parametrize("base_cls, reconnectable_cls", _SOCKET_PAIRS)
+def test_reconnectable_socket_has_every_send_method(base_cls: type, reconnectable_cls: type) -> None:
+    # The base socket clients are Fern-generated; the reconnectable wrappers are hand-written (.fernignore).
+    # When a regen adds a send_* method, it must be wrapped here too or callers hit AttributeError.
+    base_sends = _public_send_methods(base_cls)
+    assert base_sends, "expected the generated socket client to expose send_* methods"
+    missing = [name for name in base_sends if not hasattr(reconnectable_cls, name)]
+    assert not missing, f"{reconnectable_cls.__name__} is missing {missing}"
+    for name in base_sends:
+        assert inspect.iscoroutinefunction(getattr(reconnectable_cls, name)) == inspect.iscoroutinefunction(
+            getattr(base_cls, name)
+        ), f"{reconnectable_cls.__name__}.{name} must match the sync/async-ness of {base_cls.__name__}.{name}"
+
+
+@pytest.mark.parametrize("name", _public_send_methods(AsyncConversationsSocketClient))
+async def test_async_send_methods_forward_to_same_inner_method(name: str) -> None:
+    inner = mock.AsyncMock(spec=AsyncConversationsSocketClient)
+    socket = _async_socket(inner, inner)  # type: ignore[arg-type]
+
+    await getattr(socket, name)("payload")
+
+    getattr(inner, name).assert_awaited_once_with("payload")
+
+
+@pytest.mark.parametrize("name", _public_send_methods(ConversationsSocketClient))
+def test_sync_send_methods_forward_to_same_inner_method(name: str) -> None:
+    inner = mock.Mock(spec=ConversationsSocketClient)
+    socket = _sync_socket(inner, inner)  # type: ignore[arg-type]
+
+    getattr(socket, name)("payload")
+
+    getattr(inner, name).assert_called_once_with("payload")
