@@ -241,6 +241,9 @@ class ReconnectableAsyncConversationsSocketClient(EventEmitterMixin):
     async def send_add_system_message(self, message: typing.Any) -> None:
         await self._send(lambda inner: inner.send_add_system_message(message))
 
+    async def send_update_tools_subset(self, message: typing.Any) -> None:
+        await self._send(lambda inner: inner.send_update_tools_subset(message))
+
     async def send_set_external_id(self, message: typing.Any) -> None:
         await self._send(lambda inner: inner.send_set_external_id(message))
 
@@ -425,6 +428,9 @@ class ReconnectableConversationsSocketClient(EventEmitterMixin):
 
     def send_add_system_message(self, message: typing.Any) -> None:
         self._send(lambda inner: inner.send_add_system_message(message))
+
+    def send_update_tools_subset(self, message: typing.Any) -> None:
+        self._send(lambda inner: inner.send_update_tools_subset(message))
 
     def send_set_external_id(self, message: typing.Any) -> None:
         self._send(lambda inner: inner.send_set_external_id(message))

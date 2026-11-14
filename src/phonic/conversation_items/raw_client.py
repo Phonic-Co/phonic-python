@@ -9,6 +9,7 @@ from ..core.http_response import AsyncHttpResponse, HttpResponse
 from ..core.jsonable_encoder import jsonable_encoder
 from ..core.parse_error import ParsingError
 from ..core.request_options import RequestOptions
+from ..core.serialization import convert_and_respect_annotation_metadata
 from ..core.unchecked_base_model import construct_type
 from ..errors.bad_request_error import BadRequestError
 from ..errors.conflict_error import ConflictError
@@ -19,6 +20,7 @@ from ..errors.unauthorized_error import UnauthorizedError
 from ..errors.unprocessable_entity_error import UnprocessableEntityError
 from ..types.basic_error import BasicError
 from ..types.replay_conversation_item_response import ReplayConversationItemResponse
+from .requests.replay_conversation_item_request_model import ReplayConversationItemRequestModelParams
 from pydantic import ValidationError
 
 # this is used as the default value for optional parameters
@@ -33,22 +35,26 @@ class RawConversationItemsClient:
         self,
         id: str,
         *,
+        model: typing.Optional[ReplayConversationItemRequestModelParams] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         num_responses: typing.Optional[int] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> HttpResponse[ReplayConversationItemResponse]:
         """
         Returns the alternative response(s) the assistant would have
-        produced for this conversation turn given changes to the agent system prompt.
+        produced for this conversation turn given changes to the system prompt or model.
 
         Only assistant items from ended conversations can be replayed. Omit the
-        request body (or omit `system_prompt`) to replay the turn exactly as it
-        originally ran.
+        request body to use the original prompt and model. Set `model` to compare
+        the same turn on another model available to your workspace.
 
         Parameters
         ----------
         id : str
             The ID of the conversation item to replay.
+
+        model : typing.Optional[ReplayConversationItemRequestModelParams]
+            Optional model override for this replay. Omit it to use the original model. Select a model available to your workspace. Phonic 0.5 (phonic-0.5) is deprecated and remains available only to customers who used it before Phonic 1 launched. The conversation's saved intelligence level is retained.
 
         system_prompt : typing.Optional[str]
             The system prompt to use when generating replay responses. Use this to test prompt changes against this conversation turn. Omit it to replay the turn with the system prompt it originally ran with.
@@ -69,6 +75,9 @@ class RawConversationItemsClient:
             base_url=self._client_wrapper.get_environment().base,
             method="POST",
             json={
+                "model": convert_and_respect_annotation_metadata(
+                    object_=model, annotation=ReplayConversationItemRequestModelParams, direction="write"
+                ),
                 "system_prompt": system_prompt,
                 "num_responses": num_responses,
             },
@@ -183,22 +192,26 @@ class AsyncRawConversationItemsClient:
         self,
         id: str,
         *,
+        model: typing.Optional[ReplayConversationItemRequestModelParams] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         num_responses: typing.Optional[int] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> AsyncHttpResponse[ReplayConversationItemResponse]:
         """
         Returns the alternative response(s) the assistant would have
-        produced for this conversation turn given changes to the agent system prompt.
+        produced for this conversation turn given changes to the system prompt or model.
 
         Only assistant items from ended conversations can be replayed. Omit the
-        request body (or omit `system_prompt`) to replay the turn exactly as it
-        originally ran.
+        request body to use the original prompt and model. Set `model` to compare
+        the same turn on another model available to your workspace.
 
         Parameters
         ----------
         id : str
             The ID of the conversation item to replay.
+
+        model : typing.Optional[ReplayConversationItemRequestModelParams]
+            Optional model override for this replay. Omit it to use the original model. Select a model available to your workspace. Phonic 0.5 (phonic-0.5) is deprecated and remains available only to customers who used it before Phonic 1 launched. The conversation's saved intelligence level is retained.
 
         system_prompt : typing.Optional[str]
             The system prompt to use when generating replay responses. Use this to test prompt changes against this conversation turn. Omit it to replay the turn with the system prompt it originally ran with.
@@ -219,6 +232,9 @@ class AsyncRawConversationItemsClient:
             base_url=self._client_wrapper.get_environment().base,
             method="POST",
             json={
+                "model": convert_and_respect_annotation_metadata(
+                    object_=model, annotation=ReplayConversationItemRequestModelParams, direction="write"
+                ),
                 "system_prompt": system_prompt,
                 "num_responses": num_responses,
             },
