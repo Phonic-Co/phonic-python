@@ -14,16 +14,11 @@ import typing
 import websockets.sync.client as websockets_sync_client
 from websockets.exceptions import ConnectionClosed
 
-try:
-    from websockets.legacy.client import connect as websockets_client_connect  # type: ignore
-except ImportError:
-    from websockets import connect as websockets_client_connect  # type: ignore
-
 from ..core.client_wrapper import BaseClientWrapper
 from ..core.events import EventEmitterMixin, EventType
 from ..core.request_options import RequestOptions
 from .socket_client import AsyncConversationsSocketClient, ConversationsSocketClient
-from .websocket_connect import KEEPALIVE_KWARGS, build_sts_websocket_url_and_headers
+from .websocket_connect import build_sts_websocket_url_and_headers, connect_async
 
 ABNORMAL_CLOSURE = 1006
 SERVICE_RESTART = 1012
@@ -160,7 +155,7 @@ class ReconnectableAsyncConversationsSocketClient(EventEmitterMixin):
             reconnect_conv_id=self._conversation_id,
         )
         await self._close_current_connection()
-        new_cm = websockets_client_connect(ws_url, extra_headers=headers, **KEEPALIVE_KWARGS)
+        new_cm = connect_async(ws_url, headers)
         new_protocol = await new_cm.__aenter__()
         self._cm = new_cm
         self._inner = AsyncConversationsSocketClient(websocket=new_protocol)
