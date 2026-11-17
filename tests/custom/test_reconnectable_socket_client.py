@@ -13,6 +13,8 @@ from phonic.conversations.reconnectable_socket_client import (
 )
 from phonic.conversations.socket_client import AsyncConversationsSocketClient, ConversationsSocketClient
 
+_real_reconnect_delay_sec = rsc._reconnect_delay_sec
+
 
 def _abnormal_close() -> ConnectionClosed:
     # no close frame received -> treated as 1006
@@ -57,6 +59,10 @@ class _FakeSyncInner(_FakeAsyncInner):
 @pytest.fixture(autouse=True)
 def _no_reconnect_delay(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setattr(rsc, "_reconnect_delay_sec", lambda attempt_number: 0)
+
+
+def test_first_reconnect_is_immediate_then_backs_off() -> None:
+    assert [_real_reconnect_delay_sec(n) for n in range(1, 8)] == [0.0, 0.5, 1.0, 2.0, 4.0, 5.0, 5.0]
 
 
 def _async_socket(inner: _FakeAsyncInner, replacement: _FakeAsyncInner) -> ReconnectableAsyncConversationsSocketClient:
