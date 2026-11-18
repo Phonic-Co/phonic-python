@@ -23,6 +23,26 @@ try:
 except ImportError:
     from websockets import connect as websockets_client_connect  # type: ignore
 
+# Notice a silently dropped connection (no close frame) within a few seconds, well inside the server's
+# reconnect grace period. The websockets defaults (20 s ping, 20 s pong wait, 10 s close) take about a minute.
+PING_INTERVAL_S = 1.0
+PING_TIMEOUT_S = 2.0
+CLOSE_TIMEOUT_S = 0.5
+
+
+def connect_async(ws_url: str, headers: Dict[str, str]) -> Any:
+    # max_queue=None keeps frames (and so pongs) flowing while the app is slow to read messages, so a
+    # busy consumer isn't mistaken for a dead socket.
+    return websockets_client_connect(
+        ws_url,
+        extra_headers=headers,
+        ping_interval=PING_INTERVAL_S,
+        ping_timeout=PING_TIMEOUT_S,
+        close_timeout=CLOSE_TIMEOUT_S,
+        max_queue=None,
+    )
+
+
 if TYPE_CHECKING:
     from .reconnectable_socket_client import (
         ReconnectableAsyncConversationsSocketClient,
@@ -100,7 +120,7 @@ async def open_conversations_socket_async(
         request_options=request_options,
     )
     try:
-        async with websockets_client_connect(ws_url, extra_headers=headers) as protocol:
+        async with connect_async(ws_url, headers) as protocol:
             yield AsyncConversationsSocketClient(websocket=protocol)
     except InvalidWebSocketStatus as exc:
         _raise_api_error_for_invalid_websocket_status(exc, headers)
@@ -148,7 +168,7 @@ async def open_reconnectable_conversations_socket_async(
         request_options=request_options,
     )
     try:
-        cm = websockets_client_connect(ws_url, extra_headers=headers)
+        cm = connect_async(ws_url, headers)
         protocol = await cm.__aenter__()
     except InvalidWebSocketStatus as exc:
         _raise_api_error_for_invalid_websocket_status(exc, headers)
