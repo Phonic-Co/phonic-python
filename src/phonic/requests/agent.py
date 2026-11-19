@@ -5,8 +5,10 @@ import typing
 import typing_extensions
 from ..types.agent_audio_format import AgentAudioFormat
 from ..types.agent_background_noise import AgentBackgroundNoise
+from ..types.agent_input_modality import AgentInputModality
 from ..types.agent_intelligence_level import AgentIntelligenceLevel
 from ..types.agent_multilingual_mode import AgentMultilingualMode
+from ..types.agent_output_modality import AgentOutputModality
 from ..types.agent_redaction_entities_item import AgentRedactionEntitiesItem
 from ..types.agent_turn_taking import AgentTurnTaking
 from ..types.language_code import LanguageCode
@@ -237,6 +239,16 @@ class AgentParams(typing_extensions.TypedDict):
     detect_voicemail_tone: bool
     """
     Whether to listen for the beep at the end of a voicemail greeting and tell the agent when it hears one. Runs during the first 45 seconds of outbound phone calls and WebSocket conversations, and never on inbound phone calls.
+    """
+
+    input_modality: AgentInputModality
+    """
+    How the user talks to the agent. `"speech"` takes user audio; `"text"` takes typed user turns sent with `generate_reply` and `user_message`. Must match `output_modality`. Agents with `"text"` modality cannot have phone numbers.
+    """
+
+    output_modality: AgentOutputModality
+    """
+    How the agent replies. `"speech"` streams synthesized audio; `"text"` sends text only. Must match `input_modality`.
     """
 
     configuration_endpoint: typing.Optional[AgentConfigurationEndpointParams]

@@ -8,10 +8,12 @@ from ..core.unchecked_base_model import UncheckedBaseModel
 from .agent_audio_format import AgentAudioFormat
 from .agent_background_noise import AgentBackgroundNoise
 from .agent_configuration_endpoint import AgentConfigurationEndpoint
+from .agent_input_modality import AgentInputModality
 from .agent_integration import AgentIntegration
 from .agent_intelligence_level import AgentIntelligenceLevel
 from .agent_model import AgentModel
 from .agent_multilingual_mode import AgentMultilingualMode
+from .agent_output_modality import AgentOutputModality
 from .agent_phonic_model import AgentPhonicModel
 from .agent_project import AgentProject
 from .agent_pronunciation_dictionary_item import AgentPronunciationDictionaryItem
@@ -241,6 +243,16 @@ class Agent(UncheckedBaseModel):
     detect_voicemail_tone: bool = pydantic.Field()
     """
     Whether to listen for the beep at the end of a voicemail greeting and tell the agent when it hears one. Runs during the first 45 seconds of outbound phone calls and WebSocket conversations, and never on inbound phone calls.
+    """
+
+    input_modality: AgentInputModality = pydantic.Field()
+    """
+    How the user talks to the agent. `"speech"` takes user audio; `"text"` takes typed user turns sent with `generate_reply` and `user_message`. Must match `output_modality`. Agents with `"text"` modality cannot have phone numbers.
+    """
+
+    output_modality: AgentOutputModality = pydantic.Field()
+    """
+    How the agent replies. `"speech"` streams synthesized audio; `"text"` sends text only. Must match `input_modality`.
     """
 
     configuration_endpoint: typing.Optional[AgentConfigurationEndpoint] = pydantic.Field(default=None)

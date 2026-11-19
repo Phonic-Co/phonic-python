@@ -5,9 +5,11 @@ import typing
 import typing_extensions
 from ..types.config_options_background_noise import ConfigOptionsBackgroundNoise
 from ..types.config_options_input_format import ConfigOptionsInputFormat
+from ..types.config_options_input_modality import ConfigOptionsInputModality
 from ..types.config_options_intelligence_level import ConfigOptionsIntelligenceLevel
 from ..types.config_options_multilingual_mode import ConfigOptionsMultilingualMode
 from ..types.config_options_output_format import ConfigOptionsOutputFormat
+from ..types.config_options_output_modality import ConfigOptionsOutputModality
 from ..types.config_options_redaction_entities_item import ConfigOptionsRedactionEntitiesItem
 from ..types.config_options_turn_taking import ConfigOptionsTurnTaking
 from .config_options_configuration_endpoint import ConfigOptionsConfigurationEndpointParams
@@ -138,6 +140,16 @@ class ConfigOptionsParams(typing_extensions.TypedDict):
     detect_voicemail_tone: typing_extensions.NotRequired[bool]
     """
     Whether to listen for the beep at the end of a voicemail greeting and tell the agent when it hears one. Runs during the first 45 seconds of outbound phone calls and WebSocket conversations, and never on inbound phone calls. Defaults to the agent's `detect_voicemail_tone`, or `true`.
+    """
+
+    input_modality: typing_extensions.NotRequired[ConfigOptionsInputModality]
+    """
+    How the user talks to the agent. `"speech"` takes user audio; `"text"` takes typed user turns sent with `generate_reply` and `user_message`. Must match `output_modality`. Audio chunks are rejected when this is `"text"`. Phone calls only support `"speech"`. Cannot change during a conversation, including on `reset`. Defaults to the agent's `input_modality`, or `"speech"`.
+    """
+
+    output_modality: typing_extensions.NotRequired[ConfigOptionsOutputModality]
+    """
+    How the agent replies. `"speech"` streams synthesized audio; `"text"` sends `audio_chunk` messages with text and an empty `audio`. Cannot change during a conversation. Must match `input_modality`. Defaults to the agent's `output_modality`, or `"speech"`.
     """
 
     generate_no_input_poke_text: typing_extensions.NotRequired[bool]

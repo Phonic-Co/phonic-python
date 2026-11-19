@@ -6,6 +6,7 @@ from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.request_options import RequestOptions
 from ..types.replay_conversation_item_response import ReplayConversationItemResponse
 from .raw_client import AsyncRawConversationItemsClient, RawConversationItemsClient
+from .requests.replay_conversation_item_request_model import ReplayConversationItemRequestModelParams
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -30,22 +31,26 @@ class ConversationItemsClient:
         self,
         id: str,
         *,
+        model: typing.Optional[ReplayConversationItemRequestModelParams] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         num_responses: typing.Optional[int] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ReplayConversationItemResponse:
         """
         Returns the alternative response(s) the assistant would have
-        produced for this conversation turn given changes to the agent system prompt.
+        produced for this conversation turn given changes to the system prompt or model.
 
         Only assistant items from ended conversations can be replayed. Omit the
-        request body (or omit `system_prompt`) to replay the turn exactly as it
-        originally ran.
+        request body to use the original prompt and model. Set `model` to compare
+        the same turn on another model available to your workspace.
 
         Parameters
         ----------
         id : str
             The ID of the conversation item to replay.
+
+        model : typing.Optional[ReplayConversationItemRequestModelParams]
+            Optional model override for this replay. Omit it to use the original model. Select a model available to your workspace. Phonic 0.5 (phonic-0.5) is deprecated and remains available only to customers who used it before Phonic 1 launched. The conversation's saved intelligence level is retained.
 
         system_prompt : typing.Optional[str]
             The system prompt to use when generating replay responses. Use this to test prompt changes against this conversation turn. Omit it to replay the turn with the system prompt it originally ran with.
@@ -73,7 +78,7 @@ class ConversationItemsClient:
         )
         """
         _response = self._raw_client.replay(
-            id, system_prompt=system_prompt, num_responses=num_responses, request_options=request_options
+            id, model=model, system_prompt=system_prompt, num_responses=num_responses, request_options=request_options
         )
         return _response.data
 
@@ -97,22 +102,26 @@ class AsyncConversationItemsClient:
         self,
         id: str,
         *,
+        model: typing.Optional[ReplayConversationItemRequestModelParams] = OMIT,
         system_prompt: typing.Optional[str] = OMIT,
         num_responses: typing.Optional[int] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ReplayConversationItemResponse:
         """
         Returns the alternative response(s) the assistant would have
-        produced for this conversation turn given changes to the agent system prompt.
+        produced for this conversation turn given changes to the system prompt or model.
 
         Only assistant items from ended conversations can be replayed. Omit the
-        request body (or omit `system_prompt`) to replay the turn exactly as it
-        originally ran.
+        request body to use the original prompt and model. Set `model` to compare
+        the same turn on another model available to your workspace.
 
         Parameters
         ----------
         id : str
             The ID of the conversation item to replay.
+
+        model : typing.Optional[ReplayConversationItemRequestModelParams]
+            Optional model override for this replay. Omit it to use the original model. Select a model available to your workspace. Phonic 0.5 (phonic-0.5) is deprecated and remains available only to customers who used it before Phonic 1 launched. The conversation's saved intelligence level is retained.
 
         system_prompt : typing.Optional[str]
             The system prompt to use when generating replay responses. Use this to test prompt changes against this conversation turn. Omit it to replay the turn with the system prompt it originally ran with.
@@ -148,6 +157,6 @@ class AsyncConversationItemsClient:
         asyncio.run(main())
         """
         _response = await self._raw_client.replay(
-            id, system_prompt=system_prompt, num_responses=num_responses, request_options=request_options
+            id, model=model, system_prompt=system_prompt, num_responses=num_responses, request_options=request_options
         )
         return _response.data

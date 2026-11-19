@@ -33,8 +33,10 @@ from ..requests.task import TaskParams
 from ..types.basic_error import BasicError
 from ..types.create_agent_request_audio_format import CreateAgentRequestAudioFormat
 from ..types.create_agent_request_background_noise import CreateAgentRequestBackgroundNoise
+from ..types.create_agent_request_input_modality import CreateAgentRequestInputModality
 from ..types.create_agent_request_intelligence_level import CreateAgentRequestIntelligenceLevel
 from ..types.create_agent_request_multilingual_mode import CreateAgentRequestMultilingualMode
+from ..types.create_agent_request_output_modality import CreateAgentRequestOutputModality
 from ..types.create_agent_request_phone_number import CreateAgentRequestPhoneNumber
 from ..types.create_agent_request_redaction_entities_item import CreateAgentRequestRedactionEntitiesItem
 from ..types.create_agent_request_turn_taking import CreateAgentRequestTurnTaking
@@ -67,8 +69,10 @@ from .types.agents_update_response import AgentsUpdateResponse
 from .types.agents_upsert_response import AgentsUpsertResponse
 from .types.update_agent_request_audio_format import UpdateAgentRequestAudioFormat
 from .types.update_agent_request_background_noise import UpdateAgentRequestBackgroundNoise
+from .types.update_agent_request_input_modality import UpdateAgentRequestInputModality
 from .types.update_agent_request_intelligence_level import UpdateAgentRequestIntelligenceLevel
 from .types.update_agent_request_multilingual_mode import UpdateAgentRequestMultilingualMode
+from .types.update_agent_request_output_modality import UpdateAgentRequestOutputModality
 from .types.update_agent_request_phone_number import UpdateAgentRequestPhoneNumber
 from .types.update_agent_request_redaction_entities_item import UpdateAgentRequestRedactionEntitiesItem
 from .types.update_agent_request_turn_taking import UpdateAgentRequestTurnTaking
@@ -212,6 +216,8 @@ class RawAgentsClient:
         turn_taking: typing.Optional[CreateAgentRequestTurnTaking] = OMIT,
         max_conversation_duration_sec: typing.Optional[int] = OMIT,
         detect_voicemail_tone: typing.Optional[bool] = OMIT,
+        input_modality: typing.Optional[CreateAgentRequestInputModality] = OMIT,
+        output_modality: typing.Optional[CreateAgentRequestOutputModality] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
@@ -367,6 +373,12 @@ class RawAgentsClient:
         detect_voicemail_tone : typing.Optional[bool]
             Whether to listen for the beep at the end of a voicemail greeting and tell the agent when it hears one. Runs during the first 45 seconds of outbound phone calls and WebSocket conversations, and never on inbound phone calls.
 
+        input_modality : typing.Optional[CreateAgentRequestInputModality]
+            How the user talks to the agent. `"speech"` takes user audio; `"text"` takes typed user turns sent with `generate_reply` and `user_message`. Must match `output_modality`. Agents with `"text"` modality cannot have phone numbers.
+
+        output_modality : typing.Optional[CreateAgentRequestOutputModality]
+            How the agent replies. `"speech"` streams synthesized audio; `"text"` sends text only. Must match `input_modality`.
+
         configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpointParams]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
@@ -486,6 +498,8 @@ class RawAgentsClient:
                 "turn_taking": turn_taking,
                 "max_conversation_duration_sec": max_conversation_duration_sec,
                 "detect_voicemail_tone": detect_voicemail_tone,
+                "input_modality": input_modality,
+                "output_modality": output_modality,
                 "configuration_endpoint": convert_and_respect_annotation_metadata(
                     object_=configuration_endpoint,
                     annotation=typing.Optional[CreateAgentRequestConfigurationEndpointParams],
@@ -636,6 +650,8 @@ class RawAgentsClient:
         turn_taking: typing.Optional[CreateAgentRequestTurnTaking] = OMIT,
         max_conversation_duration_sec: typing.Optional[int] = OMIT,
         detect_voicemail_tone: typing.Optional[bool] = OMIT,
+        input_modality: typing.Optional[CreateAgentRequestInputModality] = OMIT,
+        output_modality: typing.Optional[CreateAgentRequestOutputModality] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
@@ -797,6 +813,12 @@ class RawAgentsClient:
         detect_voicemail_tone : typing.Optional[bool]
             Whether to listen for the beep at the end of a voicemail greeting and tell the agent when it hears one. Runs during the first 45 seconds of outbound phone calls and WebSocket conversations, and never on inbound phone calls.
 
+        input_modality : typing.Optional[CreateAgentRequestInputModality]
+            How the user talks to the agent. `"speech"` takes user audio; `"text"` takes typed user turns sent with `generate_reply` and `user_message`. Must match `output_modality`. Agents with `"text"` modality cannot have phone numbers.
+
+        output_modality : typing.Optional[CreateAgentRequestOutputModality]
+            How the agent replies. `"speech"` streams synthesized audio; `"text"` sends text only. Must match `input_modality`.
+
         configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpointParams]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
@@ -922,6 +944,8 @@ class RawAgentsClient:
                 "turn_taking": turn_taking,
                 "max_conversation_duration_sec": max_conversation_duration_sec,
                 "detect_voicemail_tone": detect_voicemail_tone,
+                "input_modality": input_modality,
+                "output_modality": output_modality,
                 "configuration_endpoint": convert_and_respect_annotation_metadata(
                     object_=configuration_endpoint,
                     annotation=typing.Optional[CreateAgentRequestConfigurationEndpointParams],
@@ -1215,6 +1239,8 @@ class RawAgentsClient:
         turn_taking: typing.Optional[UpdateAgentRequestTurnTaking] = OMIT,
         max_conversation_duration_sec: typing.Optional[int] = OMIT,
         detect_voicemail_tone: typing.Optional[bool] = OMIT,
+        input_modality: typing.Optional[UpdateAgentRequestInputModality] = OMIT,
+        output_modality: typing.Optional[UpdateAgentRequestOutputModality] = OMIT,
         configuration_endpoint: typing.Optional[UpdateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
@@ -1382,6 +1408,12 @@ class RawAgentsClient:
         detect_voicemail_tone : typing.Optional[bool]
             Whether to listen for the beep at the end of a voicemail greeting and tell the agent when it hears one. Runs during the first 45 seconds of outbound phone calls and WebSocket conversations, and never on inbound phone calls.
 
+        input_modality : typing.Optional[UpdateAgentRequestInputModality]
+            How the user talks to the agent. `"speech"` takes user audio; `"text"` takes typed user turns sent with `generate_reply` and `user_message`. Must match `output_modality`. Agents with `"text"` modality cannot have phone numbers.
+
+        output_modality : typing.Optional[UpdateAgentRequestOutputModality]
+            How the agent replies. `"speech"` streams synthesized audio; `"text"` sends text only. Must match `input_modality`.
+
         configuration_endpoint : typing.Optional[UpdateAgentRequestConfigurationEndpointParams]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
@@ -1510,6 +1542,8 @@ class RawAgentsClient:
                 "turn_taking": turn_taking,
                 "max_conversation_duration_sec": max_conversation_duration_sec,
                 "detect_voicemail_tone": detect_voicemail_tone,
+                "input_modality": input_modality,
+                "output_modality": output_modality,
                 "configuration_endpoint": convert_and_respect_annotation_metadata(
                     object_=configuration_endpoint,
                     annotation=typing.Optional[UpdateAgentRequestConfigurationEndpointParams],
@@ -2284,6 +2318,8 @@ class AsyncRawAgentsClient:
         turn_taking: typing.Optional[CreateAgentRequestTurnTaking] = OMIT,
         max_conversation_duration_sec: typing.Optional[int] = OMIT,
         detect_voicemail_tone: typing.Optional[bool] = OMIT,
+        input_modality: typing.Optional[CreateAgentRequestInputModality] = OMIT,
+        output_modality: typing.Optional[CreateAgentRequestOutputModality] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
@@ -2439,6 +2475,12 @@ class AsyncRawAgentsClient:
         detect_voicemail_tone : typing.Optional[bool]
             Whether to listen for the beep at the end of a voicemail greeting and tell the agent when it hears one. Runs during the first 45 seconds of outbound phone calls and WebSocket conversations, and never on inbound phone calls.
 
+        input_modality : typing.Optional[CreateAgentRequestInputModality]
+            How the user talks to the agent. `"speech"` takes user audio; `"text"` takes typed user turns sent with `generate_reply` and `user_message`. Must match `output_modality`. Agents with `"text"` modality cannot have phone numbers.
+
+        output_modality : typing.Optional[CreateAgentRequestOutputModality]
+            How the agent replies. `"speech"` streams synthesized audio; `"text"` sends text only. Must match `input_modality`.
+
         configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpointParams]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
@@ -2558,6 +2600,8 @@ class AsyncRawAgentsClient:
                 "turn_taking": turn_taking,
                 "max_conversation_duration_sec": max_conversation_duration_sec,
                 "detect_voicemail_tone": detect_voicemail_tone,
+                "input_modality": input_modality,
+                "output_modality": output_modality,
                 "configuration_endpoint": convert_and_respect_annotation_metadata(
                     object_=configuration_endpoint,
                     annotation=typing.Optional[CreateAgentRequestConfigurationEndpointParams],
@@ -2708,6 +2752,8 @@ class AsyncRawAgentsClient:
         turn_taking: typing.Optional[CreateAgentRequestTurnTaking] = OMIT,
         max_conversation_duration_sec: typing.Optional[int] = OMIT,
         detect_voicemail_tone: typing.Optional[bool] = OMIT,
+        input_modality: typing.Optional[CreateAgentRequestInputModality] = OMIT,
+        output_modality: typing.Optional[CreateAgentRequestOutputModality] = OMIT,
         configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
@@ -2869,6 +2915,12 @@ class AsyncRawAgentsClient:
         detect_voicemail_tone : typing.Optional[bool]
             Whether to listen for the beep at the end of a voicemail greeting and tell the agent when it hears one. Runs during the first 45 seconds of outbound phone calls and WebSocket conversations, and never on inbound phone calls.
 
+        input_modality : typing.Optional[CreateAgentRequestInputModality]
+            How the user talks to the agent. `"speech"` takes user audio; `"text"` takes typed user turns sent with `generate_reply` and `user_message`. Must match `output_modality`. Agents with `"text"` modality cannot have phone numbers.
+
+        output_modality : typing.Optional[CreateAgentRequestOutputModality]
+            How the agent replies. `"speech"` streams synthesized audio; `"text"` sends text only. Must match `input_modality`.
+
         configuration_endpoint : typing.Optional[CreateAgentRequestConfigurationEndpointParams]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
@@ -2994,6 +3046,8 @@ class AsyncRawAgentsClient:
                 "turn_taking": turn_taking,
                 "max_conversation_duration_sec": max_conversation_duration_sec,
                 "detect_voicemail_tone": detect_voicemail_tone,
+                "input_modality": input_modality,
+                "output_modality": output_modality,
                 "configuration_endpoint": convert_and_respect_annotation_metadata(
                     object_=configuration_endpoint,
                     annotation=typing.Optional[CreateAgentRequestConfigurationEndpointParams],
@@ -3287,6 +3341,8 @@ class AsyncRawAgentsClient:
         turn_taking: typing.Optional[UpdateAgentRequestTurnTaking] = OMIT,
         max_conversation_duration_sec: typing.Optional[int] = OMIT,
         detect_voicemail_tone: typing.Optional[bool] = OMIT,
+        input_modality: typing.Optional[UpdateAgentRequestInputModality] = OMIT,
+        output_modality: typing.Optional[UpdateAgentRequestOutputModality] = OMIT,
         configuration_endpoint: typing.Optional[UpdateAgentRequestConfigurationEndpointParams] = OMIT,
         inbound_rollout: typing.Optional[float] = OMIT,
         inbound_rollout_forward_phone_number: typing.Optional[str] = OMIT,
@@ -3454,6 +3510,12 @@ class AsyncRawAgentsClient:
         detect_voicemail_tone : typing.Optional[bool]
             Whether to listen for the beep at the end of a voicemail greeting and tell the agent when it hears one. Runs during the first 45 seconds of outbound phone calls and WebSocket conversations, and never on inbound phone calls.
 
+        input_modality : typing.Optional[UpdateAgentRequestInputModality]
+            How the user talks to the agent. `"speech"` takes user audio; `"text"` takes typed user turns sent with `generate_reply` and `user_message`. Must match `output_modality`. Agents with `"text"` modality cannot have phone numbers.
+
+        output_modality : typing.Optional[UpdateAgentRequestOutputModality]
+            How the agent replies. `"speech"` streams synthesized audio; `"text"` sends text only. Must match `input_modality`.
+
         configuration_endpoint : typing.Optional[UpdateAgentRequestConfigurationEndpointParams]
             When not `null`, at the beginning of the conversation the agent will make a POST request to this endpoint to get configuration options.
 
@@ -3582,6 +3644,8 @@ class AsyncRawAgentsClient:
                 "turn_taking": turn_taking,
                 "max_conversation_duration_sec": max_conversation_duration_sec,
                 "detect_voicemail_tone": detect_voicemail_tone,
+                "input_modality": input_modality,
+                "output_modality": output_modality,
                 "configuration_endpoint": convert_and_respect_annotation_metadata(
                     object_=configuration_endpoint,
                     annotation=typing.Optional[UpdateAgentRequestConfigurationEndpointParams],

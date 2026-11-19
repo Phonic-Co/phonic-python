@@ -5,8 +5,10 @@ import typing
 import typing_extensions
 from ..types.create_agent_request_audio_format import CreateAgentRequestAudioFormat
 from ..types.create_agent_request_background_noise import CreateAgentRequestBackgroundNoise
+from ..types.create_agent_request_input_modality import CreateAgentRequestInputModality
 from ..types.create_agent_request_intelligence_level import CreateAgentRequestIntelligenceLevel
 from ..types.create_agent_request_multilingual_mode import CreateAgentRequestMultilingualMode
+from ..types.create_agent_request_output_modality import CreateAgentRequestOutputModality
 from ..types.create_agent_request_phone_number import CreateAgentRequestPhoneNumber
 from ..types.create_agent_request_redaction_entities_item import CreateAgentRequestRedactionEntitiesItem
 from ..types.create_agent_request_turn_taking import CreateAgentRequestTurnTaking
@@ -243,6 +245,16 @@ class CreateAgentRequestParams(typing_extensions.TypedDict):
     detect_voicemail_tone: typing_extensions.NotRequired[bool]
     """
     Whether to listen for the beep at the end of a voicemail greeting and tell the agent when it hears one. Runs during the first 45 seconds of outbound phone calls and WebSocket conversations, and never on inbound phone calls.
+    """
+
+    input_modality: typing_extensions.NotRequired[CreateAgentRequestInputModality]
+    """
+    How the user talks to the agent. `"speech"` takes user audio; `"text"` takes typed user turns sent with `generate_reply` and `user_message`. Must match `output_modality`. Agents with `"text"` modality cannot have phone numbers.
+    """
+
+    output_modality: typing_extensions.NotRequired[CreateAgentRequestOutputModality]
+    """
+    How the agent replies. `"speech"` streams synthesized audio; `"text"` sends text only. Must match `input_modality`.
     """
 
     configuration_endpoint: typing_extensions.NotRequired[

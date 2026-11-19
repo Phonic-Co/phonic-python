@@ -152,6 +152,8 @@ client.agents.create(
     turn_taking="standard",
     max_conversation_duration_sec=7200,
     detect_voicemail_tone=True,
+    input_modality="speech",
+    output_modality="speech",
     configuration_endpoint=CreateAgentRequestConfigurationEndpoint(
         url="https://api.example.com/config",
         headers={
@@ -284,6 +286,8 @@ client.agents.upsert(
     turn_taking="standard",
     max_conversation_duration_sec=7200,
     detect_voicemail_tone=True,
+    input_modality="speech",
+    output_modality="speech",
     configuration_endpoint=CreateAgentRequestConfigurationEndpoint(
         url="https://api.example.com/config",
         headers={
@@ -660,6 +664,22 @@ client.agents.upsert(
 <dd>
 
 **detect_voicemail_tone:** `typing.Optional[bool]` — Whether to listen for the beep at the end of a voicemail greeting and tell the agent when it hears one. Runs during the first 45 seconds of outbound phone calls and WebSocket conversations, and never on inbound phone calls.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**input_modality:** `typing.Optional[CreateAgentRequestInputModality]` — How the user talks to the agent. `"speech"` takes user audio; `"text"` takes typed user turns sent with `generate_reply` and `user_message`. Must match `output_modality`. Agents with `"text"` modality cannot have phone numbers.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**output_modality:** `typing.Optional[CreateAgentRequestOutputModality]` — How the agent replies. `"speech"` streams synthesized audio; `"text"` sends text only. Must match `input_modality`.
     
 </dd>
 </dl>
@@ -1046,6 +1066,8 @@ client.agents.update(
     turn_taking="standard",
     max_conversation_duration_sec=7200,
     detect_voicemail_tone=True,
+    input_modality="speech",
+    output_modality="speech",
     configuration_endpoint=UpdateAgentRequestConfigurationEndpoint(
         url="https://api.example.com/config",
         headers={
@@ -1454,6 +1476,22 @@ client.agents.update(
 <dd>
 
 **detect_voicemail_tone:** `typing.Optional[bool]` — Whether to listen for the beep at the end of a voicemail greeting and tell the agent when it hears one. Runs during the first 45 seconds of outbound phone calls and WebSocket conversations, and never on inbound phone calls.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**input_modality:** `typing.Optional[UpdateAgentRequestInputModality]` — How the user talks to the agent. `"speech"` takes user audio; `"text"` takes typed user turns sent with `generate_reply` and `user_message`. Must match `output_modality`. Agents with `"text"` modality cannot have phone numbers.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**output_modality:** `typing.Optional[UpdateAgentRequestOutputModality]` — How the agent replies. `"speech"` streams synthesized audio; `"text"` sends text only. Must match `input_modality`.
     
 </dd>
 </dl>
@@ -5731,11 +5769,11 @@ client.webhooks.get_secret(
 <dd>
 
 Returns the alternative response(s) the assistant would have
-produced for this conversation turn given changes to the agent system prompt.
+produced for this conversation turn given changes to the system prompt or model.
 
 Only assistant items from ended conversations can be replayed. Omit the
-request body (or omit `system_prompt`) to replay the turn exactly as it
-originally ran.
+request body to use the original prompt and model. Set `model` to compare
+the same turn on another model available to your workspace.
 </dd>
 </dl>
 </dd>
@@ -5777,6 +5815,14 @@ client.conversation_items.replay(
 <dd>
 
 **id:** `str` — The ID of the conversation item to replay.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**model:** `typing.Optional[ReplayConversationItemRequestModel]` — Optional model override for this replay. Omit it to use the original model. Select a model available to your workspace. Phonic 0.5 (phonic-0.5) is deprecated and remains available only to customers who used it before Phonic 1 launched. The conversation's saved intelligence level is retained.
     
 </dd>
 </dl>
@@ -6636,6 +6682,8 @@ client.conversations.outbound_call(
         turn_taking="standard",
         max_conversation_duration_sec=7200,
         detect_voicemail_tone=True,
+        input_modality="speech",
+        output_modality="speech",
         tools=[
             "keypad_input"
         ],
