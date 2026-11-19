@@ -9,9 +9,11 @@ from .data_retention_policy import DataRetentionPolicy
 from .language_code import LanguageCode
 from .outbound_call_config_background_noise import OutboundCallConfigBackgroundNoise
 from .outbound_call_config_configuration_endpoint import OutboundCallConfigConfigurationEndpoint
+from .outbound_call_config_input_modality import OutboundCallConfigInputModality
 from .outbound_call_config_intelligence_level import OutboundCallConfigIntelligenceLevel
 from .outbound_call_config_model import OutboundCallConfigModel
 from .outbound_call_config_multilingual_mode import OutboundCallConfigMultilingualMode
+from .outbound_call_config_output_modality import OutboundCallConfigOutputModality
 from .outbound_call_config_phonic_model import OutboundCallConfigPhonicModel
 from .outbound_call_config_pronunciation_dictionary_item import OutboundCallConfigPronunciationDictionaryItem
 from .outbound_call_config_redaction_entities_item import OutboundCallConfigRedactionEntitiesItem
@@ -156,6 +158,16 @@ class OutboundCallConfig(UncheckedBaseModel):
     detect_voicemail_tone: typing.Optional[bool] = pydantic.Field(default=None)
     """
     Whether to listen for the beep at the end of a voicemail greeting and tell the agent when it hears one. Runs during the first 45 seconds of outbound phone calls and WebSocket conversations, and never on inbound phone calls. Defaults to the agent's `detect_voicemail_tone`, or `true`.
+    """
+
+    input_modality: typing.Optional[OutboundCallConfigInputModality] = pydantic.Field(default=None)
+    """
+    How the user talks to the agent. `"speech"` takes user audio; `"text"` takes typed user turns sent with `generate_reply` and `user_message`. Must match `output_modality`. Phone calls only support `"speech"`. Defaults to the agent's `input_modality`, or `"speech"`.
+    """
+
+    output_modality: typing.Optional[OutboundCallConfigOutputModality] = pydantic.Field(default=None)
+    """
+    How the agent replies. `"speech"` streams synthesized audio; `"text"` sends text only. Must match `input_modality`. Defaults to the agent's `output_modality`, or `"speech"`.
     """
 
     tools: typing.Optional[typing.List[OutboundCallConfigToolsItem]] = pydantic.Field(default=None)

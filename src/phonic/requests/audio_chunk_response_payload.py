@@ -9,7 +9,7 @@ class AudioChunkResponsePayloadParams(typing_extensions.TypedDict):
     type: typing.Literal["audio_chunk"]
     audio: str
     """
-    Base64-encoded AI audio data
+    Base64-encoded AI audio data. Empty when the conversation's `output_modality` is `"text"`.
     """
 
     text: str

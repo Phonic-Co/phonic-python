@@ -1,6 +1,6 @@
 # Phonic Python Library
 
-[![fern shield](https://img.shields.io/badge/%F0%9F%8C%BF-Built%20with%20Fern-brightgreen)](https://buildwithfern.com?utm_source=github&utm_medium=github&utm_campaign=readme&utm_source=https%3A%2F%2Fgithub.com%2FPhonic-Co%2Fphonic-python)
+[![fern shield](https://img.shields.io/badge/%F0%9F%8C%BF-Built%20with%20Fern-brightgreen)](https://buildwithfern.com?utm_source=github&utm_medium=github&utm_campaign=readme&utm_source=Phonic%2FPython)
 [![pypi](https://img.shields.io/pypi/v/phonic)](https://pypi.python.org/pypi/phonic)
 
 The Phonic Python library provides convenient access to the Phonic APIs from Python.
@@ -28,7 +28,7 @@ pip install phonic
 
 ## Reference
 
-A full reference for this library is available [here](https://github.com/Phonic-Co/phonic-python/blob/HEAD/./reference.md).
+A full reference for this library is available [here](./reference.md).
 
 ## Usage
 
@@ -87,6 +87,8 @@ client.agents.create(
     turn_taking="standard",
     max_conversation_duration_sec=7200,
     detect_voicemail_tone=True,
+    input_modality="speech",
+    output_modality="speech",
     configuration_endpoint=CreateAgentRequestConfigurationEndpoint(
         url="https://api.example.com/config",
         headers={
@@ -158,6 +160,8 @@ async def main() -> None:
         turn_taking="standard",
         max_conversation_duration_sec=7200,
         detect_voicemail_tone=True,
+        input_modality="speech",
+        output_modality="speech",
         configuration_endpoint=CreateAgentRequestConfigurationEndpoint(
             url="https://api.example.com/config",
             headers={

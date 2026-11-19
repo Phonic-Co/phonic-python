@@ -6,9 +6,11 @@ import typing
 import typing_extensions
 from ..types.conversation_background_noise import ConversationBackgroundNoise
 from ..types.conversation_ended_by import ConversationEndedBy
+from ..types.conversation_input_modality import ConversationInputModality
 from ..types.conversation_intelligence_level import ConversationIntelligenceLevel
 from ..types.conversation_multilingual_mode import ConversationMultilingualMode
 from ..types.conversation_origin import ConversationOrigin
+from ..types.conversation_output_modality import ConversationOutputModality
 from ..types.conversation_turn_taking import ConversationTurnTaking
 from ..types.language_code import LanguageCode
 from .conversation_agent import ConversationAgentParams
@@ -262,6 +264,16 @@ class ConversationParams(typing_extensions.TypedDict):
     detect_voicemail_tone: bool
     """
     Whether voicemail tone detection was enabled for the conversation.
+    """
+
+    input_modality: ConversationInputModality
+    """
+    Whether the user talked to the agent with `"speech"` or `"text"` in the conversation.
+    """
+
+    output_modality: ConversationOutputModality
+    """
+    Whether the agent replied with `"speech"` or `"text"` in the conversation.
     """
 
     task_results: typing.Dict[str, typing.Any]

@@ -9,11 +9,13 @@ from .config_options_background_noise import ConfigOptionsBackgroundNoise
 from .config_options_configuration_endpoint import ConfigOptionsConfigurationEndpoint
 from .config_options_data_retention_policy import ConfigOptionsDataRetentionPolicy
 from .config_options_input_format import ConfigOptionsInputFormat
+from .config_options_input_modality import ConfigOptionsInputModality
 from .config_options_intelligence_level import ConfigOptionsIntelligenceLevel
 from .config_options_model import ConfigOptionsModel
 from .config_options_multilingual_mode import ConfigOptionsMultilingualMode
 from .config_options_outbound_number_pool import ConfigOptionsOutboundNumberPool
 from .config_options_output_format import ConfigOptionsOutputFormat
+from .config_options_output_modality import ConfigOptionsOutputModality
 from .config_options_phonic_model import ConfigOptionsPhonicModel
 from .config_options_pronunciation_dictionary_item import ConfigOptionsPronunciationDictionaryItem
 from .config_options_redaction_entities_item import ConfigOptionsRedactionEntitiesItem
@@ -140,6 +142,16 @@ class ConfigOptions(UncheckedBaseModel):
     detect_voicemail_tone: typing.Optional[bool] = pydantic.Field(default=None)
     """
     Whether to listen for the beep at the end of a voicemail greeting and tell the agent when it hears one. Runs during the first 45 seconds of outbound phone calls and WebSocket conversations, and never on inbound phone calls. Defaults to the agent's `detect_voicemail_tone`, or `true`.
+    """
+
+    input_modality: typing.Optional[ConfigOptionsInputModality] = pydantic.Field(default=None)
+    """
+    How the user talks to the agent. `"speech"` takes user audio; `"text"` takes typed user turns sent with `generate_reply` and `user_message`. Must match `output_modality`. Audio chunks are rejected when this is `"text"`. Phone calls only support `"speech"`. Cannot change during a conversation, including on `reset`. Defaults to the agent's `input_modality`, or `"speech"`.
+    """
+
+    output_modality: typing.Optional[ConfigOptionsOutputModality] = pydantic.Field(default=None)
+    """
+    How the agent replies. `"speech"` streams synthesized audio; `"text"` sends `audio_chunk` messages with text and an empty `audio`. Cannot change during a conversation. Must match `input_modality`. Defaults to the agent's `output_modality`, or `"speech"`.
     """
 
     generate_no_input_poke_text: typing.Optional[bool] = pydantic.Field(default=None)

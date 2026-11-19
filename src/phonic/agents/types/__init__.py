@@ -31,9 +31,11 @@ if typing.TYPE_CHECKING:
     from .update_agent_request_audio_format import UpdateAgentRequestAudioFormat
     from .update_agent_request_background_noise import UpdateAgentRequestBackgroundNoise
     from .update_agent_request_configuration_endpoint import UpdateAgentRequestConfigurationEndpoint
+    from .update_agent_request_input_modality import UpdateAgentRequestInputModality
     from .update_agent_request_intelligence_level import UpdateAgentRequestIntelligenceLevel
     from .update_agent_request_model import UpdateAgentRequestModel
     from .update_agent_request_multilingual_mode import UpdateAgentRequestMultilingualMode
+    from .update_agent_request_output_modality import UpdateAgentRequestOutputModality
     from .update_agent_request_phone_number import UpdateAgentRequestPhoneNumber
     from .update_agent_request_phonic_model import UpdateAgentRequestPhonicModel
     from .update_agent_request_pronunciation_dictionary_item import UpdateAgentRequestPronunciationDictionaryItem
@@ -61,9 +63,11 @@ _dynamic_imports: typing.Dict[str, str] = {
     "UpdateAgentRequestAudioFormat": ".update_agent_request_audio_format",
     "UpdateAgentRequestBackgroundNoise": ".update_agent_request_background_noise",
     "UpdateAgentRequestConfigurationEndpoint": ".update_agent_request_configuration_endpoint",
+    "UpdateAgentRequestInputModality": ".update_agent_request_input_modality",
     "UpdateAgentRequestIntelligenceLevel": ".update_agent_request_intelligence_level",
     "UpdateAgentRequestModel": ".update_agent_request_model",
     "UpdateAgentRequestMultilingualMode": ".update_agent_request_multilingual_mode",
+    "UpdateAgentRequestOutputModality": ".update_agent_request_output_modality",
     "UpdateAgentRequestPhoneNumber": ".update_agent_request_phone_number",
     "UpdateAgentRequestPhonicModel": ".update_agent_request_phonic_model",
     "UpdateAgentRequestPronunciationDictionaryItem": ".update_agent_request_pronunciation_dictionary_item",
@@ -115,9 +119,11 @@ __all__ = [
     "UpdateAgentRequestAudioFormat",
     "UpdateAgentRequestBackgroundNoise",
     "UpdateAgentRequestConfigurationEndpoint",
+    "UpdateAgentRequestInputModality",
     "UpdateAgentRequestIntelligenceLevel",
     "UpdateAgentRequestModel",
     "UpdateAgentRequestMultilingualMode",
+    "UpdateAgentRequestOutputModality",
     "UpdateAgentRequestPhoneNumber",
     "UpdateAgentRequestPhonicModel",
     "UpdateAgentRequestPronunciationDictionaryItem",

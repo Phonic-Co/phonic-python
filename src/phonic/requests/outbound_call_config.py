@@ -5,8 +5,10 @@ import typing
 import typing_extensions
 from ..types.language_code import LanguageCode
 from ..types.outbound_call_config_background_noise import OutboundCallConfigBackgroundNoise
+from ..types.outbound_call_config_input_modality import OutboundCallConfigInputModality
 from ..types.outbound_call_config_intelligence_level import OutboundCallConfigIntelligenceLevel
 from ..types.outbound_call_config_multilingual_mode import OutboundCallConfigMultilingualMode
+from ..types.outbound_call_config_output_modality import OutboundCallConfigOutputModality
 from ..types.outbound_call_config_redaction_entities_item import OutboundCallConfigRedactionEntitiesItem
 from ..types.outbound_call_config_turn_taking import OutboundCallConfigTurnTaking
 from .data_retention_policy import DataRetentionPolicyParams
@@ -154,6 +156,16 @@ class OutboundCallConfigParams(typing_extensions.TypedDict):
     detect_voicemail_tone: typing_extensions.NotRequired[bool]
     """
     Whether to listen for the beep at the end of a voicemail greeting and tell the agent when it hears one. Runs during the first 45 seconds of outbound phone calls and WebSocket conversations, and never on inbound phone calls. Defaults to the agent's `detect_voicemail_tone`, or `true`.
+    """
+
+    input_modality: typing_extensions.NotRequired[OutboundCallConfigInputModality]
+    """
+    How the user talks to the agent. `"speech"` takes user audio; `"text"` takes typed user turns sent with `generate_reply` and `user_message`. Must match `output_modality`. Phone calls only support `"speech"`. Defaults to the agent's `input_modality`, or `"speech"`.
+    """
+
+    output_modality: typing_extensions.NotRequired[OutboundCallConfigOutputModality]
+    """
+    How the agent replies. `"speech"` streams synthesized audio; `"text"` sends text only. Must match `input_modality`. Defaults to the agent's `output_modality`, or `"speech"`.
     """
 
     tools: typing_extensions.NotRequired[typing.Sequence[OutboundCallConfigToolsItemParams]]

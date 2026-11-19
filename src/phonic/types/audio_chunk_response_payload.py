@@ -11,7 +11,7 @@ class AudioChunkResponsePayload(UncheckedBaseModel):
     type: typing.Literal["audio_chunk"] = "audio_chunk"
     audio: str = pydantic.Field()
     """
-    Base64-encoded AI audio data
+    Base64-encoded AI audio data. Empty when the conversation's `output_modality` is `"text"`.
     """
 
     text: str = pydantic.Field()

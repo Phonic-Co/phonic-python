@@ -9,9 +9,11 @@ from .built_in_tool_configs import BuiltInToolConfigs
 from .create_agent_request_audio_format import CreateAgentRequestAudioFormat
 from .create_agent_request_background_noise import CreateAgentRequestBackgroundNoise
 from .create_agent_request_configuration_endpoint import CreateAgentRequestConfigurationEndpoint
+from .create_agent_request_input_modality import CreateAgentRequestInputModality
 from .create_agent_request_intelligence_level import CreateAgentRequestIntelligenceLevel
 from .create_agent_request_model import CreateAgentRequestModel
 from .create_agent_request_multilingual_mode import CreateAgentRequestMultilingualMode
+from .create_agent_request_output_modality import CreateAgentRequestOutputModality
 from .create_agent_request_phone_number import CreateAgentRequestPhoneNumber
 from .create_agent_request_phonic_model import CreateAgentRequestPhonicModel
 from .create_agent_request_pronunciation_dictionary_item import CreateAgentRequestPronunciationDictionaryItem
@@ -247,6 +249,16 @@ class CreateAgentRequest(UncheckedBaseModel):
     detect_voicemail_tone: typing.Optional[bool] = pydantic.Field(default=None)
     """
     Whether to listen for the beep at the end of a voicemail greeting and tell the agent when it hears one. Runs during the first 45 seconds of outbound phone calls and WebSocket conversations, and never on inbound phone calls.
+    """
+
+    input_modality: typing.Optional[CreateAgentRequestInputModality] = pydantic.Field(default=None)
+    """
+    How the user talks to the agent. `"speech"` takes user audio; `"text"` takes typed user turns sent with `generate_reply` and `user_message`. Must match `output_modality`. Agents with `"text"` modality cannot have phone numbers.
+    """
+
+    output_modality: typing.Optional[CreateAgentRequestOutputModality] = pydantic.Field(default=None)
+    """
+    How the agent replies. `"speech"` streams synthesized audio; `"text"` sends text only. Must match `input_modality`.
     """
 
     configuration_endpoint: typing.Optional[CreateAgentRequestConfigurationEndpoint] = pydantic.Field(default=None)

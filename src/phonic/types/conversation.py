@@ -12,11 +12,13 @@ from .conversation_background_noise import ConversationBackgroundNoise
 from .conversation_call_info import ConversationCallInfo
 from .conversation_deletion_info import ConversationDeletionInfo
 from .conversation_ended_by import ConversationEndedBy
+from .conversation_input_modality import ConversationInputModality
 from .conversation_intelligence_level import ConversationIntelligenceLevel
 from .conversation_item import ConversationItem
 from .conversation_model import ConversationModel
 from .conversation_multilingual_mode import ConversationMultilingualMode
 from .conversation_origin import ConversationOrigin
+from .conversation_output_modality import ConversationOutputModality
 from .conversation_phonic_model import ConversationPhonicModel
 from .conversation_project import ConversationProject
 from .conversation_pronunciation_dictionary_item import ConversationPronunciationDictionaryItem
@@ -264,6 +266,16 @@ class Conversation(UncheckedBaseModel):
     detect_voicemail_tone: bool = pydantic.Field()
     """
     Whether voicemail tone detection was enabled for the conversation.
+    """
+
+    input_modality: ConversationInputModality = pydantic.Field()
+    """
+    Whether the user talked to the agent with `"speech"` or `"text"` in the conversation.
+    """
+
+    output_modality: ConversationOutputModality = pydantic.Field()
+    """
+    Whether the agent replied with `"speech"` or `"text"` in the conversation.
     """
 
     task_results: typing.Dict[str, typing.Any] = pydantic.Field()
