@@ -415,7 +415,7 @@ client.agents.upsert(
 <dl>
 <dd>
 
-**generate_welcome_message:** `typing.Optional[bool]` — When `true`, the welcome message will be automatically generated and the `welcome_message` field will be ignored.
+**generate_welcome_message:** `typing.Optional[bool]` — When `true`, the welcome message will be automatically generated and the `welcome_message` field will be ignored. When omitted, defaults to `false` if a non-empty `welcome_message` is provided, and `true` otherwise.
     
 </dd>
 </dl>
@@ -1203,7 +1203,7 @@ client.agents.update(
 <dl>
 <dd>
 
-**generate_welcome_message:** `typing.Optional[bool]` — When `true`, the welcome message will be automatically generated and the `welcome_message` field will be ignored.
+**generate_welcome_message:** `typing.Optional[bool]` — When `true`, the welcome message will be automatically generated and the `welcome_message` field will be ignored. When omitted and a non-empty `welcome_message` is provided, defaults to `false`.
     
 </dd>
 </dl>

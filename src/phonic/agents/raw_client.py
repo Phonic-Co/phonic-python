@@ -278,7 +278,7 @@ class RawAgentsClient:
             The background noise type. Can be "office", "call-center", "coffee-shop", or null.
 
         generate_welcome_message : typing.Optional[bool]
-            When `true`, the welcome message will be automatically generated and the `welcome_message` field will be ignored.
+            When `true`, the welcome message will be automatically generated and the `welcome_message` field will be ignored. When omitted, defaults to `false` if a non-empty `welcome_message` is provided, and `true` otherwise.
 
         is_welcome_message_interruptible : typing.Optional[bool]
             When `false`, the welcome message will not be interruptible by the user.
@@ -718,7 +718,7 @@ class RawAgentsClient:
             The background noise type. Can be "office", "call-center", "coffee-shop", or null.
 
         generate_welcome_message : typing.Optional[bool]
-            When `true`, the welcome message will be automatically generated and the `welcome_message` field will be ignored.
+            When `true`, the welcome message will be automatically generated and the `welcome_message` field will be ignored. When omitted, defaults to `false` if a non-empty `welcome_message` is provided, and `true` otherwise.
 
         is_welcome_message_interruptible : typing.Optional[bool]
             When `false`, the welcome message will not be interruptible by the user.
@@ -1304,7 +1304,7 @@ class RawAgentsClient:
             The background noise type. Can be "office", "call-center", "coffee-shop", or null.
 
         generate_welcome_message : typing.Optional[bool]
-            When `true`, the welcome message will be automatically generated and the `welcome_message` field will be ignored.
+            When `true`, the welcome message will be automatically generated and the `welcome_message` field will be ignored. When omitted and a non-empty `welcome_message` is provided, defaults to `false`.
 
         is_welcome_message_interruptible : typing.Optional[bool]
             When `false`, the welcome message will not be interruptible by the user.
@@ -2380,7 +2380,7 @@ class AsyncRawAgentsClient:
             The background noise type. Can be "office", "call-center", "coffee-shop", or null.
 
         generate_welcome_message : typing.Optional[bool]
-            When `true`, the welcome message will be automatically generated and the `welcome_message` field will be ignored.
+            When `true`, the welcome message will be automatically generated and the `welcome_message` field will be ignored. When omitted, defaults to `false` if a non-empty `welcome_message` is provided, and `true` otherwise.
 
         is_welcome_message_interruptible : typing.Optional[bool]
             When `false`, the welcome message will not be interruptible by the user.
@@ -2820,7 +2820,7 @@ class AsyncRawAgentsClient:
             The background noise type. Can be "office", "call-center", "coffee-shop", or null.
 
         generate_welcome_message : typing.Optional[bool]
-            When `true`, the welcome message will be automatically generated and the `welcome_message` field will be ignored.
+            When `true`, the welcome message will be automatically generated and the `welcome_message` field will be ignored. When omitted, defaults to `false` if a non-empty `welcome_message` is provided, and `true` otherwise.
 
         is_welcome_message_interruptible : typing.Optional[bool]
             When `false`, the welcome message will not be interruptible by the user.
@@ -3406,7 +3406,7 @@ class AsyncRawAgentsClient:
             The background noise type. Can be "office", "call-center", "coffee-shop", or null.
 
         generate_welcome_message : typing.Optional[bool]
-            When `true`, the welcome message will be automatically generated and the `welcome_message` field will be ignored.
+            When `true`, the welcome message will be automatically generated and the `welcome_message` field will be ignored. When omitted and a non-empty `welcome_message` is provided, defaults to `false`.
 
         is_welcome_message_interruptible : typing.Optional[bool]
             When `false`, the welcome message will not be interruptible by the user.
