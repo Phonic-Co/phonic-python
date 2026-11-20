@@ -89,7 +89,7 @@ class CreateAgentRequest(UncheckedBaseModel):
 
     generate_welcome_message: typing.Optional[bool] = pydantic.Field(default=None)
     """
-    When `true`, the welcome message will be automatically generated and the `welcome_message` field will be ignored.
+    When `true`, the welcome message will be automatically generated and the `welcome_message` field will be ignored. When omitted, defaults to `false` if a non-empty `welcome_message` is provided, and `true` otherwise.
     """
 
     is_welcome_message_interruptible: typing.Optional[bool] = pydantic.Field(default=None)
