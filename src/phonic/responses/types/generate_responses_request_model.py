@@ -2,4 +2,6 @@
 
 import typing
 
-GenerateResponsesRequestModel = typing.Union[typing.Literal["phonic-0.5"], typing.Literal["phonic-1"], str]
+GenerateResponsesRequestModel = typing.Union[
+    typing.Literal["phonic-0.5"], typing.Literal["phonic-1"], typing.Literal["phonic-1.1"], str
+]
