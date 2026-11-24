@@ -210,14 +210,20 @@ generations:
     cli_version: unknown
     generator_versions:
       fernapi/fern-python-sdk: 4.64.1
-current_generation: 0cf2cb6c6f9251e323aadb65131a52a0beb0312d
+  - commit_sha: 53b0669f60338d3b5cb5e224d5a703c6c53cfb19
+    tree_hash: 6b46d22038ae7b87a7e7f418465efe4f5679b4bb
+    timestamp: 2026-11-24T21:30:04.652Z
+    cli_version: unknown
+    generator_versions:
+      fernapi/fern-python-sdk: 4.64.1
+current_generation: 53b0669f60338d3b5cb5e224d5a703c6c53cfb19
 patches:
   - id: patch-9f961cf7
     content_hash: sha256:fdbdd9c4c5474281466594f3b4a5cf21125c78689046f55ac4252bac113188f9
     original_commit: 9f961cf752bd7866b173fc6da737ee4f9803d3d9
     original_message: Don't let a send end the session on a reconnectable close (#196)
     original_author: arunwpm-work <arun@phonic.co>
-    base_generation: 0cf2cb6c6f9251e323aadb65131a52a0beb0312d
+    base_generation: 53b0669f60338d3b5cb5e224d5a703c6c53cfb19
     files:
       - tests/custom/test_reconnectable_socket_client.py
     patch_content: |
@@ -1620,7 +1626,7 @@ patches:
     original_commit: 958bafc00ff763caea1d402268a42c63838339ee
     original_message: Detect dropped STS sockets in seconds and reconnect immediately (#203)
     original_author: arunwpm-work <arun@phonic.co>
-    base_generation: 0cf2cb6c6f9251e323aadb65131a52a0beb0312d
+    base_generation: 53b0669f60338d3b5cb5e224d5a703c6c53cfb19
     files:
       - pyproject.toml
       - tests/custom/test_reconnectable_socket_client.py
@@ -1899,7 +1905,7 @@ patches:
 
         [tool.poetry]
         name = "phonic"
-        version = "0.33.10"
+        version = "0.33.14"
         description = ""
         readme = "README.md"
         authors = []
