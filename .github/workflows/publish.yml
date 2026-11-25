@@ -4,12 +4,12 @@ name: Publish to PyPI
 # fern-config opened gets reviewed and merged). The version is whatever is in pyproject.toml,
 # which fern-config bakes in when it opens the PR.
 #
-# Mirrors the poetry publish job in the Fern-generated ci.yml (same command, same secrets),
-# but triggers on merge to main instead of on a git tag.
+# Authenticates with PyPI trusted publishing (OIDC): PyPI accepts uploads only from this
+# workflow running in the main-only `pypi` environment, so no long-lived PyPI token exists.
 #
 # Kept in .fernignore so Fern's regeneration doesn't remove it.
 #
-# Requires repo secrets: PYPI_USERNAME, PYPI_PASSWORD (already used by ci.yml's tag publish).
+# Requires the PyPI project's trusted publisher: Phonic-Co/phonic-python, publish.yml, environment `pypi`.
 
 on:
   push:
@@ -22,19 +22,24 @@ concurrency:
 jobs:
   publish:
     runs-on: ubuntu-24.04
+    environment: pypi
     permissions:
-      contents: write
+      contents: write # gh release create
+      id-token: write # PyPI trusted publishing
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
+        with:
+          # Nothing here pushes, so don't leave the token in git config.
+          persist-credentials: false
 
       - name: Set up python
         uses: actions/setup-python@v4
         with:
           python-version: "3.9"
 
-      - name: Bootstrap poetry
-        run: curl -sSL https://install.python-poetry.org | python - -y --version 1.5.1
+      - name: Install poetry
+        run: python -m pip install poetry==1.5.1
 
       - name: Read package version
         id: v
@@ -51,18 +56,13 @@ jobs:
             echo "publish=true" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Install dependencies
+      - name: Build
         if: steps.check.outputs.publish == 'true'
-        run: poetry install
+        run: poetry build
 
       - name: Publish to PyPI
         if: steps.check.outputs.publish == 'true'
-        env:
-          PYPI_USERNAME: ${{ secrets.PYPI_USERNAME }}
-          PYPI_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
-        run: |
-          poetry config repositories.remote https://upload.pypi.org/legacy/
-          poetry --no-interaction -v publish --build --repository remote --username "$PYPI_USERNAME" --password "$PYPI_PASSWORD"
+        uses: pypa/gh-action-pypi-publish@7245906fb61fa33a13554f9d5fb856fe61758086 # v1.14.3
 
       - name: Create GitHub release
         if: steps.check.outputs.publish == 'true'
